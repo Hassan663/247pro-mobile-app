@@ -6,9 +6,23 @@ import {
 } from 'react-native';
 import { styles } from './index.style';
 
-const Button = ({ customStyle, primary, icon, titleStyle, title, callBack }) => {
-    return (
 
+
+export type Props = {
+    customStyle?: object;
+    primary?: object;
+    icon?: string;
+    titleStyle?: any;
+    icallBackcon?: any;
+    title?: string;
+    callBack?: () => void;
+
+};
+
+
+
+const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title, callBack }) => {
+    return (
         <TouchableOpacity
             style={primary ? styles.primaryBtn : customStyle}
             activeOpacity={0.8}

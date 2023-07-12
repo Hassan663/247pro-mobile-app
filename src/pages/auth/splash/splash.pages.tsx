@@ -3,9 +3,18 @@ import { View, Image } from 'react-native';
 import { changeRoute, getItem, setItem } from '../../../core/helpers/async-storage';
 import { styles } from './splash.style';
 import Button from '../../../core/components/button.component';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../router/auth';
+import { useNavigation } from '@react-navigation/native';
 
-const Splash = ({ navigation }) => {
-  const timerRef = useRef(null);
+type Navigation = StackNavigationProp<RootStackParamList>;
+
+// const Splash = () => {
+const Splash: React.FC = () => {
+  const navigation = useNavigation<Navigation>();
+  const timerRef: any = useRef(null);
+
+
 
   const handleWalkThroughScreen = async () => {
     const isAppInstalled = await getItem('isAppInstalled');
@@ -17,12 +26,18 @@ const Splash = ({ navigation }) => {
     }
   };
 
+
+  
   const handleSkip = () => {
     clearTimeout(timerRef.current);
     handleWalkThroughScreen();
   };
 
+
+
+
   useEffect(() => {
+
     timerRef.current = setTimeout(() => {
       handleWalkThroughScreen();
     }, 2000);
@@ -30,6 +45,7 @@ const Splash = ({ navigation }) => {
     return () => {
       clearTimeout(timerRef.current);
     };
+
   }, []);
 
   return (
@@ -41,7 +57,7 @@ const Splash = ({ navigation }) => {
         titleStyle={styles.titleStyle}
       />
       <View style={styles.imgWrapper}>
-        <Image source={require('../../../assets/splashLogo.png')} />
+        <Image source={require('../../../assets/auth-images/splashLogo.png')} />
       </View>
     </View>
   );

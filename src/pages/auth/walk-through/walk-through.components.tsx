@@ -2,9 +2,9 @@ import { changeRoute } from '../../../core/helpers/async-storage';
 
 // DATA
 export const SLIDESDATA = [
-    { backgroundImage: require('../../../assets/slide1.png'), nextIcon: require('../../../assets/slide1NextBtn.png'), },
-    { backgroundImage: require('../../../assets/slide2.png'), nextIcon: require('../../../assets/slide2NextBtn.png'), },
-    { backgroundImage: require('../../../assets/slide3.png'), nextIcon: require('../../../assets/slide3NextBtn.png'), },
+    { backgroundImage: require('../../../assets/auth-images/slide1.png'), nextIcon: require('../../../assets/auth-images/slide1NextBtn.png'), },
+    { backgroundImage: require('../../../assets/auth-images/slide2.png'), nextIcon: require('../../../assets/auth-images/slide2NextBtn.png'), },
+    { backgroundImage: require('../../../assets/auth-images/slide3.png'), nextIcon: require('../../../assets/auth-images/slide3NextBtn.png'), },
 ];
 // DATA
 

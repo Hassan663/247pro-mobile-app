@@ -10,9 +10,17 @@ import Splash from '../../pages/auth/splash/splash.pages';
 import WalkThrough from '../../pages/auth/walk-through/walk-through.pages';
 import SignIn from '../../pages/auth/sign-in/sign-in.pages';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Splash: undefined,
+  WalkThrough: undefined,
+  SignUp: undefined,
+  SignIn: undefined,
+  // Profile: { name: string }; 
+};
 
-const AuthNavigation = () => {
+const Stack = createStackNavigator<RootStackParamList>();
+
+const AuthNavigation: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator

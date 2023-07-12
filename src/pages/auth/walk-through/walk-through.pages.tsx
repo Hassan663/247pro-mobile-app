@@ -16,8 +16,14 @@ import {
 import { styles } from './walk-through.style';
 import Button from '../../../core/components/button.component';
 import Swiper from 'react-native-swiper';
+import { RootStackParamList } from '../../../router/auth';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const WalkThrough = ({ navigation }) => {
+type Navigation = StackNavigationProp<RootStackParamList>;
+
+const WalkThrough: React.FC = () => {
+    const navigation = useNavigation<Navigation>();
     const swiperRef = useRef(null);
     return (
         <Swiper
@@ -29,7 +35,7 @@ const WalkThrough = ({ navigation }) => {
             showsPagination={false}
             autoplayDirection={true}
             autoplayTimeout={3} // Adjust the autoplay timeout as per your preference
-            duration={1000} // 
+            // duration={1000} 
         >
             {SLIDESDATA.map((item, index) => {
                 return (
@@ -54,7 +60,7 @@ const WalkThrough = ({ navigation }) => {
                                 <Image
                                     style={styles.slidesLogo}
                                     resizeMode='contain'
-                                    source={require('../../../assets/splashLogo.png')}
+                                    source={require('../../../assets/auth-images/splashLogo.png')}
                                 />
 
                                 <Text style={styles.WalkThroughTitle}>

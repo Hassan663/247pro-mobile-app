@@ -3,7 +3,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
 
-export const styles = StyleSheet.create({
+export const styles: any = StyleSheet.create({
     wrapper: {},
     titleStyle: {
         color: Colors.black,

@@ -3,6 +3,7 @@
 // declare module 'react-native-slider';
 // declare module 'rn-range-slider';
 declare module 'react-native-safe-area-context';
+declare module 'axios';
 // declare module 'react-native-svg-charts';
 // declare module 'react-native-image-base64';
 // declare module '@react-native-firebase/firestore';

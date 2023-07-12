@@ -23,6 +23,7 @@ import { styles } from './sign-up.style';
 import Colors from '../../../styles/colors';
 import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
+import { changeRoute } from '../../../core/helpers/async-storage';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10
@@ -85,7 +86,7 @@ const SignUp = ({ navigation }) => {
                     </View>
 
                     <Button
-                        icon={<Image source={require('../../../assets/googleIcon.png')} style={styles.googleIcon} />}
+                        icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
                         title={`Continue with google`}
                         customStyle={styles.socialButtonContainer}
                         titleStyle={styles.socialText} />
@@ -113,7 +114,8 @@ const SignUp = ({ navigation }) => {
                         <FooterText color={Colors.fontColor} title={'Already have an account? '} />
 
                         <TouchableOpacity
-                            onPress={() => changeRoute(navigation, 'SignUp')}
+                            // onPress={() => alert( 'SignUp')}
+                            onPress={() => changeRoute(navigation, 'SignIn')}
                             activeOpacity={0.8}>
                             <FooterText color={Colors.primary} title={'Login '} />
                         </TouchableOpacity>
