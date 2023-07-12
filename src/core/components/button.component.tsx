@@ -10,8 +10,8 @@ import { styles } from './index.style';
 
 export type Props = {
     customStyle?: object;
-    primary?: object;
-    icon?: string;
+    primary?: boolean;
+    icon?: React.ReactElement<object>;
     titleStyle?: any;
     icallBackcon?: any;
     title?: string;
@@ -28,7 +28,7 @@ const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title
             activeOpacity={0.8}
             onPress={() => callBack && callBack()}
         >
-            {icon&&icon}
+            {icon && icon}
             <Text style={primary ? styles.primaryText : titleStyle}>{title}</Text>
         </TouchableOpacity>
     );
