@@ -7,6 +7,7 @@ import { LogBox, StatusBar } from 'react-native';
 import AppNavigation from './src/router/tab/index';
 import store from './src/store';
 import AuthNavigation from './src/router/auth';
+import { LOGIN_ENDPOINT } from './src/core/http-services/apis/apis';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
@@ -19,6 +20,7 @@ const App: React.FC = () => (
         <StatusBar hidden={true} />
         <SafeAreaProvider>
             <PortalProvider>
+                {console.log(LOGIN_ENDPOINT,'LOGIN_ENDPOINTLOGIN_ENDPOINTLOGIN_ENDPOINT')}
                 <MainComponent />
             </PortalProvider>
         </SafeAreaProvider>
