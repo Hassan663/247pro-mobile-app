@@ -3,14 +3,17 @@ import { CommonActions } from '@react-navigation/native';
 import { getApi } from '../../core/http-services/services/services';
 import { LOGIN_ENDPOINT } from '../../core/http-services/apis/apis';
 import { Dispatch } from 'redux';
+import { IResponse } from '../../core/modals';
 
 
 export const login = () => {
     return async (dispatch: Dispatch) => {
         try {
-            dispatch({ type: LOADER, payload: true });
             let userData = getApi(LOGIN_ENDPOINT)
-            console.log(userData.respone, 'user has been logged in')
+            let loginResponse: IResponse<typeof userData>;
+
+
+
         } catch (error) {
             console.log(error)
         }
