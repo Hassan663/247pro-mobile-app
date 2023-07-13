@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../styles/colors';
- 
+
 export const styles: any = StyleSheet.create<any>({
     title: (isEdit: boolean) => ({
         color: Colors.white,
@@ -14,7 +14,6 @@ export const styles: any = StyleSheet.create<any>({
 
     HeaderContainer: (isEdit: boolean) => ({
         height: RFPercentage(12),
-        // backgroundColor: Colors.tabBg,
         width: '100%',
         flexDirection: 'row',
         alignItems: 'flex-end',
@@ -22,9 +21,9 @@ export const styles: any = StyleSheet.create<any>({
         padding: RFPercentage(2),
     }),
 
-    ScreenMainTitle: (color?: string) => ({
+    ScreenMainTitle: (color?: string, widthAuto?: boolean) => ({
         fontSize: RFPercentage(3.5),
-        width: '60%',
+        width: widthAuto ? 'auto' : '60%',
         color: color ? color : Colors.black,
         fontWeight: 'bold',
     }),

@@ -13,9 +13,6 @@ type Navigation = StackNavigationProp<RootStackParamList>;
 const Splash: React.FC = () => {
   const navigation = useNavigation<Navigation>();
   const timerRef: any = useRef(null);
-
-
-
   const handleWalkThroughScreen = async () => {
     const isAppInstalled = await getItem('isAppInstalled');
     if (isAppInstalled) {
