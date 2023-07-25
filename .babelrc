@@ -3,7 +3,8 @@
     ["module:react-native-dotenv", {
       "envName": "APP_ENV",
       "moduleName": "@env",
-      "path": ".env",
+      // "path": ".env",
+      "path": "src/core/environment/.env", // Updated path to the new location
       "blocklist": null,
       "allowlist": null,
       "blacklist": null, // DEPRECATED
