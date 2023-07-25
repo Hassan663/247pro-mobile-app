@@ -20,7 +20,7 @@ const App: React.FC = () => (
         <StatusBar hidden={true} />
         <SafeAreaProvider>
             <PortalProvider>
-            {alert(process.env.API_URL)}
+            {alert(process.env.BASE_URL)}
                 {console.log(LOGIN_ENDPOINT,'LOGIN_ENDPOINTLOGIN_ENDPOINTLOGIN_ENDPOINT')}
                 <MainComponent />
             </PortalProvider>

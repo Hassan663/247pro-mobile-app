@@ -1,9 +1,17 @@
 import axios from 'axios';
+import { IResponse } from '../../modals';
 
-const postApi = async (url: string, postData: object) => { return await axios.post(url, postData) };
-const getApi = async (url: any) => { return await axios.get(url) };
-const deleteAp = async (url: string) => { return await axios.delete(url) };
-const updateApi = async (url: string, postData: object) => { return await axios.put(url, postData) };
+//TODO: Write a generic error hndling 
+
+// getapi response type alwasy IResponse
+const postApi = async <TReq, TRes>(url: string, postData: TReq): Promise<IResponse<TRes>> => { return await axios.post(url, postData) };
+
+// getapi response type alwasy IResponse
+const getApi = async <TReq, TRes> (url: string): Promise<IResponse<TRes>>  => { return await axios.get(url) };
+// getapi response type alwasy IResponse
+const deleteApi = async <TReq, TRes> (url: string): Promise<IResponse<TRes>>  =>{ return await axios.delete(url) };
+// getapi response type alwasy IResponse
+const updateApi = async  <TReq, TRes> (url: string, postData: object) : Promise<IResponse<TRes>>  => { return await axios.put(url, postData) };
 
 
-export { postApi, getApi, deleteAp, updateApi };
+export { postApi, getApi, deleteApi, updateApi };
