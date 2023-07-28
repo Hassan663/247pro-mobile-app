@@ -21,7 +21,6 @@ const App: React.FC = () => (
         <SafeAreaProvider>
             <PortalProvider>
             {alert(process.env.BASE_URL)}
-                {console.log(LOGIN_ENDPOINT,'LOGIN_ENDPOINTLOGIN_ENDPOINTLOGIN_ENDPOINT')}
                 <MainComponent />
             </PortalProvider>
         </SafeAreaProvider>

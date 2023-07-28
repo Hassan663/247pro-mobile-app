@@ -1,19 +1,23 @@
-import ActionTypes from '../constant/constant';
+import { CURRENTUSERPROFILE} from '../constant/constant'
 
-const INITIAL_STATE = {
-     currentUser: {},  
+export type Action = {
+    type: string;
+    payload: object;
 }
 
-export default (state = INITIAL_STATE, action) => {
-    switch (action.type) {
-        case ActionTypes.CURRENTUSER:
-            return ({
-                ...state,
-                currentUser: action.payload
-            }) 
-       
-        default:
-            return state;
-    }
+const INITIAL_STATE = {
+    isUserLogin: false,
+   
+}
 
+export default (states = INITIAL_STATE, action: Action) => {
+    switch (action.type) {
+        case CURRENTUSERPROFILE:
+            return ({
+                ...states,
+                currentUserProfile: action.payload
+            })
+        default:
+            return states;
+    }
 }

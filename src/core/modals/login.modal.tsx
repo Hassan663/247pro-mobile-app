@@ -1,12 +1,12 @@
 
 export type LoginModal = {
-    userName?: string;
+    email?: string;
     password?: string;
 };
 
 
 // LoginResponseData type
-export interface LoginResponseData {
+export interface ILoginResponseData {
     id: string;
     userId: string;
     accountId: string;

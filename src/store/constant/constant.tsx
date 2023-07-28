@@ -1,4 +1,2 @@
-const ActionTypes = {
-}
 
-export default ActionTypes;
+export const CURRENTUSERPROFILE = 'CURRENTUSERPROFILE';
