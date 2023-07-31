@@ -11,7 +11,7 @@ import { CURRENTUSERPROFILE } from '../constant/constant';
 export const loginAction = (loginData: LoginModal) => {
     return async (dispatch: Dispatch) => {
         try {
-            // alert(LOGIN_ENDPOINT + loginData)
+            console.log(LOGIN_ENDPOINT ,'aaaaaaaaaaaaaaaaaaaaaaaaa')
             // // loader will apear
             let userData = await login(loginData)
             console.log(userData, 'LoginResponseData')

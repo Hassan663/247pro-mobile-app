@@ -1,8 +1,9 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { Alert } from 'react-native';
 
-const handleApiError = (error: AxiosError): void => {
-  const exp = error.response;
+export const handleApiError = (error: AxiosError): void => {
+  const exp: AxiosResponse | undefined = error.response;
+
   if (!exp) {
     // Network Error or No Response
     Alert.alert('Network Error', 'There was a problem connecting to the server. Please check your internet connection.');
@@ -33,6 +34,7 @@ const handleApiError = (error: AxiosError): void => {
       Alert.alert('Forbidden', errorMessage);
       break;
     case 409:
+      Alert.alert('Application Version Error', errorMessage);
       // Implement conflict handling logic if needed
       break;
     case 418:

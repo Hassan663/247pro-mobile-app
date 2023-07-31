@@ -7,8 +7,8 @@ import { ILoginResponseData } from '../../../modals/login.modal'; // Replace './
 
 const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseData>> => {
     try {
-      const response = await postApi<LoginModal, ILoginResponseData>('https://jsonplaceholder.typicode.com/posts', loginData);
-      // const response = await postApi<LoginModal, LoginResponseData>(LOGIN_ENDPOINT, loginData);
+      // const response = await postApi<LoginModal, ILoginResponseData>('https://jsonplaceholder.typicode.com/posts', loginData);
+      const response = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginData);
       // console.log(response,'responseresponse')
       return response;
     } catch (error) {
