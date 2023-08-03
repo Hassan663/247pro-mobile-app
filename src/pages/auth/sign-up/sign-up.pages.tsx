@@ -23,25 +23,63 @@ import { styles } from './sign-up.style';
 import Colors from '../../../styles/colors';
 import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
-import { changeRoute } from '../../../core/helpers/async-storage';
+import { changeRoute, setItem } from '../../../core/helpers/async-storage';
+import { t } from 'i18next';
+import { appLanguages } from '../../../utilities/languageData';
+import i18n, { fetchTranslations } from '../../../i18n';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [countryCode, setCountryCode] = useState<any>('PK');
+    const [flag, setflag] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
 
     const handleOnSelect = (country: Country) => {
         setIsCountryPickerVisible(false);
         setCountryCode(country.cca2);
     };
+    
+    // CHANGE LANGUAGE 
+    const setLanguageAsync = async (lang: string) => {
+        await setItem('languagecode', lang);
+    };
+    const onLanguageSelect = async (langId: string) => {
+        let lang = appLanguages.find((item) => item.id === langId);
+        if (lang) {
+            await i18n.changeLanguage(lang.code);
+            await setLanguageAsync(lang.code);
+            setflag(!flag);
+        }
+    };
+    // CHANGE LANGUAGE 
 
     return (
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
-                    <ScreenTitle title={'Create Your Free Account'} />
+                    <ScreenTitle title={t(`Login`)} />
+                    {
+                        // ['EN', 'RU', 'FR']
+                        appLanguages.map((item) => (
+                            <TouchableOpacity
+                                activeOpacity={.8}
+                                onPress={() => {
+                                    console.log(item, 'itemitemitem')
+                                    onLanguageSelect(item.id)
+                                    // setselectedLanguage(item.code)
+                                    // setIsDropDownOpen(!isDropDownOpen)
+                                }}
+                                style={{}}>
+                                {/* <Text style={styles.dropDownVal}>{item.code}</Text> */}
+                                <View style={{ margin: RFPercentage(2) }}>
+                                    <ScreenSubTitle title={item.code} />
+
+                                </View>
+
+                            </TouchableOpacity>
+                        ))}
                 </View>
 
                 <View style={styles.inputContainer}>
