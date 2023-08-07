@@ -7,6 +7,7 @@ export const styles: any = StyleSheet.create<any>({
         color: Colors.white,
         fontSize: RFPercentage(2),
         fontWeight: '700',
+
         textTransform: 'capitalize',
         flex: isEdit ? 1 : 0,
         textAlign: 'center',
@@ -54,4 +55,61 @@ export const styles: any = StyleSheet.create<any>({
         fontWeight: '600',
         marginVertical: RFPercentage(1.5),
     }),
+    poppin_20: {
+        fontSize: 20,
+    },
+    poppin_12: {
+        fontSize: 12,
+    },
+    poppin_14: {
+        fontSize: 14,
+    },
+    poppin_16: {
+        fontSize: 16,
+    },
+    input: (pass: boolean, isActive: boolean) => ({
+        borderWidth: pass ? 0 : RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        alignItems: "center",
+        paddingHorizontal: pass ? 0 : RFPercentage(3),
+        width: "100%",
+        height: pass ? '100%' : '85%',
+    }),
+
+    inputContainer: (height: number) => ({
+        height: height ? height : 65,
+        justifyContent: "flex-end",
+    }),
+    inputtitle: (isActive: boolean) => ({
+        position: "absolute",
+        paddingHorizontal: RFPercentage(1),
+        zIndex: 2,
+        backgroundColor: Colors.white,
+        left: '3%',
+        color: isActive && Colors.primary,
+        fontSize: 14,
+        fontWeight: '400',
+        top: '0%',
+    }),
+    textInputContainer: () => ({
+        flexDirection: 'row',
+        width: "100%",
+        height: "85%"
+    }),
+
+    passwordContainer: (isActive: boolean) => ({
+        flexDirection: 'row',
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        paddingHorizontal: RFPercentage(3),
+        width: "100%",
+        height: '85%'
+    }),
+    eyeContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: "center"
+    },
 });

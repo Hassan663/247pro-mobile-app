@@ -9,12 +9,14 @@ import SignUp from '../../pages/auth/sign-up/sign-up.pages';
 import Splash from '../../pages/auth/splash/splash.pages';
 import WalkThrough from '../../pages/auth/walk-through/walk-through.pages';
 import SignIn from '../../pages/auth/sign-in/sign-in.pages';
+import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 
 export type RootStackParamList = {
   Splash: undefined,
   WalkThrough: undefined,
   SignUp: undefined,
   SignIn: undefined,
+  EnterNameAndEmail: undefined,
   // Profile: { name: string }; 
 };
 
@@ -28,12 +30,13 @@ const AuthNavigation: React.FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName='Splash'
+        initialRouteName='EnterNameAndEmail'
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="WalkThrough" component={WalkThrough} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="EnterNameAndEmail" component={EnterNameAndEmail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

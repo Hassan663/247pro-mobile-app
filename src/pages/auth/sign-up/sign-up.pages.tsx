@@ -59,7 +59,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
-                    <ScreenTitle title={t(`Login`)} />
+                    <ScreenTitle title={t(`Create_Your_Free_Account`)} />
                     {
                         // ['EN', 'RU', 'FR']
                         appLanguages.map((item) => (
