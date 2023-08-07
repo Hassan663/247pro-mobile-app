@@ -10,7 +10,9 @@ import Splash from '../../pages/auth/splash/splash.pages';
 import WalkThrough from '../../pages/auth/walk-through/walk-through.pages';
 import SignIn from '../../pages/auth/sign-in/sign-in.pages';
 import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
-import VerifyBuisness from '../../pages/auth/enter-name-and-email/enter-name-and-email';
+import VerifyBuisness from '../../pages/auth/verify-buisness/verify-buisness';
+// import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
+// import VerifyBuisness from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 
 export type RootStackParamList = {
   Splash: undefined,
@@ -32,7 +34,7 @@ const AuthNavigation: React.FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName='EnterNameAndEmail'
+        initialRouteName='VerifyBuisness'
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="WalkThrough" component={WalkThrough} />

@@ -15,6 +15,8 @@ export const languageData = [
             Login: `Login Your Account`,
             verifyBuisnessHeader: 'Help us to improve your experience by answering a few questions',
             Are_you_a_business: 'Are you a business?',
+            yes: 'Yes',
+            no: 'No',
         }
     },
     {
@@ -30,6 +32,8 @@ export const languageData = [
             Password: "密码",
             Welcome_to_247PRO: "欢迎来到247PRO",
             Login: `登录您的帐户`,
+            yes: '是的',
+            no: '不',
         }
     },
     {
@@ -45,6 +49,8 @@ export const languageData = [
             Full_name: "Nombre completo",
             Email: "Correo electrónico",
             Are_you_a_business: '¿Eres un negocio?',
+            yes: 'Sí',
+            no: 'No',
 
 
         }

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     logoStyle: {
         alignSelf: "center",
         height: RFPercentage(10),
-        width: RFPercentage(20),
+        width: RFPercentage(22),
         resizeMode: 'contain',
         tintColor: Colors.black
     },
@@ -26,5 +26,20 @@ export const styles = StyleSheet.create({
         flex: 3,
         justifyContent: 'flex-end',
         marginVertical: RFPercentage(2)
+    },
+
+    headerDisc: {
+        width: '80%'
+    },
+    row: {
+        flexDirection: 'row',
+    },
+    radioWrapper: {
+        flex: 1,
+        marginVertical: RFPercentage(1)
+    },
+
+    mx: {
+        marginHorizontal: RFPercentage(1)
     }
 });

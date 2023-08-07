@@ -5,64 +5,91 @@ import React, {
 import {
     View,
     Image,
-    ScrollView,
-    Dimensions,
+    TouchableOpacity,
 } from 'react-native';
 
+import Fontisto from 'react-native-vector-icons/Fontisto'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
-import OutlinedTextInput from '../../../core/components/Outlined-TextInput.component';
-import {
-    ScreenTitle,
-    Title,
-} from '../../../core/components/screen-title.component';
+import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './verify-buisness.style';
+import { changeRoute } from '../../../core/helpers/async-storage';
 
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10;
+const VerifyBuisness: React.FC<{ navigation: any }> = ({ navigation }) => {
 
-const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [isCheck, setIsCheck] = useState(false)
 
     return (
-        <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
-            <View style={styles.container}>
-                <View style={styles.titleWrapper}>
-                    <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                    <ScreenTitle widthAuto title={t(`Welcome_to_247PRO`)} />
-                    <Title color={Colors.fontColor} title={t(`Please_provide_your_login_information`)} type={`Poppin-16`} />
-                </View>
-                <View style={styles.inputWrapper}>
-                    <OutlinedTextInput
-                        val={name}
-                        onChange={(val) => { setName(val) }}
-                        title={t('Full_name')}
-                        placeHolder={t('Full_name')}
-                    />
-                    <OutlinedTextInput
-                        val={email}
-                        onChange={(val) => { setEmail(val) }}
-                        title={t('Email')}
-                        placeHolder={t('Email')}
-                    />
-                    <OutlinedTextInput
-                        val={password}
-                        onChange={(val) => { setPassword(val) }}
-                        title={t('Password')}
-                        placeHolder={t('Password')}
-                        Password
-                    />
-                </View>
-                <View style={styles.footer}>
-                    <Button title={t('Next')} primary />
+        <View style={styles.container}>
+            <View style={styles.titleWrapper}>
+                <TouchableOpacity
+                    activeOpacity={.8}
+                    onPress={() => changeRoute(navigation, 'pop')}>
+                    <AntDesign name={`left`} size={RFPercentage(3)} />
+                </TouchableOpacity>
+
+                <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
+                <View style={styles.headerDisc}>
+                    <Title
+                        color={Colors.fontColor}
+                        weight='400'
+                        title={t(`verifyBuisnessHeader`)}
+                        type={`Poppin-16`} />
                 </View>
             </View>
-        </ScrollView>
+            <View style={styles.inputWrapper}>
+                <Title
+                    color={Colors.black}
+                    weight='700'
+                    title={t(`Are_you_a_business`)}
+                    type={`Poppin-18`} />
+                <View style={styles.row}>
+
+                    <TouchableOpacity
+                        activeOpacity={0.9}
+                        onPress={() => setIsCheck(false)}
+                        style={[styles.row, styles.radioWrapper]}>
+                        <Fontisto
+                            name={isCheck ? `radio-btn-passive` : `radio-btn-active`}
+                            style={styles.mx}
+                            color={!isCheck ? Colors.primary : Colors.fontColor}
+                            size={RFPercentage(3)}
+                        />
+                        <Title
+                            color={Colors.fontColor}
+                            weight='500'
+                            title={t(`yes`)}
+                            type={`Poppin-14`} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.9}
+                        onPress={() => setIsCheck(true)}
+                        style={[styles.row, styles.radioWrapper]}>
+                        <Fontisto
+                            name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
+                            color={isCheck ? Colors.primary : Colors.fontColor}
+                            style={styles.mx}
+                            size={RFPercentage(3)} />
+                        <Title
+                            color={Colors.fontColor}
+                            weight='500'
+                            title={t(`no`)}
+                            type={`Poppin-14`} />
+                    </TouchableOpacity>
+
+                </View>
+            </View>
+
+            <View style={styles.footer}>
+                <Button title={t('Next')} primary />
+            </View>
+
+        </View>
     );
 };
 
-export default EnterNameAndEmail;
+export default VerifyBuisness;
