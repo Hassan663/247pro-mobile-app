@@ -10,6 +10,7 @@ import Splash from '../../pages/auth/splash/splash.pages';
 import WalkThrough from '../../pages/auth/walk-through/walk-through.pages';
 import SignIn from '../../pages/auth/sign-in/sign-in.pages';
 import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
+import VerifyBuisness from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 
 export type RootStackParamList = {
   Splash: undefined,
@@ -17,6 +18,7 @@ export type RootStackParamList = {
   SignUp: undefined,
   SignIn: undefined,
   EnterNameAndEmail: undefined,
+  VerifyBuisness: undefined,
   // Profile: { name: string }; 
 };
 
@@ -37,6 +39,7 @@ const AuthNavigation: React.FC = () => {
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="EnterNameAndEmail" component={EnterNameAndEmail} />
+        <Stack.Screen name="VerifyBuisness" component={VerifyBuisness} />
       </Stack.Navigator>
     </NavigationContainer>
   );

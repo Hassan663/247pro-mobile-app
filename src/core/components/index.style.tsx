@@ -67,6 +67,9 @@ export const styles: any = StyleSheet.create<any>({
     poppin_16: {
         fontSize: 16,
     },
+    poppin_18: {
+        fontSize: 18,
+    },
     input: (pass: boolean, isActive: boolean) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
         borderRadius: 5,

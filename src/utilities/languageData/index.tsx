@@ -13,6 +13,8 @@ export const languageData = [
             Next: "Next",
             Password: "Password",
             Login: `Login Your Account`,
+            verifyBuisnessHeader: 'Help us to improve your experience by answering a few questions',
+            Are_you_a_business: 'Are you a business?',
         }
     },
     {
@@ -21,12 +23,13 @@ export const languageData = [
             Create_Your_Free_Account: `创建您的免费帐户`,
             Please_provide_your_login_information: "请提供您的登录信息",
             Full_name: "全名",
+            verifyBuisnessHeader: '回答几个问题帮助我们改善您的体验',
+            Are_you_a_business: '你是企业吗？',
             Email: "电子邮件",
             Next: "下一步",
             Password: "密码",
             Welcome_to_247PRO: "欢迎来到247PRO",
             Login: `登录您的帐户`,
-
         }
     },
     {
@@ -37,9 +40,11 @@ export const languageData = [
             Please_provide_your_login_information: "Por favor proporcione su información de inicio de sesión",
             Login: `inicie sesión en su cuenta`,
             Password: "Contraseña",
+            verifyBuisnessHeader: 'Ayúdanos a mejorar tu experiencia respondiendo algunas preguntas',
             Next: "Siguiente",
             Full_name: "Nombre completo",
             Email: "Correo electrónico",
+            Are_you_a_business: '¿Eres un negocio?',
 
 
         }

@@ -26,11 +26,5 @@ export const styles = StyleSheet.create({
         flex: 3,
         justifyContent: 'flex-end',
         marginVertical: RFPercentage(2)
-    },
-    headerDisc: {
-        width: '80%'
-    },
-    row: {
-        flexDirection: 'row',
     }
 });
