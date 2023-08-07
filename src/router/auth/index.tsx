@@ -11,6 +11,7 @@ import WalkThrough from '../../pages/auth/walk-through/walk-through.pages';
 import SignIn from '../../pages/auth/sign-in/sign-in.pages';
 import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 import VerifyBuisness from '../../pages/auth/verify-buisness/verify-buisness';
+import BuisnessQuestions from '../../pages/auth/buisness-questions/buisness-questions';
 // import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 // import VerifyBuisness from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   SignIn: undefined,
   EnterNameAndEmail: undefined,
   VerifyBuisness: undefined,
+  BuisnessQuestions: undefined,
   // Profile: { name: string }; 
 };
 
@@ -34,7 +36,7 @@ const AuthNavigation: React.FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName='VerifyBuisness'
+        initialRouteName='BuisnessQuestions'
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="WalkThrough" component={WalkThrough} />
@@ -42,6 +44,7 @@ const AuthNavigation: React.FC = () => {
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="EnterNameAndEmail" component={EnterNameAndEmail} />
         <Stack.Screen name="VerifyBuisness" component={VerifyBuisness} />
+        <Stack.Screen name="BuisnessQuestions" component={BuisnessQuestions} />
       </Stack.Navigator>
     </NavigationContainer>
   );

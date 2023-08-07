@@ -14,11 +14,11 @@ import { t } from 'i18next';
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
-import { styles } from './enter-name-and-email.style';
 import {
     ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
+import { styles } from './enter-name-and-email.style';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;

@@ -17,6 +17,7 @@ export const languageData = [
             Are_you_a_business: 'Are you a business?',
             yes: 'Yes',
             no: 'No',
+            completeQuestions: `Complete these questions to receive job leads.`
         }
     },
     {
@@ -34,6 +35,8 @@ export const languageData = [
             Login: `登录您的帐户`,
             yes: '是的',
             no: '不',
+            completeQuestions: `完成这些问题以获得工作机会。`,
+
         }
     },
     {
@@ -51,6 +54,8 @@ export const languageData = [
             Are_you_a_business: '¿Eres un negocio?',
             yes: 'Sí',
             no: 'No',
+            completeQuestions: `Complete estas preguntas para recibir oportunidades de trabajo.`
+
 
 
         }

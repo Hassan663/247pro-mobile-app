@@ -13,7 +13,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { styles } from './index.style';
 import Colors from '../../styles/colors';
 
-interface OutlinedTextInputProps {
+interface OutlinedDropDownProps {
   title?: string;
   val?: string;
   height?: number;
@@ -22,7 +22,7 @@ interface OutlinedTextInputProps {
   onChange: (val: string) => void;
 }
 
-const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, val, placeHolder, Password, onChange }) => {
+const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, val, placeHolder, Password, onChange }) => {
 
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
@@ -76,4 +76,4 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, va
   );
 };
 
-export default OutlinedTextInput;
+export default OutlinedDropDown;
