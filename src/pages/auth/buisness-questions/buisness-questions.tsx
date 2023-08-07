@@ -1,5 +1,7 @@
 // @app
-import React, { useState } from 'react';
+import React, {
+    useState
+} from 'react';
 import {
     View,
     Image,
@@ -18,25 +20,28 @@ import CountryPicker, {
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { INDUSTRIES } from './data';
-import Input from '../../../core/components/input.component';
-
-
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
+
 const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
+
     const [countryCode, setCountryCode] = useState<any>('PK');
-    const [flag, setflag] = useState<boolean>(false);
+    const [phoneNumber, setphoneNumber] = useState<string>('');
+    const [selectedIndustry, setselectedIndustry] = useState<string>('');
+
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
 
     const handleOnSelect = (country: Country) => {
         setIsCountryPickerVisible(false);
         setCountryCode(country.cca2);
     };
+
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
@@ -56,29 +61,31 @@ const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
                 </View>
                 <View style={[styles.inputWrapper,]}>
                     <OutlinedDropDown
-                        title={'Industry'}
+                        title={t('Industry')}
+                        onselect={(value: string) => { setselectedIndustry(value) }}
+                        DATA={INDUSTRIES}
+                        drop_down_button_style={styles.drop_down_button_style}
+                    />
+                    <OutlinedDropDown
+                        title={t('primarySpecialty')}
                         onselect={(value: string) => { console.log(value, 'value') }}
                         DATA={INDUSTRIES}
                         drop_down_button_style={styles.drop_down_button_style}
                     />
                     <OutlinedDropDown
-                        title={'Primary specialty'}
+                        title={t('JobType')}
                         onselect={(value: string) => { console.log(value, 'value') }}
                         DATA={INDUSTRIES}
                         drop_down_button_style={styles.drop_down_button_style}
                     />
-                    <OutlinedDropDown
-                        title={'Job type'}
-                        onselect={(value: string) => { console.log(value, 'value') }}
-                        DATA={INDUSTRIES}
-                        drop_down_button_style={styles.drop_down_button_style}
-                    />
-                    <OutlinedDropDown
-                        title={'Zip code'}
-                        onselect={(value: string) => { console.log(value, 'value') }}
-                        DATA={INDUSTRIES}
-                        drop_down_button_style={styles.drop_down_button_style}
-                    />
+                    {selectedIndustry == 'Construction' &&
+                        <OutlinedDropDown
+                            title={t('ZipCode')}
+                            onselect={(value: string) => { console.log(value, 'value') }}
+                            DATA={INDUSTRIES}
+                            drop_down_button_style={styles.drop_down_button_style}
+                        />
+                    }
                     <View style={styles.inputWrapper2}>
                         <TouchableOpacity
                             onPress={() => setIsCountryPickerVisible(true)}
@@ -101,13 +108,17 @@ const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
                             />
                         </TouchableOpacity>
                         <View style={styles.phoneNumberInput}>
-                            <Input placeholder={`Mobile phone number`} />
+                            <OutlinedTextInput
+                                val={phoneNumber}
+                                onChange={(val) => { setphoneNumber(val) }}
+                                title={t('MobilePhone')}
+                                placeHolder={t('MobilePhone')}
+                            />
                         </View>
                     </View>
                 </View>
-
                 <View style={[styles.footer,]}>
-                    <Button title={t('Next')} primary />
+                    <Button title={t('CompleteRegisration')} primary />
                 </View>
 
             </ScrollView >

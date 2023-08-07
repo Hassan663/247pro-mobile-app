@@ -17,7 +17,13 @@ export const languageData = [
             Are_you_a_business: 'Are you a business?',
             yes: 'Yes',
             no: 'No',
-            completeQuestions: `Complete these questions to receive job leads.`
+            completeQuestions: `Complete these questions to receive job leads.`,
+            Industry: "Industry",
+            primarySpecialty: "Primary specialty",
+            JobType: "Job type",
+            ZipCode:"Zip code",
+            MobilePhone:"Mobile phone",
+            CompleteRegisration:"Complete Regisration"
         }
     },
     {
@@ -36,7 +42,14 @@ export const languageData = [
             yes: '是的',
             no: '不',
             completeQuestions: `完成这些问题以获得工作机会。`,
+            Industry: "行业",
+            primarySpecialty: "主要专业",
+            JobType: "工作类型",
+            MobilePhone:"邮政编码",
+            CompleteRegisration:"完成注册",
 
+
+            ZipCode:"邮政编码",
         }
     },
     {
@@ -54,8 +67,14 @@ export const languageData = [
             Are_you_a_business: '¿Eres un negocio?',
             yes: 'Sí',
             no: 'No',
-            completeQuestions: `Complete estas preguntas para recibir oportunidades de trabajo.`
+            completeQuestions: `Complete estas preguntas para recibir oportunidades de trabajo.`,
+            Industry: "Industria",
+            primarySpecialty: "especialidad primaria",
 
+            JobType: "El tipo de trabajo",
+            ZipCode:"Código postal",
+            MobilePhone:"Código postal",
+            CompleteRegisration:"Registro completo"
 
 
         }

@@ -47,7 +47,8 @@ export const styles = StyleSheet.create({
     },
     inputWrapper2: {
         flexDirection: 'row',
-        alignItems: "center"
+        alignItems: "center",
+        marginVertical:RFPercentage(1)
     },
     flagContainer: {
         width: '15%',
@@ -63,6 +64,8 @@ export const styles = StyleSheet.create({
         height: 30,
         width: 30
     },
-    downIcon: { marginHorizontal: RFPercentage(.5) },
+    downIcon: {
+        marginHorizontal: RFPercentage(.5)
+    },
 
 });
