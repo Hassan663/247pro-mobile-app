@@ -40,7 +40,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         setIsCountryPickerVisible(false);
         setCountryCode(country.cca2);
     };
-    
+
     // CHANGE LANGUAGE 
     const setLanguageAsync = async (lang: string) => {
         await setItem('languagecode', lang);

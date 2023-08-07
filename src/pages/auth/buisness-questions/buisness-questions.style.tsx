@@ -20,10 +20,10 @@ export const styles = StyleSheet.create({
         flex: 3,
     },
     inputWrapper: {
-        flex: 4,
+        flex: 6,
     },
     footer: {
-        flex: 3,
+        flex: 1,
         justifyContent: 'flex-end',
         marginVertical: RFPercentage(2)
     },
@@ -37,5 +37,32 @@ export const styles = StyleSheet.create({
 
     mx: {
         marginHorizontal: RFPercentage(1)
-    }
+    },
+    drop_down_button_style: {
+        backgroundColor: Colors.white,
+        width: "100%",
+        borderRadius: RFPercentage(1),
+        borderColor: Colors.lightGrey,
+        borderWidth: 1
+    },
+    inputWrapper2: {
+        flexDirection: 'row',
+        alignItems: "center"
+    },
+    flagContainer: {
+        width: '15%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: "center",
+        height: 40
+    },
+    phoneNumberInput: {
+        width: "85%"
+    },
+    flagWrapper: {
+        height: 30,
+        width: 30
+    },
+    downIcon: { marginHorizontal: RFPercentage(.5) },
+
 });

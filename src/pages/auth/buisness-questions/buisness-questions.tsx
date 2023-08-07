@@ -1,57 +1,118 @@
 // @app
-import React, {
-    useState
-} from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Image,
     TouchableOpacity,
+    ScrollView,
+    Dimensions,
 } from 'react-native';
 
-import Fontisto from 'react-native-vector-icons/Fontisto'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import CountryPicker, {
+    Country,
+} from 'react-native-country-picker-modal';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
+import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
+import { INDUSTRIES } from './data';
+import Input from '../../../core/components/input.component';
 
+
+
+const windowHeight = Dimensions.get('window').height;
+const heightFlex1 = windowHeight / 10;
 const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
+    const [countryCode, setCountryCode] = useState<any>('PK');
+    const [flag, setflag] = useState<boolean>(false);
+    const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
 
-     const [industry, setIndustry] = useState('')
-
+    const handleOnSelect = (country: Country) => {
+        setIsCountryPickerVisible(false);
+        setCountryCode(country.cca2);
+    };
     return (
         <View style={styles.container}>
-            <View style={styles.titleWrapper}>
-                <TouchableOpacity
-                    activeOpacity={.8}
-                    onPress={() => changeRoute(navigation, 'pop')}>
-                    <AntDesign name={`left`} size={RFPercentage(3)} />
-                </TouchableOpacity>
+            <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
+                <View style={[styles.titleWrapper,]}>
+                    <TouchableOpacity
+                        activeOpacity={.8}
+                        onPress={() => changeRoute(navigation, 'pop')}>
+                        <AntDesign name={`left`} size={RFPercentage(3)} />
+                    </TouchableOpacity>
 
-                <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                <Title
-                    color={Colors.black}
-                    weight='600'
-                    title={t(`completeQuestions`)}
-                    type={`Poppin-18`} />
-            </View>
-            <View style={styles.inputWrapper}>
-                <OutlinedDropDown
-                    val={industry}
-                    onChange={(val) => { setIndustry(val) }}
-                />
-            </View>
+                    <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
+                    <Title
+                        color={Colors.black}
+                        weight='600'
+                        title={t(`completeQuestions`)}
+                        type={`Poppin-18`} />
+                </View>
+                <View style={[styles.inputWrapper,]}>
+                    <OutlinedDropDown
+                        title={'Industry'}
+                        onselect={(value: string) => { console.log(value, 'value') }}
+                        DATA={INDUSTRIES}
+                        drop_down_button_style={styles.drop_down_button_style}
+                    />
+                    <OutlinedDropDown
+                        title={'Primary specialty'}
+                        onselect={(value: string) => { console.log(value, 'value') }}
+                        DATA={INDUSTRIES}
+                        drop_down_button_style={styles.drop_down_button_style}
+                    />
+                    <OutlinedDropDown
+                        title={'Job type'}
+                        onselect={(value: string) => { console.log(value, 'value') }}
+                        DATA={INDUSTRIES}
+                        drop_down_button_style={styles.drop_down_button_style}
+                    />
+                    <OutlinedDropDown
+                        title={'Zip code'}
+                        onselect={(value: string) => { console.log(value, 'value') }}
+                        DATA={INDUSTRIES}
+                        drop_down_button_style={styles.drop_down_button_style}
+                    />
+                    <View style={styles.inputWrapper2}>
+                        <TouchableOpacity
+                            onPress={() => setIsCountryPickerVisible(true)}
+                            style={styles.flagContainer}
+                        >
+                            <View style={styles.flagWrapper}>
+                                <CountryPicker
+                                    countryCode={countryCode}
+                                    withCallingCode
+                                    withFlagButton={true}
+                                    onClose={() => setIsCountryPickerVisible(false)}
+                                    onSelect={handleOnSelect}
+                                    visible={isCountryPickerVisible}
+                                />
+                            </View>
+                            <AntDesign
+                                name={`down`}
+                                style={styles.downIcon}
+                                size={RFPercentage(2)}
+                            />
+                        </TouchableOpacity>
+                        <View style={styles.phoneNumberInput}>
+                            <Input placeholder={`Mobile phone number`} />
+                        </View>
+                    </View>
+                </View>
 
-            <View style={styles.footer}>
-                <Button title={t('Next')} primary />
-            </View>
+                <View style={[styles.footer,]}>
+                    <Button title={t('Next')} primary />
+                </View>
 
+            </ScrollView >
         </View>
+
     );
 };
 
