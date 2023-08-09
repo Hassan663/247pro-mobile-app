@@ -12,6 +12,7 @@ import SignIn from '../../pages/auth/sign-in/sign-in.pages';
 import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 import VerifyBuisness from '../../pages/auth/verify-buisness/verify-buisness';
 import BuisnessQuestions from '../../pages/auth/buisness-questions/buisness-questions';
+import VerifyCode from '../../pages/auth/verify-code/verify-code';
 
 export type RootStackParamList = {
   Splash: undefined,
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   EnterNameAndEmail: undefined,
   VerifyBuisness: undefined,
   BuisnessQuestions: undefined,
+  VerifyCode: undefined,
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -33,7 +35,7 @@ const AuthNavigation: React.FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName='BuisnessQuestions'
+        initialRouteName='VerifyCode'
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="WalkThrough" component={WalkThrough} />
@@ -41,6 +43,7 @@ const AuthNavigation: React.FC = () => {
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="EnterNameAndEmail" component={EnterNameAndEmail} />
         <Stack.Screen name="VerifyBuisness" component={VerifyBuisness} />
+        <Stack.Screen name="VerifyCode" component={VerifyCode} />
         <Stack.Screen name="BuisnessQuestions" component={BuisnessQuestions} />
       </Stack.Navigator>
     </NavigationContainer>

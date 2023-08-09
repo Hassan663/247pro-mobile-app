@@ -21,9 +21,14 @@ export const languageData = [
             Industry: "Industry",
             primarySpecialty: "Primary specialty",
             JobType: "Job type",
-            ZipCode:"Zip code",
-            MobilePhone:"Mobile phone",
-            CompleteRegisration:"Complete Regisration"
+            ZipCode: "Zip code",
+            MobilePhone: "Mobile phone",
+            CompleteRegisration: "Complete Regisration",
+            Verify: "Verify",
+            RESEND_CODE: "RESEND CODE",
+            resentText: "If you didn’t receive the code. Please click the button below.",
+            enter_Code_Text: 'Enter 4 digit code sent to your mobile +1 (234) 567 8900.',
+            Verify_Your_Mobile: "Verify Your Mobile",
         }
     },
     {
@@ -45,11 +50,16 @@ export const languageData = [
             Industry: "行业",
             primarySpecialty: "主要专业",
             JobType: "工作类型",
-            MobilePhone:"邮政编码",
-            CompleteRegisration:"完成注册",
+            MobilePhone: "邮政编码",
+            CompleteRegisration: "完成注册",
+            Verify: "核实",
+            ZipCode: "邮政编码",
+            RESEND_CODE: "重新发送验证码",
+            resentText: "如果您没有收到代码。 请点击下面的按钮。",
+            enter_Code_Text: '输入发送至您手机 +1 (234) 567 8900 的 4 位数代码。',
 
+            Verify_Your_Mobile: "验证您的手机",
 
-            ZipCode:"邮政编码",
         }
     },
     {
@@ -70,11 +80,16 @@ export const languageData = [
             completeQuestions: `Complete estas preguntas para recibir oportunidades de trabajo.`,
             Industry: "Industria",
             primarySpecialty: "especialidad primaria",
-
             JobType: "El tipo de trabajo",
-            ZipCode:"Código postal",
-            MobilePhone:"Código postal",
-            CompleteRegisration:"Registro completo"
+            ZipCode: "Código postal",
+            MobilePhone: "Código postal",
+            CompleteRegisration: "Registro completo",
+            Verify: "Verificar",
+            RESEND_CODE: "REENVIAR CODIGO",
+            resentText: "Si no recibiste el código. Por favor, haga clic en el botón de abajo.",
+            enter_Code_Text: 'Ingresa el código de 4 dígitos enviado a tu móvil +1 (234) 567 8900.',
+            Verify_Your_Mobile: "Verifica tu móvil",
+
 
 
         }
