@@ -29,10 +29,13 @@ import { INDUSTRIES } from './data';
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
 
-const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
-
+const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+    const isBuisness = route.params.yesABuisness;
+    // console.log(route.params.yesABuisness, 'route')
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [phoneNumber, setphoneNumber] = useState<string>('');
+    const [zipCode, setZipCode] = useState<string>('');
+    const [loading, setloading] = useState<boolean>(false)
     const [selectedIndustry, setselectedIndustry] = useState<string>('');
 
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
@@ -44,9 +47,12 @@ const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     return (
         <>
-            <View style={styles.loadingContainer}>
-                <Image source={require('../../../assets/auth-images/loading.png')} />
-            </View>
+            {loading &&
+                <TouchableOpacity
+                    onPress={() => setloading(!loading)}
+                    style={styles.loadingContainer}>
+                    <Image source={require('../../../assets/auth-images/loading.png')} />
+                </TouchableOpacity>}
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
                     <View style={[styles.titleWrapper,]}>
@@ -64,69 +70,86 @@ const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
                             type={`Poppin-18`} />
                     </View>
                     <View style={[styles.inputWrapper,]}>
-                        <OutlinedDropDown
-                            title={t('Industry')}
-                            onselect={(value: string) => { setselectedIndustry(value) }}
-                            DATA={INDUSTRIES}
-                            drop_down_button_style={styles.drop_down_button_style}
-                        />
-                        <OutlinedDropDown
-                            title={t('primarySpecialty')}
-                            onselect={(value: string) => { console.log(value, 'value') }}
-                            DATA={INDUSTRIES}
-                            drop_down_button_style={styles.drop_down_button_style}
-                        />
-                        {selectedIndustry == 'Construction' &&
-                            <OutlinedDropDown
-                                title={t('JobType')}
-                                onselect={(value: string) => { console.log(value, 'value') }}
-                                DATA={INDUSTRIES}
-                                drop_down_button_style={styles.drop_down_button_style}
+                        {isBuisness ?
+                            <>
+                                <OutlinedDropDown
+                                    title={t('Industry')}
+                                    onselect={(value: string) => { setselectedIndustry(value) }}
+                                    DATA={INDUSTRIES}
+                                    drop_down_button_style={styles.drop_down_button_style}
+                                />
+                                <OutlinedDropDown
+                                    title={t('primarySpecialty')}
+                                    onselect={(value: string) => { console.log(value, 'value') }}
+                                    DATA={INDUSTRIES}
+                                    drop_down_button_style={styles.drop_down_button_style}
+                                />
+                                {selectedIndustry == 'Construction' &&
+                                    <OutlinedDropDown
+                                        title={t('JobType')}
+                                        onselect={(value: string) => { console.log(value, 'value') }}
+                                        DATA={INDUSTRIES}
+                                        drop_down_button_style={styles.drop_down_button_style}
+                                    />
+                                }
+
+                                <OutlinedTextInput
+                                    val={zipCode}
+                                    onChange={(val) => { setphoneNumber(val) }}
+                                    title={t('ZipCode')}
+                                    placeHolder={t('ZipCode')}
+                                />
+                                <View style={styles.inputWrapper2}>
+                                    <TouchableOpacity
+                                        onPress={() => setIsCountryPickerVisible(true)}
+                                        style={styles.flagContainer}
+                                    >
+                                        <View style={styles.flagWrapper}>
+                                            <CountryPicker
+                                                countryCode={countryCode}
+                                                withCallingCode
+                                                withFlagButton={true}
+                                                onClose={() => setIsCountryPickerVisible(false)}
+                                                onSelect={handleOnSelect}
+                                                visible={isCountryPickerVisible}
+                                            />
+                                        </View>
+                                        <AntDesign
+                                            name={`down`}
+                                            style={styles.downIcon}
+                                            size={RFPercentage(2)}
+                                        />
+                                    </TouchableOpacity>
+                                    <View style={styles.phoneNumberInput}>
+                                        <OutlinedTextInput
+                                            val={phoneNumber}
+                                            onChange={(val) => { setphoneNumber(val) }}
+                                            title={t('MobilePhone')}
+                                            placeHolder={t('MobilePhone')}
+                                        />
+                                    </View>
+                                </View>
+                            </>
+                            :
+                            <OutlinedTextInput
+                                val={zipCode}
+                                onChange={(val) => { setphoneNumber(val) }}
+                                title={t('ZipCode')}
+                                placeHolder={t('ZipCode')}
                             />
                         }
-                        <OutlinedDropDown
-                            title={t('ZipCode')}
-                            onselect={(value: string) => { console.log(value, 'value') }}
-                            DATA={INDUSTRIES}
-                            drop_down_button_style={styles.drop_down_button_style}
-                        />
-                        <View style={styles.inputWrapper2}>
-                            <TouchableOpacity
-                                onPress={() => setIsCountryPickerVisible(true)}
-                                style={styles.flagContainer}
-                            >
-                                <View style={styles.flagWrapper}>
-                                    <CountryPicker
-                                        countryCode={countryCode}
-                                        withCallingCode
-                                        withFlagButton={true}
-                                        onClose={() => setIsCountryPickerVisible(false)}
-                                        onSelect={handleOnSelect}
-                                        visible={isCountryPickerVisible}
-                                    />
-                                </View>
-                                <AntDesign
-                                    name={`down`}
-                                    style={styles.downIcon}
-                                    size={RFPercentage(2)}
-                                />
-                            </TouchableOpacity>
-                            <View style={styles.phoneNumberInput}>
-                                <OutlinedTextInput
-                                    val={phoneNumber}
-                                    onChange={(val) => { setphoneNumber(val) }}
-                                    title={t('MobilePhone')}
-                                    placeHolder={t('MobilePhone')}
-                                />
-                            </View>
-                        </View>
+
                     </View>
                     <View style={[styles.footer,]}>
-                        <Button title={t('CompleteRegisration')} primary />
+                        <Button
+                            callBack={() => setloading(true)}
+                            title={t('CompleteRegisration')} primary />
                     </View>
 
                 </ScrollView >
             </View>
+
+
         </>
 
     );

@@ -86,7 +86,7 @@ const VerifyBuisness: React.FC<{ navigation: any }> = ({ navigation }) => {
 
             <View style={styles.footer}>
                 <Button
-                    callBack={() => changeRoute(navigation, 'BuisnessQuestions')}
+                    callBack={() => changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: !isCheck })}
                     title={t('Next')} primary />
             </View>
 
