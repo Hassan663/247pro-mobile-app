@@ -25,6 +25,7 @@ import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { INDUSTRIES } from './data';
+import { useSelector } from 'react-redux';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -44,6 +45,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
         setIsCountryPickerVisible(false);
         setCountryCode(country.cca2);
     };
+    const otpSupported = useSelector((state: any) => state.root.otpSupported)
 
     return (
         <>
@@ -99,36 +101,38 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                     title={t('ZipCode')}
                                     placeHolder={t('ZipCode')}
                                 />
-                                <View style={styles.inputWrapper2}>
-                                    <TouchableOpacity
-                                        onPress={() => setIsCountryPickerVisible(true)}
-                                        style={styles.flagContainer}
-                                    >
-                                        <View style={styles.flagWrapper}>
-                                            <CountryPicker
-                                                countryCode={countryCode}
-                                                withCallingCode
-                                                withFlagButton={true}
-                                                onClose={() => setIsCountryPickerVisible(false)}
-                                                onSelect={handleOnSelect}
-                                                visible={isCountryPickerVisible}
+                                {!otpSupported &&
+                                    <View style={styles.inputWrapper2}>
+                                        <TouchableOpacity
+                                            onPress={() => setIsCountryPickerVisible(true)}
+                                            style={styles.flagContainer}
+                                        >
+                                            <View style={styles.flagWrapper}>
+                                                <CountryPicker
+                                                    countryCode={countryCode}
+                                                    withCallingCode
+                                                    withFlagButton={true}
+                                                    onClose={() => setIsCountryPickerVisible(false)}
+                                                    onSelect={handleOnSelect}
+                                                    visible={isCountryPickerVisible}
+                                                />
+                                            </View>
+                                            <AntDesign
+                                                name={`down`}
+                                                style={styles.downIcon}
+                                                size={RFPercentage(2)}
+                                            />
+                                        </TouchableOpacity>
+                                        <View style={styles.phoneNumberInput}>
+                                            <OutlinedTextInput
+                                                val={phoneNumber}
+                                                onChange={(val) => { setphoneNumber(val) }}
+                                                title={t('MobilePhone')}
+                                                placeHolder={t('MobilePhone')}
                                             />
                                         </View>
-                                        <AntDesign
-                                            name={`down`}
-                                            style={styles.downIcon}
-                                            size={RFPercentage(2)}
-                                        />
-                                    </TouchableOpacity>
-                                    <View style={styles.phoneNumberInput}>
-                                        <OutlinedTextInput
-                                            val={phoneNumber}
-                                            onChange={(val) => { setphoneNumber(val) }}
-                                            title={t('MobilePhone')}
-                                            placeHolder={t('MobilePhone')}
-                                        />
                                     </View>
-                                </View>
+                                }
                             </>
                             :
                             <OutlinedTextInput

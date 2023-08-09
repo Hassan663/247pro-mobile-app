@@ -27,6 +27,7 @@ import { changeRoute, setItem } from '../../../core/helpers/async-storage';
 import { t } from 'i18next';
 import { appLanguages } from '../../../utilities/languageData';
 import i18n, { fetchTranslations } from '../../../i18n';
+import { useSelector } from 'react-redux';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -35,6 +36,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [flag, setflag] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
+
+    const otpSupported = useSelector((state: any) => state.root.otpSupported)
 
     const handleOnSelect = (country: Country) => {
         setIsCountryPickerVisible(false);
@@ -61,18 +64,14 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <View style={styles.titleWrapper}>
                     <ScreenTitle title={t(`Create_Your_Free_Account`)} />
                     {
-                        // ['EN', 'RU', 'FR']
                         appLanguages.map((item) => (
                             <TouchableOpacity
                                 activeOpacity={.8}
                                 onPress={() => {
                                     console.log(item, 'itemitemitem')
                                     onLanguageSelect(item.id)
-                                    // setselectedLanguage(item.code)
-                                    // setIsDropDownOpen(!isDropDownOpen)
                                 }}
                                 style={{}}>
-                                {/* <Text style={styles.dropDownVal}>{item.code}</Text> */}
                                 <View style={{ margin: RFPercentage(2) }}>
                                     <ScreenSubTitle title={item.code} />
 
@@ -86,59 +85,70 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <ScreenSubTitle title={`What’s your mobile phone number?`} />
 
                     <View style={styles.inputWrapper}>
-                        <TouchableOpacity
-                            onPress={() => setIsCountryPickerVisible(true)}
-                            style={styles.flagContainer}
-                        >
-                            <View style={styles.flagWrapper}>
-                                <CountryPicker
-                                    countryCode={countryCode}
-                                    withCallingCode
-                                    withFlagButton={true}
-                                    onClose={() => setIsCountryPickerVisible(false)}
-                                    onSelect={handleOnSelect}
-                                    visible={isCountryPickerVisible}
-                                />
+                        {!otpSupported ?
+                            <View style={{ width: '100%' }}>
+                                <Input placeholder={`Enter Your Email`} />
                             </View>
-                            <AntDesign
-                                name={`down`}
-                                style={styles.downIcon}
-                                size={RFPercentage(2)}
-                            />
-                        </TouchableOpacity>
-                        <View style={styles.phoneNumberInput}>
-                            <Input placeholder={`Mobile phone number`} />
-                        </View>
+                            :
+                            <>
+                                <TouchableOpacity
+                                    onPress={() => setIsCountryPickerVisible(true)}
+                                    style={styles.flagContainer}
+                                >
+                                    <View style={styles.flagWrapper}>
+                                        <CountryPicker
+                                            countryCode={countryCode}
+                                            withCallingCode
+                                            withFlagButton={true}
+                                            onClose={() => setIsCountryPickerVisible(false)}
+                                            onSelect={handleOnSelect}
+                                            visible={isCountryPickerVisible}
+                                        />
+                                    </View>
+                                    <AntDesign
+                                        name={`down`}
+                                        style={styles.downIcon}
+                                        size={RFPercentage(2)}
+                                    />
+                                </TouchableOpacity>
+                                <View style={styles.phoneNumberInput}>
+                                    <Input placeholder={`Mobile phone number`} />
+                                </View>
+                            </>
+                        }
                     </View>
                 </View>
 
-                <View style={styles.logInBtnContainer}>
-                    <Button title={`Next`} primary />
+                <View style={[styles.logInBtnContainer,]}>
+                    {!otpSupported ?
+                        <>
+                            <Button
+                                icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
+                                title={`Continue with google`}
+                                customStyle={[styles.socialButtonContainer,]}
+                                titleStyle={styles.socialText}
+                            />
+                            <Button
+                                icon={<AntDesign name={`apple1`} size={RFPercentage(3)} />}
+                                title={` Continue with Apple`}
+                                customStyle={styles.socialButtonContainer}
+                                titleStyle={styles.socialText}
+                            />
+                            <View style={styles.orContainer}>
+                            </View>
+                        </> :
+                        <View />
+                    }
 
-                    <View style={styles.orContainer}>
-                        <View style={styles.orLine}></View>
-                        <FooterText color={Colors.lightGray} title={' or '} />
-                        <View style={styles.orLine}></View>
-                    </View>
-
-                    <Button
-                        icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
-                        title={`Continue with google`}
-                        customStyle={styles.socialButtonContainer}
-                        titleStyle={styles.socialText}
-                    />
-                    <Button
-                        icon={<AntDesign name={`apple1`} size={RFPercentage(3)} />}
-                        title={` Continue with Apple`}
-                        customStyle={styles.socialButtonContainer}
-                        titleStyle={styles.socialText}
-                    />
+                    <Button callBack={() => {
+                        if (otpSupported) changeRoute(navigation, 'VerifyCode')
+                        else changeRoute(navigation, 'EnterNameAndEmail')
+                    }} title={`Next`} primary />
                 </View>
 
                 <View style={styles.footerContainer}>
                     <View style={styles.footerTextWrapper}>
                         <FooterText color={Colors.fontColor} title={'By signing up, I agree to 247Pro’s '} />
-
                         <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
                             <FooterText color={Colors.primary} title={'Terms & Conditions.'} />
                         </TouchableOpacity>

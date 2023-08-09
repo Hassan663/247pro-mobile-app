@@ -25,7 +25,8 @@ export const styles = StyleSheet.create({
 
     logInBtnContainer: {
         flex: 4,
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between'
+
     },
     footerContainer: {
         flex: 1,
@@ -78,12 +79,6 @@ export const styles = StyleSheet.create({
         marginVertical: RFPercentage(3),
         justifyContent: 'center',
         alignItems: "center"
-    },
-    orLine: {
-        borderTopWidth: .8,
-        marginTop: RFPercentage(.5),
-        borderTopColor: Colors.lightGray,
-        width: RFPercentage(15)
     },
     googleIcon: {
         height: RFPercentage(4.5),
