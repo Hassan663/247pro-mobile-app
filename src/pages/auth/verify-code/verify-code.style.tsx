@@ -14,4 +14,31 @@ export const styles = StyleSheet.create({
         marginVertical: RFPercentage(2)
     },
 
+    root: { flex: 1, padding: 20 },
+    title: { textAlign: 'center', fontSize: 30 },
+    codeFieldRoot: {
+        alignSelf: 'center',
+        width: "80%",
+        height: RFPercentage(15),
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+    },
+    cell: {
+        width: 40,
+        height: 40,
+        lineHeight: 38,
+        fontSize: 24,
+        borderWidth: 1,
+        textAlign: 'center',
+        borderColor: Colors.lightGray ,
+
+        borderRadius:RFPercentage(.5)
+    },
+    focusCell: {
+        borderColor: '#000',
+        // borderColor: Colors.lightGray ,
+
+    },
+
+
 });
