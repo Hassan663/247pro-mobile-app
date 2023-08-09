@@ -41,5 +41,6 @@ export const styles = StyleSheet.create({
 
     mx: {
         marginHorizontal: RFPercentage(1)
-    }
+    },
+    
 });

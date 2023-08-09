@@ -43,86 +43,91 @@ const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
-                <View style={[styles.titleWrapper,]}>
-                    <TouchableOpacity
-                        activeOpacity={.8}
-                        onPress={() => changeRoute(navigation, 'pop')}>
-                        <AntDesign name={`left`} size={RFPercentage(3)} />
-                    </TouchableOpacity>
+        <>
+            <View style={styles.loadingContainer}>
+                <Image source={require('../../../assets/auth-images/loading.png')} />
+            </View>
+            <View style={styles.container}>
+                <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
+                    <View style={[styles.titleWrapper,]}>
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            onPress={() => changeRoute(navigation, 'pop')}>
+                            <AntDesign name={`left`} size={RFPercentage(3)} />
+                        </TouchableOpacity>
 
-                    <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                    <Title
-                        color={Colors.black}
-                        weight='600'
-                        title={t(`completeQuestions`)}
-                        type={`Poppin-18`} />
-                </View>
-                <View style={[styles.inputWrapper,]}>
-                    <OutlinedDropDown
-                        title={t('Industry')}
-                        onselect={(value: string) => { setselectedIndustry(value) }}
-                        DATA={INDUSTRIES}
-                        drop_down_button_style={styles.drop_down_button_style}
-                    />
-                    <OutlinedDropDown
-                        title={t('primarySpecialty')}
-                        onselect={(value: string) => { console.log(value, 'value') }}
-                        DATA={INDUSTRIES}
-                        drop_down_button_style={styles.drop_down_button_style}
-                    />
-                    {selectedIndustry == 'Construction' &&
+                        <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
+                        <Title
+                            color={Colors.black}
+                            weight='600'
+                            title={t(`completeQuestions`)}
+                            type={`Poppin-18`} />
+                    </View>
+                    <View style={[styles.inputWrapper,]}>
                         <OutlinedDropDown
-                            title={t('JobType')}
+                            title={t('Industry')}
+                            onselect={(value: string) => { setselectedIndustry(value) }}
+                            DATA={INDUSTRIES}
+                            drop_down_button_style={styles.drop_down_button_style}
+                        />
+                        <OutlinedDropDown
+                            title={t('primarySpecialty')}
                             onselect={(value: string) => { console.log(value, 'value') }}
                             DATA={INDUSTRIES}
                             drop_down_button_style={styles.drop_down_button_style}
                         />
-                    }
-                    <OutlinedDropDown
-                        title={t('ZipCode')}
-                        onselect={(value: string) => { console.log(value, 'value') }}
-                        DATA={INDUSTRIES}
-                        drop_down_button_style={styles.drop_down_button_style}
-                    />
-                    <View style={styles.inputWrapper2}>
-                        <TouchableOpacity
-                            onPress={() => setIsCountryPickerVisible(true)}
-                            style={styles.flagContainer}
-                        >
-                            <View style={styles.flagWrapper}>
-                                <CountryPicker
-                                    countryCode={countryCode}
-                                    withCallingCode
-                                    withFlagButton={true}
-                                    onClose={() => setIsCountryPickerVisible(false)}
-                                    onSelect={handleOnSelect}
-                                    visible={isCountryPickerVisible}
+                        {selectedIndustry == 'Construction' &&
+                            <OutlinedDropDown
+                                title={t('JobType')}
+                                onselect={(value: string) => { console.log(value, 'value') }}
+                                DATA={INDUSTRIES}
+                                drop_down_button_style={styles.drop_down_button_style}
+                            />
+                        }
+                        <OutlinedDropDown
+                            title={t('ZipCode')}
+                            onselect={(value: string) => { console.log(value, 'value') }}
+                            DATA={INDUSTRIES}
+                            drop_down_button_style={styles.drop_down_button_style}
+                        />
+                        <View style={styles.inputWrapper2}>
+                            <TouchableOpacity
+                                onPress={() => setIsCountryPickerVisible(true)}
+                                style={styles.flagContainer}
+                            >
+                                <View style={styles.flagWrapper}>
+                                    <CountryPicker
+                                        countryCode={countryCode}
+                                        withCallingCode
+                                        withFlagButton={true}
+                                        onClose={() => setIsCountryPickerVisible(false)}
+                                        onSelect={handleOnSelect}
+                                        visible={isCountryPickerVisible}
+                                    />
+                                </View>
+                                <AntDesign
+                                    name={`down`}
+                                    style={styles.downIcon}
+                                    size={RFPercentage(2)}
+                                />
+                            </TouchableOpacity>
+                            <View style={styles.phoneNumberInput}>
+                                <OutlinedTextInput
+                                    val={phoneNumber}
+                                    onChange={(val) => { setphoneNumber(val) }}
+                                    title={t('MobilePhone')}
+                                    placeHolder={t('MobilePhone')}
                                 />
                             </View>
-                            <AntDesign
-                                name={`down`}
-                                style={styles.downIcon}
-                                size={RFPercentage(2)}
-                            />
-                        </TouchableOpacity>
-                        <View style={styles.phoneNumberInput}>
-                            <OutlinedTextInput
-                                val={phoneNumber}
-                                onChange={(val) => { setphoneNumber(val) }}
-                                title={t('MobilePhone')}
-                                placeHolder={t('MobilePhone')}
-                            />
                         </View>
                     </View>
-                </View>
-                <View style={[styles.footer,]}>
-                    <Button title={t('CompleteRegisration')} primary />
-                </View>
+                    <View style={[styles.footer,]}>
+                        <Button title={t('CompleteRegisration')} primary />
+                    </View>
 
-            </ScrollView >
-        </View>
+                </ScrollView >
+            </View>
+        </>
 
     );
 };
