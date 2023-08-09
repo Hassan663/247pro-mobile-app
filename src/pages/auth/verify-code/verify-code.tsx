@@ -7,15 +7,12 @@ import {
     Text,
     Image,
     Dimensions,
-    TouchableOpacity,
     ScrollView
 } from 'react-native';
 
-import Fontisto from 'react-native-vector-icons/Fontisto'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-
 import {
     CodeField,
     Cursor,
@@ -27,7 +24,6 @@ import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './verify-code.style';
-import { changeRoute } from '../../../core/helpers/async-storage';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -36,23 +32,21 @@ const CELL_COUNT = 4;
 
 const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [value, setValue] = useState('');
-
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
-    const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-        value,
-        setValue,
-    });
-
+    const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
 
     return (
 
         <View style={styles.container}>
-            <ScrollView  contentContainerStyle={{height:heightFlex1*9.5}}>
+            <ScrollView contentContainerStyle={{ height: heightFlex1 * 9.5 }}>
                 <AntDesign size={RFPercentage(3)} name={'left'} />
-                <View style={{ flex: 3.5, justifyContent: "flex-end" }}>
-                    <Image style={{ alignSelf: "center", margin: RFPercentage(2), height: '70%', width: "70%" }} resizeMode='contain' source={require('../../../assets/auth-images/Device.png')} />
+                <View style={styles.deviceContainer}>
+                    <Image
+                        style={styles.mobileImg}
+                        resizeMode='contain'
+                        source={require('../../../assets/auth-images/Device.png')} />
                 </View>
-                <View style={{ flex: 6.5, }}>
+                <View style={styles.body}>
                     <Title
                         title={t('Verify_Your_Mobile')}
                         color={Colors.black}

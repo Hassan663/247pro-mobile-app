@@ -14,8 +14,14 @@ export const styles = StyleSheet.create({
         marginVertical: RFPercentage(2)
     },
 
-    root: { flex: 1, padding: 20 },
-    title: { textAlign: 'center', fontSize: 30 },
+    root: {
+        flex: 1,
+        padding: 20
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 30
+    },
     codeFieldRoot: {
         alignSelf: 'center',
         width: "80%",
@@ -30,15 +36,24 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         borderWidth: 1,
         textAlign: 'center',
-        borderColor: Colors.lightGray ,
-
-        borderRadius:RFPercentage(.5)
+        borderColor: Colors.lightGray,
+        borderRadius: RFPercentage(.5)
     },
     focusCell: {
         borderColor: '#000',
-        // borderColor: Colors.lightGray ,
-
     },
-
+    mobileImg: {
+        alignSelf: "center",
+        margin: RFPercentage(2),
+        height: '70%',
+        width: "70%"
+    },
+    deviceContainer: {
+        flex: 3.5,
+        justifyContent: "flex-end"
+    },
+    body: {
+        flex: 6.5,
+    },
 
 });
