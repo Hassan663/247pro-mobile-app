@@ -19,6 +19,7 @@ import {
     ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
+import { changeRoute } from '../../../core/helpers/async-storage';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -58,7 +59,9 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.footer}>
-                    <Button title={t('Next')} primary />
+                    <Button
+                        callBack={() => changeRoute(navigation, 'VerifyBuisness')}
+                        title={t('Next')} primary />
                 </View>
             </View>
         </ScrollView>

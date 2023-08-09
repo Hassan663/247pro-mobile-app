@@ -24,6 +24,7 @@ import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './verify-code.style';
+import { changeRoute } from '../../../core/helpers/async-storage';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -87,7 +88,9 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                         type={`Poppin-14`} />
 
                     <View style={styles.footer}>
-                        <Button title={t('Verify')} primary />
+                        <Button
+                            callBack={() =>changeRoute(navigation,'EnterNameAndEmail')}
+                            title={t('Verify')} primary />
                     </View>
                 </View>
 
