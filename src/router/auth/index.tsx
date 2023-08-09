@@ -12,8 +12,6 @@ import SignIn from '../../pages/auth/sign-in/sign-in.pages';
 import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 import VerifyBuisness from '../../pages/auth/verify-buisness/verify-buisness';
 import BuisnessQuestions from '../../pages/auth/buisness-questions/buisness-questions';
-// import EnterNameAndEmail from '../../pages/auth/enter-name-and-email/enter-name-and-email';
-// import VerifyBuisness from '../../pages/auth/enter-name-and-email/enter-name-and-email';
 
 export type RootStackParamList = {
   Splash: undefined,
@@ -23,7 +21,6 @@ export type RootStackParamList = {
   EnterNameAndEmail: undefined,
   VerifyBuisness: undefined,
   BuisnessQuestions: undefined,
-  // Profile: { name: string }; 
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

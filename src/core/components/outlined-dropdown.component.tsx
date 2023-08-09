@@ -43,7 +43,7 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, DATA
           renderDropdownIcon={() => <AntDesign name={'down'} size={RFPercentage(3)} />}
           buttonStyle={drop_down_button_style}
           buttonTextStyle={{ textAlign: "left" }}
-          dropdownStyle={{ marginTop: RFPercentage(-3) }}
+          dropdownStyle={{ marginTop: RFPercentage(-3) ,borderBottomLeftRadius:10,borderBottomRightRadius:10}}
         />
       </View>
     </View>

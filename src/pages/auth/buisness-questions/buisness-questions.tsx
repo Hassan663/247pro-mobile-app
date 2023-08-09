@@ -72,20 +72,20 @@ const BuisnessQuestions: React.FC<{ navigation: any }> = ({ navigation }) => {
                         DATA={INDUSTRIES}
                         drop_down_button_style={styles.drop_down_button_style}
                     />
-                    <OutlinedDropDown
-                        title={t('JobType')}
-                        onselect={(value: string) => { console.log(value, 'value') }}
-                        DATA={INDUSTRIES}
-                        drop_down_button_style={styles.drop_down_button_style}
-                    />
                     {selectedIndustry == 'Construction' &&
                         <OutlinedDropDown
-                            title={t('ZipCode')}
+                            title={t('JobType')}
                             onselect={(value: string) => { console.log(value, 'value') }}
                             DATA={INDUSTRIES}
                             drop_down_button_style={styles.drop_down_button_style}
                         />
                     }
+                    <OutlinedDropDown
+                        title={t('ZipCode')}
+                        onselect={(value: string) => { console.log(value, 'value') }}
+                        DATA={INDUSTRIES}
+                        drop_down_button_style={styles.drop_down_button_style}
+                    />
                     <View style={styles.inputWrapper2}>
                         <TouchableOpacity
                             onPress={() => setIsCountryPickerVisible(true)}
