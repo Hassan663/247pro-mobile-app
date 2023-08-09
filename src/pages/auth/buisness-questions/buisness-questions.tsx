@@ -31,7 +31,7 @@ const heightFlex1 = windowHeight / 10;
 
 const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const isBuisness = route.params.yesABuisness;
-    // console.log(route.params.yesABuisness, 'route')
+
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [phoneNumber, setphoneNumber] = useState<string>('');
     const [zipCode, setZipCode] = useState<string>('');
@@ -95,7 +95,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
 
                                 <OutlinedTextInput
                                     val={zipCode}
-                                    onChange={(val) => { setphoneNumber(val) }}
+                                    onChange={(val) => { setZipCode(val) }}
                                     title={t('ZipCode')}
                                     placeHolder={t('ZipCode')}
                                 />
@@ -133,7 +133,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                             :
                             <OutlinedTextInput
                                 val={zipCode}
-                                onChange={(val) => { setphoneNumber(val) }}
+                                onChange={(val) => { setZipCode(val) }}
                                 title={t('ZipCode')}
                                 placeHolder={t('ZipCode')}
                             />
