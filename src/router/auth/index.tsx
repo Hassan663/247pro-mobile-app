@@ -37,7 +37,7 @@ const AuthNavigation: React.FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName='ForgetPassword'
+        initialRouteName='Splash'
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="WalkThrough" component={WalkThrough} />

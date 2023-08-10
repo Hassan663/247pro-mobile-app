@@ -10,11 +10,16 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.white
     },
     titleWrapper: {
-        flexDirection: 'row',
-        flex: 2,
-        alignItems: 'flex-end'
+        justifyContent: "flex-end",
+        flex: 3,
     },
-
+    logoStyle: {
+        alignSelf: "center",
+        height: RFPercentage(10),
+        width: RFPercentage(20),
+        resizeMode: 'contain',
+        tintColor: Colors.black
+    },
     inputContainer: {
         flex: 3,
         paddingVertical: RFPercentage(1),
@@ -33,7 +38,7 @@ export const styles = StyleSheet.create({
     inputWrapper: {
         flexDirection: 'row',
         alignItems: "center",
-        marginVertical: RFPercentage(2)
+        marginVertical: RFPercentage(3)
     },
     footerTextWrapper: {
         flexDirection: "row",

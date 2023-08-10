@@ -3,12 +3,13 @@ import React from 'react';
 import {
     View,
     ScrollView,
+    Image,
     TouchableOpacity,
     Dimensions,
 } from 'react-native';
 
 import { t } from 'i18next';
-
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import {
     FooterText,
     ScreenTitle,
@@ -18,6 +19,8 @@ import Colors from '../../../styles/colors';
 import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
 import { styles } from './forget-password.style';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import { changeRoute } from '../../../core/helpers/async-storage';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -27,6 +30,12 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() => changeRoute(navigation, 'pop')}>
+                        <AntDesign name={`left`} size={RFPercentage(3)} />
+                    </TouchableOpacity>
+                    <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
                     <ScreenTitle title={t(`Forget_your_password`)} />
                 </View>
 

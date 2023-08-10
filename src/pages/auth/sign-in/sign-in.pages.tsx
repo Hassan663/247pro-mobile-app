@@ -37,7 +37,7 @@ const SignIn: React.FC = () => {
                 <View style={styles.inputContainer}>
                     <Input placeholder={`Email`} />
                     <Input secureText placeholder={`Password`} />
-                    <Button title={`Forget Password?`} customStyle={styles.customStyle} titleStyle={styles.forgetPassword} />
+                    <Button callBack={() => changeRoute(navigation, 'ForgetPassword')} title={`Forget Password?`} customStyle={styles.customStyle} titleStyle={styles.forgetPassword} />
                 </View>
                 <View style={styles.logInBtnContainer}>
                     <Button title={`Login`} primary />
