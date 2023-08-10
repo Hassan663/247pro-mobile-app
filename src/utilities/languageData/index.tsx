@@ -36,9 +36,15 @@ export const languageData = [
             Email_or_phone: "Email or phone",
             Remember_you_password: "Remember you password?",
             Get_your_code: "Get your code",
-            Verify_Proceed:"Verify & Proceed",
+            Verify_Proceed: "Verify & Proceed",
             Code_has_been_sent_to_your_phone_number: 'Code has been sent to your phone number.',
             Code_has_been_sent_to_your_EmailAddress: 'Code has been sent to your email address.',
+            Set_your_password: "Set your password.",
+
+            newPassMsg: `Your new password must be different from your previous password used`,
+            New_password: "New password",
+            Confirm_password: "Confirm password",
+            Continue: "Continue",
         }
     },
     {
@@ -78,8 +84,14 @@ export const languageData = [
             logintText: "登录",
             Get_your_code: "获取您的代码",
             Code_has_been_sent_to_your_phone_number: '代码已发送至您的电话号码',
-            Verify_Proceed:"验证并继续",
+            Verify_Proceed: "验证并继续",
             Code_has_been_sent_to_your_EmailAddress: '代码已发送至您的电子邮件地址。',
+            Set_your_password: "设置你的密码。",
+            newPassMsg: `您的新密码必须与之前使用的密码不同。`,
+            New_password: "新密码",
+            Confirm_password: "确认密码",
+            Continue: "继续",
+
 
         }
     },
@@ -118,8 +130,14 @@ export const languageData = [
             logintText: "Acceso",
             Get_your_code: "Consigue tu código",
             Code_has_been_sent_to_your_phone_number: 'El código ha sido enviado a su número de teléfono',
-            Verify_Proceed:"Verificar y continuar",
+            Verify_Proceed: "Verificar y continuar",
             Code_has_been_sent_to_your_EmailAddress: 'El código ha sido enviado a su dirección de correo electrónico.',
+            newPassMsg: `Su nueva contraseña debe ser diferente de su contraseña anterior utilizada.`,
+            Set_your_password: "Establece tu contraseña.",
+            New_password: "Nueva contraseña",
+            Confirm_password: "Confirmar Contraseña",
+            Continue: "Continuar",
+
 
         }
     }

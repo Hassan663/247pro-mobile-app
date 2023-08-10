@@ -15,6 +15,7 @@ import BuisnessQuestions from '../../pages/auth/buisness-questions/buisness-ques
 import VerifyCode from '../../pages/auth/verify-code/verify-code';
 import ForgetPassword from '../../pages/auth/forget-password/forget-password.pages';
 import ForgetVerifyCode from '../../pages/auth/forget-verify-code/forget-verify-code';
+import SetNewPassword from '../../pages/auth/set-new-password/set-new-password';
 
 export type RootStackParamList = {
   Splash: undefined,
@@ -27,6 +28,7 @@ export type RootStackParamList = {
   VerifyCode: undefined,
   ForgetVerifyCode: undefined,
   ForgetPassword: undefined,
+  SetNewPassword: undefined,
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -39,7 +41,7 @@ const AuthNavigation: React.FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName='ForgetVerifyCode'
+        initialRouteName='Splash'
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="WalkThrough" component={WalkThrough} />
@@ -49,6 +51,7 @@ const AuthNavigation: React.FC = () => {
         <Stack.Screen name="EnterNameAndEmail" component={EnterNameAndEmail} />
         <Stack.Screen name="VerifyBuisness" component={VerifyBuisness} />
         <Stack.Screen name="VerifyCode" component={VerifyCode} />
+        <Stack.Screen name="SetNewPassword" component={SetNewPassword} />
         <Stack.Screen name="ForgetVerifyCode" component={ForgetVerifyCode} />
         <Stack.Screen name="BuisnessQuestions" component={BuisnessQuestions} />
       </Stack.Navigator>

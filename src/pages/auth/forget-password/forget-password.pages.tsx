@@ -55,7 +55,7 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                 <View style={[styles.logInBtnContainer,]}>
                     <View />
-                    <Button title={t(`Reset_Password`)} primary />
+                    <Button callBack={()=>changeRoute(navigation,'ForgetVerifyCode')} title={t(`Reset_Password`)} primary />
                 </View>
 
                 <View style={styles.footerContainer}>

@@ -32,29 +32,8 @@ export const styles = StyleSheet.create({
 
     },
     inputWrapper: {
-        flexDirection: 'row',
-        alignItems: "center",
-        marginVertical: RFPercentage(3)
-    },
-    cell: {
-        width: 40,
-        height: 40,
-        lineHeight: 38,
-        fontSize: 24,
-        borderWidth: 1,
-        textAlign: 'center',
-        borderColor: Colors.lightGray,
-        borderRadius: RFPercentage(.5)
-    },
-    focusCell: {
-        borderColor: '#000',
-    },
-    codeFieldRoot: {
-        width: "80%",
-        marginLeft: '10%',
-        height: RFPercentage(15),
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
+        width: '100%',
+        marginVertical: RFPercentage(2)
     },
 
 

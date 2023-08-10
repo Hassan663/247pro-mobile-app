@@ -45,6 +45,7 @@ const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
                     <TouchableOpacity
+                        style={{ marginTop: RFPercentage(3) }}
                         activeOpacity={0.8}
                         onPress={() => changeRoute(navigation, 'pop')}>
                         <AntDesign name={`left`} size={RFPercentage(3)} />
@@ -108,7 +109,7 @@ const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                 <View style={[styles.logInBtnContainer,]}>
                     <View />
-                    <Button title={t(`Verify_Proceed`)} primary />
+                    <Button callBack={()=>changeRoute(navigation,'SetNewPassword')} title={t(`Verify_Proceed`)} primary />
                 </View>
 
             </View>
