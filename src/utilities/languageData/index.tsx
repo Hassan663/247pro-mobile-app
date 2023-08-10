@@ -13,6 +13,7 @@ export const languageData = [
             Next: "Next",
             Password: "Password",
             Login: `Login Your Account`,
+            logintText:"Login",
             verifyBuisnessHeader: 'Help us to improve your experience by answering a few questions',
             Are_you_a_business: 'Are you a business?',
             yes: 'Yes',
@@ -29,6 +30,11 @@ export const languageData = [
             resentText: "If you didn’t receive the code. Please click the button below.",
             enter_Code_Text: 'Enter 4 digit code sent to your mobile +1 (234) 567 8900.',
             Verify_Your_Mobile: "Verify Your Mobile",
+            Forget_your_password: "Forget your password?",
+            resetInfoMsg:"To reset your password please provide the information below.",
+            Reset_Password:"Reset Password",
+            Email_or_phone:"Email or phone",
+            Remember_you_password :"Remember you password?",
         }
     },
     {
@@ -59,6 +65,13 @@ export const languageData = [
             enter_Code_Text: '输入发送至您手机 +1 (234) 567 8900 的 4 位数代码。',
 
             Verify_Your_Mobile: "验证您的手机",
+            Forget_your_password: "忘记密码？",
+            resetInfoMsg:"要重置您的密码，请提供以下信息。",
+            Reset_Password:"重设密码",
+            Email_or_phone:"邮件或者电话",
+
+            Remember_you_password :"还记得你的密码吗？",
+            logintText:"登录",
 
         }
     },
@@ -89,7 +102,12 @@ export const languageData = [
             resentText: "Si no recibiste el código. Por favor, haga clic en el botón de abajo.",
             enter_Code_Text: 'Ingresa el código de 4 dígitos enviado a tu móvil +1 (234) 567 8900.',
             Verify_Your_Mobile: "Verifica tu móvil",
-
+            Forget_your_password: "¿Olvidaste tu contraseña?",
+            resetInfoMsg:"Para restablecer su contraseña, proporcione la información a continuación.",
+            Reset_Password:"Restablecer la contraseña",
+            Email_or_phone:"Email o teléfono",
+            Remember_you_password :"¿Recuerdas tu contraseña?",
+            logintText:"Acceso",
 
 
         }
