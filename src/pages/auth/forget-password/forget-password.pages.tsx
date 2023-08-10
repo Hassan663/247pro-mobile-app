@@ -10,17 +10,18 @@ import {
 
 import { t } from 'i18next';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import {
-    FooterText,
-    ScreenTitle,
-    Title,
-} from '../../../core/components/screen-title.component';
+
 import Colors from '../../../styles/colors';
 import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
 import { styles } from './forget-password.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { changeRoute } from '../../../core/helpers/async-storage';
+import {
+    FooterText,
+    ScreenTitle,
+    Title,
+} from '../../../core/components/screen-title.component';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -55,7 +56,7 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                 <View style={[styles.logInBtnContainer,]}>
                     <View />
-                    <Button callBack={()=>changeRoute(navigation,'ForgetVerifyCode')} title={t(`Reset_Password`)} primary />
+                    <Button callBack={() => changeRoute(navigation, 'ForgetVerifyCode')} title={t(`Reset_Password`)} primary />
                 </View>
 
                 <View style={styles.footerContainer}>

@@ -109,7 +109,7 @@ const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                 <View style={[styles.logInBtnContainer,]}>
                     <View />
-                    <Button callBack={()=>changeRoute(navigation,'SetNewPassword')} title={t(`Verify_Proceed`)} primary />
+                    <Button callBack={() => changeRoute(navigation, 'SetNewPassword')} title={t(`Verify_Proceed`)} primary />
                 </View>
 
             </View>
