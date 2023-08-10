@@ -13,7 +13,7 @@ export const languageData = [
             Next: "Next",
             Password: "Password",
             Login: `Login Your Account`,
-            logintText:"Login",
+            logintText: "Login",
             verifyBuisnessHeader: 'Help us to improve your experience by answering a few questions',
             Are_you_a_business: 'Are you a business?',
             yes: 'Yes',
@@ -31,10 +31,14 @@ export const languageData = [
             enter_Code_Text: 'Enter 4 digit code sent to your mobile +1 (234) 567 8900.',
             Verify_Your_Mobile: "Verify Your Mobile",
             Forget_your_password: "Forget your password?",
-            resetInfoMsg:"To reset your password please provide the information below.",
-            Reset_Password:"Reset Password",
-            Email_or_phone:"Email or phone",
-            Remember_you_password :"Remember you password?",
+            resetInfoMsg: "To reset your password please provide the information below.",
+            Reset_Password: "Reset Password",
+            Email_or_phone: "Email or phone",
+            Remember_you_password: "Remember you password?",
+            Get_your_code: "Get your code",
+            Verify_Proceed:"Verify & Proceed",
+            Code_has_been_sent_to_your_phone_number: 'Code has been sent to your phone number.',
+            Code_has_been_sent_to_your_EmailAddress: 'Code has been sent to your email address.',
         }
     },
     {
@@ -66,12 +70,16 @@ export const languageData = [
 
             Verify_Your_Mobile: "验证您的手机",
             Forget_your_password: "忘记密码？",
-            resetInfoMsg:"要重置您的密码，请提供以下信息。",
-            Reset_Password:"重设密码",
-            Email_or_phone:"邮件或者电话",
+            resetInfoMsg: "要重置您的密码，请提供以下信息。",
+            Reset_Password: "重设密码",
+            Email_or_phone: "邮件或者电话",
 
-            Remember_you_password :"还记得你的密码吗？",
-            logintText:"登录",
+            Remember_you_password: "还记得你的密码吗？",
+            logintText: "登录",
+            Get_your_code: "获取您的代码",
+            Code_has_been_sent_to_your_phone_number: '代码已发送至您的电话号码',
+            Verify_Proceed:"验证并继续",
+            Code_has_been_sent_to_your_EmailAddress: '代码已发送至您的电子邮件地址。',
 
         }
     },
@@ -103,12 +111,15 @@ export const languageData = [
             enter_Code_Text: 'Ingresa el código de 4 dígitos enviado a tu móvil +1 (234) 567 8900.',
             Verify_Your_Mobile: "Verifica tu móvil",
             Forget_your_password: "¿Olvidaste tu contraseña?",
-            resetInfoMsg:"Para restablecer su contraseña, proporcione la información a continuación.",
-            Reset_Password:"Restablecer la contraseña",
-            Email_or_phone:"Email o teléfono",
-            Remember_you_password :"¿Recuerdas tu contraseña?",
-            logintText:"Acceso",
-
+            resetInfoMsg: "Para restablecer su contraseña, proporcione la información a continuación.",
+            Reset_Password: "Restablecer la contraseña",
+            Email_or_phone: "Email o teléfono",
+            Remember_you_password: "¿Recuerdas tu contraseña?",
+            logintText: "Acceso",
+            Get_your_code: "Consigue tu código",
+            Code_has_been_sent_to_your_phone_number: 'El código ha sido enviado a su número de teléfono',
+            Verify_Proceed:"Verificar y continuar",
+            Code_has_been_sent_to_your_EmailAddress: 'El código ha sido enviado a su dirección de correo electrónico.',
 
         }
     }
