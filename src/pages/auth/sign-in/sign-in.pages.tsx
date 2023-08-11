@@ -26,9 +26,7 @@ import Button from '../../../core/components/button.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { RootStackParamList } from '../../../router/auth';
 import { t } from 'i18next';
-
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10
+import { centralStyle, heightFlex1, } from '../../../styles/constant.style';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -39,7 +37,7 @@ const SignIn: React.FC = () => {
 
     return (
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10, }}>
-            <View style={styles.container}>
+            <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <View style={styles.titleContainer}>
                         <ScreenTitle widthAuto title={t('Welcome_To')} />

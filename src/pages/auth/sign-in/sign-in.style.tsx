@@ -1,37 +1,31 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
-
+import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        paddingHorizontal: RFPercentage(2.5),
-        backgroundColor: Colors.white
-    },
-
     titleWrapper: {
         flexDirection: 'row',
         flex: 2,
-        alignItems: 'flex-end',
+        ...centralStyle.alignitemEnd
+        // alignItems: centralPosition.flexEnd
     },
 
     inputContainer: {
         flex: 3,
-        justifyContent: "center"
+        justifyContent: centralPosition.center
     },
 
     logInBtnContainer: {
         flex: 4,
-        justifyContent: 'flex-end'
+        justifyContent: centralPosition.flexEnd
+
     },
 
     footerContainer: {
         flex: 1,
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: 'center'
+        ...centralStyle.XAndYCenter
     },
 
     forgetPassword: {
