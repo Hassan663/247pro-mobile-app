@@ -81,7 +81,7 @@ const SignIn: React.FC = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={[styles.logInBtnContainer, {}]}>
+                <View style={styles.logInBtnContainer}>
                     <Button title={t('logintText')} primary />
                     <View style={styles.orContainer}>
                         <View style={styles.line} />
@@ -94,13 +94,13 @@ const SignIn: React.FC = () => {
                     <Button
                         icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
                         title={t('Continue_with_google')}
-                        customStyle={[styles.socialButtonContainer,]}
+                        customStyle={[centralStyle.socialButtonContainer,]}
                         titleStyle={styles.socialText}
                     />
                     <Button
                         icon={<AntDesign name={`apple1`} size={RFPercentage(3)} />}
                         title={" " + t('Continue_with_Apple')}
-                        customStyle={styles.socialButtonContainer}
+                        customStyle={centralStyle.socialButtonContainer}
                         titleStyle={styles.socialText}
                     />
                 </View>

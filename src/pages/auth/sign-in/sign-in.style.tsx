@@ -33,11 +33,6 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         color: Colors.lightGray
     },
-
-    customStyle: {
-        width: RFPercentage(15),
-        alignSelf: "flex-end",
-    },
     titleContainer: {
         width: '80%'
     },
@@ -45,18 +40,8 @@ export const styles = StyleSheet.create({
         marginRight: RFPercentage(.5)
     },
     row: {
-        flexDirection: 'row',
-    },
-    socialButtonContainer: {
-        height: 48,
-        width: "100%",
-        flexDirection: "row",
-        marginVertical: RFPercentage(1.5),
-        borderWidth: 1,
-        borderRadius: RFPercentage(1),
-        borderColor: Colors.lightGray,
-        justifyContent: "center",
-        alignItems: 'center'
+        ...centralStyle.alignitemCenter,
+        ...centralStyle.row
     },
     socialText: {
         fontSize: RFPercentage(2),
@@ -68,10 +53,9 @@ export const styles = StyleSheet.create({
         width: RFPercentage(4.5)
     },
     orContainer: {
-        flexDirection: "row",
         marginVertical: RFPercentage(2),
-        justifyContent: "center",
-        alignItems: "center"
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter
     },
     line: {
         height: 1,
@@ -80,9 +64,8 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.fontColor
     },
     checkBoxWrapper: {
-        flexDirection: 'row',
-        justifyContent: "space-between",
+        justifyContent: centralPosition.spacebetween,
         paddingVertical: RFPercentage(1),
-        alignItems: 'center'
+        ...centralStyle.row,
     },
 });

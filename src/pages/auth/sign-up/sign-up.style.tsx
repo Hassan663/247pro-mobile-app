@@ -47,17 +47,6 @@ export const styles = StyleSheet.create({
     phoneNumberInput: {
         width: "85%"
     },
-    socialButtonContainer: {
-        height: 48,
-        width: "100%",
-        flexDirection: "row",
-        marginVertical: RFPercentage(1.5),
-        borderWidth: 1,
-        borderRadius: RFPercentage(1),
-        borderColor: Colors.lightGray,
-        justifyContent: "center",
-        alignItems: 'center'
-    },
     socialText: {
         fontSize: RFPercentage(2),
         letterSpacing: RFPercentage(.2),
