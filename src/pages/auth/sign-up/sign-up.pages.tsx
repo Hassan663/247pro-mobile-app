@@ -29,10 +29,7 @@ import { appLanguages } from '../../../utilities/languageData';
 import i18n from '../../../i18n';
 import { useSelector } from 'react-redux';
 import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
-
-// const windowHeight = Dimensions.get('window').height;
-// const heightFlex1 = windowHeight / 10;
-
+ 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [flag, setflag] = useState<boolean>(false);

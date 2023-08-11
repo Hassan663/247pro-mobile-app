@@ -25,10 +25,8 @@ import Button from '../../../core/components/button.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './verify-code.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
-
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10;
-
+import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
+ 
 const CELL_COUNT = 4;
 
 const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -38,7 +36,7 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     return (
 
-        <View style={styles.container}>
+        <View style={centralStyle.container}>
             <ScrollView contentContainerStyle={{ height: heightFlex1 * 9.5 }}>
                 <AntDesign size={RFPercentage(3)} name={'left'} />
                 <View style={styles.deviceContainer}>

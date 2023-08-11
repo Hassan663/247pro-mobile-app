@@ -1,24 +1,20 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
+import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: RFPercentage(2.5),
-        backgroundColor: Colors.white
-    },
     titleWrapper: {
-        justifyContent: "flex-end",
         flex: 3,
+        ...centralStyle.justifyContentEnd
     },
     logoStyle: {
-        alignSelf: "center",
         height: RFPercentage(10),
         width: RFPercentage(20),
         resizeMode: 'contain',
-        tintColor: Colors.black
+        tintColor: Colors.black,
+        ...centralStyle.selfCenter
     },
     inputContainer: {
         flex: 3,
@@ -27,23 +23,21 @@ export const styles = StyleSheet.create({
 
     logInBtnContainer: {
         flex: 4,
-        justifyContent: 'space-between'
+        justifyContent: centralPosition.spacebetween
 
     },
     footerContainer: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: 'center'
+        ...centralStyle.XAndYCenter
     },
     inputWrapper: {
-        flexDirection: 'row',
-        alignItems: "center",
+        ...centralStyle.row,
+        ...centralStyle.alignitemCenter,
         marginVertical: RFPercentage(3)
     },
     footerTextWrapper: {
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: 'center'
+        ...centralStyle.XAndYCenter
     },
 
 });

@@ -22,14 +22,12 @@ import {
     ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
-
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10;
+import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
-            <View style={styles.container}>
+            <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <TouchableOpacity
                         activeOpacity={0.8}

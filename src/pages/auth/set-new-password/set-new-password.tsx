@@ -16,18 +16,16 @@ import Button from '../../../core/components/button.component';
 import Input from '../../../core/components/input.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { styles } from './set-new-password.style';
+import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 import {
     ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
 
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10;
-
 const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
-            <View style={styles.container}>
+            <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <TouchableOpacity
                         style={{ marginTop: RFPercentage(3) }}

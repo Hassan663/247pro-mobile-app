@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
+import { centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
     container: {
@@ -18,11 +19,11 @@ export const styles = StyleSheet.create({
         marginTop: '10%',
         width: '100%',
         position: 'absolute',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        alignItems: 'center'
+        ...centralStyle.XAndYCenter,
+        ...centralStyle.selfCenter
+
     },
     customStyle: {
-        alignSelf: "flex-end"
+        ...centralStyle.selfEnd
     }
 });

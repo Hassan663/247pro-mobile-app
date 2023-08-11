@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
+import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles: any = StyleSheet.create({
     wrapper: {},
@@ -11,13 +12,13 @@ export const styles: any = StyleSheet.create({
     },
     imgWrapper: {
         flex: 3.5,
-        alignItems: 'center',
-        padding: RFPercentage(1.5)
+        padding: RFPercentage(1.5),
+        ...centralStyle.alignitemCenter
     },
     WalkThroughTitle: {
         color: Colors.white,
         fontSize: RFPercentage(2.8),
-        textAlign: 'center',
+        textAlign: centralPosition.center,
         width: '75%'
     },
     slidesLogo: {
@@ -28,27 +29,29 @@ export const styles: any = StyleSheet.create({
         height: RFPercentage(5),
         padding: RFPercentage(2),
         alignItems: 'center',
-        justifyContent: 'space-between',
-        flexDirection: "row",
+        justifyContent: centralPosition.spacebetween,
         width: '100%',
         flex: 1,
+        ...centralStyle.row,
     },
-    pagination: (isSelected) => ({
+    pagination: (isSelected: boolean): any => ({
         height: RFPercentage(1),
-        marginHorizontal: RFPercentage(.5),
-        borderRadius: RFPercentage(.5),
+        marginHorizontal: RFPercentage(0.5),
+        borderRadius: RFPercentage(0.5),
         width: isSelected ? RFPercentage(4) : RFPercentage(1),
-        backgroundColor: isSelected ? Colors.white : 'rgba(0,0,0,0.3)',
+        backgroundColor: isSelected ? 'white' : 'rgba(0,0,0,0.3)',
     }),
-    paginationWrapper: { flexDirection: "row" },
+
+    paginationWrapper: {
+        ...centralStyle.row,
+    },
     image: {
         height: "100%",
         width: '100%'
     },
     slide: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        ...centralStyle.XAndYCenter,
         backgroundColor: '#fff',
     },
     text: {
@@ -58,6 +61,7 @@ export const styles: any = StyleSheet.create({
     },
     skipBtnWrapper: {
         flex: 6.5,
-        alignItems: 'flex-end'
+        ...centralStyle.alignitemEnd,
+
     },
 });

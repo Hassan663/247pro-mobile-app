@@ -20,18 +20,16 @@ import CountryPicker, {
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
-import OutlinedTextInput from '../../../core/components/outlined-TextInput.component';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { INDUSTRIES } from './data';
 import { useSelector } from 'react-redux';
-
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10;
+import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 
 const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    const isBuisness = route.params.yesABuisness;
+    const isBuisness = route?.params?.yesABuisness;
 
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [phoneNumber, setphoneNumber] = useState<string>('');
@@ -55,7 +53,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                     style={styles.loadingContainer}>
                     <Image source={require('../../../assets/auth-images/loading.png')} />
                 </TouchableOpacity>}
-            <View style={styles.container}>
+            <View style={centralStyle.container}>
                 <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
                     <View style={[styles.titleWrapper,]}>
                         <TouchableOpacity

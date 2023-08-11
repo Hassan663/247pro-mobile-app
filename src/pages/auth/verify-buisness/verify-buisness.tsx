@@ -18,13 +18,14 @@ import Button from '../../../core/components/button.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './verify-buisness.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
+import { centralStyle } from '../../../styles/constant.style';
 
 const VerifyBuisness: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     const [isCheck, setIsCheck] = useState(false)
 
     return (
-        <View style={styles.container}>
+        <View style={centralStyle.container}>
             <View style={styles.titleWrapper}>
                 <TouchableOpacity
                     activeOpacity={.8}

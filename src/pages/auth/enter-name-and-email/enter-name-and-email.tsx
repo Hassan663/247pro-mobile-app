@@ -20,11 +20,8 @@ import {
     ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
-import { centralStyle } from '../../../styles/constant.style';
-
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10;
-
+import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
+ 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')

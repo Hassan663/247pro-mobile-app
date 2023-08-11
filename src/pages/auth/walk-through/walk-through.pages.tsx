@@ -22,6 +22,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
+interface PaginationProps {
+    isSelected: boolean;
+}
 const WalkThrough: React.FC = () => {
     const navigation = useNavigation<Navigation>();
     const swiperRef = useRef(null);
@@ -35,7 +38,7 @@ const WalkThrough: React.FC = () => {
             showsPagination={false}
             autoplayDirection={true}
             autoplayTimeout={3} // Adjust the autoplay timeout as per your preference
-            // duration={1000} 
+        // duration={1000} 
         >
             {SLIDESDATA.map((item, index) => {
                 return (
@@ -51,7 +54,7 @@ const WalkThrough: React.FC = () => {
                                     <Button
                                         title={`Skip`}
                                         titleStyle={styles.titleStyle}
-                                        callBack={() => changeSlide(swiperRef,navigation)}
+                                        callBack={() => changeSlide(swiperRef, navigation)}
                                     />
                                 }
                             </View>
@@ -80,7 +83,7 @@ const WalkThrough: React.FC = () => {
 
                                     </View>
 
-                                    <TouchableOpacity onPress={() => changeSlide(swiperRef,navigation)}>
+                                    <TouchableOpacity onPress={() => changeSlide(swiperRef, navigation)}>
                                         <Image
                                             resizeMode='contain'
                                             source={item.nextIcon}
