@@ -25,6 +25,7 @@ import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { RootStackParamList } from '../../../router/auth';
+import { t } from 'i18next';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10
@@ -41,14 +42,14 @@ const SignIn: React.FC = () => {
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
                     <View style={styles.titleContainer}>
-                        <ScreenTitle widthAuto title={'Welcome to'} />
+                        <ScreenTitle widthAuto title={t('Welcome_To')} />
                         <ScreenTitle color={Colors.primary} title={'247PRO'} />
                     </View>
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <Input placeholder={`Email`} />
-                    <Input secureText placeholder={`Password`} />
+                    <Input placeholder={t('Phone_or_email')} />
+                    <Input secureText placeholder={t('Password')} />
                     <View style={styles.checkBoxWrapper}>
                         <TouchableOpacity
                             activeOpacity={.8}
@@ -69,7 +70,7 @@ const SignIn: React.FC = () => {
                             <Title
                                 type={'Poppin-14'}
                                 color={Colors.fontColor}
-                                title={'Remember me'} />
+                                title={t('Remember_me')} />
 
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -78,37 +79,37 @@ const SignIn: React.FC = () => {
                             <Title
                                 type={'Poppin-14'}
                                 color={Colors.primary}
-                                title={'Forget Password'} />
+                                title={t('Forget_Password')} />
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View style={[styles.logInBtnContainer, {}]}>
-                    <Button title={`Login`} primary />
+                    <Button title={t('logintText')} primary />
                     <View style={styles.orContainer}>
                         <View style={styles.line} />
                         <Title
                             type={'Poppin-14'}
                             color={Colors.lightGray}
-                            title={'or'} />
+                            title={t('or')} />
                         <View style={styles.line} />
                     </View>
                     <Button
                         icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
-                        title={`Continue with google`}
+                        title={t('Continue_with_google')}
                         customStyle={[styles.socialButtonContainer,]}
                         titleStyle={styles.socialText}
                     />
                     <Button
                         icon={<AntDesign name={`apple1`} size={RFPercentage(3)} />}
-                        title={` Continue with Apple`}
+                        title={" " + t('Continue_with_Apple')}
                         customStyle={styles.socialButtonContainer}
                         titleStyle={styles.socialText}
                     />
                 </View>
                 <View style={styles.footerContainer}>
-                    <FooterText title={'New here? '} />
+                    <FooterText title={t('New_here') + " "} />
                     <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
-                        <FooterText color={Colors.primary} title={'Create an free account '} />
+                        <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
                     </TouchableOpacity>
                 </View>
             </View >

@@ -7,6 +7,7 @@ export const languageData = [
         translation: {
             Create_Your_Free_Account: `Create Your Free Account`,
             Welcome_to_247PRO: "Welcome to 247PRO",
+            Welcome_To: "Welcome to",
             Please_provide_your_login_information: "Please provide your login information",
             Full_name: "Full name",
             Email: "Email",
@@ -45,6 +46,14 @@ export const languageData = [
             New_password: "New password",
             Confirm_password: "Confirm password",
             Continue: "Continue",
+            Phone_or_email: "Phone or email",
+            Forget_Password: 'Forget Password',
+            Remember_me: "Remember me",
+            Continue_with_google: "Continue with google",
+            Continue_with_Apple: "Continue with Apple",
+            New_here: "New here? ",
+            Create_an_free_account: "Create an free account ",
+            or: "or",
         }
     },
     {
@@ -91,6 +100,17 @@ export const languageData = [
             New_password: "新密码",
             Confirm_password: "确认密码",
             Continue: "继续",
+            Phone_or_email: "电话还是邮件",
+
+            Welcome_To: "欢迎来到",
+            Forget_Password: '忘记密码',
+            Remember_me: "记住账号",
+            Continue_with_google: "继续使用谷歌",
+            Continue_with_Apple: "继续使用苹果",
+
+            New_here: "新来的？",
+            Create_an_free_account: "创建一个免费帐户",
+            or: "或者",
 
 
         }
@@ -137,8 +157,16 @@ export const languageData = [
             New_password: "Nueva contraseña",
             Confirm_password: "Confirmar Contraseña",
             Continue: "Continuar",
+            Phone_or_email: "Teléfono o correo electrónico",
+            Welcome_To: "Bienvenida a",
+            Forget_Password: 'Contraseña olvidada',
 
-
+            Remember_me: "Acuérdate de mí",
+            Continue_with_google: "continuar con google",
+            Continue_with_Apple: "Continuar con Apple",
+            Create_an_free_account: "Crea una cuenta gratis",
+            New_here: "Nueva aquí?",
+            or: "o",
         }
     }
 ];
