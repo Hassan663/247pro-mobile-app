@@ -1,17 +1,18 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
+import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
     logoStyle: {
-        alignSelf: "center",
+        alignSelf: centralPosition.center,
         height: RFPercentage(10),
         width: RFPercentage(22),
         resizeMode: 'contain',
         tintColor: Colors.black
     },
     titleWrapper: {
-        justifyContent: "center",
+        justifyContent: centralPosition.center,
         flex: 3,
     },
     inputWrapper: {
@@ -19,11 +20,11 @@ export const styles = StyleSheet.create({
     },
     footer: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: centralPosition.flexEnd,
         marginVertical: RFPercentage(2)
     },
     row: {
-        flexDirection: 'row',
+        ...centralStyle.row,
     },
     radioWrapper: {
         flex: 1,
@@ -41,16 +42,15 @@ export const styles = StyleSheet.create({
         borderWidth: 1
     },
     inputWrapper2: {
-        flexDirection: 'row',
-        alignItems: "center",
-        marginVertical: RFPercentage(1)
+        alignItems: centralPosition.center,
+        marginVertical: RFPercentage(1),
+        ...centralStyle.row,
     },
     flagContainer: {
         width: '15%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: "center",
-        height: 40
+        height: 40,
+        ...centralStyle.XAndYCenter,
+        ...centralStyle.row,
     },
     phoneNumberInput: {
         width: "85%"
@@ -64,12 +64,11 @@ export const styles = StyleSheet.create({
     },
     loadingContainer: {
         height: '100%',
-        justifyContent:"center",
-        alignItems:'center',
         width: '100%',
         position: 'absolute',
         zIndex: 20,
-        backgroundColor: 'rgba(225,225,225,0.8)'
+        backgroundColor: 'rgba(225,225,225,0.8)',
+        ...centralStyle.XAndYCenter,
     }
 
 });

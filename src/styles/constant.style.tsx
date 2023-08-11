@@ -11,12 +11,14 @@ type CentralPosition = {
     left: any,
     right: any,
     spacebetween: any,
+    spaceEvenly: any,
 };
 
 export const centralPosition: CentralPosition = {
     flexStart: "flex-start",
     center: 'center',
     spacebetween: "space-between",
+    spaceEvenly: "space-evenly",
     flexEnd: "flex-end",
     left: "left",
     right: "right",

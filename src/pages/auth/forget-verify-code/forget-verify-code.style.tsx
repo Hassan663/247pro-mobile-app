@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
+import { centralPosition } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
     titleWrapper: {
-        justifyContent: 'space-between',
+        justifyContent: centralPosition.spacebetween,
         flex: 3,
     },
     logoStyle: {
-        alignSelf: "center",
+        alignSelf: centralPosition.center,
         height: RFPercentage(10),
         width: RFPercentage(20),
         resizeMode: 'contain',
@@ -27,7 +28,7 @@ export const styles = StyleSheet.create({
     },
     inputWrapper: {
         flexDirection: 'row',
-        alignItems: "center",
+        alignItems: centralPosition.center,
         marginVertical: RFPercentage(3)
     },
     cell: {
@@ -36,7 +37,7 @@ export const styles = StyleSheet.create({
         lineHeight: 38,
         fontSize: 24,
         borderWidth: 1,
-        textAlign: 'center',
+        textAlign: centralPosition.center,
         borderColor: Colors.lightGray,
         borderRadius: RFPercentage(.5)
     },
@@ -47,8 +48,8 @@ export const styles = StyleSheet.create({
         width: "80%",
         marginLeft: '10%',
         height: RFPercentage(15),
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
+        alignItems: centralPosition.center,
+        justifyContent: centralPosition.spaceEvenly,
     },
 
 
