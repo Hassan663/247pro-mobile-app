@@ -82,12 +82,12 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <ScreenSubTitle title={`What’s your mobile phone number?`} />
+                    <ScreenSubTitle title={t('Whats_your_mobile_number')} />
 
                     <View style={styles.inputWrapper}>
                         {!otpSupported ?
                             <View style={{ width: '100%' }}>
-                                <Input placeholder={`Enter Your Email`} />
+                                <Input placeholder={t('Enter_Your_Email')} />
                             </View>
                             :
                             <>
@@ -112,7 +112,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     />
                                 </TouchableOpacity>
                                 <View style={styles.phoneNumberInput}>
-                                    <Input placeholder={`Mobile phone number`} />
+                                    <Input placeholder={t(`Mobile_phone_number`)} />
                                 </View>
                             </>
                         }
@@ -140,24 +140,27 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <View />
                     }
 
-                    <Button callBack={() => {
-                        if (otpSupported) changeRoute(navigation, 'VerifyCode')
-                        else changeRoute(navigation, 'EnterNameAndEmail')
-                    }} title={`Next`} primary />
+                    <Button
+                        callBack={() => {
+                            if (otpSupported) changeRoute(navigation, 'VerifyCode')
+                            else changeRoute(navigation, 'EnterNameAndEmail')
+                        }}
+                        title={t(`Next`)}
+                        primary />
                 </View>
 
                 <View style={styles.footerContainer}>
                     <View style={styles.footerTextWrapper}>
-                        <FooterText color={Colors.fontColor} title={'By signing up, I agree to 247Pro’s '} />
+                        <FooterText color={Colors.fontColor} title={t('AgreeTo') + ' '} />
                         <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
-                            <FooterText color={Colors.primary} title={'Terms & Conditions.'} />
+                            <FooterText color={Colors.primary} title={t('TermsAndConditions')} />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.footerTextWrapper}>
-                        <FooterText color={Colors.fontColor} title={'Already have an account? '} />
+                        <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />
 
                         <TouchableOpacity onPress={() => changeRoute(navigation, 'SignIn')} activeOpacity={0.8}>
-                            <FooterText color={Colors.primary} title={'Login '} />
+                            <FooterText color={Colors.primary} title={t('logintText')+" " } />
                         </TouchableOpacity>
                     </View>
                 </View>

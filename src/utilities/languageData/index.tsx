@@ -54,6 +54,13 @@ export const languageData = [
             New_here: "New here? ",
             Create_an_free_account: "Create an free account ",
             or: "or",
+            Whats_your_mobile_number: "What’s your mobile number?",
+            Enter_Your_Email: "Enter Your Email",
+            Mobile_phone_number: "Mobile phone number",
+            AgreeTo: `By signing up, I agree to 247Pro’s`,
+            TermsAndConditions: "Terms & Conditions.",
+            Already_have_an_account:'Already have an account? ',
+
         }
     },
     {
@@ -111,8 +118,14 @@ export const languageData = [
             New_here: "新来的？",
             Create_an_free_account: "创建一个免费帐户",
             or: "或者",
+            Whats_your_mobile_number: "你手机号码多少？",
+            Enter_Your_Email: "输入你的电子邮箱",
 
-
+            Mobile_phone_number: "手机号码",
+            AgreeTo: `注册即表示我同意 247Pro 的`,
+            TermsAndConditions: "条款和条件。",
+            Already_have_an_account:'已经有帐户？',
+            
         }
     },
     {
@@ -167,6 +180,13 @@ export const languageData = [
             Create_an_free_account: "Crea una cuenta gratis",
             New_here: "Nueva aquí?",
             or: "o",
+            Whats_your_mobile_number: "¿Cual es tu numero de móvil?",
+            Mobile_phone_number: "Número de teléfono móvil",
+            Enter_Your_Email: "Introduce tu correo electrónico",
+            AgreeTo: `Al registrarme, acepto las condiciones de 247Pro`,
+            TermsAndConditions: "Términos y condiciones.",
+            Already_have_an_account:'¿Ya tienes una cuenta? ',
+
         }
     }
 ];
