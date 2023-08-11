@@ -7,7 +7,7 @@ export type Action = {
 
 const INITIAL_STATE = {
     isUserLogin: false,
-    otpSupported: true,
+    otpSupported: false,
 
 }
 

@@ -124,13 +124,13 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <>
                             <Button
                                 icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
-                                title={`Continue with google`}
-                                customStyle={[styles.socialButtonContainer,]}
-                                titleStyle={styles.socialText}
+                                title={' ' + t('Continue_with_google')}
+                            customStyle={[styles.socialButtonContainer,]}
+                            titleStyle={styles.socialText}
                             />
                             <Button
                                 icon={<AntDesign name={`apple1`} size={RFPercentage(3)} />}
-                                title={` Continue with Apple`}
+                                title={" " + t('Continue_with_Apple')}
                                 customStyle={styles.socialButtonContainer}
                                 titleStyle={styles.socialText}
                             />
@@ -160,7 +160,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />
 
                         <TouchableOpacity onPress={() => changeRoute(navigation, 'SignIn')} activeOpacity={0.8}>
-                            <FooterText color={Colors.primary} title={t('logintText')+" " } />
+                            <FooterText color={Colors.primary} title={t('logintText') + " "} />
                         </TouchableOpacity>
                     </View>
                 </View>
