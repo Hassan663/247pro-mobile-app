@@ -13,13 +13,14 @@ import { t } from 'i18next';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
-import OutlinedTextInput from '../../../core/components/outlined-TextInput.component';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './enter-name-and-email.style';
+import { changeRoute } from '../../../core/helpers/async-storage';
 import {
     ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
-import { changeRoute } from '../../../core/helpers/async-storage';
+import { centralStyle } from '../../../styles/constant.style';
 
 const windowHeight = Dimensions.get('window').height;
 const heightFlex1 = windowHeight / 10;
@@ -31,7 +32,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
-            <View style={styles.container}>
+            <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
                     <ScreenTitle widthAuto title={t(`Welcome_to_247PRO`)} />
