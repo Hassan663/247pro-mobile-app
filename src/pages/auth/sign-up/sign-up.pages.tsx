@@ -125,8 +125,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <Button
                                 icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
                                 title={' ' + t('Continue_with_google')}
-                            customStyle={[styles.socialButtonContainer,]}
-                            titleStyle={styles.socialText}
+                                customStyle={[styles.socialButtonContainer,]}
+                                titleStyle={styles.socialText}
                             />
                             <Button
                                 icon={<AntDesign name={`apple1`} size={RFPercentage(3)} />}
