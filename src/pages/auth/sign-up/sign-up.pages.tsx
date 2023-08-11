@@ -8,11 +8,11 @@ import {
     Dimensions,
 } from 'react-native';
 
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import CountryPicker, {
     Country,
 } from 'react-native-country-picker-modal';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import {
     FooterText,
@@ -26,12 +26,12 @@ import Button from '../../../core/components/button.component';
 import { changeRoute, setItem } from '../../../core/helpers/async-storage';
 import { t } from 'i18next';
 import { appLanguages } from '../../../utilities/languageData';
-import i18n, { fetchTranslations } from '../../../i18n';
+import i18n from '../../../i18n';
 import { useSelector } from 'react-redux';
-import { centralStyle } from '../../../styles/constant.style';
+import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 
-const windowHeight = Dimensions.get('window').height;
-const heightFlex1 = windowHeight / 10;
+// const windowHeight = Dimensions.get('window').height;
+// const heightFlex1 = windowHeight / 10;
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [countryCode, setCountryCode] = useState<any>('PK');
@@ -61,7 +61,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
-            <View style={styles.container}>
+            <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <ScreenTitle title={t(`Create_Your_Free_Account`)} />
                     {
@@ -86,7 +86,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <ScreenSubTitle title={t('Whats_your_mobile_number')} />
 
                     <View style={styles.inputWrapper}>
-                        {!otpSupported ?
+                        {otpSupported ?
                             <View style={{ width: '100%' }}>
                                 <Input placeholder={t('Enter_Your_Email')} />
                             </View>
@@ -120,7 +120,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </View>
                 </View>
 
-                <View style={[styles.logInBtnContainer,]}>
+                <View style={styles.logInBtnContainer}>
                     {!otpSupported ?
                         <>
                             <Button
@@ -135,8 +135,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 customStyle={centralStyle.socialButtonContainer}
                                 titleStyle={styles.socialText}
                             />
-                            <View style={styles.orContainer}>
-                            </View>
+                            <View style={styles.orContainer} />
                         </> :
                         <View />
                     }

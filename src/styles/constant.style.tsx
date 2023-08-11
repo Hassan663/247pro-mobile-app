@@ -48,7 +48,8 @@ export const centralStyle = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     XAndYCenter: {
-        justifyContent: "center", alignItems: 'center'
+        justifyContent: "center",
+        alignItems: 'center'
     },
     justifyContentStart: {
         justifyContent: "flex-start"

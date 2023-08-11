@@ -1,7 +1,6 @@
 // @app
 import React, { useState } from 'react';
 import {
-    Dimensions,
     ScrollView,
     TouchableOpacity,
     Image,

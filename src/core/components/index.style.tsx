@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../styles/colors';
 
@@ -45,7 +45,7 @@ export const styles: any = StyleSheet.create<any>({
     },
 
     footerText: (color?: string) => ({
-        fontSize: RFPercentage(2),
+        fontSize: Platform.OS == 'ios' ? RFPercentage(1.6) : RFPercentage(2),
         color: color ? color : Colors.black,
     }),
 

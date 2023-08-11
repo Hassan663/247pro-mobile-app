@@ -1,37 +1,28 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
+import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 
 export const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        paddingHorizontal: RFPercentage(2.5),
-        backgroundColor: Colors.white
-    },
-
     titleWrapper: {
-        flexDirection: 'row',
         flex: 2,
-        alignItems: 'flex-end'
+        ...centralStyle.row,
+        ...centralStyle.alignitemEnd,
     },
 
     inputContainer: {
         flex: 3,
-
-        justifyContent: "center"
+        ...centralStyle.justifyContentCenter
     },
 
     logInBtnContainer: {
         flex: 4,
-        justifyContent: 'space-between'
-
+        justifyContent: centralPosition.spacebetween,
     },
     footerContainer: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: 'center'
+        ...centralStyle.XAndYCenter
     },
     inputWrapper: {
         flexDirection: 'row',
@@ -39,9 +30,8 @@ export const styles = StyleSheet.create({
     },
     flagContainer: {
         width: '15%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: "center",
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter,
         height: 40
     },
     phoneNumberInput: {
@@ -53,21 +43,18 @@ export const styles = StyleSheet.create({
         fontWeight: '700',
     },
     footerTextWrapper: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: 'center'
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter,
     },
     flagWrapper: {
         height: 30,
         width: 30
     },
-    downIcon: { marginHorizontal: RFPercentage(.5) },
+    downIcon: {
+        marginHorizontal: RFPercentage(.5)
+    },
     orContainer: {
-        flexDirection: 'row',
-        height: 20,
-        marginVertical: RFPercentage(3),
-        justifyContent: 'center',
-        alignItems: "center"
+        flex: 1,
     },
     googleIcon: {
         height: RFPercentage(4.5),
