@@ -20,7 +20,7 @@ import CountryPicker, {
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
-import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
+import OutlinedTextInput from '../../../core/components/outlined-TextInput.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
