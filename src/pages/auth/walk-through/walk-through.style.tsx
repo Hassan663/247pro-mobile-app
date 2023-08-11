@@ -1,10 +1,33 @@
-import { StyleSheet } from 'react-native';
+import {
+    StyleSheet,
+    TextStyle,
+    ViewStyle,
+    StyleProp
+} from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
-import { centralPosition, centralStyle } from '../../../styles/constant.style';
+import {
+    centralPosition,
+    centralStyle
+} from '../../../styles/constant.style';
 
-export const styles: any = StyleSheet.create({
+interface Styles {
+    wrapper: ViewStyle;
+    titleStyle: TextStyle;
+    imgWrapper: ViewStyle;
+    WalkThroughTitle: TextStyle;
+    slidesLogo: any;
+    slideFooterContainer: ViewStyle;
+    pagination: (isSelected: boolean) => StyleProp<ViewStyle>;
+    paginationWrapper: ViewStyle;
+    image: ViewStyle;
+    slide: ViewStyle;
+    text: TextStyle;
+    skipBtnWrapper: ViewStyle;
+}
+
+export const styles: Styles = StyleSheet.create<any>({
     wrapper: {},
     titleStyle: {
         color: Colors.black,
@@ -34,7 +57,7 @@ export const styles: any = StyleSheet.create({
         flex: 1,
         ...centralStyle.row,
     },
-    pagination: (isSelected: boolean): any => ({
+    pagination: (isSelected: boolean) => ({
         height: RFPercentage(1),
         marginHorizontal: RFPercentage(0.5),
         borderRadius: RFPercentage(0.5),
@@ -62,6 +85,5 @@ export const styles: any = StyleSheet.create({
     skipBtnWrapper: {
         flex: 6.5,
         ...centralStyle.alignitemEnd,
-
     },
 });
