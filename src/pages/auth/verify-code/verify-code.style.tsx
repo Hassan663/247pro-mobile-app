@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
+import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
-     
+
     footer: {
         flex: 3,
-        justifyContent: 'flex-end',
+        ...centralStyle.justifyContentEnd,
         marginVertical: RFPercentage(2)
     },
 
@@ -15,15 +16,15 @@ export const styles = StyleSheet.create({
         padding: 20
     },
     title: {
-        textAlign: 'center',
+        textAlign: centralPosition.center,
         fontSize: 30
     },
     codeFieldRoot: {
-        alignSelf: 'center',
+        alignSelf: centralPosition.center,
         width: "80%",
         height: RFPercentage(15),
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
+        alignItems: centralPosition.center,
+        justifyContent: centralPosition.spacebetween,
     },
     cell: {
         width: 40,
@@ -31,7 +32,7 @@ export const styles = StyleSheet.create({
         lineHeight: 38,
         fontSize: 24,
         borderWidth: 1,
-        textAlign: 'center',
+        textAlign: centralPosition.center,
         borderColor: Colors.lightGray,
         borderRadius: RFPercentage(.5)
     },
@@ -39,14 +40,14 @@ export const styles = StyleSheet.create({
         borderColor: '#000',
     },
     mobileImg: {
-        alignSelf: "center",
+        alignSelf: centralPosition.center,
         margin: RFPercentage(2),
         height: '70%',
         width: "70%"
     },
     deviceContainer: {
         flex: 3.5,
-        justifyContent: "flex-end"
+        justifyContent: centralPosition.flexEnd,
     },
     body: {
         flex: 6.5,
