@@ -13,13 +13,13 @@ import Tasks from '../../pages/app/tasks/tasks';
 import Menu from '../../pages/app/menu/menu';
 import Colors from '../../styles/colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { heightFlex1 } from '../../styles/constant.style';
+import { heightFlex1, windowHeight } from '../../styles/constant.style';
 
 const Tab = createBottomTabNavigator();
 
 function AppTabs() {
     return (
-        <View style={{ height: heightFlex1 * 10 }}>
+        <View style={{ height: windowHeight }}>
             <Tab.Navigator
                 initialRouteName="MarketPlace"
                 screenOptions={({ route }) => ({

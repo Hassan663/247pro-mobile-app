@@ -23,7 +23,7 @@ export const centralPosition: CentralPosition = {
     left: "left",
     right: "right",
 };
-export const centralStyle = StyleSheet.create({
+export const centralStyle = StyleSheet.create<any>({
     container: {
         flex: 1,
         paddingHorizontal: RFPercentage(2.5),
@@ -74,5 +74,12 @@ export const centralStyle = StyleSheet.create({
     row: {
         flexDirection: "row"
     },
-    flex1: { flex: 1 }
+    flex1: { flex: 1 },
+    circle: (size: number) => ({
+        height: size,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: size,
+        borderRadius: size / 2
+    }),
 });

@@ -11,7 +11,6 @@ export default function appNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        // initialRouteName='HOME'
       >
         <Stack.Screen name="AppTabs" component={AppTabs} />
 
