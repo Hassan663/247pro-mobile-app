@@ -18,7 +18,7 @@ import i18n, { fetchTranslations } from './src/i18n';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 LogBox.ignoreAllLogs();
 
-const MainComponent: React.FC = () => (1 === 1 ? <AuthNavigation /> : <AppNavigation />);
+const MainComponent: React.FC = () => (1 !== 1 ? <AuthNavigation /> : <AppNavigation />);
 
 const App: React.FC = () => {
 
