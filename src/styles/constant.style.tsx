@@ -74,4 +74,5 @@ export const centralStyle = StyleSheet.create({
     row: {
         flexDirection: "row"
     },
+    flex1: { flex: 1 }
 });

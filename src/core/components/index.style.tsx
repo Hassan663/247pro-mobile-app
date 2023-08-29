@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../styles/colors';
+import { centralPosition } from '../../styles/constant.style';
 
 export const styles: any = StyleSheet.create<any>({
     title: (isEdit: boolean) => ({
@@ -120,4 +121,13 @@ export const styles: any = StyleSheet.create<any>({
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10
     },
+    headerContainer: {
+        height: 50,
+        backgroundColor: Colors.white,
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        alignItems: centralPosition.center,
+        width: '100%',
+        borderBottomColor: Colors.lightGrey,
+    }
 });
