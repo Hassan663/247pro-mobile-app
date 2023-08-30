@@ -30,7 +30,7 @@ function AppTabs() {
                     tabBarLabelPosition: 'below-icon',
                     tabBarActiveTintColor: Colors.black, // Active tab color
                     tabBarInactiveTintColor: Colors.fontColor, // Inactive tab color
-                    tabBarStyle: { height: RFPercentage(8), borderTopRightRadius: 15, borderTopLeftRadius: 15, }
+                    tabBarStyle: { height: RFPercentage(8),marginBottom:'6%', borderTopRightRadius: 15, borderTopLeftRadius: 15, }
                 })}
             >
                 <Tab.Screen

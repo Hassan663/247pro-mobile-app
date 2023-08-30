@@ -59,8 +59,19 @@ export const languageData = [
             Mobile_phone_number: "Mobile phone number",
             AgreeTo: `By signing up, I agree to 247Pro’s`,
             TermsAndConditions: "Terms & Conditions.",
-            Already_have_an_account:'Already have an account? ',
-
+            Already_have_an_account: 'Already have an account? ',
+            Marketplace: "Marketplace",
+            SearchJobs: "Search jobs",
+            UsemyProFindersavedleadpreferences: "Use my Pro Finder saved lead preferences",
+            AdHocPreferences: "Ad-Hoc Preferences",
+            RESET: "RESET",
+            Jobtype: "Job type",
+            Specialty: "Specialty",
+            Location: 'Location',
+            ApplyFilter: "Apply Filter",
+            Majorrennovationforasinglefamilyhome: "Major rennovation for a single family home",
+            marketPlaceMsg: "Hello all, I am looking for a contractor for my kitchen, I am looking for someone who can do my kitchen Thank you.",
+            BurlingameCA: "Burlingame, CA",
         }
     },
     {
@@ -124,8 +135,20 @@ export const languageData = [
             Mobile_phone_number: "手机号码",
             AgreeTo: `注册即表示我同意 247Pro 的`,
             TermsAndConditions: "条款和条件。",
-            Already_have_an_account:'已经有帐户？',
-            
+            Already_have_an_account: '已经有帐户？',
+            Marketplace: "市场",
+            SearchJobs: "搜索职位",
+            UsemyProFindersavedleadpreferences: "使用我的 Pro Finder 保存的潜在客户首选项",
+            AdHocPreferences: "临时首选项",
+            RESET: "重置",
+            Jobtype: "工作类型",
+            Specialty: "专业",
+            Location: '地点',
+            ApplyFilter: "应用过滤器",
+            Majorrennovationforasinglefamilyhome: "单一家庭住宅的重大翻新",
+            marketPlaceMsg: "大家好，我正在寻找一个厨房承包商，我正在寻找可以做我的厨房的人，谢谢。",
+            BurlingameCA: "加利福尼亚州伯林格姆",
+
         }
     },
     {
@@ -185,7 +208,19 @@ export const languageData = [
             Enter_Your_Email: "Introduce tu correo electrónico",
             AgreeTo: `Al registrarme, acepto las condiciones de 247Pro`,
             TermsAndConditions: "Términos y condiciones.",
-            Already_have_an_account:'¿Ya tienes una cuenta? ',
+            Already_have_an_account: '¿Ya tienes una cuenta? ',
+            Marketplace: "Mercado",
+            SearchJobs: "Buscar empleos",
+            UsemyProFindersavedleadpreferences: "Usar mis preferencias de clientes potenciales guardadas en Pro Finder",
+            AdHocPreferences: "Preferencias ad hoc",
+            RESET: "REINICIAR",
+            Jobtype: "El tipo de trabajo",
+            Specialty: "Especialidad",
+            Location: 'Ubicación',
+            ApplyFilter: "Aplicar filtro",
+            Majorrennovationforasinglefamilyhome: "Renovación importante para una vivienda unifamiliar.",
+            marketPlaceMsg: "Hola a todos, estoy buscando un contratista para mi cocina, estoy buscando alguien que pueda hacer mi cocina. Gracias.",
+            BurlingameCA: "Burlingame, California, EE.UU.",
 
         }
     }

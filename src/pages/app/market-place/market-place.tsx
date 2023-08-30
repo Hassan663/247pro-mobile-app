@@ -23,6 +23,7 @@ import { MarketPlaceCart } from './component';
 import { platform } from '../../../utilities';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle, } from '../../../styles/constant.style';
+import { t } from 'i18next';
 
 const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -50,7 +51,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             size={RFPercentage(2.5)}
                             color={Colors.black} />
                     }
-                    title={`Marketplace`} />
+                    title={t(`Marketplace`)} />
 
 
                 <View style={[styles.marketPlaceBody]}>
@@ -60,7 +61,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             color={Colors.fontColor}
                             size={RFPercentage(3)} />
                         <TextInput
-                            placeholder='Search jobs'
+                            placeholder={t('SearchJobs')}
                             style={[centralStyle.flex1, styles.px2]} />
                         <Ionicons
                             onPress={() => { refRBSheet.current.open() }}
@@ -106,7 +107,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                     color={Colors.primary} />
                             }
                             <Title
-                                title='Use my Pro Finder saved lead preferences'
+                                title={t('UsemyProFindersavedleadpreferences')}
                                 weight='400'
                                 color={Colors.black}
                                 type='Poppin-16' />
@@ -131,7 +132,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             }
                             <View style={centralStyle.flex1}>
                                 <Title
-                                    title='Ad-Hoc Preferences'
+                                    title={t('AdHocPreferences')}
                                     weight='400'
                                     color={Colors.black}
                                     type='Poppin-16' />
@@ -139,7 +140,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             <View style={{ flex: .2 }}>
 
                                 <Title
-                                    title='RESET'
+                                    title={t('RESET')}
                                     weight='600'
                                     color={Colors.black}
                                     type='Poppin-14' />
@@ -149,7 +150,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <View
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer, styles.mt1]}>
                             <Title
-                                title={!check ? 'Industry (3)' : 'Industry (0)'}
+                                title={!check ? `${t(`Industry`)} (3)` : `${t(`Industry`)} (0)`}
                                 weight='400'
                                 color={!check ? Colors.black : Colors.fontColor}
                                 type='Poppin-14' />
@@ -162,7 +163,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
 
                             <Title
-                                title='Job type'
+                                title={t('Jobtype')}
                                 weight='400'
                                 color={!check ? Colors.black : Colors.fontColor}
                                 type='Poppin-14' />
@@ -175,7 +176,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
 
                             <Title
-                                title={!check ? 'Specialty (3)' : 'Specialty (0)'}
+                                title={!check ? `${t('Specialty')} (3)` : `${t('Specialty')} (0)`}
                                 weight='400'
                                 color={!check ? Colors.black : Colors.fontColor}
                                 type='Poppin-14' />
@@ -188,7 +189,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
 
                             <Title
-                                title={!check ? 'Location (3)' : 'Location (0)'}
+                                title={!check ? `${t('Location')} (3)` : `${t('Location')} (0)`}
                                 weight='400'
                                 color={!check ? Colors.black : Colors.fontColor}
                                 type='Poppin-14' />
@@ -199,7 +200,8 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         </View>
                         <View style={styles.btnContainer}>
                             <Button
-                                title={`Apply Filter`} primary />
+                                title={t('ApplyFilter')}
+                                primary />
                         </View>
                     </View>
                 </RBSheet>
