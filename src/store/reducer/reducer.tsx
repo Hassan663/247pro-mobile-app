@@ -1,4 +1,4 @@
-import { CURRENTUSERPROFILE, OTPSUPPORTED } from '../constant/constant'
+import { CURRENTUSERPROFILE,ISUSERLOGIN, OTPSUPPORTED } from '../constant/constant'
 
 export type Action = {
     type: string;
@@ -17,6 +17,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 currentUserProfile: action.payload
+            })
+        case ISUSERLOGIN:
+            return ({
+                ...states,
+                isUserLogin: action.payload
             })
         case OTPSUPPORTED:
             return ({

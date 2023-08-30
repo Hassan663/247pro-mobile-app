@@ -26,6 +26,8 @@ import { changeRoute } from '../../../core/helpers/async-storage';
 import { RootStackParamList } from '../../../router/auth';
 import { t } from 'i18next';
 import { centralStyle, heightFlex1, } from '../../../styles/constant.style';
+import { useDispatch } from 'react-redux';
+import { ISUSERLOGIN } from '../../../store/constant/constant';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -33,7 +35,7 @@ const SignIn: React.FC = () => {
 
     const navigation = useNavigation<Navigation>();
     const [isSelected, setisSelected] = useState<boolean>(false)
-
+    const dispatch = useDispatch()
     return (
         <ScrollView contentContainerStyle={{ height: heightFlex1 * 10, }}>
             <View style={centralStyle.container}>
@@ -81,7 +83,16 @@ const SignIn: React.FC = () => {
                     </View>
                 </View>
                 <View style={styles.logInBtnContainer}>
-                    <Button title={t('logintText')} primary />
+                    <Button
+                        title={t('logintText')}
+                        callBack={() => {
+                            // dispatch()
+                            dispatch({
+                                type: ISUSERLOGIN,
+                                payload: true
+                            });
+                        }}
+                        primary />
                     <View style={styles.orContainer}>
                         <View style={styles.line} />
                         <Title
