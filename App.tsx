@@ -30,7 +30,9 @@ const App: React.FC = () => {
         <I18nextProvider i18n={i18n}>
 
             <Provider store={store}>
-                <StatusBar hidden={true} />
+                {/* <StatusBar hidden={true} /> */}
+                {/* <StatusBar barStyle="dark-content" hidden={false} backgroundColor="transparent" translucent={true} /> */}
+
                 <SafeAreaProvider>
                     <PortalProvider>
                         {/* {alert(process.env.BASE_URL)} */}

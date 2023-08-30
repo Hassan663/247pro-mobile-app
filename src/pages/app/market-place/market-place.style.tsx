@@ -35,9 +35,54 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         flex: 1
     },
-    mx2: { marginHorizontal: RFPercentage(2) },
-    px2: { paddingHorizontal: RFPercentage(2) },
-    bw1: { borderWidth: RFPercentage(.1) },
-    cartHeader: { flex: 8.8 },
-    cartHeaderIconContainer: { flex: 1.2 },
+    mx2: {
+        marginHorizontal: RFPercentage(2)
+    },
+    px2: {
+        paddingHorizontal: RFPercentage(2)
+    },
+    bw1: {
+        borderWidth: RFPercentage(.1)
+    },
+    cartHeader: {
+        flex: 8.8
+    },
+    cartHeaderIconContainer: {
+        flex: 1.2
+    },
+    sheetContainer: {
+        borderTopRightRadius: RFPercentage(2),
+        borderTopLeftRadius: RFPercentage(2),
+        backgroundColor: Colors.white
+    },
+    sheetDraggableIcon: {
+        backgroundColor: Colors.fontColor,
+        width: '25%'
+    },
+    sheetLeadPreferencesContainer: {
+        height: RFPercentage(7),
+        borderBottomWidth: .8,
+        borderBottomColor: Colors.fontColor
+    },
+    sheetLeadPreferencesContainer2: {
+        height: RFPercentage(7),
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.fontColor
+    },
+    mh3: {
+        marginHorizontal: RFPercentage(3)
+    },
+    titleContainer: {
+        justifyContent: centralPosition.spacebetween,
+        paddingHorizontal: RFPercentage(2.5),
+        height: RFPercentage(5),
+    },
+    mt1: {
+        marginTop: RFPercentage(1)
+    },
+    btnContainer: {
+        width: '80%',
+        alignSelf: "center",
+        margin: RFPercentage(1)
+    }
 });

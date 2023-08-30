@@ -1,25 +1,33 @@
 // @app
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
     View,
     KeyboardAvoidingView,
     TextInput,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Fontisto from 'react-native-vector-icons/Fontisto'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import AppHeader from '../../../core/components/app-headers';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
-import { centralStyle, } from '../../../styles/constant.style';
+import Button from '../../../core/components/button.component';
 import { styles } from './market-place.style';
 import { MarketPlaceCart } from './component';
 import { platform } from '../../../utilities';
+import { Title } from '../../../core/components/screen-title.component';
+import { centralStyle, } from '../../../styles/constant.style';
 
 const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+
+    const refRBSheet = useRef<any>(null);
+    const [check, setCheck] = useState(true)
 
     return (
         <>
@@ -44,6 +52,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     }
                     title={`Marketplace`} />
 
+
                 <View style={[styles.marketPlaceBody]}>
                     <View style={[styles.mx2, styles.inputContainer, centralStyle.XAndYCenter]}>
                         <AntDesign
@@ -54,6 +63,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             placeholder='Search jobs'
                             style={[centralStyle.flex1, styles.px2]} />
                         <Ionicons
+                            onPress={() => { refRBSheet.current.open() }}
                             name={'filter'}
                             color={Colors.fontColor}
                             size={RFPercentage(3)} />
@@ -65,6 +75,134 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         keyExtractor={(item, index) => index.toString()}
                     />
                 </View>
+                <RBSheet
+                    ref={refRBSheet}
+                    closeOnDragDown={true}
+                    height={330}
+                    openDuration={200}
+                    closeDuration={200}
+                    closeOnPressMask={true}
+                    customStyles={{
+                        container: styles.sheetContainer,
+                        draggableIcon: styles.sheetDraggableIcon
+                    }}
+                >
+                    <View style={{ flex: 1, }}>
+                        <TouchableOpacity
+                            onPress={() => setCheck(true)}
+                            activeOpacity={.8}
+                            style={[centralStyle.row, centralStyle.alignitemCenter, styles.sheetLeadPreferencesContainer]}>
+                            {check ?
+                                <Fontisto
+                                    style={styles.mh3}
+                                    name={`radio-btn-active`}
+                                    size={RFPercentage(2)}
+                                    color={Colors.primary} />
+                                :
+                                <Fontisto
+                                    style={styles.mh3}
+                                    name={`radio-btn-passive`}
+                                    size={RFPercentage(2)}
+                                    color={Colors.primary} />
+                            }
+                            <Title
+                                title='Use my Pro Finder saved lead preferences'
+                                weight='400'
+                                color={Colors.black}
+                                type='Poppin-16' />
+
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => setCheck(false)}
+                            activeOpacity={.8}
+                            style={[centralStyle.row, centralStyle.alignitemCenter, styles.sheetLeadPreferencesContainer2]}>
+                            {!check ?
+                                <Fontisto
+                                    style={styles.mh3}
+                                    name={`radio-btn-active`}
+                                    size={RFPercentage(2)}
+                                    color={Colors.primary} />
+                                :
+                                <Fontisto
+                                    style={styles.mh3}
+                                    name={`radio-btn-passive`}
+                                    size={RFPercentage(2)}
+                                    color={Colors.primary} />
+                            }
+                            <View style={centralStyle.flex1}>
+                                <Title
+                                    title='Ad-Hoc Preferences'
+                                    weight='400'
+                                    color={Colors.black}
+                                    type='Poppin-16' />
+                            </View>
+                            <View style={{ flex: .2 }}>
+
+                                <Title
+                                    title='RESET'
+                                    weight='600'
+                                    color={Colors.black}
+                                    type='Poppin-14' />
+
+                            </View>
+                        </TouchableOpacity>
+                        <View
+                            style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer, styles.mt1]}>
+                            <Title
+                                title={!check ? 'Industry (3)' : 'Industry (0)'}
+                                weight='400'
+                                color={!check ? Colors.black : Colors.fontColor}
+                                type='Poppin-14' />
+                            <AntDesign
+                                name={`right`}
+                                color={check ? Colors.fontColor : Colors.black}
+                                size={RFPercentage(2.5)} />
+                        </View>
+                        <View
+                            style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
+
+                            <Title
+                                title='Job type'
+                                weight='400'
+                                color={!check ? Colors.black : Colors.fontColor}
+                                type='Poppin-14' />
+                            <AntDesign
+                                name={`right`}
+                                color={check ? Colors.fontColor : Colors.black}
+                                size={RFPercentage(2.5)} />
+                        </View>
+                        <View
+                            style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
+
+                            <Title
+                                title={!check ? 'Specialty (3)' : 'Specialty (0)'}
+                                weight='400'
+                                color={!check ? Colors.black : Colors.fontColor}
+                                type='Poppin-14' />
+                            <AntDesign
+                                name={`right`}
+                                color={check ? Colors.fontColor : Colors.black}
+                                size={RFPercentage(2.5)} />
+                        </View>
+                        <View
+                            style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
+
+                            <Title
+                                title={!check ? 'Location (3)' : 'Location (0)'}
+                                weight='400'
+                                color={!check ? Colors.black : Colors.fontColor}
+                                type='Poppin-14' />
+                            <AntDesign
+                                name={`right`}
+                                color={check ? Colors.fontColor : Colors.black}
+                                size={RFPercentage(2.5)} />
+                        </View>
+                        <View style={styles.btnContainer}>
+                            <Button
+                                title={`Apply Filter`} primary />
+                        </View>
+                    </View>
+                </RBSheet>
             </KeyboardAvoidingView>
         </>
 
