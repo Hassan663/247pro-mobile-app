@@ -117,7 +117,6 @@ export const styles: any = StyleSheet.create<any>({
         alignItems: "center"
     },
     dropDownStyle: {
-        marginTop: RFPercentage(-3),
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10
     },

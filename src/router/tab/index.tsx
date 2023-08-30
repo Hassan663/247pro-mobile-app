@@ -3,8 +3,10 @@ import * as React from 'react';
 import { NavigationContainer, } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AppTabs from '../BottomTab/bottom-tabs';
-import Industry from '../../pages/app/filter/industry';
-
+import Industry from '../../pages/app/industry-filter/industry';
+import Speciality from '../../pages/app/speciality-filter/speciality';
+import Cities from '../../pages/app/cities-filter/cities';
+ 
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -15,6 +17,8 @@ export default function appNavigation() {
       >
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="industry" component={Industry} />
+        <Stack.Screen name="speciality" component={Speciality} />
+        <Stack.Screen name="cities" component={Cities} />
 
       </Stack.Navigator>
     </NavigationContainer>

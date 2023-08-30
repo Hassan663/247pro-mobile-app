@@ -173,7 +173,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 if (!check) {
 
                                     refRBSheet.current.close()
-                                    // changeRoute(navigation, 'industry')
+                                    // changeRoute(navigation, 'Cities')
                                 }
                             }}
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
@@ -192,9 +192,8 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             activeOpacity={.8}
                             onPress={() => {
                                 if (!check) {
-
                                     refRBSheet.current.close()
-                                    // changeRoute(navigation, 'industry')
+                                    changeRoute(navigation, 'speciality')
                                 }
                             }}
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
@@ -213,9 +212,8 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             activeOpacity={.8}
                             onPress={() => {
                                 if (!check) {
-
                                     refRBSheet.current.close()
-                                    // changeRoute(navigation, 'industry')
+                                    changeRoute(navigation, 'cities')
                                 }
                             }}
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
