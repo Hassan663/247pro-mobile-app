@@ -1,11 +1,6 @@
 import * as React from 'react';
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'; // Import the icons you want to use
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import the icons you want to use
-import Entypo from 'react-native-vector-icons/Entypo'; // Import the icons you want to use
-import Feather from 'react-native-vector-icons/Feather'; // Import the icons you want to use
-// import Icon from '../../assets/svg-icons/briefcase.svg'; // Replace with your actual path
 
 import Projects from '../../pages/app/projects/projects';
 import Leads from '../../pages/app/leads/leads';
@@ -14,9 +9,14 @@ import Tasks from '../../pages/app/tasks/tasks';
 import Menu from '../../pages/app/menu/menu';
 import Colors from '../../styles/colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { heightFlex1, windowHeight } from '../../styles/constant.style';
-import { SvgCssUri } from 'react-native-svg';
-import { Briefcase } from '../../assets/svg-icons/CustomSvgIcon';
+import { windowHeight } from '../../styles/constant.style';
+import {
+    Briefcase,
+    MarketPlaceIcon,
+    MenuIcon,
+    ProjectsIcon,
+    TasksIcon
+} from '../../assets/svg-icons/CustomSvgIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,16 +38,7 @@ function AppTabs() {
                     component={Projects}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Briefcase width={30} height={30} color="#666666" />
-                            // {/* <></> */}
-                            // <SvgCssUri
-                            //     width="100"
-                            //     height="100"
-                            //     uri="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/ruby.svg"
-                            //     // onError={onError}
-                            //     // onLoad={onLoad}
-                            // />
-                            // <MaterialIcons name="work" color={color} size={size} />
+                            <ProjectsIcon width={30} height={30} color={color} />
                         ),
                     }}
                 />
@@ -56,7 +47,7 @@ function AppTabs() {
                     component={Leads}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <FontAwesome name="user" color={color} size={size} />
+                            <Briefcase width={30} height={30} color={color} />
                         ),
                     }}
                 />
@@ -65,7 +56,7 @@ function AppTabs() {
                     component={MarketPlace}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Entypo name="shop" color={color} size={size} />
+                            <MarketPlaceIcon width={30} height={30} color={color} />
                         ),
                     }}
                 />
@@ -74,7 +65,7 @@ function AppTabs() {
                     component={Tasks}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Feather name="list" color={color} size={size} />
+                            <TasksIcon width={30} height={30} color={color} />
                         ),
                     }}
                 />
@@ -83,13 +74,12 @@ function AppTabs() {
                     component={Menu}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Feather name="menu" color={color} size={size} />
+                            <MenuIcon width={30} height={30} color={color} />
                         ),
                     }}
                 />
             </Tab.Navigator>
         </View>
-        // {/* </ScrollView> */}
     );
 }
 
