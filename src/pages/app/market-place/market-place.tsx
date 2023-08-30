@@ -24,6 +24,7 @@ import { platform } from '../../../utilities';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle, } from '../../../styles/constant.style';
 import { t } from 'i18next';
+import { changeRoute } from '../../../core/helpers/async-storage';
 
 const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -147,7 +148,14 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                             </View>
                         </TouchableOpacity>
-                        <View
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            onPress={() => {
+                                if (!check) {
+                                    refRBSheet.current.close()
+                                    changeRoute(navigation, 'industry')
+                                }
+                            }}
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer, styles.mt1]}>
                             <Title
                                 title={!check ? `${t(`Industry`)} (3)` : `${t(`Industry`)} (0)`}
@@ -158,8 +166,16 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 name={`right`}
                                 color={check ? Colors.fontColor : Colors.black}
                                 size={RFPercentage(2.5)} />
-                        </View>
-                        <View
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            onPress={() => {
+                                if (!check) {
+
+                                    refRBSheet.current.close()
+                                    // changeRoute(navigation, 'industry')
+                                }
+                            }}
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
 
                             <Title
@@ -171,8 +187,16 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 name={`right`}
                                 color={check ? Colors.fontColor : Colors.black}
                                 size={RFPercentage(2.5)} />
-                        </View>
-                        <View
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            onPress={() => {
+                                if (!check) {
+
+                                    refRBSheet.current.close()
+                                    // changeRoute(navigation, 'industry')
+                                }
+                            }}
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
 
                             <Title
@@ -184,8 +208,16 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 name={`right`}
                                 color={check ? Colors.fontColor : Colors.black}
                                 size={RFPercentage(2.5)} />
-                        </View>
-                        <View
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            onPress={() => {
+                                if (!check) {
+
+                                    refRBSheet.current.close()
+                                    // changeRoute(navigation, 'industry')
+                                }
+                            }}
                             style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
 
                             <Title
@@ -197,7 +229,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 name={`right`}
                                 color={check ? Colors.fontColor : Colors.black}
                                 size={RFPercentage(2.5)} />
-                        </View>
+                        </TouchableOpacity>
                         <View style={styles.btnContainer}>
                             <Button
                                 title={t('ApplyFilter')}

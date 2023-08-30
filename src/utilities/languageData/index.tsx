@@ -72,6 +72,13 @@ export const languageData = [
             Majorrennovationforasinglefamilyhome: "Major rennovation for a single family home",
             marketPlaceMsg: "Hello all, I am looking for a contractor for my kitchen, I am looking for someone who can do my kitchen Thank you.",
             BurlingameCA: "Burlingame, CA",
+            Cancel: "Cancel",
+            Done: "Done",
+            Construction: "Construction",
+            Marketing: `Marketing`,
+            Sales:"Sales",
+            Software:"Software",
+
         }
     },
     {
@@ -148,6 +155,12 @@ export const languageData = [
             Majorrennovationforasinglefamilyhome: "单一家庭住宅的重大翻新",
             marketPlaceMsg: "大家好，我正在寻找一个厨房承包商，我正在寻找可以做我的厨房的人，谢谢。",
             BurlingameCA: "加利福尼亚州伯林格姆",
+            Cancel: "取消",
+            Done: "完毕",
+            Construction: "建造",
+            Marketing: `营销`,
+            Sales:"销售量",
+            Software:"软件",
 
         }
     },
@@ -221,7 +234,12 @@ export const languageData = [
             Majorrennovationforasinglefamilyhome: "Renovación importante para una vivienda unifamiliar.",
             marketPlaceMsg: "Hola a todos, estoy buscando un contratista para mi cocina, estoy buscando alguien que pueda hacer mi cocina. Gracias.",
             BurlingameCA: "Burlingame, California, EE.UU.",
-
+            Cancel: "Cancelar",
+            Construction: "Construcción",
+            Done: "Hecho",
+            Marketing: `Marketing`,
+            Sales:"Ventas",
+            Software:"Software",
         }
     }
 ];
