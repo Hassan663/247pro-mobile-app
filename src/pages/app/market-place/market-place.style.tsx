@@ -95,7 +95,6 @@ export const styles = StyleSheet.create({
 
     },
     modalContainer: {
-        // padding: RFPercentage(1.5),
         paddingHorizontal: RFPercentage(1.5),
         backgroundColor: Colors.white,
         borderColor: Colors.fontColor,
