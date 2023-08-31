@@ -87,7 +87,10 @@ export const languageData = [
             InstallAtoilet: "Install a toilet",
             Tub: "Tub",
             WaterHeater: 'Water heater',
-            Cities:"Cities",
+            Cities: "Cities",
+            RadiussearchlimitedtotheUnitedStates: "Radius search limited to the United States",
+            Searchorcreatenewcity: "Search or create new city",
+            Radius: "Radius",
         }
     },
     {
@@ -179,7 +182,10 @@ export const languageData = [
             InstallAtoilet: "安装厕所",
             Tub: "浴缸",
             WaterHeater: '热水器',
-            Cities:"城市",
+            Cities: "城市",
+            RadiussearchlimitedtotheUnitedStates: "半径搜索仅限于美国",
+            Searchorcreatenewcity: "搜索或创建新城市",
+            Radius: "半径",
 
         }
     },
@@ -268,8 +274,10 @@ export const languageData = [
             InstallAtoilet: "instalar un baño",
             Tub: "Bañera",
             WaterHeater: 'Calentador de agua',
-            Cities:"Ciudades",    
-
+            Cities: "Ciudades",
+            RadiussearchlimitedtotheUnitedStates: "Búsqueda de radio limitada a los Estados Unidos",
+            Searchorcreatenewcity: "Buscar o crear una nueva ciudad",
+            Radius: "Radio",
         }
     }
 ];

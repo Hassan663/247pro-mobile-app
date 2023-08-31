@@ -2,6 +2,7 @@ import { Dimensions, StyleSheet } from 'react-native'
 import Colors from './colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
+export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
 export const heightFlex1 = windowHeight / 10
 type CentralPosition = {
