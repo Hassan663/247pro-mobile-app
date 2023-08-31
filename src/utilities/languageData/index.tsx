@@ -93,7 +93,13 @@ export const languageData = [
             Radius: "Radius",
             PostaJob: "Post a Job",
             LeadPreference: "Lead Preference",
-            MyFavorJobs:"My Favor Jobs",
+            MyFavorJobs: "My Favor Jobs",
+            JobDescription: "Job Description",
+            JobDescriptionMsg: "I like to do a whole house renovation, including one kitchen I like to do a whole house renovation, including one kitchen like to do a whole house renovation, including one one one one one one one one ",
+            Attachments: "Attachments",
+            ACCEPTTOBID: "ACCEPT TO BID",
+            Congratulationsandgoodluckonyourbidding :"Congratulations and good luck on your bidding.",
+            Createbidlater:"Create bid later",
         }
     },
     {
@@ -191,7 +197,14 @@ export const languageData = [
             Radius: "半径",
             PostaJob: "发布职位",
             LeadPreference: "潜在客户偏好",
-            MyFavorJobs:"我最喜欢的工作",
+            MyFavorJobs: "我最喜欢的工作",
+            JobDescription: "职位描述",
+            JobDescriptionMsg: "我喜欢做全屋装修，包括一间厨房 我喜欢做全屋装修，包括一间厨房 我喜欢做全屋装修，包括一一一一一一一一",
+
+            Attachments: "附件",
+            ACCEPTTOBID: "接受投标",
+            Congratulationsandgoodluckonyourbidding :"恭喜您并祝您投标顺利。",
+            Createbidlater:"稍后创建出价",
 
         }
     },
@@ -286,7 +299,14 @@ export const languageData = [
             PostaJob: "Anunciar un trabajo",
             Radius: "Radio",
             LeadPreference: "Preferencia de cliente potencial",
-            MyFavorJobs:"Mis trabajos favoritos",
+            MyFavorJobs: "Mis trabajos favoritos",
+            JobDescription: "Descripción del trabajo",
+            JobDescriptionMsg: "Me gusta hacer una renovación completa de la casa, incluida una cocina Me gusta hacer una renovación completa de la casa, incluida una cocina Me gusta hacer una renovación completa de la casa, incluida una uno uno uno uno uno uno uno",
+            Attachments: "Archivos adjuntos",
+            ACCEPTTOBID: "ACEPTAR OFERTA",
+            Congratulationsandgoodluckonyourbidding :"Felicitaciones y buena suerte con su oferta.",
+            Createbidlater:"Crear oferta más tarde",
+            
         }
     }
 ];

@@ -15,6 +15,7 @@ import Colors from '../../../styles/colors';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle } from '../../../styles/constant.style';
 import { styles } from './job-detail.style';
+import { t } from 'i18next';
 
 export const Attachments = ({ item }: any) => {
     const [isInfoOpened, setIsInfoOpened] = useState(false)
@@ -42,7 +43,7 @@ export const Attachments = ({ item }: any) => {
                         numberOfLines={isInfoOpened ? undefined : 1}
                         style={styles.itemDescription}
                     >
-                        {`I like to do a whole house renovation, including one kitchen I like to do a whole house renovation, including one kitchen like to do a whole house renovation, including one one one one one one one one`}
+                        {t('JobDescriptionMsg')}
                     </Text>
                 </View>
             </View>

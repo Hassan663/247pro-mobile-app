@@ -91,13 +91,13 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                 <View style={{ padding: RFPercentage(2) }}>
                     <Title
                         weight='400'
-                        title={t(`Job Description`)}
+                        title={t(`JobDescription`)}
                         color={Colors.fontColor}
                         type={`Poppin-16`} />
                     <View style={styles.description}>
                         <Title
                             weight='400'
-                            title={t(`I like to do a whole house renovation, including one kitchen I like to do a whole house renovation, including one kitchen like to do a whole house renovation, including one one one one one one one one `).substring(0, 200) + ' ...'}
+                            title={t(`JobDescriptionMsg`).substring(0, 200) + ' ...'}
                             color={Colors.black}
                             type={`Poppin-16`} />
                     </View>
@@ -118,7 +118,7 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                     <View style={styles.btnContainer}>
                         <Button
                             callBack={() => refRBSheet.current.open()}
-                            title={t('ACCEPT TO BID')}
+                            title={t('ACCEPTTOBID')}
                             primary />
                     </View>
                     <RBSheet
@@ -137,13 +137,13 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                         <View style={styles.sheetContentContainer}>
                             <Image source={require('../../../assets/app-images/bidImage.png')} />
                             <Text style={styles.bidMsg}>
-                                {t(`Congratulations and good luck on your bidding.`)}
+                                {t(`Congratulationsandgoodluckonyourbidding`)}
                             </Text>
                             <View style={[centralStyle.row, styles.bidBtnWrapper]}>
                                 <View style={styles.btnContainer2}>
                                     <Button
                                         callBack={() => refRBSheet.current.open()}
-                                        title={t('Create bid later')}
+                                        title={t('Createbidlater')}
                                         titleStyle={styles.createBidLater}
                                         customStyle={[styles.createBidLaterCustomStyle, centralStyle.XAndYCenter]}
                                     />
@@ -151,7 +151,7 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                                 <View style={styles.btnContainer2}>
                                     <Button
                                         callBack={() => refRBSheet.current.open()}
-                                        title={t('ACCEPT TO BID')}
+                                        title={t('ACCEPTTOBID')}
                                         primary
                                     />
                                 </View>
