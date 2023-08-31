@@ -11,3 +11,31 @@ export const JOBINFODATA = [
     { name: 'Status', value: "Open" },
     { name: 'Budget (Fixed)', value: "$42,334. 00/hr" },
 ]
+
+export const ATTACHMENTSDATA = [
+    {
+        'IMAGE': require('../../../assets/app-images/attachment.png'),
+        tags: ['Remodel', 'New', 'Remodel', 'New', 'Remodel', 'Remodel', 'New', 'Remodel'],
+        description: 'I likea whole house renovation (less than 10% people give description on imag',
+    },
+    {
+        'IMAGE': require('../../../assets/app-images/attachment.png'),
+        tags: ['Remodel', 'New', 'Remodel', 'New', 'Remodel', 'Remodel', 'New', 'Remodel'],
+        description: 'I likea whole house renovation (less than 10% people give description on imag',
+    },
+    {
+        'IMAGE': require('../../../assets/app-images/attachment.png'),
+        tags: ['Remodel', 'New', 'Remodel', 'New', 'Remodel', 'Remodel', 'New', 'Remodel'],
+        description: 'I likea whole house renovation (less than 10% people give description on imag',
+    },
+    {
+        'IMAGE': require('../../../assets/app-images/attachment.png'),
+        tags: ['Remodel', 'New', 'Remodel', 'New', 'Remodel', 'Remodel', 'New', 'Remodel'],
+        description: 'I likea whole house renovation (less than 10% people give description on imag',
+    },
+    {
+        'IMAGE': require('../../../assets/app-images/attachment.png'),
+        tags: ['Remodel', 'New', 'Remodel', 'New', 'Remodel', 'Remodel', 'New', 'Remodel'],
+        description: 'I likea whole house renovation (less than 10% people give description on imag',
+    },
+]
