@@ -1,5 +1,8 @@
 // @app
-import React, { useRef, useState } from 'react';
+import React, {
+    useRef,
+    useState
+} from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -19,20 +22,25 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import { styles } from './market-place.style';
-import { MarketPlaceCart } from './component';
 import { platform } from '../../../utilities';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle, } from '../../../styles/constant.style';
 import { t } from 'i18next';
 import { changeRoute } from '../../../core/helpers/async-storage';
+import {
+    MarketPlaceCart,
+    MarketPlaceModal
+} from './component';
 
 const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const refRBSheet = useRef<any>(null);
+    const [modalEnabled, setmodalEnabled] = useState(true)
     const [check, setCheck] = useState(true)
 
     return (
         <>
+
             <KeyboardAvoidingView
                 style={{ flex: 1 }}
                 behavior={platform === 'ios' ? 'padding' : 'height'}
@@ -49,11 +57,15 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <Entypo
                             name={`dots-three-vertical`}
                             style={styles.mx2}
+                            onPress={() => setmodalEnabled(!modalEnabled)}
                             size={RFPercentage(2.5)}
                             color={Colors.black} />
                     }
                     title={t(`Marketplace`)} />
 
+                {modalEnabled &&
+                    <MarketPlaceModal disableModal={() => setmodalEnabled(!modalEnabled)} />
+                }
 
                 <View style={[styles.marketPlaceBody]}>
                     <View style={[styles.mx2, styles.inputContainer, centralStyle.XAndYCenter]}>

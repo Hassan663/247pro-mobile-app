@@ -91,6 +91,9 @@ export const languageData = [
             RadiussearchlimitedtotheUnitedStates: "Radius search limited to the United States",
             Searchorcreatenewcity: "Search or create new city",
             Radius: "Radius",
+            PostaJob: "Post a Job",
+            LeadPreference: "Lead Preference",
+            MyFavorJobs:"My Favor Jobs",
         }
     },
     {
@@ -186,6 +189,9 @@ export const languageData = [
             RadiussearchlimitedtotheUnitedStates: "半径搜索仅限于美国",
             Searchorcreatenewcity: "搜索或创建新城市",
             Radius: "半径",
+            PostaJob: "发布职位",
+            LeadPreference: "潜在客户偏好",
+            MyFavorJobs:"我最喜欢的工作",
 
         }
     },
@@ -277,7 +283,10 @@ export const languageData = [
             Cities: "Ciudades",
             RadiussearchlimitedtotheUnitedStates: "Búsqueda de radio limitada a los Estados Unidos",
             Searchorcreatenewcity: "Buscar o crear una nueva ciudad",
+            PostaJob: "Anunciar un trabajo",
             Radius: "Radio",
+            LeadPreference: "Preferencia de cliente potencial",
+            MyFavorJobs:"Mis trabajos favoritos",
         }
     }
 ];

@@ -84,5 +84,38 @@ export const styles = StyleSheet.create({
         width: '80%',
         alignSelf: "center",
         margin: RFPercentage(1)
-    }
+    },
+    modalContainerAbs: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute', zIndex: 2,
+        justifyContent: 'flex-start',
+        alignItems: "flex-end",
+
+
+    },
+    modalContainer: {
+        // padding: RFPercentage(1.5),
+        paddingHorizontal: RFPercentage(1.5),
+        backgroundColor: Colors.white,
+        borderColor: Colors.fontColor,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+        borderRadius: RFPercentage(.5),
+        height: 75,
+        // width:r
+        width: 140,
+        justifyContent: 'center',
+        // alignItems: 'center'
+        right: RFPercentage(2),
+        top: 25
+
+    },
 });

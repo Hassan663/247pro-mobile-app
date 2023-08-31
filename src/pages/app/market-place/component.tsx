@@ -1,6 +1,7 @@
 // @app
 import React from 'react';
 import {
+    TouchableOpacity,
     View,
 } from 'react-native';
 
@@ -26,9 +27,9 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
                 </View>
                 <View style={styles.cartHeaderIconContainer}>
                     <View style={[centralStyle.circle(RFPercentage(4.5)), styles.bw1]}>
-                        <AntDesign 
-                        name={`hearto`}
-                         size={RFPercentage(2.5)} />
+                        <AntDesign
+                            name={`hearto`}
+                            size={RFPercentage(2.5)} />
                     </View>
                 </View>
 
@@ -60,6 +61,36 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
                 </View>
             </View>
         </View>
+    );
+};
+
+export const MarketPlaceModal: React.FC<{ disableModal?: any }> = ({ disableModal }) => {
+    return (
+        <TouchableOpacity
+            activeOpacity={.9}
+            onPress={() => { disableModal() }}
+            style={styles.modalContainerAbs}>
+            <TouchableOpacity
+                activeOpacity={.9}
+                onPress={() => { disableModal() }}
+                style={styles.modalContainer}>
+                <Title
+                    title={t('PostaJob')}
+                    weight='400'
+                    color={Colors.fontColor}
+                    type='Poppin-14' />
+                <Title
+                    title={t('LeadPreference')}
+                    weight='400'
+                    color={Colors.fontColor}
+                    type='Poppin-14' />
+                <Title
+                    title={t('MyFavorJobs')}
+                    weight='400'
+                    color={Colors.fontColor}
+                    type='Poppin-14' />
+            </TouchableOpacity>
+        </TouchableOpacity >
     );
 };
 
