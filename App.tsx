@@ -18,12 +18,13 @@ import AuthNavigation from './src/router/auth';
 import { I18nextProvider } from 'react-i18next';
 import i18n, { fetchTranslations } from './src/i18n';
 import Colors from './src/styles/colors';
+import { platform } from './src/utilities';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 LogBox.ignoreAllLogs();
-
-const MainComponent: React.FC = () => (1 == 1 ? <AuthNavigation /> : <AppNavigation />);
+const auth = false;
+const MainComponent: React.FC = () => (auth ? <AuthNavigation /> : <AppNavigation />);
 
 const MyStatusBar = ({ backgroundColor, ...props }: any) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
@@ -42,12 +43,19 @@ const App: React.FC = () => {
         <I18nextProvider i18n={i18n}>
 
             <Provider store={store}>
-                {/* <StatusBar hidden={true} /> */}
                 {/* <StatusBar barStyle="dark-content" hidden={false}  translucent={true} /> */}
-                {1 == 1 ?
-                    <></> :
-                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
+                {auth ?
+                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                    <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
+                    // <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />                     // <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
+                    // <StatusBar hidden={true} />
                 }
+
+                {/* {platform == 'ios' ?
+                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
+                    :
+                    <StatusBar hidden={true} />
+                } */}
                 <SafeAreaProvider>
                     <PortalProvider>
                         {/* {alert(process.env.BASE_URL)} */}

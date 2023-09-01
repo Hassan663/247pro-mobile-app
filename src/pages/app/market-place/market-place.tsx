@@ -86,6 +86,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         openDuration={200}
                         closeDuration={200}
                         closeOnPressMask={true}
+                        animationType={`slide`}
                         customStyles={{
                             container: styles.sheetContainer,
                             draggableIcon: styles.sheetDraggableIcon

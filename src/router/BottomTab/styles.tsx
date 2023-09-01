@@ -62,7 +62,7 @@ export const styles = StyleSheet.create<any>({
     }),
     tabBarStyle: {
         height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
-        marginBottom: platform == 'ios' ? '12%' : '6%',
+        marginBottom: platform == 'ios' ? '12%' : '0%',
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,
         position: "absolute",

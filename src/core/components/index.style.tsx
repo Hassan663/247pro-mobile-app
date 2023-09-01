@@ -58,19 +58,19 @@ export const styles: any = StyleSheet.create<any>({
         marginVertical: RFPercentage(1.5),
     }),
     poppin_20: {
-        fontSize: platform == 'ios' ? RFPercentage(2.5) : 20,
+        fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3) ,
     },
     poppin_12: {
-        fontSize: platform == 'ios' ? RFPercentage(1.5) : 12,
+        fontSize: platform == 'ios' ? RFPercentage(1.5) :RFPercentage(1.8)  ,
     },
     poppin_14: {
-        fontSize: platform == 'ios' ? RFPercentage(1.7) : 14,
+        fontSize: platform == 'ios' ? RFPercentage(1.7) :RFPercentage(2.1) ,
     },
     poppin_16: {
-        fontSize: platform !== 'ios' ? RFPercentage(1.9) : 16,
+        fontSize: platform == 'ios' ? RFPercentage(1.9) : RFPercentage(2.4),
     },
     poppin_18: {
-        fontSize: platform !== 'ios' ? RFPercentage(2.1) : 18,
+        fontSize: platform == 'ios' ? RFPercentage(2.1) : RFPercentage(2.7),
     },
     input: (pass: boolean, isActive: boolean) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
@@ -119,9 +119,11 @@ export const styles: any = StyleSheet.create<any>({
     },
     dropDownStyle: {
         borderBottomLeftRadius: 10,
+        marginTop: platform !== 'ios' ?RFPercentage(-3.5): 0,
         borderBottomRightRadius: 10
     },
     headerContainer: {
+        marginTop: platform !== 'ios' ? RFPercentage(3.5) : 0,
         height: platform == 'ios' ? RFPercentage(6) : 50,
         backgroundColor: Colors.white,
         flexDirection: "row",

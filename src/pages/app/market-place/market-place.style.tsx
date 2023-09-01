@@ -107,11 +107,11 @@ export const styles = StyleSheet.create({
 
         elevation: 5,
         borderRadius: RFPercentage(.5),
-        height: platform == 'ios' ? RFPercentage(10) : 75,
-        width: platform == 'ios' ? RFPercentage(17) : 140,
+        height: platform == 'ios' ? RFPercentage(10) : RFPercentage(13)  ,
+        width: platform == 'ios' ? RFPercentage(17) :RFPercentage(20) ,
         justifyContent: 'center',
         right: RFPercentage(2),
-        top: RFPercentage(3)
+        top:platform == 'ios' ? RFPercentage(3): RFPercentage(8)
 
     },
 });
