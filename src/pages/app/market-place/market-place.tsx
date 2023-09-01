@@ -27,7 +27,7 @@ import { styles } from './market-place.style';
 import { platform } from '../../../utilities';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle, } from '../../../styles/constant.style';
-import { changeRoute } from '../../../core/helpers/async-storage';
+import { handleCloseSheet } from './call-back';
 import {
     MarketPlaceCart,
     MarketPlaceModal
@@ -38,8 +38,9 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
     const refRBSheet = useRef<any>(null);
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [check, setCheck] = useState(true)
-    const leftIcon = <AntDesign name={`plus`} style={styles.mx2} size={RFPercentage(3)} color={Colors.black} />
-    const rightIcon1 = <Entypo name={`dots-three-vertical`} style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} size={RFPercentage(2.5)} color={Colors.black} />
+    const leftIcon = <AntDesign name={`plus`} style={styles.mx2} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} color={Colors.black} />
+    const rightIcon1 = <Entypo name={`dots-three-vertical`} style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} color={Colors.black} />
+
     return (
         <>
             <SafeAreaView
@@ -140,7 +141,6 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                         type='Poppin-16' />
                                 </View>
                                 <View style={{ flex: .2 }}>
-
                                     <Title
                                         title={t('RESET')}
                                         weight='600'
@@ -151,12 +151,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={.8}
-                                onPress={() => {
-                                    if (!check) {
-                                        refRBSheet.current.close()
-                                        changeRoute(navigation, 'industry')
-                                    }
-                                }}
+                                onPress={() => { handleCloseSheet(check, refRBSheet, 'industry', navigation,) }}
                                 style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer, styles.mt1]}>
                                 <Title
                                     title={!check ? `${t(`Industry`)} (3)` : `${t(`Industry`)} (0)`}
@@ -170,9 +165,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={.8}
-                                onPress={() => {
-                                    if (!check) { refRBSheet.current.close() }
-                                }}
+                                onPress={() => { handleCloseSheet(check, refRBSheet, '', navigation,) }}
                                 style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
 
                                 <Title
@@ -187,14 +180,8 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={.8}
-                                onPress={() => {
-                                    if (!check) {
-                                        refRBSheet.current.close()
-                                        changeRoute(navigation, 'speciality')
-                                    }
-                                }}
+                                onPress={() => { handleCloseSheet(check, refRBSheet, 'speciality', navigation,) }}
                                 style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
-
                                 <Title
                                     title={!check ? `${t('Specialty')} (3)` : `${t('Specialty')} (0)`}
                                     weight='400'
@@ -207,12 +194,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={.8}
-                                onPress={() => {
-                                    if (!check) {
-                                        refRBSheet.current.close()
-                                        changeRoute(navigation, 'cities')
-                                    }
-                                }}
+                                onPress={() => { handleCloseSheet(check, refRBSheet, `cities`, navigation,) }}
                                 style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
                                 <Title
                                     title={!check ? `${t('Location')} (3)` : `${t('Location')} (0)`}

@@ -30,6 +30,7 @@ import {
     JOBINFODATA
 } from './data';
 import { changeRoute } from '../../../core/helpers/async-storage';
+import { platform } from '../../../utilities';
 
 const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -44,12 +45,14 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                         <AntDesign
                             onPress={() => changeRoute(navigation, 'pop')}
                             style={styles.mx2}
-                            name={`left`} size={RFPercentage(3)} />
+                            name={`left`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(3)} />
                     }
                     iconR1={
                         <Entypo
                             style={styles.mx2}
-                            name={`dots-three-vertical`} size={RFPercentage(3)} />
+                            name={`dots-three-vertical`}
+                            size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)}
+                        />
                     }
                     title={t(`Majorrennovationforasinglefamilyhome`).substring(0, 27) + ' ...'} />
                 <View style={[centralStyle.row, centralStyle.alignitemCenter, styles.infoRow, { backgroundColor: Colors.lightGrey, }]}>

@@ -6,11 +6,9 @@ import { platform } from '../../../utilities';
 
 export const styles = StyleSheet.create({
     inputContainer: {
-        height: 40,
+        height: platform == 'ios' ? RFPercentage(5) : 40,
         borderRadius: RFPercentage(1.5),
-        // marginVertical: RFPercentage(3),
         marginVertical: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(3),
-
         backgroundColor: '#FAFAFA',
         flexDirection: 'row',
         paddingHorizontal: RFPercentage(1)
@@ -19,9 +17,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: RFPercentage(2),
         borderBottomWidth: 1,
         paddingVertical: platform == 'ios' ? RFPercentage(2) : RFPercentage(4),
-        // paddingVertical: RFPercentage(4),
         borderBottomColor: Colors.lightGray,
-        // height: 180
     },
     cartBody: {
         flex: 1.5,
@@ -40,7 +36,7 @@ export const styles = StyleSheet.create({
         flex: 1
     },
     mx2: {
-        marginHorizontal: RFPercentage(2)
+        marginHorizontal: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2)
     },
     px2: {
         paddingHorizontal: RFPercentage(2)
@@ -115,7 +111,7 @@ export const styles = StyleSheet.create({
         width: platform == 'ios' ? RFPercentage(17) : 140,
         justifyContent: 'center',
         right: RFPercentage(2),
-        top: 25
+        top: RFPercentage(3)
 
     },
 });
