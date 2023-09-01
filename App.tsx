@@ -23,12 +23,12 @@ import Colors from './src/styles/colors';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 LogBox.ignoreAllLogs();
 
-const MainComponent: React.FC = () => (1 !== 1 ? <AuthNavigation /> : <AppNavigation />);
+const MainComponent: React.FC = () => (1 == 1 ? <AuthNavigation /> : <AppNavigation />);
 
 const MyStatusBar = ({ backgroundColor, ...props }: any) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
         <SafeAreaView>
-            <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+            <StatusBar translucent hidden={false} backgroundColor={backgroundColor} {...props} />
         </SafeAreaView>
     </View>
 );
@@ -44,14 +44,14 @@ const App: React.FC = () => {
             <Provider store={store}>
                 {/* <StatusBar hidden={true} /> */}
                 {/* <StatusBar barStyle="dark-content" hidden={false}  translucent={true} /> */}
-                <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
-
+                {1 == 1 ?
+                    <></> :
+                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
+                }
                 <SafeAreaProvider>
                     <PortalProvider>
-                        {/* <SafeAreaView> */}
                         {/* {alert(process.env.BASE_URL)} */}
                         <MainComponent />
-                        {/* </SafeAreaView> */}
                     </PortalProvider>
                 </SafeAreaProvider>
             </Provider>

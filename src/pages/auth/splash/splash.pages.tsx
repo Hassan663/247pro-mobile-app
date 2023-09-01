@@ -1,5 +1,5 @@
-import React, { useEffect, useRef,useState } from 'react';
-import { View, Image } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Image, SafeAreaView } from 'react-native';
 import { changeRoute, getItem, setItem } from '../../../core/helpers/async-storage';
 import { styles } from './splash.style';
 import Button from '../../../core/components/button.component';
@@ -10,6 +10,8 @@ import { loginAction } from '../../../store/action/action';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { LoginModal } from '../../../core/modals/login.modal';
+import { centralStyle } from '../../../styles/constant.style';
+import Colors from '../../../styles/colors';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -35,7 +37,7 @@ const Splash: React.FC = () => {
   };
 
 
-  
+
   const handleSkip = () => {
     clearTimeout(timerRef.current);
     handleWalkThroughScreen();
@@ -60,17 +62,19 @@ const Splash: React.FC = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Button
-        title="Skip"
-        callBack={handleSkip}
-        customStyle={styles.customStyle}
-        titleStyle={styles.titleStyle}
-      />
+    <SafeAreaView style={[centralStyle.flex1, { backgroundColor: Colors.primary }]}>
+      <View style={styles.container} >
+        <Button
+          title="Skip"
+          callBack={handleSkip}
+          customStyle={styles.customStyle}
+          titleStyle={styles.titleStyle}
+        />
+      </View>
       <View style={styles.imgWrapper}>
         <Image source={require('../../../assets/auth-images/splashLogo.png')} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
