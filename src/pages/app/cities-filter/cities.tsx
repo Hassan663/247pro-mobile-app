@@ -16,7 +16,7 @@ import { t } from 'i18next';
 
 import AppHeader from '../../../core/components/app-headers';
 import Colors from '../../../styles/colors';
-import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
+import OutlinedTextInput from '../../../core/components/Outlined-TextInput.component';
 import { styles } from './cities.style';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle } from '../../../styles/constant.style';
@@ -33,7 +33,6 @@ const Cities: React.FC<{ navigation: any, route: any }> = ({ navigation, route }
             <AppHeader
                 iconL1={
                     <TouchableOpacity
-                        activeOpacity={.8}
                         onPress={() => changeRoute(navigation, 'pop')} style={styles.mx2}>
                         <Title
                             title={t('Cancel')}

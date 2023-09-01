@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { centralPosition } from '../../../styles/constant.style';
 import Colors from '../../../styles/colors';
+import { platform } from '../../../utilities';
 
 export const styles = StyleSheet.create({
 
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
     inputContainer: {
         height: 40,
         borderRadius: RFPercentage(1.5),
-        marginVertical: RFPercentage(3),
+        marginVertical: platform == 'ios' ? RFPercentage(1) : RFPercentage(3),
         backgroundColor: '#FAFAFA',
         flexDirection: 'row',
         paddingHorizontal: RFPercentage(1)
@@ -23,7 +24,9 @@ export const styles = StyleSheet.create({
         paddingHorizontal: RFPercentage(2)
     },
     titleContainer: {
-        height: RFPercentage(5),
+        height:platform=='ios'? RFPercentage(4): RFPercentage(5),
+
+        // height: RFPercentage(5),
     },
     mt1: {
         marginTop: RFPercentage(1)
@@ -35,5 +38,8 @@ export const styles = StyleSheet.create({
         borderColor: Colors.lightGrey,
         borderWidth: 1
     },
-    categoryContainer: { height: RFPercentage(7), justifyContent: "space-between" },
+    categoryContainer: {
+        height:platform=='ios'? RFPercentage(6): RFPercentage(7),
+        justifyContent: "space-between"
+    },
 });

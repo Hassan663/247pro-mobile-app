@@ -4,7 +4,11 @@ import { PortalProvider } from '@gorhom/portal';
 import { Provider } from 'react-redux';
 import {
     LogBox,
+    Platform,
+    SafeAreaView,
     StatusBar,
+    StyleSheet,
+    View,
 } from 'react-native';
 
 import AppNavigation from './src/router/tab/index';
@@ -13,6 +17,7 @@ import AuthNavigation from './src/router/auth';
 
 import { I18nextProvider } from 'react-i18next';
 import i18n, { fetchTranslations } from './src/i18n';
+import Colors from './src/styles/colors';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
@@ -20,6 +25,13 @@ LogBox.ignoreAllLogs();
 
 const MainComponent: React.FC = () => (1 !== 1 ? <AuthNavigation /> : <AppNavigation />);
 
+const MyStatusBar = ({ backgroundColor, ...props }: any) => (
+    <View style={[styles.statusBar, { backgroundColor }]}>
+        <SafeAreaView>
+            <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+        </SafeAreaView>
+    </View>
+);
 const App: React.FC = () => {
 
     const getTranslations = async () => { return fetchTranslations(); };
@@ -31,12 +43,15 @@ const App: React.FC = () => {
 
             <Provider store={store}>
                 {/* <StatusBar hidden={true} /> */}
-                {/* <StatusBar barStyle="dark-content" hidden={false} backgroundColor="transparent" translucent={true} /> */}
+                {/* <StatusBar barStyle="dark-content" hidden={false}  translucent={true} /> */}
+                <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
 
                 <SafeAreaProvider>
                     <PortalProvider>
+                        {/* <SafeAreaView> */}
                         {/* {alert(process.env.BASE_URL)} */}
                         <MainComponent />
+                        {/* </SafeAreaView> */}
                     </PortalProvider>
                 </SafeAreaProvider>
             </Provider>
@@ -45,3 +60,13 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+
+
+const STATUSBAR_HEIGHT = StatusBar.currentHeight;
+
+const styles = StyleSheet.create({
+    statusBar: {
+        height: STATUSBAR_HEIGHT,
+    },
+});

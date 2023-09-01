@@ -8,7 +8,8 @@ import {
     FlatList,
     Image,
     Text,
-    ScrollView
+    ScrollView,
+    SafeAreaView
 } from 'react-native';
 
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -35,7 +36,7 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
     const refRBSheet = useRef<any>(null);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ScrollView>
                 <AppHeader
                     iconL1={
@@ -161,7 +162,7 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                 </View>
 
             </ScrollView>
-        </View >
+        </SafeAreaView >
     );
 };
 

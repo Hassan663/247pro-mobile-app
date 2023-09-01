@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { centralPosition } from '../../../styles/constant.style';
 import Colors from '../../../styles/colors';
+import { platform } from '../../../utilities';
 
 export const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.white },
@@ -77,21 +78,24 @@ export const styles = StyleSheet.create({
         height: 50,
     },
     itemImg: {
-        height: RFPercentage(8),
-        width: RFPercentage(8)
+        height:platform=='ios'?RFPercentage(7): RFPercentage(8),
+        width:platform=='ios'?RFPercentage(7): RFPercentage(8),
     },
     tagsWrapper: {
         flexWrap: 'wrap',
         alignItems: "center"
     },
-    my1: { marginVertical: RFPercentage(1) },
+    my1: {
+        marginVertical: platform == 'ios' ? 0 : RFPercentage(1)
+    },
     itemImgContainer: {
         flex: 1.5,
         marginVertical: RFPercentage(2),
     },
     itemBody: {
         flex: 8,
-        paddingVertical: RFPercentage(1)
+        paddingVertical: RFPercentage(1),
+        paddingHorizontal: platform == 'ios' ? RFPercentage(1) : 0
     },
     tagContainer: {
         margin: RFPercentage(1),
@@ -105,7 +109,7 @@ export const styles = StyleSheet.create({
         color: Colors.fontColor
     },
     arrowIcon: {
-        flex: .5,
+        flex: platform == 'ios' ? .7 : .5,
         marginVertical: RFPercentage(2),
     },
 });

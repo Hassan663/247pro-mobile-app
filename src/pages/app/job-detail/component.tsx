@@ -25,7 +25,7 @@ export const Attachments = ({ item }: any) => {
             <View style={[styles.itemImgContainer, centralStyle.alignitemCenter]}>
                 <Image source={item.IMAGE} resizeMode='contain' style={styles.itemImg} />
             </View>
-            <View style={styles.itemBody}>
+            <View style={[styles.itemBody, ]}>
                 <View style={[centralStyle.row, styles.tagsWrapper]}>
                     {item.tags.map((item: any) => {
                         return (

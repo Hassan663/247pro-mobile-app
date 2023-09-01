@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
 import { centralPosition } from '../../../styles/constant.style';
+import { platform } from '../../../utilities';
 
 export const styles = StyleSheet.create({
     inputContainer: {
@@ -81,7 +82,7 @@ export const styles = StyleSheet.create({
         marginTop: RFPercentage(1)
     },
     btnContainer: {
-        width: '80%',
+        width: platform == 'ios' ? "90%" : '80%',
         alignSelf: "center",
         margin: RFPercentage(1)
     },
@@ -91,8 +92,6 @@ export const styles = StyleSheet.create({
         position: 'absolute', zIndex: 2,
         justifyContent: 'flex-start',
         alignItems: "flex-end",
-
-
     },
     modalContainer: {
         paddingHorizontal: RFPercentage(1.5),
@@ -109,12 +108,10 @@ export const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: RFPercentage(.5),
         height: 75,
-        // width:r
         width: 140,
         justifyContent: 'center',
-        // alignItems: 'center'
         right: RFPercentage(2),
-        top: 25
+        top: platform == 'ios' ? '10%' : 25
 
     },
 });

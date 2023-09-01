@@ -15,7 +15,7 @@ export const JOBINFODATA = [
 export const ATTACHMENTSDATA = [
     {
         'IMAGE': require('../../../assets/app-images/attachment.png'),
-        tags: ['Remodel', 'New', 'Remodel', 'New', 'Remodel', 'Remodel', 'New', 'Remodel'],
+        tags: ['Remodel', 'New', 'New', 'Remodel', 'Remodel', 'Remodel', 'New', 'Remodel'],
         description: 'I likea whole house renovation (less than 10% people give description on imag',
     },
     {

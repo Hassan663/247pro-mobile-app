@@ -13,7 +13,7 @@ import { t } from 'i18next';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
-import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
+import OutlinedTextInput from '../../../core/components/Outlined-TextInput.component';
 import { styles } from './enter-name-and-email.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import {

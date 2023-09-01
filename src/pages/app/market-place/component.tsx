@@ -66,6 +66,7 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
 
 export const MarketPlaceModal: React.FC<{ disableModal?: any }> = ({ disableModal }) => {
     return (
+        
         <TouchableOpacity
             activeOpacity={.9}
             onPress={() => { disableModal() }}

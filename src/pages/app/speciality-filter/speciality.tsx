@@ -5,6 +5,7 @@ import {
     FlatList,
     TouchableOpacity,
     TextInput,
+    SafeAreaView,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -30,7 +31,8 @@ const Speciality: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                 iconL1={
                     <TouchableOpacity
                         activeOpacity={.8}
-                        onPress={() => changeRoute(navigation, 'pop')} style={styles.mx2}>
+                        onPress={() => changeRoute(navigation, 'pop')}
+                        style={styles.mx2}>
                         <Title
                             title={t('Cancel')}
                             weight={'600'}

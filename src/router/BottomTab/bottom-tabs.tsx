@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Projects from '../../pages/app/projects/projects';
@@ -17,6 +17,7 @@ import {
     ProjectsIcon,
     TasksIcon
 } from '../../assets/svg-icons/CustomSvgIcon';
+import { platform } from '../../utilities';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +31,7 @@ function AppTabs() {
                     tabBarLabelPosition: 'below-icon',
                     tabBarActiveTintColor: Colors.black, // Active tab color
                     tabBarInactiveTintColor: Colors.fontColor, // Inactive tab color
-                    tabBarStyle: { height: RFPercentage(8),marginBottom:'6%', borderTopRightRadius: 15, borderTopLeftRadius: 15, }
+                    tabBarStyle: { height: RFPercentage(8), marginBottom: platform == 'ios' ? '15%' : '6%', borderTopRightRadius: 15, borderTopLeftRadius: 15, }
                 })}
             >
                 <Tab.Screen
