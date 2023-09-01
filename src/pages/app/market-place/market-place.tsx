@@ -51,7 +51,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     <AppHeader
                         iconR1={
                             <AntDesign
-                                name={`plus`}
+                                 name={`plus`}
                                 style={styles.mx2}
                                 size={RFPercentage(3)}
                                 color={Colors.black} />

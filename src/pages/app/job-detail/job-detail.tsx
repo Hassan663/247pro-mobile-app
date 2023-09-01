@@ -29,6 +29,7 @@ import {
     ATTACHMENTSDATA,
     JOBINFODATA
 } from './data';
+import { changeRoute } from '../../../core/helpers/async-storage';
 
 const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -41,6 +42,7 @@ const JobDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                 <AppHeader
                     iconL1={
                         <AntDesign
+                            onPress={() => changeRoute(navigation, 'pop')}
                             style={styles.mx2}
                             name={`left`} size={RFPercentage(3)} />
                     }

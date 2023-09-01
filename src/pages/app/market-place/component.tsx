@@ -14,10 +14,13 @@ import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle } from '../../../styles/constant.style';
 import { styles } from './market-place.style';
 import { t } from 'i18next';
+import { changeRoute } from '../../../core/helpers/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export const MarketPlaceCart: React.FC<{}> = ({ }) => {
+    const navigation=useNavigation()
     return (
-        <View style={styles.cartContainer}>
+        <TouchableOpacity onPress={()=>changeRoute(navigation,'jobDetail')} style={styles.cartContainer}>
             <View style={[centralStyle.flex1, centralStyle.row]}>
                 <View style={styles.cartHeader}>
                     <Title title={t('Majorrennovationforasinglefamilyhome')}
@@ -34,7 +37,7 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
                 </View>
 
             </View>
-            <View style={[centralStyle.flex1, styles.cartBody, centralStyle.XAndYCenter]}>
+            <View style={[centralStyle.flex1, styles.cartBody, centralStyle.justifyContentCenter]}>
                 <Title
                     title={t(`marketPlaceMsg`)}
                     color={Colors.black}
@@ -60,7 +63,7 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
                         size={RFPercentage(3.5)} />
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 

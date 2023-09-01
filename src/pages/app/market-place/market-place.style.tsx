@@ -8,7 +8,9 @@ export const styles = StyleSheet.create({
     inputContainer: {
         height: 40,
         borderRadius: RFPercentage(1.5),
-        marginVertical: RFPercentage(3),
+        // marginVertical: RFPercentage(3),
+        marginVertical:platform=='ios'? RFPercentage(1.5): RFPercentage(3),
+
         backgroundColor: '#FAFAFA',
         flexDirection: 'row',
         paddingHorizontal: RFPercentage(1)
@@ -16,9 +18,10 @@ export const styles = StyleSheet.create({
     cartContainer: {
         paddingHorizontal: RFPercentage(2),
         borderBottomWidth: 1,
-        paddingVertical: RFPercentage(4),
+        paddingVertical:platform=='ios'? RFPercentage(2): RFPercentage(4),
+        // paddingVertical: RFPercentage(4),
         borderBottomColor: Colors.lightGray,
-        height: 180
+        // height: 180
     },
     cartBody: {
         flex: 1.5,
