@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: RFPercentage(1.5),
         // marginVertical: RFPercentage(3),
-        marginVertical:platform=='ios'? RFPercentage(1.5): RFPercentage(3),
+        marginVertical: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(3),
 
         backgroundColor: '#FAFAFA',
         flexDirection: 'row',
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     cartContainer: {
         paddingHorizontal: RFPercentage(2),
         borderBottomWidth: 1,
-        paddingVertical:platform=='ios'? RFPercentage(2): RFPercentage(4),
+        paddingVertical: platform == 'ios' ? RFPercentage(2) : RFPercentage(4),
         // paddingVertical: RFPercentage(4),
         borderBottomColor: Colors.lightGray,
         // height: 180
@@ -92,7 +92,8 @@ export const styles = StyleSheet.create({
     modalContainerAbs: {
         height: '100%',
         width: '100%',
-        position: 'absolute', zIndex: 2,
+        position: 'absolute',
+        zIndex: 2,
         justifyContent: 'flex-start',
         alignItems: "flex-end",
     },
@@ -110,11 +111,11 @@ export const styles = StyleSheet.create({
 
         elevation: 5,
         borderRadius: RFPercentage(.5),
-        height: 75,
-        width: 140,
+        height: platform == 'ios' ? RFPercentage(10) : 75,
+        width: platform == 'ios' ? RFPercentage(17) : 140,
         justifyContent: 'center',
         right: RFPercentage(2),
-        top: platform == 'ios' ? '10%' : 25
+        top: 25
 
     },
 });

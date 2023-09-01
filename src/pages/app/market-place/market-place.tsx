@@ -19,6 +19,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import AppHeader from '../../../core/components/app-headers';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { t } from 'i18next';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
@@ -26,7 +27,6 @@ import { styles } from './market-place.style';
 import { platform } from '../../../utilities';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle, } from '../../../styles/constant.style';
-import { t } from 'i18next';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import {
     MarketPlaceCart,
@@ -38,39 +38,23 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
     const refRBSheet = useRef<any>(null);
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [check, setCheck] = useState(true)
-
+    const leftIcon = <AntDesign name={`plus`} style={styles.mx2} size={RFPercentage(3)} color={Colors.black} />
+    const rightIcon1 = <Entypo name={`dots-three-vertical`} style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} size={RFPercentage(2.5)} color={Colors.black} />
     return (
         <>
             <SafeAreaView
-                style={{ flex: 1 }}
+                style={centralStyle.flex1}
             >
                 <KeyboardAvoidingView
-                    style={{ flex: 1 }}
+                    style={centralStyle.flex1}
                     behavior={platform === 'ios' ? 'padding' : 'height'}
                 >
                     <AppHeader
-                        iconR1={
-                            <AntDesign
-                                 name={`plus`}
-                                style={styles.mx2}
-                                size={RFPercentage(3)}
-                                color={Colors.black} />
-                        }
-                        iconR2={
-                            <Entypo
-                                name={`dots-three-vertical`}
-                                style={styles.mx2}
-                                onPress={() => setmodalEnabled(!modalEnabled)}
-                                size={RFPercentage(2.5)}
-                                color={Colors.black} />
-                        }
+                        iconR1={leftIcon}
+                        iconR2={rightIcon1}
                         title={t(`Marketplace`)} />
 
-                    {modalEnabled &&
-
-                        <MarketPlaceModal disableModal={() => setmodalEnabled(!modalEnabled)} />
-                        // {/* </SafeAreaView> */}
-                    }
+                    {modalEnabled && <MarketPlaceModal disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                     <View style={[styles.marketPlaceBody]}>
                         <View style={[styles.mx2, styles.inputContainer, centralStyle.XAndYCenter]}>

@@ -61,9 +61,21 @@ export const styles = StyleSheet.create<any>({
             undefined
     }),
     tabBarStyle: {
-        height:platform == 'ios' ?  RFPercentage(10): RFPercentage(8),
+        height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
         marginBottom: platform == 'ios' ? '12%' : '6%',
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,
+        position: "absolute",
+        backgroundColor: Colors.white,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+
     },
 });

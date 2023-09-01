@@ -18,9 +18,9 @@ import { changeRoute } from '../../../core/helpers/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 export const MarketPlaceCart: React.FC<{}> = ({ }) => {
-    const navigation=useNavigation()
+    const navigation = useNavigation()
     return (
-        <TouchableOpacity onPress={()=>changeRoute(navigation,'jobDetail')} style={styles.cartContainer}>
+        <TouchableOpacity onPress={() => changeRoute(navigation, 'jobDetail')} style={styles.cartContainer}>
             <View style={[centralStyle.flex1, centralStyle.row]}>
                 <View style={styles.cartHeader}>
                     <Title title={t('Majorrennovationforasinglefamilyhome')}
@@ -69,7 +69,7 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
 
 export const MarketPlaceModal: React.FC<{ disableModal?: any }> = ({ disableModal }) => {
     return (
-        
+
         <TouchableOpacity
             activeOpacity={.9}
             onPress={() => { disableModal() }}
@@ -83,16 +83,21 @@ export const MarketPlaceModal: React.FC<{ disableModal?: any }> = ({ disableModa
                     weight='400'
                     color={Colors.fontColor}
                     type='Poppin-14' />
-                <Title
-                    title={t('LeadPreference')}
-                    weight='400'
-                    color={Colors.fontColor}
-                    type='Poppin-14' />
-                <Title
-                    title={t('MyFavorJobs')}
-                    weight='400'
-                    color={Colors.fontColor}
-                    type='Poppin-14' />
+                <View style={styles.mt1}>
+
+                    <Title
+                        title={t('LeadPreference')}
+                        weight='400'
+                        color={Colors.fontColor}
+                        type='Poppin-14' />
+                </View>
+                <View style={styles.mt1}>
+                    <Title
+                        title={t('MyFavorJobs')}
+                        weight='400'
+                        color={Colors.fontColor}
+                        type='Poppin-14' />
+                </View>
             </TouchableOpacity>
         </TouchableOpacity >
     );
