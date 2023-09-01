@@ -44,11 +44,20 @@ const App: React.FC = () => {
 
             <Provider store={store}>
                 {/* <StatusBar barStyle="dark-content" hidden={false}  translucent={true} /> */}
-                {auth ?
-                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
-                    <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
-                    // <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />                     // <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
-                    // <StatusBar hidden={true} />
+                {
+
+                    platform == 'ios'
+                        ?
+                        auth ?
+                            <></> :
+
+                            <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                        // platform !== 'ios' ?
+                        auth ?
+                            <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                            <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
+                    // : <>
+                    // </>
                 }
 
                 {/* {platform == 'ios' ?
