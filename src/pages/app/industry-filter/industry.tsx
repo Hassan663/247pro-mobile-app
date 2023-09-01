@@ -1,11 +1,10 @@
 // @app
-import React, { } from 'react';
+import React from 'react';
 import {
     View,
     FlatList,
     TouchableOpacity,
     TextInput,
-    SafeAreaView,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'

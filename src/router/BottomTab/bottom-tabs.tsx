@@ -18,6 +18,7 @@ import {
     TasksIcon
 } from '../../assets/svg-icons/CustomSvgIcon';
 import { platform } from '../../utilities';
+import { styles } from './styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +32,8 @@ function AppTabs() {
                     tabBarLabelPosition: 'below-icon',
                     tabBarActiveTintColor: Colors.black, // Active tab color
                     tabBarInactiveTintColor: Colors.fontColor, // Inactive tab color
-                    tabBarStyle: { height: RFPercentage(8), marginBottom: platform == 'ios' ? '15%' : '6%', borderTopRightRadius: 15, borderTopLeftRadius: 15, }
+                    tabBarStyle: styles.tabBarStyle,
+                 
                 })}
             >
                 <Tab.Screen

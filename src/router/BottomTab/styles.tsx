@@ -1,6 +1,7 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import Colors from '../../styles/colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { platform } from '../../utilities';
 
 export const styles = StyleSheet.create<any>({
     mainContainer: {
@@ -59,4 +60,10 @@ export const styles = StyleSheet.create<any>({
             :
             undefined
     }),
+    tabBarStyle: {
+        height:platform == 'ios' ?  RFPercentage(10): RFPercentage(8),
+        marginBottom: platform == 'ios' ? '12%' : '6%',
+        borderTopRightRadius: 15,
+        borderTopLeftRadius: 15,
+    },
 });
