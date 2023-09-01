@@ -7,6 +7,7 @@ import {
     Text,
     ImageBackground,
     TouchableOpacity,
+    SafeAreaView,
 } from 'react-native';
 
 import {
@@ -19,6 +20,7 @@ import Swiper from 'react-native-swiper';
 import { RootStackParamList } from '../../../router/auth';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { centralStyle } from '../../../styles/constant.style';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -49,49 +51,51 @@ const WalkThrough: React.FC = () => {
                             resizeMode="cover"
                             style={styles.image}
                         >
-                            <View style={[styles.imgWrapper, styles.skipBtnWrapper]}>
-                                {index !== 2 &&
-                                    <Button
-                                        title={`Skip`}
-                                        titleStyle={styles.titleStyle}
-                                        callBack={() => changeSlide(swiperRef, navigation)}
+                            <SafeAreaView style={centralStyle.flex1}>
+                                <View style={[styles.imgWrapper, styles.skipBtnWrapper]}>
+                                    {index !== 2 &&
+                                        <Button
+                                            title={`Skip`}
+                                            titleStyle={styles.titleStyle}
+                                            callBack={() => changeSlide(swiperRef, navigation)}
+                                        />
+                                    }
+                                </View>
+
+                                <View style={styles.imgWrapper}>
+                                    <Image
+                                        style={styles.slidesLogo}
+                                        resizeMode='contain'
+                                        source={require('../../../assets/auth-images/splashLogo.png')}
                                     />
-                                }
-                            </View>
 
-                            <View style={styles.imgWrapper}>
-                                <Image
-                                    style={styles.slidesLogo}
-                                    resizeMode='contain'
-                                    source={require('../../../assets/auth-images/splashLogo.png')}
-                                />
+                                    <Text style={styles.WalkThroughTitle}>
+                                        Leads and Software for Contractors and Beyond
+                                    </Text>
 
-                                <Text style={styles.WalkThroughTitle}>
-                                    Leads and Software for Contractors and Beyond
-                                </Text>
+                                    <View style={styles.slideFooterContainer}>
 
-                                <View style={styles.slideFooterContainer}>
+                                        <View style={styles.paginationWrapper}>
 
-                                    <View style={styles.paginationWrapper}>
+                                            {SLIDESDATA.map((_, i) => (
+                                                <View
+                                                    key={i}
+                                                    style={styles.pagination(i === index)}
+                                                ></View>
+                                            ))}
 
-                                        {SLIDESDATA.map((_, i) => (
-                                            <View
-                                                key={i}
-                                                style={styles.pagination(i === index)}
-                                            ></View>
-                                        ))}
+                                        </View>
+
+                                        <TouchableOpacity onPress={() => changeSlide(swiperRef, navigation)}>
+                                            <Image
+                                                resizeMode='contain'
+                                                source={item.nextIcon}
+                                            />
+                                        </TouchableOpacity>
 
                                     </View>
-
-                                    <TouchableOpacity onPress={() => changeSlide(swiperRef, navigation)}>
-                                        <Image
-                                            resizeMode='contain'
-                                            source={item.nextIcon}
-                                        />
-                                    </TouchableOpacity>
-
                                 </View>
-                            </View>
+                            </SafeAreaView>
                         </ImageBackground>
                     </View>
                 );
