@@ -46,6 +46,7 @@ const LeadPreference: React.FC<{ navigation: any, route: any }> = ({ navigation,
                 weight='400'
                 type='Poppin-16'
                 title={t(`Setmatchingcriteriasforjobopportunities`)} />
+ 
             <TouchableOpacity
                 activeOpacity={.8}
                 style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
