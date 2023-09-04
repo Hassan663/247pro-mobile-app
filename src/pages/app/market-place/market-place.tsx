@@ -55,7 +55,7 @@ const MarketPlace: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         iconR2={rightIcon1}
                         title={t(`Marketplace`)} />
 
-                    {modalEnabled && <MarketPlaceModal disableModal={() => setmodalEnabled(!modalEnabled)} />}
+                    {modalEnabled && <MarketPlaceModal navigation={navigation} disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                     <View style={[styles.marketPlaceBody]}>
                         <View style={[styles.mx2, styles.inputContainer, centralStyle.XAndYCenter]}>

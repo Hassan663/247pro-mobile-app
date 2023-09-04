@@ -16,7 +16,7 @@ export default function appNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName='leadPreference'
+        initialRouteName='AppTabs'
       >
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="jobDetail" component={JobDetail} />

@@ -67,7 +67,7 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
     );
 };
 
-export const MarketPlaceModal: React.FC<{ disableModal?: any }> = ({ disableModal }) => {
+export const MarketPlaceModal: React.FC<{ disableModal?: any, navigation?: any }> = ({ disableModal, navigation }) => {
     return (
 
         <TouchableOpacity
@@ -76,7 +76,10 @@ export const MarketPlaceModal: React.FC<{ disableModal?: any }> = ({ disableModa
             style={styles.modalContainerAbs}>
             <TouchableOpacity
                 activeOpacity={.9}
-                onPress={() => { disableModal() }}
+                onPress={() => {
+                    disableModal()
+                    changeRoute(navigation, 'leadPreference')
+                }}
                 style={styles.modalContainer}>
                 <Title
                     title={t('PostaJob')}
