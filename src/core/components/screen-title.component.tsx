@@ -43,4 +43,5 @@ export const Title: React.FC<TitleTextProps> = ({ title, type, color, weight }) 
     if (type == 'Poppin-16') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_16]} >{title}</Text>;
     if (type == 'Poppin-18') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_18]} >{title}</Text>;
     if (type == 'Poppin-20') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_20]} >{title}</Text>;
+    if (type == 'Poppin-24') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_24]} >{title}</Text>;
 };

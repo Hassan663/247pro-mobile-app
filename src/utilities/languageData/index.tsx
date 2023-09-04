@@ -105,6 +105,7 @@ export const languageData = [
             IndustryPreferences: "Industry Preferences",
             CREATEABCINDUSTRY:"CREATE “ABC” INDUSTRY",
             Norecordfound: "No record found",
+            BusinessCard:"Business Card",
         }
     },
     {
@@ -215,6 +216,7 @@ export const languageData = [
             IndustryPreferences: "行业偏好",
             Norecordfound: "行业偏好",
             CREATEABCINDUSTRY:"打造“ABC”产业",
+            BusinessCard:"名片",
 
         }
     },
@@ -321,6 +323,7 @@ export const languageData = [
             IndustryPreferences: "Preferencias de la industria",
             Norecordfound: "Preferencias de la industria",
             CREATEABCINDUSTRY:"CREAR LA INDUSTRIA “ABC”",
+            BusinessCard:"Tarjeta de visita",
 
 
         }

@@ -50,15 +50,6 @@ function AppTabs() {
                         ),
                     }}
                 />
-                {/* <Tab.Screen
-                    name="Tasks"
-                    component={Tasks}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <TasksIcon width={30} height={30} color={color} />
-                        ),
-                    }}
-                /> */}
                 <Tab.Screen
                     name="Menu"
                     component={Menu}
