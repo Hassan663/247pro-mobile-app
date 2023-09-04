@@ -100,6 +100,8 @@ export const languageData = [
             ACCEPTTOBID: "ACCEPT TO BID",
             Congratulationsandgoodluckonyourbidding :"Congratulations and good luck on your bidding.",
             Createbidlater:"Create bid later",
+            Setmatchingcriteriasforjobopportunities:"Set matching criterias for job opportunities",
+
         }
     },
     {
@@ -205,6 +207,7 @@ export const languageData = [
             ACCEPTTOBID: "接受投标",
             Congratulationsandgoodluckonyourbidding :"恭喜您并祝您投标顺利。",
             Createbidlater:"稍后创建出价",
+            Setmatchingcriteriasforjobopportunities:"设定工作机会的匹配标准",
 
         }
     },
@@ -306,6 +309,7 @@ export const languageData = [
             ACCEPTTOBID: "ACEPTAR OFERTA",
             Congratulationsandgoodluckonyourbidding :"Felicitaciones y buena suerte con su oferta.",
             Createbidlater:"Crear oferta más tarde",
+            Setmatchingcriteriasforjobopportunities:"Establecer criterios coincidentes para las oportunidades laborales",
             
         }
     }
