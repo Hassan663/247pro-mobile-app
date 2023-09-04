@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         height: platform == 'ios' ? RFPercentage(5) : 40,
         borderRadius: RFPercentage(1.5),
         marginVertical: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(3),
-        backgroundColor: '#FAFAFA',
+        backgroundColor: Colors.inputBgColor,
         flexDirection: 'row',
         paddingHorizontal: RFPercentage(1)
     },

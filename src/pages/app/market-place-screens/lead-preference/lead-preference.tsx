@@ -22,7 +22,6 @@ import { PREFERENCEDATA } from './data';
 
 const LeadPreference: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
-
     return (
         <SafeAreaView style={styles.container}>
             <AppHeader
@@ -51,6 +50,11 @@ const LeadPreference: React.FC<{ navigation: any, route: any }> = ({ navigation,
                     <TouchableOpacity
                         key={index.toString()}
                         activeOpacity={.8}
+                        onPress={() => {
+                            if (item == `${t(`Industry`)} (1)`) {
+                                changeRoute(navigation, 'leadPreferenceIndustry')
+                            }
+                        }}
                         style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
                         <Title
                             title={item}

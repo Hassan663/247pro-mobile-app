@@ -8,6 +8,7 @@ import Speciality from '../../pages/app/speciality-filter/speciality';
 import Cities from '../../pages/app/market-place-screens/lead-preference/lead-preference';
 import JobDetail from '../../pages/app/job-detail/job-detail';
 import LeadPreference from '../../pages/app/market-place-screens/lead-preference/lead-preference';
+import LeadPreferenceIndustry from '../../pages/app/market-place-screens/lead-preference-industry/lead-preference-industry';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export default function appNavigation() {
         <Stack.Screen name="speciality" component={Speciality} />
         <Stack.Screen name="cities" component={Cities} />
         <Stack.Screen name="leadPreference" component={LeadPreference} />
+        <Stack.Screen name="leadPreferenceIndustry" component={LeadPreferenceIndustry} />
 
       </Stack.Navigator>
     </NavigationContainer>

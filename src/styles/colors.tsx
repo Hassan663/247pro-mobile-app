@@ -6,6 +6,7 @@ const Colors = {
     white: "#FFFFFF",
     lightGrey: '#E0E0E0',
     red: 'red',
+    inputBgColor: '#FAFAFA',
 };
 
 type ColorsType = typeof Colors;

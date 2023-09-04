@@ -98,10 +98,11 @@ export const languageData = [
             JobDescriptionMsg: "I like to do a whole house renovation, including one kitchen I like to do a whole house renovation, including one kitchen like to do a whole house renovation, including one one one one one one one one ",
             Attachments: "Attachments",
             ACCEPTTOBID: "ACCEPT TO BID",
-            Congratulationsandgoodluckonyourbidding :"Congratulations and good luck on your bidding.",
-            Createbidlater:"Create bid later",
-            Setmatchingcriteriasforjobopportunities:"Set matching criterias for job opportunities",
-
+            Congratulationsandgoodluckonyourbidding: "Congratulations and good luck on your bidding.",
+            Createbidlater: "Create bid later",
+            Setmatchingcriteriasforjobopportunities: "Set matching criterias for job opportunities",
+            Theindustriesyouwillreceivejobleadsfrom: "The industries you will receive job leads from",
+            IndustryPreferences:"Industry Preferences",
         }
     },
     {
@@ -205,9 +206,11 @@ export const languageData = [
 
             Attachments: "附件",
             ACCEPTTOBID: "接受投标",
-            Congratulationsandgoodluckonyourbidding :"恭喜您并祝您投标顺利。",
-            Createbidlater:"稍后创建出价",
-            Setmatchingcriteriasforjobopportunities:"设定工作机会的匹配标准",
+            Congratulationsandgoodluckonyourbidding: "恭喜您并祝您投标顺利。",
+            Createbidlater: "稍后创建出价",
+            Setmatchingcriteriasforjobopportunities: "设定工作机会的匹配标准",
+            Theindustriesyouwillreceivejobleadsfrom: "您将收到工作机会的行业",
+            IndustryPreferences:"行业偏好",
 
         }
     },
@@ -307,10 +310,11 @@ export const languageData = [
             JobDescriptionMsg: "Me gusta hacer una renovación completa de la casa, incluida una cocina Me gusta hacer una renovación completa de la casa, incluida una cocina Me gusta hacer una renovación completa de la casa, incluida una uno uno uno uno uno uno uno",
             Attachments: "Archivos adjuntos",
             ACCEPTTOBID: "ACEPTAR OFERTA",
-            Congratulationsandgoodluckonyourbidding :"Felicitaciones y buena suerte con su oferta.",
-            Createbidlater:"Crear oferta más tarde",
-            Setmatchingcriteriasforjobopportunities:"Establecer criterios coincidentes para las oportunidades laborales",
-            
+            Congratulationsandgoodluckonyourbidding: "Felicitaciones y buena suerte con su oferta.",
+            Createbidlater: "Crear oferta más tarde",
+            Setmatchingcriteriasforjobopportunities: "Establecer criterios coincidentes para las oportunidades laborales",
+            Theindustriesyouwillreceivejobleadsfrom: "Las industrias de las que recibirá oportunidades de empleo",
+            IndustryPreferences:"Preferencias de la industria",
         }
     }
 ];
