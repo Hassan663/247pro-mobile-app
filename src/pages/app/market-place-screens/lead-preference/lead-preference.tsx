@@ -1,32 +1,30 @@
 // @app
-import React, {
-    useState
-} from 'react';
+import React from 'react';
 import {
     View,
-    FlatList,
     SafeAreaView,
     TouchableOpacity,
-    TextInput,
 } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo'
-import AntDesign from 'react-native-vector-icons/AntDesign'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
+
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import AppHeader from '../../../../core/components/app-headers';
+import Colors from '../../../../styles/colors';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { styles } from './lead-preference.style';
 import { platform } from '../../../../utilities';
-import Colors from '../../../../styles/colors';
 import { Title } from '../../../../core/components/screen-title.component';
 import { centralStyle } from '../../../../styles/constant.style';
+import { PREFERENCEDATA } from './data';
 
 const LeadPreference: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+        <SafeAreaView style={styles.container}>
             <AppHeader
                 iconL1={
                     <AntDesign
@@ -42,63 +40,30 @@ const LeadPreference: React.FC<{ navigation: any, route: any }> = ({ navigation,
                     />
                 }
                 title={t(`LeadPreference`)} />
-            <Title
-                weight='400'
-                type='Poppin-16'
-                title={t(`Setmatchingcriteriasforjobopportunities`)} />
- 
-            <TouchableOpacity
-                activeOpacity={.8}
-                style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
+            <View style={styles.titleWrapper}>
                 <Title
-                    title={`${t('Specialty')} (3)`}
                     weight='400'
-                    color={Colors.black}
-                    type='Poppin-14' />
-                <AntDesign
-                    name={`right`}
-                    color={Colors.fontColor}
-                    size={RFPercentage(2.5)} />
-            </TouchableOpacity>
-            <TouchableOpacity
-                activeOpacity={.8}
-                style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
-                <Title
-                    title={t('Jobtype')}
-                    weight='400'
-                    color={Colors.black}
-                    type='Poppin-14' />
-                <AntDesign
-                    name={`right`}
-                    color={Colors.fontColor}
-                    size={RFPercentage(2.5)} />
-            </TouchableOpacity>
-            <TouchableOpacity
-                activeOpacity={.8}
-                style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
-                <Title
-                    title={`${t('Specialty')} (3)`}
-                    weight='400'
-                    color={Colors.black}
-                    type='Poppin-14' />
-                <AntDesign
-                    name={`right`}
-                    color={Colors.fontColor}
-                    size={RFPercentage(2.5)} />
-            </TouchableOpacity>
-            <TouchableOpacity
-                activeOpacity={.8}
-                style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
-                <Title
-                    title={`${t('Location')} (3)`}
-                    weight='400'
-                    color={Colors.black}
-                    type='Poppin-14' />
-                <AntDesign
-                    name={`right`}
-                    color={Colors.fontColor}
-                    size={RFPercentage(2.5)} />
-            </TouchableOpacity>
+                    type='Poppin-16'
+                    title={t(`Setmatchingcriteriasforjobopportunities`)} />
+            </View>
+            {PREFERENCEDATA.map((item, index) => {
+                return (
+                    <TouchableOpacity
+                        key={index.toString()}
+                        activeOpacity={.8}
+                        style={[centralStyle.row, centralStyle.alignitemCenter, styles.titleContainer]}>
+                        <Title
+                            title={item}
+                            weight='400'
+                            color={item == t('Jobtype') ? Colors.lightGray : Colors.black}
+                            type='Poppin-14' />
+                        <AntDesign
+                            name={`right`}
+                            color={item == t('Jobtype') ? Colors.lightGray : Colors.black}
+                            size={RFPercentage(2.5)} />
+                    </TouchableOpacity>
+                )
+            })}
         </SafeAreaView>
     );
 };

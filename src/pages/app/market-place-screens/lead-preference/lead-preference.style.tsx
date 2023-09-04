@@ -12,4 +12,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: RFPercentage(2.5),
         height: RFPercentage(5),
     },
+    container: {
+        flex: 1,
+        backgroundColor: Colors.white
+    },
+    titleWrapper: {
+        marginTop: RFPercentage(2),
+        paddingHorizontal: RFPercentage(2.5),
+    },
 });
