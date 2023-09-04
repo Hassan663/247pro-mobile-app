@@ -1,5 +1,5 @@
 // @app
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     FlatList,
@@ -20,7 +20,7 @@ import { CheckBoxRow } from './component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 
 const Industry: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-
+    const [createIndustry, setCreateIndustry] = useState(true)
     return (
         <View style={{ flex: 1 }}>
             <AppHeader
@@ -43,7 +43,6 @@ const Industry: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                             color={Colors.primary}
                             type={'Poppin-14'} />
                     </View>
-
                 }
                 title={t(`Industry`)} />
 
@@ -57,12 +56,29 @@ const Industry: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                         placeholder={t('SearchJobs')}
                         style={[centralStyle.flex1, styles.px2]} />
                 </View>
-                <FlatList
-                    data={[t('Construction'), t('Marketing'), t('Sales'), t('Software')]}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => <CheckBoxRow item={item} />}
-                    keyExtractor={(item, index) => index.toString()}
-                />
+
+                {createIndustry ?
+                    <>
+                        <Title
+                            color={Colors.gray}
+                            weight='600'
+                            type='Poppin-14'
+                            title={t(`Norecordfound`)} />
+                        <View style={styles.my1}>
+                            <Title
+                                color={Colors.primary}
+                                weight='600'
+                                type='Poppin-14'
+                                title={"+ " + t(`CREATEABCINDUSTRY`)} />
+                        </View>
+                    </> :
+                    <FlatList
+                        data={[t('Construction'), t('Marketing'), t('Sales'), t('Software')]}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={({ item }) => <CheckBoxRow item={item} />}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
+                }
 
             </View>
         </View>

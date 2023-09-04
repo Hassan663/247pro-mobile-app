@@ -7,6 +7,9 @@ export const styles = StyleSheet.create({
     mr1: {
         marginRight: RFPercentage(1)
     },
+    my1: {
+        marginVertical: RFPercentage(1)
+    },
     mx2: {
         marginHorizontal: RFPercentage(2)
     },
