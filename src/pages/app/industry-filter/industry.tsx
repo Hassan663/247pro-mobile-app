@@ -1,5 +1,7 @@
 // @app
-import React, { useState } from 'react';
+import React, {
+    useState
+} from 'react';
 import {
     View,
     FlatList,
@@ -12,19 +14,20 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 
 import AppHeader from '../../../core/components/app-headers';
+import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
 import Colors from '../../../styles/colors';
 import { styles } from './industry.style';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle } from '../../../styles/constant.style';
 import { CheckBoxRow } from './component';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
 
 const Industry: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [createIndustry, setCreateIndustry] = useState(false)
     const [edit, setEdit] = useState(true)
     const [editItem, setEditItem] = useState(true)
     const [selectedIndustry, setselectedIndustry] = useState(true)
+
     return (
         <View style={{ flex: 1 }}>
             <AppHeader

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { centralPosition } from '../../../styles/constant.style';
+
 import Colors from '../../../styles/colors';
 import { platform } from '../../../utilities';
 

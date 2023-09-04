@@ -1,5 +1,7 @@
 // @app
-import React, { useState } from 'react';
+import React, {
+    useState
+} from 'react';
 import {
     TouchableOpacity,
     View,
@@ -8,7 +10,6 @@ import {
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { t } from 'i18next';
 
 import Colors from '../../../styles/colors';
 import { Title } from '../../../core/components/screen-title.component';

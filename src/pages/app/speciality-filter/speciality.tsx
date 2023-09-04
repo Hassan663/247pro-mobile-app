@@ -1,11 +1,12 @@
 // @app
-import React, { useState } from 'react';
+import React, {
+    useState
+} from 'react';
 import {
     View,
     FlatList,
     TouchableOpacity,
     TextInput,
-    SafeAreaView,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -14,12 +15,12 @@ import { t } from 'i18next';
 
 import AppHeader from '../../../core/components/app-headers';
 import Colors from '../../../styles/colors';
+import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
 import { styles } from './speciality.style';
 import { Title } from '../../../core/components/screen-title.component';
 import { centralStyle } from '../../../styles/constant.style';
 import { ServiceCategories } from './component';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import OutlinedDropDown from '../../../core/components/outlined-dropdown.component';
 
 const Speciality: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
