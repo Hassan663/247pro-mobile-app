@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { centralPosition } from '../../../styles/constant.style';
+import Colors from '../../../styles/colors';
 
 export const styles = StyleSheet.create({
 
@@ -29,5 +29,15 @@ export const styles = StyleSheet.create({
     },
     mt1: {
         marginTop: RFPercentage(1)
+    },
+    spaceBetween: {
+        justifyContent: "space-between"
+    },
+    drop_down_button_style: {
+        backgroundColor: Colors.white,
+        width: "100%",
+        borderRadius: RFPercentage(1),
+        borderColor: Colors.lightGrey,
+        borderWidth: 1
     },
 });
