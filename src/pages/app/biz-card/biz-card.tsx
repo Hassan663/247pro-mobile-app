@@ -3,6 +3,8 @@ import React from 'react';
 import {
     View,
     SafeAreaView,
+    ScrollView,
+    Image
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
@@ -20,6 +22,7 @@ import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { platform } from '../../../utilities';
 import { centralStyle } from '../../../styles/constant.style';
+import { BIZCARDDATA } from './data';
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -44,45 +47,70 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 type='Poppin-18'
                 weight='600'
                 title={t(`BusinessCard`)} />
-
-            <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
-                <FontAwesome name={'user'} size={RFPercentage(3)} />
-            </View>
-
-            <View style={styles.bizCartContentWrapper}>
-                <View style={styles.mb2}>
-                    <Title
-                        type='Poppin-24'
-                        weight='600'
-                        title={`George Lee`}
-                        color={Colors.black} />
+            <ScrollView contentContainerStyle={{ paddingBottom: RFPercentage(10) }}>
+                <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
+                    <FontAwesome name={'user'} size={RFPercentage(10)} />
                 </View>
 
-                {['+1 (415) 713-7168', '+92 347 2322535', 'abc123@gmail.com'].map((item) => {
-                    return (
-                        <View style={styles.rowContainerData}>
-                            <View style={[centralStyle.circle(RFPercentage(4.5)), styles.primaryCircle]}>
-                                <Feather
-                                    name={`smartphone`}
-                                    color={Colors.primary}
-                                    size={RFPercentage(2.5)} />
-                            </View>
+                <View style={styles.bizCartContentWrapper}>
+                    <View style={[styles.mb2,]}>
+                        <Title
+                            type='Poppin-24'
+                            weight='600'
+                            title={`George Lee`}
+                            color={Colors.black} />
+                        <Title
+                            type='Poppin-12'
+                            weight='400'
+                            title={`Architect `}
+                            color={Colors.fontColor} />
+                        <View style={styles.mb2}>
                             <Title
                                 type='Poppin-14'
-                                weight='400'
-                                title={item}
-                                color={Colors.fontColor} />
+                                weight='500'
+                                title={`Company Name`}
+                                color={Colors.black} />
                         </View>
-                    )
-                })}
+                        <Title
+                            type='Poppin-14'
+                            weight='400'
+                            title={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s`}
+                            color={Colors.fontColor} />
+                    </View>
 
-                <View style={styles.btnContainer}>
-                    <Button title='Share Card' primary />
+                    {BIZCARDDATA.map((item) => {
+                        return (
+                            <View style={styles.rowContainerData}>
+                                <View style={[centralStyle.circle(RFPercentage(4.5)), styles.primaryCircle]}>
+                                    <Feather
+                                        name={`smartphone`}
+                                        color={Colors.primary}
+                                        size={RFPercentage(2.5)} />
+                                </View>
+                                <Title
+                                    type='Poppin-14'
+                                    weight='400'
+                                    title={item}
+                                    color={Colors.fontColor} />
+                            </View>
+                        )
+                    })}
+
+                    <View style={[centralStyle.row, styles.socialIcons]}>
+                        <Image style={styles.socialIconsStyle} source={require('../../../assets/app-images/facebook.png')} />
+                        <Image style={styles.socialIconsStyle} source={require('../../../assets/app-images/twitter.png')} />
+                        <Image style={styles.socialIconsStyle} source={require('../../../assets/app-images/instagram.png')} />
+                        <Image style={styles.socialIconsStyle} source={require('../../../assets/app-images/linkedin.png')} />
+                    </View>
+
+                    <View style={styles.btnContainer}>
+                        <Button title='Share Card' primary />
+                    </View>
+
                 </View>
+            </ScrollView>
 
-            </View>
-
-        </SafeAreaView>
+        </SafeAreaView >
 
     );
 };

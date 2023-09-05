@@ -31,9 +31,22 @@ export const styles = StyleSheet.create({
         backgroundColor: `rgba(255,152,0,0.2)`
     },
     btnContainer: {
-        flex: 1,
+        marginTop: RFPercentage(3),
         justifyContent: 'center',
         paddingHorizontal: RFPercentage(5)
     },
-    mb2: { marginBottom: RFPercentage(2), },
+    mb2: {
+        marginBottom: RFPercentage(2),
+    },
+    socialIcons: {
+        width: '70%',
+        alignSelf: 'center',
+        justifyContent: "space-evenly",
+    },
+    socialIconsStyle: {
+        height: RFPercentage(4.5),
+        width: RFPercentage(4.5),
+        marginVertical: RFPercentage(2),
+        resizeMode: 'contain'
+    }
 });

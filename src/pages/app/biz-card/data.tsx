@@ -1,1 +1,1 @@
- 
+export const BIZCARDDATA = ['+1 (415) 713-7168', '+92 347 2322535', 'abc123@gmail.com', 'Custom field text']
