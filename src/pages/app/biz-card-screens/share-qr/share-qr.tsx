@@ -1,5 +1,7 @@
 // @app
-import React from 'react';
+import React, {
+    useState
+} from 'react';
 import {
     Image,
     View,
@@ -23,8 +25,11 @@ import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './share-qr.style';
+import { CreateBuisnessCartModal } from './share-qr-component';
 
 const ShareQR: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+
+    const [modalEnabled, setModalEnabled] = useState(true)
 
     return (
         <SafeAreaView style={styles.container}>
@@ -36,6 +41,8 @@ const ShareQR: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                 }
             />
+
+            {modalEnabled && <CreateBuisnessCartModal />}
             <View style={[centralStyle.selfCenter, centralStyle.mb3]}>
                 <View style={centralStyle.my3}>
                     <Title
