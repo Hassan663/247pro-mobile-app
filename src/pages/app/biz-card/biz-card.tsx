@@ -1,5 +1,7 @@
 // @app
-import React from 'react';
+import React, {
+    useState
+} from 'react';
 import {
     View,
     SafeAreaView,
@@ -22,9 +24,12 @@ import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { platform } from '../../../utilities';
 import { centralStyle } from '../../../styles/constant.style';
-import { BIZCARDDATA } from './data';
+import { BIZCARDDATA, MODALDATA } from './data';
+import { MarketPlaceModal } from '../market-place/component';
+import { DropDownModal } from '../../../core/components/drop-down-modal';
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+    const [modalEnabled, setmodalEnabled] = useState(false)
 
     return (
         <SafeAreaView style={styles.container}>
@@ -40,6 +45,7 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 iconR1={
                     <Entypo
                         style={styles.mx2}
+                        onPress={() => setmodalEnabled(!modalEnabled)}
                         name={`dots-three-vertical`}
                         size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)}
                     />
@@ -47,7 +53,13 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 type='Poppin-18'
                 weight='600'
                 title={t(`BusinessCard`)} />
-            <ScrollView contentContainerStyle={{ paddingBottom: RFPercentage(10) }}>
+
+            {modalEnabled && <DropDownModal
+                DATA={MODALDATA}
+                navigation={navigation}
+                disableModal={() => setmodalEnabled(!modalEnabled)} />}
+
+            <ScrollView contentContainerStyle={centralStyle.pb10}>
                 <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
                     <FontAwesome name={'user'} size={RFPercentage(10)} />
                 </View>

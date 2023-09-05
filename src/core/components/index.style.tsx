@@ -58,16 +58,16 @@ export const styles: any = StyleSheet.create<any>({
         marginVertical: RFPercentage(1.5),
     }),
     poppin_24: {
-        fontSize: platform == 'ios' ? RFPercentage(3.1) : RFPercentage(3.6) ,
+        fontSize: platform == 'ios' ? RFPercentage(3.1) : RFPercentage(3.6),
     },
     poppin_20: {
-        fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3) ,
+        fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
     },
     poppin_12: {
-        fontSize: platform == 'ios' ? RFPercentage(1.5) :RFPercentage(1.8)  ,
+        fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(1.8),
     },
     poppin_14: {
-        fontSize: platform == 'ios' ? RFPercentage(1.7) :RFPercentage(2.1) ,
+        fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
     },
     poppin_16: {
         fontSize: platform == 'ios' ? RFPercentage(1.9) : RFPercentage(2.4),
@@ -122,7 +122,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     dropDownStyle: {
         borderBottomLeftRadius: 10,
-        marginTop: platform !== 'ios' ?RFPercentage(-3.5): 0,
+        marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
         borderBottomRightRadius: 10
     },
     headerContainer: {
@@ -134,5 +134,33 @@ export const styles: any = StyleSheet.create<any>({
         alignItems: centralPosition.center,
         width: '100%',
         borderBottomColor: Colors.lightGrey,
-    }
+    },
+    modalContainerAbs: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        zIndex: 2,
+        justifyContent: 'flex-start',
+        alignItems: "flex-end",
+    },
+    modalContainer: {
+        paddingHorizontal: RFPercentage(1.5),
+        backgroundColor: Colors.white,
+        borderColor: Colors.fontColor,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+        borderRadius: RFPercentage(.5),
+        width: platform == 'ios' ? RFPercentage(17) : RFPercentage(20),
+        justifyContent: 'space-evenly',
+        right: RFPercentage(2),
+        top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
+
+    },
 });

@@ -83,4 +83,10 @@ export const centralStyle = StyleSheet.create<any>({
         width: size,
         borderRadius: size / 2
     }),
+    pb10: {
+        paddingBottom: RFPercentage(10)
+    },
+    my05: {
+        marginVertical: RFPercentage(.5)
+    }
 });

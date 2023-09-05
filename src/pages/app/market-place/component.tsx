@@ -67,7 +67,7 @@ export const MarketPlaceCart: React.FC<{}> = ({ }) => {
     );
 };
 
-export const MarketPlaceModal: React.FC<{ disableModal?: any, navigation?: any }> = ({ disableModal, navigation }) => {
+export const MarketPlaceModal: React.FC<{ disableModal?: any, navigation?: any, DATA?: any }> = ({ disableModal, navigation, DATA }) => {
     return (
 
         <TouchableOpacity
@@ -81,26 +81,37 @@ export const MarketPlaceModal: React.FC<{ disableModal?: any, navigation?: any }
                     changeRoute(navigation, 'leadPreference')
                 }}
                 style={styles.modalContainer}>
-                <Title
-                    title={t('PostaJob')}
-                    weight='400'
-                    color={Colors.fontColor}
-                    type='Poppin-14' />
-                <View style={styles.mt1}>
 
-                    <Title
-                        title={t('LeadPreference')}
-                        weight='400'
-                        color={Colors.fontColor}
-                        type='Poppin-14' />
-                </View>
-                <View style={styles.mt1}>
-                    <Title
-                        title={t('MyFavorJobs')}
-                        weight='400'
-                        color={Colors.fontColor}
-                        type='Poppin-14' />
-                </View>
+                {DATA ?
+                    DATA.map((item: string) => {
+                        return (
+                            <Title
+                                title={item}
+                                weight='400'
+                                color={Colors.fontColor}
+                                type='Poppin-14' />
+
+                        )
+                    })
+                    :
+                    <>
+                        <Title
+                            title={t('PostaJob')}
+                            weight='400'
+                            color={Colors.fontColor}
+                            type='Poppin-14' />
+                        <Title
+                            title={t('LeadPreference')}
+                            weight='400'
+                            color={Colors.fontColor}
+                            type='Poppin-14' />
+                        <Title
+                            title={t('MyFavorJobs')}
+                            weight='400'
+                            color={Colors.fontColor}
+                            type='Poppin-14' />
+                    </>
+                }
             </TouchableOpacity>
         </TouchableOpacity >
     );

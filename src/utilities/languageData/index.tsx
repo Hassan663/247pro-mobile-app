@@ -103,9 +103,14 @@ export const languageData = [
             Setmatchingcriteriasforjobopportunities: "Set matching criterias for job opportunities",
             Theindustriesyouwillreceivejobleadsfrom: "The industries you will receive job leads from",
             IndustryPreferences: "Industry Preferences",
-            CREATEABCINDUSTRY:"CREATE “ABC” INDUSTRY",
+            CREATEABCINDUSTRY: "CREATE “ABC” INDUSTRY",
             Norecordfound: "No record found",
-            BusinessCard:"Business Card",
+            BusinessCard: "Business Card",
+            AddNewCart: "Add New Cart",
+            Delete: "Delete",
+            Edit: "Edit",
+            Share: "Share",
+
         }
     },
     {
@@ -215,8 +220,12 @@ export const languageData = [
             Theindustriesyouwillreceivejobleadsfrom: "您将收到工作机会的行业",
             IndustryPreferences: "行业偏好",
             Norecordfound: "行业偏好",
-            CREATEABCINDUSTRY:"打造“ABC”产业",
-            BusinessCard:"名片",
+            CREATEABCINDUSTRY: "打造“ABC”产业",
+            BusinessCard: "名片",
+            AddNewCart: "添加新购物车",
+            Delete: "删除",
+            Share: "分享",
+            Edit: "编辑",
 
         }
     },
@@ -322,9 +331,12 @@ export const languageData = [
             Theindustriesyouwillreceivejobleadsfrom: "Las industrias de las que recibirá oportunidades de empleo",
             IndustryPreferences: "Preferencias de la industria",
             Norecordfound: "Preferencias de la industria",
-            CREATEABCINDUSTRY:"CREAR LA INDUSTRIA “ABC”",
-            BusinessCard:"Tarjeta de visita",
-
+            CREATEABCINDUSTRY: "CREAR LA INDUSTRIA “ABC”",
+            BusinessCard: "Tarjeta de visita",
+            AddNewCart: "Agregar nuevo carrito",
+            Delete: "Borrar",
+            Share: "Compartir",
+            Edit: "Editar",
 
         }
     }

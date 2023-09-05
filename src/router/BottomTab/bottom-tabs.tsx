@@ -31,7 +31,6 @@ function AppTabs() {
 
                 })}
             >
-
                 <Tab.Screen
                     name="Contact"
                     component={Contact}
