@@ -110,7 +110,11 @@ export const languageData = [
             Delete: "Delete",
             Edit: "Edit",
             Share: "Share",
-
+            Copycardlink: "Copy card link",
+            SaveQRtoPhotos: "Save QR to Photos",
+            ShareQRviaEmail: "Share QR via Email",
+            Shareanotherway: "Share another way",
+            ShareCardviaText:"Share Card via Text",
         }
     },
     {
@@ -226,6 +230,11 @@ export const languageData = [
             Delete: "删除",
             Share: "分享",
             Edit: "编辑",
+            Copycardlink: "复制卡链接",
+            SaveQRtoPhotos: "将二维码保存到照片",
+            ShareQRviaEmail: "通过电子邮件分享二维码",
+            Shareanotherway: "分享另一种方式",
+            ShareCardviaText:"通过短信分享卡",
 
         }
     },
@@ -337,6 +346,11 @@ export const languageData = [
             Delete: "Borrar",
             Share: "Compartir",
             Edit: "Editar",
+            Copycardlink: "Copiar enlace de tarjeta",
+            SaveQRtoPhotos: "Guardar QR en fotos",
+            ShareQRviaEmail: "Compartir QR por correo electrónico",
+            Shareanotherway: "Comparte de otra manera",
+            ShareCardviaText:"Compartir tarjeta por mensaje de texto",
 
         }
     }

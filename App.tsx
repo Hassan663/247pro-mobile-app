@@ -50,21 +50,11 @@ const App: React.FC = () => {
                         ?
                         auth ?
                             <></> :
-
                             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
-                        // platform !== 'ios' ?
                         auth ?
                             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                             <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
-                    // : <>
-                    // </>
                 }
-
-                {/* {platform == 'ios' ?
-                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
-                    :
-                    <StatusBar hidden={true} />
-                } */}
                 <SafeAreaProvider>
                     <PortalProvider>
                         {/* {alert(process.env.BASE_URL)} */}
