@@ -38,6 +38,7 @@ interface TitleTextProps {
     weight?: string;
 }
 export const Title: React.FC<TitleTextProps> = ({ title, type, color, weight }) => {
+    if (type == 'Poppin-11') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_11]} >{title}</Text>;
     if (type == 'Poppin-12') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_12]} >{title}</Text>;
     if (type == 'Poppin-14') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_14]} >{title}</Text>;
     if (type == 'Poppin-16') return <Text style={[{ color: color, fontWeight: weight }, styles.poppin_16]} >{title}</Text>;

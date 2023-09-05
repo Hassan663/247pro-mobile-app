@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import Colors from '../../../styles/colors';
+import Colors from '../../../../styles/colors';
 
 export const styles = StyleSheet.create({
     container: {
@@ -48,5 +48,26 @@ export const styles = StyleSheet.create({
         width: RFPercentage(4.5),
         marginVertical: RFPercentage(2),
         resizeMode: 'contain'
-    }
+    },
+    listContainer: {
+        height: RFPercentage(15),
+        borderColor: Colors.lightGrey,
+        borderRadius: RFPercentage(1),
+        padding: RFPercentage(2),
+        borderWidth: 1,
+        margin: RFPercentage(2)
+    },
+    listBody: {
+        flex: 6,
+        justifyContent: "center"
+    },
+    listImageContainer: {
+        flex: 2.5,
+    },
+    dotContainer: {
+        flex: 1.5,
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+    },
+
 });
