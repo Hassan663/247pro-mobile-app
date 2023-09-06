@@ -16,34 +16,46 @@ import Colors from '../../styles/colors';
 interface OutlinedTextInputProps {
   title?: string;
   val?: string;
+  lines?: number;
   height?: number;
   placeHolder?: string;
   Password?: boolean;
-  onChange: (val: string) => void;
+  multiLine?: boolean;
+  onChange?: (val: string) => void;
 }
 
-const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, val, placeHolder, Password, onChange }) => {
+const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, val, placeHolder, lines, multiLine, Password, onChange }) => {
 
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
-
+  const [inputVal, setInputVal] = useState('')
   const handleFocus = () => setIsActive(true)
 
   const handleBlur = () => setIsActive(false)
   return (
     <View style={styles.inputContainer(height)}>
-      {isActive &&
+      {/* {isActive &&
+        <Text style={styles.inputtitle(isActive)}>{title}</Text>
+      } */}
+      {inputVal?.length && inputVal?.length > 0 ?
+        <Text style={styles.inputtitle(isActive)}>{title}</Text>
+        : isActive &&
         <Text style={styles.inputtitle(isActive)}>{title}</Text>
       }
       <View style={styles.textInputContainer(isActive)}>
         {!Password ?
           <TextInput
             placeholder={isActive ? '' : placeHolder}
-            value={val}
+            value={val ? val : inputVal}
             onFocus={handleFocus}
+            multiline={multiLine || false}
+            numberOfLines={lines}
             onBlur={handleBlur}
-            onChangeText={(val) => onChange(val)}
-            secureTextEntry={open ? true : false}
+            onChangeText={(text) => {
+              setInputVal(text)
+              if (onChange) { onChange(text) }
+            }}
+            // secureTextEntry={open ? true : false}
             style={styles.input(false, isActive)} />
           :
           <>
@@ -54,7 +66,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, va
                   value={val}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  onChangeText={(val) => onChange(val)}
+                  onChangeText={(val) => onChange && onChange(val)}
                   secureTextEntry={open ? true : false}
                   style={styles.input(true, isActive)} />
               </View>

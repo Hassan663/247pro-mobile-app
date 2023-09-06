@@ -121,6 +121,17 @@ export const languageData = [
             CreateYourFreeBusinessCard: "Create Your Free Business Card",
             phoneContacts: "phone Contacts",
             alreadysavedinyourcontacts: "already saved in your contacts",
+            NewBusinessCard: "New Business Card",
+            firstname: "First name",
+            lastName: "Last name",
+            about: "about",
+            EMail: "E-mail",
+            ContactInfo: 'Contact Info',
+            Website: 'Website',
+            StreetAddress: "Street address",
+            AddCustomField: "Add Custom Field",
+            SocialProfile: "Social Profile",
+            AddSocialAccount: "Add Social Account",
         }
     },
     {
@@ -247,7 +258,17 @@ export const languageData = [
             Contactissavedtoandyour: "联系人信息将保存至 247PRO，并且您的",
             phoneContacts: "电话 联系方式",
             alreadysavedinyourcontacts: "已保存在您的通讯录中",
- 
+            NewBusinessCard: "新名片",
+            firstname: "名",
+            lastName: "姓",
+            about: "关于",
+            EMail: "电子邮件",
+            ContactInfo: '联系方式',
+            Website: '网站',
+            StreetAddress: "街道地址",
+            AddCustomField: "添加自定义字段",
+            SocialProfile: "社会概况",
+            AddSocialAccount: "添加社交帐户",
 
         }
     },
@@ -371,7 +392,17 @@ export const languageData = [
             phoneContacts: "Contactos telefonicas",
             alreadysavedinyourcontacts: "ya guardado en tus contactos",
 
-
+            NewBusinessCard: "Nueva tarjeta de presentación",
+            firstname: "Nombre de pila",
+            lastName: "Apellido",
+            about: "acerca de",
+            EMail: "Correo electrónico",
+            ContactInfo: 'Datos de contacto',
+            Website: 'Sitio web',
+            StreetAddress: "Dirección",
+            AddCustomField: "Agregar campo personalizado",
+            SocialProfile: "Perfil social",
+            AddSocialAccount: "Agregar cuenta social",
         }
     }
 ];

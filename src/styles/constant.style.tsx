@@ -107,5 +107,5 @@ export const centralStyle = StyleSheet.create<any>({
     mx3: {
         marginHorizontal: RFPercentage(3)
     },
-    
+
 });
