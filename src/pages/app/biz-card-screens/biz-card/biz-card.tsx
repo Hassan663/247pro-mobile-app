@@ -111,9 +111,11 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     color={Colors.fontColor} />
                             </View>
 
-                            {BIZCARDDATA.map((item) => {
+                            {BIZCARDDATA.map((item, index) => {
                                 return (
-                                    <View style={styles.rowContainerData}>
+                                    <View
+                                        key={index.toString()}
+                                        style={styles.rowContainerData}>
                                         <View style={[centralStyle.circle(RFPercentage(4.5)), styles.primaryCircle]}>
                                             <Feather
                                                 name={`smartphone`}

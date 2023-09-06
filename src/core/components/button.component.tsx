@@ -20,8 +20,6 @@ export type Props = {
 
 };
 
-
-
 const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title, disable, callBack }) => {
     return (
         <TouchableOpacity

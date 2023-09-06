@@ -43,9 +43,7 @@ const App: React.FC = () => {
         <I18nextProvider i18n={i18n}>
 
             <Provider store={store}>
-                {/* <StatusBar barStyle="dark-content" hidden={false}  translucent={true} /> */}
                 {
-
                     platform == 'ios'
                         ?
                         auth ?
@@ -55,6 +53,7 @@ const App: React.FC = () => {
                             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                             <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
                 }
+
                 <SafeAreaProvider>
                     <PortalProvider>
                         {/* {alert(process.env.BASE_URL)} */}
