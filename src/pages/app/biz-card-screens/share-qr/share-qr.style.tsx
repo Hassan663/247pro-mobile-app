@@ -40,20 +40,5 @@ export const styles = StyleSheet.create({
     removeBorder: {
         borderTopWidth: 0
     },
-    createBuisnessCartContactModal: {
-        height: '20%',
-        width: '80%',
-        borderRadius: RFPercentage(3),
-        alignSelf: 'center',
-        alignItems: "center",
-        justifyContent: 'space-around',
-        backgroundColor: Colors.white
-    },
-    modalContainer: {
-        position: "absolute",
-        zIndex: 2,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        height: '100%',
-        width: '100%'
-    },
+    
 });

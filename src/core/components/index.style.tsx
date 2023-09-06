@@ -166,4 +166,12 @@ export const styles: any = StyleSheet.create<any>({
         top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
 
     },
+    disable: {
+        height: 48,
+        backgroundColor: Colors.lightGray,
+        borderRadius: RFPercentage(1),
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    }
 });

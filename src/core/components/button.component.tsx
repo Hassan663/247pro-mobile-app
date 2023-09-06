@@ -11,6 +11,7 @@ import { styles } from './index.style';
 export type Props = {
     customStyle?: object;
     primary?: boolean;
+    disable?: boolean;
     icon?: React.ReactElement<object>;
     titleStyle?: any;
     icallBackcon?: any;
@@ -21,10 +22,10 @@ export type Props = {
 
 
 
-const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title, callBack }) => {
+const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title, disable, callBack }) => {
     return (
         <TouchableOpacity
-            style={primary ? styles.primaryBtn : customStyle}
+            style={disable ? styles.disable : primary ? styles.primaryBtn : customStyle}
             activeOpacity={0.8}
             onPress={() => callBack && callBack()}
         >

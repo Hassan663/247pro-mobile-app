@@ -25,7 +25,10 @@ import { Title } from '../../../../core/components/screen-title.component';
 import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
-import { ListCard } from './biz-card-component';
+import {
+    CreateBuisnessCartModal,
+    ListCard
+} from './biz-card-component';
 import {
     BIZCARDDATA,
     MODALDATA,
@@ -33,7 +36,10 @@ import {
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
-    const [multiCards, setmultiCards] = useState(true)
+    const [multiCards, setmultiCards] = useState(false)
+    const [createBuisnessCartModalEnabled, setCreateBuisnessCartModalEnabled] = useState(false)
+    const [saveContact, setsaveContact] = useState(false)
+    const [alreadySaveInContact, setalreadySaveInContact] = useState(true)
 
     return (
         <SafeAreaView style={styles.container}>
@@ -47,6 +53,10 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 type='Poppin-18'
                 weight='600'
                 title={t(`BusinessCard`)} />
+
+            {createBuisnessCartModalEnabled && <CreateBuisnessCartModal
+                contactSaved={saveContact}
+                disableModal={() => setCreateBuisnessCartModalEnabled(!createBuisnessCartModalEnabled)} />}
 
             {multiCards ?
                 <FlatList
@@ -75,22 +85,24 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
                         <View style={styles.bizCartContentWrapper}>
                             <View style={[styles.mb2,]}>
-                                <Title
-                                    type='Poppin-24'
-                                    weight='600'
-                                    title={`George Lee`}
-                                    color={Colors.black} />
-                                <Title
-                                    type='Poppin-12'
-                                    weight='400'
-                                    title={`Architect `}
-                                    color={Colors.fontColor} />
-                                <View style={styles.mb2}>
+                                <View style={saveContact && centralStyle.alignitemCenter}>
                                     <Title
-                                        type='Poppin-14'
-                                        weight='500'
-                                        title={`Company Name`}
+                                        type='Poppin-24'
+                                        weight='600'
+                                        title={`George Lee`}
                                         color={Colors.black} />
+                                    <Title
+                                        type='Poppin-12'
+                                        weight='400'
+                                        title={`Architect `}
+                                        color={Colors.fontColor} />
+                                    <View style={styles.mb2}>
+                                        <Title
+                                            type='Poppin-14'
+                                            weight='500'
+                                            title={`Company Name`}
+                                            color={Colors.black} />
+                                    </View>
                                 </View>
                                 <Title
                                     type='Poppin-14'
@@ -127,7 +139,13 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             </View>
 
                             <View style={styles.btnContainer}>
-                                <Button title='Share Card' primary />
+                                <Button
+                                    disable={alreadySaveInContact ? true : false}
+                                    title={
+                                        alreadySaveInContact ? t('alreadysavedinyourcontacts')
+                                            : saveContact ? t('SaveContact') : t('ShareCard')}
+                                    primary
+                                />
                             </View>
 
                         </View>

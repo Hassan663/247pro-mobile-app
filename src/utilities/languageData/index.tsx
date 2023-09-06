@@ -114,7 +114,13 @@ export const languageData = [
             SaveQRtoPhotos: "Save QR to Photos",
             ShareQRviaEmail: "Share QR via Email",
             Shareanotherway: "Share another way",
-            ShareCardviaText:"Share Card via Text",
+            ShareCardviaText: "Share Card via Text",
+            ShareCard: "Share Card",
+            SaveContact: "Save Contact",
+            Contactissavedtoandyour: "Contact is saved to 247PRO and your",
+            CreateYourFreeBusinessCard: "Create Your Free Business Card",
+            phoneContacts: "phone Contacts",
+            alreadysavedinyourcontacts: "already saved in your contacts",
         }
     },
     {
@@ -234,7 +240,14 @@ export const languageData = [
             SaveQRtoPhotos: "将二维码保存到照片",
             ShareQRviaEmail: "通过电子邮件分享二维码",
             Shareanotherway: "分享另一种方式",
-            ShareCardviaText:"通过短信分享卡",
+            ShareCardviaText: "通过短信分享卡",
+            ShareCard: "共享卡",
+            SaveContact: "保存联系方式",
+            CreateYourFreeBusinessCard: "创建您的免费名片",
+            Contactissavedtoandyour: "联系人信息将保存至 247PRO，并且您的",
+            phoneContacts: "电话 联系方式",
+            alreadysavedinyourcontacts: "已保存在您的通讯录中",
+ 
 
         }
     },
@@ -350,7 +363,14 @@ export const languageData = [
             SaveQRtoPhotos: "Guardar QR en fotos",
             ShareQRviaEmail: "Compartir QR por correo electrónico",
             Shareanotherway: "Comparte de otra manera",
-            ShareCardviaText:"Compartir tarjeta por mensaje de texto",
+            ShareCardviaText: "Compartir tarjeta por mensaje de texto",
+            ShareCard: "Compartir tarjeta",
+            SaveContact: "Guardar contacto",
+            CreateYourFreeBusinessCard: "Crea tu tarjeta de presentación gratuita",
+            Contactissavedtoandyour: "El contacto se guarda en 247PRO y su",
+            phoneContacts: "Contactos telefonicas",
+            alreadysavedinyourcontacts: "ya guardado en tus contactos",
+
 
         }
     }

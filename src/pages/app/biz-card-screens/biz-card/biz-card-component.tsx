@@ -5,6 +5,7 @@ import React, {
 import {
     View,
     Image,
+    TouchableOpacity,
 } from 'react-native';
 
 
@@ -18,6 +19,7 @@ import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import { MODALDATAMULTICARDS } from './data';
+import { t } from 'i18next';
 
 export const ListCard = ({ navigation }: any) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
@@ -62,5 +64,47 @@ export const ListCard = ({ navigation }: any) => {
                 navigation={navigation}
                 disableModal={() => setmodalEnabled(!modalEnabled)} />}
         </>
+    )
+}
+
+export const CreateBuisnessCartModal = ({ disableModal, contactSaved }: any) => {
+
+    return (
+        <View style={[
+            centralStyle.XAndYCenter,
+            styles.modalContainer]}>
+            <View style={styles.createBuisnessCartContactModal}>
+                <View style={centralStyle.XAndYCenter}>
+                    <Title
+                        type='Poppin-16'
+                        weight='400'
+                        title={contactSaved ? t('Contactissavedtoandyour') : `Contact is saved your Contacts`}
+                        color={Colors.fontColor} />
+                    {!contactSaved ?
+                        <Title
+                            type='Poppin-14'
+                            weight='600'
+                            line={'underline'}
+                            title={t('CreateYourFreeBusinessCard')}
+                            color={Colors.primary} /> :
+                        <Title
+                            type='Poppin-16'
+                            weight='400'
+                            title={t('phoneContacts')}
+                            color={Colors.fontColor} />
+                    }
+
+                </View>
+                <TouchableOpacity onPress={() => disableModal()}>
+                    <Title
+                        type='Poppin-14'
+                        weight='600'
+                        title={`Close`}
+                        color={Colors.black} />
+                </TouchableOpacity>
+
+            </View>
+        </View>
+
     )
 }
