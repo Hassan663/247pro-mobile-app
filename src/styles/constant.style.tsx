@@ -92,6 +92,9 @@ export const centralStyle = StyleSheet.create<any>({
     my3: {
         marginVertical: RFPercentage(3)
     },
+    my2: {
+        marginVertical: RFPercentage(2)
+    },
     mb3: {
         marginBottom: RFPercentage(3)
     },
@@ -106,6 +109,12 @@ export const centralStyle = StyleSheet.create<any>({
     },
     mx3: {
         marginHorizontal: RFPercentage(3)
+    },
+    px2: {
+        paddingHorizontal: RFPercentage(2)
+    },
+    width100: {
+        width: "100%"
     },
 
 });

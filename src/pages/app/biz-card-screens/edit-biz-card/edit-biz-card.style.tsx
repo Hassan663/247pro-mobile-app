@@ -62,8 +62,6 @@ export const styles: any = StyleSheet.create<any>({
         left: '3%',
         // color: isActive && Colors.primary,
         color: isActive ? Colors.primary : Colors.fontColor,
-
-
         fontSize: 14,
         fontWeight: '400',
         top: '0%',
@@ -83,5 +81,12 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: 5,
         paddingHorizontal: 10,
         width: '90%'
+    },
+    drop_down_button_style: {
+        backgroundColor: Colors.white,
+        width: "100%",
+        borderRadius: RFPercentage(.5),
+        borderColor: Colors.fontColor,
+        borderWidth: 1
     },
 });
