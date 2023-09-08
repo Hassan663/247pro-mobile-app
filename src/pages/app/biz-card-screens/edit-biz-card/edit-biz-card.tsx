@@ -10,134 +10,75 @@ import {
     ScrollView,
     Switch,
     Image,
-    TouchableOpacity,
-    FlatList,
-    TextInput
+    TextInput,
+    TouchableOpacity
 } from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
-import Entypo from 'react-native-vector-icons/Entypo'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import RBSheet from 'react-native-raw-bottom-sheet';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { t } from 'i18next';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
+import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import { platform } from '../../../../utilities';
+import { centralStyle } from '../../../../styles/constant.style';
+import { AddInputSheet } from './edit-biz-card-component';
 import { styles } from './edit-biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import { centralStyle } from '../../../../styles/constant.style';
-import { CONTACTINFOINPUTS, SOCIALINPUTSDATA } from './data';
-import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
-import RBSheet from 'react-native-raw-bottom-sheet';
-import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import SelectDropdown from 'react-native-select-dropdown'
-import { platform } from '../../../../utilities';
+import {
+    CONTACTINFOINPUTS,
+    SOCIALINPUTSDATA
+} from './data';
 
-
-const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, btnText, title, setcontactInfoInputs, sheetRef, newField, setNewField }: any) => {
-    const [selectedAccount, setselectedAccount] = useState(null)
-    return (
-        <View
-            style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
-            <Title
-                color={Colors.black}
-                type='Poppin-18'
-                weight='600'
-                title={title} />
-            <View style={centralStyle.my2}>
-                {!addSocialAccountInput ?
-                    <OutlinedTextInput
-                        onChange={(val) => setNewField(val)}
-                        title={"Title"}
-                        val={newField}
-                        placeHolder={placeHolder}
-                    />
-                    :
-                    <SelectDropdown
-                        data={SOCIALINPUTSDATA}
-                        buttonStyle={styles.dropDownBtn}
-                        renderDropdownIcon={() => <AntDesign name={'down'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
-                        buttonTextStyle={{ textAlign: "left" }}
-                        onSelect={(selectedItem, index) => { setselectedAccount(selectedItem) }}
-                        buttonTextAfterSelection={(selectedItem, index): any => {
-                            return (
-                                <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
-                                    <Image resizeMode='contain' source={selectedItem.icon} style={styles.socialIcon} />
-                                    <Text>{selectedItem.name}</Text>
-                                </View>
-                            )
-                        }}
-                        rowTextForSelection={(item, index): any => {
-                            return (
-                                <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
-                                    <Image resizeMode='contain' source={item.icon} style={styles.socialIcon} />
-                                    <Text>{item.name}</Text>
-                                </View>
-                            );
-                        }}
-                    />
-                }
-            </View>
-            <View style={centralStyle.width100}>
-                <Button
-                    callBack={() => {
-
-                        if (newField?.length > 0) {
-                            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
-                            inputsCopy.push(newField)
-                            setcontactInfoInputs(inputsCopy)
-                            sheetRef?.current?.close()
-                            setNewField('')
-                        }
-                        if (addSocialAccountInput) {
-                            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
-                            console.log(inputsCopy, 'addSocialAccountInputaddSocialAccountInputaddSocialAccountInput', selectedAccount)
-                            inputsCopy.push(selectedAccount)
-                            setcontactInfoInputs(inputsCopy)
-                            sheetRef?.current?.close()
-                            setselectedAccount(null)
-                        }
-                        // let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
-                        // inputsCopy.push(selectedAccount)
-                        // setcontactInfoInputs(inputsCopy)
-                        // sheetRef?.current?.close()
-                        // setselectedAccount(null)
-                    }}
-                    title={btnText} primary />
-            </View>
-        </View>
-    )
-}
 const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    const [firstName, setFirstName] = useState('')
     const [addSocialAccountInput, setaddSocialAccountInput] = useState(false)
-    const [lastName, setLastName] = useState('')
-    const [jobTitle, setJobTitle] = useState('')
     const [newField, setNewField] = useState('')
-
-    const [companyName, setCompanyName] = useState('')
     const [contactInfoInputs, setcontactInfoInputs] = useState(CONTACTINFOINPUTS)
     const [socialInputs, setsocialInputs] = useState(SOCIALINPUTSDATA)
-
     const [about, setAbout] = useState('')
-    const [email, setEmail] = useState('')
-    const [website, setWebsite] = useState('')
-    const [streetAddress, setStreetAddress] = useState('')
-
-
-
     const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const [isActive, setIsActive] = useState(false);
+    const [imageUriLocal, setimageUriLocal] = useState('');
 
     const handleFocus = () => setIsActive(true)
-
     const handleBlur = () => setIsActive(false)
+
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
     const sheetRef = useRef<any>(null)
 
+    const getImg = async () => {
+        try {
+            let options: any = {
+                title: 'Select Image',
+                includeBase64: true,
+                customButtons: [
+                    {
+                        name: 'customOptionKey',
+                        title: 'Choose Photo from Custom Option'
+                    }
+                ],
+                storageOptions: {
+                    skipBackup: true,
+                    path: 'images'
+                }
+            };
+            launchImageLibrary(options, async (res: any) => {
+                if (res.didCancel) {
+                } else if (res.error) {
+                } else {
+                    setimageUriLocal(res.assets[0].uri);
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
     return (
         <SafeAreaView style={styles.container}>
             <AppHeader
@@ -159,15 +100,24 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             title={t('Done')} />
                     </View>
                 }
-
                 type='Poppin-18'
                 weight='600'
                 title={t(`NewBusinessCard`)} />
 
+
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                    <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
-                </View>
+                <TouchableOpacity
+
+                    onPress={() => getImg()}
+                    style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
+                    {imageUriLocal.length > 0
+                        ? < Image
+                            style={{ height: '100%', width: '100%' }}
+                            source={{ uri: imageUriLocal }} /> :
+                        <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
+
+                    }
+                </TouchableOpacity>
                 <View style={styles.mx2}>
                     <Title
                         color={Colors.black}
@@ -177,8 +127,6 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                     <OutlinedTextInput
                         title={t('firstname')}
-                        val={firstName}
-                        onChange={(val) => setFirstName(val)}
                         placeHolder={t('firstname')}
                     />
                     <OutlinedTextInput
@@ -193,7 +141,6 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         title={t('Company name')}
                         placeHolder={t('Company name')}
                     />
-
                     <View style={styles.inputContainer(60)}>
                         {
                             about?.length && about?.length > 0 ?
@@ -271,7 +218,6 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     icon={
                         <AntDesign name={'plus'}
                             size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
-                            // size={RFPercentage(3)}
                             color={Colors.primary} />}
                     customStyle={[
                         centralStyle.row,

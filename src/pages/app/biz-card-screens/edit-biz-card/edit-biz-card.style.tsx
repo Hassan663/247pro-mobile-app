@@ -16,6 +16,7 @@ export const styles: any = StyleSheet.create<any>({
         borderWidth: RFPercentage(.1),
         alignSelf: "center",
         margin: RFPercentage(2),
+        overflow:"hidden",
         backgroundColor: Colors.lightGray,
         borderColor: Colors.lightGrey
     },

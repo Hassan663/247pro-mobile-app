@@ -5,106 +5,86 @@ import React, {
 import {
     View,
     Image,
-    TouchableOpacity,
+    Text,
 } from 'react-native';
 
-
-import Entypo from 'react-native-vector-icons/Entypo'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import SelectDropdown from 'react-native-select-dropdown';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
+import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import Button from '../../../../core/components/button.component';
 import { styles } from './edit-biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
-import { DropDownModal } from '../../../../core/components/drop-down-modal';
-import { MODALDATAMULTICARDS } from './data';
-import { t } from 'i18next';
+import { SOCIALINPUTSDATA } from './data';
 
-export const ListCard = ({ navigation }: any) => {
-    const [modalEnabled, setmodalEnabled] = useState(false)
+export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, btnText, title, setcontactInfoInputs, sheetRef, newField, setNewField }: any) => {
+    const [selectedAccount, setselectedAccount] = useState(null)
     return (
-        <>
-            <View
-                style={[centralStyle.row, styles.listContainer]}>
-                <View style={styles.listImageContainer}>
-                    <View style={[centralStyle.circle(RFPercentage(11)),]}>
-                        <Image source={require('../../../../assets/app-images/userImg.png')} />
-                    </View>
-                </View>
-                <View style={styles.listBody}>
-                    <Title
-                        type={`Poppin-18`}
-                        weight='600'
-                        color={Colors.black}
-                        title='Personal' />
-                    <Title
-                        type={`Poppin-12`}
-                        weight='500'
-                        color={Colors.black}
-                        title='George Lee' />
-                    <Title
-                        type={`Poppin-11`}
-                        weight='400'
-                        color={Colors.fontColor}
-                        title='Architect ' />
-                </View>
-                <View
-                    style={styles.dotContainer}>
-                    <Entypo
-                        onPress={() => { setmodalEnabled(!modalEnabled) }}
-                        name={`dots-three-vertical`}
-                        size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
-
-                </View>
-
+        <View
+            style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
+            <Title
+                color={Colors.black}
+                type='Poppin-18'
+                weight='600'
+                title={title} />
+            <View style={centralStyle.my2}>
+                {!addSocialAccountInput ?
+                    <OutlinedTextInput
+                        onChange={(val) => setNewField(val)}
+                        title={"Title"}
+                        val={newField}
+                        placeHolder={placeHolder}
+                    />
+                    :
+                    <SelectDropdown
+                        data={SOCIALINPUTSDATA}
+                        buttonStyle={styles.dropDownBtn}
+                        renderDropdownIcon={() => <AntDesign name={'down'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
+                        buttonTextStyle={{ textAlign: "left" }}
+                        onSelect={(selectedItem, index) => { setselectedAccount(selectedItem) }}
+                        buttonTextAfterSelection={(selectedItem, index): any => {
+                            return (
+                                <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
+                                    <Image resizeMode='contain' source={selectedItem.icon} style={styles.socialIcon} />
+                                    <Text>{selectedItem.name}</Text>
+                                </View>
+                            )
+                        }}
+                        rowTextForSelection={(item, index): any => {
+                            return (
+                                <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
+                                    <Image resizeMode='contain' source={item.icon} style={styles.socialIcon} />
+                                    <Text>{item.name}</Text>
+                                </View>
+                            );
+                        }}
+                    />
+                }
             </View>
-            {modalEnabled && <DropDownModal
-                DATA={MODALDATAMULTICARDS}
-                navigation={navigation}
-                disableModal={() => setmodalEnabled(!modalEnabled)} />}
-        </>
-    )
-}
-
-export const CreateBuisnessCartModal = ({ disableModal, contactSaved }: any) => {
-
-    return (
-        <View style={[
-            centralStyle.XAndYCenter,
-            styles.modalContainer]}>
-            <View style={styles.createBuisnessCartContactModal}>
-                <View style={centralStyle.XAndYCenter}>
-                    <Title
-                        type='Poppin-16'
-                        weight='400'
-                        title={contactSaved ? t('Contactissavedtoandyour') : `Contact is saved your Contacts`}
-                        color={Colors.fontColor} />
-                    {!contactSaved ?
-                        <Title
-                            type='Poppin-14'
-                            weight='600'
-                            line={'underline'}
-                            title={t('CreateYourFreeBusinessCard')}
-                            color={Colors.primary} /> :
-                        <Title
-                            type='Poppin-16'
-                            weight='400'
-                            title={t('phoneContacts')}
-                            color={Colors.fontColor} />
-                    }
-
-                </View>
-                <TouchableOpacity onPress={() => disableModal()}>
-                    <Title
-                        type='Poppin-14'
-                        weight='600'
-                        title={`Close`}
-                        color={Colors.black} />
-                </TouchableOpacity>
-
+            <View style={centralStyle.width100}>
+                <Button
+                    callBack={() => {
+                        if (newField?.length > 0) {
+                            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
+                            inputsCopy.push(newField)
+                            setcontactInfoInputs(inputsCopy)
+                            sheetRef?.current?.close()
+                            setNewField('')
+                        }
+                        if (addSocialAccountInput) {
+                            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
+                            inputsCopy.push(selectedAccount)
+                            setcontactInfoInputs(inputsCopy)
+                            sheetRef?.current?.close()
+                            setselectedAccount(null)
+                        }
+                    }}
+                    title={btnText} primary />
             </View>
         </View>
-
     )
 }
