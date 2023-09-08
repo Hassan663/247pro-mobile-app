@@ -83,7 +83,7 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: 5,
         borderColor: isActive ? Colors.primary : Colors.lightGrey,
         alignItems: "center",
-        paddingHorizontal: pass ? 0 : RFPercentage(3),
+        paddingHorizontal: pass ? 0 : platform=='ios'?RFPercentage(2): RFPercentage(3),
         width: "100%",
         height: pass ? '100%' : '85%',
     }),

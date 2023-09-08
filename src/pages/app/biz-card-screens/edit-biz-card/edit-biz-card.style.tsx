@@ -16,7 +16,7 @@ export const styles: any = StyleSheet.create<any>({
         borderWidth: RFPercentage(.1),
         alignSelf: "center",
         margin: RFPercentage(2),
-        overflow:"hidden",
+        overflow: "hidden",
         backgroundColor: Colors.lightGray,
         borderColor: Colors.lightGrey
     },
@@ -67,7 +67,6 @@ export const styles: any = StyleSheet.create<any>({
         zIndex: 2,
         backgroundColor: Colors.white,
         left: '3%',
-        // color: isActive && Colors.primary,
         color: isActive ? Colors.primary : Colors.fontColor,
         fontSize: 14,
         fontWeight: '400',
@@ -78,16 +77,16 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: 5,
         borderColor: isActive ? Colors.primary : Colors.lightGrey,
         alignItems: "center",
-        paddingHorizontal: pass ? 0 : RFPercentage(3),
+        paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         width: "100%",
         maxHeight: 100,
     }),
     socialInputContainer: {
-        height: 40,
+        height: 50,
         backgroundColor: Colors.lightGrey,
         borderRadius: 5,
-        paddingHorizontal: 10,
-        width: '90%'
+        paddingHorizontal: 20,
+        width: '87%'
     },
     drop_down_button_style: {
         backgroundColor: Colors.white,
@@ -107,5 +106,10 @@ export const styles: any = StyleSheet.create<any>({
         borderColor: Colors.lightGrey,
         padding: 0,
         backgroundColor: 'white'
+    },
+    enabledSocialIcons: {
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        width: '90%'
     },
 });

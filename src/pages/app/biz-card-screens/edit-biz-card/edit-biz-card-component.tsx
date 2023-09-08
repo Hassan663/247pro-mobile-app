@@ -23,6 +23,23 @@ import { SOCIALINPUTSDATA } from './data';
 
 export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, btnText, title, setcontactInfoInputs, sheetRef, newField, setNewField }: any) => {
     const [selectedAccount, setselectedAccount] = useState(null)
+    const handleSave = () => {
+        if (newField?.length > 0) {
+            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
+            inputsCopy.push(newField)
+            setcontactInfoInputs(inputsCopy)
+            sheetRef?.current?.close()
+            setNewField('')
+        }
+        if (addSocialAccountInput) {
+            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
+            inputsCopy.push(selectedAccount)
+            setcontactInfoInputs(inputsCopy)
+            sheetRef?.current?.close()
+            setselectedAccount(null)
+        }
+    }
+
     return (
         <View
             style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
@@ -67,22 +84,7 @@ export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeH
             </View>
             <View style={centralStyle.width100}>
                 <Button
-                    callBack={() => {
-                        if (newField?.length > 0) {
-                            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
-                            inputsCopy.push(newField)
-                            setcontactInfoInputs(inputsCopy)
-                            sheetRef?.current?.close()
-                            setNewField('')
-                        }
-                        if (addSocialAccountInput) {
-                            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
-                            inputsCopy.push(selectedAccount)
-                            setcontactInfoInputs(inputsCopy)
-                            sheetRef?.current?.close()
-                            setselectedAccount(null)
-                        }
-                    }}
+                    callBack={() => handleSave()}
                     title={btnText} primary />
             </View>
         </View>

@@ -107,7 +107,6 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <TouchableOpacity
-
                     onPress={() => getImg()}
                     style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
                     {imageUriLocal.length > 0
@@ -181,9 +180,11 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         sheetRef?.current?.open()
                         setaddSocialAccountInput(false)
                     }}
-                    icon={<AntDesign name={'plus'}
-                        size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
-                        color={Colors.primary} />}
+                    icon={
+                        <AntDesign name={'plus'}
+                            size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
+                            color={Colors.primary} />
+                    }
                     customStyle={[centralStyle.row, centralStyle.alignitemCenter, styles.addCustomField]}
                     title={t('AddCustomField')}
                     titleStyle={styles.addCustomFieldTitle} />
@@ -207,10 +208,20 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             key={index.toString()}
                             style={[centralStyle.row, styles.mx2, styles.spaceBetweenRow, centralStyle.alignitemCenter]}>
                             <Image style={[styles.socialIconsStyle]} source={item?.icon} />
-                            <TextInput
-                                style={styles.socialInputContainer}
-                                placeholder={item?.name}
-                            />
+                            {!isEnabled ?
+                                <TextInput
+                                    style={styles.socialInputContainer}
+                                    placeholder={item?.name}
+                                /> :
+                                <View
+                                    style={styles.enabledSocialIcon}>
+                                    <OutlinedTextInput
+                                        key={index.toString()}
+                                        title={item?.name}
+                                        placeHolder={item?.name}
+                                    />
+                                </View>
+                            }
                         </View>
                     )
                 })}
@@ -218,7 +229,8 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     icon={
                         <AntDesign name={'plus'}
                             size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
-                            color={Colors.primary} />}
+                            color={Colors.primary} />
+                    }
                     customStyle={[
                         centralStyle.row,
                         centralStyle.my3,
