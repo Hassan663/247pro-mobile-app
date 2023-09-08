@@ -37,7 +37,7 @@ import { platform } from '../../../../utilities';
 
 
 const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, btnText, title, setcontactInfoInputs, sheetRef, newField, setNewField }: any) => {
-    const [socialAccount, setSocialAccount] = useState('')
+    const [selectedAccount, setselectedAccount] = useState(null)
     return (
         <View
             style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
@@ -56,45 +56,34 @@ const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, 
                     />
                     :
                     <SelectDropdown
-                        data={["Egypt", "Canada", "Australia", "Ireland"]}
-                        dropdownStyle={{
-                            // borderBottomLeftRadius: 10,
-                            // marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
-                            // borderBottomRightRadius: 10
-                        }}
-                        buttonStyle={{
-                            width: "100%",
-                            borderWidth: RFPercentage(.1),
-                            borderColor: Colors.lightGrey,
-                            backgroundColor: 'white'
-                        }}
-                        renderDropdownIcon={() => <AntDesign name={'down'} size={RFPercentage(3)} />}
+                        data={SOCIALINPUTSDATA}
+                        buttonStyle={styles.dropDownBtn}
+                        renderDropdownIcon={() => <AntDesign name={'down'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
                         buttonTextStyle={{ textAlign: "left" }}
-                        onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index)
+                        onSelect={(selectedItem, index) => { setselectedAccount(selectedItem) }}
+                        buttonTextAfterSelection={(selectedItem, index): any => {
+                            return (
+                                <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
+                                    <Image resizeMode='contain' source={selectedItem.icon} style={styles.socialIcon} />
+                                    <Text>{selectedItem.name}</Text>
+                                </View>
+                            )
                         }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            // text represented after item is selected
-                            // if data array is an array of objects then return selectedItem.property to render after item is selected
-                            return selectedItem
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            // text represented for each item in dropdown
-                            // if data array is an array of objects then return item.property to represent item in dropdown
-                            return item
+                        rowTextForSelection={(item, index): any => {
+                            return (
+                                <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
+                                    <Image resizeMode='contain' source={item.icon} style={styles.socialIcon} />
+                                    <Text>{item.name}</Text>
+                                </View>
+                            );
                         }}
                     />
-                    // <OutlinedDropDown
-                    //     title={t('Industry')}
-                    //     onselect={(value: string) => { setSocialAccount(value) }}
-                    //     DATA={["Construction", "Food", "Oil", "Electronics"]}
-                    //     drop_down_button_style={styles.drop_down_button_style}
-                    // />
                 }
             </View>
             <View style={centralStyle.width100}>
                 <Button
                     callBack={() => {
+
                         if (newField?.length > 0) {
                             let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
                             inputsCopy.push(newField)
@@ -102,6 +91,19 @@ const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, 
                             sheetRef?.current?.close()
                             setNewField('')
                         }
+                        if (addSocialAccountInput) {
+                            let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
+                            console.log(inputsCopy, 'addSocialAccountInputaddSocialAccountInputaddSocialAccountInput', selectedAccount)
+                            inputsCopy.push(selectedAccount)
+                            setcontactInfoInputs(inputsCopy)
+                            sheetRef?.current?.close()
+                            setselectedAccount(null)
+                        }
+                        // let inputsCopy = JSON.parse(JSON.stringify(contactInfoInputs));
+                        // inputsCopy.push(selectedAccount)
+                        // setcontactInfoInputs(inputsCopy)
+                        // sheetRef?.current?.close()
+                        // setselectedAccount(null)
                     }}
                     title={btnText} primary />
             </View>
@@ -192,7 +194,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         placeHolder={t('Company name')}
                     />
 
-                    <View style={styles.inputContainer()}>
+                    <View style={styles.inputContainer(60)}>
                         {
                             about?.length && about?.length > 0 ?
                                 <Text style={styles.inputtitle(isActive)}>{t(`about`)}</Text>
@@ -233,7 +235,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         setaddSocialAccountInput(false)
                     }}
                     icon={<AntDesign name={'plus'}
-                        size={RFPercentage(3)}
+                        size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
                         color={Colors.primary} />}
                     customStyle={[centralStyle.row, centralStyle.alignitemCenter, styles.addCustomField]}
                     title={t('AddCustomField')}
@@ -252,7 +254,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         value={isEnabled}
                     />
                 </View>
-                {SOCIALINPUTSDATA.map((item, index) => {
+                {socialInputs.map((item, index) => {
                     return (
                         <View
                             key={index.toString()}
@@ -260,7 +262,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             <Image style={[styles.socialIconsStyle]} source={item?.icon} />
                             <TextInput
                                 style={styles.socialInputContainer}
-                                placeholder={item?.title}
+                                placeholder={item?.name}
                             />
                         </View>
                     )
@@ -268,7 +270,8 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                 <Button
                     icon={
                         <AntDesign name={'plus'}
-                            size={RFPercentage(3)}
+                            size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
+                            // size={RFPercentage(3)}
                             color={Colors.primary} />}
                     customStyle={[
                         centralStyle.row,
@@ -292,8 +295,8 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     customStyles={{}}
                 >
                     <AddInputSheet
-                        contactInfoInputs={contactInfoInputs}
-                        setcontactInfoInputs={setcontactInfoInputs}
+                        contactInfoInputs={!addSocialAccountInput ? contactInfoInputs : socialInputs}
+                        setcontactInfoInputs={!addSocialAccountInput ? setcontactInfoInputs : setsocialInputs}
                         sheetRef={sheetRef}
                         placeHolder={!addSocialAccountInput ? `Enter custom field label` : `Select social acount`}
                         newField={newField}

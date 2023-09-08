@@ -33,26 +33,32 @@ export const styles: any = StyleSheet.create<any>({
         color: Colors.primary,
         fontWeight: "600",
         textTransform: 'uppercase',
-        fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
+        fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2.1),
 
     },
     spaceBetweenRow: {
         justifyContent: "space-between"
     },
     socialIconsStyle: {
-        height: RFPercentage(4.5),
-        width: RFPercentage(4.5),
+        height: platform == 'ios' ? RFPercentage(3.5) : RFPercentage(4.5),
+        width: platform == 'ios' ? RFPercentage(3.5) : RFPercentage(4.5),
         marginVertical: RFPercentage(2),
         resizeMode: 'contain'
     },
     inputContainer: (height: number) => ({
-        // height: height ? height : 65,
+        // minHeight: height ? height : 65,
         paddingVertical: 10,
         // maxHeight:100,
+        // backgroundColor: 'red',
+
         justifyContent: "flex-end",
     }),
     textInputContainer: () => ({
         flexDirection: 'row',
+        minHeight: platform == 'ios' && 30,
+        // paddingVertical: 10,
+
+        // height:'100%'
     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
@@ -88,5 +94,17 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: RFPercentage(.5),
         borderColor: Colors.fontColor,
         borderWidth: 1
+    },
+    socialIcon: {
+        width: 20,
+        height: 20,
+        marginRight: 10
+    },
+    dropDownBtn: {
+        width: "100%",
+        borderWidth: RFPercentage(.1),
+        borderColor: Colors.lightGrey,
+        padding: 0,
+        backgroundColor: 'white'
     },
 });
