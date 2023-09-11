@@ -9,7 +9,7 @@ import { changeRoute } from '../helpers/async-storage';
 import { styles } from './index.style';
 import { centralStyle } from '../../styles/constant.style';
 
-export const DropDownModal: React.FC<{ disableModal?: any, navigation?: any, DATA?: any }> = ({ disableModal, navigation, DATA }) => {
+export const DropDownModal: React.FC<{ disableModal?: any, editCallback?: any, navigation?: any, DATA?: any }> = ({ disableModal, editCallback, navigation, DATA }) => {
     return (
 
         <TouchableOpacity
@@ -27,13 +27,21 @@ export const DropDownModal: React.FC<{ disableModal?: any, navigation?: any, DAT
                 {DATA ?
                     DATA.map((item: string) => {
                         return (
-                            <View style={centralStyle.my05}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    if (item == t("Edit")) {
+                                        disableModal()
+                                        editCallback()
+                                    }
+                                }}
+                                activeOpacity={.8}
+                                style={[centralStyle.my05,]}>
                                 <Title
                                     title={item}
                                     weight='400'
                                     color={Colors.fontColor}
                                     type='Poppin-14' />
-                            </View>
+                            </TouchableOpacity>
 
                         )
                     })

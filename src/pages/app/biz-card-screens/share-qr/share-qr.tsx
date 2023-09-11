@@ -6,6 +6,7 @@ import {
     Image,
     View,
     SafeAreaView,
+    ScrollView,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -33,36 +34,38 @@ const ShareQR: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                 }
             />
-            <View style={[centralStyle.selfCenter, centralStyle.mb3]}>
-                <View style={centralStyle.my3}>
-                    <Title
-                        type='Poppin-20'
-                        weight='700'
-                        title={`Sharing George Lee`}
-                        color={Colors.black} />
+            <ScrollView>
+                <View style={[centralStyle.selfCenter, centralStyle.mb3]}>
+                    <View style={centralStyle.my3}>
+                        <Title
+                            type='Poppin-20'
+                            weight='700'
+                            title={`Sharing George Lee`}
+                            color={Colors.black} />
 
+                    </View>
+                    <Image style={styles.qrStyle} source={require('../../../../assets/app-images/qr.png')} />
+                    <View style={styles.btnContainer}>
+                        <Button title='Share Card' primary />
+                    </View>
                 </View>
-                <Image style={styles.qrStyle} source={require('../../../../assets/app-images/qr.png')} />
-                <View style={styles.btnContainer}>
-                    <Button title='Share Card' primary />
+                <View style={styles.listWrapper}>
+                    {SHARELISTDATA.map((item, index) => {
+                        console.log(item, 'item')
+                        return (
+                            <View key={index.toString()}
+                                style={[styles.rowContainerData, index == 0 && styles.removeBorder]}>
+                                {item.icon}
+                                <Title
+                                    type='Poppin-14'
+                                    weight='400'
+                                    title={item.title}
+                                    color={Colors.fontColor} />
+                            </View>
+                        )
+                    })}
                 </View>
-            </View>
-            <View style={styles.listWrapper}>
-                {SHARELISTDATA.map((item, index) => {
-                    console.log(item, 'item')
-                    return (
-                        <View key={index.toString()}
-                            style={[styles.rowContainerData, index == 0 && styles.removeBorder]}>
-                            {item.icon}
-                            <Title
-                                type='Poppin-14'
-                                weight='400'
-                                title={item.title}
-                                color={Colors.fontColor} />
-                        </View>
-                    )
-                })}
-            </View>
+            </ScrollView>
         </SafeAreaView >
 
     );

@@ -12,7 +12,7 @@ export default function appNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName='EditBizCard'
+        initialRouteName='AppTabs'
       >
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="ShareQR" component={ShareQR} />

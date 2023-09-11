@@ -41,6 +41,7 @@ import {
     handleFocus,
     toggleSwitch
 } from './call-back';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 
 const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [addSocialAccountInput, setaddSocialAccountInput] = useState(false)
@@ -60,13 +61,16 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
             <SafeAreaView style={styles.container}>
                 <AppHeader
                     iconL1={
-                        <View style={styles.mx2}>
+                        <TouchableOpacity
+                        onPress={()=>changeRoute(navigation,'pop')}
+                        activeOpacity={.8}
+                         style={styles.mx2}>
                             <Title
                                 color={Colors.primary}
                                 type='Poppin-14'
                                 weight='600'
                                 title={t('Cancel')} />
-                        </View>
+                        </TouchableOpacity>
                     }
                     iconR1={
                         <View style={styles.mx2}>

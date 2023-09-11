@@ -33,6 +33,7 @@ import {
     BIZCARDDATA,
     MODALDATA,
 } from './data';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
@@ -74,13 +75,14 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     {modalEnabled && <DropDownModal
                         DATA={MODALDATA}
                         navigation={navigation}
+                        editCallback={() => { changeRoute(navigation, 'EditBizCard') }}
                         disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={centralStyle.pb10}>
                         <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
-                            <FontAwesome name={'user'} size={RFPercentage(10)} />
+                            <FontAwesome name={'user'} color={Colors.fontColor} size={RFPercentage(10)} />
                         </View>
 
                         <View style={styles.bizCartContentWrapper}>
@@ -143,6 +145,7 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             <View style={styles.btnContainer}>
                                 <Button
                                     disable={alreadySaveInContact ? true : false}
+                                    callBack={() => changeRoute(navigation, `ShareQR`)}
                                     title={
                                         alreadySaveInContact ? t('alreadysavedinyourcontacts')
                                             : saveContact ? t('SaveContact') : t('ShareCard')}
