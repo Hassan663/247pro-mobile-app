@@ -112,4 +112,34 @@ export const styles: any = StyleSheet.create<any>({
         paddingHorizontal: 10,
         width: '90%'
     },
+    uploadImageModalContentContainer: {
+        backgroundColor: Colors.white,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        top: '8%',
+        left: "20%",
+        elevation: 5,
+    },
+    uploadImageModal: {
+        position: 'absolute',
+        height: '100%', zIndex: 2, width: '100%',
+    },
+
+    captureBtn: {
+        height: 50,
+        borderBottomWidth: .5,
+        borderColor: Colors.lightGrey,
+        paddingHorizontal: RFPercentage(2),
+        justifyContent: "center"
+    },
+    uploadBtn:{
+        height: 50,
+        paddingHorizontal: RFPercentage(2),
+        justifyContent: "center"
+    }
 });

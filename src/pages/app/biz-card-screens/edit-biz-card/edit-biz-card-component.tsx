@@ -6,6 +6,7 @@ import {
     View,
     Image,
     Text,
+    TouchableOpacity,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -20,6 +21,7 @@ import { Title } from '../../../../core/components/screen-title.component';
 import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { SOCIALINPUTSDATA } from './data';
+import { captureImage, pickImage } from './call-back';
 
 export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, btnText, title, setcontactInfoInputs, sheetRef, newField, setNewField }: any) => {
     const [selectedAccount, setselectedAccount] = useState(null)
@@ -88,5 +90,39 @@ export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeH
                     title={btnText} primary />
             </View>
         </View>
+    )
+}
+export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
+    return (
+        <TouchableOpacity
+            activeOpacity={.8}
+            onPress={() => { disableModal() }}
+            style={[centralStyle.alignitemCenter, styles.uploadImageModal]}>
+            <View style={styles.uploadImageModalContentContainer}>
+                <TouchableOpacity onPress={() => {
+                    captureImage(setimageUriLocal)
+                    disableModal()
+                }}
+                    style={styles.captureBtn}>
+                    <Title
+                        title='Capture new'
+                        type='Poppin-12'
+                        weight='400'
+                        color={Colors.fontColor} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    pickImage(setimageUriLocal)
+                    disableModal()
+                }}
+                    style={styles.uploadBtn}>
+                    <Title
+                        title='Upload from gallery'
+                        type='Poppin-12'
+                        weight='400'
+                        color={Colors.fontColor} />
+                </TouchableOpacity>
+
+            </View>
+        </TouchableOpacity >
     )
 }
