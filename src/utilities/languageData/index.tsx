@@ -132,6 +132,8 @@ export const languageData = [
             AddCustomField: "Add Custom Field",
             SocialProfile: "Social Profile",
             AddSocialAccount: "Add Social Account",
+            GreenMetroInc: "Green Metro Inc",
+            Invite: "Invite",
         }
     },
     {
@@ -269,6 +271,8 @@ export const languageData = [
             AddCustomField: "添加自定义字段",
             SocialProfile: "社会概况",
             AddSocialAccount: "添加社交帐户",
+            GreenMetroInc: "绿色地铁公司",
+            Invite: "邀请",
 
         }
     },
@@ -391,7 +395,7 @@ export const languageData = [
             Contactissavedtoandyour: "El contacto se guarda en 247PRO y su",
             phoneContacts: "Contactos telefonicas",
             alreadysavedinyourcontacts: "ya guardado en tus contactos",
-
+            Invite: "Invitar",
             NewBusinessCard: "Nueva tarjeta de presentación",
             firstname: "Nombre de pila",
             lastName: "Apellido",
@@ -403,6 +407,7 @@ export const languageData = [
             AddCustomField: "Agregar campo personalizado",
             SocialProfile: "Perfil social",
             AddSocialAccount: "Agregar cuenta social",
+            GreenMetroInc: "Metro Verde Inc.",
         }
     }
 ];
