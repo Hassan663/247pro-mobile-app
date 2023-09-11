@@ -40,7 +40,7 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [multiCards, setmultiCards] = useState(false)
     const [createBuisnessCartModalEnabled, setCreateBuisnessCartModalEnabled] = useState(false)
     const [saveContact, setsaveContact] = useState(false)
-    const [alreadySaveInContact, setalreadySaveInContact] = useState(true)
+    const [alreadySaveInContact, setalreadySaveInContact] = useState(false)
 
     return (
         <SafeAreaView style={styles.container}>

@@ -62,9 +62,9 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                 <AppHeader
                     iconL1={
                         <TouchableOpacity
-                        onPress={()=>changeRoute(navigation,'pop')}
-                        activeOpacity={.8}
-                         style={styles.mx2}>
+                            onPress={() => changeRoute(navigation, 'pop')}
+                            activeOpacity={.8}
+                            style={styles.mx2}>
                             <Title
                                 color={Colors.primary}
                                 type='Poppin-14'
@@ -186,7 +186,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             value={isEnabled}
                         />
                     </View>
-                
+
                     {socialInputs.map((item, index) => {
                         return (
                             <View
@@ -195,6 +195,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 <Image style={[styles.socialIconsStyle]} source={item?.icon} />
                                 {!isEnabled ?
                                     <TextInput
+                                        editable={false}
                                         style={styles.socialInputContainer}
                                         placeholder={item?.name}
                                     /> :
@@ -210,7 +211,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </View>
                         )
                     })}
-                    
+
                     <Button
                         icon={
                             <AntDesign name={'plus'}
@@ -224,8 +225,10 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             styles.addCustomField,
                             { width: "50%" }]}
                         callBack={() => {
-                            sheetRef?.current?.open()
-                            setaddSocialAccountInput(true)
+                            if (isEnabled) {
+                                sheetRef?.current?.open()
+                                setaddSocialAccountInput(true)
+                            }
                         }}
                         title={t('AddSocialAccount')}
                         titleStyle={styles.addCustomFieldTitle} />
