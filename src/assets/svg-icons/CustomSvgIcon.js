@@ -1,6 +1,12 @@
 import React from 'react';
+
 import { View } from 'react-native';
-import Svg, { G, Path } from 'react-native-svg';
+import Svg, {
+  Path,
+  G
+} from 'react-native-svg';
+
+import { centralStyle } from '../../styles/constant.style';
 
 export const Briefcase = ({ width, height, color }) => {
   return (
@@ -18,6 +24,7 @@ export const Briefcase = ({ width, height, color }) => {
     </Svg>
   );
 };
+
 export const ProjectsIcon = ({ width, height, color }) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 29 29" fill="none">
@@ -34,6 +41,7 @@ export const ProjectsIcon = ({ width, height, color }) => {
     </Svg>
   );
 };
+
 export const MarketPlaceIcon = ({ width, height, color }) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 29 29" fill="none">
@@ -50,6 +58,7 @@ export const MarketPlaceIcon = ({ width, height, color }) => {
     </Svg>
   );
 };
+
 export const TasksIcon = ({ width, height, color }) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 29 29" fill="none">
@@ -66,6 +75,7 @@ export const TasksIcon = ({ width, height, color }) => {
     </Svg>
   );
 };
+
 export const MenuIcon = ({ width, height, color }) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 29 29" fill="none">
@@ -83,3 +93,115 @@ export const MenuIcon = ({ width, height, color }) => {
   );
 };
 
+export const BizCard = ({ width, height, color }) => {
+  return (
+    <View style={centralStyle.my1}>
+      <Svg
+        width={width}
+        height={height}
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <Path
+          d="M16.6667 10H8.33333C6.49238 10 5 11.4924 5 13.3333V28.3333C5 30.1743 6.49238 31.6667 8.33333 31.6667H31.6667C33.5076 31.6667 35 30.1743 35 28.3333V13.3333C35 11.4924 33.5076 10 31.6667 10H23.3333M16.6667 10V8.33333C16.6667 6.49238 18.1591 5 20 5C21.8409 5 23.3333 6.49238 23.3333 8.33333V10M16.6667 10C16.6667 11.8409 18.1591 13.3333 20 13.3333C21.8409 13.3333 23.3333 11.8409 23.3333 10M15 23.3333C16.8409 23.3333 18.3333 21.8409 18.3333 20C18.3333 18.1591 16.8409 16.6667 15 16.6667C13.1591 16.6667 11.6667 18.1591 11.6667 20C11.6667 21.8409 13.1591 23.3333 15 23.3333ZM15 23.3333C17.177 23.3333 19.029 24.7247 19.7154 26.6667M15 23.3333C12.823 23.3333 10.9708 24.7247 10.2844 26.6667M25 18.3333H30M25 25H28.3333"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+    </View>
+  );
+};
+
+export const CompanyProfile = ({ width, height, color }) => {
+  return (
+    <View style={centralStyle.my1}>
+      <Svg
+        width={width}
+        height={height}
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <Path
+
+          d="M8.77398 5.6487H6.5C5.67157 5.6487 5 6.34033 5 7.1935V28.8208C5 29.674 5.67157 30.3656 6.5 30.3656H33.5C34.3284 30.3656 35 29.674 35 28.8208V7.1935C35 6.34033 34.3284 5.6487 33.5 5.6487H31.2739M16.9956 30.3656C17.0375 31.9104 16.797 35 15.5 35M23.0044 30.3656C22.9625 31.9104 23.203 35 24.5 35M14.3241 35H25.6759M13.25 22.1498H26.75M14.75 26.0118H25.25M29 30.3656V6.54481C29 5.69163 28.3284 5 27.5 5H12.5C11.6716 5 11 5.69163 11 6.54481V30.3656H29ZM22.0475 10.677C22.0475 11.8343 21.1308 12.7725 20 12.7725C18.8691 12.7725 17.9524 11.8343 17.9524 10.677C17.9524 9.51962 18.8691 8.58141 20 8.58141C21.1308 8.58141 22.0475 9.51962 22.0475 10.677ZM15.4857 19.0591H24.514C24.5494 19.0591 24.5781 19.0296 24.5781 18.9931C24.5781 16.7149 22.7848 14.868 20.5726 14.868H19.4271C17.2149 14.868 15.4216 16.7149 15.4216 18.9931C15.4216 19.0296 15.4503 19.0591 15.4857 19.0591Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+    </View>
+  );
+};
+
+export const Contact = ({ width, height, color }) => {
+  return (
+    <View style={centralStyle.my1}>
+      <Svg
+        width={width}
+        height={height}
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <Path
+          d="M6.66797 11H9.68684M6.66797 20H9.68684M6.66797 29H9.68684M11.5106 35H30.0011C31.8421 35 33.3345 33.5076 33.3345 31.6667V8.33333C33.3345 6.49238 31.8421 5 30.0011 5H11.5106C9.66962 5 8.17724 6.49238 8.17724 8.33333V31.6667C8.17724 33.5076 9.66963 35 11.5106 35ZM24.1102 15C24.1102 16.8409 22.6084 18.3333 20.7559 18.3333C18.9034 18.3333 17.4016 16.8409 17.4016 15C17.4016 13.1591 18.9034 11.6667 20.7559 11.6667C22.6084 11.6667 24.1102 13.1591 24.1102 15ZM13.3607 28.3333H28.1507C28.2087 28.3333 28.2557 28.2863 28.2557 28.2283C28.2557 24.6044 25.3179 21.6667 21.694 21.6667H19.8174C16.1935 21.6667 13.2557 24.6044 13.2557 28.2283C13.2557 28.2863 13.3027 28.3333 13.3607 28.3333Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+    </View>
+  );
+};
+
+export const Help = ({ width, height, color }) => {
+  return (
+    <View style={centralStyle.my1}>
+      <Svg
+        width={width}
+        height={height}
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <Path
+          d="M13.7128 15C14.628 13.058 17.0974 11.6667 20.0001 11.6667C23.682 11.6667 26.6668 13.9052 26.6668 16.6667C26.6668 18.9991 24.5374 20.9585 21.6571 21.511C20.7531 21.6844 20.0001 22.4129 20.0001 23.3333M20 28.3333H20.0167M35 20C35 28.2843 28.2843 35 20 35C11.7157 35 5 28.2843 5 20C5 11.7157 11.7157 5 20 5C28.2843 5 35 11.7157 35 20Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+    </View>
+  );
+};
+
+export const AccountSetting = ({ width, height, color }) => {
+  return (
+    <View style={centralStyle.my1}>
+      <Svg width={width} height={height} viewBox="0 0 40 40" fill="none">
+        <Path
+          d="M26.6654 11.6667C26.6654 15.3486 23.6806 18.3333 19.9987 18.3333C16.3168 18.3333 13.332 15.3486 13.332 11.6667C13.332 7.98477 16.3168 5 19.9987 5C23.6806 5 26.6654 7.98477 26.6654 11.6667Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M19.9987 23.3333C13.5554 23.3333 8.33203 28.5567 8.33203 35H31.6654C31.6654 28.5567 26.442 23.3333 19.9987 23.3333Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+    </View>
+  );
+};
+ 

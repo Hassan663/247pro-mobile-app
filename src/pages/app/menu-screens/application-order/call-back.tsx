@@ -1,5 +1,5 @@
 import { View } from "react-native"
-import { styles } from "./menu.style"
+import { styles } from "./application-order.style"
 import { Title } from "../../../../core/components/screen-title.component"
 
 export const Item = ({ item }: any) => {
