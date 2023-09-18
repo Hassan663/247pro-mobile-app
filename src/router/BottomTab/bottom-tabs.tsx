@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import BizCard from '../../pages/app/biz-card-screens/biz-card/biz-card';
-import Contact from '../../pages/app/contact/contact';
+import Contact from '../../pages/app/contact-screens/contact/contact';
 import Menu from '../../pages/app/menu-screens/menu/menu';
 import Colors from '../../styles/colors';
 import { styles } from './styles';

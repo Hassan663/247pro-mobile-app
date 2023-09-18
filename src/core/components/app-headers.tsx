@@ -19,7 +19,8 @@ const AppHeader: React.FC<{
     iconR1?: any,
     color?: string,
     weight?: string,
-    type?: string, iconR2?: any
+    type?: string, 
+    iconR2?: any
 }> = ({ title, color, iconL1, iconR1, iconR2, weight, type   }) => {
 
     return (

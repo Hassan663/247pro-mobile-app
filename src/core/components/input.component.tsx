@@ -4,7 +4,7 @@ import Colors from '../../styles/colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 interface InputProps {
-    placeholder: string;
+    placeholder?: string;
     value?: string;
     secureText?: boolean;
     onChangeText?: (text: string) => void;

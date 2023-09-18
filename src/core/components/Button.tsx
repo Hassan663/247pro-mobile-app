@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { styles } from './index.style';
 
-const Button = ({ customStyle, primary, icon, titleStyle, title, callBack }) => {
+const Button = ({ customStyle, primary, icon, titleStyle, title, callBack }: any) => {
     return (
 
         <TouchableOpacity
@@ -14,7 +14,7 @@ const Button = ({ customStyle, primary, icon, titleStyle, title, callBack }) => 
             activeOpacity={0.8}
             onPress={() => callBack && callBack()}
         >
-            {icon&&icon}
+            {icon && icon}
             <Text style={primary ? styles.primaryText : titleStyle}>{title}</Text>
         </TouchableOpacity>
     );
