@@ -138,12 +138,17 @@ export const languageData = [
             Applications:"Applications",
             hideshow:"(hide/show)",
             BizCards:'Biz Cards',
+            BizCard:'Biz Card',
             Calendar:"Calendar",
             Contacts:"Contacts",
             Events:"Events",
             Timeclock:"Timeclock",
             Members:"Members",
             Tasks:"Tasks",
+            AccountAndSettings:"Account & Settings",
+            CompanyProfile:'Company Profile',
+            AccountSettings:"Account Settings",
+            ApplicaionSettings:"Applicaion Settings",
 
         }
     },
@@ -294,6 +299,11 @@ export const languageData = [
             Events:"活动",
             Timeclock:"时钟",
             Members:"会员",
+            AccountAndSettings:"帐号设定",
+            CompanyProfile:'公司简介',
+            AccountSettings:"帐号设定",
+            BizCard:'名片卡',
+            ApplicaionSettings:"应用程序设置",
 
         }
     },
@@ -439,6 +449,11 @@ export const languageData = [
             Timeclock:"reloj de tiempo",
             Members:"Miembros",
             Tasks:"Tareas",
+            AccountAndSettings:"Configuraciones de la cuenta",
+            CompanyProfile:'Perfil de la empresa',
+            AccountSettings:"Configuraciones de la cuenta",
+            BizCard:'Tarjeta de visita',
+            ApplicaionSettings:"Configuraciones de la aplicación",
         }
     }
 ];

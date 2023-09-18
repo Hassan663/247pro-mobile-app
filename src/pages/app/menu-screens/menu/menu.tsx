@@ -46,7 +46,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
                 title={t(`GreenMetroInc`)} />
 
             <View style={[centralStyle.mx2, centralStyle.my3]}>
-                <Title title={`Applications`} type='Poppin-18' color={Colors.fontColor} weight='600' />
+                <Title title={t('Applications')} type='Poppin-18' color={Colors.fontColor} weight='600' />
             </View>
 
             <View>
@@ -60,7 +60,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
             </View>
 
             <View style={[centralStyle.mx2, centralStyle.my3]}>
-                <Title title={`Account & Settings`} type='Poppin-18' color={Colors.fontColor} weight='600' />
+                <Title title={t('AccountAndSettings')} type='Poppin-18' color={Colors.fontColor} weight='600' />
             </View>
 
             <View>
