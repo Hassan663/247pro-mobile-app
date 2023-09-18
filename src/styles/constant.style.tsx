@@ -116,6 +116,9 @@ export const centralStyle = StyleSheet.create<any>({
     mx3: {
         marginHorizontal: RFPercentage(3)
     },
+    px1: {
+        paddingHorizontal: RFPercentage(1)
+    },
     px2: {
         paddingHorizontal: RFPercentage(2)
     },
