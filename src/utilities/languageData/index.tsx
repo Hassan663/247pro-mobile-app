@@ -134,6 +134,17 @@ export const languageData = [
             AddSocialAccount: "Add Social Account",
             GreenMetroInc: "Green Metro Inc",
             Invite: "Invite",
+            ApplicationsOrder:"Applications Order",
+            Applications:"Applications",
+            hideshow:"(hide/show)",
+            BizCards:'Biz Cards',
+            Calendar:"Calendar",
+            Contacts:"Contacts",
+            Events:"Events",
+            Timeclock:"Timeclock",
+            Members:"Members",
+            Tasks:"Tasks",
+
         }
     },
     {
@@ -234,6 +245,9 @@ export const languageData = [
             MyFavorJobs: "我最喜欢的工作",
             JobDescription: "职位描述",
             JobDescriptionMsg: "我喜欢做全屋装修，包括一间厨房 我喜欢做全屋装修，包括一间厨房 我喜欢做全屋装修，包括一一一一一一一一",
+            BizCards:'名片',
+            Calendar:"日历",
+            Tasks:"任务",
 
             Attachments: "附件",
             ACCEPTTOBID: "接受投标",
@@ -273,6 +287,13 @@ export const languageData = [
             AddSocialAccount: "添加社交帐户",
             GreenMetroInc: "绿色地铁公司",
             Invite: "邀请",
+            ApplicationsOrder:"申请订单",
+            Applications:"应用领域",
+            hideshow:"（隐藏/显示）",
+            Contacts:"联系方式",
+            Events:"活动",
+            Timeclock:"时钟",
+            Members:"会员",
 
         }
     },
@@ -408,6 +429,16 @@ export const languageData = [
             SocialProfile: "Perfil social",
             AddSocialAccount: "Agregar cuenta social",
             GreenMetroInc: "Metro Verde Inc.",
+            ApplicationsOrder:"Orden de aplicaciones",
+            Applications:"Aplicaciones",
+            hideshow:"(ocultar mostrar)",
+            BizCards:'Tarjetas de visita',
+            Calendar:"Calendario",
+            Contacts:"Contactos",
+            Events:"Eventos",
+            Timeclock:"reloj de tiempo",
+            Members:"Miembros",
+            Tasks:"Tareas",
         }
     }
 ];
