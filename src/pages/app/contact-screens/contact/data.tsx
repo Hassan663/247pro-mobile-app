@@ -1,1 +1,1 @@
- 
+ export const CONTACTLIST= ['Client', 'Pro', 'Supplier', 'Staff']

@@ -134,5 +134,5 @@ export const centralStyle = StyleSheet.create<any>({
     width100: {
         width: "100%"
     },
-
+    height100: { height: '100%' },
 });
