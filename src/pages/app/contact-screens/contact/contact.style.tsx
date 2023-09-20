@@ -2,6 +2,7 @@ import { t } from 'i18next';
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../../styles/colors';
+import { platform } from '../../../../utilities';
 
 export const styles: any = StyleSheet.create<any>({
 
@@ -23,12 +24,43 @@ export const styles: any = StyleSheet.create<any>({
         borderWidth: .3,
         height: RFPercentage(4),
         width: RFPercentage(20),
-        borderRadius: RFPercentage(1), justifyContent: 'space-evenly'
+        borderRadius: RFPercentage(1),
+        justifyContent: 'space-evenly'
     },
     titleContainer: {
         backgroundColor: Colors.inputBgColor,
         borderRadius: RFPercentage(.5)
     },
-    listWrapper: { height: RFPercentage(6), borderBottomWidth: 1, borderBottomColor: Colors.lightGrey },
+    listWrapper: {
+        height: RFPercentage(6),
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.lightGrey
+    },
+    modalContainerAbs: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        zIndex: 2,
+        justifyContent: 'flex-start',
+        alignItems: "flex-end",
+    },
+    modalContainer: {
+        padding: RFPercentage(1.5),
+        backgroundColor: Colors.white,
+        borderColor: Colors.fontColor,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderRadius: RFPercentage(.5),
+        justifyContent: 'space-evenly',
+        right: RFPercentage(2),
+        top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
+
+    },
 
 });

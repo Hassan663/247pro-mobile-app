@@ -24,11 +24,16 @@ import { centralStyle, } from '../../../../styles/constant.style';
 import { platform } from '../../../../utilities';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
-import { RenderItem } from './contact.components';
 import { CONTACTLIST } from './data';
+import {
+    ConnectionRequest,
+    RenderItem
+} from './contact.components';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState('')
+    const [modalEnabled, setmodalEnabled] = useState(false)
+
     return (
         <>
             <KeyboardAvoidingView
@@ -36,12 +41,14 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 style={{ flex: 1, }}
             >
                 <AppHeader
-                    // iconL1={<AntDesign style={centralStyle.mx2} name={`left`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
                     iconR1={<AntDesign name={`plus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
-                    iconR2={<Entypo style={centralStyle.mx2} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />}
+                    iconR2={<Entypo onPress={() => setmodalEnabled(true)} style={centralStyle.mx2} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />}
                     type='Poppin-18'
                     weight='600'
                     title={t(`Contacts`)} />
+
+                {modalEnabled && <ConnectionRequest
+                    disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                 <View style={[centralStyle.flex1, { backgroundColor: 'white' }]}>
                     <View style={centralStyle.row}>
