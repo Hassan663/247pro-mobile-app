@@ -152,7 +152,8 @@ export const languageData = [
             Youhavenocontact: "You have no contact",
             search: "search",
             Company: "Company (200)",
-            AddContact:"Add Contact",
+            AddContact: "Add Contact",
+            ConnectionRequests: "Connection Requests",
 
         }
     },
@@ -311,7 +312,8 @@ export const languageData = [
             Youhavenocontact: "你没有联系方式",
             search: "搜索",
             Company: "公司 (200)",
-            AddContact:"增加联系人",
+            AddContact: "增加联系人",
+            ConnectionRequests: "连接请求",
 
         }
     },
@@ -465,7 +467,8 @@ export const languageData = [
             Youhavenocontact: "no tienes contacto",
             search: "buscar",
             Company: "Empresa (200)",
-            AddContact:"Agregar contacto",
+            AddContact: "Agregar contacto",
+            ConnectionRequests: "Solicitudes de conexión",
         }
     }
 ];

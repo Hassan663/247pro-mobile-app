@@ -11,6 +11,7 @@ import { styles } from './contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 
 export const RenderItem = ({ item }: any) => {
     return (
@@ -23,7 +24,7 @@ export const RenderItem = ({ item }: any) => {
         </View>
     )
 }
-export const ConnectionRequest: React.FC<{ disableModal?: any, }> = ({ disableModal, }) => {
+export const ConnectionRequest: React.FC<{ disableModal?: any, navigation?: any }> = ({ disableModal, navigation }) => {
     return (
         <TouchableOpacity
             activeOpacity={.9}
@@ -32,12 +33,13 @@ export const ConnectionRequest: React.FC<{ disableModal?: any, }> = ({ disableMo
             <TouchableOpacity
                 activeOpacity={.9}
                 onPress={() => {
+                    changeRoute(navigation, 'ConnectionRequests')
                     disableModal()
                 }}
                 style={styles.modalContainer}>
 
                 <Title
-                    title={t('Connection Requests')}
+                    title={t('ConnectionRequests')}
                     weight='400'
                     color={Colors.fontColor}
                     type='Poppin-12' />

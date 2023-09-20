@@ -47,8 +47,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     weight='600'
                     title={t(`Contacts`)} />
 
-                {modalEnabled && <ConnectionRequest
-                    disableModal={() => setmodalEnabled(!modalEnabled)} />}
+                {modalEnabled && <ConnectionRequest navigation={navigation} disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                 <View style={[centralStyle.flex1, { backgroundColor: 'white' }]}>
                     <View style={centralStyle.row}>
@@ -82,7 +81,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         />
                     </View>
 
-                    <View style={[styles.height7, centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
+                    <View style={[
+                        styles.height7,
+                        centralStyle.mx2,
+                        centralStyle.row,
+                        centralStyle.XAndYCenter]}>
+
                         <AntDesign size={RFPercentage(2)} name='search1' color={Colors.fontColor} />
                         <TextInput
                             style={[centralStyle.flex1, centralStyle.height100, centralStyle.mx1,]}

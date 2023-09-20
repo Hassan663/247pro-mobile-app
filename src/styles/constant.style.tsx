@@ -5,6 +5,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
 export const heightFlex1 = windowHeight / 10
+
 type CentralPosition = {
     flexStart: any,
     center: any,
@@ -107,6 +108,12 @@ export const centralStyle = StyleSheet.create<any>({
     mb2: {
         marginBottom: RFPercentage(2)
     },
+    mt2: {
+        marginTop: RFPercentage(2)
+    },
+    mt1: {
+        marginTop: RFPercentage(1)
+    },
     mx1: {
         marginHorizontal: RFPercentage(1)
     },
@@ -124,6 +131,9 @@ export const centralStyle = StyleSheet.create<any>({
     },
     py1: {
         paddingVertical: RFPercentage(1)
+    },
+    pb3: {
+        paddingBottom: RFPercentage(3)
     },
     py05: {
         paddingVertical: RFPercentage(.5)
