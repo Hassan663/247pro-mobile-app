@@ -7,6 +7,7 @@ import ShareQR from '../../pages/app/biz-card-screens/share-qr/share-qr';
 import EditBizCard from '../../pages/app/biz-card-screens/edit-biz-card/edit-biz-card';
 import ApplicationOrder from '../../pages/app/menu-screens/application-order/application-order';
 import ConnectionRequests from '../../pages/app/contact-screens/connection-requests/connection-requests';
+import NewContact from '../../pages/app/contact-screens/new-contact/new-contact';
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -21,6 +22,7 @@ export default function appNavigation() {
         <Stack.Screen name="EditBizCard" component={EditBizCard} />
         <Stack.Screen name="ApplicationOrder" component={ApplicationOrder} />
         <Stack.Screen name="ConnectionRequests" component={ConnectionRequests} />
+        <Stack.Screen name="NewContact" component={NewContact} />
 
       </Stack.Navigator>
     </NavigationContainer>

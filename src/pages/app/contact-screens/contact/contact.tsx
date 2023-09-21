@@ -29,6 +29,7 @@ import {
     ConnectionRequest,
     RenderItem
 } from './contact.components';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState('')
@@ -41,7 +42,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 style={{ flex: 1, }}
             >
                 <AppHeader
-                    iconR1={<AntDesign name={`plus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
+                    iconR1={
+                        <AntDesign
+                            onPress={() =>  changeRoute(navigation, 'NewContact')}
+                            name={`plus`}
+                            size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
                     iconR2={<Entypo onPress={() => setmodalEnabled(true)} style={centralStyle.mx2} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />}
                     type='Poppin-18'
                     weight='600'
