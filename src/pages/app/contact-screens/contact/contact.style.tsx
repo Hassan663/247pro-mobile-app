@@ -60,7 +60,16 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'space-evenly',
         right: RFPercentage(2),
         top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
-
     },
-
+    listContainerStyle: {
+        justifyContent: 'space-between',
+        height: '90%',
+    },
+    letterStyle: {
+        textAlign: 'right',
+        color: Colors.fontColor,
+        fontSize: 15,
+        width: 20,
+    },
+   
 });

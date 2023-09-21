@@ -20,7 +20,7 @@ import { t } from 'i18next';
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/Button';
-import { centralStyle, } from '../../../../styles/constant.style';
+import { centralStyle, heightFlex1, } from '../../../../styles/constant.style';
 import { platform } from '../../../../utilities';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
@@ -30,10 +30,14 @@ import {
     RenderItem
 } from './contact.components';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { AlphabetList } from 'react-native-section-alphabet-list';
+import { SECTIONLISTDATA } from '../new-contact/data';
+import { CompanyList, CustomSectionHeader } from '../new-contact/new-contact-component';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState('')
     const [modalEnabled, setmodalEnabled] = useState(false)
+    const [contacts, setContacts] = useState(true)
 
     return (
         <>
@@ -44,7 +48,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 <AppHeader
                     iconR1={
                         <AntDesign
-                            onPress={() =>  changeRoute(navigation, 'NewContact')}
+                            onPress={() => changeRoute(navigation, 'NewContact')}
                             name={`plus`}
                             size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
                     iconR2={<Entypo onPress={() => setmodalEnabled(true)} style={centralStyle.mx2} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />}
@@ -99,22 +103,38 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         />
                         <MaterialIcons size={RFPercentage(2.5)} name='filter-list' />
                     </View>
-                    <View style={[centralStyle.XAndYCenter, centralStyle.pb10, centralStyle.flex1]}>
-                        <Title type='Poppin-12'
-                            weight='400'
-                            color={Colors.black}
-                            title={t('Youhavenocontact')} />
+                    <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.pb10, centralStyle.flex1]}>
+                        {contacts ?
+                            <View style={[centralStyle.px2, { height: heightFlex1 * 6, width: "100%" }]}>
+                                <AlphabetList
+                                    data={SECTIONLISTDATA}
+                                    letterListContainerStyle={styles.listContainerStyle}
+                                    showsVerticalScrollIndicator={false}
+                                    indexContainerStyle={{ width: 20 }}
+                                    indexLetterStyle={styles.letterStyle}
+                                    renderCustomItem={(item) => <CompanyList getCompany={(val: any) => console.log(val)} item={item} />}
+                                    renderCustomSectionHeader={CustomSectionHeader}
+                                />
+                            </View>
+                            :
+                            <>
+                                <Title type='Poppin-12'
+                                    weight='400'
+                                    color={Colors.black}
+                                    title={t('Youhavenocontact')} />
 
-                        <Button
-                            icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
-                            title={t('AddContact')}
-                            titleStyle={{ color: Colors.primary }}
-                            customStyle={[centralStyle.row,
-                            centralStyle.alignitemCenter,
-                            centralStyle.my2,
-                            styles.addContactContaienr
-                            ]}
-                        />
+                                <Button
+                                    icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
+                                    title={t('AddContact')}
+                                    titleStyle={{ color: Colors.primary }}
+                                    customStyle={[centralStyle.row,
+                                    centralStyle.alignitemCenter,
+                                    centralStyle.my2,
+                                    styles.addContactContaienr
+                                    ]}
+                                />
+                            </>
+                        }
 
                     </View>
                 </View >

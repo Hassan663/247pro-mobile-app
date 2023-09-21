@@ -51,6 +51,10 @@ export const centralStyle = StyleSheet.create<any>({
     selfEnd: {
         alignSelf: 'flex-end'
     },
+    XAndYStart: {
+        justifyContent: "flex-start",
+        alignItems: "flex-start"
+    },
     XAndYCenter: {
         justifyContent: "center",
         alignItems: 'center'
@@ -150,5 +154,7 @@ export const centralStyle = StyleSheet.create<any>({
     width100: {
         width: "100%"
     },
-    height100: { height: '100%' },
+    height100: {
+        height: '100%'
+    },
 });

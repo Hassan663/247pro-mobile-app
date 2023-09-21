@@ -209,10 +209,6 @@ export const styles: any = StyleSheet.create<any>({
     },
     downIconWrapper: {
         borderWidth: 1,
-        // position: "absolute",
-        // zIndex: 2,
-        // right: RFPercentage(2),
-        // top: RFPercentage(1)
     },
     sheetContainer: {
         backgroundColor: Colors.white,
@@ -232,8 +228,71 @@ export const styles: any = StyleSheet.create<any>({
         backgroundColor: Colors.white,
         paddingVertical: RFPercentage(1)
     },
-    sectionHeaderLabel: {
-        fontWeight: '600',
-        fontSize: 14,
-    }
+    contactModalContainer: {
+        position: 'absolute',
+        height: "100%",
+        width: "100%",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 2
+    },
+    disableModalContainer: {
+        height: '20%',
+        width: "100%"
+    },
+    contactModalContentWrapper: {
+        height: '80%',
+        width: '100%',
+        backgroundColor: Colors.white,
+        overflow: "hidden",
+        borderRadius: RFPercentage(2),
+    },
+    contactModalHeader: {
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    headerLine: {
+        height: 3,
+        width: '30%',
+        borderRadius: RFPercentage(2),
+        backgroundColor: Colors.fontColor
+    },
+    searchInput: {
+        flex: 1,
+        height: '100%',
+    },
+    listContainerStyle: {
+        justifyContent: 'space-between',
+        paddingVertical: RFPercentage(1)
+    },
+    letterStyle: {
+        textAlign: 'right',
+        color: Colors.fontColor,
+        fontSize: 15,
+        width: 20,
+
+    },
+    companyListContainer: {
+        flex: 9.5,
+    },
+    listWrapper: {
+        height: RFPercentage(4),
+        marginVertical: 2,
+    },
+    flex1p2: {
+        flex: 1,
+    },
+    userImgStyle: {
+        height: RFPercentage(3),
+        width: RFPercentage(3),
+        borderRadius: RFPercentage(2)
+    },
+    flex8p8: {
+        flex: 9,
+    },
+    companyImg: {
+        height: '100%',
+        width: '100%'
+    },
+
 });

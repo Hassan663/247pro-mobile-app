@@ -3,13 +3,14 @@ import React from 'react';
 import {
     View,
     TouchableOpacity,
-    Image
+    Image,
+    TextInput
 } from 'react-native';
 
 import Colors from '../../../../styles/colors';
 import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import { centralStyle } from '../../../../styles/constant.style';
+import { centralStyle, heightFlex1 } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import {
     captureImage,
@@ -18,6 +19,34 @@ import {
 
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+
+import * as Animatable from 'react-native-animatable';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import RBSheet from 'react-native-raw-bottom-sheet';
+// import { RFPercentage } from 'react-native-responsive-fontsize';
+// import { t } from 'i18next';
+import CountryPicker, {
+    Country,
+} from 'react-native-country-picker-modal';
+
+import AppHeader from '../../../../core/components/app-headers';
+// import Colors from '../../../../styles/colors';
+import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
+// import { styles } from './new-contact.style';
+// import { changeRoute } from '../../../../core/helpers/async-storage';
+// import { Title } from '../../../../core/components/screen-title.component';
+import { CONTACTTYPEDATA, SECTIONLISTDATA } from './data';
+import { platform } from '../../../../utilities';
+// import { CompanyList, LeftIcon, PicImgModal, RightIcon } from './new-contact-component';
+// import {
+//     // centralStyle,
+//     heightFlex1,
+// } from '../../../../styles/constant.style';
+import Input from '../../../../core/components/input.component';
+import { AlphabetList } from 'react-native-section-alphabet-list';
+
 // import { Image } from 'react-native-svg';
 
 export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
@@ -75,18 +104,20 @@ export const RightIcon = (navigation?: any) => (
             title={t('Done')} />
     </View>
 )
-export const CompanyList = ({ item }: any) => {
-
+export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
     return (
-        <View style={[centralStyle.row,]}>
-            <View style={{ flex: 9.5, }}>
-                <View style={[centralStyle.row, { height: RFPercentage(6), marginVertical: 2 }]}>
-                    <View style={[{ flex: 1.5, }, centralStyle.justifyContentCenter]}>
+        <TouchableOpacity onPress={() => {
+            getCompany(item)
+            disableSheet()
+        }} activeOpacity={.9} style={[centralStyle.row,]}>
+            <View style={[styles.companyListContainer,]}>
+                <View style={[centralStyle.row, styles.listWrapper]}>
+                    <View style={[styles.flex1p2, centralStyle.justifyContentCenter]}>
                         <Image
                             source={require('../../../../assets/app-images/userImg.png')}
-                            style={{ height: RFPercentage(4), width: RFPercentage(4), borderRadius: RFPercentage(2) }} />
+                            style={styles.userImgStyle} />
                     </View>
-                    <View style={[{ flex: 8.5, }, centralStyle.justifyContentCenter]}>
+                    <View style={[styles.flex8p8, centralStyle.justifyContentCenter]}>
                         <Title
                             color={Colors.black}
                             type='Poppin-14'
@@ -95,9 +126,68 @@ export const CompanyList = ({ item }: any) => {
                     </View>
                 </View>
             </View>
-            <View style={{ flex: .5, }}>
+        </TouchableOpacity>
+    )
+}
 
-            </View>
+export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any) => {
+    const disableSheet = () => {
+        setanim('fadeOutDownBig')
+        setTimeout(() => {
+            setcontactModal(false)
+        }, 800)
+    }
+    return (
+        <View style={styles.contactModalContainer}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={disableSheet}
+                style={styles.disableModalContainer} />
+
+            <Animatable.View
+                duration={600}
+                animation={anim}
+                iterationCount={1}
+                direction="alternate"
+                style={styles.contactModalContentWrapper}>
+                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.contactModalHeader]}>
+                    <View style={[centralStyle.circle(20),]} />
+                    <View style={styles.headerLine} />
+                    <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
+                        <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
+                    </View>
+                </View>
+                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
+                    <AntDesign
+                        style={centralStyle.mx1}
+                        color={Colors.fontColor}
+                        name={`search1`}
+                        size={RFPercentage(2)} />
+                    <TextInput placeholder='Search' style={styles.searchInput} />
+                </View>
+                <View style={[centralStyle.px2, { height: heightFlex1 * 6 }]}>
+                    <AlphabetList
+                        data={SECTIONLISTDATA}
+                        letterListContainerStyle={styles.listContainerStyle}
+                        showsVerticalScrollIndicator={false}
+                        indexContainerStyle={{ width: 20 }}
+                        indexLetterStyle={styles.letterStyle}
+                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany(val)} item={item} />}
+                        renderCustomSectionHeader={CustomSectionHeader}
+                    />
+                </View>
+            </Animatable.View>
+        </View>
+    )
+}
+export const CustomSectionHeader = (section: any) => {
+    return (
+        <View style={styles.sectionHeaderContainer}>
+            <Title
+                color={Colors.black}
+                type='Poppin-14'
+                weight='600'
+                title={section.title} />
         </View>
     )
 }

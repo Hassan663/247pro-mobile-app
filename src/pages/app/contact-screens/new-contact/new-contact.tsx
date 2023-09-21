@@ -10,14 +10,10 @@ import {
     Image,
     TouchableOpacity,
     KeyboardAvoidingView,
-    TextInput,
-    FlatList,
-    Text,
 } from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import RBSheet from 'react-native-raw-bottom-sheet';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 import CountryPicker, {
@@ -29,18 +25,13 @@ import Colors from '../../../../styles/colors';
 import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import { styles } from './new-contact.style';
-import { changeRoute } from '../../../../core/helpers/async-storage';
 import { Title } from '../../../../core/components/screen-title.component';
-import { CONTACTTYPEDATA, SECTIONLISTDATA } from './data';
+import { CONTACTTYPEDATA, } from './data';
 import { platform } from '../../../../utilities';
-import { CompanyList, LeftIcon, PicImgModal, RightIcon } from './new-contact-component';
+import { ContactModal, LeftIcon, PicImgModal, RightIcon } from './new-contact-component';
 import {
     centralStyle,
-    heightFlex1,
 } from '../../../../styles/constant.style';
-import Input from '../../../../core/components/input.component';
-import { AlphabetList } from 'react-native-section-alphabet-list';
-
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -49,9 +40,9 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [showMore, setShowMore] = useState<boolean>(false);
-    const [contactModal, setcontactModal] = useState<boolean>(true);
-
-    const sheetRef = useRef<any>(null)
+    const [anim, setanim] = useState<string>('fadeInUpBig');
+    const [contactModal, setcontactModal] = useState<boolean>(false);
+    const [selectedCompany, setSelectedCompany] = useState<any>([])
 
     const handleOnSelect = (country: Country) => {
         setIsCountryPickerVisible(false);
@@ -101,18 +92,11 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     drop_down_button_style={[styles.dropDownStyle,]}
                                 />
                             </View>
-                            <OutlinedTextInput
-                                title={t('firstname')}
-                                placeHolder={t('firstname')}
-                            />
-                            <OutlinedTextInput
-                                title={t('lastname')}
-                                placeHolder={t('lastname')}
-                            />
-                            <OutlinedTextInput
-                                title={t('Companyname')}
-                                placeHolder={t('Companyname')}
-                            />
+
+                            <OutlinedTextInput title={t('firstname')} placeHolder={t('firstname')} />
+                            <OutlinedTextInput title={t('lastname')} placeHolder={t('lastname')} />
+                            <OutlinedTextInput title={t('Companyname')} placeHolder={t('Companyname')} />
+
                             <OutlinedDropDown
                                 dropDownStyle={styles.dropdownstyle}
                                 title={t('Industry')}
@@ -133,21 +117,13 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 DATA={CONTACTTYPEDATA}
                                 drop_down_button_style={[styles.dropDownStyle,]}
                             />
-                            <OutlinedTextInput
-                                title={t('jobTitle')}
-                                placeHolder={t('jobTitle')}
-                            />
-                            <OutlinedTextInput
-                                title={t('Websiteurl')}
-                                placeHolder={t('Websiteurl')}
-                            />
+
+                            <OutlinedTextInput title={t('jobTitle')} placeHolder={t('jobTitle')} />
+                            <OutlinedTextInput title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
+
                             <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
                                 <View style={{ flex: 9 }}>
-                                    <OutlinedTextInput
-                                        title={t('Email')}
-                                        placeHolder={t('Email')}
-                                    />
-
+                                    <OutlinedTextInput title={t('Email')} placeHolder={t('Email')} />
                                 </View>
                                 <View style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd]}>
                                     <AntDesign name={`plus`} size={RFPercentage(3)} />
@@ -175,10 +151,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     />
                                 </TouchableOpacity>
                                 <View style={styles.phoneNumberInput}>
-                                    <OutlinedTextInput
-                                        title={t('MobilePhone')}
-                                        placeHolder={t('MobilePhone')}
-                                    />
+                                    <OutlinedTextInput title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                                 </View>
                             </View>
                             {!showMore && <TouchableOpacity onPress={() => { setShowMore(true) }} activeOpacity={.9}>
@@ -201,40 +174,23 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         DATA={CONTACTTYPEDATA}
                                         drop_down_button_style={[styles.dropDownStyle,]}
                                     />
-                                    <OutlinedTextInput
-                                        title={t('StreetAddress')}
-                                        placeHolder={t('StreetAddress')}
-                                    />
-                                    <OutlinedTextInput
-                                        title={t('StreetAddressLine2')}
-                                        placeHolder={t('StreetAddressLine2')}
-                                    />
-                                    <OutlinedTextInput
-                                        title={t('City')}
-                                        placeHolder={t('City')}
-                                    />
+
+                                    <OutlinedTextInput title={t('StreetAddress')} placeHolder={t('StreetAddress')} />
+                                    <OutlinedTextInput title={t('StreetAddressLine2')} placeHolder={t('StreetAddressLine2')} />
+                                    <OutlinedTextInput title={t('City')} placeHolder={t('City')} />
+
                                     <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
                                         <View style={styles.leftSide}>
-                                            <OutlinedTextInput
-                                                title={t('State')}
-                                                placeHolder={t('State')}
-                                            />
+                                            <OutlinedTextInput title={t('State')} placeHolder={t('State')} />
                                         </View>
                                         <View style={styles.rightSide}>
-                                            <OutlinedTextInput
-                                                title={t('ZipCode')}
-                                                placeHolder={t('ZipCode')}
-                                            />
+                                            <OutlinedTextInput title={t('ZipCode')} placeHolder={t('ZipCode')} />
                                         </View>
                                     </View>
-                                    <OutlinedTextInput
-                                        title={t('PObox')}
-                                        placeHolder={t('PObox')}
-                                    />
-                                    <OutlinedTextInput
-                                        title={t('Label')}
-                                        placeHolder={t('Label')}
-                                    />
+
+                                    <OutlinedTextInput title={t('PObox')} placeHolder={t('PObox')} />
+                                    <OutlinedTextInput title={t('Label')} placeHolder={t('Label')} />
+
                                     <View style={[centralStyle.my1]}>
                                         <Title
                                             color={Colors.black}
@@ -243,17 +199,24 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             title={t('Linktocompany')} />
                                     </View>
                                     <TouchableOpacity
-                                        // onPress={() => { sheetRef?.current?.open() }}
-                                        onPress={(() => setcontactModal(true))}
+                                        onPress={(() => {
+                                            setanim('fadeInUpBig')
+                                            setTimeout(() => { setcontactModal(true) }, 0)
+                                        })}
                                         style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
+
                                         <View style={[centralStyle.circle(RFPercentage(4)), styles.selectCompany,]}>
-                                            <AntDesign name={`plus`} color={Colors.white} size={RFPercentage(2.5)} />
+                                            {selectedCompany?.length == 0 ?
+                                                <AntDesign name={`plus`} color={Colors.white} size={RFPercentage(2.5)} /> :
+                                                <Image style={styles.companyImg} source={require('../../../../assets/app-images/userImg.png')}></Image>
+                                            }
                                         </View>
                                         <Title
                                             color={Colors.fontColor}
                                             type='Poppin-16'
                                             weight='400'
-                                            title={t('SelectAcompany')} />
+                                            title={selectedCompany?.length == 0 ? t('SelectAcompany') : selectedCompany?.value} />
+
                                     </TouchableOpacity>
                                     <View style={[centralStyle.my1]}>
                                         <Title
@@ -276,55 +239,14 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         title={t('SHOWLESS')} />
                                 </TouchableOpacity>}
                         </View>
-
                     </ScrollView >
-                    {contactModal &&
-                        <View style={{ position: 'absolute', height: "100%", width: "100%", justifyContent: "flex-end", alignItems: "flex-end", backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 2 }}>
-                            <TouchableOpacity activeOpacity={1} onPress={(() => setcontactModal(false))} style={{ height: '20%', width: "100%" }}></TouchableOpacity>
-                            <View style={{ height: '80%', width: '100%', backgroundColor: Colors.white, overflow: "hidden", borderRadius: RFPercentage(2), }}>
-                                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, { alignItems: "center", justifyContent: "space-between", }]}>
-                                    <View />
-                                    <View style={{ height: 3, width: '20%', borderRadius: RFPercentage(2), backgroundColor: Colors.fontColor }}></View>
-                                    <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
-                                        <AntDesign name={`arrowdown`} size={RFPercentage(1.5)} />
-                                    </View>
 
-                                </View>
-                                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
-                                    <AntDesign
-                                        style={centralStyle.mx1}
-                                        name={`search1`}
-                                        size={RFPercentage(2)} />
-                                    <TextInput placeholder='Search' style={{ flex: 1, height: '100%', }} />
-                                </View>
-                                <View style={[centralStyle.px2, { height: heightFlex1 * 6 }]}>
-                                    <AlphabetList
-                                        data={SECTIONLISTDATA}
-                                        letterListContainerStyle={{ justifyContent: 'space-between', paddingVertical: RFPercentage(1) }}
-                                        showsVerticalScrollIndicator={false}
-                                        indexContainerStyle={{ width: 20 }}
-                                        indexLetterStyle={{
-                                            textAlign: 'right',
-                                            color: Colors.fontColor,
-                                            fontSize: 15,
-                                            width: 20,
-                                        }}
-                                        renderCustomItem={(item) => (
-                                            <CompanyList item={item} />
-                                            // <View style={styles.listItemContainer}>
-                                            //     <Text style={styles.listItemLabel}>{item.value}</Text>
-                                            // </View>
-                                        )}
-                                        renderCustomSectionHeader={(section) => (
-                                            <View style={styles.sectionHeaderContainer}>
-                                                <Text style={styles.sectionHeaderLabel}>{section.title}</Text>
-                                            </View>
-                                        )}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                    }
+                    {contactModal &&
+                        <ContactModal
+                            getCompany={(val: any) => { setSelectedCompany(val) }}
+                            anim={anim}
+                            setanim={setanim}
+                            setcontactModal={setcontactModal} />}
                 </SafeAreaView >
             </KeyboardAvoidingView >
         </>
