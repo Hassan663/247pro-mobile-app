@@ -11,6 +11,8 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     TextInput,
+    FlatList,
+    Text,
 } from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
@@ -29,14 +31,15 @@ import OutlinedDropDown from '../../../../core/components/outlined-dropdown.comp
 import { styles } from './new-contact.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { Title } from '../../../../core/components/screen-title.component';
-import { CONTACTTYPEDATA } from './data';
+import { CONTACTTYPEDATA, SECTIONLISTDATA } from './data';
 import { platform } from '../../../../utilities';
-import { LeftIcon, PicImgModal, RightIcon } from './new-contact-component';
+import { CompanyList, LeftIcon, PicImgModal, RightIcon } from './new-contact-component';
 import {
     centralStyle,
     heightFlex1,
 } from '../../../../styles/constant.style';
 import Input from '../../../../core/components/input.component';
+import { AlphabetList } from 'react-native-section-alphabet-list';
 
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
@@ -46,6 +49,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [showMore, setShowMore] = useState<boolean>(false);
+    const [contactModal, setcontactModal] = useState<boolean>(true);
 
     const sheetRef = useRef<any>(null)
 
@@ -239,7 +243,8 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             title={t('Linktocompany')} />
                                     </View>
                                     <TouchableOpacity
-                                        onPress={() => { sheetRef?.current?.open() }}
+                                        // onPress={() => { sheetRef?.current?.open() }}
+                                        onPress={(() => setcontactModal(true))}
                                         style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
                                         <View style={[centralStyle.circle(RFPercentage(4)), styles.selectCompany,]}>
                                             <AntDesign name={`plus`} color={Colors.white} size={RFPercentage(2.5)} />
@@ -272,46 +277,56 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 </TouchableOpacity>}
                         </View>
 
-                        <RBSheet
-                            ref={sheetRef}
-                            height={heightFlex1 * 8}
-                            closeOnPressMask={true}
-                            closeOnDragDown={true}
-                            openDuration={250}
-                            animationType={`slide`}
-                            customStyles={{
-                                container: styles.sheetContainer,
-                                draggableIcon: styles.draggableIcon,
-                            }}
-                        >
-                            <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
-                                <AntDesign name={`arrowdown`} size={RFPercentage(1.5)} />
-                            </View>
-                            <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my2, centralStyle.XAndYCenter]}>
-                                <AntDesign
-                                    style={centralStyle.mx1}
-                                    name={`search1`}
-                                    size={RFPercentage(2)} />
-                                <TextInput style={{ flex: 1, height: '100%', backgroundColor: 'red', }} />
-                            </View>
-                            {[0, 0, 0, 0, 0,].map(() => (
-                                <View style={[centralStyle.row, centralStyle.px2]}>
-                                    <View style={{ flex: 9.5, }}>
-                                        <View style={[centralStyle.row, { height: RFPercentage(6), backgroundColor: 'red', marginVertical: 2 }]}>
-                                            <View style={{ flex: 1.5, backgroundColor: 'blue' }}></View>
-                                            <View style={{ flex: 8.5, backgroundColor: 'red' }}></View>
-                                        </View>
-                                    </View>
-                                    <View style={{ flex: .5, }}>
-
-                                    </View>
-                                </View>
-                            ))}
-
-                        </RBSheet>
                     </ScrollView >
+                    {contactModal &&
+                        <View style={{ position: 'absolute', height: "100%", width: "100%", justifyContent: "flex-end", alignItems: "flex-end", backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 2 }}>
+                            <TouchableOpacity activeOpacity={1} onPress={(() => setcontactModal(false))} style={{ height: '20%', width: "100%" }}></TouchableOpacity>
+                            <View style={{ height: '80%', width: '100%', backgroundColor: Colors.white, overflow: "hidden", borderRadius: RFPercentage(2), }}>
+                                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, { alignItems: "center", justifyContent: "space-between", }]}>
+                                    <View />
+                                    <View style={{ height: 3, width: '20%', borderRadius: RFPercentage(2), backgroundColor: Colors.fontColor }}></View>
+                                    <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
+                                        <AntDesign name={`arrowdown`} size={RFPercentage(1.5)} />
+                                    </View>
+
+                                </View>
+                                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
+                                    <AntDesign
+                                        style={centralStyle.mx1}
+                                        name={`search1`}
+                                        size={RFPercentage(2)} />
+                                    <TextInput placeholder='Search' style={{ flex: 1, height: '100%', }} />
+                                </View>
+                                <View style={[centralStyle.px2, { height: heightFlex1 * 6 }]}>
+                                    <AlphabetList
+                                        data={SECTIONLISTDATA}
+                                        letterListContainerStyle={{ justifyContent: 'space-between', paddingVertical: RFPercentage(1) }}
+                                        showsVerticalScrollIndicator={false}
+                                        indexContainerStyle={{ width: 20 }}
+                                        indexLetterStyle={{
+                                            textAlign: 'right',
+                                            color: Colors.fontColor,
+                                            fontSize: 15,
+                                            width: 20,
+                                        }}
+                                        renderCustomItem={(item) => (
+                                            <CompanyList item={item} />
+                                            // <View style={styles.listItemContainer}>
+                                            //     <Text style={styles.listItemLabel}>{item.value}</Text>
+                                            // </View>
+                                        )}
+                                        renderCustomSectionHeader={(section) => (
+                                            <View style={styles.sectionHeaderContainer}>
+                                                <Text style={styles.sectionHeaderLabel}>{section.title}</Text>
+                                            </View>
+                                        )}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    }
                 </SafeAreaView >
-            </KeyboardAvoidingView>
+            </KeyboardAvoidingView >
         </>
 
     );

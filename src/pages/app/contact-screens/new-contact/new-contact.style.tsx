@@ -209,14 +209,31 @@ export const styles: any = StyleSheet.create<any>({
     },
     downIconWrapper: {
         borderWidth: 1,
-        position: "absolute",
-        zIndex: 2,
-        right: RFPercentage(2),
-        top: RFPercentage(1)
+        // position: "absolute",
+        // zIndex: 2,
+        // right: RFPercentage(2),
+        // top: RFPercentage(1)
     },
     sheetContainer: {
         backgroundColor: Colors.white,
         borderRadius: RFPercentage(1),
     },
-    inputWrapper: { height: RFPercentage(4), backgroundColor: Colors.lightGrey, width: '90%', alignSelf: 'center', borderRadius: RFPercentage(.5) },
+    inputWrapper: {
+        height: RFPercentage(4),
+        backgroundColor: Colors.lightGrey,
+        width: '90%',
+        alignSelf: 'center',
+        borderRadius: RFPercentage(.5)
+    },
+    sectionHeaderContainer: {
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.lightGrey,
+        width: '95%',
+        backgroundColor: Colors.white,
+        paddingVertical: RFPercentage(1)
+    },
+    sectionHeaderLabel: {
+        fontWeight: '600',
+        fontSize: 14,
+    }
 });

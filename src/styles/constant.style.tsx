@@ -141,6 +141,12 @@ export const centralStyle = StyleSheet.create<any>({
     px2: {
         paddingHorizontal: RFPercentage(2)
     },
+    p2: {
+        padding: RFPercentage(2)
+    },
+    p1: {
+        padding: RFPercentage(1)
+    },
     width100: {
         width: "100%"
     },
