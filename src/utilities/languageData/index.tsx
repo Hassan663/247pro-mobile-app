@@ -168,9 +168,10 @@ export const languageData = [
             PObox: "PO box",
             Label: "Label",
             Linktocompany: "Link to company",
-            SelectAcompany:"Select a company",
-            Attachment:"Attachment",
-            SHOWLESS:"SHOW LESS",
+            SelectAcompany: "Select a company",
+            Attachment: "Attachment",
+            SHOWLESS: "SHOW LESS",
+            AddCompany: "Add Company",
         }
     },
     {
@@ -344,10 +345,11 @@ export const languageData = [
             PObox: "邮政信箱",
             Label: "标签",
             Linktocompany: "链接至公司",
-            SelectAcompany:"选择公司",
-            Attachment:"依恋",
-            SHOWLESS:"显示较少",
-            
+            SelectAcompany: "选择公司",
+            Attachment: "依恋",
+            SHOWLESS: "显示较少",
+            AddCompany: "添加公司",
+
         }
     },
     {
@@ -516,9 +518,11 @@ export const languageData = [
             PObox: "apartado postal",
             Label: "Etiqueta",
             Linktocompany: "Enlace a la empresa",
-            SelectAcompany:"Seleccione una empresa",
-            Attachment:"Adjunto",
-            SHOWLESS:"MUESTRA MENOS",
+            SelectAcompany: "Seleccione una empresa",
+            Attachment: "Adjunto",
+            SHOWLESS: "MUESTRA MENOS",
+            AddCompany: "Agregar empresa",
+
         }
     }
 ];

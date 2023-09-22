@@ -1,7 +1,6 @@
 // @app
 import React, {
     useState,
-    useRef
 } from 'react';
 import {
     View,
@@ -13,6 +12,7 @@ import {
 } from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
@@ -28,10 +28,13 @@ import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { CONTACTTYPEDATA, } from './data';
 import { platform } from '../../../../utilities';
-import { ContactModal, LeftIcon, PicImgModal, RightIcon } from './new-contact-component';
+import { centralStyle, } from '../../../../styles/constant.style';
 import {
-    centralStyle,
-} from '../../../../styles/constant.style';
+    ContactModal,
+    LeftIcon,
+    PicImgModal,
+    RightIcon
+} from './new-contact-component';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -65,17 +68,30 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                     <ScrollView
                         showsVerticalScrollIndicator={false}>
-                        <TouchableOpacity
-                            onPress={() => setOpenPicker(true)}
-                            style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                            {imageUriLocal.length > 0
-                                ?
+                        {imageUriLocal.length > 0 ?
+                            <View
+                                activeOpacity={.8}
+                                style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
                                 <Image
                                     style={styles.profileImage}
-                                    source={{ uri: imageUriLocal }} /> :
+                                    source={{ uri: imageUriLocal }} />
+                                <TouchableOpacity
+                                    activeOpacity={.8}
+                                    onPress={() => setOpenPicker(true)}
+                                    style={[centralStyle.circle(RFPercentage(4)), styles.editIconAdd]}>
+                                    <Feather
+                                        name={'edit-2'}
+                                        color={Colors.primary}
+                                        size={RFPercentage(2)} />
+                                </TouchableOpacity>
+                            </View> :
+                            <TouchableOpacity
+                                onPress={() => setOpenPicker(true)}
+                                activeOpacity={.8}
+                                style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
                                 <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
-                            }
-                        </TouchableOpacity>
+                            </TouchableOpacity>
+                        }
 
                         {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)} setimageUriLocal={setimageUriLocal} />}
 

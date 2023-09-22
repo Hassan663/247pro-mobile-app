@@ -7,47 +7,26 @@ import {
     TextInput
 } from 'react-native';
 
+import * as Animatable from 'react-native-animatable';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import { AlphabetList } from 'react-native-section-alphabet-list';
+
 import Colors from '../../../../styles/colors';
 import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import { centralStyle, heightFlex1 } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { SECTIONLISTDATA } from './data';
+import {
+    centralStyle,
+    heightFlex1
+} from '../../../../styles/constant.style';
 import {
     captureImage,
     pickImage
 } from './call-back';
 
-import { t } from 'i18next';
-import { RFPercentage } from 'react-native-responsive-fontsize';
-
-import * as Animatable from 'react-native-animatable';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import RBSheet from 'react-native-raw-bottom-sheet';
-// import { RFPercentage } from 'react-native-responsive-fontsize';
-// import { t } from 'i18next';
-import CountryPicker, {
-    Country,
-} from 'react-native-country-picker-modal';
-
-import AppHeader from '../../../../core/components/app-headers';
-// import Colors from '../../../../styles/colors';
-import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
-import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-// import { styles } from './new-contact.style';
-// import { changeRoute } from '../../../../core/helpers/async-storage';
-// import { Title } from '../../../../core/components/screen-title.component';
-import { CONTACTTYPEDATA, SECTIONLISTDATA } from './data';
-import { platform } from '../../../../utilities';
-// import { CompanyList, LeftIcon, PicImgModal, RightIcon } from './new-contact-component';
-// import {
-//     // centralStyle,
-//     heightFlex1,
-// } from '../../../../styles/constant.style';
-import Input from '../../../../core/components/input.component';
-import { AlphabetList } from 'react-native-section-alphabet-list';
-
-// import { Image } from 'react-native-svg';
 
 export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
     return (
@@ -163,7 +142,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         color={Colors.fontColor}
                         name={`search1`}
                         size={RFPercentage(2)} />
-                    <TextInput placeholder='Search' style={styles.searchInput} />
+                    <TextInput placeholder={t('search')} style={styles.searchInput} />
                 </View>
                 <View style={[centralStyle.px2, { height: heightFlex1 * 6 }]}>
                     <AlphabetList

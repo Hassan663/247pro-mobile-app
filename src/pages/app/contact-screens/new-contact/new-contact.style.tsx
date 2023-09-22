@@ -20,7 +20,7 @@ export const styles: any = StyleSheet.create<any>({
         borderWidth: RFPercentage(.1),
         alignSelf: "center",
         margin: RFPercentage(2),
-        overflow: "hidden",
+        // overflow: "hidden",
         backgroundColor: Colors.lightGrey,
         borderColor: Colors.lightGrey
     },
@@ -178,7 +178,8 @@ export const styles: any = StyleSheet.create<any>({
     },
     profileImage: {
         height: '100%',
-        width: '100%'
+        width: '100%',
+        borderRadius: RFPercentage(8)
     },
     leftSide: {
         flex: 1,
@@ -294,5 +295,19 @@ export const styles: any = StyleSheet.create<any>({
         height: '100%',
         width: '100%'
     },
-
+    editIconAdd: {
+        position: "absolute",
+         backgroundColor: Colors.white,
+        top: 5,
+        right: 5,
+        zIndex: 2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
 });

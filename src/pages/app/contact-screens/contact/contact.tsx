@@ -20,24 +20,30 @@ import { t } from 'i18next';
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/Button';
-import { centralStyle, heightFlex1, } from '../../../../styles/constant.style';
 import { platform } from '../../../../utilities';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
 import { CONTACTLIST } from './data';
+import { changeRoute } from '../../../../core/helpers/async-storage';
+import { AlphabetList } from 'react-native-section-alphabet-list';
+import { SECTIONLISTDATA } from '../new-contact/data';
+import {
+    centralStyle,
+    heightFlex1,
+} from '../../../../styles/constant.style';
 import {
     ConnectionRequest,
     RenderItem
 } from './contact.components';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { AlphabetList } from 'react-native-section-alphabet-list';
-import { SECTIONLISTDATA } from '../new-contact/data';
-import { CompanyList, CustomSectionHeader } from '../new-contact/new-contact-component';
+import {
+    CompanyList,
+    CustomSectionHeader
+} from '../new-contact/new-contact-component';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState('')
     const [modalEnabled, setmodalEnabled] = useState(false)
-    const [contacts, setContacts] = useState(true)
+    const [contacts, setContacts] = useState(false)
 
     return (
         <>
@@ -122,10 +128,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     weight='400'
                                     color={Colors.black}
                                     title={t('Youhavenocontact')} />
-
                                 <Button
                                     icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
-                                    title={t('AddContact')}
+                                    title={selectedTab == t('Company') ? t('AddContact') : t('AddCompany')}
                                     titleStyle={{ color: Colors.primary }}
                                     customStyle={[centralStyle.row,
                                     centralStyle.alignitemCenter,
