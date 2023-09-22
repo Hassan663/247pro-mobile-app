@@ -1,4 +1,5 @@
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import DocumentPicker from 'react-native-document-picker'
 
 export const captureImage = async (setimageUriLocal: any) => {
     try {
@@ -55,4 +56,18 @@ export const pickImage = async (setState: any) => {
 
 export const handleFocus = (setIsActive: any) => setIsActive(true)
 export const handleBlur = (setIsActive: any) => setIsActive(false)
-export const toggleSwitch = (setIsEnabled: any) => setIsEnabled((previousState:boolean)  => !previousState);
+export const toggleSwitch = (setIsEnabled: any) => setIsEnabled((previousState: boolean) => !previousState);
+
+export const handleAttachments = async (setAttechments: any) => {
+    const res = await DocumentPicker.pick({ type: [DocumentPicker.types.allFiles], });
+    setAttechments(res[0])
+}
+export const openSheet = (setanim: any, setcontactModal: any) => {
+    setanim('fadeInUpBig')
+    setTimeout(() => { setcontactModal(true) }, 0)
+
+}
+export const handleOnSelect = (country: Country, setIsCountryPickerVisible: any, setCountryCode: any) => {
+    setIsCountryPickerVisible(false);
+    setCountryCode(country.cca2);
+};

@@ -33,8 +33,10 @@ import {
     ContactModal,
     LeftIcon,
     PicImgModal,
-    RightIcon
+    RightIcon,
+    SelectedAttachmentUI
 } from './new-contact-component';
+import { handleAttachments, handleOnSelect, openSheet } from './call-back';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -46,11 +48,9 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [contactModal, setcontactModal] = useState<boolean>(false);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
+    const [attechments, setAttechments] = useState<any>([])
 
-    const handleOnSelect = (country: Country) => {
-        setIsCountryPickerVisible(false);
-        setCountryCode(country.cca2);
-    };
+
 
     return (
         <>
@@ -70,7 +70,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                         showsVerticalScrollIndicator={false}>
                         {imageUriLocal.length > 0 ?
                             <View
-                                activeOpacity={.8}
                                 style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
                                 <Image
                                     style={styles.profileImage}
@@ -156,7 +155,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             withCallingCode
                                             withFlagButton={true}
                                             onClose={() => setIsCountryPickerVisible(false)}
-                                            onSelect={handleOnSelect}
+                                            onSelect={(country) => handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)}
                                             visible={isCountryPickerVisible}
                                         />
                                     </View>
@@ -170,6 +169,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     <OutlinedTextInput title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                                 </View>
                             </View>
+
                             {!showMore && <TouchableOpacity onPress={() => { setShowMore(true) }} activeOpacity={.9}>
                                 <Title
                                     color={Colors.primary}
@@ -178,6 +178,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     title={t('SHOWMORE')} />
 
                             </TouchableOpacity>}
+
                             {showMore &&
                                 <>
                                     <OutlinedDropDown
@@ -215,10 +216,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             title={t('Linktocompany')} />
                                     </View>
                                     <TouchableOpacity
-                                        onPress={(() => {
-                                            setanim('fadeInUpBig')
-                                            setTimeout(() => { setcontactModal(true) }, 0)
-                                        })}
+                                        onPress={() => openSheet(setanim, setcontactModal)}
                                         style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
 
                                         <View style={[centralStyle.circle(RFPercentage(4)), styles.selectCompany,]}>
@@ -234,26 +232,41 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             title={selectedCompany?.length == 0 ? t('SelectAcompany') : selectedCompany?.value} />
 
                                     </TouchableOpacity>
-                                    <View style={[centralStyle.my1]}>
+                                    <View
+                                        style={[centralStyle.my1]}>
                                         <Title
                                             color={Colors.black}
                                             type='Poppin-18'
                                             weight='600'
                                             title={t('Attachment')} />
                                     </View>
-                                    <View style={[styles.AttechmentIcon, centralStyle.XAndYCenter, centralStyle.mb2]}>
-                                        <AntDesign name={`plus`} color={Colors.fontColor} size={RFPercentage(2.5)} />
-                                    </View>
+
+                                    {Object.keys(attechments).length > 0 ?
+                                        <SelectedAttachmentUI
+                                            attechments={attechments}
+                                            setAttechments={setAttechments}
+                                        /> :
+                                        <TouchableOpacity
+                                            onPress={() => handleAttachments(setAttechments)}
+                                            style={[styles.AttechmentIcon, centralStyle.XAndYCenter, centralStyle.mb2]}>
+                                            <AntDesign name={`plus`} color={Colors.fontColor} size={RFPercentage(2.5)} />
+                                        </TouchableOpacity>
+                                    }
                                 </>
                             }
+
                             {showMore &&
-                                <TouchableOpacity onPress={() => { setShowMore(false) }} activeOpacity={.9}>
+                                <TouchableOpacity
+                                    onPress={() => { setShowMore(false) }}
+                                    activeOpacity={.9}>
                                     <Title
                                         color={Colors.primary}
                                         type='Poppin-14'
                                         weight='600'
                                         title={t('SHOWLESS')} />
-                                </TouchableOpacity>}
+                                </TouchableOpacity>
+                            }
+
                         </View>
                     </ScrollView >
 

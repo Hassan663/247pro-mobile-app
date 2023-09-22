@@ -24,6 +24,7 @@ import {
 } from '../../../../styles/constant.style';
 import {
     captureImage,
+    handleAttachments,
     pickImage
 } from './call-back';
 
@@ -167,6 +168,31 @@ export const CustomSectionHeader = (section: any) => {
                 type='Poppin-14'
                 weight='600'
                 title={section.title} />
+        </View>
+    )
+}
+
+export const SelectedAttachmentUI = ({ attechments, setAttechments }: any) => {
+    return (
+        <View style={[styles.selectedAttachmentContainer, centralStyle.XAndYCenter, centralStyle.mb2]}>
+            <TouchableOpacity
+                style={[centralStyle.height100, centralStyle.width100]}
+                onPress={() => handleAttachments(setAttechments)}>
+                <Image
+                    resizeMode='contain'
+                    source={attechments.type == "application/pdf" ? require('../../../../assets/app-images/pdfIcon.png') : { uri: attechments.uri }}
+                    style={[centralStyle.height100, centralStyle.width100]}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity
+                activeOpacity={.8}
+                onPress={() => setAttechments([])}
+                style={[centralStyle.circle(RFPercentage(2.5)), styles.editIconAdd2,]}>
+                <AntDesign
+                    name={'close'}
+                    color={Colors.primary}
+                    size={RFPercentage(1.5)} />
+            </TouchableOpacity>
         </View>
     )
 }

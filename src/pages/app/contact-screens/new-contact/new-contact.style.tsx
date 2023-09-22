@@ -297,7 +297,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     editIconAdd: {
         position: "absolute",
-         backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         top: 5,
         right: 5,
         zIndex: 2,
@@ -309,5 +309,24 @@ export const styles: any = StyleSheet.create<any>({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+    },
+    editIconAdd2: {
+        position: "absolute",
+        backgroundColor: Colors.white,
+        top: -0,
+        right: -10,
+        zIndex: 2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    selectedAttachmentContainer: {
+        height: RFPercentage(8),
+        width: RFPercentage(8)
     },
 });
