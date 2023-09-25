@@ -3,10 +3,11 @@ const Colors = {
     black: "#000000",
     fontColor: "#666666",
     lightGray: "#cccccc",
-    gray:'#9E9E9E',
+    gray: '#9E9E9E',
     white: "#FFFFFF",
     lightGrey: '#E0E0E0',
     red: 'red',
+    errorColor: '#B00020',
     inputBgColor: '#FAFAFA',
 };
 

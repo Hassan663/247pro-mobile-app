@@ -10,6 +10,7 @@ import ConnectionRequests from '../../pages/app/contact-screens/connection-reque
 import NewContact from '../../pages/app/contact-screens/new-contact/new-contact';
 import NewCompany from '../../pages/app/contact-screens/new-company/new-company';
 import ViewCompany from '../../pages/app/contact-screens/view-company/view-company';
+import EditCompany from '../../pages/app/contact-screens/edit-company/edit-company';
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -27,6 +28,7 @@ export default function appNavigation() {
         <Stack.Screen name="NewContact" component={NewContact} />
         <Stack.Screen name="NewCompany" component={NewCompany} />
         <Stack.Screen name="ViewCompany" component={ViewCompany} />
+        <Stack.Screen name="EditCompany" component={EditCompany} />
 
       </Stack.Navigator>
     </NavigationContainer>

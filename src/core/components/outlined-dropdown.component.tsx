@@ -3,14 +3,11 @@ import React, {
 } from 'react';
 import {
   View,
-  TextInput,
   Text,
-  TouchableOpacity,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import SelectDropdown from 'react-native-select-dropdown'
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 
 import { styles } from './index.style';
@@ -26,9 +23,10 @@ interface OutlinedDropDownProps {
   onselect?: any; // onselect event handler
   fontSize?: any; // onselect event handler
   dropDownStyle?: any; // onselect event handler
+  defaultValueByIndex?: any; // onselect event handler
 }
 
-const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height,dropDownStyle, color, DATA, onselect, fontSize, iconsSize, drop_down_button_style }) => {
+const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defaultValueByIndex, dropDownStyle, color, DATA, onselect, fontSize, iconsSize, drop_down_button_style }) => {
   const [isActive, setIsActive] = useState(false);
   const [dropdownVal, setdropdownVal] = useState('')
 
@@ -42,6 +40,7 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height,dropD
       <View style={styles.textInputContainer(isActive)}>
         <SelectDropdown
           data={DATA}
+          defaultValueByIndex={defaultValueByIndex ? defaultValueByIndex : null}
           defaultButtonText={title}
           onSelect={(selectedItem: string) => {
             setdropdownVal(selectedItem)
@@ -55,7 +54,8 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height,dropD
           buttonStyle={drop_down_button_style}
           buttonTextStyle={{
             textAlign: "left", color:
-              dropdownVal?.length && dropdownVal?.length > 0 ? Colors.black : color ? color : Colors.black,
+              defaultValueByIndex == true ? Colors.black :
+                dropdownVal?.length && dropdownVal?.length > 0 ? Colors.black : color ? color : Colors.black,
             fontSize: fontSize ? fontSize : RFPercentage(2)
           }}
           dropdownStyle={dropDownStyle ? dropDownStyle : styles.dropDownStyle}

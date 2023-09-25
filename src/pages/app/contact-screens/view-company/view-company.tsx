@@ -1,6 +1,5 @@
 // @app
 import React, {
-    useRef,
     useState,
 } from 'react';
 import {
@@ -48,7 +47,7 @@ const ViewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                 <SafeAreaView style={styles.container}>
                     <AppHeader
                         iconL1={LeftIcon(navigation)}
-                        iconR1={RightIcon()}
+                        iconR1={RightIcon(navigation)}
                         type='Poppin-18'
                         weight='600'
                         title={t(`company`)} />

@@ -14,7 +14,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
 import Colors from '../../../../styles/colors';
-import { styles } from './view-company.style';
+import { styles } from './edit-company.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { SECTIONLISTDATA } from './data';
@@ -76,13 +76,13 @@ export const LeftIcon = (navigation?: any) => (
     </TouchableOpacity>
 )
 export const RightIcon = (navigation?: any) => (
-    <TouchableOpacity activeOpacity={.8} onPress={() => changeRoute(navigation, 'EditCompany')} style={styles.mx2}>
+    <View style={styles.mx2}>
         <Title
-            color={Colors.primary}
+            color={1 == 1 ? Colors.fontColor : Colors.primary}
             type='Poppin-14'
             weight='600'
-            title={t('Edit')} />
-    </TouchableOpacity>
+            title={t('Done')} />
+    </View>
 )
 export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
     return (
