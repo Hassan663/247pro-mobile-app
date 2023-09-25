@@ -185,6 +185,7 @@ export const languageData = [
             mile:"mile",
             FilterCompany:"Filter Company",
             ClearFilters:"Clear Filters",
+            company:"Company",
         }
     },
     {
@@ -376,6 +377,7 @@ export const languageData = [
             mile:"英里",
             ClearFilters:"清除过滤器",
             FilterCompany:"过滤器公司",
+            company:"公司",
 
         }
     },
@@ -562,6 +564,7 @@ export const languageData = [
             mile:"milla",
             ClearFilters:"Borrar filtros",
             FilterCompany:"Filtrar empresa",
+            company:"Compañía",
 
         }
     }

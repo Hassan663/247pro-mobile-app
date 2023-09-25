@@ -100,7 +100,6 @@ export const styles: any = StyleSheet.create<any>({
         backgroundColor: Colors.white,
         left: '3%',
         color: isActive ? Colors.primary : Colors.lightGray,
-        // color: isActive && Colors.primary,
         fontSize: 14,
         fontWeight: '400',
         top: '0%',

@@ -21,17 +21,18 @@ interface OutlinedTextInputProps {
   placeHolder?: string;
   Password?: boolean;
   multiLine?: boolean;
+  editable?: boolean;
   onChange?: (val: string) => void;
 }
 
-const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, val, placeHolder, lines, multiLine, Password, onChange }) => {
+const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, editable, val, placeHolder, lines, multiLine, Password, onChange }) => {
 
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
-  const [inputVal, setInputVal] = useState('')
-  const handleFocus = () => setIsActive(true)
+  const [inputVal, setInputVal] = useState(val ? val : '')
+  const handleFocus = () => { if (editable == true) setIsActive(true) }
 
-  const handleBlur = () => setIsActive(false)
+  const handleBlur = () => { if (editable == true) setIsActive(false) }
   return (
     <View style={styles.inputContainer(height)}>
       {/* {isActive &&
@@ -48,6 +49,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, va
             placeholder={isActive ? '' : placeHolder}
             value={val ? val : inputVal}
             onFocus={handleFocus}
+            editable={editable == false ? editable : true}
             multiline={multiLine || false}
             numberOfLines={lines}
             onBlur={handleBlur}
@@ -59,11 +61,13 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, va
             style={styles.input(false, isActive)} />
           :
           <>
+
             <View style={styles.passwordContainer(isActive)}>
               <View style={{ flex: 9 }}>
                 <TextInput
                   placeholder={isActive ? '' : placeHolder}
                   value={val}
+                  editable={editable == false ? editable : true}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   onChangeText={(val) => onChange && onChange(val)}

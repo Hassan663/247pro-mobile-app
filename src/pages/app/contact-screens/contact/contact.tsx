@@ -130,7 +130,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     showsVerticalScrollIndicator={false}
                                     indexContainerStyle={{ width: 20 }}
                                     indexLetterStyle={styles.letterStyle}
-                                    renderCustomItem={(item) => <CompanyList getCompany={(val: any) => console.log(val)} item={item} />}
+                                    renderCustomItem={(item) => <CompanyList
+                                        getCompany={() => { changeRoute(navigation, 'ViewCompany') }}
+                                        // getCompany={(val: any) => console.log(val)} 
+                                        item={item} />}
                                     renderCustomSectionHeader={CustomSectionHeader}
                                 />
                             </View>
