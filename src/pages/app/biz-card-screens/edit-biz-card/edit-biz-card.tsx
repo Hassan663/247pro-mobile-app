@@ -28,6 +28,7 @@ import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { styles } from './edit-biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 import {
     CONTACTINFOINPUTS,
     SOCIALINPUTSDATA
@@ -41,7 +42,6 @@ import {
     handleFocus,
     toggleSwitch
 } from './call-back';
-import { changeRoute } from '../../../../core/helpers/async-storage';
 
 const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [addSocialAccountInput, setaddSocialAccountInput] = useState(false)

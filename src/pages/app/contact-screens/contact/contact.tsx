@@ -41,9 +41,9 @@ import {
 } from '../new-contact/new-contact-component';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    const [selectedTab, setSelectedTab] = useState('')
+    const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [modalEnabled, setmodalEnabled] = useState(false)
-    const [contacts, setContacts] = useState(false)
+    const [contacts, setContacts] = useState(true)
 
     return (
         <>
@@ -130,8 +130,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     title={t('Youhavenocontact')} />
                                 <Button
                                     icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
-                                    title={selectedTab == t('Company') ? t('AddContact') : t('AddCompany')}
+                                    title={selectedTab == t('Company') ? t('AddCompany') : t('AddContact')}
                                     titleStyle={{ color: Colors.primary }}
+                                    callBack={() => {
+                                        if (selectedTab == t('Company')) {
+                                            changeRoute(navigation, 'NewCompany')
+                                        }
+                                    }}
                                     customStyle={[centralStyle.row,
                                     centralStyle.alignitemCenter,
                                     centralStyle.my2,

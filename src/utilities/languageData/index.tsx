@@ -172,6 +172,13 @@ export const languageData = [
             Attachment: "Attachment",
             SHOWLESS: "SHOW LESS",
             AddCompany: "Add Company",
+            NewCompany: "New Company",
+            Contactperson: "Contact person",
+            Notes: "Notes",
+            Entitytype: "Entity type",
+            Staff:"Staff",
+            Revenue:"Revenue",
+
         }
     },
     {
@@ -349,6 +356,13 @@ export const languageData = [
             Attachment: "依恋",
             SHOWLESS: "显示较少",
             AddCompany: "添加公司",
+            NewCompany: "新公司",
+            Contactperson: "联络人",
+            Entitytype: "实体类型",
+            Staff:"职员",
+
+            Notes: "笔记",
+            Revenue:"收入",
 
         }
     },
@@ -522,6 +536,12 @@ export const languageData = [
             Attachment: "Adjunto",
             SHOWLESS: "MUESTRA MENOS",
             AddCompany: "Agregar empresa",
+            NewCompany: "Nueva compañia",
+            Contactperson: "Persona de contacto",
+            Notes: "Notas",
+            Entitytype: "Tipo de entidad",
+            Staff:"Personal",
+            Revenue:"Ganancia",
 
         }
     }

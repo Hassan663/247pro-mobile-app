@@ -14,7 +14,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
 import Colors from '../../../../styles/colors';
-import { styles } from './new-contact.style';
+import { styles } from './new-company.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { SECTIONLISTDATA } from './data';
@@ -87,8 +87,8 @@ export const RightIcon = (navigation?: any) => (
 export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
     return (
         <TouchableOpacity onPress={() => {
-            if (getCompany) getCompany(item)
-            if (disableSheet) disableSheet()
+            getCompany(item)
+            disableSheet()
         }} activeOpacity={.9} style={[centralStyle.row,]}>
             <View style={[styles.companyListContainer,]}>
                 <View style={[centralStyle.row, styles.listWrapper]}>
