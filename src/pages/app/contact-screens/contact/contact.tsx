@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useRef,
     useState
 } from 'react';
 import {
@@ -13,6 +14,7 @@ import {
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
@@ -32,18 +34,21 @@ import {
     heightFlex1,
 } from '../../../../styles/constant.style';
 import {
-    ConnectionRequest,
-    RenderItem
-} from './contact.components';
-import {
     CompanyList,
     CustomSectionHeader
 } from '../new-contact/new-contact-component';
+import {
+    ConnectionRequest,
+    FilterCompany,
+    RenderItem
+} from './contact.components';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [contacts, setContacts] = useState(true)
+
+    const sheetRef = useRef<any>(null)
 
     return (
         <>
@@ -57,7 +62,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             onPress={() => changeRoute(navigation, 'NewContact')}
                             name={`plus`}
                             size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
-                    iconR2={<Entypo onPress={() => setmodalEnabled(true)} style={centralStyle.mx2} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />}
+                    iconR2={
+                        <Entypo
+                            onPress={() => setmodalEnabled(true)}
+                            style={centralStyle.mx2}
+                            name={`dots-three-vertical`}
+                            size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
+                    }
                     type='Poppin-18'
                     weight='600'
                     title={t(`Contacts`)} />
@@ -101,13 +112,14 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         centralStyle.mx2,
                         centralStyle.row,
                         centralStyle.XAndYCenter]}>
-
                         <AntDesign size={RFPercentage(2)} name='search1' color={Colors.fontColor} />
                         <TextInput
                             style={[centralStyle.flex1, centralStyle.height100, centralStyle.mx1,]}
                             placeholder={t('search')}
                         />
-                        <MaterialIcons size={RFPercentage(2.5)} name='filter-list' />
+                        <MaterialIcons
+                            onPress={() => sheetRef?.current?.open()}
+                            size={RFPercentage(2.5)} name='filter-list' />
                     </View>
                     <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.pb10, centralStyle.flex1]}>
                         {contacts ?
@@ -132,11 +144,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
                                     title={selectedTab == t('Company') ? t('AddCompany') : t('AddContact')}
                                     titleStyle={{ color: Colors.primary }}
-                                    callBack={() => {
-                                        if (selectedTab == t('Company')) {
-                                            changeRoute(navigation, 'NewCompany')
-                                        }
-                                    }}
+                                    callBack={() => { if (selectedTab == t('Company')) { changeRoute(navigation, 'NewCompany') } }}
                                     customStyle={[centralStyle.row,
                                     centralStyle.alignitemCenter,
                                     centralStyle.my2,
@@ -145,7 +153,17 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                 />
                             </>
                         }
-
+                        <RBSheet
+                            ref={sheetRef}
+                            height={RFPercentage(40)}
+                            closeOnPressMask={true}
+                            closeOnDragDown={true}
+                            openDuration={250}
+                            animationType={`slide`}
+                            customStyles={{}}
+                        >
+                            <FilterCompany />
+                        </RBSheet>
                     </View>
                 </View >
             </KeyboardAvoidingView>

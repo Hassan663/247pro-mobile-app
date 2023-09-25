@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../../styles/colors';
 import { platform } from '../../../../utilities';
+import { windowWidth } from '../../../../styles/constant.style';
 
 export const styles: any = StyleSheet.create<any>({
 
@@ -71,5 +72,17 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: 15,
         width: 20,
     },
-   
+    justifyContentBetween: {
+        justifyContent: 'space-between'
+    },
+    sliderStyle: {
+        width: windowWidth / 1.3,
+        height: 40
+    },
+    clearFiler: {
+        fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
+        color: Colors.fontColor,
+        fontWeight: '600', textTransform: 'uppercase'
+    }
+
 });

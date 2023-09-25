@@ -176,9 +176,15 @@ export const languageData = [
             Contactperson: "Contact person",
             Notes: "Notes",
             Entitytype: "Entity type",
-            Staff:"Staff",
-            Revenue:"Revenue",
-
+            Staff: "Staff",
+            Revenue: "Revenue",
+            Address: "Address",
+            Title: "Title",
+            Capturenew:"Capture new",
+            Uploadfromgallery:"Upload from gallery",
+            mile:"mile",
+            FilterCompany:"Filter Company",
+            ClearFilters:"Clear Filters",
         }
     },
     {
@@ -359,10 +365,17 @@ export const languageData = [
             NewCompany: "新公司",
             Contactperson: "联络人",
             Entitytype: "实体类型",
-            Staff:"职员",
+            Staff: "职员",
 
             Notes: "笔记",
-            Revenue:"收入",
+            Revenue: "收入",
+            Address: "地址",
+            Title: "标题",
+            Capturenew:"捕捉新的",
+            Uploadfromgallery:"从图库上传",
+            mile:"英里",
+            ClearFilters:"清除过滤器",
+            FilterCompany:"过滤器公司",
 
         }
     },
@@ -540,8 +553,15 @@ export const languageData = [
             Contactperson: "Persona de contacto",
             Notes: "Notas",
             Entitytype: "Tipo de entidad",
-            Staff:"Personal",
-            Revenue:"Ganancia",
+            Staff: "Personal",
+            Revenue: "Ganancia",
+            Address: "DIRECCIÓN",
+            Title: "Título",
+            Capturenew:"Capturar nueva",
+            Uploadfromgallery:"Subir desde la galería",
+            mile:"milla",
+            ClearFilters:"Borrar filtros",
+            FilterCompany:"Filtrar empresa",
 
         }
     }

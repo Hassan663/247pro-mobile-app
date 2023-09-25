@@ -22,6 +22,7 @@ import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { SOCIALINPUTSDATA } from './data';
 import { captureImage, pickImage } from './call-back';
+import { t } from 'i18next';
 
 export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeHolder, btnText, title, setcontactInfoInputs, sheetRef, newField, setNewField }: any) => {
     const [selectedAccount, setselectedAccount] = useState(null)
@@ -54,7 +55,7 @@ export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeH
                 {!addSocialAccountInput ?
                     <OutlinedTextInput
                         onChange={(val) => setNewField(val)}
-                        title={"Title"}
+                        title={t("Title")}
                         val={newField}
                         placeHolder={placeHolder}
                     />
@@ -105,7 +106,7 @@ export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
                 }}
                     style={styles.captureBtn}>
                     <Title
-                        title='Capture new'
+                        title={t('Capturenew')}
                         type='Poppin-12'
                         weight='400'
                         color={Colors.fontColor} />
@@ -116,7 +117,7 @@ export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
                 }}
                     style={styles.uploadBtn}>
                     <Title
-                        title='Upload from gallery'
+                        title={t('Uploadfromgallery')}
                         type='Poppin-12'
                         weight='400'
                         color={Colors.fontColor} />
