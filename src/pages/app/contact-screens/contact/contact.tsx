@@ -160,7 +160,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             closeOnDragDown={true}
                             openDuration={250}
                             animationType={`slide`}
-                            customStyles={{}}
+                            customStyles={{ container: { borderRadius: RFPercentage(2) } }}
                         >
                             <FilterCompany />
                         </RBSheet>
