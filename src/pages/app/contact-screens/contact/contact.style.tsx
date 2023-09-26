@@ -83,6 +83,48 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
         color: Colors.fontColor,
         fontWeight: '600', textTransform: 'uppercase'
-    }
-
+    },
+    contactModalContainer: {
+        position: 'absolute',
+        height: "100%",
+        width: "100%",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 2
+    },
+    disableModalContainer: {
+        height: '40%',
+        width: "100%"
+    },
+    contactModalContentWrapper: {
+        height: '60%',
+        width: '100%',
+        backgroundColor: Colors.white,
+        overflow: "hidden",
+        borderRadius: RFPercentage(2),
+    },
+    contactModalHeader: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    headerLine: {
+        height: 3,
+        width: '30%',
+        borderRadius: RFPercentage(2),
+        backgroundColor: Colors.fontColor
+    },
+    importModalContainer: {
+        height: 150,
+        width: '80%',
+        borderRadius: RFPercentage(2),
+        backgroundColor: Colors.white
+    },
+    bgTransparent: {
+        backgroundColor: 'rgba(0,0,0,0.3)'
+    },
+    filesListContainer: {
+        height: 100, width: '30%',
+    },
+    listContentContainerStyle:{ justifyContent: 'space-between' 
+},
 });

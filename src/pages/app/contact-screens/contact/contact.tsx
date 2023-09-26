@@ -10,6 +10,7 @@ import {
     TextInput,
     Platform,
     KeyboardAvoidingView,
+    ScrollView,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -35,20 +36,30 @@ import {
 } from '../../../../styles/constant.style';
 import {
     CompanyList,
-    CustomSectionHeader
+    ContactModal,
+    CustomSectionHeader,
+    // FilesModal
 } from '../new-contact/new-contact-component';
 import {
     ConnectionRequest,
+    FilesCompany,
+    FilesModal,
     FilterCompany,
+    ImportModal,
     RenderItem
 } from './contact.components';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [modalEnabled, setmodalEnabled] = useState(false)
+    const [importModal, setImportModal] = useState(false)
     const [contacts, setContacts] = useState(true)
+    const [contactModal, setcontactModal] = useState<boolean>(false);
+    const [selectedCompany, setSelectedCompany] = useState<any>([])
+    const [anim, setanim] = useState<string>('fadeInUpBig');
 
     const sheetRef = useRef<any>(null)
+    const filesSheetRef = useRef<any>(null)
 
     return (
         <>
@@ -73,7 +84,19 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     weight='600'
                     title={t(`Contacts`)} />
 
-                {modalEnabled && <ConnectionRequest navigation={navigation} disableModal={() => setmodalEnabled(!modalEnabled)} />}
+                {modalEnabled && <ConnectionRequest
+                    importModalEnable={() => setImportModal(!importModal)}
+                    navigation={navigation}
+                    disableModal={() => setmodalEnabled(!modalEnabled)} />}
+
+                {importModal && <ImportModal
+                    navigation={navigation}
+                    openfiles={() => setcontactModal(true)}
+                    disableModal={() => {
+                        setanim(`fadeInUpBig`)
+                        setImportModal(false)
+                    }}
+                />}
 
                 <View style={[centralStyle.flex1, { backgroundColor: 'white' }]}>
                     <View style={centralStyle.row}>
@@ -118,7 +141,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             placeholder={t('search')}
                         />
                         <MaterialIcons
-                            onPress={() => sheetRef?.current?.open()}
+                            onPress={() => setcontactModal(true)}
                             size={RFPercentage(2.5)} name='filter-list' />
                     </View>
                     <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.pb10, centralStyle.flex1]}>
@@ -132,7 +155,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => <CompanyList
                                         getCompany={() => { changeRoute(navigation, 'ViewCompany') }}
-                                        // getCompany={(val: any) => console.log(val)} 
                                         item={item} />}
                                     renderCustomSectionHeader={CustomSectionHeader}
                                 />
@@ -168,6 +190,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             <FilterCompany />
                         </RBSheet>
                     </View>
+                    {contactModal &&
+                        <FilesModal
+                            getCompany={(val: any) => { setSelectedCompany(val) }}
+                            anim={anim}
+                            setanim={setanim}
+                            setcontactModal={setcontactModal} />}
                 </View >
             </KeyboardAvoidingView>
 

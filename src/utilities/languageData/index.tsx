@@ -185,7 +185,12 @@ export const languageData = [
             mile:"mile",
             FilterCompany:"Filter Company",
             ClearFilters:"Clear Filters",
+            Import:"Import",
             company:"Company",
+            Allow247protoaccessphotosmediaandfilesonyourdevice:"Allow 247pro to access photos, media and files on your device.",
+            Deny:"Deny",
+            Allow:"Allow",
+            Files:"Files",
         }
     },
     {
@@ -378,6 +383,11 @@ export const languageData = [
             ClearFilters:"清除过滤器",
             FilterCompany:"过滤器公司",
             company:"公司",
+            Import:"进口",
+            Allow247protoaccessphotosmediaandfilesonyourdevice:"允许 247pro 访问您设备上的照片、媒体和文件。",
+            Deny:"否定",
+            Allow:"允许",
+            Files:"文件",
 
         }
     },
@@ -565,6 +575,11 @@ export const languageData = [
             ClearFilters:"Borrar filtros",
             FilterCompany:"Filtrar empresa",
             company:"Compañía",
+            Import:"Importar",
+            Deny:"Denegar",
+            Allow247protoaccessphotosmediaandfilesonyourdevice:"Permita que 247pro acceda a fotos, medios y archivos en su dispositivo.",
+            Allow:"Permitir",
+            Files:"Archivos",
 
         }
     }

@@ -14,11 +14,9 @@ import {
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import CountryPicker from 'react-native-country-picker-modal';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
-import CountryPicker, {
-    Country,
-} from 'react-native-country-picker-modal';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
@@ -30,13 +28,17 @@ import { CONTACTTYPEDATA, } from './data';
 import { platform } from '../../../../utilities';
 import { centralStyle, } from '../../../../styles/constant.style';
 import {
+    handleAttachments,
+    handleOnSelect,
+    openSheet
+} from './call-back';
+import {
     ContactModal,
     LeftIcon,
     PicImgModal,
     RightIcon,
     SelectedAttachmentUI
 } from './new-contact-component';
-import { handleAttachments, handleOnSelect, openSheet } from './call-back';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -49,8 +51,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [contactModal, setcontactModal] = useState<boolean>(false);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [attechments, setAttechments] = useState<any>([])
-
-
 
     return (
         <>
