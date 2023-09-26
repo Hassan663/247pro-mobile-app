@@ -203,7 +203,8 @@ export const FilesCompany: React.FC<{}> = ({ }) => {
             <FlatList
                 data={FILESDATA}
                 numColumns={3}
-                columnWrapperStyle={[styles.listContentContainerStyle, centralStyle.my1]}
+                contentContainerStyle={centralStyle.pb15}
+                columnWrapperStyle={[styles.listContentContainerStyle, centralStyle.my1,]}
                 renderItem={({ item }) => (
                     <View style={styles.filesListContainer}>
                         <View style={centralStyle.width80}>

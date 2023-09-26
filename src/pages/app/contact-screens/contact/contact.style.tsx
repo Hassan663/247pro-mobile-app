@@ -123,8 +123,10 @@ export const styles: any = StyleSheet.create<any>({
         backgroundColor: 'rgba(0,0,0,0.3)'
     },
     filesListContainer: {
-        height: 100, width: '30%',
+        height: 100,
+        width: '30%',
     },
-    listContentContainerStyle:{ justifyContent: 'space-between' 
-},
+    listContentContainerStyle: {
+        justifyContent: 'space-between'
+    },
 });

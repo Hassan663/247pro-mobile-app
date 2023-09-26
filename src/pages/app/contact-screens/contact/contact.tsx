@@ -10,7 +10,6 @@ import {
     TextInput,
     Platform,
     KeyboardAvoidingView,
-    ScrollView,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -36,13 +35,10 @@ import {
 } from '../../../../styles/constant.style';
 import {
     CompanyList,
-    ContactModal,
     CustomSectionHeader,
-    // FilesModal
 } from '../new-contact/new-contact-component';
 import {
     ConnectionRequest,
-    FilesCompany,
     FilesModal,
     FilterCompany,
     ImportModal,
@@ -59,7 +55,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [anim, setanim] = useState<string>('fadeInUpBig');
 
     const sheetRef = useRef<any>(null)
-    const filesSheetRef = useRef<any>(null)
 
     return (
         <>
