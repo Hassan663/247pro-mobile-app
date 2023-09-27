@@ -70,7 +70,7 @@ const ViewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 color={Colors.fontColor}
                                 type='Poppin-12'
                                 weight='400'
-                                title={t('Contact type')} />
+                                title={t('Contacttype')} />
                         </View>
                         {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)} setimageUriLocal={setimageUriLocal} />}
 
