@@ -141,7 +141,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         <MaterialIcons
                             onPress={() => {
                                 setanim('fadeInUpBig')
-
                                 setcontactModal(true)
                             }}
                             size={RFPercentage(2.5)} name='filter-list' />

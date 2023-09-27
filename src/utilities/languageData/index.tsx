@@ -194,6 +194,8 @@ export const languageData = [
             Client: "Client",
             Emailaddress: "Email address",
             Nocompanylinked: "No company linked",
+            NoCompanyName:"No Company Name",
+            Generalcontractor:"General contractor",
         }
     },
     {
@@ -394,6 +396,8 @@ export const languageData = [
             Client: "客户",
             Emailaddress: "电子邮件地址",
             Nocompanylinked: "没有公司LinkedIn",
+            NoCompanyName:"无公司名称",
+            Generalcontractor:"总承包人",
 
         }
     },
@@ -589,6 +593,8 @@ export const languageData = [
             Client: "Cliente",
             Emailaddress: "Dirección de correo electrónico",
             Nocompanylinked: "Ninguna empresa linkedin",
+            NoCompanyName:"Sin nombre de empresa",
+            Generalcontractor:"Contratista general",
 
         }
     }
