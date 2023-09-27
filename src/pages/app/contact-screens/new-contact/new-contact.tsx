@@ -24,9 +24,9 @@ import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.co
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import { CONTACTTYPEDATA, } from './data';
+import { CONTACTTYPEDATA } from './data';
 import { platform } from '../../../../utilities';
-import { centralStyle, } from '../../../../styles/constant.style';
+import { centralStyle } from '../../../../styles/constant.style';
 import {
     handleAttachments,
     handleOnSelect,
@@ -218,7 +218,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     <TouchableOpacity
                                         onPress={() => openSheet(setanim, setcontactModal)}
                                         style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
-
                                         <View style={[centralStyle.circle(RFPercentage(4)), styles.selectCompany,]}>
                                             {selectedCompany?.length == 0 ?
                                                 <AntDesign name={`plus`} color={Colors.white} size={RFPercentage(2.5)} /> :

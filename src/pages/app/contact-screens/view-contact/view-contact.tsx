@@ -7,9 +7,7 @@ import {
     SafeAreaView,
     ScrollView,
     Image,
-    KeyboardAvoidingView,
-    Text,
-    TextInput,
+    TouchableOpacity,
 } from 'react-native';
 
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -20,21 +18,15 @@ import Colors from '../../../../styles/colors';
 import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
 import { styles } from './view-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import { centralStyle, } from '../../../../styles/constant.style';
-import {
-    handleBlur,
-    handleFocus
-} from '../../biz-card-screens/edit-biz-card/call-back';
+import { centralStyle } from '../../../../styles/constant.style';
 import {
     LeftIcon,
     RightIcon,
 } from './view-contact-component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    const [openPicker, setOpenPicker] = useState(false);
-    const [imageUriLocal, setimageUriLocal] = useState('');
-    const [isActive, setIsActive] = useState(false);
-    const [about, setAbout] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ')
+
+    const [companyLinked, setcompanyLinked] = useState(false)
 
     return (
         <>
@@ -69,6 +61,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     </View>
 
                     <View style={styles.mx2}>
+                      
                         <OutlinedTextInput editable={false} val='+1-5436748758' title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                         <OutlinedTextInput editable={false} val='abc123@gmail.com' title={t('Emailaddress')} placeHolder={t('Emailaddress')} />
                         <OutlinedTextInput editable={false} val='abc123@gmail.com' title={t('Emailaddress')} placeHolder={t('Emailaddress')} />
@@ -80,21 +73,37 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <OutlinedTextInput editable={false} val='htttps://www.247pro.com' title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
                         <OutlinedTextInput editable={false} val='New York' title={t('State')} placeHolder={t('State')} />
                         <OutlinedTextInput editable={false} val='123456' title={t('ZipCode')} placeHolder={t('ZipCode')} />
-
-                        <View style={[centralStyle.my1]}>
+                      
+                       <View style={[centralStyle.my1]}>
                             <Title
                                 color={Colors.black}
                                 type='Poppin-18'
                                 weight='600'
-                                title={t('Link to company')} />
+                                title={t('Linktocompany')} />
                         </View>
-                        <View style={[]}>
-                            <Title
-                                color={Colors.fontColor}
-                                type='Poppin-16'
-                                weight='400'
-                                title={t('No company linked')} />
-                        </View>
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
+                            {companyLinked ?
+                                < View style={[]}>
+                                    <Title
+                                        color={Colors.fontColor}
+                                        type='Poppin-16'
+                                        weight='400'
+                                        title={t('No company linked')} />
+                                </View>
+                                :
+                                <>
+                                    <View style={[centralStyle.circle(RFPercentage(4)), styles.selectCompany,]}>
+                                        <Image style={styles.companyImg} source={require('../../../../assets/app-images/userImg.png')}></Image>
+                                    </View>
+                                    <Title
+                                        color={Colors.fontColor}
+                                        type='Poppin-16'
+                                        weight='400'
+                                        title={`Company 14`} />
+                                </>}
+                        </TouchableOpacity>
                         <View
                             style={[centralStyle.my1]}>
                             <Title
@@ -103,7 +112,6 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 weight='600'
                                 title={t('Attachment')} />
                         </View>
-
                         <View style={[styles.selectedAttachmentContainer, centralStyle.XAndYCenter, centralStyle.mb2]}>
                             <View
                                 style={[centralStyle.height100, centralStyle.width100]}>
