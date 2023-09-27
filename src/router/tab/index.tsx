@@ -12,6 +12,7 @@ import NewCompany from '../../pages/app/contact-screens/new-company/new-company'
 import ViewCompany from '../../pages/app/contact-screens/view-company/view-company';
 import EditCompany from '../../pages/app/contact-screens/edit-company/edit-company';
 import ViewContact from '../../pages/app/contact-screens/view-contact/view-contact';
+import CompanyProfile from '../../pages/app/menu-screens/company-profile-screens/company-profile/company-profile';
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -19,7 +20,7 @@ export default function appNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName='ViewContact'
+        initialRouteName='AppTabs'
       >
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="ShareQR" component={ShareQR} />
@@ -31,6 +32,7 @@ export default function appNavigation() {
         <Stack.Screen name="ViewContact" component={ViewContact} />
         <Stack.Screen name="ViewCompany" component={ViewCompany} />
         <Stack.Screen name="EditCompany" component={EditCompany} />
+        <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
 
       </Stack.Navigator>
     </NavigationContainer>

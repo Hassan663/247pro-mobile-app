@@ -193,6 +193,7 @@ export const languageData = [
             Files: "Files",
             Client: "Client",
             Emailaddress: "Email address",
+            Nocompanylinked: "No company linked",
         }
     },
     {
@@ -392,6 +393,7 @@ export const languageData = [
             Files: "文件",
             Client: "客户",
             Emailaddress: "电子邮件地址",
+            Nocompanylinked: "没有公司LinkedIn",
 
         }
     },
@@ -586,6 +588,7 @@ export const languageData = [
             Files: "Archivos",
             Client: "Cliente",
             Emailaddress: "Dirección de correo electrónico",
+            Nocompanylinked: "Ninguna empresa linkedin",
 
         }
     }

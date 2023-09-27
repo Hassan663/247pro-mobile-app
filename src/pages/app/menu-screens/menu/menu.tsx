@@ -68,7 +68,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
                     data={ACCOUNTSETTINGDATA}
                     numColumns={4}
                     columnWrapperStyle={[centralStyle.px2]}
-                    renderItem={({ item }) => <Item item={item} />}
+                    renderItem={({ item }) => <Item navigation={navigation} item={item} />}
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>

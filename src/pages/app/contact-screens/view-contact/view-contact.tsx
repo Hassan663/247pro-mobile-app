@@ -37,7 +37,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     iconR1={RightIcon(navigation)}
                     type='Poppin-18'
                     weight='600'
-                    title={t(`company`)} />
+                    title={t(`Contacts`)} />
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}>
@@ -90,7 +90,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                         color={Colors.fontColor}
                                         type='Poppin-16'
                                         weight='400'
-                                        title={t('No company linked')} />
+                                        title={t('Nocompanylinked')} />
                                 </View>
                                 :
                                 <>

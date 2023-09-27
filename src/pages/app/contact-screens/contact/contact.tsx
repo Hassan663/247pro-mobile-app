@@ -55,7 +55,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [anim, setanim] = useState<string>('fadeInUpBig');
 
     const sheetRef = useRef<any>(null)
-
+    const handleChangeRoute = () => {
+        if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact')
+        else changeRoute(navigation, 'ViewCompany')
+    }
     return (
         <>
             <KeyboardAvoidingView
@@ -136,7 +139,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             placeholder={t('search')}
                         />
                         <MaterialIcons
-                            onPress={() => setcontactModal(true)}
+                            onPress={() => {
+                                setanim('fadeInUpBig')
+
+                                setcontactModal(true)
+                            }}
                             size={RFPercentage(2.5)} name='filter-list' />
                     </View>
                     <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.pb10, centralStyle.flex1]}>
@@ -149,7 +156,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     indexContainerStyle={{ width: 20 }}
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => <CompanyList
-                                        getCompany={() => { changeRoute(navigation, 'ViewCompany') }}
+                                        getCompany={() => {
+                                            handleChangeRoute()
+                                            // alert()
+                                        }}
                                         item={item} />}
                                     renderCustomSectionHeader={CustomSectionHeader}
                                 />
