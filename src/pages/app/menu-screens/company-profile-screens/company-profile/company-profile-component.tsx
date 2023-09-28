@@ -18,6 +18,8 @@ import { t } from 'i18next';
 import Colors from '../../../../../styles/colors';
 import { PHOTOTABSDATA, SERVICEDATA } from './data';
 import { ScrollView } from 'react-native-gesture-handler';
+import { onShare } from './call-back';
+import { ProgressBar } from 'react-native-paper';
 
 export const LeftIcon = (navigation?: any) => (
     <TouchableOpacity
@@ -28,14 +30,39 @@ export const LeftIcon = (navigation?: any) => (
     </TouchableOpacity>
 )
 
-export const RightIcon = (navigation?: any) => (
+export const RightIcon = (navigation?: any, setmodalEnabled?: any) => (
     <TouchableOpacity
         activeOpacity={.8}
+        onPress={() => setmodalEnabled(true)}
         style={centralStyle.mx2}>
         <Entypo name={'dots-three-vertical'} size={RFPercentage(2)} />
     </TouchableOpacity>
 )
 
+interface TabsUiProps {
+    item: string;
+    index: number;
+    setSelectedTab: (tab: string) => void;
+    selectedTab: string;
+}
+const TabsUi: React.FC<TabsUiProps> = ({ item, index, setSelectedTab, selectedTab }) => {
+
+    return (
+
+        <TouchableOpacity
+            key={index.toString()}
+            onPress={() => setSelectedTab(t(item))}
+            activeOpacity={.9} style={[
+                styles.tabsContainer(selectedTab, item),
+                centralStyle.XAndYCenter]}>
+            <Title
+                weight='600'
+                type='Poppin-14' color={selectedTab == item ? Colors.primary : Colors.fontColor}
+                title={item} />
+        </TouchableOpacity>
+    )
+}
+export default TabsUi;
 
 export const MoreOptions: React.FC<{ disableModal?: any, data?: any, navigation?: any, }> = ({ disableModal, data, navigation }) => {
     return (
@@ -51,7 +78,10 @@ export const MoreOptions: React.FC<{ disableModal?: any, data?: any, navigation?
                     <TouchableOpacity
                         activeOpacity={.8}
                         style={centralStyle.my05}
-                        onPress={() => { disableModal() }}
+                        onPress={() => {
+                            if (item == t("Share")) { onShare() }
+                            disableModal()
+                        }}
                     >
                         <Title
                             title={t(item)}
@@ -185,5 +215,54 @@ export const Photos = () => {
                 keyExtractor={(item, index) => index.toString()}
             />
         </ScrollView>
+    )
+}
+export const Reviews = () => {
+    return (
+
+        <View style={centralStyle.p2}>
+            <Title
+                title={t(`Reviews`)}
+                type='Poppin-20'
+                color={Colors.fontColor}
+                weight='700' />
+            <View style={[centralStyle.row, { height: RFPercentage(15) }]}>
+                <View style={{ flex: 6.5 }}>
+                    {[5, 4, 3, 2, 1].map((item, index) => (
+                        <View key={index.toString()} style={[centralStyle.row, { flex: 1 },]}>
+                            <View style={[{ width: "10%" }, centralStyle.XAndYCenter]}>
+                                <Title
+                                    title={item.toString()}
+                                    type='Poppin-14'
+                                    color={Colors.fontColor}
+                                    weight='400' />
+                            </View>
+                            <View style={[{ width: '90%', }, centralStyle.justifyContentCenter]}>
+                                <ProgressBar progress={0.5} style={styles.progressContainer} color={Colors.primary} />
+                            </View>
+                        </View>
+                    ))}
+                </View>
+                <View style={[styles.reviewContainer]}>
+                    <Title
+                        title={'5.0'}
+                        type='Poppin-61'
+                        color={Colors.fontColor}
+                        weight='400' />
+                    <View style={[centralStyle.mx1, centralStyle.row,]}>
+                        {[0, 0, 0, 0, 0].map(() => <AntDesign
+                            name={`star`}
+                            style={centralStyle.mx02}
+                            size={RFPercentage(1.7)}
+                            color={Colors.yellow} />)}
+                    </View>
+                    <Title
+                        title={'25 Reviews'}
+                        type='Poppin-14'
+                        color={Colors.blue}
+                        weight='400' />
+                </View>
+            </View>
+        </View>
     )
 }

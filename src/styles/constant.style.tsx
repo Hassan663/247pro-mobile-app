@@ -124,6 +124,9 @@ export const centralStyle = StyleSheet.create<any>({
     mt1: {
         marginTop: RFPercentage(1)
     },
+    mx02: {
+        marginHorizontal: RFPercentage(.2)
+    },
     mx05: {
         marginHorizontal: RFPercentage(.5)
     },

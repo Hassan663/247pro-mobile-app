@@ -54,4 +54,6 @@ export const styles: any = StyleSheet.create<any>({
         width: RFPercentage(20),
         marginVertical: RFPercentage(1),
     },
+    reviewContainer: {  flex: 3.5,justifyContent: 'space-evenly', alignItems: 'center', },
+    progressContainer:{ height: RFPercentage(1), borderRadius: RFPercentage(1) },
 });

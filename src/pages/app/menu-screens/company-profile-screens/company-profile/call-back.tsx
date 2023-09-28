@@ -1,31 +1,26 @@
-import { TouchableOpacity } from "react-native"
-import { styles } from "./company-profile.style"
-import { centralStyle } from "../../../../../styles/constant.style"
-import { Title } from "../../../../../core/components/screen-title.component"
-import Colors from "../../../../../styles/colors"
-import { t } from "i18next"
-interface TabsUiProps {
-    item: string;
-    index: number;
-    setSelectedTab: (tab: string) => void;
-    selectedTab: string;
-}
+import {
+    Share,
+    Alert
+} from "react-native"
 
-const TabsUi: React.FC<TabsUiProps> = ({ item, index, setSelectedTab, selectedTab }) => {
+export const onShare = async () => {
+    try {
+        const result = await Share.share({
+            message: 'Would you like to share Code Finder https://example.com',
+            url: 'https://247pro.com',
+            title: 'test',
 
-    return (
-
-        <TouchableOpacity
-            key={index.toString()}
-            onPress={() => setSelectedTab(t(item))}
-            activeOpacity={.9} style={[
-                styles.tabsContainer(selectedTab, item),
-                centralStyle.XAndYCenter]}>
-            <Title
-                weight='600'
-                type='Poppin-14' color={selectedTab == item ? Colors.primary : Colors.fontColor}
-                title={item} />
-        </TouchableOpacity>
-    )
-}
-export default TabsUi;
+        });
+        if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+                // shared with activity type of result.activityType
+            } else {
+                // shared
+            }
+        } else if (result.action === Share.dismissedAction) {
+            // dismissed
+        }
+    } catch (error: any) {
+        Alert.alert(error.message);
+    }
+};

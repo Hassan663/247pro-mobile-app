@@ -47,4 +47,5 @@ export const Title: React.FC<TitleTextProps> = ({ title, textAlignCenter, line, 
     if (type == 'Poppin-18') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_18]} >{title}</Text>;
     if (type == 'Poppin-20') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_20]} >{title}</Text>;
     if (type == 'Poppin-24') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_24]} >{title}</Text>;
+    if (type == 'Poppin-61') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_61]} >{title}</Text>;
 };

@@ -79,6 +79,9 @@ export const styles: any = StyleSheet.create<any>({
     poppin_18: {
         fontSize: platform == 'ios' ? RFPercentage(2.1) : RFPercentage(2.7),
     },
+    poppin_61: {
+        fontSize: platform == 'ios' ? RFPercentage(7) : RFPercentage(7.5),
+    },
     input: (pass: boolean, isActive: boolean) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
         borderRadius: 5,
