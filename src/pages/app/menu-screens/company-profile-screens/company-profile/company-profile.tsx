@@ -86,8 +86,34 @@ const CompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation,
                     {
                         selectedTab == t('Overview') ? <OverView /> :
                             selectedTab == t('Services') ? <Service /> :
-                                selectedTab == t('Photos') && <Photos />
+                                selectedTab == t('Photos') ? <Photos /> :
+                                    selectedTab == t('Reviews') &&
+                                    <View style={centralStyle.p2}>
+                                        <Title
+                                            title={t(`Reviews`)}
+                                            type='Poppin-20'
+                                            color={Colors.fontColor}
+                                            weight='700' />
+                                        <View style={[centralStyle.row, { height: RFPercentage(15) }]}>
+                                            <View style={{ flex: 6.5, backgroundColor: "red" }}>
+                                                {[5, 4, 3, 2, 1].map((item, index) => (
+                                                    <View key={index.toString()} style={centralStyle.row}>
+                                                        <Title
+                                                            title={item.toString()}
+                                                            type='Poppin-14'
+                                                            color={Colors.fontColor}
+                                                            weight='400' />
+
+
+                                                    </View>
+                                                ))}
+                                            </View>
+                                            <View style={{ flex: 3.5, backgroundColor: "blue" }}></View>
+                                        </View>
+                                    </View>
+
                     }
+
                 </View>
             </SafeAreaView >
         </>
