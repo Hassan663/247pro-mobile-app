@@ -68,6 +68,9 @@ export const centralStyle = StyleSheet.create<any>({
     justifyContentEnd: {
         justifyContent: "flex-end"
     },
+    justifyContentBetween: {
+        justifyContent: 'space-between'
+    },
     alignitemStart: {
         alignItems: "flex-start"
     },
@@ -120,6 +123,9 @@ export const centralStyle = StyleSheet.create<any>({
     },
     mt1: {
         marginTop: RFPercentage(1)
+    },
+    mx05: {
+        marginHorizontal: RFPercentage(.5)
     },
     mx1: {
         marginHorizontal: RFPercentage(1)

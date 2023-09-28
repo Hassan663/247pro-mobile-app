@@ -3,31 +3,33 @@ import React, {
     useState
 } from 'react';
 import {
+    FlatList,
     Image,
     SafeAreaView,
-    TouchableOpacity,
+    ScrollView,
     View,
 } from 'react-native';
 
-import Feather from 'react-native-vector-icons/Feather'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 
 import AppHeader from '../../../../../core/components/app-headers';
 import Colors from '../../../../../styles/colors';
+import TabsUi from './call-back';
+import { SERVICEDATA, TABSDATA } from './data';
 import { styles } from './company-profile.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { centralStyle } from '../../../../../styles/constant.style';
 import { Title } from '../../../../../core/components/screen-title.component';
 import {
-    ConnectionRequest,
     LeftIcon,
+    MoreOptions,
+    OverView,
+    Photos,
     RightIcon,
+    Service,
 } from './company-profile-component';
 
-import TabsUi from './call-back';
-import { TABSDATA } from './data';
 
 const CompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Overview'))
@@ -37,9 +39,9 @@ const CompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation,
         <>
             <SafeAreaView style={styles.container}>
 
-                {modalEnabled && <ConnectionRequest
+                {modalEnabled && <MoreOptions
                     navigation={navigation}
-                    data={['Edit', "Share", "QR Code"]}
+                    data={[t('Edit'), t('Share'), t('QRCode')]}
                     disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                 <AppHeader
@@ -81,50 +83,11 @@ const CompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation,
                                 selectedTab={selectedTab} />
                         ))}
                     </View>
-
-                    <View style={[centralStyle.mx2, centralStyle.mt2]}>
-                        <Title
-                            title={`Main office`}
-                            type='Poppin-12'
-                            color={Colors.fontColor}
-                            weight='400' />
-                    </View>
-
-                    <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.my05]}>
-                        <FontAwesome5
-                            style={centralStyle.mx2}
-                            name={`phone-alt`}
-                            size={RFPercentage(2)}
-                            color={Colors.fontColor} />
-                        <Title
-                            title={`+1415713701`}
-                            type='Poppin-16'
-                            color={Colors.fontColor}
-                            weight='400' />
-                    </View>
-                    <View style={[centralStyle.mx2, centralStyle.mt2]}>
-                        <Title
-                            title={`Headquarter`}
-                            type='Poppin-12'
-                            color={Colors.fontColor}
-                            weight='400' />
-                    </View>
-
-                    <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.my05]}>
-                        <Feather style={centralStyle.mx2} name={`map-pin`} size={RFPercentage(2)} color={Colors.fontColor} />
-                        <Title
-                            title={`Burlingame, CA 94010`}
-                            type='Poppin-16'
-                            color={Colors.fontColor}
-                            weight='400' />
-                    </View>
-                    <View style={[centralStyle.flex1, centralStyle.XAndYCenter]}>
-                        <Title
-                            title={`map place`}
-                            type='Poppin-16'
-                            color={Colors.fontColor}
-                            weight='400' />
-                    </View>
+                    {
+                        selectedTab == t('Overview') ? <OverView /> :
+                            selectedTab == t('Services') ? <Service /> :
+                                selectedTab == t('Photos') && <Photos />
+                    }
                 </View>
             </SafeAreaView >
         </>

@@ -49,4 +49,9 @@ export const styles: any = StyleSheet.create<any>({
         right: RFPercentage(2),
         top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
     },
+    posterImg: {
+        height: RFPercentage(20),
+        width: RFPercentage(20),
+        marginVertical: RFPercentage(1),
+    },
 });
