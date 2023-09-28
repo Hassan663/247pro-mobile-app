@@ -1,1 +1,1 @@
-const TABSDATA = ['Overview', 'Services', 'Photos', 'Reviews'];
+export const TABSDATA = ['Overview', 'Services', 'Photos', 'Reviews'];

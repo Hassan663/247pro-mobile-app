@@ -21,19 +21,26 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { centralStyle } from '../../../../../styles/constant.style';
 import { Title } from '../../../../../core/components/screen-title.component';
 import {
+    ConnectionRequest,
     LeftIcon,
     RightIcon,
 } from './company-profile-component';
-import tabsUi from './call-back';
+
 import TabsUi from './call-back';
-// import { tabsUi } from './call-back';
+import { TABSDATA } from './data';
 
 const CompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Overview'))
+    const [modalEnabled, setmodalEnabled] = useState(false)
+
     return (
         <>
-
             <SafeAreaView style={styles.container}>
+
+                {modalEnabled && <ConnectionRequest
+                    navigation={navigation}
+                    data={['Edit', "Share", "QR Code"]}
+                    disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                 <AppHeader
                     iconL1={LeftIcon(navigation)}
