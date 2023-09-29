@@ -207,8 +207,12 @@ export const languageData = [
             AdditionsKitchenremodel: "Additions Kitchen remodel",
             Painting: "Painting",
             Electricalworks: "Electrical works",
-            Painter:"Painter",
+            Painter: "Painter",
             Electrician: 'Electrician',
+            twentyFiveReviews: "25 Reviews",
+            ayearago: "a year ago",
+            CopyQrCode:'Copy Qr Code',
+            CompanyQRCode:"Company QR Code",
 
         }
     },
@@ -424,7 +428,11 @@ export const languageData = [
             Painting: "绘画",
             Electricalworks: "电力工程",
             Electrician: '电工',
-            Painter:"画家",
+            Painter: "画家",
+            twentyFiveReviews: "25 条评论",
+            ayearago: "一年前",
+            CopyQrCode:'复制二维码',
+            CompanyQRCode:"公司二维码",
 
         }
     },
@@ -634,8 +642,11 @@ export const languageData = [
             Painting: "Cuadro",
             Electricalworks: "Obras eléctricas",
             Electrician: 'Electricista',
-            Painter:"Pintora",
-
+            Painter: "Pintora",
+            twentyFiveReviews: "25 reseñas",
+            ayearago: "Hace un año",
+            CopyQrCode:'Copiar código QR',
+            CompanyQRCode:"Código QR de la empresa",
         }
     }
 ];

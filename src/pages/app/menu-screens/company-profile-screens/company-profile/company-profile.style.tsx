@@ -54,6 +54,46 @@ export const styles: any = StyleSheet.create<any>({
         width: RFPercentage(20),
         marginVertical: RFPercentage(1),
     },
-    reviewContainer: {  flex: 3.5,justifyContent: 'space-evenly', alignItems: 'center', },
-    progressContainer:{ height: RFPercentage(1), borderRadius: RFPercentage(1) },
+    reviewContainer: {
+        flex: 3.5,
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    progressContainer: {
+        height: RFPercentage(1),
+        borderRadius: RFPercentage(1)
+    },
+    reviewWrapper: {
+        height: RFPercentage(15)
+    },
+    rangeListWrapper: {
+        flex: 6.5
+    },
+    numberContainer: {
+        width: "10%"
+    },
+    barContainer: {
+        width: '90%',
+    },
+    profileHeader: {
+        height: RFPercentage(7),
+        width: "100%"
+    },
+    profileContainer: {
+        flex: 1.5,
+    },
+    profileImg: {
+        height: RFPercentage(4),
+        width: RFPercentage(4)
+    },
+    profileBody: {
+        flex: 8.5,
+    },
+    qr: {
+        height: RFPercentage(15),
+        width: RFPercentage(15)
+    },
+    sheetContainer: {
+        borderRadius: RFPercentage(2),
+    },
 });

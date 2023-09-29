@@ -1,6 +1,11 @@
 // @app
 import React, { useState } from 'react';
-import { FlatList, Image, TouchableOpacity, View } from 'react-native';
+import {
+    FlatList,
+    Image,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo'
 import Fontisto from 'react-native-vector-icons/Fontisto'
@@ -16,10 +21,14 @@ import { styles } from './company-profile.style';
 import { Title } from '../../../../../core/components/screen-title.component';
 import { t } from 'i18next';
 import Colors from '../../../../../styles/colors';
-import { PHOTOTABSDATA, SERVICEDATA } from './data';
 import { ScrollView } from 'react-native-gesture-handler';
 import { onShare } from './call-back';
 import { ProgressBar } from 'react-native-paper';
+import {
+    PHOTOTABSDATA,
+    REVIEWS,
+    SERVICEDATA
+} from './data';
 
 export const LeftIcon = (navigation?: any) => (
     <TouchableOpacity
@@ -64,7 +73,7 @@ const TabsUi: React.FC<TabsUiProps> = ({ item, index, setSelectedTab, selectedTa
 }
 export default TabsUi;
 
-export const MoreOptions: React.FC<{ disableModal?: any, data?: any, navigation?: any, }> = ({ disableModal, data, navigation }) => {
+export const MoreOptions: React.FC<{ disableModal?: any, sheetRef?: any, data?: any, navigation?: any, }> = ({ disableModal, data, navigation, sheetRef }) => {
     return (
         <TouchableOpacity
             activeOpacity={.9}
@@ -80,6 +89,7 @@ export const MoreOptions: React.FC<{ disableModal?: any, data?: any, navigation?
                         style={centralStyle.my05}
                         onPress={() => {
                             if (item == t("Share")) { onShare() }
+                            else if (item == t("QRCode")) { sheetRef?.current?.open() }
                             disableModal()
                         }}
                     >
@@ -185,7 +195,7 @@ export const Service = () => {
 export const Photos = () => {
     const [seletedTab, setSeletedTab] = useState('All')
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -217,52 +227,124 @@ export const Photos = () => {
         </ScrollView>
     )
 }
-export const Reviews = () => {
+export const QRCode = () => {
     return (
 
-        <View style={centralStyle.p2}>
+        <View style={[centralStyle.flex1, centralStyle.XAndYCenter,]}>
             <Title
-                title={t(`Reviews`)}
-                type='Poppin-20'
-                color={Colors.fontColor}
-                weight='700' />
-            <View style={[centralStyle.row, { height: RFPercentage(15) }]}>
-                <View style={{ flex: 6.5 }}>
-                    {[5, 4, 3, 2, 1].map((item, index) => (
-                        <View key={index.toString()} style={[centralStyle.row, { flex: 1 },]}>
-                            <View style={[{ width: "10%" }, centralStyle.XAndYCenter]}>
+                title={t(`CompanyQRCode`)}
+                type='Poppin-18'
+                color={Colors.black}
+                weight='600' />
+            <Image
+                style={[styles.qr, centralStyle.my2]}
+                source={require('../../../../../assets/app-images/qr.png')} />
+            <Title
+                title={t(`CopyQrCode`)}
+                type='Poppin-14'
+                color={Colors.primary}
+                weight='600' />
+        </View>
+
+
+    )
+}
+export const Reviews = () => {
+    return (
+        <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={centralStyle.p2}>
+                <Title
+                    title={t(`Reviews`)}
+                    type='Poppin-20'
+                    color={Colors.fontColor}
+                    weight='700' />
+                <View style={[centralStyle.row, styles.reviewWrapper]}>
+                    <View style={styles.rangeListWrapper}>
+                        {REVIEWS.map((item, index) => (
+                            <View key={index.toString()} style={[centralStyle.row, centralStyle.flex1]}>
+                                <View style={[styles.numberContainer, centralStyle.XAndYCenter]}>
+                                    <Title
+                                        title={item.toString()}
+                                        type='Poppin-14'
+                                        color={Colors.fontColor}
+                                        weight='400' />
+                                </View>
+                                <View style={[styles.barContainer, centralStyle.justifyContentCenter]}>
+                                    <ProgressBar
+                                        progress={item / 5}
+                                        style={styles.progressContainer}
+                                        color={Colors.primary} />
+                                </View>
+                            </View>
+                        ))}
+                    </View>
+                    <View style={[styles.reviewContainer]}>
+                        <Title
+                            title={'5.0'}
+                            type='Poppin-61'
+                            color={Colors.fontColor}
+                            weight='400' />
+                        <View style={[centralStyle.mx1, centralStyle.row,]}>
+                            {REVIEWS.map(() => <AntDesign
+                                name={`star`}
+                                style={centralStyle.mx02}
+                                size={RFPercentage(1.7)}
+                                color={Colors.yellow} />)}
+                        </View>
+                        <Title
+                            title={t('twentyFiveReviews')}
+                            type='Poppin-14'
+                            color={Colors.blue}
+                            weight='400' />
+                    </View>
+                </View>
+                <FlatList
+                    data={[0, 0, 0, 0,]}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={centralStyle.my1}
+                    renderItem={({ item }) => (
+                        <View style={centralStyle.my3}>
+                            <View style={[styles.profileHeader, centralStyle.row]}>
+
+                                <View style={[styles.profileContainer, centralStyle.justifyContentCenter]}>
+                                    <Image style={styles.profileImg} source={require('../../../../../assets/app-images/userImg.png')} />
+                                </View>
+
+                                <View style={[styles.profileBody, centralStyle.justifyContentCenter]}>
+                                    <Title
+                                        title={t(`Syed Ali Shahid`)}
+                                        type='Poppin-14'
+                                        color={Colors.black}
+                                        weight='400' />
+                                    <Title
+                                        title={t(`Local guide 34 reviews`)}
+                                        type='Poppin-14'
+                                        color={Colors.fontColor}
+                                        weight='400' />
+                                </View>
+                            </View>
+                            <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.my1]}>
+                                {REVIEWS.map(() => <AntDesign
+                                    name={`star`}
+                                    style={centralStyle.mr05}
+                                    size={RFPercentage(1.7)}
+                                    color={Colors.yellow} />)}
                                 <Title
-                                    title={item.toString()}
+                                    title={" " + t(`ayearago`)}
                                     type='Poppin-14'
                                     color={Colors.fontColor}
                                     weight='400' />
                             </View>
-                            <View style={[{ width: '90%', }, centralStyle.justifyContentCenter]}>
-                                <ProgressBar progress={0.5} style={styles.progressContainer} color={Colors.primary} />
-                            </View>
+                            <Title
+                                title={t(`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500sLorem Ipsum has been the industry's standard dummy text ever since the 1500s`)}
+                                type='Poppin-14'
+                                color={Colors.fontColor}
+                                weight='400' />
                         </View>
-                    ))}
-                </View>
-                <View style={[styles.reviewContainer]}>
-                    <Title
-                        title={'5.0'}
-                        type='Poppin-61'
-                        color={Colors.fontColor}
-                        weight='400' />
-                    <View style={[centralStyle.mx1, centralStyle.row,]}>
-                        {[0, 0, 0, 0, 0].map(() => <AntDesign
-                            name={`star`}
-                            style={centralStyle.mx02}
-                            size={RFPercentage(1.7)}
-                            color={Colors.yellow} />)}
-                    </View>
-                    <Title
-                        title={'25 Reviews'}
-                        type='Poppin-14'
-                        color={Colors.blue}
-                        weight='400' />
-                </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
             </View>
-        </View>
+        </ScrollView>
     )
 }
