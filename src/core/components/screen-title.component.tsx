@@ -40,6 +40,7 @@ interface TitleTextProps {
     textAlignCenter?: string;
 }
 export const Title: React.FC<TitleTextProps> = ({ title, textAlignCenter, line, type, color, weight }) => {
+    if (type == 'Poppin-10') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_10]} >{title}</Text>;
     if (type == 'Poppin-11') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_11]} >{title}</Text>;
     if (type == 'Poppin-12') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_12]} >{title}</Text>;
     if (type == 'Poppin-14') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontWeight: weight }, styles.poppin_14]} >{title}</Text>;

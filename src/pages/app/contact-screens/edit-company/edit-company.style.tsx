@@ -326,5 +326,6 @@ export const styles: any = StyleSheet.create<any>({
         fontWeight: '600',
         fontSize: 14,
         textTransform: 'uppercase'
-    }
+    },
+    
 });

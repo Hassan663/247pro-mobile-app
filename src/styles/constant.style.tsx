@@ -184,4 +184,7 @@ export const centralStyle = StyleSheet.create<any>({
     height100: {
         height: '100%'
     },
+    wrap: {
+        flexWrap: 'wrap'
+    },
 });

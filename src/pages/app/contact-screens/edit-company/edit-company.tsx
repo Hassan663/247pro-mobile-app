@@ -105,10 +105,12 @@ const EditCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)} setimageUriLocal={setimageUriLocal} />}
 
                         <View style={styles.mx2}>
+
                             <OutlinedTextInput val='247 pro' title={t('Companyname')} placeHolder={t('Companyname')} />
                             <OutlinedTextInput val='George Lee' title={t('Contactperson')} placeHolder={t('Contactperson')} />
                             <OutlinedTextInput val='Marketing lead' title={t('jobTitle')} placeHolder={t('jobTitle')} />
                             <OutlinedTextInput val='abc123@gmail.com' title={t('Email')} placeHolder={t('Email')} />
+
                             <View style={styles.inputWrapper2}>
                                 <TouchableOpacity
                                     onPress={() => setIsCountryPickerVisible(true)}

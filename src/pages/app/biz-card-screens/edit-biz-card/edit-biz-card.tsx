@@ -117,12 +117,12 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             placeHolder={t('lastName')}
                         />
                         <OutlinedTextInput
-                            title={t('Job title')}
-                            placeHolder={t('Job title')}
+                            title={t('jobTitle')}
+                            placeHolder={t('jobTitle')}
                         />
                         <OutlinedTextInput
-                            title={t('Company name')}
-                            placeHolder={t('Company name')}
+                            title={t('Companyname')}
+                            placeHolder={t('Companyname')}
                         />
                         <View style={styles.inputContainer(60)}>
                             {
