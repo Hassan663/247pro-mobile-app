@@ -213,6 +213,7 @@ export const languageData = [
             ayearago: "a year ago",
             CopyQrCode:'Copy Qr Code',
             CompanyQRCode:"Company QR Code",
+            EditCompanyProfile:"Edit Company Profile",
 
         }
     },
@@ -433,6 +434,7 @@ export const languageData = [
             ayearago: "一年前",
             CopyQrCode:'复制二维码',
             CompanyQRCode:"公司二维码",
+            EditCompanyProfile:"编辑公司简介",
 
         }
     },
@@ -647,6 +649,7 @@ export const languageData = [
             ayearago: "Hace un año",
             CopyQrCode:'Copiar código QR',
             CompanyQRCode:"Código QR de la empresa",
+            EditCompanyProfile:"Editar perfil de empresa",
         }
     }
 ];

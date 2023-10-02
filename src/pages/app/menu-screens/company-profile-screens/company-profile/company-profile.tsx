@@ -15,10 +15,10 @@ import { t } from 'i18next';
 
 import AppHeader from '../../../../../core/components/app-headers';
 import Colors from '../../../../../styles/colors';
+import { Title } from '../../../../../core/components/screen-title.component';
 import { styles } from './company-profile.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { centralStyle } from '../../../../../styles/constant.style';
-import { Title } from '../../../../../core/components/screen-title.component';
 import {
     MOREOPTIONSDATA,
     TABSDATA

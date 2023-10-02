@@ -13,6 +13,7 @@ import ViewCompany from '../../pages/app/contact-screens/view-company/view-compa
 import EditCompany from '../../pages/app/contact-screens/edit-company/edit-company';
 import ViewContact from '../../pages/app/contact-screens/view-contact/view-contact';
 import CompanyProfile from '../../pages/app/menu-screens/company-profile-screens/company-profile/company-profile';
+import EditCompanyProfile from '../../pages/app/menu-screens/company-profile-screens/edit-company-profile/edit-company-profile';
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -33,6 +34,7 @@ export default function appNavigation() {
         <Stack.Screen name="ViewCompany" component={ViewCompany} />
         <Stack.Screen name="EditCompany" component={EditCompany} />
         <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
+        <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
 
       </Stack.Navigator>
     </NavigationContainer>

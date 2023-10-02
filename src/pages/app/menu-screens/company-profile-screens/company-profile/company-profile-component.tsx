@@ -90,6 +90,7 @@ export const MoreOptions: React.FC<{ disableModal?: any, sheetRef?: any, data?: 
                         onPress={() => {
                             if (item == t("Share")) { onShare() }
                             else if (item == t("QRCode")) { sheetRef?.current?.open() }
+                            else if (item == t("Edit")) { changeRoute(navigation, 'EditCompanyProfile') }
                             disableModal()
                         }}
                     >
