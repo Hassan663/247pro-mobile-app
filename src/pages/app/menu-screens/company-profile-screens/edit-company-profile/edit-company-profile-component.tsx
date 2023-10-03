@@ -1,5 +1,7 @@
 import {
+    FlatList,
     Image,
+    TextInput,
     TouchableOpacity,
     View
 } from "react-native";
@@ -25,10 +27,13 @@ import { CONTACTTYPEDATA } from "../../../contact-screens/edit-company/data";
 import {
     COUNTRYDATA,
     INSDUSTRYTAGS,
-    RADIOBTNDATA
+    RADIOBTNDATA,
+    SPECIALITYDATA
 } from "./data";
+import { useRef, useState } from "react";
+import { pickImage } from "../../../contact-screens/new-contact/call-back";
 
-export const IndustryTagUI = ({ item, index }: any) => {
+export const IndustryTagUI = ({ item, index, addSpecialitysheetRef }: any) => {
     return (
         <>
             <View key={index.toString()} style={[{ backgroundColor: Colors.lightGrey, borderRadius: RFPercentage(.5), marginRight: RFPercentage(1) }, centralStyle.p1, centralStyle.my1, centralStyle.row, centralStyle.XAndYCenter]}>
@@ -43,9 +48,13 @@ export const IndustryTagUI = ({ item, index }: any) => {
                 <AntDesign name={`close`} size={RFPercentage(1.5)} />
             </View>
             {index == INSDUSTRYTAGS.length - 1 &&
-                <View key={index.toString()} style={centralStyle.XAndYCenter}>
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => addSpecialitysheetRef.current.open()}
+                    key={index.toString()}
+                    style={centralStyle.XAndYCenter}>
                     <AntDesign color={Colors.fontColor} name={`plus`} size={RFPercentage(2)} />
-                </View>
+                </TouchableOpacity>
             }
         </>
 
@@ -102,36 +111,63 @@ export const MobilePhoneUI = ({ countryCode, setIsCountryPickerVisible, isCountr
     )
 }
 export const EditOverView = ({
-    selectedType,
-    setSelectedType,
-    countryCode,
-    setIsCountryPickerVisible,
-    contactInfoInputs,
-    isCountryPickerVisible,
-    setCountryCode,
-    setcountry,
-    setState,
-    sheetRef,
-    setcontactInfoInputs,
-    newField,
-    addSocialAccountInput,
-    setNewField,
-    setaddSocialAccountInput, }: any) => {
+    // selectedType,
+    // setSelectedType,
+    // countryCode,
+    // setIsCountryPickerVisible,
+    // contactInfoInputs,
+    // isCountryPickerVisible,
+    // setCountryCode,
+    // setcountry,
+    // setState,
+    // // sheetRef,
+    // setcontactInfoInputs,
+    // newField,
+    // addSocialAccountInput,
+    // setNewField,
+    // setaddSocialAccountInput,
+}: any) => {
+
+    const [imageUriLocal, setimageUriLocal] = useState('')
+    const [selectedType, setSelectedType] = useState('first');
+    const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
+    const [countryCode, setCountryCode] = useState<any>('PK');
+    const [country, setcountry] = useState<string>('');
+    const [state, setState] = useState<string>('');
+    const [addSocialAccountInput, setaddSocialAccountInput] = useState(false)
+    const [newField, setNewField] = useState<string>('')
+    const [contactInfoInputs, setcontactInfoInputs] = useState<any>([])
+    const [specialties, setspecialties] = useState<any>([])
+
+    const addSpecialitysheetRef = useRef<any>(null)
+    const sheetRef = useRef<any>(null)
+
     return (
         <>
-            <View style={[
-                styles.companyLogoContainer,
-                centralStyle.XAndYCenter,
-                centralStyle.mx2,
-                centralStyle.my2
-            ]}>
-                <Image style={styles.galleryImg} source={require('../../../../../assets/app-images/Group.png')} />
-                <Title
-                    title={t(`Companylogo`)}
-                    type='Poppin-10'
-                    color={Colors.fontColor}
-                    weight='400' />
-            </View>
+            <TouchableOpacity activeOpacity={.8}
+                onPress={() => { pickImage(setimageUriLocal) }}
+                style={[
+                    styles.companyLogoContainer,
+                    centralStyle.XAndYCenter,
+                    centralStyle.mx2,
+                    centralStyle.my2
+                ]}>
+
+                {imageUriLocal.length > 0 ?
+                    <Image
+                        style={styles.companylogoImg}
+                        source={{ uri: imageUriLocal }} /> :
+                    <>
+                        <Image style={styles.galleryImg} source={require('../../../../../assets/app-images/Group.png')} />
+                        <Title
+                            title={t(`Companylogo`)}
+                            type='Poppin-10'
+                            color={Colors.fontColor}
+                            weight='400' />
+                    </>
+
+                }
+            </TouchableOpacity>
             <View style={centralStyle.mx2}>
                 <OutlinedTextInput
                     title={t('Companyname')}
@@ -144,7 +180,12 @@ export const EditOverView = ({
                         weight='600'
                         title={t('Industry')} />
                     <View style={[centralStyle.wrap, centralStyle.row]}>
-                        {INSDUSTRYTAGS.map((item, index) => <IndustryTagUI item={item} index={index} />)}
+                        {INSDUSTRYTAGS.map((item, index) => (<IndustryTagUI
+                            item={item}
+                            addSpecialitysheetRef={addSpecialitysheetRef}
+                            index={index} />
+                        )
+                        )}
                     </View>
                 </View>
                 <View style={centralStyle.my05}>
@@ -154,7 +195,12 @@ export const EditOverView = ({
                         weight='600'
                         title={t('Speciality')} />
                     <View style={[centralStyle.wrap, centralStyle.row]}>
-                        {INSDUSTRYTAGS.map((item, index) => <IndustryTagUI item={item} index={index} />)}
+                        {INSDUSTRYTAGS.map((item, index) => (<IndustryTagUI
+                            item={item}
+                            addSpecialitysheetRef={addSpecialitysheetRef}
+                            index={index} />
+                        )
+                        )}
                     </View>
                 </View>
                 <Title
@@ -193,7 +239,7 @@ export const EditOverView = ({
                     placeHolder={t('Websiteurl')} />
                 <View style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.my1]}>
                     <Title
-                        title={t(`Address 1`)}
+                        title={t(`Address`) + " 1"}
                         type='Poppin-14'
                         color={Colors.black}
                         weight='600' />
@@ -293,7 +339,6 @@ export const EditOverView = ({
                         )
                     })}
                 </View>
-
                 <Button
                     callBack={() => {
                         sheetRef?.current?.open()
@@ -333,7 +378,112 @@ export const EditOverView = ({
                         setNewField={setNewField}
                     />
                 </RBSheet>
+                <RBSheet
+                    ref={addSpecialitysheetRef}
+                    height={RFPercentage(50)}
+                    closeOnPressMask={true}
+                    closeOnDragDown={true}
+                    openDuration={250}
+                    animationType={`slide`}
+                    customStyles={{ container: styles.specialitySheetContainer }}
+                >
+                    <AddSpeciality
+                        setspecialties={setspecialties}
+                        specialties={specialties} />
+                </RBSheet>
             </View>
         </>
+    )
+}
+export const AddSpeciality = ({ specialties, setspecialties }: any) => {
+    return (
+        <View style={centralStyle.container}>
+            <Title
+                title={t(`AddSpeciality`)}
+                type='Poppin-18'
+                textAlignCenter="center"
+                color={Colors.black}
+                weight='600' />
+            <View style={[styles.sheetBody, centralStyle.p1, centralStyle.my1, centralStyle.mb2,]}>
+                <TextInput placeholder={t('search')} style={styles.searchInput} />
+                <View style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.my1]}>
+                    <Title
+                        title={'0 ' + t(`selected`)}
+                        type='Poppin-16'
+                        textAlignCenter="center"
+                        color={Colors.fontColor}
+                        weight='400' />
+                    <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
+                        <AntDesign
+                            color={Colors.primary}
+                            name={`plus`}
+                            size={RFPercentage(2)} />
+                        <Title
+                            title={t(`CreateNew`)}
+                            type='Poppin-14'
+                            textAlignCenter="center"
+                            color={Colors.primary}
+                            weight='600' />
+                    </View>
+                </View>
+                <FlatList
+                    data={SPECIALITYDATA}
+                    renderItem={({ item, index }) => (<CheckBox
+                        setspecialties={setspecialties}
+                        specialties={specialties}
+                        item={item}
+                        index={index} />
+                    )
+                    }
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            </View>
+            <Button
+                titleStyle={{
+                    color: Colors.white,
+                    textTransform: "uppercase",
+                }}
+                title={t(`Save Changes`)}
+                disable={specialties.length > 0 ? false : true}
+                primary={specialties.length > 0 ? true : false}
+            />
+        </View>
+    )
+}
+export const CheckBox = ({ item, index, specialties, setspecialties }: any) => {
+    const [isCheck, setIsCheck] = useState(false)
+    const handleCheckBox = () => {
+        setIsCheck(!isCheck)
+        let index = specialties.findIndex((val: any) => val == item)
+        let copyArr = JSON.parse(JSON.stringify(specialties));
+        if (index == -1) {
+            copyArr.push(item)
+            setspecialties(copyArr)
+        } else {
+            copyArr.splice(index, 1)
+            setspecialties(copyArr)
+        }
+    }
+    return (
+        <TouchableOpacity
+            activeOpacity={.9}
+            onPress={handleCheckBox}
+            style={[centralStyle.row, centralStyle.alignitemCenter]}>
+            <View style={[styles.checkSquareContainer, centralStyle.my05, centralStyle.mr1,]}>
+                {isCheck &&
+                    <AntDesign
+                        name={`checksquare`}
+                        color={index == 0 ? Colors.fontColor : Colors.primary}
+                        size={RFPercentage(2.1)} />
+                }
+            </View>
+            <Title
+                title={item}
+                type='Poppin-16'
+                textAlignCenter="center"
+                color={Colors.black}
+                weight='400' />
+        </TouchableOpacity>
+
     )
 }

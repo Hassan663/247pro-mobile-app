@@ -21,7 +21,9 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: RFPercentage(1),
         borderWidth: 2,
         borderStyle: 'dashed',
-        borderColor: Colors.lightGray
+        borderColor: Colors.lightGray,
+        overflow: "hidden",
+
     },
     galleryImg: {
         height: RFPercentage(4),
@@ -79,5 +81,30 @@ export const styles: any = StyleSheet.create<any>({
         width: '50%',
         justifyContent: "space-evenly",
         borderColor: Colors.lightGray,
+    },
+    companylogoImg: {
+        height: RFPercentage(13),
+        width: RFPercentage(13),
+    },
+    specialitySheetContainer: {
+        borderTopRightRadius: RFPercentage(2),
+        borderTopLeftRadius: RFPercentage(2)
+    },
+    searchInput: {
+        borderWidth: 1,
+        borderColor: Colors.lightGray,
+        height: RFPercentage(4),
+        borderRadius: RFPercentage(.5),
+        ...centralStyle.px1
+    },
+    sheetBody: {
+        height: '60%',
+        backgroundColor: '#F4F5F7',
+        borderRadius: RFPercentage(.3)
+    },
+    checkSquareContainer: {
+        height: RFPercentage(2),
+        width: RFPercentage(2),
+        backgroundColor: `#D9D9D9`
     },
 });

@@ -224,10 +224,17 @@ export const languageData = [
             License: "License",
             Insurance: 'Insurance',
             Numberofstaff: "Number of staff",
-            Annualrevenue:"Annual revenue",
-            CFBond:"CF - Bond",
-            SaveField:"Save Field",
-            Entercustomfieldlabel:'Enter custom field label'
+            Annualrevenue: "Annual revenue",
+            CFBond: "CF - Bond",
+            SaveField: "Save Field",
+            Entercustomfieldlabel: 'Enter custom field label',
+            AddSpeciality: 'Add Speciality',
+            selected: "selected",
+            CreateNew: "Create New",
+            windows: "ventanas",
+            Plumber: "Plomero",
+            Flooring: "Piso",
+            Architect: "Arquitecta",
 
         }
     },
@@ -459,11 +466,17 @@ export const languageData = [
             License: "执照",
             Insurance: '保险',
             Numberofstaff: "员工人数",
-            Annualrevenue:"年收入",
-            CFBond:"CF-债券",
-            SaveField:"保存字段",
-            Entercustomfieldlabel:'输入自定义字段标签'
-
+            Annualrevenue: "年收入",
+            CFBond: "CF-债券",
+            SaveField: "保存字段",
+            Entercustomfieldlabel: '输入自定义字段标签',
+            AddSpeciality: '添加专业',
+            selected: "已选择",
+            CreateNew: "创建新的",
+            windows: "视窗",
+            Plumber: "水管工",
+            Flooring: "地板",
+            Architect: "建筑师",
         }
     },
     {
@@ -688,10 +701,18 @@ export const languageData = [
             License: "Licencia",
             Insurance: 'Seguro',
             Numberofstaff: "Numero de empleado",
-            Annualrevenue:"Ingresos anuales",
-            CFBond:"CF - Bono",
-            SaveField:"Guardar campo",
-            Entercustomfieldlabel:'Ingrese la etiqueta del campo personalizado'
+            Annualrevenue: "Ingresos anuales",
+            CFBond: "CF - Bono",
+            SaveField: "Guardar campo",
+            Entercustomfieldlabel: 'Ingrese la etiqueta del campo personalizado',
+            AddSpeciality: 'Agregar especialidad',
+            selected: "seleccionada",
+            CreateNew: "Crear nueva",
+            windows: "windows",
+            Plumber: "Plumber",
+
+            Flooring: "Flooring",
+            Architect: "Architect",
         }
     }
 ];

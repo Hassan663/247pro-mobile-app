@@ -26,16 +26,6 @@ import { centralStyle } from '../../../../../styles/constant.style';
 
 const EditCompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Overview'))
-    const [selectedType, setSelectedType] = useState('first');
-    const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
-    const [countryCode, setCountryCode] = useState<any>('PK');
-    const [country, setcountry] = useState<string>('');
-    const [state, setState] = useState<string>('');
-    const [addSocialAccountInput, setaddSocialAccountInput] = useState(false)
-    const [newField, setNewField] = useState<string>('')
-    const [contactInfoInputs, setcontactInfoInputs] = useState<any>([])
-
-    const sheetRef = useRef<any>(null)
 
     return (
         <KeyboardAvoidingView
@@ -81,23 +71,7 @@ const EditCompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigat
                         ))}
                     </View>
                     {selectedTab == t('Overview') &&
-                        <EditOverView
-                            selectedType={selectedType}
-                            setSelectedType={setSelectedType}
-                            countryCode={countryCode}
-                            setIsCountryPickerVisible={setIsCountryPickerVisible}
-                            contactInfoInputs={contactInfoInputs}
-                            isCountryPickerVisible={isCountryPickerVisible}
-                            setCountryCode={setCountryCode}
-                            setcountry={setcountry}
-                            setState={setState}
-                            sheetRef={sheetRef}
-                            setcontactInfoInputs={setcontactInfoInputs}
-                            newField={newField}
-                            addSocialAccountInput={addSocialAccountInput}
-                            setNewField={setNewField}
-                            setaddSocialAccountInput={setaddSocialAccountInput}
-                        />
+                        <EditOverView />
                     }
                 </ScrollView>
             </SafeAreaView>

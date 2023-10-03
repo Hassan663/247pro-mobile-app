@@ -19,21 +19,21 @@ import Feather from 'react-native-vector-icons/Feather'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import CountryPicker from 'react-native-country-picker-modal';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import Button from '../../../../core/components/button.component';
-import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
-import { SOCIALINPUTSDATA } from '../../biz-card-screens/edit-biz-card/data';
-import { styles } from './new-company.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import { CONTACTTYPEDATA } from './data';
+import { styles } from './new-company.style';
 import { platform } from '../../../../utilities';
+import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
 import { centralStyle, } from '../../../../styles/constant.style';
+import { CONTACTTYPEDATA } from './data';
+import { SOCIALINPUTSDATA } from '../../biz-card-screens/edit-biz-card/data';
 import {
     handleBlur,
     handleFocus
