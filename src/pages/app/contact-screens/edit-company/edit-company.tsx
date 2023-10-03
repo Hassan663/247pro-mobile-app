@@ -26,13 +26,13 @@ import Colors from '../../../../styles/colors';
 import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import Button from '../../../../core/components/button.component';
-import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
-import { SOCIALINPUTSDATA } from '../../biz-card-screens/edit-biz-card/data';
-import { styles } from './edit-company.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import { CONTACTTYPEDATA } from './data';
+import { styles } from './edit-company.style';
 import { platform } from '../../../../utilities';
 import { centralStyle, } from '../../../../styles/constant.style';
+import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
+import { CONTACTTYPEDATA } from './data';
+import { SOCIALINPUTSDATA } from '../../biz-card-screens/edit-biz-card/data';
 import {
     handleBlur,
     handleFocus

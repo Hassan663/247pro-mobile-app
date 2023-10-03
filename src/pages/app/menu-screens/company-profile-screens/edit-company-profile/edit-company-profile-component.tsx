@@ -1,24 +1,32 @@
-import { Image, TouchableOpacity, View } from "react-native";
+import {
+    Image,
+    TouchableOpacity,
+    View
+} from "react-native";
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import CountryPicker from 'react-native-country-picker-modal';
 import Fontisto from 'react-native-vector-icons/Fontisto'
+import { t } from "i18next";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 import Colors from "../../../../../styles/colors";
-import { Title } from "../../../../../core/components/screen-title.component";
-import { centralStyle } from "../../../../../styles/constant.style";
-import { COUNTRYDATA, INSDUSTRYTAGS, RADIOBTNDATA } from "./data";
-import { styles } from "./edit-company-profile.style";
-import { handleOnSelect } from "../../../contact-screens/edit-company/call-back";
 import OutlinedTextInput from "../../../../../core/components/Outlined-TextInput.component";
-import { t } from "i18next";
 import OutlinedDropDown from "../../../../../core/components/outlined-dropdown.component";
-import { CONTACTTYPEDATA } from "../../../contact-screens/edit-company/data";
 import Button from "../../../../../core/components/button.component";
+import { Title } from "../../../../../core/components/screen-title.component";
+import { styles } from "./edit-company-profile.style";
 import { platform } from "../../../../../utilities";
+import { centralStyle } from "../../../../../styles/constant.style";
 import { AddInputSheet } from "../../../biz-card-screens/edit-biz-card/edit-biz-card-component";
+import { handleOnSelect } from "../../../contact-screens/edit-company/call-back";
+import { CONTACTTYPEDATA } from "../../../contact-screens/edit-company/data";
+import {
+    COUNTRYDATA,
+    INSDUSTRYTAGS,
+    RADIOBTNDATA
+} from "./data";
 
 export const IndustryTagUI = ({ item, index }: any) => {
     return (
@@ -303,8 +311,6 @@ export const EditOverView = ({
                         styles.addCustomField,]}
                     title={t('AddCustomField')}
                     titleStyle={styles.addCustomFieldTitle} />
-
-
 
                 <RBSheet
                     ref={sheetRef}

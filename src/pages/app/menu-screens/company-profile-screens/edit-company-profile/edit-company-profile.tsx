@@ -6,42 +6,23 @@ import React, {
 import {
     SafeAreaView,
     TouchableOpacity,
-    Image,
     View,
     ScrollView,
     KeyboardAvoidingView,
 } from 'react-native';
 
-import RBSheet from 'react-native-raw-bottom-sheet';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 
 import AppHeader from '../../../../../core/components/app-headers';
 import Colors from '../../../../../styles/colors';
 import TabsUi from '../company-profile/company-profile-component';
-import OutlinedDropDown from '../../../../../core/components/outlined-dropdown.component';
-import OutlinedTextInput from '../../../../../core/components/Outlined-TextInput.component';
-import Button from '../../../../../core/components/button.component';
 import { Title } from '../../../../../core/components/screen-title.component';
 import { styles } from './edit-company-profile.style';
 import { platform } from '../../../../../utilities';
+import { TABSDATA } from './data';
 import { changeRoute } from '../../../../../core/helpers/async-storage';
+import { EditOverView } from './edit-company-profile-component';
 import { centralStyle } from '../../../../../styles/constant.style';
-import { AddInputSheet } from '../../../biz-card-screens/edit-biz-card/edit-biz-card-component';
-import { CONTACTTYPEDATA } from '../../../contact-screens/edit-company/data';
-import {
-    EditOverView,
-    IndustryTagUI,
-    JobTypePreference,
-    MobilePhoneUI
-} from './edit-company-profile-component';
-import {
-    COUNTRYDATA,
-    INSDUSTRYTAGS,
-    RADIOBTNDATA,
-    TABSDATA
-} from './data';
 
 const EditCompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Overview'))
@@ -99,24 +80,25 @@ const EditCompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigat
                                 selectedTab={selectedTab} />
                         ))}
                     </View>
-                    <EditOverView
-                        selectedType={selectedType}
-                        setSelectedType={setSelectedType}
-                        countryCode={countryCode}
-                        setIsCountryPickerVisible={setIsCountryPickerVisible}
-                        contactInfoInputs={contactInfoInputs}
-                        isCountryPickerVisible={isCountryPickerVisible}
-                        setCountryCode={setCountryCode}
-                        setcountry={setcountry}
-                        setState={setState}
-                        sheetRef={sheetRef}
-                        setcontactInfoInputs={setcontactInfoInputs}
-                        newField={newField}
-                        addSocialAccountInput={addSocialAccountInput}
-                        setNewField={setNewField}
-                        setaddSocialAccountInput={setaddSocialAccountInput}
-                    />
-                    
+                    {selectedTab == t('Overview') &&
+                        <EditOverView
+                            selectedType={selectedType}
+                            setSelectedType={setSelectedType}
+                            countryCode={countryCode}
+                            setIsCountryPickerVisible={setIsCountryPickerVisible}
+                            contactInfoInputs={contactInfoInputs}
+                            isCountryPickerVisible={isCountryPickerVisible}
+                            setCountryCode={setCountryCode}
+                            setcountry={setcountry}
+                            setState={setState}
+                            sheetRef={sheetRef}
+                            setcontactInfoInputs={setcontactInfoInputs}
+                            newField={newField}
+                            addSocialAccountInput={addSocialAccountInput}
+                            setNewField={setNewField}
+                            setaddSocialAccountInput={setaddSocialAccountInput}
+                        />
+                    }
                 </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView>
