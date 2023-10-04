@@ -1,4 +1,8 @@
 import {
+    useRef,
+    useState
+} from "react";
+import {
     FlatList,
     Image,
     SafeAreaView,
@@ -19,22 +23,28 @@ import OutlinedTextInput from "../../../../../core/components/Outlined-TextInput
 import OutlinedDropDown from "../../../../../core/components/outlined-dropdown.component";
 import Button from "../../../../../core/components/button.component";
 import { Title } from "../../../../../core/components/screen-title.component";
+import { search } from "./call-back";
 import { styles } from "./edit-company-profile.style";
 import { platform } from "../../../../../utilities";
-import { centralStyle, heightFlex1 } from "../../../../../styles/constant.style";
+import { pickImage } from "../../../contact-screens/new-contact/call-back";
 import { AddInputSheet } from "../../../biz-card-screens/edit-biz-card/edit-biz-card-component";
 import { handleOnSelect } from "../../../contact-screens/edit-company/call-back";
 import { CONTACTTYPEDATA } from "../../../contact-screens/edit-company/data";
 import {
+    closeSheet,
+    openSheet
+} from "../../../../../store/action/action";
+import {
+    centralStyle,
+    heightFlex1
+} from "../../../../../styles/constant.style";
+import {
     COUNTRYDATA,
     INSDUSTRYTAGS,
     RADIOBTNDATA,
+    SERVICEDATA,
     SPECIALITYDATA
 } from "./data";
-import { useRef, useState } from "react";
-import { pickImage } from "../../../contact-screens/new-contact/call-back";
-import { closeSheet, openSheet } from "../../../../../store/action/action";
-import { search } from "./call-back";
 
 export const IndustryTagUI = ({ item, index, addSpecialitysheetRef }: any) => {
     return (
@@ -402,45 +412,47 @@ export const AddSpeciality = ({
     setspecialties,
     AddNewSpeciality,
     addNewSpecialitysheetRef,
-    addSpecialitysheetRef
+    addSpecialitysheetRef,
+    AddNewService
 }: any) => {
 
     const [specialtiesData, setspecialtiesData] = useState(SPECIALITYDATA)
     const [searchInput, setsearchInput] = useState('')
 
     const handleNewSpeciality = async () => {
-
         if (addSpecialitysheetRef) closeSheet(addSpecialitysheetRef)
         if (addNewSpecialitysheetRef) setTimeout(() => {
             setspecialties([])
             openSheet(addNewSpecialitysheetRef)
         }, 500);
     }
+
     const handleCreateSpeciality = () => {
         SPECIALITYDATA.unshift(searchInput)
         setspecialtiesData(SPECIALITYDATA)
         setsearchInput('')
     }
+    const handlewOnChangeText = (text: string) => {
+        setsearchInput(text)
+        search(text, specialtiesData, setspecialtiesData, SPECIALITYDATA)
+    }
 
     return (
         <View style={centralStyle.container}>
             <Title
-                title={t(AddNewSpeciality ? `AddNewSpecialty` : `AddSpeciality`)}
+                title={t(AddNewSpeciality ? `AddNewSpecialty` : AddNewService ? 'AddNewService' : `AddSpeciality`)}
                 type='Poppin-18'
                 textAlignCenter="center"
                 color={Colors.black}
                 weight='600' />
             <View style={[
-                AddNewSpeciality ? styles.sheetBody2 : styles.sheetBody,
+                (AddNewSpeciality || AddNewService) ? styles.sheetBody2 : styles.sheetBody,
                 centralStyle.p1,
                 centralStyle.my1,
                 centralStyle.mb2,]}>
 
                 <TextInput
-                    onChangeText={(text: string) => {
-                        setsearchInput(text)
-                        search(text, specialtiesData, setspecialtiesData, SPECIALITYDATA)
-                    }}
+                    onChangeText={handlewOnChangeText}
                     value={searchInput}
                     placeholder={t('search')}
                     style={styles.searchInput} />
@@ -492,7 +504,7 @@ export const AddSpeciality = ({
                                 weight='400' />
 
                         </View>
-                        {AddNewSpeciality &&
+                        {(AddNewSpeciality || AddNewService) &&
                             <TouchableOpacity
                                 onPress={handleCreateSpeciality}
                                 activeOpacity={.9}
@@ -555,3 +567,68 @@ export const CheckBox = ({ item, index, specialties, setspecialties }: any) => {
         </TouchableOpacity>
     )
 }
+
+export const ServiceUi = () => {
+    const [specialties, setspecialties] = useState<any>([])
+    const addSpecialitysheetRef = useRef(null)
+    return (
+
+        <View style={centralStyle.container}>
+            <TouchableOpacity
+                activeOpacity={.9}
+                onPress={() => openSheet(addSpecialitysheetRef)}
+                style={[
+                    centralStyle.row,
+                    centralStyle.flex1,
+                    centralStyle.justifyContentBetween,
+                    centralStyle.alignitemCenter,
+                    centralStyle.my2,
+                ]}>
+                <Title
+                    color={Colors.black}
+                    type='Poppin-18'
+                    weight='600'
+                    title={t('Services')} />
+                <AntDesign name={`plus`} size={RFPercentage(2)} />
+            </TouchableOpacity>
+            <FlatList
+                data={SERVICEDATA}
+                contentContainerStyle={styles.serviceListContainer}
+                renderItem={ServiceListUi}
+                keyExtractor={(item, index) => index.toString()}
+            />
+            <RBSheet
+                ref={addSpecialitysheetRef}
+                height={heightFlex1 * 9}
+                closeOnPressMask={true}
+                closeOnDragDown={true}
+                openDuration={250}
+                animationType={`slide`}
+                customStyles={{ container: styles.specialitySheetContainer }}
+            >
+                <AddSpeciality
+                    setspecialties={setspecialties}
+
+                    addSpecialitysheetRef={addSpecialitysheetRef}
+                    AddNewService
+
+                    specialties={specialties} />
+            </RBSheet>
+        </View>
+    )
+}
+export const ServiceListUi = ({ item, index }: { item: any; index: number }) => (
+    <View style={[
+        styles.serviceListWrapper(index),
+        centralStyle.row,
+        centralStyle.alignitemCenter,
+        centralStyle.justifyContentBetween,
+        centralStyle.px1]}>
+        <Title
+            color={Colors.black}
+            type='Poppin-14'
+            weight='400'
+            title={item} />
+        <AntDesign name={`delete`} color={Colors.red} size={RFPercentage(2)} />
+    </View>
+)

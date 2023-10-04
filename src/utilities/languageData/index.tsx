@@ -240,7 +240,8 @@ export const languageData = [
             Nodatafound: 'No data found',
             Create: "Create",
             asnewspecialty: "as new specialty",
-
+            AddNewService:"Add New Service",
+            
         }
     },
     {
@@ -487,6 +488,7 @@ export const languageData = [
             Nodatafound: '没有找到数据',
             Create: "创造",
             asnewspecialty: "作为新专业",
+            AddNewService:"添加新服务",
 
         }
     },
@@ -728,6 +730,7 @@ export const languageData = [
             Nodatafound: 'Datos no encontrados',
             Create: "Crear",
             asnewspecialty: "como nueva especialidad",
+            AddNewService:"Agregar nuevo servicio",
         }
     }
 ];

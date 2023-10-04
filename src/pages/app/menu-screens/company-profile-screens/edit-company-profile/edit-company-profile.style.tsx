@@ -8,6 +8,7 @@ import {
     centralStyle
 } from '../../../../../styles/constant.style';
 import { platform } from '../../../../../utilities';
+import { SERVICEDATA } from './data';
 
 export const styles: any = StyleSheet.create<any>({
     container: {
@@ -116,4 +117,14 @@ export const styles: any = StyleSheet.create<any>({
         color: Colors.white,
         textTransform: "uppercase",
     },
+    serviceListContainer: {
+        borderRadius: RFPercentage(1),
+        overflow: 'hidden'
+    },
+    serviceListWrapper: (index: number) => ({
+        height: RFPercentage(5),
+        borderBottomWidth: SERVICEDATA.length - 1 == index ? 0 : 1,
+        borderBottomColor: Colors.lightGray,
+        backgroundColor: Colors.lightGrey, width: '100%'
+    }),
 });
