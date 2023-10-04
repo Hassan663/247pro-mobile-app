@@ -409,8 +409,17 @@ export const AddSpeciality = ({
     const [searchInput, setsearchInput] = useState('')
 
     const handleNewSpeciality = async () => {
+
         if (addSpecialitysheetRef) closeSheet(addSpecialitysheetRef)
-        if (addNewSpecialitysheetRef) setTimeout(() => { openSheet(addNewSpecialitysheetRef) }, 500);
+        if (addNewSpecialitysheetRef) setTimeout(() => {
+            setspecialties([])
+            openSheet(addNewSpecialitysheetRef)
+        }, 500);
+    }
+    const handleCreateSpeciality = () => {
+        SPECIALITYDATA.unshift(searchInput)
+        setspecialtiesData(SPECIALITYDATA)
+        setsearchInput('')
     }
 
     return (
@@ -485,11 +494,7 @@ export const AddSpeciality = ({
                         </View>
                         {AddNewSpeciality &&
                             <TouchableOpacity
-                                onPress={() => {
-                                    SPECIALITYDATA.unshift(searchInput)
-                                    setspecialtiesData(SPECIALITYDATA)
-                                    setsearchInput('')
-                                }}
+                                onPress={handleCreateSpeciality}
                                 activeOpacity={.9}
                             >
                                 <Title
@@ -513,10 +518,8 @@ export const AddSpeciality = ({
 }
 
 export const CheckBox = ({ item, index, specialties, setspecialties }: any) => {
-    const [isCheck, setIsCheck] = useState(false)
 
     const handleCheckBox = () => {
-        setIsCheck(!isCheck)
         let index = specialties.findIndex((val: any) => val == item)
         let copyArr = JSON.parse(JSON.stringify(specialties));
         if (index == -1) {
@@ -528,13 +531,15 @@ export const CheckBox = ({ item, index, specialties, setspecialties }: any) => {
         }
     }
 
+    let isAlreadySelect = specialties.findIndex((val: string) => val == item)
+
     return (
         <TouchableOpacity
             activeOpacity={.9}
             onPress={handleCheckBox}
             style={[centralStyle.row, centralStyle.alignitemCenter]}>
             <View style={[styles.checkSquareContainer, centralStyle.my05, centralStyle.mr1,]}>
-                {isCheck &&
+                {isAlreadySelect !== -1 &&
                     <AntDesign
                         name={`checksquare`}
                         color={index == 0 ? Colors.fontColor : Colors.primary}

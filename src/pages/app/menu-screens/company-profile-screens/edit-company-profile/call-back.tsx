@@ -1,6 +1,5 @@
 export const search = (e: string, state: any, setState: any, orignalArr: any) => {
     let keywords = e.split(' ');
-    // setsearch(keywords);
     if (keywords[0] === '') {
         setState(orignalArr);
     }
@@ -15,11 +14,6 @@ export const search = (e: string, state: any, setState: any, orignalArr: any) =>
                 return data.match(searchPattern);
             });
         }
-        // let obj: any = {};
-        // obj.day = orignalArr.day;
-        // obj.data = filterChat;
-        // obj.customerCards = orignalArr.customerCards;
-        console.log(filterChat, 'filterChat')
         setState(filterChat);
     }
 };
