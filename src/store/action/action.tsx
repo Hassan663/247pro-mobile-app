@@ -11,7 +11,7 @@ import { CURRENTUSERPROFILE } from '../constant/constant';
 export const loginAction = (loginData: LoginModal) => {
     return async (dispatch: Dispatch) => {
         try {
-            console.log(LOGIN_ENDPOINT ,'aaaaaaaaaaaaaaaaaaaaaaaaa')
+            console.log(LOGIN_ENDPOINT, 'aaaaaaaaaaaaaaaaaaaaaaaaa')
             // // loader will apear
             let userData = await login(loginData)
             console.log(userData, 'LoginResponseData')
@@ -30,3 +30,6 @@ export const loginAction = (loginData: LoginModal) => {
         }
     }
 }
+
+export const openSheet = (sheetRef: any) => sheetRef.current.open()
+export const closeSheet = (sheetRef: any) => sheetRef.current.close()

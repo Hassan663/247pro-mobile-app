@@ -98,7 +98,7 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.px1
     },
     sheetBody: {
-        height: '60%',
+        height: '70%',
         backgroundColor: '#F4F5F7',
         borderRadius: RFPercentage(.3)
     },
@@ -106,5 +106,14 @@ export const styles: any = StyleSheet.create<any>({
         height: RFPercentage(2),
         width: RFPercentage(2),
         backgroundColor: `#D9D9D9`
+    },
+    sheetBody2: {
+        height: '80%',
+        borderRadius: RFPercentage(.3),
+        backgroundColor: Colors.white
+    },
+    btnStyle: {
+        color: Colors.white,
+        textTransform: "uppercase",
     },
 });

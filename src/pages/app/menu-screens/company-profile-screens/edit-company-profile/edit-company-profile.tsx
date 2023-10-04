@@ -1,6 +1,5 @@
 // @app
 import React, {
-    useRef,
     useState
 } from 'react';
 import {
@@ -70,9 +69,7 @@ const EditCompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigat
                                 selectedTab={selectedTab} />
                         ))}
                     </View>
-                    {selectedTab == t('Overview') &&
-                        <EditOverView />
-                    }
+                    {selectedTab == t('Overview') && <EditOverView />}
                 </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView>

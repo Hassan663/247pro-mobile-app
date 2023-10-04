@@ -235,6 +235,11 @@ export const languageData = [
             Plumber: "Plomero",
             Flooring: "Piso",
             Architect: "Arquitecta",
+            AddNewSpecialty: "Add New Specialty",
+            SaveChanges: "Save Changes",
+            Nodatafound: 'No data found',
+            Create: "Create",
+            asnewspecialty: "as new specialty",
 
         }
     },
@@ -477,6 +482,12 @@ export const languageData = [
             Plumber: "水管工",
             Flooring: "地板",
             Architect: "建筑师",
+            AddNewSpecialty: "添加新专业",
+            SaveChanges: "保存更改",
+            Nodatafound: '没有找到数据',
+            Create: "创造",
+            asnewspecialty: "作为新专业",
+
         }
     },
     {
@@ -710,9 +721,13 @@ export const languageData = [
             CreateNew: "Crear nueva",
             windows: "windows",
             Plumber: "Plumber",
-
             Flooring: "Flooring",
             Architect: "Architect",
+            AddNewSpecialty: "Agregar nueva especialidad",
+            SaveChanges: "Guardar cambios",
+            Nodatafound: 'Datos no encontrados',
+            Create: "Crear",
+            asnewspecialty: "como nueva especialidad",
         }
     }
 ];

@@ -1,6 +1,7 @@
 import {
     FlatList,
     Image,
+    SafeAreaView,
     TextInput,
     TouchableOpacity,
     View
@@ -20,7 +21,7 @@ import Button from "../../../../../core/components/button.component";
 import { Title } from "../../../../../core/components/screen-title.component";
 import { styles } from "./edit-company-profile.style";
 import { platform } from "../../../../../utilities";
-import { centralStyle } from "../../../../../styles/constant.style";
+import { centralStyle, heightFlex1 } from "../../../../../styles/constant.style";
 import { AddInputSheet } from "../../../biz-card-screens/edit-biz-card/edit-biz-card-component";
 import { handleOnSelect } from "../../../contact-screens/edit-company/call-back";
 import { CONTACTTYPEDATA } from "../../../contact-screens/edit-company/data";
@@ -32,6 +33,8 @@ import {
 } from "./data";
 import { useRef, useState } from "react";
 import { pickImage } from "../../../contact-screens/new-contact/call-back";
+import { closeSheet, openSheet } from "../../../../../store/action/action";
+import { search } from "./call-back";
 
 export const IndustryTagUI = ({ item, index, addSpecialitysheetRef }: any) => {
     return (
@@ -50,7 +53,7 @@ export const IndustryTagUI = ({ item, index, addSpecialitysheetRef }: any) => {
             {index == INSDUSTRYTAGS.length - 1 &&
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => addSpecialitysheetRef.current.open()}
+                    onPress={() => openSheet(addSpecialitysheetRef)}
                     key={index.toString()}
                     style={centralStyle.XAndYCenter}>
                     <AntDesign color={Colors.fontColor} name={`plus`} size={RFPercentage(2)} />
@@ -110,23 +113,8 @@ export const MobilePhoneUI = ({ countryCode, setIsCountryPickerVisible, isCountr
         </View>
     )
 }
-export const EditOverView = ({
-    // selectedType,
-    // setSelectedType,
-    // countryCode,
-    // setIsCountryPickerVisible,
-    // contactInfoInputs,
-    // isCountryPickerVisible,
-    // setCountryCode,
-    // setcountry,
-    // setState,
-    // // sheetRef,
-    // setcontactInfoInputs,
-    // newField,
-    // addSocialAccountInput,
-    // setNewField,
-    // setaddSocialAccountInput,
-}: any) => {
+
+export const EditOverView = () => {
 
     const [imageUriLocal, setimageUriLocal] = useState('')
     const [selectedType, setSelectedType] = useState('first');
@@ -134,12 +122,12 @@ export const EditOverView = ({
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [country, setcountry] = useState<string>('');
     const [state, setState] = useState<string>('');
-    const [addSocialAccountInput, setaddSocialAccountInput] = useState(false)
     const [newField, setNewField] = useState<string>('')
     const [contactInfoInputs, setcontactInfoInputs] = useState<any>([])
     const [specialties, setspecialties] = useState<any>([])
 
     const addSpecialitysheetRef = useRef<any>(null)
+    const addNewSpecialitysheetRef = useRef<any>(null)
     const sheetRef = useRef<any>(null)
 
     return (
@@ -184,8 +172,7 @@ export const EditOverView = ({
                             item={item}
                             addSpecialitysheetRef={addSpecialitysheetRef}
                             index={index} />
-                        )
-                        )}
+                        ))}
                     </View>
                 </View>
                 <View style={centralStyle.my05}>
@@ -199,8 +186,7 @@ export const EditOverView = ({
                             item={item}
                             addSpecialitysheetRef={addSpecialitysheetRef}
                             index={index} />
-                        )
-                        )}
+                        ))}
                     </View>
                 </View>
                 <Title
@@ -340,10 +326,7 @@ export const EditOverView = ({
                     })}
                 </View>
                 <Button
-                    callBack={() => {
-                        sheetRef?.current?.open()
-                        setaddSocialAccountInput(false)
-                    }}
+                    callBack={() => { openSheet(sheetRef) }}
                     icon={
                         <AntDesign name={'plus'}
                             size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
@@ -372,7 +355,6 @@ export const EditOverView = ({
                         sheetRef={sheetRef}
                         placeHolder={t(`Entercustomfieldlabel`)}
                         newField={newField}
-                        addSocialAccountInput={addSocialAccountInput}
                         title={t('AddCustomField')}
                         btnText={t(`SaveField`)}
                         setNewField={setNewField}
@@ -389,69 +371,150 @@ export const EditOverView = ({
                 >
                     <AddSpeciality
                         setspecialties={setspecialties}
+                        addNewSpecialitysheetRef={addNewSpecialitysheetRef}
+                        addSpecialitysheetRef={addSpecialitysheetRef}
                         specialties={specialties} />
+                </RBSheet>
+                <RBSheet
+                    ref={addNewSpecialitysheetRef}
+                    height={heightFlex1 * 9}
+                    closeOnPressMask={true}
+                    closeOnDragDown={true}
+                    openDuration={250}
+                    animationType={`slide`}
+                    customStyles={{ container: styles.specialitySheetContainer }}
+                >
+                    <SafeAreaView style={centralStyle.container}>
+
+                        <AddSpeciality
+                            setspecialties={setspecialties}
+                            AddNewSpeciality
+                            specialties={specialties} />
+                    </SafeAreaView>
                 </RBSheet>
             </View>
         </>
     )
 }
-export const AddSpeciality = ({ specialties, setspecialties }: any) => {
+
+export const AddSpeciality = ({
+    specialties,
+    setspecialties,
+    AddNewSpeciality,
+    addNewSpecialitysheetRef,
+    addSpecialitysheetRef
+}: any) => {
+
+    const [specialtiesData, setspecialtiesData] = useState(SPECIALITYDATA)
+    const [searchInput, setsearchInput] = useState('')
+
+    const handleNewSpeciality = async () => {
+        if (addSpecialitysheetRef) closeSheet(addSpecialitysheetRef)
+        if (addNewSpecialitysheetRef) setTimeout(() => { openSheet(addNewSpecialitysheetRef) }, 500);
+    }
+
     return (
         <View style={centralStyle.container}>
             <Title
-                title={t(`AddSpeciality`)}
+                title={t(AddNewSpeciality ? `AddNewSpecialty` : `AddSpeciality`)}
                 type='Poppin-18'
                 textAlignCenter="center"
                 color={Colors.black}
                 weight='600' />
-            <View style={[styles.sheetBody, centralStyle.p1, centralStyle.my1, centralStyle.mb2,]}>
-                <TextInput placeholder={t('search')} style={styles.searchInput} />
-                <View style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.my1]}>
-                    <Title
-                        title={'0 ' + t(`selected`)}
-                        type='Poppin-16'
-                        textAlignCenter="center"
-                        color={Colors.fontColor}
-                        weight='400' />
-                    <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
-                        <AntDesign
-                            color={Colors.primary}
-                            name={`plus`}
-                            size={RFPercentage(2)} />
-                        <Title
-                            title={t(`CreateNew`)}
-                            type='Poppin-14'
-                            textAlignCenter="center"
-                            color={Colors.primary}
-                            weight='600' />
-                    </View>
-                </View>
-                <FlatList
-                    data={SPECIALITYDATA}
-                    renderItem={({ item, index }) => (<CheckBox
-                        setspecialties={setspecialties}
-                        specialties={specialties}
-                        item={item}
-                        index={index} />
-                    )
-                    }
-                    keyExtractor={(item, index) => index.toString()}
-                />
+            <View style={[
+                AddNewSpeciality ? styles.sheetBody2 : styles.sheetBody,
+                centralStyle.p1,
+                centralStyle.my1,
+                centralStyle.mb2,]}>
+
+                <TextInput
+                    onChangeText={(text: string) => {
+                        setsearchInput(text)
+                        search(text, specialtiesData, setspecialtiesData, SPECIALITYDATA)
+                    }}
+                    value={searchInput}
+                    placeholder={t('search')}
+                    style={styles.searchInput} />
+
+                {specialtiesData.length > 0 ?
+                    <>
+                        <View style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.my1]}>
+                            <Title
+                                title={specialties.length + " " + t(`selected`)}
+                                type='Poppin-16'
+                                textAlignCenter="center"
+                                color={Colors.fontColor}
+                                weight='400' />
+                            <TouchableOpacity
+                                onPress={handleNewSpeciality}
+                                activeOpacity={.8}
+                                style={[centralStyle.row, centralStyle.XAndYCenter]}>
+                                <AntDesign
+                                    color={Colors.primary}
+                                    name={`plus`}
+                                    size={RFPercentage(2)} />
+                                <Title
+                                    title={t(`CreateNew`)}
+                                    type='Poppin-14'
+                                    textAlignCenter="center"
+                                    color={Colors.primary}
+                                    weight='600' />
+                            </TouchableOpacity>
+                        </View>
+                        <FlatList
+                            data={specialtiesData}
+                            renderItem={({ item, index }) => (
+                                <CheckBox
+                                    setspecialties={setspecialties}
+                                    specialties={specialties}
+                                    item={item}
+                                    index={index} />
+                            )}
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+                    </>
+                    :
+                    <>
+                        <View style={centralStyle.my2}>
+                            <Title
+                                title={t('Nodatafound')}
+                                type='Poppin-16'
+                                color={Colors.black}
+                                weight='400' />
+
+                        </View>
+                        {AddNewSpeciality &&
+                            <TouchableOpacity
+                                onPress={() => {
+                                    SPECIALITYDATA.unshift(searchInput)
+                                    setspecialtiesData(SPECIALITYDATA)
+                                    setsearchInput('')
+                                }}
+                                activeOpacity={.9}
+                            >
+                                <Title
+                                    title={t(`Create`) + ' ' + searchInput + ' ' + t('asnewspecialty')}
+                                    type='Poppin-14'
+                                    color={Colors.primary}
+                                    weight='600' />
+                            </TouchableOpacity>
+                        }
+                    </>
+                }
             </View>
             <Button
-                titleStyle={{
-                    color: Colors.white,
-                    textTransform: "uppercase",
-                }}
-                title={t(`Save Changes`)}
+                titleStyle={styles.btnStyle}
+                title={t(`SaveChanges`)}
                 disable={specialties.length > 0 ? false : true}
                 primary={specialties.length > 0 ? true : false}
             />
         </View>
     )
 }
+
 export const CheckBox = ({ item, index, specialties, setspecialties }: any) => {
     const [isCheck, setIsCheck] = useState(false)
+
     const handleCheckBox = () => {
         setIsCheck(!isCheck)
         let index = specialties.findIndex((val: any) => val == item)
@@ -464,6 +527,7 @@ export const CheckBox = ({ item, index, specialties, setspecialties }: any) => {
             setspecialties(copyArr)
         }
     }
+
     return (
         <TouchableOpacity
             activeOpacity={.9}
@@ -484,6 +548,5 @@ export const CheckBox = ({ item, index, specialties, setspecialties }: any) => {
                 color={Colors.black}
                 weight='400' />
         </TouchableOpacity>
-
     )
 }
