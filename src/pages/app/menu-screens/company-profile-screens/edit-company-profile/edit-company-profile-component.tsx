@@ -1,4 +1,5 @@
 import {
+    useEffect,
     useRef,
     useState
 } from "react";
@@ -610,10 +611,8 @@ export const ServiceUi = () => {
             >
                 <AddSpeciality
                     setspecialties={setspecialties}
-
                     addSpecialitysheetRef={addSpecialitysheetRef}
                     AddNewService
-
                     specialties={specialties} />
             </RBSheet>
         </View>
@@ -689,7 +688,7 @@ export const EdtiPhotos = () => {
             />
             <RBSheet
                 ref={sheetRef}
-                height={heightFlex1 * 6}
+                height={heightFlex1 * 5}
                 closeOnPressMask={true}
                 closeOnDragDown={true}
                 openDuration={250}
@@ -699,63 +698,78 @@ export const EdtiPhotos = () => {
                     draggableIcon: styles.draggableIconstyle
                 }}
             >
-                <SafeAreaView style={centralStyle.flex1}>
-                    <View style={[centralStyle.flex1, centralStyle.justifyContentCenter]}>
-                        <View style={[centralStyle.row, centralStyle.selfCenter]}>
-                            <Title
-                                weight='400'
-                                type='Poppin-16'
-                                color={Colors.primary}
-                                title={t(`Upload`)} />
-                            <View style={centralStyle.mx05}>
-                                <Title
-                                    weight='400'
-                                    type='Poppin-16'
-                                    color={Colors.black}
-                                    title={t(`filefromyourdevice`)} />
-                            </View>
-                        </View>
-                        <View style={[centralStyle.selfCenter]}>
-                            <Title
-                                weight='400'
-                                type='Poppin-12'
-                                color={Colors.gray}
-                                title={t(`Maximum5fileseachupload`)} />
-                        </View>
-                        <View style={[centralStyle.row, centralStyle.XAndYCenter, centralStyle.my2]}>
-                            <View style={styles.orLine}></View>
-                            <Title
-                                weight='400'
-                                type='Poppin-16'
-                                color={Colors.gray}
-                                title={t(`OR`)} />
-                            <View style={styles.orLine}></View>
-                        </View>
-                        <View style={[centralStyle.row, centralStyle.selfCenter]}>
-                            <View style={centralStyle.mx05}>
-                                <Title
-                                    weight='400'
-                                    type='Poppin-16'
-                                    color={Colors.black}
-                                    title={t(`Pickfrom`)} />
-                            </View>
-                            <Title
-                                weight='400'
-                                type='Poppin-16'
-                                color={Colors.primary}
-                                title={t(`DocumentCenter`)} />
-                        </View>
-                    </View>
-                    <View style={[centralStyle.width90, centralStyle.selfCenter]}>
-                        <Button
-                            titleStyle={styles.btnStyle}
-                            title={t(`SaveChanges`)}
-                            primary={true}
-                        />
-                    </View>
-                </SafeAreaView>
+                <PickFromDocumentCenter sheetRef={sheetRef} />
             </RBSheet>
         </View>
+    )
+}
+
+const PickFromDocumentCenter = ({ sheetRef }: any) => {
+    const [imgUrl, setImgURL] = useState('')
+
+    useEffect(() => {
+        if (imgUrl.length > 0) { closeSheet(sheetRef) }
+    }, [imgUrl])
+
+    return (
+        <SafeAreaView style={centralStyle.flex1}>
+            <View style={[centralStyle.flex1, centralStyle.justifyContentCenter]}>
+                <TouchableOpacity
+                    onPress={() => { pickImage(setImgURL) }}
+                    activeOpacity={.8}
+                    style={[centralStyle.row, centralStyle.selfCenter]}>
+                    <Title
+                        weight='400'
+                        type='Poppin-16'
+                        color={Colors.primary}
+                        title={t(`Upload`)} />
+                    <View style={centralStyle.mx05}>
+                        <Title
+                            weight='400'
+                            type='Poppin-16'
+                            color={Colors.black}
+                            title={t(`filefromyourdevice`)} />
+                    </View>
+                </TouchableOpacity>
+                <View style={[centralStyle.selfCenter]}>
+                    <Title
+                        weight='400'
+                        type='Poppin-12'
+                        color={Colors.gray}
+                        title={t(`Maximum5fileseachupload`)} />
+                </View>
+                <View style={[centralStyle.row, centralStyle.XAndYCenter, centralStyle.my2]}>
+                    <View style={styles.orLine}></View>
+                    <Title
+                        weight='400'
+                        type='Poppin-16'
+                        color={Colors.gray}
+                        title={t(`OR`)} />
+                    <View style={styles.orLine}></View>
+                </View>
+                <View style={[centralStyle.row, centralStyle.selfCenter]}>
+                    <View style={centralStyle.mx05}>
+                        <Title
+                            weight='400'
+                            type='Poppin-16'
+                            color={Colors.black}
+                            title={t(`Pickfrom`)} />
+                    </View>
+                    <Title
+                        weight='400'
+                        type='Poppin-16'
+                        color={Colors.primary}
+                        title={t(`DocumentCenter`)} />
+                </View>
+            </View>
+            <View style={[centralStyle.width90, centralStyle.selfCenter]}>
+                <Button
+                    titleStyle={styles.btnStyle}
+                    title={t(`SaveChanges`)}
+                    primary={true}
+                />
+            </View>
+        </SafeAreaView>
     )
 }
 
