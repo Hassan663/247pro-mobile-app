@@ -39,8 +39,10 @@ import {
     heightFlex1
 } from "../../../../../styles/constant.style";
 import {
+    ALLPHOTOSDATA,
     COUNTRYDATA,
     INSDUSTRYTAGS,
+    PHOTOTABSDATA,
     RADIOBTNDATA,
     SERVICEDATA,
     SPECIALITYDATA
@@ -632,3 +634,151 @@ export const ServiceListUi = ({ item, index }: { item: any; index: number }) => 
         <AntDesign name={`delete`} color={Colors.red} size={RFPercentage(2)} />
     </View>
 )
+
+export const EdtiPhotos = () => {
+    const [selectedTab, setSelectedTab] = useState(t('All'))
+    const sheetRef = useRef(null)
+
+    return (
+        <View>
+            <View style={centralStyle.row}>
+                {PHOTOTABSDATA.map((item, index) => (
+                    <TouchableOpacity
+                        key={index.toString()}
+                        onPress={() => setSelectedTab(t(item))}
+                        activeOpacity={.9} style={[
+                            styles.tabsContainer(selectedTab, item),
+                            centralStyle.XAndYCenter]}>
+                        <Title
+                            weight='400'
+                            type='Poppin-12' color={selectedTab == item ? Colors.primary : Colors.fontColor}
+                            title={item} />
+                    </TouchableOpacity>
+                ))}
+            </View>
+            <FlatList
+                showsHorizontalScrollIndicator={false}
+                numColumns={2}
+                columnWrapperStyle={[centralStyle.justifyContentBetween, centralStyle.px2,]}
+                contentContainerStyle={[centralStyle.my1]}
+                data={ALLPHOTOSDATA}
+                renderItem={({ item, index }) => {
+                    return (
+                        index == 0
+                            ?
+                            defaultUi(sheetRef) :
+                            <View>
+                                <Image
+                                    style={styles.posterImg}
+                                    source={require('../../../../../assets/app-images/labor.png')} />
+                                <TouchableOpacity
+                                    activeOpacity={.8}
+                                    style={[
+                                        centralStyle.circle(RFPercentage(2.5)),
+                                        styles.closeContainer,
+                                        centralStyle.XAndYCenter]}>
+                                    <AntDesign
+                                        name={`close`}
+                                        color={Colors.fontColor}
+                                        size={RFPercentage(2)} />
+                                </TouchableOpacity>
+                            </View>
+                    )
+                }}
+                keyExtractor={(item, index) => index.toString()}
+            />
+            <RBSheet
+                ref={sheetRef}
+                height={heightFlex1 * 6}
+                closeOnPressMask={true}
+                closeOnDragDown={true}
+                openDuration={250}
+                animationType={`slide`}
+                customStyles={{
+                    container: styles.specialitySheetContainer,
+                    draggableIcon: styles.draggableIconstyle
+                }}
+            >
+                <SafeAreaView style={centralStyle.flex1}>
+                    <View style={[centralStyle.flex1, centralStyle.justifyContentCenter]}>
+                        <View style={[centralStyle.row, centralStyle.selfCenter]}>
+                            <Title
+                                weight='400'
+                                type='Poppin-16'
+                                color={Colors.primary}
+                                title={t(`Upload`)} />
+                            <View style={centralStyle.mx05}>
+                                <Title
+                                    weight='400'
+                                    type='Poppin-16'
+                                    color={Colors.black}
+                                    title={t(`filefromyourdevice`)} />
+                            </View>
+                        </View>
+                        <View style={[centralStyle.selfCenter]}>
+                            <Title
+                                weight='400'
+                                type='Poppin-12'
+                                color={Colors.gray}
+                                title={t(`Maximum5fileseachupload`)} />
+                        </View>
+                        <View style={[centralStyle.row, centralStyle.XAndYCenter, centralStyle.my2]}>
+                            <View style={styles.orLine}></View>
+                            <Title
+                                weight='400'
+                                type='Poppin-16'
+                                color={Colors.gray}
+                                title={t(`OR`)} />
+                            <View style={styles.orLine}></View>
+                        </View>
+                        <View style={[centralStyle.row, centralStyle.selfCenter]}>
+                            <View style={centralStyle.mx05}>
+                                <Title
+                                    weight='400'
+                                    type='Poppin-16'
+                                    color={Colors.black}
+                                    title={t(`Pickfrom`)} />
+                            </View>
+                            <Title
+                                weight='400'
+                                type='Poppin-16'
+                                color={Colors.primary}
+                                title={t(`DocumentCenter`)} />
+                        </View>
+                    </View>
+                    <View style={[centralStyle.width90, centralStyle.selfCenter]}>
+                        <Button
+                            titleStyle={styles.btnStyle}
+                            title={t(`SaveChanges`)}
+                            primary={true}
+                        />
+                    </View>
+                </SafeAreaView>
+            </RBSheet>
+        </View>
+    )
+}
+
+export const defaultUi = (sheetRef: any) => {
+    return (
+        <TouchableOpacity
+            activeOpacity={.8}
+            onPress={() => openSheet(sheetRef)}
+            style={[
+                styles.posterImg,
+                styles.uploadImgContainer,
+                centralStyle.row,
+                centralStyle.XAndYCenter]}>
+            <AntDesign
+                name={`plus`}
+                style={centralStyle.mx05}
+                color={Colors.fontColor}
+                size={RFPercentage(2.5)} />
+            <Title
+                weight='400'
+                type='Poppin-20'
+                color={Colors.fontColor}
+                title={t('Photos')} />
+        </TouchableOpacity>
+    )
+}

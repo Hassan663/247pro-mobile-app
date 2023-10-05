@@ -55,9 +55,7 @@ interface TabsUiProps {
     selectedTab: string;
 }
 const TabsUi: React.FC<TabsUiProps> = ({ item, index, setSelectedTab, selectedTab }) => {
-
     return (
-
         <TouchableOpacity
             key={index.toString()}
             onPress={() => setSelectedTab(t(item))}

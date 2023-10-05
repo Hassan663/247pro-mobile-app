@@ -127,4 +127,37 @@ export const styles: any = StyleSheet.create<any>({
         borderBottomColor: Colors.lightGray,
         backgroundColor: Colors.lightGrey, width: '100%'
     }),
+    tabsContainer: (selectedTab: any, item: any) => ({
+        flexGrow: 1,
+        borderBottomWidth: 1,
+        borderColor: selectedTab == item ? Colors.primary : Colors.white,
+        height: RFPercentage(5),
+        paddingHorizontal: RFPercentage(1)
+    }),
+    posterImg: {
+        height: RFPercentage(20),
+        width: RFPercentage(20),
+        marginVertical: RFPercentage(1),
+    },
+    uploadImgContainer: {
+        borderWidth: 1,
+        borderRadius: RFPercentage(.5),
+        borderColor: Colors.lightGrey
+    },
+    closeContainer: {
+        backgroundColor: Colors.white,
+        position: "absolute",
+        right: RFPercentage(2),
+        top: RFPercentage(2)
+    },
+    draggableIconstyle: {
+        width: '35%',
+        backgroundColor: Colors.fontColor
+    },
+    orLine: {
+        width: RFPercentage(5),
+        height: 1,
+        backgroundColor: Colors.gray,
+        ...centralStyle.mx1
+    },
 });

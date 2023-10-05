@@ -8,16 +8,13 @@ import {
     View,
     ScrollView,
     KeyboardAvoidingView,
-    FlatList,
 } from 'react-native';
 
-import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 
-import AppHeader from '../../../../../core/components/app-headers';
 import Colors from '../../../../../styles/colors';
 import TabsUi from '../company-profile/company-profile-component';
+import AppHeader from '../../../../../core/components/app-headers';
 import { Title } from '../../../../../core/components/screen-title.component';
 import { styles } from './edit-company-profile.style';
 import { platform } from '../../../../../utilities';
@@ -28,8 +25,10 @@ import {
 } from './data';
 import {
     EditOverView,
+    EdtiPhotos,
     ServiceUi
 } from './edit-company-profile-component';
+import { PHOTOTABSDATA } from '../company-profile/data';
 
 const EditCompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Overview'))
@@ -78,7 +77,8 @@ const EditCompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigat
                         ))}
                     </View>
                     {selectedTab == t('Overview') ? <EditOverView /> :
-                        selectedTab == t('Services') && <ServiceUi />
+                        selectedTab == t('Services') ? <ServiceUi /> :
+                            selectedTab == t('Photos') && <EdtiPhotos />
                     }
                 </ScrollView>
             </SafeAreaView>

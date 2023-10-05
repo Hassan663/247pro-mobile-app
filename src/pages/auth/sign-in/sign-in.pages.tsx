@@ -86,7 +86,6 @@ const SignIn: React.FC = () => {
                     <Button
                         title={t('logintText')}
                         callBack={() => {
-                            // dispatch()
                             dispatch({
                                 type: ISUSERLOGIN,
                                 payload: true
