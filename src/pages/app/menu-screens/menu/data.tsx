@@ -4,7 +4,11 @@ import {
     BizCard,
     CompanyProfile,
     Contact,
-    Help
+    Help,
+    RoleAndPermissions,
+    Task,
+    TasksIcon,
+    UserGrpIcon
 } from "../../../../assets/svg-icons/CustomSvgIcon";
 
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -12,6 +16,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import Colors from "../../../../styles/colors";
 import { centralStyle } from "../../../../styles/constant.style";
 import { t } from "i18next";
+import { View } from "react-native";
 
 export const MENUDATA: any = [
     {
@@ -29,6 +34,7 @@ export const MENUDATA: any = [
 ]
 export const APPDATA = [
     { icon: <BizCard width={30} height={30} color="#FF9800" />, name: t('BizCard') },
+    { icon: <View style={centralStyle.mt1}><Task width={30} height={30} color="#FF9800" /></View>, name: t('Tasks') },
     { icon: <Contact width={30} height={30} color="#FF9800" />, name: t('Contacts') }
 ]
 
@@ -36,5 +42,7 @@ export const ACCOUNTSETTINGDATA = [
     { icon: <CompanyProfile width={30} height={30} color="#FF9800" />, name: t('CompanyProfile') },
     { icon: <AccountSetting width={30} height={30} color="#FF9800" />, name: t('AccountSettings') },
     { icon: <Entypo style={centralStyle.my1} name={`tablet-mobile-combo`} color={Colors.primary} size={RFPercentage(3)} />, name: t('ApplicaionSettings') },
-    { icon: <Help width={30} height={30} color="#FF9800" />, name: 'Help' }
+    // { icon: <Help width={30} height={30} color="#FF9800" />, name: 'Help' }
+    { icon: <View style={centralStyle.my1}><RoleAndPermissions width={40} height={40} color="#FF9800" /></View>, name: t('RolesAndPermissions') },
+    { icon: <View style={centralStyle.my1}><UserGrpIcon width={40} height={40} color="#FF9800" /></View>, name: t('UserAdmin') },
 ]

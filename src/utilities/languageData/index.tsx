@@ -246,7 +246,9 @@ export const languageData = [
             Maximum5fileseachupload: "(Maximum 5 files each upload)",
             DocumentCenter: "Document Center",
             Pickfrom: "Pick from ",
-
+            Toaccessthisfeaturepleasevisitthewebinterface: "To access this feature, please visit the web interface!",
+            UserAdmin: "User Admin",
+            RolesAndPermissions: "Roles & Permissions",
         }
     },
     {
@@ -499,6 +501,9 @@ export const languageData = [
             Maximum5fileseachupload: "（每次最多上传5个文件）",
             DocumentCenter: "文档中心",
             Pickfrom: "从中挑选",
+            Toaccessthisfeaturepleasevisitthewebinterface: "要访问此功能，请访问网络界面！",
+            UserAdmin: "用户管理",
+            RolesAndPermissions: "角色和权限",
 
         }
     },
@@ -746,6 +751,9 @@ export const languageData = [
             Maximum5fileseachupload: "(Máximo 5 archivos por carga)",
             DocumentCenter: "Centro de documentos",
             Pickfrom: "Escoge de",
+            Toaccessthisfeaturepleasevisitthewebinterface: "Para acceder a esta función, visite la interfaz web!",
+            UserAdmin: "Administrador de usuarios",
+            RolesAndPermissions: "Roles y permisos",
         }
     }
 ];
