@@ -10,7 +10,7 @@ import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
-import { List } from './accoung-setting-component';
+import { List } from './account-setting-component';
 import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
@@ -33,7 +33,7 @@ const AccountSetting: React.FC<{ navigation: any, route: any }> = ({ navigation,
                 <FlatList
                     data={ACCOUNTSETTINGDATA}
                     contentContainerStyle={[centralStyle.my2]}
-                    renderItem={List}
+                    renderItem={({ item }) => <List navigation={navigation} item={item} />}
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>

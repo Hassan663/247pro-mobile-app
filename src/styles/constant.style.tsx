@@ -133,6 +133,9 @@ export const centralStyle = StyleSheet.create<any>({
     mb2: {
         marginBottom: RFPercentage(2)
     },
+    mt3: {
+        marginTop: RFPercentage(3)
+    },
     mt2: {
         marginTop: RFPercentage(2)
     },

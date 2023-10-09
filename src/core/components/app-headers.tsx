@@ -14,17 +14,18 @@ import {
 } from '../../styles/constant.style';
 
 const AppHeader: React.FC<{
+    withOutBorder?: boolean,
     title?: string,
     iconL1?: any,
     iconR1?: any,
     color?: string,
     weight?: string,
-    type?: string, 
+    type?: string,
     iconR2?: any
-}> = ({ title, color, iconL1, iconR1, iconR2, weight, type   }) => {
+}> = ({ title, color, iconL1, iconR1, iconR2, weight, type, withOutBorder }) => {
 
     return (
-        <View style={styles.headerContainer}>
+        <View style={[styles.headerContainer, { borderBottomWidth: withOutBorder ? 0 : 1 }]}>
             <View style={[centralStyle.flex1,]}>
                 {iconL1}
             </View>

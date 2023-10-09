@@ -253,6 +253,16 @@ export const languageData = [
             ChangePassword: `Change Password`,
             Subscription: "Subscription",
             CountryAndLanguage: "Country & Language",
+            CreateyourDigitalbusinesscard: "Create your Digital business card",
+            Loginwithpassword: 'Login with password',
+            LoginwithTouchID: "Login with Touch ID",
+            LoginwithFaceID: "Login with Face ID",
+            LoginInformation: 'Login Information',
+            AccountType: "Account Type",
+            PhoneNumber: "Phone Number",
+            PrimarySpeciality: "Primary Speciality",
+            Business: "Business",
+
         }
     },
     {
@@ -512,6 +522,15 @@ export const languageData = [
             ChangePassword: `更改密码`,
             Subscription: "订阅",
             CountryAndLanguage: "国家和语言",
+            CreateyourDigitalbusinesscard: "创建您的数字名片",
+            Loginwithpassword: '使用密码登录',
+            LoginwithFaceID: "使用面容 ID 登录",
+            LoginwithTouchID: "使用 Touch ID 登录",
+            LoginInformation: '登录信息',
+            PrimarySpeciality: "主要专业",
+            PhoneNumber: "电话号码",
+            AccountType: "帐户类型",
+            Business: "商业",
 
         }
     },
@@ -766,6 +785,16 @@ export const languageData = [
             ChangePassword: `Cambiar la contraseña`,
             Subscription: "Suscripción",
             CountryAndLanguage: "Lenguaje del pais",
+            CreateyourDigitalbusinesscard: "Crea tu tarjeta de presentación digital",
+            Loginwithpassword: 'Iniciar sesión con contraseña',
+            LoginwithFaceID: "Iniciar sesión con Face ID",
+            LoginwithTouchID: "Iniciar sesión con Touch ID",
+            LoginInformation: 'Información Entrar',
+            PrimarySpeciality: "Especialidad Primaria",
+            AccountType: "Tipo de cuenta",
+            PhoneNumber: "Número de teléfono",
+            Business: "Negocio",
+
         }
     }
 ];
