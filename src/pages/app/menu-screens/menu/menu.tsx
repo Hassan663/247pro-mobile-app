@@ -46,7 +46,11 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
                 title={t(`GreenMetroInc`)} />
 
             <View style={[centralStyle.mx2, centralStyle.my3]}>
-                <Title title={t('Applications')} type='Poppin-18' color={Colors.fontColor} weight='600' />
+                <Title
+                    title={t('Applications')}
+                    type='Poppin-18'
+                    color={Colors.fontColor}
+                    weight='600' />
             </View>
 
             <View>

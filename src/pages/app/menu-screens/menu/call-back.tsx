@@ -10,6 +10,7 @@ export const Item = ({ item, navigation }: any) => {
             Alert.alert(t('Toaccessthisfeaturepleasevisitthewebinterface'))
             // changeRoute(navigation, 'CompanyProfile')
         }
+        else if (item?.name == t('AccountSettings')) changeRoute(navigation, 'AccountSetting')
         else if (item?.name == t('BizCard')) changeRoute(navigation, 'BizCard')
         else if (item?.name == t('Tasks')) Alert.alert(t('Toaccessthisfeaturepleasevisitthewebinterface'))
         else if (item?.name == t('Contacts')) changeRoute(navigation, 'Contact')

@@ -14,6 +14,7 @@ import EditCompany from '../../pages/app/contact-screens/edit-company/edit-compa
 import ViewContact from '../../pages/app/contact-screens/view-contact/view-contact';
 import CompanyProfile from '../../pages/app/menu-screens/company-profile-screens/company-profile/company-profile';
 import EditCompanyProfile from '../../pages/app/menu-screens/company-profile-screens/edit-company-profile/edit-company-profile';
+import AccountSetting from '../../pages/app/menu-screens/account-setting/account-setting';
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -35,6 +36,7 @@ export default function appNavigation() {
         <Stack.Screen name="EditCompany" component={EditCompany} />
         <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
         <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
+        <Stack.Screen name="AccountSetting" component={AccountSetting} />
 
       </Stack.Navigator>
     </NavigationContainer>

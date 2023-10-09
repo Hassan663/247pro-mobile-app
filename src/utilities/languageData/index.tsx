@@ -249,6 +249,10 @@ export const languageData = [
             Toaccessthisfeaturepleasevisitthewebinterface: "To access this feature, please visit the web interface!",
             UserAdmin: "User Admin",
             RolesAndPermissions: "Roles & Permissions",
+            AccountInformation: "Account Information",
+            ChangePassword: `Change Password`,
+            Subscription: "Subscription",
+            CountryAndLanguage: "Country & Language",
         }
     },
     {
@@ -504,6 +508,10 @@ export const languageData = [
             Toaccessthisfeaturepleasevisitthewebinterface: "要访问此功能，请访问网络界面！",
             UserAdmin: "用户管理",
             RolesAndPermissions: "角色和权限",
+            AccountInformation: "帐户信息",
+            ChangePassword: `更改密码`,
+            Subscription: "订阅",
+            CountryAndLanguage: "国家和语言",
 
         }
     },
@@ -754,6 +762,10 @@ export const languageData = [
             Toaccessthisfeaturepleasevisitthewebinterface: "Para acceder a esta función, visite la interfaz web!",
             UserAdmin: "Administrador de usuarios",
             RolesAndPermissions: "Roles y permisos",
+            AccountInformation: "Información de la cuenta",
+            ChangePassword: `Cambiar la contraseña`,
+            Subscription: "Suscripción",
+            CountryAndLanguage: "Lenguaje del pais",
         }
     }
 ];
