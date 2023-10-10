@@ -1,10 +1,6 @@
 import { t } from "i18next";
 
-export const ACCOUNTSETTINGDATA = [
-    t(`AccountInformation`),
-    t('ChangePassword'),
-    t(`Subscription`),
-    t(`CountryAndLanguage`)]
+export const ACCOUNTSETTINGDATA = [t(`AccountInformation`), t('ChangePassword'), t(`Subscription`), t(`CountryAndLanguage`)]
 
 export const ACCOUNGINFORMATION = [
     { name: t(`AccountType`), val: t(`Business`) },
@@ -14,7 +10,4 @@ export const ACCOUNGINFORMATION = [
     { name: t(`PrimarySpeciality`), val: t(`Generalcontractor`) },
 ]
 
-export const LOGININFORMATION = [
-    t(`Loginwithpassword`),
-    t('LoginwithTouchID'),
-    t(`LoginwithFaceID`)]
+export const LOGININFORMATION = [t(`Loginwithpassword`), t('LoginwithTouchID'), t(`LoginwithFaceID`)]

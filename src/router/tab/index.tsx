@@ -16,6 +16,7 @@ import CompanyProfile from '../../pages/app/menu-screens/company-profile-screens
 import EditCompanyProfile from '../../pages/app/menu-screens/company-profile-screens/edit-company-profile/edit-company-profile';
 import AccountSetting from '../../pages/app/menu-screens/account-setting/account-setting';
 import AccountInformtaion from '../../pages/app/menu-screens/account-infomation/account-infomation';
+import QRCode from '../../pages/app/menu-screens/qr-code/qr-code';
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -39,6 +40,7 @@ export default function appNavigation() {
         <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
         <Stack.Screen name="AccountSetting" component={AccountSetting} />
         <Stack.Screen name="AccountInformtaion" component={AccountInformtaion} />
+        <Stack.Screen name="QRCode" component={QRCode} />
 
       </Stack.Navigator>
     </NavigationContainer>

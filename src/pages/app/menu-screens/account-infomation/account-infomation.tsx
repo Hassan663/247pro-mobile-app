@@ -7,6 +7,7 @@ import {
     Image,
     ScrollView,
     Switch,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -66,9 +67,12 @@ const AccountInformtaion: React.FC<{ navigation: any, route: any }> = ({ navigat
                                 color={Colors.black}
                                 weight='600' />
                         </View>
-                        <View style={[centralStyle.flex1, styles.infoHeaderContainer, centralStyle.XAndYCenter]}>
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            onPress={() => changeRoute(navigation, 'QRCode')}
+                            style={[centralStyle.flex1, styles.infoHeaderContainer, centralStyle.XAndYCenter]}>
                             <Image style={styles.qrContainer} source={require('../../../../assets/app-images/qr.png')} />
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View>
                         <FlatList
@@ -79,7 +83,7 @@ const AccountInformtaion: React.FC<{ navigation: any, route: any }> = ({ navigat
                         />
                     </View>
                     <Title
-                        title={t(`about`)}
+                        title={t(`About`)}
                         type='Poppin-16'
                         color={Colors.black}
                         weight='400' />

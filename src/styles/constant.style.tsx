@@ -62,6 +62,9 @@ export const centralStyle = StyleSheet.create<any>({
     justifyContentStart: {
         justifyContent: "flex-start"
     },
+    justifyContentEvenly: {
+        justifyContent: "space-evenly"
+    },
     justifyContentCenter: {
         justifyContent: "center"
     },
@@ -135,6 +138,9 @@ export const centralStyle = StyleSheet.create<any>({
     },
     mt3: {
         marginTop: RFPercentage(3)
+    },
+    mt4: {
+        marginTop: RFPercentage(4)
     },
     mt2: {
         marginTop: RFPercentage(2)

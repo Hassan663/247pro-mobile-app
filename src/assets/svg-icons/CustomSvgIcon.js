@@ -41,6 +41,22 @@ export const RoleAndPermissions = ({ width, height, color }) => {
     </Svg>
   );
 };
+export const UploadIcon = ({ width, height, color }) => {
+  return (
+    <Svg width={width} height={height} viewBox="0 0 40 40" fill="none">
+      <G id="Icon/Outline/briefcase">
+        <Path
+          id="Icon"
+          d="M18.4941 10.3846C22.5441 10.7463 24.1978 12.9046 24.1978 17.6296V17.7813C24.1978 22.9963 22.1841 25.0846 17.1553 25.0846H9.83156C4.80281 25.0846 2.78906 22.9963 2.78906 17.7813V17.6296C2.78906 12.9396 4.42031 10.7813 8.40281 10.3963M13.4991 17.5013V4.22464M17.2678 6.8263L13.4991 2.91797L9.73031 6.8263"
+          stroke={color}
+          strokeWidth={'2'}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </G>
+    </Svg>
+  );
+};
 
 export const Briefcase = ({ width, height, color }) => {
   return (
