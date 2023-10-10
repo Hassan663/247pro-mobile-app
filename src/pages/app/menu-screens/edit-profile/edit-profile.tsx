@@ -4,6 +4,8 @@ import React, {
 } from 'react';
 import {
     Image,
+    KeyboardAvoidingView,
+    ScrollView,
     Text,
     TextInput,
     TouchableOpacity,
@@ -32,6 +34,7 @@ import {
     handleBlur,
     handleFocus
 } from '../../biz-card-screens/edit-biz-card/call-back';
+import { platform } from '../../../../utilities';
 
 const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [isActive, setIsActive] = useState(false);
@@ -50,134 +53,143 @@ const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
     return (
         <>
-            <AppHeader
-                iconL1={
-                    <TouchableOpacity
-                        activeOpacity={.8}
-                        onPress={() => { changeRoute(navigation, 'pop') }}
-                        style={centralStyle.mx2}>
-                        <Title
-                            title={t(`Cancel`)}
-                            type='Poppin-14'
-                            color={Colors.primary}
-                            weight='600' />
-                    </TouchableOpacity>
-                }
-                iconR1={
-                    <TouchableOpacity
-                        activeOpacity={.8}
-                        style={centralStyle.mx2}>
-                        <Title
-                            title={t(`Done`)}
-                            type='Poppin-14'
-                            color={Colors.primary}
-                            weight='600' />
-                    </TouchableOpacity>
-                }
-            />
-            <View style={centralStyle.container}>
-                {openPicker && <PicImgModal
-                    disableModal={() => setOpenPicker(false)}
-                    setimageUriLocal={setimageUriLocal} />}
-
-                <View style={centralStyle.my3}>
-                    <View style={[
-                        centralStyle.circle(RFPercentage(10)),
-                        centralStyle.selfCenter,
-                        styles.imgContainer
-                    ]}>
-                        <View style={[
-                            centralStyle.circle(RFPercentage(3)),
-                            styles.editIcon]}>
-                            <MaterialIcons
-                                onPress={() => setOpenPicker(true)}
-                                name={`edit`}
-                                color={Colors.primary}
-                                size={RFPercentage(2)} />
-                        </View>
-                        {imageUriLocal.length > 0
-                            ? < Image
-                                style={[centralStyle.width100, centralStyle.height100, centralStyle.circle(RFPercentage(10)),]}
-                                source={{ uri: imageUriLocal }} /> :
-                            <Image
-                                style={[centralStyle.width100, centralStyle.height100]}
-                                source={require('../../../../assets/app-images/userImg.png')} />
+            <KeyboardAvoidingView
+                style={[centralStyle.flex1]}
+                behavior={platform === 'ios' ? 'padding' : 'height'}
+            >
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    showsVerticalScrollIndicator={false}>
+                    <AppHeader
+                        iconL1={
+                            <TouchableOpacity
+                                activeOpacity={.8}
+                                onPress={() => { changeRoute(navigation, 'pop') }}
+                                style={centralStyle.mx2}>
+                                <Title
+                                    title={t(`Cancel`)}
+                                    type='Poppin-14'
+                                    color={Colors.primary}
+                                    weight='600' />
+                            </TouchableOpacity>
                         }
-                    </View>
-                </View>
-                <OutlinedTextInput
-                    title={t('firstname')}
-                    val='George'
-                    placeHolder={t('firstname')}
-                />
-                <OutlinedTextInput
-                    val='Lee'
-                    title={t('lastname')}
-                    placeHolder={t('lastname')}
-                />
-                <View style={styles.inputWrapper2}>
-                    <TouchableOpacity
-                        onPress={() => setIsCountryPickerVisible(true)}
-                        style={styles.flagContainer}
-                    >
-                        <View style={styles.flagWrapper}>
-                            <CountryPicker
-                                countryCode={countryCode}
-                                withCallingCode
-                                withFlagButton={true}
-                                onClose={() => setIsCountryPickerVisible(false)}
-                                onSelect={handleOnSelect}
-                                visible={isCountryPickerVisible}
-                            />
+                        iconR1={
+                            <TouchableOpacity
+                                activeOpacity={.8}
+                                style={centralStyle.mx2}>
+                                <Title
+                                    title={t(`Done`)}
+                                    type='Poppin-14'
+                                    color={Colors.primary}
+                                    weight='600' />
+                            </TouchableOpacity>
+                        }
+                    />
+                    <View style={centralStyle.container}>
+                        {openPicker && <PicImgModal
+                            disableModal={() => setOpenPicker(false)}
+                            setimageUriLocal={setimageUriLocal} />}
+
+                        <View style={centralStyle.my3}>
+                            <View style={[
+                                centralStyle.circle(RFPercentage(10)),
+                                centralStyle.selfCenter,
+                                styles.imgContainer
+                            ]}>
+                                <View style={[
+                                    centralStyle.circle(RFPercentage(3)),
+                                    styles.editIcon]}>
+                                    <MaterialIcons
+                                        onPress={() => setOpenPicker(true)}
+                                        name={`edit`}
+                                        color={Colors.primary}
+                                        size={RFPercentage(2)} />
+                                </View>
+                                {imageUriLocal.length > 0
+                                    ? < Image
+                                        style={[centralStyle.width100, centralStyle.height100, centralStyle.circle(RFPercentage(10)),]}
+                                        source={{ uri: imageUriLocal }} /> :
+                                    <Image
+                                        style={[centralStyle.width100, centralStyle.height100]}
+                                        source={require('../../../../assets/app-images/userImg.png')} />
+                                }
+                            </View>
                         </View>
-                        <AntDesign
-                            name={`down`}
-                            style={styles.downIcon}
-                            size={RFPercentage(2)}
-                        />
-                    </TouchableOpacity>
-                    <View style={styles.phoneNumberInput}>
                         <OutlinedTextInput
-                            val={phoneNumber}
-                            onChange={(val) => { setphoneNumber(val) }}
-                            title={t('MobilePhone')}
-                            placeHolder={t('MobilePhone')}
+                            title={t('firstname')}
+                            val='George'
+                            placeHolder={t('firstname')}
                         />
+                        <OutlinedTextInput
+                            val='Lee'
+                            title={t('lastname')}
+                            placeHolder={t('lastname')}
+                        />
+                        <View style={styles.inputWrapper2}>
+                            <TouchableOpacity
+                                onPress={() => setIsCountryPickerVisible(true)}
+                                style={styles.flagContainer}
+                            >
+                                <View style={styles.flagWrapper}>
+                                    <CountryPicker
+                                        countryCode={countryCode}
+                                        withCallingCode
+                                        withFlagButton={true}
+                                        onClose={() => setIsCountryPickerVisible(false)}
+                                        onSelect={handleOnSelect}
+                                        visible={isCountryPickerVisible}
+                                    />
+                                </View>
+                                <AntDesign
+                                    name={`down`}
+                                    style={styles.downIcon}
+                                    size={RFPercentage(2)}
+                                />
+                            </TouchableOpacity>
+                            <View style={styles.phoneNumberInput}>
+                                <OutlinedTextInput
+                                    val={phoneNumber}
+                                    onChange={(val) => { setphoneNumber(val) }}
+                                    title={t('MobilePhone')}
+                                    placeHolder={t('MobilePhone')}
+                                />
+                            </View>
+                        </View>
+                        <OutlinedDropDown
+                            title={t('Industry')}
+                            onselect={(value: string) => { setselectedIndustry(value) }}
+                            DATA={INDUSTRIES}
+                            iconsSize={RFPercentage(2)}
+                            drop_down_button_style={styles.drop_down_button_style}
+                        />
+                        <OutlinedDropDown
+                            title={t('PrimarySpeciality')}
+                            onselect={(value: string) => { setselectedIndustry(value) }}
+                            DATA={INDUSTRIES}
+                            iconsSize={RFPercentage(2)}
+                            drop_down_button_style={styles.drop_down_button_style}
+                        />
+                        <View style={styles.inputContainer()}>
+                            {
+                                about?.length && about?.length > 0 ?
+                                    <Text style={styles.inputtitle(isActive)}>{t(`About`)}</Text>
+                                    : isActive &&
+                                    <Text style={styles.inputtitle(isActive)}>{t(`About`)}</Text>
+                            }
+                            <View style={styles.textInputContainer(isActive)}>
+                                <TextInput
+                                    placeholder={isActive ? '' : t('About')}
+                                    value={about}
+                                    onFocus={() => handleFocus(setIsActive)}
+                                    multiline={true}
+                                    onBlur={() => handleBlur(setIsActive)}
+                                    onChangeText={(val) => setAbout(val)}
+                                    style={styles.input(false, isActive)} />
+                            </View>
+                        </View>
                     </View>
-                </View>
-                <OutlinedDropDown
-                    title={t('Industry')}
-                    onselect={(value: string) => { setselectedIndustry(value) }}
-                    DATA={INDUSTRIES}
-                    iconsSize={RFPercentage(2)}
-                    drop_down_button_style={styles.drop_down_button_style}
-                />
-                <OutlinedDropDown
-                    title={t('PrimarySpeciality')}
-                    onselect={(value: string) => { setselectedIndustry(value) }}
-                    DATA={INDUSTRIES}
-                    iconsSize={RFPercentage(2)}
-                    drop_down_button_style={styles.drop_down_button_style}
-                />
-                <View style={styles.inputContainer()}>
-                    {
-                        about?.length && about?.length > 0 ?
-                            <Text style={styles.inputtitle(isActive)}>{t(`About`)}</Text>
-                            : isActive &&
-                            <Text style={styles.inputtitle(isActive)}>{t(`About`)}</Text>
-                    }
-                    <View style={styles.textInputContainer(isActive)}>
-                        <TextInput
-                            placeholder={isActive ? '' : t('About')}
-                            value={about}
-                            onFocus={() => handleFocus(setIsActive)}
-                            multiline={true}
-                            onBlur={() => handleBlur(setIsActive)}
-                            onChangeText={(val) => setAbout(val)}
-                            style={styles.input(false, isActive)} />
-                    </View>
-                </View>
-            </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </>
     );
 };

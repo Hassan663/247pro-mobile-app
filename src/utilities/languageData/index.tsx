@@ -265,8 +265,12 @@ export const languageData = [
             Business: "Business",
             qrDexcription: "Your QR code is private. If you share it with someone, then can scan it with their 247Pro camera to add you as a contact.",
             GeorgeLee: "George Lee",
-            ID:"ID",
-            RequestConnect:"Request Connect",
+            ID: "ID",
+            RequestConnect: "Request Connect",
+            changePassMsg: "Your new password must be different from your previous password used.",
+            Oldpassword: "Old password",
+
+            Confirmnewpasword:"Confirm new pasword",
         }
     },
     {
@@ -538,8 +542,11 @@ export const languageData = [
             Business: "商业",
             qrDexcription: "您的二维码是私人的。 如果您与某人共享，则可以使用他们的 247Pro 相机扫描它以将您添加为联系人。",
             GeorgeLee: "乔治·李",
-            ID:"ID",
-            RequestConnect:"请求连接",
+            ID: "ID",
+            RequestConnect: "请求连接",
+            changePassMsg: "您的新密码必须与之前使用的密码不同。",
+            Oldpassword: "旧密码",
+            Confirmnewpasword:"确认新密码",
 
         }
     },
@@ -806,10 +813,12 @@ export const languageData = [
             Business: "Negocio",
             qrDexcription: "Tu código QR es privado. Si lo compartes con alguien, podrás escanearlo con su cámara 247Pro para agregarte como contacto.",
             GeorgeLee: "jorge lee",
-            ID:"IDENTIFICACIÓN",
-            RequestConnect:"Solicitar conexión",
-
-        }   
+            ID: "IDENTIFICACIÓN",
+            RequestConnect: "Solicitar conexión",
+            changePassMsg: "Su nueva contraseña debe ser diferente de la contraseña utilizada anteriormente.",
+            Oldpassword: "Contraseña anterior",
+            Confirmnewpasword:"Confirmar nueva contraseña",
+        }
     }
 ];
 

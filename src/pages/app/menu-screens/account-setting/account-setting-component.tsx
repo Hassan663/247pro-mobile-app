@@ -15,14 +15,21 @@ import { styles } from './account-setting.style';
 import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { t } from 'i18next';
 
 export const List = ({ item, navigation }: any) => {
 
+    console.log(item, 'item')
+    const HandleRoutes = () => {
+        if (item == t(`AccountInformation`)) changeRoute(navigation, 'AccountInformtaion')
+        else if (item == t(`ChangePassword`)) changeRoute(navigation, 'ChangePassword')
+
+    }
     return (
 
         <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => changeRoute(navigation, 'AccountInformtaion')}
+            onPress={HandleRoutes}
             style={[
                 styles.listContainer,
                 centralStyle.my05,
