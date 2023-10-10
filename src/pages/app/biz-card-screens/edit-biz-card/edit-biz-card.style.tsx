@@ -47,20 +47,13 @@ export const styles: any = StyleSheet.create<any>({
         resizeMode: 'contain'
     },
     inputContainer: (height: number) => ({
-        // minHeight: height ? height : 65,
-        paddingVertical: 10,
-        // maxHeight:100,
-        // backgroundColor: 'red',
-
+         paddingVertical: 10,
         justifyContent: "flex-end",
     }),
     textInputContainer: () => ({
         flexDirection: 'row',
         minHeight: platform == 'ios' && 30,
-        // paddingVertical: 10,
-
-        // height:'100%'
-    }),
+     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
         paddingHorizontal: RFPercentage(1),

@@ -44,14 +44,19 @@ const AccountInformtaion: React.FC<{ navigation: any, route: any }> = ({ navigat
                         onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
                 iconR1={
-                    <View style={centralStyle.mx2}>
+                    <TouchableOpacity
+                        activeOpacity={.8}
+                        onPress={() =>changeRoute(navigation,'EditProfile')}
+                        style={centralStyle.mx2}>
                         <Title
                             title={t(`Edit`)}
                             type='Poppin-14'
                             color={Colors.primary}
                             weight='600' />
-                    </View>
+                    </TouchableOpacity>
                 }
+                weight='600'
+                type='Poppin-18'
                 title={t('AccountInformation')} />
             <ScrollView contentContainerStyle={{ backgroundColor: Colors.white }}>
                 <View style={[centralStyle.container]}>
@@ -131,6 +136,7 @@ const AccountInformtaion: React.FC<{ navigation: any, route: any }> = ({ navigat
                         centralStyle.width100,
                         centralStyle.mb3]}>
                         <Button
+                            callBack={() => changeRoute(navigation, 'AccountInformtaionCard')}
                             title={t('CreateyourDigitalbusinesscard')}
                             primary />
                     </View>

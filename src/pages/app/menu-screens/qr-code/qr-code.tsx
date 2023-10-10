@@ -14,6 +14,7 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './qr-code.style';
+import { onShare } from '../company-profile-screens/company-profile/call-back';
 import { platform } from '../../../../utilities';
 import { UploadIcon } from '../../../../assets/svg-icons/CustomSvgIcon';
 import { changeRoute } from '../../../../core/helpers/async-storage';
@@ -45,17 +46,17 @@ const QRCode: React.FC<{ navigation: any, route: any }> = ({ navigation, route }
                 <View style={[centralStyle.mt4]}>
 
                     <View style={[
-                        centralStyle.circle(RFPercentage(7)),
+                        centralStyle.circle(RFPercentage(9)),
                         centralStyle.selfCenter,
                         styles.imgContainer]}>
-                        <Image source={require('../../../../assets/app-images/userImg.png')}></Image>
+                        <Image style={[centralStyle.width100, centralStyle.height100]} source={require('../../../../assets/app-images/userImg.png')}></Image>
                     </View>
 
                     <View style={[
                         styles.cardContainer,
                         centralStyle.alignitemCenter,
                         centralStyle.justifyContentEvenly,
-                        centralStyle.mt4]}>
+                        centralStyle.mt5]}>
                         <Title
                             title={`George Lee`}
                             type='Poppin-18'
@@ -79,6 +80,7 @@ const QRCode: React.FC<{ navigation: any, route: any }> = ({ navigation, route }
                     centralStyle.width100,
                     centralStyle.mb3]}>
                     <Button
+                        callBack={() => onShare()}
                         title={t('Share')}
                         primary />
                 </View>

@@ -28,7 +28,7 @@ export const setItem = async (key: string, value: any) => {
 
 export const changeRoute = async (navigation: any, value: string, prams?: any) => {
     try {
-        if (value == 'pop') {navigation.pop() }
+        if (value == 'pop') { navigation.pop() }
         else { navigation.navigate(value, prams) }
     } catch (error) {
         return null

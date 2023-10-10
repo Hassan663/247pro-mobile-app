@@ -264,6 +264,9 @@ export const languageData = [
             PrimarySpeciality: "Primary Speciality",
             Business: "Business",
             qrDexcription: "Your QR code is private. If you share it with someone, then can scan it with their 247Pro camera to add you as a contact.",
+            GeorgeLee: "George Lee",
+            ID:"ID",
+            RequestConnect:"Request Connect",
         }
     },
     {
@@ -534,6 +537,9 @@ export const languageData = [
             AccountType: "帐户类型",
             Business: "商业",
             qrDexcription: "您的二维码是私人的。 如果您与某人共享，则可以使用他们的 247Pro 相机扫描它以将您添加为联系人。",
+            GeorgeLee: "乔治·李",
+            ID:"ID",
+            RequestConnect:"请求连接",
 
         }
     },
@@ -799,8 +805,11 @@ export const languageData = [
             PhoneNumber: "Número de teléfono",
             Business: "Negocio",
             qrDexcription: "Tu código QR es privado. Si lo compartes con alguien, podrás escanearlo con su cámara 247Pro para agregarte como contacto.",
+            GeorgeLee: "jorge lee",
+            ID:"IDENTIFICACIÓN",
+            RequestConnect:"Solicitar conexión",
 
-        }
+        }   
     }
 ];
 

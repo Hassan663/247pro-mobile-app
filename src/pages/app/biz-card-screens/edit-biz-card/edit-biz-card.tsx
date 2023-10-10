@@ -91,8 +91,8 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         onPress={() => setOpenPicker(true)}
                         style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
                         {imageUriLocal.length > 0
-                            ? < Image
-                                style={{ height: '100%', width: '100%' }}
+                            ? <Image
+                                style={[centralStyle.width100, centralStyle.height100]}
                                 source={{ uri: imageUriLocal }} /> :
                             <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
 
