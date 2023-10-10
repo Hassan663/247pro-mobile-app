@@ -70,4 +70,5 @@ export const openSheet = (setanim: any, setcontactModal: any) => {
 export const handleOnSelect = (country: any, setIsCountryPickerVisible: any, setCountryCode: any) => {
     setIsCountryPickerVisible(false);
     setCountryCode(country.cca2);
+    console.log(country, 'country')
 };

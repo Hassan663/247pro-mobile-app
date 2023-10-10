@@ -21,6 +21,9 @@ import AccountInformtaionCard from '../../pages/app/menu-screens/account-infomat
 import EditProfile from '../../pages/app/menu-screens/edit-profile/edit-profile';
 import ChangePassword from '../../pages/app/menu-screens/change-password/change-password';
 import CountryAndLanguage from '../../pages/app/menu-screens/country-and-language/country-and-language';
+import SelectLanguage from '../../pages/app/menu-screens/select-language/select-language';
+import SelectRegion from '../../pages/app/menu-screens/select-region/select-region';
+
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -49,6 +52,8 @@ export default function appNavigation() {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
         <Stack.Screen name="CountryAndLanguage" component={CountryAndLanguage} />
+        <Stack.Screen name="SelectLanguage" component={SelectLanguage} />
+        <Stack.Screen name="SelectRegion" component={SelectRegion} />
 
       </Stack.Navigator>
     </NavigationContainer>

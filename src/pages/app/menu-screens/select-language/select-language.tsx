@@ -7,12 +7,12 @@ import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
-import { List } from './country-and-language-component';
 import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
+import { CountryDropDown } from './select-language-component';
 
-const CountryAndLanguage: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+const SelectLanguage: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     return (
         <>
             <AppHeader
@@ -23,20 +23,13 @@ const CountryAndLanguage: React.FC<{ navigation: any, route: any }> = ({ navigat
                         name={'left'}
                         onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
-                title={t('CountryAndLanguage')} />
+                title={t('SelectLanguage')} />
 
             <View style={centralStyle.container}>
-                <List
-                    callBack={() => { changeRoute(navigation, 'SelectRegion') }}
-                    title={t(`Country`)}
-                    value={t(`UnitedStates`)} />
-                <List
-                    callBack={() => { changeRoute(navigation, 'SelectLanguage') }}
-                    title={t(`Language`)}
-                    value={t(`English`)} />
+                <CountryDropDown />
             </View>
         </>
     );
 };
 
-export default CountryAndLanguage;
+export default SelectLanguage;

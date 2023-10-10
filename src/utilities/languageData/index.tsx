@@ -275,6 +275,9 @@ export const languageData = [
             UnitedStates:"United States",
             Language:"Language",
             English:"English",
+            SelectLanguage:'Select Language',
+            SelectRegion:"Select Region",
+            
         }
     },
     {
@@ -555,6 +558,8 @@ export const languageData = [
             UnitedStates:"美国",
             Language:"语言",
             English:"英语",
+            SelectLanguage:'选择语言',
+            SelectRegion:"选择地区",
 
         }
     },
@@ -830,6 +835,8 @@ export const languageData = [
             UnitedStates:"Estados Unidos",
             Language:"Idioma",
             English:"Inglesa",
+            SelectLanguage:'Seleccione el idioma',
+            SelectRegion:"Seleccione región",
         }
     }
 ];

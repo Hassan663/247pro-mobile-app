@@ -1,25 +1,30 @@
 // @app
 import React from 'react';
-import { View } from 'react-native';
+import {
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
 import { Title } from '../../../../core/components/screen-title.component';
+import { styles } from './country-and-language.style';
 import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
-import { styles } from './country-and-language.style';
 
-export const List = ({ title, value }: any) => {
+export const List = ({ title, value, callBack }: any) => {
     return (
-        <View style={[centralStyle.row,
-        centralStyle.my1,
-        centralStyle.alignitemCenter,
-        centralStyle.justifyContentBetween,
-        centralStyle.px1,
-        styles.listContainer]}>
+        <TouchableOpacity
+            onPress={callBack}
+            activeOpacity={.8}
+            style={[centralStyle.row,
+            centralStyle.my1,
+            centralStyle.alignitemCenter,
+            centralStyle.justifyContentBetween,
+            centralStyle.px1,
+            styles.listContainer]}>
 
             <Title
                 title={title}
@@ -37,6 +42,6 @@ export const List = ({ title, value }: any) => {
                     name={'right'}
                     size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
