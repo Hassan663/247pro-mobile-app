@@ -23,6 +23,7 @@ export const List = ({ item, navigation }: any) => {
     const HandleRoutes = () => {
         if (item == t(`AccountInformation`)) changeRoute(navigation, 'AccountInformtaion')
         else if (item == t(`ChangePassword`)) changeRoute(navigation, 'ChangePassword')
+        else if (item == t(`CountryAndLanguage`)) changeRoute(navigation, 'CountryAndLanguage')
 
     }
     return (

@@ -162,6 +162,7 @@ export const languageData = [
             jobTitle: 'job title',
             Websiteurl: "Website url",
             SHOWMORE: "SHOW MORE",
+            Country: "Country",
             country: "country",
             StreetAddressLine2: "Street address line 2",
             City: "City",
@@ -271,6 +272,9 @@ export const languageData = [
             Oldpassword: "Old password",
 
             Confirmnewpasword:"Confirm new pasword",
+            UnitedStates:"United States",
+            Language:"Language",
+            English:"English",
         }
     },
     {
@@ -547,6 +551,10 @@ export const languageData = [
             changePassMsg: "您的新密码必须与之前使用的密码不同。",
             Oldpassword: "旧密码",
             Confirmnewpasword:"确认新密码",
+            Country: "国家",
+            UnitedStates:"美国",
+            Language:"语言",
+            English:"英语",
 
         }
     },
@@ -818,6 +826,10 @@ export const languageData = [
             changePassMsg: "Su nueva contraseña debe ser diferente de la contraseña utilizada anteriormente.",
             Oldpassword: "Contraseña anterior",
             Confirmnewpasword:"Confirmar nueva contraseña",
+            Country: "País",
+            UnitedStates:"Estados Unidos",
+            Language:"Idioma",
+            English:"Inglesa",
         }
     }
 ];
