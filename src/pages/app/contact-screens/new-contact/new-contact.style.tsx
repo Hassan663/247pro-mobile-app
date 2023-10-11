@@ -60,7 +60,7 @@ export const styles: any = StyleSheet.create<any>({
     }),
     textInputContainer: () => ({
         flexDirection: 'row',
-        minHeight: platform == 'ios' && 30,
+        minHeight: platform == 'ios' ? 30 : 30,
         // paddingVertical: 10,
 
         // height:'100%'

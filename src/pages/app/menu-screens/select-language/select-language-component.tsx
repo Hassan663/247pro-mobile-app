@@ -44,7 +44,7 @@ export const CountryDropDown = () => {
                 )
             }}
             rowTextForSelection={(item, index): any => {
-                return (
+                 return (
                     <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
                         <Image
                             resizeMode='contain'

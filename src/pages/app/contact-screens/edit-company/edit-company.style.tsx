@@ -55,7 +55,7 @@ export const styles: any = StyleSheet.create<any>({
     }),
     textInputContainer: () => ({
         flexDirection: 'row',
-        minHeight: platform == 'ios' && 30,
+        minHeight: platform == 'ios' ? 30 : 30,
     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
@@ -327,5 +327,5 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: 14,
         textTransform: 'uppercase'
     },
-    
+
 });
