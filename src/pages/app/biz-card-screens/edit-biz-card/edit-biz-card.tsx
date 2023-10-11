@@ -239,7 +239,8 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         closeOnDragDown={true}
                         openDuration={250}
                         animationType={`slide`}
-                        customStyles={{}}
+                        customStyles={{ container: { borderRadius: RFPercentage(2) } }}
+
                     >
                         <AddInputSheet
                             contactInfoInputs={!addSocialAccountInput ? contactInfoInputs : socialInputs}

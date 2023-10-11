@@ -78,7 +78,11 @@ const CompanyProfile: React.FC<{ navigation: any, route: any }> = ({ navigation,
                                 weight='400' />
 
                             <View style={[centralStyle.mx1, centralStyle.row,]}>
-                                {[0, 0, 0, 0, 0].map(() => <AntDesign name={`star`} size={RFPercentage(1.5)} color={Colors.yellow} />)}
+                                {[0, 0, 0, 0, 0].map((item, index) => <AntDesign
+                                    key={index.toString()}
+                                    name={`star`}
+                                    size={RFPercentage(1.5)}
+                                    color={Colors.yellow} />)}
                             </View>
 
                             <Title

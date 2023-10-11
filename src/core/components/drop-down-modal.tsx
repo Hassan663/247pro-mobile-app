@@ -25,9 +25,10 @@ export const DropDownModal: React.FC<{ disableModal?: any, editCallback?: any, n
                 style={styles.modalContainer}>
 
                 {DATA ?
-                    DATA.map((item: string) => {
+                    DATA.map((item: string, index: number) => {
                         return (
                             <TouchableOpacity
+                                key={index.toString()}
                                 onPress={() => {
                                     if (item == t("Edit")) {
                                         disableModal()

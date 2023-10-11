@@ -50,7 +50,7 @@ const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         setIsCountryPickerVisible(false);
         setCountryCode(country.cca2);
     };
-
+    console.log(imageUriLocal, 'imageUriLocal')
     return (
         <>
             <KeyboardAvoidingView

@@ -62,8 +62,9 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <View style={styles.titleWrapper}>
                     <ScreenTitle title={t(`Create_Your_Free_Account`)} />
                     {
-                        appLanguages.map((item) => (
+                        appLanguages.map((item,index) => (
                             <TouchableOpacity
+                            key={index.toString()}
                                 activeOpacity={.8}
                                 onPress={() => {
                                     console.log(item, 'itemitemitem')

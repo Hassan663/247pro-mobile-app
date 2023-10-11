@@ -106,7 +106,7 @@ const AccountInformtaion: React.FC<{ navigation: any, route: any }> = ({ navigat
                     </View>
                     {LOGININFORMATION.map((item, index) => (
                         <View
-                            key={index}
+                            key={index.toString()}
                             style={[
                                 styles.switchContainer,
                                 centralStyle.mb1,

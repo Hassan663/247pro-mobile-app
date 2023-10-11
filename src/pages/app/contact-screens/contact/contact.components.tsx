@@ -243,6 +243,7 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
                 style={styles.disableModalContainer} />
             <Animatable.View
                 duration={600}
+                useNativeDriver
                 animation={anim}
                 iterationCount={1}
                 direction="alternate"

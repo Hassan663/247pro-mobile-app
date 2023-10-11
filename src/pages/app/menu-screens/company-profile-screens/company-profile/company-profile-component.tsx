@@ -84,6 +84,7 @@ export const MoreOptions: React.FC<{ disableModal?: any, sheetRef?: any, data?: 
                 {data.map((item: any, index: string) => (
                     <TouchableOpacity
                         activeOpacity={.8}
+                        key={index.toString()}
                         style={centralStyle.my05}
                         onPress={() => {
                             if (item == t("Share")) { onShare() }
@@ -284,7 +285,8 @@ export const Reviews = () => {
                             color={Colors.fontColor}
                             weight='400' />
                         <View style={[centralStyle.mx1, centralStyle.row,]}>
-                            {REVIEWS.map(() => <AntDesign
+                            {REVIEWS.map((item, index) => <AntDesign
+                                key={index.toString()}
                                 name={`star`}
                                 style={centralStyle.mx02}
                                 size={RFPercentage(1.7)}
@@ -323,7 +325,8 @@ export const Reviews = () => {
                                 </View>
                             </View>
                             <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.my1]}>
-                                {REVIEWS.map(() => <AntDesign
+                                {REVIEWS.map((item, index) => <AntDesign
+                                    key={index.toString()}
                                     name={`star`}
                                     style={centralStyle.mr05}
                                     size={RFPercentage(1.7)}

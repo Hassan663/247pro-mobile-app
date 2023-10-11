@@ -74,9 +74,9 @@ export const AddInputSheet = ({ contactInfoInputs, addSocialAccountInput, placeH
                                 </View>
                             )
                         }}
-                        rowTextForSelection={(item, index): any => {
+                        renderCustomizedRowChild={(item, index): any => {
                             return (
-                                <View style={[centralStyle.row, centralStyle.flex1, centralStyle.XAndYCenter]}>
+                                <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.px2]}>
                                     <Image resizeMode='contain' source={item.icon} style={styles.socialIcon} />
                                     <Text>{item.name}</Text>
                                 </View>

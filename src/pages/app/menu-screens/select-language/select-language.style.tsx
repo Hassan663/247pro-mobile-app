@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
+import { platform } from '../../../../utilities';
 
 export const styles = StyleSheet.create({
     dropDownBtn: {
@@ -16,5 +17,10 @@ export const styles = StyleSheet.create({
         width: RFPercentage(4),
         height: RFPercentage(4),
         marginRight: 10
+    },
+    dropDownStyle: {
+        borderBottomLeftRadius: 10,
+        marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
+        borderBottomRightRadius: 10
     },
 });

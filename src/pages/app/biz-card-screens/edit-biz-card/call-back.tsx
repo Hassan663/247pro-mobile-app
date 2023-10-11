@@ -8,13 +8,13 @@ export const captureImage = async (setimageUriLocal: any) => {
         };
         launchCamera(options, async (res: any) => {
             console.log(res, 'resresresres')
-            // if (res.didCancel) {
-            //     // User canceled the image selection
-            // } else if (res.error) {
-            //     // Error occurred while selecting an image
-            // } else {
-            //     setimageUriLocal(res.assets[0].uri);
-            // }
+            if (res.didCancel) {
+                // User canceled the image selection
+            } else if (res.error) {
+                // Error occurred while selecting an image
+            } else {
+                setimageUriLocal(res.assets[0].uri);
+            }
         });
         // Implement camera capture logic here
     } catch (err) {
@@ -55,4 +55,4 @@ export const pickImage = async (setState: any) => {
 
 export const handleFocus = (setIsActive: any) => setIsActive(true)
 export const handleBlur = (setIsActive: any) => setIsActive(false)
-export const toggleSwitch = (setIsEnabled: any) => setIsEnabled((previousState:boolean)  => !previousState);
+export const toggleSwitch = (setIsEnabled: any) => setIsEnabled((previousState: boolean) => !previousState);

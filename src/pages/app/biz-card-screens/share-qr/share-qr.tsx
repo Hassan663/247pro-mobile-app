@@ -51,8 +51,7 @@ const ShareQR: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 </View>
                 <View style={styles.listWrapper}>
                     {SHARELISTDATA.map((item, index) => {
-                        console.log(item, 'item')
-                        return (
+                         return (
                             <View key={index.toString()}
                                 style={[styles.rowContainerData, index == 0 && styles.removeBorder]}>
                                 {item.icon}

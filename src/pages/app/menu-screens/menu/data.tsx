@@ -17,6 +17,7 @@ import Colors from "../../../../styles/colors";
 import { centralStyle } from "../../../../styles/constant.style";
 import { t } from "i18next";
 import { View } from "react-native";
+import { platform } from "../../../../utilities";
 
 export const MENUDATA: any = [
     {
@@ -43,6 +44,6 @@ export const ACCOUNTSETTINGDATA = [
     { icon: <AccountSetting width={30} height={30} color="#FF9800" />, name: t('AccountSettings') },
     { icon: <Entypo style={centralStyle.my1} name={`tablet-mobile-combo`} color={Colors.primary} size={RFPercentage(3)} />, name: t('ApplicaionSettings') },
     // { icon: <Help width={30} height={30} color="#FF9800" />, name: 'Help' }
-    { icon: <View style={centralStyle.my1}><RoleAndPermissions width={40} height={40} color="#FF9800" /></View>, name: t('RolesAndPermissions') },
-    { icon: <View style={centralStyle.my1}><UserGrpIcon width={40} height={40} color="#FF9800" /></View>, name: t('UserAdmin') },
+    { icon: <View style={centralStyle.my1}><RoleAndPermissions width={platform == 'ios' ? 40 : RFPercentage(4.5)} height={platform == 'ios' ? 40 : RFPercentage(4.5)} color="#FF9800" /></View>, name: t('RolesAndPermissions') },
+    { icon: <View style={centralStyle.my1}><UserGrpIcon width={platform == 'ios' ? 40 : RFPercentage(4.5)} height={platform == 'ios' ? 40 : RFPercentage(4.5)} color="#FF9800" /></View>, name: t('UserAdmin') },
 ]

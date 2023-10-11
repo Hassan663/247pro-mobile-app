@@ -44,7 +44,7 @@ const WalkThrough: React.FC = () => {
         >
             {SLIDESDATA.map((item, index) => {
                 return (
-                    <View style={styles.slide} key={index}>
+                    <View style={styles.slide} key={index.toString()}>
 
                         <ImageBackground
                             source={item.backgroundImage}
