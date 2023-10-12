@@ -164,7 +164,6 @@ export const styles: any = StyleSheet.create<any>({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-
         elevation: 5,
         borderRadius: RFPercentage(.5),
         width: platform == 'ios' ? RFPercentage(17) : RFPercentage(20),

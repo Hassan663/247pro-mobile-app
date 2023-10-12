@@ -27,7 +27,7 @@ const Subscription: React.FC<{ navigation: any, route: any }> = ({ navigation, r
 
             <View style={centralStyle.container}>
                 <List
-                    // callBack={() => { changeRoute(navigation, '') }}
+                    callBack={() => { changeRoute(navigation, 'SubscriptionBuisnessCard') }}
                     title={t(`BusinessCard`)}
                     value={t(``)} />
                 <List

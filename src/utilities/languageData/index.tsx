@@ -279,6 +279,14 @@ export const languageData = [
             SelectRegion:"Select Region",
             ProFinder:"Pro Finder",
             Basic:"Basic",
+            MONTHLY:"MONTHLY",
+            YEARLY50off:"YEARLY (50% off)",
+            Upgrade:"Upgrade",
+            ChangeimmediatelyCancelanytime:"Change immediately. Cancel anytime",
+            Limitedtomathpermonth:"Limited to 1 math per month",
+            FreelyenjoyourbasicProFinderfeatureslikejobpostingandjobmatches:"Freely enjoy our basic Pro Finder features like job posting and job matches.",
+            Uptomatchespermonth:"Up to 5 matches per month",
+            Forcompaniesthatneedtogrowtheirbusinessbutnotveryhungryfornewbusiness:"For companies that need to grow their business but not very hungry for new business",
         }
     },
     {
@@ -563,6 +571,14 @@ export const languageData = [
             SelectRegion:"选择地区",
             ProFinder:"专业查找器",
             Basic:"基本的",
+            MONTHLY:"每月",
+            YEARLY50off:"每年（50% 折扣）",
+            Upgrade:"升级",
+            ChangeimmediatelyCancelanytime:"立即改变。 随时取消",
+            Limitedtomathpermonth:"每月仅限 1 门数学课",
+            FreelyenjoyourbasicProFinderfeatureslikejobpostingandjobmatches:"免费享受我们的基本 Pro Finder 功能，例如职位发布和职位匹配。",
+            Uptomatchespermonth:"每月最多 5 场比赛",
+            Forcompaniesthatneedtogrowtheirbusinessbutnotveryhungryfornewbusiness:"对于需要发展业务但不太渴望新业务的公司",
 
         }
     },
@@ -842,6 +858,15 @@ export const languageData = [
             SelectRegion:"Seleccione región",
             ProFinder:"Buscador profesional",
             Basic:"Básica",
+            MONTHLY:"MENSUAL",
+            YEARLY50off:"ANUAL (50% de descuento)",
+            Upgrade:"Mejora",
+            ChangeimmediatelyCancelanytime:"Cambie inmediatamente. Cancelar en cualquier momento",
+            Limitedtomathpermonth:"Limitado a 1 matemática por mes",
+            FreelyenjoyourbasicProFinderfeatureslikejobpostingandjobmatches:"Disfrute libremente de nuestras funciones básicas de Pro Finder, como publicación de empleos y coincidencias de empleos.",
+            Uptomatchespermonth:"Hasta 5 partidos por mes",
+            Forcompaniesthatneedtogrowtheirbusinessbutnotveryhungryfornewbusiness:"Para empresas que necesitan hacer crecer su negocio pero no tienen mucha hambre de nuevos negocios",
+
         }
     }
 ];
