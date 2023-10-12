@@ -24,6 +24,7 @@ export const List = ({ item, navigation }: any) => {
         if (item == t(`AccountInformation`)) changeRoute(navigation, 'AccountInformtaion')
         else if (item == t(`ChangePassword`)) changeRoute(navigation, 'ChangePassword')
         else if (item == t(`CountryAndLanguage`)) changeRoute(navigation, 'CountryAndLanguage')
+        else if (item == t(`Subscription`)) changeRoute(navigation, 'Subscription')
 
     }
     return (

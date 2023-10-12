@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { PortalProvider } from '@gorhom/portal';
 import { Provider } from 'react-redux';
+import { PortalProvider } from '@gorhom/portal';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
     LogBox,
-    Platform,
     SafeAreaView,
     StatusBar,
     StyleSheet,
@@ -15,10 +14,12 @@ import AppNavigation from './src/router/tab/index';
 import store from './src/store';
 import AuthNavigation from './src/router/auth';
 
-import { I18nextProvider } from 'react-i18next';
-import i18n, { fetchTranslations } from './src/i18n';
 import Colors from './src/styles/colors';
 import { platform } from './src/utilities';
+import { I18nextProvider } from 'react-i18next';
+import i18n, {
+    fetchTranslations
+} from './src/i18n';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);

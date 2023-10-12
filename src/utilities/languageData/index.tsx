@@ -277,7 +277,8 @@ export const languageData = [
             English:"English",
             SelectLanguage:'Select Language',
             SelectRegion:"Select Region",
-            
+            ProFinder:"Pro Finder",
+            Basic:"Basic",
         }
     },
     {
@@ -560,6 +561,8 @@ export const languageData = [
             English:"英语",
             SelectLanguage:'选择语言',
             SelectRegion:"选择地区",
+            ProFinder:"专业查找器",
+            Basic:"基本的",
 
         }
     },
@@ -837,6 +840,8 @@ export const languageData = [
             English:"Inglesa",
             SelectLanguage:'Seleccione el idioma',
             SelectRegion:"Seleccione región",
+            ProFinder:"Buscador profesional",
+            Basic:"Básica",
         }
     }
 ];
