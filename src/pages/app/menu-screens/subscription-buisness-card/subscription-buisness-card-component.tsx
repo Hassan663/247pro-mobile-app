@@ -21,6 +21,7 @@ import {
     closeSheet,
     openSheet
 } from '../../../../store/action/action';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 
 export const Cards = ({
     item: {
@@ -40,8 +41,10 @@ export const Cards = ({
         <TouchableOpacity
             activeOpacity={.8}
             onPress={() => {
-                callBack(!isSelected)
-                setIsSelected(!isSelected)
+                if (!isFree) {
+                    callBack(!isSelected)
+                    setIsSelected(!isSelected)
+                }
             }}
             style={[
                 styles.cardContainer,
@@ -214,12 +217,11 @@ export const LicenseUI = ({ sheetRef, setsubscriptionActivatedUI }: any) => {
         </>
     )
 }
-export const SubscriptionActivatedUI = ({ sheetRef, setcancelSubcriptionUI }: any) => {
+export const SubscriptionActivatedUI = ({ sheetRef, setcancelSubcriptionUI, navigation }: any) => {
     const handleContinue = async () => {
         closeSheet(sheetRef)
-        setcancelSubcriptionUI(true)
         setTimeout(() => {
-            openSheet(sheetRef)
+            changeRoute(navigation, 'SubscriptionApplication')
         }, 1000);
     }
     return (

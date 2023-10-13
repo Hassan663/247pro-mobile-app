@@ -27,7 +27,6 @@ import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { SUBSCRIPTIONDATA } from './data';
 import {
-    CancelSubscriptionUI,
     Cards,
     LicenseUI,
     SubscriptionActivatedUI
@@ -55,7 +54,6 @@ const SubscriptionBuisnessCard: React.FC<{ navigation: any, route: any }> = ({ n
                     <Entypo
                         style={centralStyle.mx2}
                         name={'dots-three-vertical'}
-                        onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
                 weight='600'
                 title={t('BusinessCard')} />
@@ -134,13 +132,11 @@ const SubscriptionBuisnessCard: React.FC<{ navigation: any, route: any }> = ({ n
                             sheetRef={sheetRef}
                             setsubscriptionActivatedUI={setsubscriptionActivatedUI} />
                         :
-                        !cancelSubcriptionUI ?
                             <SubscriptionActivatedUI
                                 sheetRef={sheetRef}
+                                navigation={navigation}
                                 cancelSubcriptionUI={cancelSubcriptionUI}
                                 setcancelSubcriptionUI={setcancelSubcriptionUI} />
-                            :
-                            <CancelSubscriptionUI />
                     }
                 </RBSheet>
             </SafeAreaView>

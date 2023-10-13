@@ -296,6 +296,13 @@ export const languageData = [
             SubscriptionActivated: 'Subscription Activated',
             CurrentSubscription: "Current Subscription",
             Permonthbilledyearly:"Per month, billed yearly",
+            ProFinderPriority:"Pro Finder - Priority",
+            Receivejobleadsinyourareas:"Receive job leads in your areas",
+            Renewon:"Renew on:",
+            EditSubscription:"Edit Subscription", 
+            SubscribedApplication:"Subscribed Application",
+            AvailableApplications:"Available Applications",
+            
         }
     },
     {
@@ -597,8 +604,13 @@ export const languageData = [
             SubscriptionActivated: '订阅已激活',
             CurrentSubscription: "当前订阅",
             Permonthbilledyearly:"按月、按年计费",
-
-        }
+            ProFinderPriority:"专业查找器 - 优先",
+            Receivejobleadsinyourareas:"接收您所在地区的工作机会",
+            Renewon:"续订日期：",
+            EditSubscription:"编辑订阅",
+            SubscribedApplication:"订阅的应用程序",
+            AvailableApplications:"可用的应用程序",
+ }
     },
     {
         locale: 'es',
@@ -893,6 +905,12 @@ export const languageData = [
             SubscriptionActivated: 'Suscripción activada',
             CurrentSubscription: "Suscripción actual",
             Permonthbilledyearly:"Por mes, facturado anualmente",
+            ProFinderPriority:"Buscador profesional: prioridad",
+            Receivejobleadsinyourareas:"Recibe oportunidades de empleo en tus áreas",
+            Renewon:"Renovar el:",
+            EditSubscription:"Editar suscripción",
+            SubscribedApplication:"Solicitud suscrita",
+            AvailableApplications:"Aplicaciones disponibles",
 
 
         }
