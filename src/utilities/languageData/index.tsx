@@ -290,10 +290,12 @@ export const languageData = [
             UserLicenses: "User Licenses",
             Setthenumberoflicensesfortheapplicationsorservices: "Set the number of licenses for the applications or services.",
             Areyousureyourwanttocancelyourcurrentsubscriptionplan: "Are you sure your want to cancel your current subscription plan?",
-            CancelSubscription:"Cancel Subscription",
-            Cancelnow:"Cancel now",
-            CongratulationsYouhavesuccessfullyactivatedthesubscriptionforProFinderProaddonfeature:"Congratulations! You have successfully activated the subscription for Pro Finder Pro add-on feature.",
-            SubscriptionActivated:'Subscription Activated',
+            CancelSubscription: "Cancel Subscription",
+            Cancelnow: "Cancel now",
+            CongratulationsYouhavesuccessfullyactivatedthesubscriptionforProFinderProaddonfeature: "Congratulations! You have successfully activated the subscription for Pro Finder Pro add-on feature.",
+            SubscriptionActivated: 'Subscription Activated',
+            CurrentSubscription: "Current Subscription",
+            Permonthbilledyearly:"Per month, billed yearly",
         }
     },
     {
@@ -589,10 +591,12 @@ export const languageData = [
             UserLicenses: "用户许可证",
             Setthenumberoflicensesfortheapplicationsorservices: "设置应用程序或服务的许可证数量。",
             Areyousureyourwanttocancelyourcurrentsubscriptionplan: "您确定要取消当前的订阅计划吗？",
-            CancelSubscription:"取消订阅",
-            Cancelnow:"立即取消",
-            CongratulationsYouhavesuccessfullyactivatedthesubscriptionforProFinderProaddonfeature:"恭喜！ 您已成功激活 Pro Finder Pro 附加功能的订阅。",
-            SubscriptionActivated:'订阅已激活',
+            CancelSubscription: "取消订阅",
+            Cancelnow: "立即取消",
+            CongratulationsYouhavesuccessfullyactivatedthesubscriptionforProFinderProaddonfeature: "恭喜！ 您已成功激活 Pro Finder Pro 附加功能的订阅。",
+            SubscriptionActivated: '订阅已激活',
+            CurrentSubscription: "当前订阅",
+            Permonthbilledyearly:"按月、按年计费",
 
         }
     },
@@ -883,10 +887,12 @@ export const languageData = [
             UserLicenses: "Licencias de usuario",
             Setthenumberoflicensesfortheapplicationsorservices: "Establecer el número de licencias para las aplicaciones o servicios.",
             Areyousureyourwanttocancelyourcurrentsubscriptionplan: "¿Está seguro de que desea cancelar su plan de suscripción actual?",
-            CancelSubscription:"Cancelar suscripción",
-            Cancelnow:"Cancelar ahora",
-            CongratulationsYouhavesuccessfullyactivatedthesubscriptionforProFinderProaddonfeature:"¡Felicidades! Ha activado correctamente la suscripción a la función complementaria Pro Finder Pro.",
-            SubscriptionActivated:'Suscripción activada',
+            CancelSubscription: "Cancelar suscripción",
+            Cancelnow: "Cancelar ahora",
+            CongratulationsYouhavesuccessfullyactivatedthesubscriptionforProFinderProaddonfeature: "¡Felicidades! Ha activado correctamente la suscripción a la función complementaria Pro Finder Pro.",
+            SubscriptionActivated: 'Suscripción activada',
+            CurrentSubscription: "Suscripción actual",
+            Permonthbilledyearly:"Por mes, facturado anualmente",
 
 
         }

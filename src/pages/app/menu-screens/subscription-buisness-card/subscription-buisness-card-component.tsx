@@ -12,12 +12,15 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
+import Button from '../../../../core/components/button.component';
 import { t } from 'i18next';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './subscription-buisness-card.style';
 import { centralStyle } from '../../../../styles/constant.style';
-import Button from '../../../../core/components/button.component';
-import { closeSheet, openSheet } from '../../../../store/action/action';
+import {
+    closeSheet,
+    openSheet
+} from '../../../../store/action/action';
 
 export const Cards = ({
     item: {
@@ -99,7 +102,7 @@ export const Cards = ({
                         color={Colors.black}
                         weight='600' />
                     <Title
-                        title={t(`Per month, billed yearly`)}
+                        title={t(`Permonthbilledyearly`)}
                         type='Poppin-14'
                         color={Colors.fontColor}
                         weight='400' />
@@ -133,7 +136,7 @@ export const Cards = ({
             {CurrentSubscription &&
                 <View style={centralStyle.my1}>
                     <Title
-                        title={t(`Current Subscription`)}
+                        title={t(`CurrentSubscription`)}
                         type='Poppin-14'
                         color={Colors.black}
                         weight='600' />
