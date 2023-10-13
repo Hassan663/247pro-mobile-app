@@ -16,8 +16,20 @@ import { t } from 'i18next';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './subscription-buisness-card.style';
 import { centralStyle } from '../../../../styles/constant.style';
+import Button from '../../../../core/components/button.component';
+import { closeSheet, openSheet } from '../../../../store/action/action';
 
-export const Cards = ({ item: { isFree, currentPrice, CurrentSubscription, savePrice, oldPrice, desc1, desc2, name }, callBack }: any) => {
+export const Cards = ({
+    item: {
+        isFree,
+        currentPrice,
+        CurrentSubscription,
+        savePrice,
+        oldPrice,
+        desc1,
+        desc2,
+        name },
+    callBack }: any) => {
 
     const [isSelected, setIsSelected] = useState(false)
 
@@ -128,5 +140,150 @@ export const Cards = ({ item: { isFree, currentPrice, CurrentSubscription, saveP
                 </View>
             }
         </TouchableOpacity>
+    )
+}
+export const LicenseUI = ({ sheetRef, setsubscriptionActivatedUI }: any) => {
+    const [numOfLicense, setNumOfLicense] = useState(0)
+    const handleContinue = async () => {
+        closeSheet(sheetRef)
+        setsubscriptionActivatedUI(true)
+        setTimeout(() => {
+            openSheet(sheetRef)
+        }, 1000);
+    }
+    return (
+        <>
+            <View style={centralStyle.mt3}>
+                <Title
+                    title={t(`UserLicenses`)}
+                    type='Poppin-18'
+                    textAlignCenter='center'
+                    color={Colors.black}
+                    weight='600' />
+            </View>
+            <View style={[{ width: '70%' }, centralStyle.selfCenter]}>
+                <Title
+                    title={t(`Setthenumberoflicensesfortheapplicationsorservices`)}
+                    type='Poppin-16'
+                    textAlignCenter='center'
+                    color={Colors.fontColor}
+                    weight='400' />
+            </View>
+            <View style={[
+                centralStyle.row,
+                centralStyle.width40,
+                centralStyle.my3,
+                centralStyle.selfCenter,
+                centralStyle.alignitemCenter,
+                centralStyle.justifyContentBetween]}>
+                <AntDesign
+                    onPress={() => { if (numOfLicense > 0) { setNumOfLicense(numOfLicense - 1) } }}
+                    style={centralStyle.mr1}
+                    size={RFPercentage(2)}
+                    color={Colors.black}
+                    name='minus' />
+                <Title
+                    title={t(`${numOfLicense} ${t('License')}`)}
+                    type='Poppin-16'
+                    textAlignCenter='center'
+                    color={Colors.black}
+                    weight='400' />
+                <AntDesign
+                    onPress={() => { if (numOfLicense < 10) { setNumOfLicense(numOfLicense + 1) } }}
+                    style={centralStyle.mr1}
+                    size={RFPercentage(2)}
+                    color={Colors.primary}
+                    name='plus' />
+            </View>
+            <View style={[
+                centralStyle.width90,
+                centralStyle.flex1,
+                centralStyle.justifyContentCenter,
+                centralStyle.selfCenter
+            ]}>
+                <Button
+                    callBack={handleContinue}
+                    title={t('Continue')}
+                    titleStyle={[styles.btnStyle,]}
+                    primary
+                />
+            </View>
+        </>
+    )
+}
+export const SubscriptionActivatedUI = ({ sheetRef, setcancelSubcriptionUI }: any) => {
+    const handleContinue = async () => {
+        closeSheet(sheetRef)
+        setcancelSubcriptionUI(true)
+        setTimeout(() => {
+            openSheet(sheetRef)
+        }, 1000);
+    }
+    return (
+        <>
+            <View style={centralStyle.mt3}>
+                <Title
+                    title={t(`SubscriptionActivated`)}
+                    type='Poppin-18'
+                    textAlignCenter='center'
+                    color={Colors.black}
+                    weight='600' />
+            </View>
+            <View style={[centralStyle.width90, centralStyle.selfCenter]}>
+                <Title
+                    title={t(`CongratulationsYouhavesuccessfullyactivatedthesubscriptionforProFinderProaddonfeature`)}
+                    type='Poppin-16'
+                    textAlignCenter='center'
+                    color={Colors.fontColor}
+                    weight='400' />
+            </View>
+            <View style={[
+                centralStyle.width90,
+                centralStyle.flex1,
+                centralStyle.justifyContentCenter,
+                centralStyle.selfCenter
+            ]}>
+                <Button
+                    callBack={handleContinue}
+                    title={t('Done')}
+                    titleStyle={[styles.btnStyle,]}
+                    primary
+                />
+            </View>
+        </>
+    )
+}
+export const CancelSubscriptionUI = () => {
+    return (
+        <>
+            <View style={centralStyle.mt6}>
+                <Title
+                    title={t(`CancelSubscription`)}
+                    type='Poppin-18'
+                    textAlignCenter='center'
+                    color={Colors.black}
+                    weight='600' />
+            </View>
+            <View style={[centralStyle.width90, centralStyle.selfCenter]}>
+                <Title
+                    title={t(`Areyousureyourwanttocancelyourcurrentsubscriptionplan`)}
+                    type='Poppin-16'
+                    textAlignCenter='center'
+                    color={Colors.fontColor}
+                    weight='400' />
+            </View>
+            <View style={[
+                centralStyle.width90,
+                centralStyle.flex1,
+                centralStyle.justifyContentCenter,
+                centralStyle.selfCenter
+            ]}>
+                <Button
+                    title={t('Cancelnow')}
+                    titleStyle={[styles.btnStyle,]}
+                    primary
+                />
+            </View>
+        </>
     )
 }

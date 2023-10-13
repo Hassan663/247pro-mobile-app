@@ -42,9 +42,12 @@ export const styles = StyleSheet.create<any>({
         },
         shadowOpacity: 0.15,
         shadowRadius: 2.1,
-
         elevation: 2,
         backgroundColor: "white"
     },
+    draggableIconstyle: {
+        width: '35%',
+        backgroundColor: Colors.fontColor
+    }
 
 });

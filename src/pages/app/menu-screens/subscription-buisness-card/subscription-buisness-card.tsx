@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useRef,
     useState
 } from 'react';
 import {
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo'
+import RBSheet from 'react-native-raw-bottom-sheet';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -19,16 +21,25 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './subscription-buisness-card.style';
-import { Cards } from './subscription-buisness-card-component';
 import { platform } from '../../../../utilities';
+import { openSheet } from '../../../../store/action/action';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { SUBSCRIPTIONDATA } from './data';
+import {
+    CancelSubscriptionUI,
+    Cards,
+    LicenseUI,
+    SubscriptionActivatedUI
+} from './subscription-buisness-card-component';
 
 const SubscriptionBuisnessCard: React.FC<{ navigation: any, route: any }> = ({ navigation }) => {
 
     const [selectedTab, setSelectedTab] = useState(true)
+    const [subscriptionActivatedUI, setsubscriptionActivatedUI] = useState(false)
+    const [cancelSubcriptionUI, setcancelSubcriptionUI] = useState(false)
     const [primary, setPrimary] = useState(false)
+    const sheetRef = useRef<any>(null)
 
     return (
         <>
@@ -87,6 +98,13 @@ const SubscriptionBuisnessCard: React.FC<{ navigation: any, route: any }> = ({ n
                     centralStyle.justifyContentEnd]}>
                     <Button
                         title={t('Upgrade')}
+                        callBack={() => {
+                            if (primary) {
+                                setsubscriptionActivatedUI(false)
+                                setcancelSubcriptionUI(false)
+                                openSheet(sheetRef)
+                            }
+                        }}
                         titleStyle={[styles.btnStyle,]}
                         primary={primary}
                         disable={!primary} />
@@ -99,6 +117,32 @@ const SubscriptionBuisnessCard: React.FC<{ navigation: any, route: any }> = ({ n
                             weight='400' />
                     </View>
                 </View>
+                <RBSheet
+                    ref={sheetRef}
+                    height={RFPercentage(35)}
+                    closeOnPressMask={true}
+                    closeOnDragDown={true}
+                    openDuration={250}
+                    animationType={`slide`}
+                    customStyles={{
+                        container: { borderRadius: RFPercentage(2) },
+                        draggableIcon: styles.draggableIconstyle
+                    }}
+                >
+                    {!subscriptionActivatedUI ?
+                        <LicenseUI
+                            sheetRef={sheetRef}
+                            setsubscriptionActivatedUI={setsubscriptionActivatedUI} />
+                        :
+                        !cancelSubcriptionUI ?
+                            <SubscriptionActivatedUI
+                                sheetRef={sheetRef}
+                                cancelSubcriptionUI={cancelSubcriptionUI}
+                                setcancelSubcriptionUI={setcancelSubcriptionUI} />
+                            :
+                            <CancelSubscriptionUI />
+                    }
+                </RBSheet>
             </SafeAreaView>
 
         </>
