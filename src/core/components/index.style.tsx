@@ -32,7 +32,7 @@ export const styles: any = StyleSheet.create<any>({
     }),
 
     primaryBtn: {
-        height: 48,
+        height: RFPercentage(7),
         backgroundColor: Colors.primary,
         borderRadius: RFPercentage(1),
         justifyContent: 'center',
@@ -173,7 +173,7 @@ export const styles: any = StyleSheet.create<any>({
 
     },
     disable: {
-        height: 48,
+        height: RFPercentage(7),
         backgroundColor: Colors.lightGray,
         borderRadius: RFPercentage(1),
         justifyContent: 'center',

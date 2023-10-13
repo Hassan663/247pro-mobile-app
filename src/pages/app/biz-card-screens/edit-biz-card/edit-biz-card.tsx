@@ -17,18 +17,18 @@ import {
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
 import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
-import { platform } from '../../../../utilities';
-import { centralStyle } from '../../../../styles/constant.style';
-import { styles } from './edit-biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';
+import { styles } from './edit-biz-card.style';
+import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { centralStyle } from '../../../../styles/constant.style';
 import {
     CONTACTINFOINPUTS,
     SOCIALINPUTSDATA

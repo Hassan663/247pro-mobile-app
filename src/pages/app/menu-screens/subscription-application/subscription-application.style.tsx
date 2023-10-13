@@ -36,7 +36,7 @@ export const styles = StyleSheet.create<any>({
         borderRadius: RFPercentage(.5),
         justifyContent: 'space-evenly',
         right: RFPercentage(0),
-        top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
+        top: platform == 'ios' ? RFPercentage(3) : RFPercentage(4)
 
     },
 });

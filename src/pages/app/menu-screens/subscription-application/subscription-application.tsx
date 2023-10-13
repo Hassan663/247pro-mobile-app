@@ -45,7 +45,7 @@ const SubscriptionApplication: React.FC<{ navigation: any, route: any }> = ({ na
                 title={t('Subscription')} />
 
             <SafeAreaView style={[centralStyle.container]}>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={centralStyle.container}>
                         <View style={centralStyle.my2}>
                             <Title
