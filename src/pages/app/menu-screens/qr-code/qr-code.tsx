@@ -21,7 +21,6 @@ import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 
 const QRCode: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-
     return (
         <>
             <AppHeader
@@ -80,7 +79,10 @@ const QRCode: React.FC<{ navigation: any, route: any }> = ({ navigation, route }
                     centralStyle.width100,
                     centralStyle.mb3]}>
                     <Button
-                        callBack={() => onShare()}
+                        callBack={() => {
+                            if (route.params == 'invitePeople') changeRoute(navigation, 'AccountInformtaion')
+                            else onShare()
+                        }}
                         title={t('Share')}
                         primary />
                 </View>

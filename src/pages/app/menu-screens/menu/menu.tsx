@@ -1,41 +1,63 @@
 // @app
-import React from 'react';
+import React, {
+    useRef, useState
+} from 'react';
 import {
     View,
     SafeAreaView,
     FlatList,
+    TouchableOpacity,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-import { styles } from './menu.style';
-import { centralStyle } from '../../../../styles/constant.style';
-import { platform } from '../../../../utilities';
+import { Item } from './call-back';
 import { Title } from '../../../../core/components/screen-title.component';
+import { styles } from './menu.style';
+import { platform } from '../../../../utilities';
+import { changeRoute } from '../../../../core/helpers/async-storage';
+import { centralStyle } from '../../../../styles/constant.style';
 import {
     ACCOUNTSETTINGDATA,
     APPDATA,
 } from './data';
-import { Item } from './call-back';
-import { changeRoute } from '../../../../core/helpers/async-storage';
+import { closeSheet, openSheet } from '../../../../store/action/action';
+import { InvitePropleUI } from './menu-components';
+import { ContactModal } from '../../contact-screens/new-contact/new-contact-component';
 
 const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
+    const [anim, setanim] = useState<string>('fadeInUpBig');
+    const [contactModal, setcontactModal] = useState<boolean>(false);
+
+    const sheetRef = useRef<any>(null)
+
+    const handleInviteCallBack = () => {
+        closeSheet(sheetRef)
+        setanim('fadeInUpBig')
+        setTimeout(() => { setcontactModal(true) }, 1000)
+    }
+    const handleShareQR = () => {
+        closeSheet(sheetRef)
+        changeRoute(navigation, 'QRCode','invitePeople')
+    }
+    
     return (
         <SafeAreaView style={styles.container}>
             <AppHeader
                 iconR1={
-                    <View style={centralStyle.mx2}>
+                    <TouchableOpacity onPress={() => openSheet(sheetRef)} activeOpacity={0.8} style={centralStyle.mx2}>
                         <Title
                             type='Poppin-16'
                             weight='700'
                             title={t('Invite')}
                             color={Colors.black} />
-                    </View>
+                    </TouchableOpacity>
                 }
                 iconL1={
                     <AntDesign
@@ -76,7 +98,25 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>
+            <RBSheet
+                ref={sheetRef}
+                height={RFPercentage(45)}
+                closeOnPressMask={true}
+                closeOnDragDown={true}
+                openDuration={250}
+                animationType={`slide`}
+                customStyles={{ container: { borderRadius: RFPercentage(2) } }}
+            >
+                <InvitePropleUI
+                    shareQR={handleShareQR}
+                    inviteCallBack={handleInviteCallBack} />
+            </RBSheet>
 
+            {contactModal &&
+                <ContactModal
+                    anim={anim}
+                    setanim={setanim}
+                    setcontactModal={setcontactModal} />}
         </SafeAreaView>
     );
 };

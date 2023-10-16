@@ -25,6 +25,7 @@ export const centralPosition: CentralPosition = {
     left: "left",
     right: "right",
 };
+
 export const centralStyle = StyleSheet.create<any>({
     container: {
         flex: 1,
@@ -86,6 +87,9 @@ export const centralStyle = StyleSheet.create<any>({
     row: {
         flexDirection: "row"
     },
+    column: {
+        flexDirection: 'column'
+    },
     flex1: { flex: 1 },
     circle: (size: number) => ({
         height: size,
@@ -111,6 +115,12 @@ export const centralStyle = StyleSheet.create<any>({
     },
     mr05: {
         marginRight: RFPercentage(0.5)
+    },
+    mr2: {
+        marginRight: RFPercentage(2)
+    },
+    mr3: {
+        marginRight: RFPercentage(3)
     },
     mr1: {
         marginRight: RFPercentage(1)

@@ -5,6 +5,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { styles } from './index.style';
+import { centralStyle } from '../../styles/constant.style';
 
 
 
@@ -23,7 +24,7 @@ export type Props = {
 const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title, disable, callBack }) => {
     return (
         <TouchableOpacity
-            style={disable ? styles.disable : primary ? styles.primaryBtn : customStyle}
+            style={[icon ? centralStyle.row : centralStyle.column, disable ? styles.disable : primary ? styles.primaryBtn : customStyle]}
             activeOpacity={0.8}
             onPress={() => callBack && callBack()}
         >

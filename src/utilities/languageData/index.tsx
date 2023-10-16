@@ -302,7 +302,10 @@ export const languageData = [
             EditSubscription:"Edit Subscription", 
             SubscribedApplication:"Subscribed Application",
             AvailableApplications:"Available Applications",
-            
+            Invitepeopletojoinyourteam:'Invite people to join your team',
+            ShareaLink:"Share a Link",
+            InvitewithContacts:'Invite with Contacts',
+            ScanMyQRCode:"Scan My QR Code",
         }
     },
     {
@@ -610,6 +613,11 @@ export const languageData = [
             EditSubscription:"编辑订阅",
             SubscribedApplication:"订阅的应用程序",
             AvailableApplications:"可用的应用程序",
+            Invitepeopletojoinyourteam:'邀请人们加入您的团队',
+            ShareaLink:"分享链接",
+            InvitewithContacts:'邀请联系人',
+            ScanMyQRCode:"扫描我的二维码",
+
  }
     },
     {
@@ -911,7 +919,11 @@ export const languageData = [
             EditSubscription:"Editar suscripción",
             SubscribedApplication:"Solicitud suscrita",
             AvailableApplications:"Aplicaciones disponibles",
+            Invitepeopletojoinyourteam:'Invita a personas a unirse a tu equipo',
 
+            ShareaLink:"Compartir un enlace",
+            InvitewithContacts:'Invitar con contactos',
+            ScanMyQRCode:"Escanea mi código QR",
 
         }
     }
