@@ -47,13 +47,13 @@ export const styles: any = StyleSheet.create<any>({
         resizeMode: 'contain'
     },
     inputContainer: (height: number) => ({
-         paddingVertical: 10,
+        paddingVertical: 10,
         justifyContent: "flex-end",
     }),
     textInputContainer: () => ({
         flexDirection: 'row',
         minHeight: platform == 'ios' ? 30 : 30,
-     }),
+    }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
         paddingHorizontal: RFPercentage(1),
@@ -75,7 +75,8 @@ export const styles: any = StyleSheet.create<any>({
         maxHeight: 100,
     }),
     socialInputContainer: {
-        height: 50,
+        // height: 50,
+        height: RFPercentage(7),
         backgroundColor: Colors.lightGrey,
         borderRadius: 5,
         paddingHorizontal: 20,
@@ -130,7 +131,7 @@ export const styles: any = StyleSheet.create<any>({
         paddingHorizontal: RFPercentage(2),
         justifyContent: "center"
     },
-    uploadBtn:{
+    uploadBtn: {
         height: 50,
         paddingHorizontal: RFPercentage(2),
         justifyContent: "center"

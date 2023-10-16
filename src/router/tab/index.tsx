@@ -38,31 +38,42 @@ export default function appNavigation() {
         screenOptions={{ headerShown: false }}
         initialRouteName='AppTabs'
       >
+        <Stack.Screen name="QRCode" component={QRCode} />
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="ShareQR" component={ShareQR} />
-        <Stack.Screen name="EditBizCard" component={EditBizCard} />
-        <Stack.Screen name="ApplicationOrder" component={ApplicationOrder} />
-        <Stack.Screen name="ConnectionRequests" component={ConnectionRequests} />
         <Stack.Screen name="NewContact" component={NewContact} />
         <Stack.Screen name="NewCompany" component={NewCompany} />
         <Stack.Screen name="ViewContact" component={ViewContact} />
+        <Stack.Screen name="EditBizCard" component={EditBizCard} />
         <Stack.Screen name="ViewCompany" component={ViewCompany} />
         <Stack.Screen name="EditCompany" component={EditCompany} />
-        <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
-        <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
-        <Stack.Screen name="AccountSetting" component={AccountSetting} />
-        <Stack.Screen name="AccountInformtaion" component={AccountInformtaion} />
-        <Stack.Screen name="QRCode" component={QRCode} />
-        <Stack.Screen name="AccountInformtaionCard" component={AccountInformtaionCard} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="ChangePassword" component={ChangePassword} />
-        <Stack.Screen name="CountryAndLanguage" component={CountryAndLanguage} />
-        <Stack.Screen name="SelectLanguage" component={SelectLanguage} />
         <Stack.Screen name="SelectRegion" component={SelectRegion} />
         <Stack.Screen name="Subscription" component={Subscription} />
-        <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="SelectLanguage" component={SelectLanguage} />
+        <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
+        <Stack.Screen name="AccountSetting" component={AccountSetting} />
+        <Stack.Screen name="ApplicationOrder" component={ApplicationOrder} />
+        <Stack.Screen name="ConnectionRequests" component={ConnectionRequests} />
+        <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
+        <Stack.Screen name="AccountInformtaion" component={AccountInformtaion} />
+        <Stack.Screen name="CountryAndLanguage" component={CountryAndLanguage} />
+        <Stack.Screen name="AccountInformtaionCard" component={AccountInformtaionCard} />
         <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />
+        <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />
+        {/* <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} /> */}
         <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
+
+{/* 
+
+        <Stack.Screen name="AccountInformtaionCard" component={AccountInformtaionCard} />
+        <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />
+
+        <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
+
+        <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} /> */}
+
 
       </Stack.Navigator>
     </NavigationContainer>
