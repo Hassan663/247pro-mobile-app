@@ -44,7 +44,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
     }
     const handleShareQR = () => {
         closeSheet(sheetRef)
-        changeRoute(navigation, 'QRCode','invitePeople')
+        changeRoute(navigation, 'AccountInformtaionRequest','invitePeople')
     }
     
     return (

@@ -27,6 +27,7 @@ import CountryAndLanguage from '../../pages/app/menu-screens/country-and-languag
 import Subscription from '../../pages/app/menu-screens/subscription/subscription';
 import SubscriptionBuisnessCard from '../../pages/app/menu-screens/subscription-buisness-card/subscription-buisness-card';
 import SubscriptionApplication from '../../pages/app/menu-screens/subscription-application/subscription-application';
+import AccountInformtaionRequest from '../../pages/app/menu-screens/account-infomation-request/account-infomation-request';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,7 @@ export default function appNavigation() {
         <Stack.Screen name="Subscription" component={Subscription} />
         <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />
         <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />
+        <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
 
       </Stack.Navigator>
     </NavigationContainer>
