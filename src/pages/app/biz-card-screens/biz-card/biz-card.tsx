@@ -59,7 +59,7 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 contactSaved={saveContact}
                 disableModal={() => setCreateBuisnessCartModalEnabled(!createBuisnessCartModalEnabled)} />}
 
-            {multiCards ?
+            {true ?
                 <FlatList
                     data={[0, 0, 0, 0, 0, 0,]}
                     contentContainerStyle={centralStyle.pb10}

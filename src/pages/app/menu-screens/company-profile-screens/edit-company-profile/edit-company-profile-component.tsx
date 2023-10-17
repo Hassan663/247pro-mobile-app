@@ -56,8 +56,7 @@ export const IndustryTagUI = ({ item, index, addSpecialitysheetRef }: any) => {
                 <View style={centralStyle.mx05}>
                     <Title
                         color={Colors.fontColor}
-                        type='Poppin-10'
-                        weight='400'
+                        type='Poppin-10-400'
                         title={item} />
 
                 </View>
@@ -162,9 +161,9 @@ export const EditOverView = () => {
                         <Image style={styles.galleryImg} source={require('../../../../../assets/app-images/Group.png')} />
                         <Title
                             title={t(`Companylogo`)}
-                            type='Poppin-10'
+                            type='Poppin-10-400'
                             color={Colors.fontColor}
-                            weight='400' />
+                        />
                     </>
 
                 }

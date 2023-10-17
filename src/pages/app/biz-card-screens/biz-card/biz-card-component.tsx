@@ -44,8 +44,7 @@ export const ListCard = ({ navigation }: any) => {
                         color={Colors.black}
                         title='George Lee' />
                     <Title
-                        type={`Poppin-11`}
-                        weight='400'
+                        type={`Poppin-11-400`}
                         color={Colors.fontColor}
                         title='Architect ' />
                 </View>
