@@ -44,7 +44,7 @@ const ShareQR: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             color={Colors.black} />
 
                     </View>
-                    <Image style={styles.qrStyle} source={require('../../../../assets/app-images/qr.png')} />
+                    <Image style={[styles.qrStyle,centralStyle.selfCenter]} source={require('../../../../assets/app-images/qr.png')} />
                     <View style={styles.btnContainer}>
                         <Button title='Share Card' primary />
                     </View>

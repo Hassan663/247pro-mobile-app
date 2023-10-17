@@ -59,7 +59,7 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 contactSaved={saveContact}
                 disableModal={() => setCreateBuisnessCartModalEnabled(!createBuisnessCartModalEnabled)} />}
 
-            {true ?
+            {multiCards ?
                 <FlatList
                     data={[0, 0, 0, 0, 0, 0,]}
                     contentContainerStyle={centralStyle.pb10}
@@ -89,7 +89,8 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             <View style={[styles.mb2,]}>
                                 <View style={saveContact && centralStyle.alignitemCenter}>
                                     <Title
-                                        type='Poppin-24-600'
+                                        type='Poppin-24'
+                                        weight='600'
                                         title={`George Lee`}
                                         color={Colors.black} />
                                     <Title

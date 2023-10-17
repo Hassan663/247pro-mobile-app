@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { platform } from '../../../../utilities';
 import Colors from '../../../../styles/colors';
 
 export const styles = StyleSheet.create({
@@ -8,8 +9,8 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.white
     },
     qrStyle: {
-        height: RFPercentage(30),
-        width: RFPercentage(30),
+        height: platform == 'ios' ? RFPercentage(30) : RFPercentage(25),
+        width: platform == 'ios' ? RFPercentage(30) : RFPercentage(25),
         resizeMode: 'contain',
         marginVertical: RFPercentage(2)
     },
@@ -40,5 +41,5 @@ export const styles = StyleSheet.create({
     removeBorder: {
         borderTopWidth: 0
     },
-    
+
 });

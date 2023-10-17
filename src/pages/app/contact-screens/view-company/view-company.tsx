@@ -63,7 +63,8 @@ const ViewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <View style={[centralStyle.XAndYCenter, centralStyle.mb2]}>
                             <Title
                                 color={Colors.black}
-                                type='Poppin-24-600'
+                                type='Poppin-24'
+                                weight='600'
                                 title={t('George Lee')} />
                             <Title
                                 color={Colors.fontColor}
