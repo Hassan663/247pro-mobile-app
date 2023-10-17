@@ -42,9 +42,9 @@ const AccountInformtaionCard: React.FC<{ navigation: any, route: any }> = ({ nav
 
                 <Title
                     title={t(`GeorgeLee`)}
-                    type='Poppin-24'
+                    type='Poppin-24-600'
                     color={Colors.black}
-                    weight='600' />
+                />
 
                 <View style={centralStyle.my05}>
                     <Title

@@ -62,19 +62,7 @@ export default function appNavigation() {
         <Stack.Screen name="AccountInformtaionCard" component={AccountInformtaionCard} />
         <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />
         <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />
-        {/* <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} /> */}
         <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
-
-{/* 
-
-        <Stack.Screen name="AccountInformtaionCard" component={AccountInformtaionCard} />
-        <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />
-
-        <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
-
-        <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} /> */}
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );

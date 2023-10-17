@@ -50,8 +50,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     <View style={[centralStyle.XAndYCenter, centralStyle.mb2]}>
                         <Title
                             color={Colors.black}
-                            type='Poppin-24'
-                            weight='600'
+                            type='Poppin-24-600'
                             title={t('George Lee')} />
                         <Title
                             color={Colors.fontColor}
@@ -61,7 +60,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     </View>
 
                     <View style={styles.mx2}>
-                      
+
                         <OutlinedTextInput editable={false} val='+1-5436748758' title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                         <OutlinedTextInput editable={false} val='abc123@gmail.com' title={t('Emailaddress')} placeHolder={t('Emailaddress')} />
                         <OutlinedTextInput editable={false} val='abc123@gmail.com' title={t('Emailaddress')} placeHolder={t('Emailaddress')} />
@@ -73,8 +72,8 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <OutlinedTextInput editable={false} val='htttps://www.247pro.com' title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
                         <OutlinedTextInput editable={false} val='New York' title={t('State')} placeHolder={t('State')} />
                         <OutlinedTextInput editable={false} val='123456' title={t('ZipCode')} placeHolder={t('ZipCode')} />
-                      
-                       <View style={[centralStyle.my1]}>
+
+                        <View style={[centralStyle.my1]}>
                             <Title
                                 color={Colors.black}
                                 type='Poppin-18'
