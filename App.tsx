@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { Provider, useSelector } from 'react-redux';
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
@@ -24,8 +24,22 @@ import i18n, {
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 LogBox.ignoreAllLogs();
-const auth = false;
-const MainComponent: React.FC = () => (auth ? <AuthNavigation /> : <AppNavigation />);
+var auth = true;
+const MainComponent: React.FC = () => {
+
+    const [authState, setAuthState] = useState<any>(true)
+    const { isUserLogin } = useSelector((state: any) => state.root)
+    // console.log(isUserLogin, 'isUserLogin')
+    useEffect(() => {
+        auth=!isUserLogin
+        setAuthState(!isUserLogin)
+        console.log(isUserLogin, 'store.getState().root.isUserLogin')
+    }, [isUserLogin])
+
+    return (
+         authState ? <AuthNavigation /> : <AppNavigation />
+    )
+};
 
 const MyStatusBar = ({ backgroundColor, ...props }: any) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
@@ -35,9 +49,7 @@ const MyStatusBar = ({ backgroundColor, ...props }: any) => (
     </View>
 );
 const App: React.FC = () => {
-
     const getTranslations = async () => { return fetchTranslations(); };
-
     useEffect(() => { getTranslations(); }, []);
 
     return (
@@ -47,10 +59,10 @@ const App: React.FC = () => {
                 {
                     platform == 'ios'
                         ?
-                        auth ?
+                        !auth ?
                             <></> :
                             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
-                        auth ?
+                        !auth ?
                             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                             <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
                 }

@@ -34,6 +34,7 @@ type Navigation = StackNavigationProp<RootStackParamList>;
 const SignIn: React.FC = () => {
 
     const navigation = useNavigation<Navigation>();
+    const [flag, setflag] = useState<boolean>(false)
     const [isSelected, setisSelected] = useState<boolean>(false)
     const dispatch = useDispatch()
     return (
@@ -90,6 +91,7 @@ const SignIn: React.FC = () => {
                                 type: ISUSERLOGIN,
                                 payload: true
                             });
+                            setflag(!flag)
                         }}
                         primary />
                     <View style={styles.orContainer}>
