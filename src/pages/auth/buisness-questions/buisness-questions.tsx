@@ -25,8 +25,9 @@ import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { INDUSTRIES } from './data';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
+import { ISUSERLOGIN } from '../../../store/constant/constant';
 
 const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const isBuisness = route?.params?.yesABuisness;
@@ -44,6 +45,8 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
         setCountryCode(country.cca2);
     };
     const otpSupported = useSelector((state: any) => state.root.otpSupported)
+
+    const dispatch = useDispatch()
 
     return (
         <>
@@ -144,7 +147,16 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                     </View>
                     <View style={[styles.footer,]}>
                         <Button
-                            callBack={() => setloading(true)}
+                            callBack={() => {
+                                setloading(true)
+                                setTimeout(() => {
+                                    setloading(false)
+                                    dispatch({
+                                        type: ISUSERLOGIN,
+                                        payload: true
+                                    });
+                                }, 500);
+                            }}
                             title={t('CompleteRegisration')} primary />
                     </View>
 

@@ -29,15 +29,14 @@ const MainComponent: React.FC = () => {
 
     const [authState, setAuthState] = useState<any>(true)
     const { isUserLogin } = useSelector((state: any) => state.root)
-    // console.log(isUserLogin, 'isUserLogin')
     useEffect(() => {
-        auth=!isUserLogin
+        auth = !isUserLogin
         setAuthState(!isUserLogin)
         console.log(isUserLogin, 'store.getState().root.isUserLogin')
     }, [isUserLogin])
 
     return (
-         authState ? <AuthNavigation /> : <AppNavigation />
+        authState ? <AuthNavigation /> : <AppNavigation />
     )
 };
 
