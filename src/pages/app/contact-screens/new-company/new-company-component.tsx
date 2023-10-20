@@ -34,7 +34,7 @@ export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
         <TouchableOpacity
             activeOpacity={.8}
             onPress={() => { disableModal() }}
-            style={[centralStyle.alignitemCenter, styles.uploadImageModal]}>
+            style={[centralStyle.alignitemCenter, styles.uploadImageModal,]}>
             <View style={styles.uploadImageModalContentContainer}>
                 <TouchableOpacity onPress={() => {
                     captureImage(setimageUriLocal)

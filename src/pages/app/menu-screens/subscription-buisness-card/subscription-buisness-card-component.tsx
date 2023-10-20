@@ -3,6 +3,7 @@ import React, {
     useState
 } from 'react';
 import {
+    SafeAreaView,
     TouchableOpacity,
     View
 } from 'react-native';
@@ -159,61 +160,63 @@ export const LicenseUI = ({ sheetRef, setsubscriptionActivatedUI }: any) => {
     }
     return (
         <>
-            <View style={centralStyle.mt3}>
-                <Title
-                    title={t(`UserLicenses`)}
-                    type='Poppin-18'
-                    textAlignCenter='center'
-                    color={Colors.black}
-                    weight='600' />
-            </View>
-            <View style={[{ width: '70%' }, centralStyle.selfCenter]}>
-                <Title
-                    title={t(`Setthenumberoflicensesfortheapplicationsorservices`)}
-                    type='Poppin-16'
-                    textAlignCenter='center'
-                    color={Colors.fontColor}
-                    weight='400' />
-            </View>
-            <View style={[
-                centralStyle.row,
-                centralStyle.width40,
-                centralStyle.my3,
-                centralStyle.selfCenter,
-                centralStyle.alignitemCenter,
-                centralStyle.justifyContentBetween]}>
-                <AntDesign
-                    onPress={() => { if (numOfLicense > 0) { setNumOfLicense(numOfLicense - 1) } }}
-                    style={centralStyle.mr1}
-                    size={RFPercentage(2)}
-                    color={Colors.black}
-                    name='minus' />
-                <Title
-                    title={t(`${numOfLicense} ${t('License')}`)}
-                    type='Poppin-16'
-                    textAlignCenter='center'
-                    color={Colors.black}
-                    weight='400' />
-                <AntDesign
-                    onPress={() => { if (numOfLicense < 10) { setNumOfLicense(numOfLicense + 1) } }}
-                    style={centralStyle.mr1}
-                    size={RFPercentage(2)}
-                    color={Colors.primary}
-                    name='plus' />
-            </View>
-            <View style={[
-                centralStyle.width90,
-                centralStyle.flex1,
-                centralStyle.justifyContentCenter,
-                centralStyle.selfCenter
-            ]}>
-                <Button
-                    callBack={handleContinue}
-                    title={t('Continue')}
-                    titleStyle={[styles.btnStyle,]}
-                    primary
-                />
-            </View>
+            <SafeAreaView>
+                <View style={centralStyle.mt3}>
+                    <Title
+                        title={t(`UserLicenses`)}
+                        type='Poppin-18'
+                        textAlignCenter='center'
+                        color={Colors.black}
+                        weight='600' />
+                </View>
+                <View style={[{ width: '70%' }, centralStyle.selfCenter]}>
+                    <Title
+                        title={t(`Setthenumberoflicensesfortheapplicationsorservices`)}
+                        type='Poppin-16'
+                        textAlignCenter='center'
+                        color={Colors.fontColor}
+                        weight='400' />
+                </View>
+                <View style={[
+                    centralStyle.row,
+                    centralStyle.width40,
+                    centralStyle.my3,
+                    centralStyle.selfCenter,
+                    centralStyle.alignitemCenter,
+                    centralStyle.justifyContentBetween]}>
+                    <AntDesign
+                        onPress={() => { if (numOfLicense > 0) { setNumOfLicense(numOfLicense - 1) } }}
+                        style={centralStyle.mr1}
+                        size={RFPercentage(2)}
+                        color={Colors.black}
+                        name='minus' />
+                    <Title
+                        title={t(`${numOfLicense} ${t('License')}`)}
+                        type='Poppin-16'
+                        textAlignCenter='center'
+                        color={Colors.black}
+                        weight='400' />
+                    <AntDesign
+                        onPress={() => { if (numOfLicense < 10) { setNumOfLicense(numOfLicense + 1) } }}
+                        style={centralStyle.mr1}
+                        size={RFPercentage(2)}
+                        color={Colors.primary}
+                        name='plus' />
+                </View>
+                <View style={[
+                    centralStyle.width90,
+                    centralStyle.flex1,
+                    centralStyle.justifyContentCenter,
+                    centralStyle.selfCenter
+                ]}>
+                    <Button
+                        callBack={handleContinue}
+                        title={t('Continue')}
+                        titleStyle={[styles.btnStyle,]}
+                        primary
+                    />
+                </View>
+            </SafeAreaView>
         </>
     )
 }

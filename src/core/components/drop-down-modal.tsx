@@ -8,6 +8,7 @@ import { Title } from "./screen-title.component";
 import { changeRoute } from '../helpers/async-storage';
 import { styles } from './index.style';
 import { centralStyle } from '../../styles/constant.style';
+import { onShare } from '../../pages/app/menu-screens/company-profile-screens/company-profile/call-back';
 
 export const DropDownModal: React.FC<{ disableModal?: any, editCallback?: any, navigation?: any, DATA?: any }> = ({ disableModal, editCallback, navigation, DATA }) => {
     return (
@@ -30,9 +31,12 @@ export const DropDownModal: React.FC<{ disableModal?: any, editCallback?: any, n
                             <TouchableOpacity
                                 key={index.toString()}
                                 onPress={() => {
-                                    if (item == t("Edit")) {
+                                    if (item == t("Edit") || item == t('AddNewCart')) {
                                         disableModal()
-                                        editCallback()
+                                        if (editCallback) editCallback()
+                                    } else if (item == t("Share")) {
+                                        disableModal()
+                                        onShare()
                                     }
                                 }}
                                 activeOpacity={.8}

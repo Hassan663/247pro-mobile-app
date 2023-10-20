@@ -20,7 +20,6 @@ export const styles: any = StyleSheet.create<any>({
         borderWidth: RFPercentage(.1),
         alignSelf: "center",
         margin: RFPercentage(2),
-        // overflow: "hidden",
         backgroundColor: Colors.lightGrey,
         borderColor: Colors.lightGrey
     },
@@ -56,7 +55,7 @@ export const styles: any = StyleSheet.create<any>({
     }),
     textInputContainer: () => ({
         flexDirection: 'row',
-        minHeight: platform == 'ios'? 30 : 30,
+        minHeight: platform == 'ios' ? 30 : 30,
     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
@@ -118,13 +117,13 @@ export const styles: any = StyleSheet.create<any>({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        top: '8%',
+        top: RFPercentage(15),
         left: "20%",
         elevation: 5,
     },
     uploadImageModal: {
         position: 'absolute',
-        height: '100%', zIndex: 2, width: '100%',
+        zIndex: 2, width: '100%',
     },
 
     captureBtn: {

@@ -20,6 +20,7 @@ import { centralStyle } from '../../../../styles/constant.style';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import { MODALDATAMULTICARDS } from './data';
 import { t } from 'i18next';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 
 export const ListCard = ({ navigation }: any) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
@@ -59,6 +60,7 @@ export const ListCard = ({ navigation }: any) => {
 
             </View>
             {modalEnabled && <DropDownModal
+                editCallback={() => { changeRoute(navigation, 'EditBizCard') }}
                 DATA={MODALDATAMULTICARDS}
                 navigation={navigation}
                 disableModal={() => setmodalEnabled(!modalEnabled)} />}

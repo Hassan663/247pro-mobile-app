@@ -47,7 +47,9 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             <AppHeader
                 iconR1={
                     multiCards ?
-                        <AntDesign style={styles.mx2} name={'plus'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
+                        <AntDesign
+                            onPress={() => { changeRoute(navigation, 'EditBizCard') }}
+                            style={styles.mx2} name={'plus'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                         :
                         <Entypo style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
                 }
