@@ -123,7 +123,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     uploadImageModal: {
         position: 'absolute',
-        zIndex: 2, width: '100%',
+        zIndex: 2, width: '100%', 
     },
 
     captureBtn: {
