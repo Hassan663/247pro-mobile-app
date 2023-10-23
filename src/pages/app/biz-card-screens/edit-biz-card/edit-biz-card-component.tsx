@@ -14,7 +14,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
-import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import Button from '../../../../core/components/button.component';
 import { styles } from './edit-biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';

@@ -23,7 +23,7 @@ import CountryPicker, {
 import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './edit-profile.style';
 import { INDUSTRIES } from '../../../auth/buisness-questions/data';

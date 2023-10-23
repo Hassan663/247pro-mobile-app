@@ -9,7 +9,7 @@ import { t } from 'i18next';
 
 import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
-import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';

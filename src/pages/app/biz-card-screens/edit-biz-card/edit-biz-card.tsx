@@ -23,7 +23,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
-import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './edit-biz-card.style';
 import { platform } from '../../../../utilities';

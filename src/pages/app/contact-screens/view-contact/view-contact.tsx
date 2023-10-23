@@ -15,7 +15,7 @@ import { t } from 'i18next';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-import OutlinedTextInput from '../../../../core/components/Outlined-TextInput.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './view-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { centralStyle } from '../../../../styles/constant.style';

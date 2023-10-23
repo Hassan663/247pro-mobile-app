@@ -21,7 +21,7 @@ import { t } from 'i18next';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-import Button from '../../../../core/components/Button';
+
 import { platform } from '../../../../utilities';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
@@ -44,6 +44,7 @@ import {
     ImportModal,
     RenderItem
 } from './contact.components';
+import Button from '../../../../core/components/button.component';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
