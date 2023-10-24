@@ -75,7 +75,7 @@ const MainComponent: React.FC = () => {
                 authState ?
                     <></> :
                     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
-                !authState ?
+                authState ?
                     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                     <StatusBar barStyle="dark-content" hidden={false} translucent={true} />}
 
