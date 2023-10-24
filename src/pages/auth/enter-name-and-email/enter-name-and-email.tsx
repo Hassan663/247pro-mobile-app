@@ -7,6 +7,7 @@ import {
     Image,
     ScrollView,
     Dimensions,
+    SafeAreaView,
 } from 'react-native';
 
 import { t } from 'i18next';
@@ -21,19 +22,26 @@ import {
     Title,
 } from '../../../core/components/screen-title.component';
 import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
- 
+
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     return (
-        <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
+        <SafeAreaView style={centralStyle.container}>
             <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                    <ScreenTitle widthAuto title={t(`Welcome_to_247PRO`)} />
-                    <Title color={Colors.fontColor} title={t(`Please_provide_your_login_information`)} type={`Poppin-16`} />
+                    <Title
+                        color={Colors.black}
+                        weight='600'
+                        title={t(`Welcome_to_247PRO`) + '!'}
+                        type={`Poppin-24`} />
+                    <Title
+                        color={Colors.fontColor}
+                        title={t(`Please_provide_your_login_information`)}
+                        type={`Poppin-16`} />
                 </View>
                 <View style={styles.inputWrapper}>
                     <OutlinedTextInput
@@ -53,7 +61,6 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
                         onChange={(val) => { setPassword(val) }}
                         title={t('Password')}
                         placeHolder={t('Password')}
-                        Password
                     />
                 </View>
                 <View style={styles.footer}>
@@ -62,7 +69,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
                         title={t('Next')} primary />
                 </View>
             </View>
-        </ScrollView>
+        </SafeAreaView>
     );
 };
 
