@@ -2,10 +2,8 @@
 import React from 'react';
 import {
     View,
-    ScrollView,
     Image,
-    TouchableOpacity,
-    Dimensions,
+    ScrollView,
     SafeAreaView,
 } from 'react-native';
 
@@ -13,16 +11,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
+import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import Input from '../../../core/components/input.component';
-import { changeRoute } from '../../../core/helpers/async-storage';
+import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './set-new-password.style';
+import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
-import {
-    ScreenTitle,
-    Title,
-} from '../../../core/components/screen-title.component';
-import Colors from '../../../styles/colors';
 
 const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
