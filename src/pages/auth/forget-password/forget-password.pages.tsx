@@ -2,10 +2,9 @@
 import React from 'react';
 import {
     View,
-    ScrollView,
     Image,
     TouchableOpacity,
-    Dimensions,
+    SafeAreaView,
 } from 'react-native';
 
 import { t } from 'i18next';
@@ -19,23 +18,28 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import {
     FooterText,
-    ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
 import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
-        <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
+        <SafeAreaView style={centralStyle.container}>
             <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() => changeRoute(navigation, 'pop')}>
-                        <AntDesign name={`left`} size={RFPercentage(3)} />
-                    </TouchableOpacity>
+                    <AntDesign
+                        onPress={() => changeRoute(navigation, 'pop')}
+                        color={Colors.fontColor}
+                        name={`left`}
+                        size={RFPercentage(2.5)} />
                     <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                    <ScreenTitle title={t(`Forget_your_password`)} />
+                    <View style={{ width: '60%' }}>
+                        <Title
+                            color={Colors.black}
+                            weight='600'
+                            title={t(`Forget_your_password`)}
+                            type={`Poppin-24`} />
+                    </View>
                 </View>
 
                 <View style={styles.inputContainer}>
@@ -59,7 +63,7 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                 <View style={styles.footerContainer}>
                     <View style={styles.footerTextWrapper}>
-                        <FooterText color={Colors.fontColor} title={t('Remember_you_password')} />
+                        <FooterText color={Colors.fontColor} title={t('Remember_you_password') + "  "} />
                         <TouchableOpacity
                             activeOpacity={0.8}>
                             <FooterText color={Colors.primary} title={t('logintText')} />
@@ -67,7 +71,8 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </SafeAreaView >
+
     );
 };
 

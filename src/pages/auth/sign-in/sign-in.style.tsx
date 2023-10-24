@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
 import { centralPosition, centralStyle } from '../../../styles/constant.style';
+import { platform } from '../../../utilities';
 
 export const styles = StyleSheet.create({
     titleWrapper: {
@@ -44,13 +45,13 @@ export const styles = StyleSheet.create({
         ...centralStyle.row
     },
     socialText: {
-        fontSize: RFPercentage(2),
-        letterSpacing: RFPercentage(.2),
-        fontWeight: '700',
+        fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
+        fontFamily: "Poppins-SemiBold",
+        color: Colors.fontColor,
     },
     googleIcon: {
-        height: RFPercentage(4.5),
-        width: RFPercentage(4.5)
+        height: RFPercentage(3.5),
+        width: RFPercentage(3.5)
     },
     orContainer: {
         marginVertical: RFPercentage(2),
@@ -61,7 +62,7 @@ export const styles = StyleSheet.create({
         height: 1,
         width: '25%',
         marginHorizontal: RFPercentage(1),
-        backgroundColor: Colors.fontColor
+        backgroundColor: Colors.lightGray
     },
     checkBoxWrapper: {
         justifyContent: centralPosition.spacebetween,
