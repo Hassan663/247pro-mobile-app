@@ -50,7 +50,6 @@ const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                         name={`left`}
                         size={RFPercentage(2.5)} />
                     <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                    {/* <ScreenTitle title={t(`Get_your_code`)} /> */}
                     <View style={{ width: '60%' }}>
                         <Title
                             color={Colors.black}

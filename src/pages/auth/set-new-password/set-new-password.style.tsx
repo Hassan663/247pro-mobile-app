@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
+import { centralPosition } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
  
@@ -9,9 +10,9 @@ export const styles = StyleSheet.create({
         flex: 3,
     },
     logoStyle: {
-        alignSelf: "center",
+        alignSelf: centralPosition.center,
         height: RFPercentage(10),
-        width: RFPercentage(20),
+        width: RFPercentage(17),
         resizeMode: 'contain',
         tintColor: Colors.black
     },

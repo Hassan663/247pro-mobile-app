@@ -22,6 +22,7 @@ import {
     ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
+import Colors from '../../../styles/colors';
 
 const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
@@ -29,15 +30,19 @@ const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
             <View style={centralStyle.container}>
                 <SafeAreaView style={centralStyle.container}>
                     <View style={styles.titleWrapper}>
-                        <TouchableOpacity
-                            style={{ marginTop: RFPercentage(3) }}
-                            activeOpacity={0.8}
-                            onPress={() => changeRoute(navigation, 'pop')}>
-                            <AntDesign name={`left`} size={RFPercentage(3)} />
-                        </TouchableOpacity>
+                        <AntDesign
+                            onPress={() => changeRoute(navigation, 'pop')}
+                            color={Colors.fontColor}
+                            name={`left`}
+                            size={RFPercentage(2.5)} />
                         <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                        <ScreenTitle title={t(`Set_your_password`)} />
-                        <Title title={t('newPassMsg')} type={`Poppin-16`} />
+                        <Title
+                            color={Colors.black}
+                            weight='600'
+                            title={t(`Set_your_password`)}
+                            type={`Poppin-24`} />
+
+                        <Title color={Colors.fontColor} title={t('newPassMsg')} type={`Poppin-16`} />
                     </View>
 
                     <View style={styles.inputContainer}>
@@ -48,14 +53,14 @@ const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <Input placeholder={t('Confirm_password')} />
                         </View>
                     </View>
-                    <View style={[styles.logInBtnContainer,]}>
+                    <View style={styles.logInBtnContainer}>
                         <View />
                         <Button title={t(`Continue`)} primary />
                     </View>
 
                 </SafeAreaView>
-            </View>
-        </ScrollView>
+            </View >
+        </ScrollView >
     );
 };
 

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     logoStyle: {
         alignSelf: centralPosition.center,
         height: RFPercentage(10),
-        width: RFPercentage(20),
+        width: RFPercentage(17),
         resizeMode: 'contain',
         tintColor: Colors.black
     },
