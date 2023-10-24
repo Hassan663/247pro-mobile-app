@@ -6,8 +6,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    ScrollView,
-    Dimensions,
+    SafeAreaView,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -16,6 +15,10 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import CountryPicker, {
     Country,
 } from 'react-native-country-picker-modal';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
@@ -23,11 +26,12 @@ import OutlinedDropDown from '../../../core/components/outlined-dropdown.compone
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
-import { changeRoute } from '../../../core/helpers/async-storage';
 import { INDUSTRIES } from './data';
-import { useDispatch, useSelector } from 'react-redux';
-import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 import { ISUSERLOGIN } from '../../../store/constant/constant';
+import { changeRoute } from '../../../core/helpers/async-storage';
+import {
+    centralStyle,
+} from '../../../styles/constant.style';
 
 const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const isBuisness = route?.params?.yesABuisness;
@@ -50,19 +54,20 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
 
     return (
         <>
-            {loading &&
-                <TouchableOpacity
-                    onPress={() => setloading(!loading)}
-                    style={styles.loadingContainer}>
-                    <Image source={require('../../../assets/auth-images/loading.png')} />
-                </TouchableOpacity>}
-            <View style={centralStyle.container}>
-                <ScrollView contentContainerStyle={{ height: heightFlex1 * 10 }}>
-                    <View style={[styles.titleWrapper,]}>
+            <SafeAreaView style={centralStyle.container}>
+
+                {loading &&
+                    <TouchableOpacity
+                        onPress={() => setloading(!loading)}
+                        style={styles.loadingContainer}>
+                        <Image source={require('../../../assets/auth-images/loading.png')} />
+                    </TouchableOpacity>}
+                <View style={centralStyle.container}>
+                    <View style={[styles.titleWrapper]}>
                         <TouchableOpacity
                             activeOpacity={.8}
                             onPress={() => changeRoute(navigation, 'pop')}>
-                            <AntDesign name={`left`} size={RFPercentage(3)} />
+                            <AntDesign color={Colors.gray} name={`left`} size={RFPercentage(2.5)} />
                         </TouchableOpacity>
 
                         <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
@@ -157,11 +162,11 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                     });
                                 }, 500);
                             }}
-                            title={t('CompleteRegisration')} primary />
+                            title={t('CompleteRegisration')}
+                            primary />
                     </View>
-
-                </ScrollView >
-            </View>
+                </View>
+            </SafeAreaView>
 
 
         </>

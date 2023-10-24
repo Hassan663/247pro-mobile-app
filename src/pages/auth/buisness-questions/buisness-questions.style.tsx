@@ -4,15 +4,15 @@ import Colors from '../../../styles/colors';
 import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
+
     logoStyle: {
         alignSelf: centralPosition.center,
         height: RFPercentage(10),
-        width: RFPercentage(22),
+        width: RFPercentage(17),
         resizeMode: 'contain',
         tintColor: Colors.black
     },
     titleWrapper: {
-        justifyContent: centralPosition.center,
         flex: 3,
     },
     inputWrapper: {

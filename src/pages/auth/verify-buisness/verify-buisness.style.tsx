@@ -6,13 +6,7 @@ import Colors from '../../../styles/colors';
 import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
-    // logoStyle: {
-    //     height: RFPercentage(10),
-    //     width: RFPercentage(22),
-    //     resizeMode: 'contain',
-    //     tintColor: Colors.black,
-    //     ...centralStyle.selfCenter,
-    // },
+    
     logoStyle: {
         alignSelf: centralPosition.center,
         height: RFPercentage(10),

@@ -43,7 +43,6 @@ export const styles: any = StyleSheet.create<any>({
     primaryText: {
         color: Colors.white,
         fontWeight: '600',
-
         fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2),
         textTransform: 'uppercase',
     },

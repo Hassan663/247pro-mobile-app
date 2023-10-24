@@ -32,7 +32,7 @@ const VerifyBuisness: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <TouchableOpacity
                         activeOpacity={.8}
                         onPress={() => changeRoute(navigation, 'pop')}>
-                        <AntDesign name={`left`} size={RFPercentage(3)} />
+                        <AntDesign color={Colors.gray} name={`left`} size={RFPercentage(2.5)} />
                     </TouchableOpacity>
 
                     <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />

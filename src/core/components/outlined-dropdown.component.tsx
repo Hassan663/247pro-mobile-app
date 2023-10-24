@@ -50,7 +50,7 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defa
           rowTextForSelection={(item, index) => item}
           onBlur={() => setIsActive(false)}
           onFocus={() => setIsActive(true)}
-          renderDropdownIcon={() => <AntDesign name={'down'} size={iconsSize ? iconsSize : RFPercentage(3)} />}
+          renderDropdownIcon={() => <AntDesign name={'down'} color={Colors.fontColor} size={iconsSize ? iconsSize : RFPercentage(1.5)} />}
           buttonStyle={drop_down_button_style}
           buttonTextStyle={{
             textAlign: "left", color:
