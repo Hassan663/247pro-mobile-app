@@ -60,9 +60,10 @@ export const styles = StyleSheet.create<any>({
             :
             undefined
     }),
-    tabBarStyle: {
+    tabBarStyle: (hasBottomBar) => ({
         height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
-        marginBottom: platform == 'ios' ? '12%' : '0%',
+        marginBottom: platform == 'ios' ? hasBottomBar ? "12%" : RFPercentage(3) : '0%',
+        // marginBottom: platform == 'ios' ? '12%' : '0%',
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,
         position: "absolute",
@@ -77,5 +78,5 @@ export const styles = StyleSheet.create<any>({
 
         elevation: 5,
 
-    },
+    }),
 });

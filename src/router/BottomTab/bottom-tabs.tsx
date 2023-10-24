@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { View } from 'react-native'
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeArea } from 'react-native-safe-area-context';
 
 import BizCard from '../../pages/app/biz-card-screens/biz-card/biz-card';
 import Contact from '../../pages/app/contact-screens/contact/contact';
@@ -17,6 +19,13 @@ import {
 const Tab = createBottomTabNavigator();
 
 function AppTabs() {
+
+    const insets = useSafeArea();
+
+    // `insets` object me notch aur bottom bar ki information hoti hai
+    const hasNotch = insets.top > 0;
+    const hasBottomBar = insets.bottom > 0;
+    console.log(hasNotch, hasBottomBar, 'hasBottomBar')
     return (
         <View style={{ height: windowHeight }}>
             <Tab.Navigator
@@ -26,7 +35,7 @@ function AppTabs() {
                     tabBarLabelPosition: 'below-icon',
                     tabBarActiveTintColor: Colors.black, // Active tab color
                     tabBarInactiveTintColor: Colors.fontColor, // Inactive tab color
-                    tabBarStyle: styles.tabBarStyle,
+                    tabBarStyle: styles.tabBarStyle(hasBottomBar),
 
                 })}
             >
