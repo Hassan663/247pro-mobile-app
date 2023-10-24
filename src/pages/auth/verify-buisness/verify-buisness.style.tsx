@@ -3,22 +3,28 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
-import { centralStyle } from '../../../styles/constant.style';
+import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
+    // logoStyle: {
+    //     height: RFPercentage(10),
+    //     width: RFPercentage(22),
+    //     resizeMode: 'contain',
+    //     tintColor: Colors.black,
+    //     ...centralStyle.selfCenter,
+    // },
     logoStyle: {
+        alignSelf: centralPosition.center,
         height: RFPercentage(10),
-        width: RFPercentage(22),
+        width: RFPercentage(17),
         resizeMode: 'contain',
-        tintColor: Colors.black,
-        ...centralStyle.selfCenter,
+        tintColor: Colors.black
     },
     titleWrapper: {
-        ...centralStyle.justifyContentCenter,
-        flex: 3,
+        flex: 2.5,
     },
     inputWrapper: {
-        flex: 4,
+        flex: 4.5,
     },
     footer: {
         flex: 3,
@@ -26,15 +32,13 @@ export const styles = StyleSheet.create({
         marginVertical: RFPercentage(2)
     },
 
-    headerDisc: {
-        width: '80%'
-    },
     row: {
         ...centralStyle.row,
     },
     radioWrapper: {
         flex: 1,
-        marginVertical: RFPercentage(1)
+        marginVertical: RFPercentage(1),
+        alignItems: 'center'
     },
 
     mx: {

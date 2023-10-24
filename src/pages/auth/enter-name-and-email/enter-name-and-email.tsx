@@ -5,8 +5,6 @@ import React, {
 import {
     View,
     Image,
-    ScrollView,
-    Dimensions,
     SafeAreaView,
 } from 'react-native';
 
@@ -16,12 +14,9 @@ import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './enter-name-and-email.style';
+import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import {
-    ScreenTitle,
-    Title,
-} from '../../../core/components/screen-title.component';
-import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
+import { centralStyle } from '../../../styles/constant.style';
 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [name, setName] = useState('')
