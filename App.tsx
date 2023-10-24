@@ -36,7 +36,53 @@ const MainComponent: React.FC = () => {
     }, [isUserLogin])
 
     return (
-        authState ? <AuthNavigation /> : <AppNavigation />
+
+        //     platform == 'ios'
+        //         ?
+        //         authState ?
+        //             // <></> 
+        //             <AuthNavigation />
+        //             // :
+        //             // <>
+        //             //     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
+        //             //     <AuthNavigation />
+        //             // </>
+        //             :
+        //             !authState ?
+        //                 <>
+        //                     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
+        //                     <AppNavigation />
+        //                 </>
+        //                 :
+
+        //                 <>
+        //                     <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
+        //                     <AppNavigation />
+        //                 </>
+        //         :
+        //         authState ?
+        //             <StatusBar barStyle="dark-content" hidden={false} translucent={true} /> :
+        //             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> 
+
+        // <></>
+
+
+
+
+        <>
+            {platform == 'ios'
+                ?
+                authState ?
+                    <></> :
+                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                !authState ?
+                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                    <StatusBar barStyle="dark-content" hidden={false} translucent={true} />}
+
+            {authState ? <AuthNavigation /> : <AppNavigation />}
+
+        </>
+
     )
 };
 
@@ -55,16 +101,16 @@ const App: React.FC = () => {
         <I18nextProvider i18n={i18n}>
 
             <Provider store={store}>
-                {
+                {/* {
                     platform == 'ios'
                         ?
-                        !auth ?
+                        auth ?
                             <></> :
                             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                         !auth ?
                             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                             <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
-                }
+                } */}
 
                 <SafeAreaProvider>
                     <PortalProvider>

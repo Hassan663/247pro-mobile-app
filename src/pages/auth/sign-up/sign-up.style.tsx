@@ -7,15 +7,13 @@ import { platform } from '../../../utilities';
 
 export const styles = StyleSheet.create({
     titleWrapper: {
-        flex: 1.5,
-        // backgroundColor: 'blue',
+        flex: 2,
         ...centralStyle.row,
         ...centralStyle.alignitemEnd,
     },
 
     inputContainer: {
         flex: 2,
-        // backgroundColor: 'red',
         justifyContent: "space-evenly"
     },
 
@@ -24,8 +22,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     footerContainer: {
-        flex: 1.5,
-        // backgroundColor: 'red',
+        flex: 1,
         ...centralStyle.XAndYCenter
     },
     inputWrapper: {

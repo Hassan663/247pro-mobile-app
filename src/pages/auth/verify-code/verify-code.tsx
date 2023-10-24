@@ -38,63 +38,66 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
 
         <View style={centralStyle.container}>
-            <SafeAreaView>
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ height: heightFlex1 * 9.5 }}>
-                    <AntDesign size={RFPercentage(3)} name={'left'} />
-                    <View style={styles.deviceContainer}>
-                        <Image
-                            style={styles.mobileImg}
-                            resizeMode='contain'
-                            source={require('../../../assets/auth-images/Device.png')} />
-                    </View>
-                    <View style={styles.body}>
-                        <Title
-                            title={t('Verify_Your_Mobile')}
-                            color={Colors.black}
-                            weight='600'
-                            type={`Poppin-18`} />
-                        <Title
-                            title={t('enter_Code_Text')}
-                            color={Colors.fontColor}
-                            weight='400'
-                            type={`Poppin-16`} />
-                        <CodeField
-                            ref={ref}
-                            {...props}
-                            value={value}
-                            onChangeText={setValue}
-                            cellCount={CELL_COUNT}
-                            rootStyle={styles.codeFieldRoot}
-                            keyboardType="number-pad"
-                            textContentType="oneTimeCode"
-                            renderCell={({ index, symbol, isFocused }) => (
-                                <Text
-                                    key={index}
-                                    style={[styles.cell, isFocused && styles.focusCell]}
-                                    onLayout={getCellOnLayoutHandler(index)}>
-                                    {symbol || (isFocused ? <Cursor /> : null)}
-                                </Text>
-                            )}
-                        />
-                        <Title
-                            title={t('resentText')}
-                            color={Colors.fontColor}
-                            weight='400'
-                            type={`Poppin-16`} />
-                        <Title
-                            title={t('RESEND_CODE')}
-                            color={Colors.primary}
-                            weight='600'
-                            type={`Poppin-14`} />
+            <SafeAreaView style={centralStyle.container}>
+                <AntDesign
+                    onPress={() => changeRoute(navigation, 'pop')}
+                    color={Colors.fontColor}
+                    name={`left`}
+                    size={RFPercentage(2.5)} />
 
-                        <View style={styles.footer}>
-                            <Button
-                                callBack={() => changeRoute(navigation, 'EnterNameAndEmail')}
-                                title={t('Verify')} primary />
-                        </View>
-                    </View>
+                <View style={styles.deviceContainer}>
+                    <Image
+                        style={styles.mobileImg}
+                        resizeMode='contain'
+                        source={require('../../../assets/auth-images/Device.png')} />
+                </View>
+                <View style={styles.body}>
+                    <Title
+                        title={t('Verify_Your_Mobile')}
+                        color={Colors.black}
+                        weight='600'
+                        type={`Poppin-18`} />
+                    <Title
+                        title={t('enter_Code_Text')}
+                        color={Colors.fontColor}
+                        weight='400'
+                        type={`Poppin-16`} />
+                    <CodeField
+                        ref={ref}
+                        {...props}
+                        value={value}
+                        onChangeText={setValue}
+                        cellCount={CELL_COUNT}
+                        rootStyle={styles.codeFieldRoot}
+                        keyboardType="number-pad"
+                        textContentType="oneTimeCode"
+                        renderCell={({ index, symbol, isFocused }) => (
+                            <Text
+                                key={index}
+                                style={[styles.cell, isFocused && styles.focusCell]}
+                                onLayout={getCellOnLayoutHandler(index)}>
+                                {symbol || (isFocused ? <Cursor /> : null)}
+                            </Text>
+                        )}
+                    />
+                    <Title
+                        title={t('resentText')}
+                        color={Colors.fontColor}
+                        weight='400'
+                        type={`Poppin-16`} />
+                    <Title
+                        title={t('RESEND_CODE')}
+                        color={Colors.primary}
+                        weight='600'
+                        type={`Poppin-14`} />
 
-                </ScrollView>
+                    <View style={styles.footer}>
+                        <Button
+                            callBack={() => changeRoute(navigation, 'EnterNameAndEmail')}
+                            title={t('Verify')} primary />
+                    </View>
+                </View>
+
             </SafeAreaView>
         </View>
     );

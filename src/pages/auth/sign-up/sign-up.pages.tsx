@@ -94,7 +94,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     title={t('Whats_your_mobile_number')}
                     weight='600' />
                 <View style={styles.inputWrapper}>
-                    {otpSupported ?
+                    {!otpSupported ?
                         <View style={{ width: '100%' }}>
                             <Input placeholder={t('Enter_Your_Email')} />
                         </View>
