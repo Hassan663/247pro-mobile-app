@@ -2,26 +2,30 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
 import { centralPosition, centralStyle } from '../../../styles/constant.style';
+import { platform } from '../../../utilities';
 
 
 export const styles = StyleSheet.create({
     titleWrapper: {
-        flex: 2,
+        flex: 1.5,
+        // backgroundColor: 'blue',
         ...centralStyle.row,
         ...centralStyle.alignitemEnd,
     },
 
     inputContainer: {
-        flex: 3,
-        ...centralStyle.justifyContentCenter
+        flex: 2,
+        // backgroundColor: 'red',
+        justifyContent: "space-evenly"
     },
 
     logInBtnContainer: {
-        flex: 4,
-        justifyContent: centralPosition.spacebetween,
+        flex: 5,
+        justifyContent: 'space-between',
     },
     footerContainer: {
-        flex: 1,
+        flex: 1.5,
+        // backgroundColor: 'red',
         ...centralStyle.XAndYCenter
     },
     inputWrapper: {
@@ -38,9 +42,9 @@ export const styles = StyleSheet.create({
         width: "85%"
     },
     socialText: {
-        fontSize: RFPercentage(2),
-        letterSpacing: RFPercentage(.2),
-        fontWeight: '700',
+        fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
+        fontFamily: "Poppins-SemiBold",
+        color: Colors.fontColor,
     },
     footerTextWrapper: {
         ...centralStyle.row,
@@ -54,10 +58,22 @@ export const styles = StyleSheet.create({
         marginHorizontal: RFPercentage(.5)
     },
     orContainer: {
-        flex: 1,
+        width: '40%',
+        alignSelf: 'center',
+        marginVertical: RFPercentage(2),
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter
+
+
+    },
+    line: {
+        height: 1,
+        width: '70%',
+        marginHorizontal: RFPercentage(1),
+        backgroundColor: Colors.lightGray
     },
     googleIcon: {
-        height: RFPercentage(4.5),
-        width: RFPercentage(4.5)
+        height: RFPercentage(3.5),
+        width: RFPercentage(3.5)
     },
 });

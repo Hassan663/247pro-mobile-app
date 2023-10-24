@@ -26,13 +26,14 @@ export const styles: any = StyleSheet.create<any>({
 
     ScreenMainTitle: (color?: string, widthAuto?: boolean) => ({
         fontSize: RFPercentage(3.5),
+        fontFamily: "Poppins-SemiBold",
         width: widthAuto ? 'auto' : '60%',
         color: color ? color : Colors.black,
         fontWeight: 'bold',
     }),
 
     primaryBtn: {
-        height: RFPercentage(7),
+        height: RFPercentage(5.6),
         backgroundColor: Colors.primary,
         borderRadius: RFPercentage(1),
         justifyContent: 'center',
@@ -59,7 +60,7 @@ export const styles: any = StyleSheet.create<any>({
         marginVertical: RFPercentage(1.5),
     }),
     poppin_24: {
-        fontSize: platform == 'ios' ? RFPercentage(3.1) : RFPercentage(3.6),
+        fontSize: platform == 'ios' ? RFPercentage(2.8) : RFPercentage(3.3),
     },
     poppin_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
