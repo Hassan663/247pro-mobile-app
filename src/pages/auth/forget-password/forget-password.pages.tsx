@@ -24,7 +24,7 @@ import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
-        <SafeAreaView style={centralStyle.container}>
+        <SafeAreaView style={centralStyle.flex1}>
             <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <AntDesign

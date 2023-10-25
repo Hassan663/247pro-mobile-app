@@ -26,7 +26,7 @@ const VerifyBuisness: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [isCheck, setIsCheck] = useState(false)
 
     return (
-        <SafeAreaView style={centralStyle.container}>
+        <SafeAreaView style={centralStyle.flex1}>
             <View style={centralStyle.container}>
                 <View style={[styles.titleWrapper]}>
                     <TouchableOpacity

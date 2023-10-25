@@ -24,7 +24,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [password, setPassword] = useState('')
 
     return (
-        <SafeAreaView style={centralStyle.container}>
+        <SafeAreaView style={centralStyle.flex1}>
             <View style={centralStyle.container}>
                 <View style={styles.titleWrapper}>
                     <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
