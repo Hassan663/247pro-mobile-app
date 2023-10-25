@@ -55,14 +55,14 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{ flex: 1 }}
         >
+            {loading &&
+                <TouchableOpacity
+                    onPress={() => setloading(!loading)}
+                    style={styles.loadingContainer}>
+                    <Image source={require('../../../assets/auth-images/loading.png')} />
+                </TouchableOpacity>}
             <SafeAreaView style={centralStyle.container}>
 
-                {loading &&
-                    <TouchableOpacity
-                        onPress={() => setloading(!loading)}
-                        style={styles.loadingContainer}>
-                        <Image source={require('../../../assets/auth-images/loading.png')} />
-                    </TouchableOpacity>}
                 <ScrollView
                     contentContainerStyle={{ flexGrow: 1 }}
                     showsVerticalScrollIndicator={false}>
