@@ -29,8 +29,6 @@ import {
 } from '../../../core/helpers/async-storage';
 import {
     FooterText,
-    ScreenSubTitle,
-    ScreenTitle,
     Title,
 } from '../../../core/components/screen-title.component';
 
@@ -66,6 +64,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <View style={{ width: '70%' }}>
                     <Title
                         type='Poppin-24'
+                        color={Colors.black}
                         title={t(`Create_Your_Free_Account`)}
                         weight='600' />
                 </View>

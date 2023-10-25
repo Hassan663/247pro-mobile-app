@@ -66,7 +66,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                 <ScrollView
                     contentContainerStyle={{ flexGrow: 1 }}
                     showsVerticalScrollIndicator={false}>
-                    <View  >
+                    <View style={centralStyle.flex1}>
                         <View style={[styles.titleWrapper]}>
                             <TouchableOpacity
                                 activeOpacity={.8}
