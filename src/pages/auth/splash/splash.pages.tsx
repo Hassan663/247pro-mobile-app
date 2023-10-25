@@ -5,13 +5,15 @@ import { styles } from './splash.style';
 import Button from '../../../core/components/button.component';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../router/auth';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { loginAction } from '../../../store/action/action';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { LoginModal } from '../../../core/modals/login.modal';
 import { centralStyle } from '../../../styles/constant.style';
 import Colors from '../../../styles/colors';
+import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
+import { platform } from '../../../utilities';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -36,30 +38,29 @@ const Splash: React.FC = () => {
     }
   };
 
-
-
   const handleSkip = () => {
     clearTimeout(timerRef.current);
     handleWalkThroughScreen();
   };
-
-
-
-
   useEffect(() => {
-
     dispatch(loginAction(emailPass))
-
-
     timerRef.current = setTimeout(() => {
       handleWalkThroughScreen();
     }, 2000);
-
     return () => {
       clearTimeout(timerRef.current);
     };
 
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: true });
+      return () => {
+        dispatch({ type: SPLASHSTATUSBAR, payload: false });
+      };
+    }, [])
+  );
 
   return (
     <SafeAreaView style={[centralStyle.flex1, { backgroundColor: Colors.primary }]}>

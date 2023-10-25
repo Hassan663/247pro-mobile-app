@@ -1,4 +1,9 @@
-import { CURRENTUSERPROFILE,ISUSERLOGIN, OTPSUPPORTED } from '../constant/constant'
+import {
+    CURRENTUSERPROFILE,
+    ISUSERLOGIN,
+    OTPSUPPORTED,
+    SPLASHSTATUSBAR
+} from '../constant/constant'
 
 export type Action = {
     type: string;
@@ -8,6 +13,7 @@ export type Action = {
 const INITIAL_STATE = {
     isUserLogin: false,
     otpSupported: false,
+    splashStatusBar: false,
 
 }
 
@@ -17,6 +23,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 currentUserProfile: action.payload
+            })
+        case SPLASHSTATUSBAR:
+            return ({
+                ...states,
+                splashStatusBar: action.payload
             })
         case ISUSERLOGIN:
             return ({

@@ -20,6 +20,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n, {
     fetchTranslations
 } from './src/i18n';
+import { useNavigation } from '@react-navigation/native';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
@@ -28,47 +29,12 @@ var auth = true;
 const MainComponent: React.FC = () => {
 
     const [authState, setAuthState] = useState<any>(true)
-    const { isUserLogin } = useSelector((state: any) => state.root)
+    const { isUserLogin, splashStatusBar } = useSelector((state: any) => state.root)
     useEffect(() => {
         auth = !isUserLogin
         setAuthState(!isUserLogin)
-        console.log(isUserLogin, 'store.getState().root.isUserLogin')
     }, [isUserLogin])
-
     return (
-
-        //     platform == 'ios'
-        //         ?
-        //         authState ?
-        //             // <></> 
-        //             <AuthNavigation />
-        //             // :
-        //             // <>
-        //             //     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
-        //             //     <AuthNavigation />
-        //             // </>
-        //             :
-        //             !authState ?
-        //                 <>
-        //                     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" />
-        //                     <AppNavigation />
-        //                 </>
-        //                 :
-
-        //                 <>
-        //                     <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
-        //                     <AppNavigation />
-        //                 </>
-        //         :
-        //         authState ?
-        //             <StatusBar barStyle="dark-content" hidden={false} translucent={true} /> :
-        //             <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> 
-
-        // <></>
-
-
-
-
         <>
             {platform == 'ios'
                 ?
@@ -76,9 +42,10 @@ const MainComponent: React.FC = () => {
                     <></> :
                     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                 authState ?
-                    <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                    splashStatusBar ?
+                        <MyStatusBar backgroundColor={Colors.primary} barStyle="light-content" /> :
+                        <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                     <StatusBar barStyle="dark-content" hidden={false} translucent={true} />}
-
             {authState ? <AuthNavigation /> : <AppNavigation />}
 
         </>
