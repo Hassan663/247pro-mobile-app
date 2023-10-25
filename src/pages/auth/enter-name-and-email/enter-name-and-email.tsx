@@ -24,8 +24,8 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [password, setPassword] = useState('')
 
     return (
-        <SafeAreaView style={centralStyle.flex1}>
-            <View style={centralStyle.container}>
+        <View style={centralStyle.container}>
+            <SafeAreaView style={centralStyle.flex1}>
                 <View style={styles.titleWrapper}>
                     <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
                     <Title
@@ -63,8 +63,8 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
                         callBack={() => changeRoute(navigation, 'VerifyBuisness')}
                         title={t('Next')} primary />
                 </View>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
+        </View>
     );
 };
 
