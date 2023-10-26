@@ -44,15 +44,11 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [saveContact, setsaveContact] = useState(false)
     const [alreadySaveInContact, setalreadySaveInContact] = useState(false)
 
-
     const insets = useSafeArea();
     const notchSize = insets.top;
-    alert(notchSize)
-    return (
-        <View style={[{ height: flex1BottomTab-notchSize,width:"100%", backgroundColor: 'red' }]}>
-            {/* <View style={[{ height: StatusBar.currentHeight + windowHeight - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8)), }]}> */}
-            {/* height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8), */}
 
+    return (
+        <View style={[{ height: flex1BottomTab - notchSize }, centralStyle.width100]}>
             <SafeAreaView style={[styles.container,]}>
                 <AppHeader
                     iconR1={
