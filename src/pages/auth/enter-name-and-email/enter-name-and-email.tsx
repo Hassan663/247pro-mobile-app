@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { t } from 'i18next';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
@@ -16,7 +17,7 @@ import OutlinedTextInput from '../../../core/components/outlined-textInput.compo
 import { styles } from './enter-name-and-email.style';
 import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { centralStyle } from '../../../styles/constant.style';
+import { centralStyle, windowHeight } from '../../../styles/constant.style';
 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [name, setName] = useState('')
@@ -24,47 +25,49 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [password, setPassword] = useState('')
 
     return (
-        <View style={centralStyle.container}>
-            <SafeAreaView style={centralStyle.flex1}>
-                <View style={styles.titleWrapper}>
-                    <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                    <Title
-                        color={Colors.black}
-                        weight='600'
-                        title={t(`Welcome_to_247PRO`) + '!'}
-                        type={`Poppin-24`} />
-                    <Title
-                        color={Colors.fontColor}
-                        title={t(`Please_provide_your_login_information`)}
-                        type={`Poppin-16`} />
-                </View>
-                <View style={styles.inputWrapper}>
-                    <OutlinedTextInput
-                        val={name}
-                        onChange={(val) => { setName(val) }}
-                        title={t('Full_name')}
-                        placeHolder={t('Full_name')}
-                    />
-                    <OutlinedTextInput
-                        val={email}
-                        onChange={(val) => { setEmail(val) }}
-                        title={t('Email')}
-                        placeHolder={t('Email')}
-                    />
-                    <OutlinedTextInput
-                        val={password}
-                        onChange={(val) => { setPassword(val) }}
-                        title={t('Password')}
-                        placeHolder={t('Password')}
-                    />
-                </View>
-                <View style={styles.footer}>
-                    <Button
-                        callBack={() => changeRoute(navigation, 'VerifyBuisness')}
-                        title={t('Next')} primary />
-                </View>
-            </SafeAreaView>
-        </View>
+        <KeyboardAwareScrollView>
+            <View style={[centralStyle.container, { height: windowHeight }]}>
+                <SafeAreaView style={centralStyle.flex1}>
+                    <View style={styles.titleWrapper}>
+                        <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
+                        <Title
+                            color={Colors.black}
+                            weight='600'
+                            title={t(`Welcome_to_247PRO`) + '!'}
+                            type={`Poppin-24`} />
+                        <Title
+                            color={Colors.fontColor}
+                            title={t(`Please_provide_your_login_information`)}
+                            type={`Poppin-16`} />
+                    </View>
+                    <View style={styles.inputWrapper}>
+                        <OutlinedTextInput
+                            val={name}
+                            onChange={(val) => { setName(val) }}
+                            title={t('Full_name')}
+                            placeHolder={t('Full_name')}
+                        />
+                        <OutlinedTextInput
+                            val={email}
+                            onChange={(val) => { setEmail(val) }}
+                            title={t('Email')}
+                            placeHolder={t('Email')}
+                        />
+                        <OutlinedTextInput
+                            val={password}
+                            onChange={(val) => { setPassword(val) }}
+                            title={t('Password')}
+                            placeHolder={t('Password')}
+                        />
+                    </View>
+                    <View style={styles.footer}>
+                        <Button
+                            callBack={() => changeRoute(navigation, 'VerifyBuisness')}
+                            title={t('Next')} primary />
+                    </View>
+                </SafeAreaView>
+            </View>
+        </KeyboardAwareScrollView>
     );
 };
 
