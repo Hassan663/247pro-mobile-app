@@ -64,7 +64,8 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <TouchableOpacity
                             onPress={() => changeRoute(navigation, 'pop')}
                             activeOpacity={.8}
-                            style={styles.mx2}>
+                            style={[styles.mx2]}
+                            >
                             <Title
                                 color={Colors.primary}
                                 type='Poppin-14'

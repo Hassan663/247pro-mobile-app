@@ -8,34 +8,36 @@ import {
     ScrollView,
     Image,
     FlatList,
-    StatusBar
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
 import Entypo from 'react-native-vector-icons/Entypo'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
+import { useSafeArea } from 'react-native-safe-area-context';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
-import { styles } from './biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';
+import { styles } from './biz-card.style';
 import { platform } from '../../../../utilities';
-import { centralStyle, flex1BottomTab, windowHeight, windowHeightWithStatusBar } from '../../../../styles/constant.style';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import {
     CreateBuisnessCartModal,
     ListCard
 } from './biz-card-component';
 import {
+    centralStyle,
+    flex1BottomTab,
+} from '../../../../styles/constant.style';
+import {
     BIZCARDDATA,
     MODALDATA,
 } from './data';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { useSafeArea } from 'react-native-safe-area-context';
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
@@ -86,10 +88,7 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             editCallback={() => { changeRoute(navigation, 'EditBizCard') }}
                             disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                        // contentContainerStyle={centralStyle.pb15}
-                        >
+                        <ScrollView showsVerticalScrollIndicator={false}                        >
                             <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
                                 <FontAwesome name={'user'} color={Colors.fontColor} size={RFPercentage(10)} />
                             </View>
