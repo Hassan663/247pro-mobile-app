@@ -159,7 +159,7 @@ export const languageData = [
             NewContact: "New Contact",
             Companyname: "Company name",
             Speciality: 'Speciality',
-            jobTitle: 'job title',
+            jobTitle: 'Job title',
             Websiteurl: "Website url",
             SHOWMORE: "SHOW MORE",
             Country: "Country",

@@ -24,7 +24,7 @@ export const styles: any = StyleSheet.create<any>({
         borderWidth: 1,
         borderRadius: RFPercentage(1),
         padding: RFPercentage(1),
-        width: '45%',
+        width: '50%',
 
         justifyContent: "space-evenly",
         borderColor: Colors.lightGray,

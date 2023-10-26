@@ -46,6 +46,7 @@ export const List = ({ item, navigation }: any) => {
                 weight='400' />
             <AntDesign
                 name={'right'}
+                color={Colors.black}
                 size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
 
         </TouchableOpacity>

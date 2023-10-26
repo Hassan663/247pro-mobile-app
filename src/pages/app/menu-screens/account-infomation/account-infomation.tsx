@@ -46,7 +46,7 @@ const AccountInformtaion: React.FC<{ navigation: any, route: any }> = ({ navigat
                 iconR1={
                     <TouchableOpacity
                         activeOpacity={.8}
-                        onPress={() =>changeRoute(navigation,'EditProfile')}
+                        onPress={() => changeRoute(navigation, 'EditProfile')}
                         style={centralStyle.mx2}>
                         <Title
                             title={t(`Edit`)}

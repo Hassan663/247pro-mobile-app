@@ -128,13 +128,13 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <View style={styles.inputContainer(60)}>
                             {
                                 about?.length && about?.length > 0 ?
-                                    <Text style={styles.inputtitle(isActive)}>{t(`about`)}</Text>
+                                    <Text style={styles.inputtitle(isActive)}>{t(`About`)}</Text>
                                     : isActive &&
-                                    <Text style={styles.inputtitle(isActive)}>{t(`about`)}</Text>
+                                    <Text style={styles.inputtitle(isActive)}>{t(`About`)}</Text>
                             }
                             <View style={styles.textInputContainer(isActive)}>
                                 <TextInput
-                                    placeholder={isActive ? '' : t('about')}
+                                    placeholder={isActive ? '' : t('About')}
                                     value={about}
                                     onFocus={() => handleFocus(setIsActive)}
                                     multiline={true}
@@ -224,7 +224,8 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             centralStyle.my3,
                             centralStyle.alignitemCenter,
                             styles.addCustomField,
-                            { width: "50%" }]}
+                            { width: "60%" }
+                        ]}
                         callBack={() => {
                             if (isEnabled) {
                                 sheetRef?.current?.open()

@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
         marginRight: 10
     },
     selectRegionContainer: {
-        height: RFPercentage(5),
+        minHeight: RFPercentage(5),
+        backgroundColor: "red",
         borderWidth: 1,
         borderColor: Colors.lightGrey
     },
