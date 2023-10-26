@@ -5,7 +5,7 @@ import { platform } from '../utilities';
 
 export const windowWidth = Dimensions.get('window').width;
 
-export const flex1BottomTab =  Dimensions.get('window').height- (platform == 'ios' ? RFPercentage(10) : RFPercentage(8))  ;
+export const flex1BottomTab = Dimensions.get('window').height - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8) - StatusBar.currentHeight);
 export const windowHeight = Platform.OS === 'android' ? Dimensions.get('window').height - StatusBar?.currentHeight : Dimensions.get('window').height;
 export const heightFlex1 = windowHeight / 10
 
