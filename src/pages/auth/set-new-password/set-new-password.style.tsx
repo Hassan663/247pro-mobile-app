@@ -4,10 +4,10 @@ import Colors from '../../../styles/colors';
 import { centralPosition } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
- 
+
     titleWrapper: {
         justifyContent: 'space-between',
-        flex: 3,
+        flex: 2.5,
     },
     logoStyle: {
         alignSelf: centralPosition.center,
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
         tintColor: Colors.black
     },
     inputContainer: {
-        flex: 3,
+        flex: 3.5,
         paddingVertical: RFPercentage(1),
     },
 

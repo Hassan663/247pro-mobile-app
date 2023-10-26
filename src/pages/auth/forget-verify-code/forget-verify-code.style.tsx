@@ -5,8 +5,7 @@ import { centralPosition } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
     titleWrapper: {
-        justifyContent: centralPosition.spacebetween,
-        flex: 3,
+        flex: 2,
     },
     logoStyle: {
         alignSelf: centralPosition.center,
@@ -21,7 +20,7 @@ export const styles = StyleSheet.create({
     },
 
     logInBtnContainer: {
-        flex: 4,
+        flex: 5,
         justifyContent: 'space-between',
         marginBottom: RFPercentage(2)
 
@@ -29,7 +28,6 @@ export const styles = StyleSheet.create({
     inputWrapper: {
         flexDirection: 'row',
         alignItems: centralPosition.center,
-        marginVertical: RFPercentage(3)
     },
     cell: {
         width: 40,
