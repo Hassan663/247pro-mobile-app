@@ -82,7 +82,11 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
                     <ScrollView
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={centralStyle.pb10}>
+                        contentContainerStyle={{
+                            paddingBottom: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
+
+                        }}
+                    >
                         <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
                             <FontAwesome name={'user'} color={Colors.fontColor} size={RFPercentage(10)} />
                         </View>
