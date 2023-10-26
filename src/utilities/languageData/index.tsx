@@ -306,6 +306,7 @@ export const languageData = [
             ShareaLink:"Share a Link",
             InvitewithContacts:'Invite with Contacts',
             ScanMyQRCode:"Scan My QR Code",
+            Whatsyourphoneoremail:"Whats your phone or email?"
         }
     },
     {
@@ -617,6 +618,7 @@ export const languageData = [
             ShareaLink:"分享链接",
             InvitewithContacts:'邀请联系人',
             ScanMyQRCode:"扫描我的二维码",
+            Whatsyourphoneoremail:"您的电话或电子邮件是什么？"
 
  }
     },
@@ -924,6 +926,7 @@ export const languageData = [
             ShareaLink:"Compartir un enlace",
             InvitewithContacts:'Invitar con contactos',
             ScanMyQRCode:"Escanea mi código QR",
+            Whatsyourphoneoremail:"¿Cuál es tu teléfono o correo electrónico?"
 
         }
     }

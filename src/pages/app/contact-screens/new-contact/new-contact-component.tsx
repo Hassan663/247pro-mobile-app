@@ -87,8 +87,8 @@ export const RightIcon = (navigation?: any) => (
 export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
     return (
         <TouchableOpacity onPress={() => {
-            if (getCompany) getCompany(item)
-            if (disableSheet) disableSheet()
+            if (getCompany) { getCompany(item) }
+            if (disableSheet) { disableSheet() }
         }} activeOpacity={.9} style={[centralStyle.row,]}>
             <View style={[styles.companyListContainer,]}>
                 <View style={[centralStyle.row, styles.listWrapper]}>
@@ -152,7 +152,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
-                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany(val)} item={item} />}
+                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany && getCompany(val)} item={item} />}
                         renderCustomSectionHeader={CustomSectionHeader}
                     />
                 </View>

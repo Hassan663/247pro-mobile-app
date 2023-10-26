@@ -44,7 +44,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
     }
     const handleShareQR = () => {
         closeSheet(sheetRef)
-        changeRoute(navigation, 'AccountInformtaionRequest','invitePeople')
+        changeRoute(navigation, 'QRCode','invitePeople')
     }
     
     return (
@@ -104,7 +104,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
                 closeOnPressMask={true}
                 closeOnDragDown={true}
                 openDuration={250}
-                animationType={`slide`}
+                animationType={'slide'}
                 customStyles={{ container: { borderRadius: RFPercentage(2) } }}
             >
                 <InvitePropleUI

@@ -93,12 +93,12 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <Title
                         type='Poppin-18'
                         color={Colors.fontColor}
-                        title={t('Whats_your_mobile_number')}
+                        title={t(`Whatsyourphoneoremail`)}
                         weight='600' />
                     <View style={styles.inputWrapper}>
                         {!otpSupported ?
                             <View style={{ width: '100%' }}>
-                                <Input placeholder={t('Enter_Your_Email')} />
+                                <Input placeholder={t('Phone_or_email')} />
                             </View>
                             :
                             <>
