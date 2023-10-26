@@ -80,7 +80,7 @@ const QRCode: React.FC<{ navigation: any, route: any }> = ({ navigation, route }
                     centralStyle.mb3]}>
                     <Button
                         callBack={() => {
-                            if (route.params == 'invitePeople') changeRoute(navigation, 'AccountInformtaion')
+                            if (route.params == 'invitePeople') changeRoute(navigation, 'AccountInformtaionRequest')
                             else onShare()
                         }}
                         title={t('Share')}
