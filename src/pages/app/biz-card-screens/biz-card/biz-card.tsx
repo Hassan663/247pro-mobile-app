@@ -7,7 +7,8 @@ import {
     SafeAreaView,
     ScrollView,
     Image,
-    FlatList
+    FlatList,
+    StatusBar
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
@@ -23,7 +24,7 @@ import Button from '../../../../core/components/button.component';
 import { styles } from './biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { platform } from '../../../../utilities';
-import { centralStyle } from '../../../../styles/constant.style';
+import { centralStyle, windowHeight } from '../../../../styles/constant.style';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import {
     CreateBuisnessCartModal,
@@ -43,125 +44,129 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [alreadySaveInContact, setalreadySaveInContact] = useState(false)
 
     return (
-        <SafeAreaView style={styles.container}>
-            <AppHeader
-                iconR1={
-                    multiCards ?
-                        <AntDesign
-                            onPress={() => { changeRoute(navigation, 'EditBizCard') }}
-                            style={styles.mx2} name={'plus'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
-                        :
-                        <Entypo style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
-                }
-                type='Poppin-18'
-                weight='600'
-                title={t(`BusinessCard`)} />
+        <View style={[{ height: StatusBar.currentHeight + windowHeight - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8)), }]}>
+            {/* height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8), */}
 
-            {createBuisnessCartModalEnabled && <CreateBuisnessCartModal
-                contactSaved={saveContact}
-                disableModal={() => setCreateBuisnessCartModalEnabled(!createBuisnessCartModalEnabled)} />}
+            <SafeAreaView style={[styles.container,]}>
+                <AppHeader
+                    iconR1={
+                        multiCards ?
+                            <AntDesign
+                                onPress={() => { changeRoute(navigation, 'EditBizCard') }}
+                                style={styles.mx2} name={'plus'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
+                            :
+                            <Entypo style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
+                    }
+                    type='Poppin-18'
+                    weight='600'
+                    title={t(`BusinessCard`)} />
 
-            {multiCards ?
-                <FlatList
-                    data={[0, 0, 0, 0, 0, 0,]}
-                    contentContainerStyle={centralStyle.pb10}
-                    renderItem={({ item }) => {
-                        return (
-                            <ListCard navigation={navigation} />
-                        );
-                    }}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-                :
-                <>
-                    {modalEnabled && <DropDownModal
-                        DATA={MODALDATA}
-                        navigation={navigation}
-                        editCallback={() => { changeRoute(navigation, 'EditBizCard') }}
-                        disableModal={() => setmodalEnabled(!modalEnabled)} />}
+                {createBuisnessCartModalEnabled && <CreateBuisnessCartModal
+                    contactSaved={saveContact}
+                    disableModal={() => setCreateBuisnessCartModalEnabled(!createBuisnessCartModalEnabled)} />}
 
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={platform == 'ios' ? centralStyle.pb15 : centralStyle.pb10}
-                    >
-                        <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
-                            <FontAwesome name={'user'} color={Colors.fontColor} size={RFPercentage(10)} />
-                        </View>
+                {multiCards ?
+                    <FlatList
+                        data={[0, 0, 0, 0, 0, 0,]}
+                        contentContainerStyle={centralStyle.pb10}
+                        renderItem={({ item }) => {
+                            return (
+                                <ListCard navigation={navigation} />
+                            );
+                        }}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
+                    :
+                    <>
+                        {modalEnabled && <DropDownModal
+                            DATA={MODALDATA}
+                            navigation={navigation}
+                            editCallback={() => { changeRoute(navigation, 'EditBizCard') }}
+                            disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
-                        <View style={styles.bizCartContentWrapper}>
-                            <View style={[styles.mb2,]}>
-                                <View style={saveContact && centralStyle.alignitemCenter}>
-                                    <Title
-                                        type='Poppin-24'
-                                        weight='600'
-                                        title={`George Lee`}
-                                        color={Colors.black} />
-                                    <Title
-                                        type='Poppin-12'
-                                        weight='400'
-                                        title={`Architect `}
-                                        color={Colors.fontColor} />
-                                    <View style={styles.mb2}>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                        // contentContainerStyle={centralStyle.pb15}
+                        >
+                            <View style={[centralStyle.circle(RFPercentage(22)), styles.imgContainer]}>
+                                <FontAwesome name={'user'} color={Colors.fontColor} size={RFPercentage(10)} />
+                            </View>
+
+                            <View style={styles.bizCartContentWrapper}>
+                                <View style={[styles.mb2,]}>
+                                    <View style={saveContact && centralStyle.alignitemCenter}>
                                         <Title
-                                            type='Poppin-14'
-                                            weight='500'
-                                            title={`Company Name`}
+                                            type='Poppin-24'
+                                            weight='600'
+                                            title={`George Lee`}
                                             color={Colors.black} />
-                                    </View>
-                                </View>
-                                <Title
-                                    type='Poppin-14'
-                                    weight='400'
-                                    title={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s`}
-                                    color={Colors.fontColor} />
-                            </View>
-
-                            {BIZCARDDATA.map((item, index) => {
-                                return (
-                                    <View
-                                        key={index.toString()}
-                                        style={styles.rowContainerData}>
-                                        <View style={[centralStyle.circle(RFPercentage(4.5)), styles.primaryCircle]}>
-                                            <Feather
-                                                name={`smartphone`}
-                                                color={Colors.primary}
-                                                size={RFPercentage(2.5)} />
-                                        </View>
                                         <Title
-                                            type='Poppin-14'
+                                            type='Poppin-12'
                                             weight='400'
-                                            title={item}
+                                            title={`Architect `}
                                             color={Colors.fontColor} />
+                                        <View style={styles.mb2}>
+                                            <Title
+                                                type='Poppin-14'
+                                                weight='500'
+                                                title={`Company Name`}
+                                                color={Colors.black} />
+                                        </View>
                                     </View>
-                                )
-                            })}
+                                    <Title
+                                        type='Poppin-14'
+                                        weight='400'
+                                        title={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s`}
+                                        color={Colors.fontColor} />
+                                </View>
 
-                            <View style={[centralStyle.row, styles.socialIcons]}>
+                                {BIZCARDDATA.map((item, index) => {
+                                    return (
+                                        <View
+                                            key={index.toString()}
+                                            style={styles.rowContainerData}>
+                                            <View style={[centralStyle.circle(RFPercentage(4.5)), styles.primaryCircle]}>
+                                                <Feather
+                                                    name={`smartphone`}
+                                                    color={Colors.primary}
+                                                    size={RFPercentage(2.5)} />
+                                            </View>
+                                            <Title
+                                                type='Poppin-14'
+                                                weight='400'
+                                                title={item}
+                                                color={Colors.fontColor} />
+                                        </View>
+                                    )
+                                })}
 
-                                <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/facebook.png')} />
-                                <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/twitter.png')} />
-                                <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/instagram.png')} />
-                                <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/linkedin.png')} />
+                                <View style={[centralStyle.row, styles.socialIcons]}>
+
+                                    <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/facebook.png')} />
+                                    <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/twitter.png')} />
+                                    <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/instagram.png')} />
+                                    <Image style={styles.socialIconsStyle} source={require('../../../../assets/app-images/linkedin.png')} />
+
+                                </View>
+
+                                <View style={styles.btnContainer}>
+                                    <Button
+                                        disable={alreadySaveInContact ? true : false}
+                                        callBack={() => changeRoute(navigation, `ShareQR`)}
+                                        title={
+                                            alreadySaveInContact ? t('alreadysavedinyourcontacts')
+                                                : saveContact ? t('SaveContact') : t('ShareCard')}
+                                        primary
+                                    />
+                                </View>
 
                             </View>
+                        </ScrollView>
+                    </>
+                }
 
-                            <View style={styles.btnContainer}>
-                                <Button
-                                    disable={alreadySaveInContact ? true : false}
-                                    callBack={() => changeRoute(navigation, `ShareQR`)}
-                                    title={
-                                        alreadySaveInContact ? t('alreadysavedinyourcontacts')
-                                            : saveContact ? t('SaveContact') : t('ShareCard')}
-                                    primary
-                                />
-                            </View>
-
-                        </View>
-                    </ScrollView>
-                </>
-            }
-
-        </SafeAreaView >
+            </SafeAreaView >
+        </View>
 
     );
 };
