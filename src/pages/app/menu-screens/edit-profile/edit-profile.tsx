@@ -4,9 +4,7 @@ import React, {
 } from 'react';
 import {
     Image,
-    KeyboardAvoidingView,
     ScrollView,
-    StatusBar,
     Text,
     TextInput,
     TouchableOpacity,
@@ -30,15 +28,13 @@ import { styles } from './edit-profile.style';
 import { INDUSTRIES } from '../../../auth/buisness-questions/data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { PicImgModal } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
-import { centralStyle, windowHeight } from '../../../../styles/constant.style';
+import { centralStyle, } from '../../../../styles/constant.style';
 import {
     handleBlur,
     handleFocus
 } from '../../biz-card-screens/edit-biz-card/call-back';
-import { platform } from '../../../../utilities';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Script } from 'vm';
-
+ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+ 
 const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [isActive, setIsActive] = useState(false);
     const [openPicker, setOpenPicker] = useState(false);
@@ -53,11 +49,10 @@ const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         setIsCountryPickerVisible(false);
         setCountryCode(country.cca2);
     };
-    console.log(imageUriLocal, 'imageUriLocal')
     return (
         <>
             <KeyboardAwareScrollView>
-                <View style={[centralStyle.container, { height: windowHeight + StatusBar?.currentHeight }]}>
+                <View style={[styles.editProfileWrapperContainer]}>
                     <ScrollView
                         contentContainerStyle={{ flexGrow: 1 }}
                         showsVerticalScrollIndicator={false}>
@@ -191,7 +186,7 @@ const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </View>
                         </View>
                     </ScrollView>
-                </View></KeyboardAwareScrollView>
+                </View></KeyboardAwareScrollView >
         </>
     );
 };

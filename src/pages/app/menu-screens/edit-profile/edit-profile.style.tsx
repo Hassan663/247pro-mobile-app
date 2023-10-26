@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import Colors from '../../../../styles/colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { centralPosition, centralStyle } from '../../../../styles/constant.style';
+import { centralPosition, centralStyle, windowHeight } from '../../../../styles/constant.style';
 import { platform } from '../../../../utilities';
 
 export const styles = StyleSheet.create<any>({
@@ -71,5 +71,9 @@ export const styles = StyleSheet.create<any>({
     }),
     imgContainer: {
         backgroundColor: Colors.lightGrey,
-    }
+    },
+    editProfileWrapperContainer: {
+        backgroundColor: Colors.white
+        , height: windowHeight + StatusBar?.currentHeight
+    },
 });
