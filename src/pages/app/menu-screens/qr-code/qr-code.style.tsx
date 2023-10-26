@@ -4,7 +4,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export const styles = StyleSheet.create({
     cardContainer: {
-        paddingTop: RFPercentage(5),
+        height: RFPercentage(45),
         borderRadius: RFPercentage(2),
         width: '90%',
         alignSelf: "center",
@@ -23,9 +23,8 @@ export const styles = StyleSheet.create({
         zIndex: 1
     },
     qrImg: {
-        height: RFPercentage(15),
-        marginVertical: RFPercentage(4),
-        width: RFPercentage(15)
+        height: RFPercentage(25),
+        width: RFPercentage(25)
     },
     shareBtn: {
         position: "absolute",
