@@ -59,7 +59,7 @@ const SignIn: React.FC = () => {
                         <Input placeholder={t('Phone_or_email')} />
                     </View>
                     <View style={centralStyle.my05}>
-                        <Input secureText placeholder={t('Password')} />
+                        <Input password secureText placeholder={t('Password')} />
                     </View>
                     <View style={styles.checkBoxWrapper}>
                         <TouchableOpacity
