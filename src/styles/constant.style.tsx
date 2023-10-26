@@ -1,9 +1,11 @@
 import { Dimensions, StyleSheet, Platform, StatusBar } from 'react-native'
 import Colors from './colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { platform } from '../utilities';
 
 export const windowWidth = Dimensions.get('window').width;
 
+export const flex1BottomTab =  Dimensions.get('window').height- (platform == 'ios' ? RFPercentage(10) : RFPercentage(8))  ;
 export const windowHeight = Platform.OS === 'android' ? Dimensions.get('window').height - StatusBar?.currentHeight : Dimensions.get('window').height;
 export const heightFlex1 = windowHeight / 10
 

@@ -24,7 +24,7 @@ import Button from '../../../../core/components/button.component';
 import { styles } from './biz-card.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { platform } from '../../../../utilities';
-import { centralStyle, windowHeight } from '../../../../styles/constant.style';
+import { centralStyle, flex1BottomTab, windowHeight, windowHeightWithStatusBar } from '../../../../styles/constant.style';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import {
     CreateBuisnessCartModal,
@@ -44,7 +44,8 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [alreadySaveInContact, setalreadySaveInContact] = useState(false)
 
     return (
-        <View style={[{ height: StatusBar.currentHeight + windowHeight - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8)), }]}>
+        <View style={[{ height: flex1BottomTab,width:"100%", backgroundColor: 'red' }]}>
+            {/* <View style={[{ height: StatusBar.currentHeight + windowHeight - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8)), }]}> */}
             {/* height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8), */}
 
             <SafeAreaView style={[styles.container,]}>
