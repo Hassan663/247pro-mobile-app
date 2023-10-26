@@ -10,6 +10,7 @@ import {
     TextInput,
     Platform,
     KeyboardAvoidingView,
+    StatusBar,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -149,7 +150,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     </View>
                     <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.pb10, centralStyle.flex1]}>
                         {contacts ?
-                            <View style={[centralStyle.px2, { height: heightFlex1 * 6, width: "100%" }]}>
+                            <View style={[centralStyle.px2, { height: (heightFlex1 + StatusBar?.currentHeight) * 6, width: "100%" }]}>
                                 <AlphabetList
                                     data={SECTIONLISTDATA}
                                     letterListContainerStyle={styles.listContainerStyle}
