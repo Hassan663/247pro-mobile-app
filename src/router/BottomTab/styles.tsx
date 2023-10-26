@@ -68,7 +68,7 @@ export const styles = StyleSheet.create<any>({
     }),
     tabBarStyle: (hasBottomBar: any) => ({
         height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
-        marginBottom: platform == 'ios' ? hasBottomBar ? "12%" : RFPercentage(3) : - StatusBar?.currentHeight,
+        marginBottom: platform == 'ios' ? hasBottomBar ? RFPercentage(7) : RFPercentage(3) : - StatusBar?.currentHeight,
         // marginBottom: platform == 'ios' ? '12%' : '0%',
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,

@@ -35,6 +35,7 @@ import {
     MODALDATA,
 } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { useSafeArea } from 'react-native-safe-area-context';
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
@@ -43,8 +44,12 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [saveContact, setsaveContact] = useState(false)
     const [alreadySaveInContact, setalreadySaveInContact] = useState(false)
 
+
+    const insets = useSafeArea();
+    const notchSize = insets.top;
+    alert(notchSize)
     return (
-        <View style={[{ height: flex1BottomTab,width:"100%", backgroundColor: 'red' }]}>
+        <View style={[{ height: flex1BottomTab-notchSize,width:"100%", backgroundColor: 'red' }]}>
             {/* <View style={[{ height: StatusBar.currentHeight + windowHeight - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8)), }]}> */}
             {/* height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8), */}
 
