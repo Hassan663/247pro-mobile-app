@@ -30,6 +30,7 @@ export const styles = StyleSheet.create<any>({
     },
     btnStyle: {
         fontWeight: '600',
+        fontSize: RFPercentage(1.8),
         color: Colors.fontColor,
         textTransform: 'uppercase'
     },

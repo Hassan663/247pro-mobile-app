@@ -173,11 +173,11 @@ export const styles: any = StyleSheet.create<any>({
 
     },
     disable: {
-        height: RFPercentage(7),
+        height: RFPercentage(5.6),
         backgroundColor: Colors.lightGray,
         borderRadius: RFPercentage(1),
         justifyContent: 'center',
         alignItems: 'center',
-
     }
+
 });
