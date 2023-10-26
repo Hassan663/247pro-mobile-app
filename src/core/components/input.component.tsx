@@ -32,7 +32,7 @@ const Input: React.FC<InputProps> = ({ placeholder, value, secureText, password,
                         secureTextEntry={!isShown ? true : false}
                         onChangeText={onChangeText}
                     />
-                    <Feather onPress={() => setIsShown(!isShown)} name={isShown ? 'eye' : 'eye-off'} size={RFPercentage(2.5)} />
+                    <Feather onPress={() => setIsShown(!isShown)} color={Colors.gray} name={isShown ? 'eye' : 'eye-off'} size={RFPercentage(2.5)} />
                 </View> :
                 <TextInput
                     style={styles.input}
