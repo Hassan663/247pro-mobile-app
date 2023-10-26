@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
         marginRight: RFPercentage(.5)
     },
     row: {
-        ...centralStyle.alignitemCenter,
+        // ...centralStyle.alignitemCenter,
         ...centralStyle.row
     },
     socialText: {

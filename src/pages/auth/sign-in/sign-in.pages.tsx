@@ -55,26 +55,30 @@ const SignIn: React.FC = () => {
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <Input placeholder={t('Phone_or_email')} />
-                    <Input secureText placeholder={t('Password')} />
+                    <View style={centralStyle.my05}>
+                        <Input placeholder={t('Phone_or_email')} />
+                    </View>
+                    <View style={centralStyle.my05}>
+                        <Input secureText placeholder={t('Password')} />
+                    </View>
                     <View style={styles.checkBoxWrapper}>
                         <TouchableOpacity
                             activeOpacity={.8}
                             onPress={() => setisSelected(!isSelected)}
-                            style={styles.row}
+                            style={[styles.row, { alignItems: "center", height: RFPercentage(3) }]}
                         >
                             {isSelected ?
                                 <AntDesign
                                     style={styles.mr1}
                                     color={Colors.fontColor}
                                     name={'checksquareo'}
-                                    size={RFPercentage(2.9)} />
+                                    size={RFPercentage(2.5)} />
                                 :
                                 <Feather
                                     style={styles.mr1}
                                     color={Colors.gray}
                                     name={'square'}
-                                    size={RFPercentage(3)} />
+                                    size={RFPercentage(2.5)} />
                             }
                             <Title
                                 type={'Poppin-14'}
