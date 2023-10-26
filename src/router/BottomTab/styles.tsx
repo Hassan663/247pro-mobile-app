@@ -1,6 +1,12 @@
-import { StyleSheet, ViewStyle } from 'react-native';
-import Colors from '../../styles/colors';
+import {
+    StatusBar,
+    StyleSheet,
+    ViewStyle
+} from 'react-native';
+
 import { RFPercentage } from 'react-native-responsive-fontsize';
+
+import Colors from '../../styles/colors';
 import { platform } from '../../utilities';
 
 export const styles = StyleSheet.create<any>({
@@ -62,7 +68,7 @@ export const styles = StyleSheet.create<any>({
     }),
     tabBarStyle: (hasBottomBar: any) => ({
         height: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
-        marginBottom: platform == 'ios' ? hasBottomBar ? "12%" : RFPercentage(3) : '0%',
+        marginBottom: platform == 'ios' ? hasBottomBar ? "12%" : RFPercentage(3) : - StatusBar?.currentHeight,
         // marginBottom: platform == 'ios' ? '12%' : '0%',
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,

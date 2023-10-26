@@ -27,7 +27,7 @@ function AppTabs() {
     const hasBottomBar = insets.bottom > 0;
     console.log(hasNotch, hasBottomBar, 'hasBottomBar')
     return (
-        <View style={{ height: windowHeight }}>
+        <View style={{ height: windowHeight, backgroundColor: 'red' }}>
             <Tab.Navigator
                 initialRouteName="Menu"
                 screenOptions={({ route }) => ({
