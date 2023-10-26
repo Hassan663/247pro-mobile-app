@@ -41,10 +41,10 @@ const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <View style={styles.inputWrapper}>
+                        <View style={centralStyle.my05}>
                             <Input placeholder={t('New_password')} />
                         </View>
-                        <View>
+                        <View style={centralStyle.my05}>
                             <Input placeholder={t('Confirm_password')} />
                         </View>
                     </View>

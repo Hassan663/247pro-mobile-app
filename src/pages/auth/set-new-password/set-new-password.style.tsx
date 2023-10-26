@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     },
     inputContainer: {
         flex: 3.5,
-        paddingVertical: RFPercentage(1),
+        paddingVertical: RFPercentage(4),
     },
 
     logInBtnContainer: {
