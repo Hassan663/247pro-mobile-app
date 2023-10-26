@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { t } from 'i18next';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
@@ -14,7 +15,6 @@ import OutlinedTextInput from '../../../../core/components/outlined-textInput.co
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../../styles/constant.style';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const ChangePassword: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -28,7 +28,7 @@ const ChangePassword: React.FC<{ navigation: any, route: any }> = ({ navigation,
                             <TouchableOpacity
                                 activeOpacity={.8}
                                 onPress={() => changeRoute(navigation, 'pop')}
-                                style={centralStyle.mx2}>
+                                style={centralStyle.ml2}>
                                 <Title
                                     title={t(`Cancel`)}
                                     type='Poppin-14'
