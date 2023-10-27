@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     },
     footerTextWrapper: {
         ...centralStyle.row,
-        ...centralStyle.XAndYCenter,
+        ...centralStyle.XAndYCenter,         
     },
     flagWrapper: {
         height: 30,

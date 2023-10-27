@@ -1,7 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import Colors from '../../styles/colors';
-import { centralPosition } from '../../styles/constant.style';
+import { centralPosition, windowHeight } from '../../styles/constant.style';
 import { platform } from '../../utilities';
 
 export const styles: any = StyleSheet.create<any>({
@@ -48,7 +48,7 @@ export const styles: any = StyleSheet.create<any>({
     },
 
     footerText: (color?: string) => ({
-        fontSize: Platform.OS == 'ios' ? RFPercentage(1.6) : RFPercentage(2),
+        fontSize: Platform.OS == 'ios' ? RFPercentage(1.6) : RFValue(14,windowHeight),
         color: color ? color : Colors.black,
     }),
 

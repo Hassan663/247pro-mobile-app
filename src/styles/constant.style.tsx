@@ -245,4 +245,8 @@ export const centralStyle = StyleSheet.create<any>({
     wrap: {
         flexWrap: 'wrap'
     },
+    fullHeightWithoutBottomTab: {
+        marginBottom: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
+        flex: 1
+    }
 });

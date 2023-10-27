@@ -4,6 +4,7 @@ import {
     View,
     Image,
     TouchableOpacity,
+    Text,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -32,6 +33,7 @@ import {
     Title,
 } from '../../../core/components/screen-title.component';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { platform } from '../../../utilities';
 
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -174,6 +176,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
                             <FooterText color={Colors.primary} title={t('TermsAndConditions')} />
                         </TouchableOpacity>
+                      
                     </View>
                     <View style={styles.footerTextWrapper}>
                         <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />

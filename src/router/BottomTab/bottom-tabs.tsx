@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeArea } from 'react-native-safe-area-context';
@@ -21,51 +21,50 @@ const Tab = createBottomTabNavigator();
 function AppTabs() {
 
     const insets = useSafeArea();
+
+    // `insets` object me notch aur bottom bar ki information hoti hai
+    const hasNotch = insets.top > 0;
     const hasBottomBar = insets.bottom > 0;
-
     return (
-        <View style={{ height: windowHeight, backgroundColor: 'red' }}>
-            <Tab.Navigator
-                initialRouteName="Menu"
-                screenOptions={({ route }) => ({
-                    headerShown: false,
-                    tabBarLabelPosition: 'below-icon',
-                    tabBarActiveTintColor: Colors.black, // Active tab color
-                    tabBarInactiveTintColor: Colors.fontColor, // Inactive tab color
-                    tabBarStyle: styles.tabBarStyle(hasBottomBar),
-                    tabBarLabelStyle: { fontWeight: '700' }, // Bold for the 'Menu' tab
+        <Tab.Navigator
+            initialRouteName="Menu"
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                tabBarLabelPosition: 'below-icon',
+                tabBarActiveTintColor: Colors.black, // Active tab color
+                tabBarInactiveTintColor: Colors.fontColor, // Inactive tab color
+                tabBarStyle: styles.tabBarStyle(hasBottomBar),
 
-                })}
-            >
-                <Tab.Screen
-                    name="Contact"
-                    component={Contact}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <Briefcase width={30} height={30} color={color} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="BizCard"
-                    component={BizCard}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MarketPlaceIcon width={30} height={30} color={color} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Menu"
-                    component={Menu}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MenuIcon width={30} height={30} color={color} />
-                        ),
-                    }}
-                />
-            </Tab.Navigator>
-        </View>
+            })}
+        >
+            <Tab.Screen
+                name="Contact"
+                component={Contact}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Briefcase width={30} height={30} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="BizCard"
+                component={BizCard}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MarketPlaceIcon width={30} height={30} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Menu"
+                component={Menu}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MenuIcon width={30} height={30} color={color} />
+                    ),
+                }}
+            />
+        </Tab.Navigator>
     );
 }
 
