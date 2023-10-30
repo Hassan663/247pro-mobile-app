@@ -53,9 +53,16 @@ export const styles: any = StyleSheet.create<any>({
         paddingVertical: 10,
         justifyContent: "flex-end",
     }),
-    textInputContainer: () => ({
+    textInputContainer: (isActive: boolean) => ({
         flexDirection: 'row',
-        minHeight: platform == 'ios' ? 30 : 30,
+        alignItems: "center",
+        minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
+        width: "100%",
+        maxHeight: 100,
     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
@@ -69,13 +76,7 @@ export const styles: any = StyleSheet.create<any>({
         top: '0%',
     }),
     input: (pass: boolean, isActive: boolean) => ({
-        borderWidth: pass ? 0 : RFPercentage(.1),
-        borderRadius: 5,
-        borderColor: isActive ? Colors.primary : Colors.lightGrey,
-        alignItems: "center",
-        paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
-        width: "100%",
-        maxHeight: 100,
+        paddingVertical: RFPercentage(1),
     }),
     socialInputContainer: {
         height: 50,

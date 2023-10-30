@@ -156,7 +156,7 @@ const EditCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                                 multiline={true}
                                                 onBlur={() => handleBlur(setIsActive)}
                                                 onChangeText={(val) => setAbout(val)}
-                                                style={styles.input(false, isActive)} />
+                                                style={[styles.input(false, isActive), {}]} />
                                         </View>
                                     </View>
                                     {!showMore && <TouchableOpacity onPress={() => { setShowMore(true) }} activeOpacity={.9}>
