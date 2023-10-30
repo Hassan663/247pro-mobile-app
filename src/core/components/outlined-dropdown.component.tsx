@@ -60,7 +60,7 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defa
             textAlign: "left", color:
               defaultValueByIndex == true ? Colors.black :
                 dropdownVal?.length && dropdownVal?.length > 0 ? Colors.black : color ? color : Colors.black,
-            fontSize: fontSize ? fontSize : RFPercentage(2)
+            fontSize: fontSize ? fontSize : 14
           }}
           dropdownStyle={dropDownStyle ? dropDownStyle : styles.dropDownStyle}
         />

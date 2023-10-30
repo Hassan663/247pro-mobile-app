@@ -8,16 +8,16 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    KeyboardAvoidingView,
     StatusBar,
 } from 'react-native';
 
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import CountryPicker from 'react-native-country-picker-modal';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
@@ -26,8 +26,10 @@ import OutlinedDropDown from '../../../../core/components/outlined-dropdown.comp
 import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { CONTACTTYPEDATA } from './data';
-import { platform } from '../../../../utilities';
-import { centralStyle, windowHeight } from '../../../../styles/constant.style';
+import {
+    centralStyle,
+    windowHeight
+} from '../../../../styles/constant.style';
 import {
     handleAttachments,
     handleOnSelect,
@@ -40,7 +42,6 @@ import {
     RightIcon,
     SelectedAttachmentUI
 } from './new-contact-component';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -57,9 +58,9 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     return (
         <>
 
-            <KeyboardAwareScrollView>
-                <View style={{ height: windowHeight + StatusBar.currentHeight }}>
-                    <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container}>
+                <KeyboardAwareScrollView>
+                    <View style={centralStyle.flex1}>
                         <AppHeader
                             iconL1={LeftIcon(navigation)}
                             iconR1={RightIcon()}
@@ -101,7 +102,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         dropDownStyle={styles.dropdownstyle}
                                         title={t('Contacttype')}
                                         color={Colors.lightGray}
-                                        fontSize={RFPercentage(1.5)}
+                                        // fontSize={RFPercentage(1.5)}
                                         iconsSize={RFPercentage(2)}
                                         onselect={(value: string) => { setselectedIndustry(value) }}
                                         DATA={CONTACTTYPEDATA}
@@ -117,7 +118,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     dropDownStyle={styles.dropdownstyle}
                                     title={t('Industry')}
                                     color={Colors.lightGray}
-                                    fontSize={RFPercentage(1.5)}
+                                    // fontSize={RFPercentage(1.5)}
                                     iconsSize={RFPercentage(2)}
                                     onselect={(value: string) => { setselectedIndustry(value) }}
                                     DATA={CONTACTTYPEDATA}
@@ -127,7 +128,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     dropDownStyle={styles.dropdownstyle}
                                     title={t('Speciality')}
                                     color={Colors.lightGray}
-                                    fontSize={RFPercentage(1.5)}
+                                    // fontSize={RFPercentage(1.5)}
                                     iconsSize={RFPercentage(2)}
                                     onselect={(value: string) => { setselectedIndustry(value) }}
                                     DATA={CONTACTTYPEDATA}
@@ -186,7 +187,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             dropDownStyle={styles.dropdownstyle}
                                             title={t('country')}
                                             color={Colors.lightGray}
-                                            fontSize={RFPercentage(1.5)}
+                                            // fontSize={RFPercentage(1.5)}
                                             iconsSize={RFPercentage(2)}
                                             onselect={(value: string) => { setselectedIndustry(value) }}
                                             DATA={CONTACTTYPEDATA}
@@ -270,14 +271,15 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                             </View>
                         </ScrollView >
 
+                    </View>
+                </KeyboardAwareScrollView >
                         {contactModal &&
                             <ContactModal
                                 getCompany={(val: any) => { setSelectedCompany(val) }}
                                 anim={anim}
                                 setanim={setanim}
                                 setcontactModal={setcontactModal} />}
-                    </SafeAreaView >
-                </View></KeyboardAwareScrollView >
+            </SafeAreaView >
         </>
 
     );
