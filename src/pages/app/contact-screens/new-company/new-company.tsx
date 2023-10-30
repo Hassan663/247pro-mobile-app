@@ -75,9 +75,9 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
     return (
         <>
-            <KeyboardAwareScrollView>
-                <View style={{ height: windowHeight + StatusBar.currentHeight }}>
-                    <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container}>
+                <KeyboardAwareScrollView>
+                    <View style={centralStyle.flex1}>
                         <AppHeader
                             iconL1={LeftIcon(navigation)}
                             iconR1={RightIcon()}
@@ -162,7 +162,7 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             multiline={true}
                                             onBlur={() => handleBlur(setIsActive)}
                                             onChangeText={(val) => setAbout(val)}
-                                            style={styles.input(false, isActive)} />
+                                            style={[styles.input(false, isActive),{ }]} />
                                     </View>
                                 </View>
 
@@ -317,8 +317,8 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 anim={anim}
                                 setanim={setanim}
                                 setcontactModal={setcontactModal} />}
-                    </SafeAreaView >
-                </View></KeyboardAwareScrollView>
+                    </View></KeyboardAwareScrollView>
+            </SafeAreaView >
         </>
 
     );

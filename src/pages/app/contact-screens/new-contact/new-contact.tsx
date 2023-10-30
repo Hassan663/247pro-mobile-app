@@ -8,7 +8,6 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    StatusBar,
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
@@ -25,11 +24,8 @@ import OutlinedTextInput from '../../../../core/components/outlined-textInput.co
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
+import { centralStyle } from '../../../../styles/constant.style';
 import { CONTACTTYPEDATA } from './data';
-import {
-    centralStyle,
-    windowHeight
-} from '../../../../styles/constant.style';
 import {
     handleAttachments,
     handleOnSelect,
@@ -273,12 +269,12 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                     </View>
                 </KeyboardAwareScrollView >
-                        {contactModal &&
-                            <ContactModal
-                                getCompany={(val: any) => { setSelectedCompany(val) }}
-                                anim={anim}
-                                setanim={setanim}
-                                setcontactModal={setcontactModal} />}
+                {contactModal &&
+                    <ContactModal
+                        getCompany={(val: any) => { setSelectedCompany(val) }}
+                        anim={anim}
+                        setanim={setanim}
+                        setcontactModal={setcontactModal} />}
             </SafeAreaView >
         </>
 

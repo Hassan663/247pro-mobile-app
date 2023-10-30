@@ -8,32 +8,27 @@ import {
     TouchableOpacity,
     FlatList,
     TextInput,
-    Platform,
-    KeyboardAvoidingView,
-    StatusBar,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo'
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 
-import { platform } from '../../../../utilities';
+import Button from '../../../../core/components/button.component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
+import { platform } from '../../../../utilities';
 import { CONTACTLIST } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { AlphabetList } from 'react-native-section-alphabet-list';
+import { centralStyle } from '../../../../styles/constant.style';
 import { SECTIONLISTDATA } from '../new-contact/data';
-import {
-    centralStyle,
-    heightFlex1,
-} from '../../../../styles/constant.style';
 import {
     CompanyList,
     CustomSectionHeader,
@@ -45,7 +40,6 @@ import {
     ImportModal,
     RenderItem
 } from './contact.components';
-import Button from '../../../../core/components/button.component';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -79,7 +73,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 }
                 type='Poppin-18'
                 weight='600'
-                title={t(`Contacts`)} />
+                title={selectedTab == t('Company') ? t('company') : t(`Contacts`)} />
 
             {modalEnabled && <ConnectionRequest
                 importModalEnable={() => setImportModal(!importModal)}
