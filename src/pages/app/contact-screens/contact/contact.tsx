@@ -136,7 +136,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         }}
                         size={RFPercentage(2.5)} name='filter-list' />
                 </View>
-                <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1]}>
+                <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
                     {contacts ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
                             <AlphabetList

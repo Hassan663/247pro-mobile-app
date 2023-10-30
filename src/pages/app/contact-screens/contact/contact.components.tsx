@@ -10,7 +10,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { t } from 'i18next';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
@@ -155,12 +155,13 @@ export const FilterCompany: React.FC<{}> = ({ }) => {
                 type='Poppin-18'
                 weight='600'
                 title={t('FilterCompany')} />
-            <View style={centralStyle.my2}>
+            <View style={{}}>
                 <OutlinedTextInput
+                height={RFValue(65)}
                     title={t("Address")}
                     placeHolder={t("Address")}
                 />
-                <View style={[centralStyle.row, centralStyle.alignitemCenter, styles.justifyContentBetween]}>
+                <View style={[centralStyle.row, centralStyle.alignitemCenter, styles.justifyContentBetween,centralStyle.my2]}>
                     <Slider
                         style={styles.sliderStyle}
                         minimumValue={0}
