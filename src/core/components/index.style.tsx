@@ -92,6 +92,7 @@ export const styles: any = StyleSheet.create<any>({
         alignItems: "center",
         paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         width: "100%",
+        color:Colors.black,
         height: pass ? '100%' : '85%',
     }),
 

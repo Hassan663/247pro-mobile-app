@@ -174,7 +174,6 @@ const EditCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                                 title={t('Entitytype')}
                                                 defaultValueByIndex={1}
                                                 color={Colors.lightGray}
-                                                fontSize={RFPercentage(1.5)}
                                                 iconsSize={RFPercentage(2)}
                                                 onselect={(value: string) => { setselectedIndustry(value) }}
                                                 DATA={CONTACTTYPEDATA}
@@ -187,7 +186,6 @@ const EditCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                                 title={t('country')}
                                                 color={Colors.lightGray}
                                                 defaultValueByIndex={1}
-                                                fontSize={RFPercentage(1.5)}
                                                 iconsSize={RFPercentage(2)}
                                                 onselect={(value: string) => { setselectedIndustry(value) }}
                                                 DATA={CONTACTTYPEDATA}
@@ -205,7 +203,6 @@ const EditCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                                         title={t('State')}
                                                         defaultValueByIndex={1}
                                                         color={Colors.lightGray}
-                                                        fontSize={RFPercentage(1.5)}
                                                         iconsSize={RFPercentage(2)}
                                                         onselect={(value: string) => { setselectedIndustry(value) }}
                                                         DATA={CONTACTTYPEDATA}

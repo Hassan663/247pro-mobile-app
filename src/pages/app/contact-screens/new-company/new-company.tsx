@@ -162,7 +162,7 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             multiline={true}
                                             onBlur={() => handleBlur(setIsActive)}
                                             onChangeText={(val) => setAbout(val)}
-                                            style={[styles.input(false, isActive),{ }]} />
+                                            style={[styles.input(false, isActive), {}]} />
                                     </View>
                                 </View>
 
@@ -181,7 +181,6 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             dropDownStyle={styles.dropdownstyle}
                                             title={t('Entitytype')}
                                             color={Colors.lightGray}
-                                            fontSize={RFPercentage(1.5)}
                                             iconsSize={RFPercentage(2)}
                                             onselect={(value: string) => { setselectedIndustry(value) }}
                                             DATA={CONTACTTYPEDATA}
@@ -193,7 +192,6 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             dropDownStyle={styles.dropdownstyle}
                                             title={t('country')}
                                             color={Colors.lightGray}
-                                            fontSize={RFPercentage(1.5)}
                                             iconsSize={RFPercentage(2)}
                                             onselect={(value: string) => { setselectedIndustry(value) }}
                                             DATA={CONTACTTYPEDATA}
@@ -210,7 +208,6 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                                     dropDownStyle={styles.dropdownstyle}
                                                     title={t('State')}
                                                     color={Colors.lightGray}
-                                                    fontSize={RFPercentage(1.5)}
                                                     iconsSize={RFPercentage(2)}
                                                     onselect={(value: string) => { setselectedIndustry(value) }}
                                                     DATA={CONTACTTYPEDATA}
