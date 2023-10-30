@@ -145,7 +145,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         size={RFPercentage(2)} />
                     <TextInput placeholder={t('search')} style={styles.searchInput} />
                 </View>
-                <View style={[centralStyle.px2, { height: heightFlex1 * 6 }]}>
+                <View style={[centralStyle.px2, { flex: 1,  }]}>
                     <AlphabetList
                         data={SECTIONLISTDATA}
                         letterListContainerStyle={styles.listContainerStyle}

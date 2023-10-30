@@ -69,7 +69,7 @@ export const styles: any = StyleSheet.create<any>({
     letterStyle: {
         textAlign: 'right',
         color: Colors.fontColor,
-        fontSize: 15,
+        fontSize: RFPercentage(1.8),
         width: 20,
     },
     justifyContentBetween: {

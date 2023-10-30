@@ -175,7 +175,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     }
                     <RBSheet
                         ref={sheetRef}
-                        height={RFValue(240,windowHeight)}
+                        // height={RFValue(240,windowHeight)}
+                        height={RFPercentage(40)}
                         closeOnPressMask={true}
                         closeOnDragDown={true}
                         openDuration={250}
