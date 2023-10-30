@@ -15,7 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { t } from 'i18next';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
@@ -27,7 +27,7 @@ import { platform } from '../../../../utilities';
 import { CONTACTLIST } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { AlphabetList } from 'react-native-section-alphabet-list';
-import { centralStyle } from '../../../../styles/constant.style';
+import { centralStyle, windowHeight } from '../../../../styles/constant.style';
 import { SECTIONLISTDATA } from '../new-contact/data';
 import {
     CompanyList,
@@ -175,7 +175,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     }
                     <RBSheet
                         ref={sheetRef}
-                        height={RFPercentage(40)}
+                        height={RFValue(240,windowHeight)}
                         closeOnPressMask={true}
                         closeOnDragDown={true}
                         openDuration={250}

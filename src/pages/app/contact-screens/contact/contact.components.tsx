@@ -149,7 +149,7 @@ export const FilterCompany: React.FC<{}> = ({ }) => {
 
     return (
         <View
-            style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
+            style={[centralStyle.XAndYCenter,  centralStyle.px2, centralStyle.flex1]}>
             <Title
                 color={Colors.black}
                 type='Poppin-18'
