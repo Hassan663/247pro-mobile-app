@@ -107,6 +107,9 @@ export const centralStyle = StyleSheet.create<any>({
     pb15: {
         paddingBottom: RFPercentage(15)
     },
+    pb5: {
+        paddingBottom: RFPercentage(5)
+    },
     my01: {
         marginVertical: RFPercentage(.1)
     },
