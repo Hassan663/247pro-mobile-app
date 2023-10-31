@@ -46,13 +46,39 @@ export const styles: any = StyleSheet.create<any>({
         marginVertical: RFPercentage(2),
         resizeMode: 'contain'
     },
+    // inputContainer: (height: number) => ({
+    //     paddingVertical: 10,
+    //     justifyContent: "flex-end",
+    // }),
+    // textInputContainer: () => ({
+    //     flexDirection: 'row',
+    //     minHeight: platform == 'ios' ? 30 : 30,
+    // }),
+    // inputtitle: (isActive: boolean) => ({
+    //     position: "absolute",
+    //     paddingHorizontal: RFPercentage(1),
+    //     zIndex: 2,
+    //     backgroundColor: Colors.white,
+    //     left: '3%',
+    //     color: isActive ? Colors.primary : Colors.fontColor,
+    //     fontSize: 14,
+    //     fontWeight: '400',
+    //     top: '0%',
+    // }),
     inputContainer: (height: number) => ({
         paddingVertical: 10,
         justifyContent: "flex-end",
     }),
-    textInputContainer: () => ({
+    textInputContainer: (isActive: boolean) => ({
         flexDirection: 'row',
-        minHeight: platform == 'ios' ? 30 : 30,
+        alignItems: "center",
+        minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
+        width: "100%",
+        maxHeight: 100,
     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
@@ -65,15 +91,7 @@ export const styles: any = StyleSheet.create<any>({
         fontWeight: '400',
         top: '0%',
     }),
-    input: (pass: boolean, isActive: boolean) => ({
-        borderWidth: pass ? 0 : RFPercentage(.1),
-        borderRadius: 5,
-        borderColor: isActive ? Colors.primary : Colors.lightGrey,
-        alignItems: "center",
-        paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
-        width: "100%",
-        maxHeight: 100,
-    }),
+    input: (pass: boolean, isActive: boolean) => ({}),
     socialInputContainer: {
         height: RFPercentage(6),
         backgroundColor: Colors.lightGrey,
@@ -83,10 +101,9 @@ export const styles: any = StyleSheet.create<any>({
     },
     socialInputContainer2: {
         height: RFPercentage(6),
-        // backgroundColor: Colors.lightGrey,
         borderRadius: 5,
-        borderWidth:1,
-        borderColor:Colors.lightGrey,
+        borderWidth: 1,
+        borderColor: Colors.lightGrey,
         paddingHorizontal: 20,
         width: '87%'
     },

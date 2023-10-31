@@ -41,7 +41,7 @@ import {
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
-    const [multiCards, setmultiCards] = useState(false)
+    const [multiCards, setmultiCards] = useState(true)
     const [createBuisnessCartModalEnabled, setCreateBuisnessCartModalEnabled] = useState(false)
     const [saveContact, setsaveContact] = useState(false)
     const [alreadySaveInContact, setalreadySaveInContact] = useState(false)

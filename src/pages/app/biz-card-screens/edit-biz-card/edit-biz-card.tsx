@@ -209,19 +209,10 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                             />
                                             :
                                             <TextInput
-                                                editable={false}
+                                                editable={true}
                                                 style={styles.socialInputContainer2}
                                                 placeholder={item?.name}
                                             />
-                                            // <View
-                                            //     style={styles.enabledSocialIcons}>
-                                            //     <OutlinedTextInput
-                                            //         key={index.toString()}
-                                            //         title={item?.name}
-                                            //         height={RFPercentage(9)}
-                                            //         placeHolder={item?.name}
-                                            //     />
-                                            // </View>
                                         }
                                     </View>
                                 )

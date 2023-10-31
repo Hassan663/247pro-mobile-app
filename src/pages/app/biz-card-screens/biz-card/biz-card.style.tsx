@@ -55,6 +55,7 @@ export const styles = StyleSheet.create({
         borderRadius: RFPercentage(1),
         padding: RFPercentage(2),
         borderWidth: 1,
+        // backgroundColor:'blue',
         margin: RFPercentage(2)
     },
     listBody: {
@@ -85,5 +86,6 @@ export const styles = StyleSheet.create({
         height: '100%',
         width: '100%'
     },
+    profileImg: { height: RFPercentage(8), width: RFPercentage(8) },
 
 });

@@ -29,8 +29,8 @@ export const ListCard = ({ navigation }: any) => {
             <View
                 style={[centralStyle.row, styles.listContainer]}>
                 <View style={styles.listImageContainer}>
-                    <View style={[centralStyle.circle(RFPercentage(11)),]}>
-                        <Image source={require('../../../../assets/app-images/userImg.png')} />
+                    <View style={[centralStyle.circle(RFPercentage(11)), centralStyle.alignitemStart]}>
+                        <Image style={styles.profileImg} source={require('../../../../assets/app-images/userImg.png')} />
                     </View>
                 </View>
                 <View style={styles.listBody}>
