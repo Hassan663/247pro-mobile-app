@@ -56,7 +56,7 @@ export const styles: any = StyleSheet.create<any>({
     }),
     textInputContainer: () => ({
         flexDirection: 'row',
-        minHeight: platform == 'ios'? 30 : 30,
+        minHeight: platform == 'ios' ? 30 : 30,
     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
@@ -76,6 +76,8 @@ export const styles: any = StyleSheet.create<any>({
         alignItems: "center",
         paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         width: "100%",
+        color: Colors.black,
+
         maxHeight: 100,
     }),
     socialInputContainer: {
