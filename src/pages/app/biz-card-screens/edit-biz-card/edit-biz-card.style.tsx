@@ -75,10 +75,18 @@ export const styles: any = StyleSheet.create<any>({
         maxHeight: 100,
     }),
     socialInputContainer: {
-        // height: 50,
-        height: RFPercentage(7),
+        height: RFPercentage(6),
         backgroundColor: Colors.lightGrey,
         borderRadius: 5,
+        paddingHorizontal: 20,
+        width: '87%'
+    },
+    socialInputContainer2: {
+        height: RFPercentage(6),
+        // backgroundColor: Colors.lightGrey,
+        borderRadius: 5,
+        borderWidth:1,
+        borderColor:Colors.lightGrey,
         paddingHorizontal: 20,
         width: '87%'
     },
@@ -105,6 +113,7 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: 5,
         paddingHorizontal: 10,
         width: '90%'
+
     },
     uploadImageModalContentContainer: {
         backgroundColor: Colors.white,

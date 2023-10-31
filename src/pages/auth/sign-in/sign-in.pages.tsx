@@ -114,7 +114,7 @@ const SignIn: React.FC = () => {
                         centralStyle.row,
                         centralStyle.justifyContentBetween,
                         centralStyle.alignitemCenter,
-                        centralStyle.width40,
+                        centralStyle.width30,
                         centralStyle.selfCenter,
                         centralStyle.mt2]}>
                         <TouchableOpacity activeOpacity={.8}>

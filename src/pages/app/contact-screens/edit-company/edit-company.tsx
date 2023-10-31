@@ -9,10 +9,8 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    KeyboardAvoidingView,
     Text,
     TextInput,
-    StatusBar,
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
@@ -23,15 +21,15 @@ import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
+import Button from '../../../../core/components/button.component';
+import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import Button from '../../../../core/components/button.component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './edit-company.style';
 import { platform } from '../../../../utilities';
-import { centralStyle, windowHeight, } from '../../../../styles/constant.style';
+import { centralStyle } from '../../../../styles/constant.style';
 import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
 import { CONTACTTYPEDATA } from './data';
 import { SOCIALINPUTSDATA } from '../../biz-card-screens/edit-biz-card/data';

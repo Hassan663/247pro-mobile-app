@@ -98,6 +98,7 @@ const ViewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                         value={about}
                                         onFocus={() => handleFocus(setIsActive)}
                                         multiline={true}
+                                        editable={false}
                                         onBlur={() => handleBlur(setIsActive)}
                                         onChangeText={(val) => setAbout(val)}
                                         style={styles.input(false, isActive)} />

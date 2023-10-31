@@ -242,6 +242,9 @@ export const centralStyle = StyleSheet.create<any>({
     width40: {
         width: "40%"
     },
+    width30: {
+        width: "30%"
+    },
     height100: {
         height: '100%'
     },

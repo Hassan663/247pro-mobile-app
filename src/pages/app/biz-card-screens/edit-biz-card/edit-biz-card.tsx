@@ -63,9 +63,9 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
     return (
         <>
-            <KeyboardAwareScrollView>
-                <View style={{ height: windowHeight + StatusBar.currentHeight }}>
-                    <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container}>
+                <KeyboardAwareScrollView>
+                    <View style={[centralStyle.flex1,]}>
                         <AppHeader
                             iconL1={
                                 <TouchableOpacity
@@ -206,15 +206,22 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                                 editable={false}
                                                 style={styles.socialInputContainer}
                                                 placeholder={item?.name}
-                                            /> :
-                                            <View
-                                                style={styles.enabledSocialIcons}>
-                                                <OutlinedTextInput
-                                                    key={index.toString()}
-                                                    title={item?.name}
-                                                    placeHolder={item?.name}
-                                                />
-                                            </View>
+                                            />
+                                            :
+                                            <TextInput
+                                                editable={false}
+                                                style={styles.socialInputContainer2}
+                                                placeholder={item?.name}
+                                            />
+                                            // <View
+                                            //     style={styles.enabledSocialIcons}>
+                                            //     <OutlinedTextInput
+                                            //         key={index.toString()}
+                                            //         title={item?.name}
+                                            //         height={RFPercentage(9)}
+                                            //         placeHolder={item?.name}
+                                            //     />
+                                            // </View>
                                         }
                                     </View>
                                 )
@@ -265,8 +272,10 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </RBSheet>
                         </ScrollView>
 
-                    </SafeAreaView >
-                </View></KeyboardAwareScrollView>
+                    </View>
+                </KeyboardAwareScrollView >
+            </SafeAreaView >
+
         </>
 
     );

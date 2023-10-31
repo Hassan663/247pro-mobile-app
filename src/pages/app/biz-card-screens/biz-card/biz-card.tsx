@@ -10,17 +10,17 @@ import {
     FlatList,
 } from 'react-native';
 
-import Feather from 'react-native-vector-icons/Feather'
 import Entypo from 'react-native-vector-icons/Entypo'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { t } from 'i18next';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
-import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
+import AppHeader from '../../../../core/components/app-headers';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './biz-card.style';
 import { platform } from '../../../../utilities';
@@ -32,11 +32,11 @@ import {
 } from './biz-card-component';
 import {
     centralStyle,
-    flex1BottomTab,
+    flex1BottomTab
 } from '../../../../styles/constant.style';
 import {
     BIZCARDDATA,
-    MODALDATA,
+    MODALDATA
 } from './data';
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
@@ -57,7 +57,9 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         multiCards ?
                             <AntDesign
                                 onPress={() => { changeRoute(navigation, 'EditBizCard') }}
-                                style={styles.mx2} name={'plus'} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
+                                style={styles.mx2} 
+                                name={'plus'} 
+                                size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                             :
                             <Entypo style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
                     }
