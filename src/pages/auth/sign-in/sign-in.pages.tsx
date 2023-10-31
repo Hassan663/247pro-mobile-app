@@ -1,7 +1,6 @@
 // @app
 import React, { useState } from 'react';
 import {
-    ScrollView,
     TouchableOpacity,
     Image,
     View,
@@ -15,10 +14,6 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import {
-    FooterText,
-    Title
-} from '../../../core/components/screen-title.component';
 import Colors from '../../../styles/colors';
 import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
@@ -27,7 +22,15 @@ import { changeRoute } from '../../../core/helpers/async-storage';
 import { ISUSERLOGIN } from '../../../store/constant/constant';
 import { RootStackParamList } from '../../../router/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { centralStyle, windowHeight } from '../../../styles/constant.style';
+import {
+    centralStyle,
+    windowHeight
+} from '../../../styles/constant.style';
+import {
+    FooterText,
+    Title
+} from '../../../core/components/screen-title.component';
+import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -96,7 +99,7 @@ const SignIn: React.FC = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.logInBtnContainer}>
+                <View style={[styles.logInBtnContainer, {}]}>
                     <Button
                         title={t('logintText')}
                         callBack={() => {
@@ -106,6 +109,28 @@ const SignIn: React.FC = () => {
                             });
                         }}
                         primary />
+
+                    <View style={[
+                        centralStyle.row,
+                        centralStyle.justifyContentBetween,
+                        centralStyle.alignitemCenter,
+                        centralStyle.width40,
+                        centralStyle.selfCenter,
+                        centralStyle.mt2]}>
+                        <TouchableOpacity activeOpacity={.8}>
+                            <FaceIdLogo
+                                width={RFPercentage(4)}
+                                height={RFPercentage(4)}
+                                color={Colors.black} />
+                        </TouchableOpacity>
+                        <View style={styles.yline}></View>
+                        <TouchableOpacity activeOpacity={.8}>
+                            <Image
+                                style={styles.fingerPrintImg}
+                                source={require('../../../assets/app-images/fingerprint.png')} />
+                        </TouchableOpacity>
+                    </View>
+
                     <View style={styles.orContainer}>
                         <View style={styles.line} />
                         <Title

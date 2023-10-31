@@ -69,4 +69,13 @@ export const styles = StyleSheet.create({
         paddingVertical: RFPercentage(1),
         ...centralStyle.row,
     },
+    yline: {
+        height: '70%',
+        backgroundColor: Colors.lightGrey,
+        width: 1
+    },
+    fingerPrintImg: {
+        height: RFPercentage(4),
+        width: RFPercentage(4),
+    },
 });
