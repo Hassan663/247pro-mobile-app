@@ -109,7 +109,7 @@ export const styles: any = StyleSheet.create<any>({
         zIndex: 2,
         backgroundColor: Colors.white,
         left: '3%',
-        color: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGray,
+        color: isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
         fontSize: 14,
         fontWeight: '400',
         top: '0%',
@@ -120,11 +120,14 @@ export const styles: any = StyleSheet.create<any>({
         height: "85%"
     }),
 
-    passwordContainer: (isActive: boolean) => ({
+    passwordContainer: (isActive: boolean, inputVal: any) => ({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        // borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        color: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGray,
+        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGray,
+
         paddingHorizontal: RFPercentage(3),
         width: "100%",
         height: '85%'

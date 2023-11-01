@@ -31,6 +31,7 @@ import {
     Title
 } from '../../../core/components/screen-title.component';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -58,12 +59,16 @@ const SignIn: React.FC = () => {
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <View style={centralStyle.my05}>
-                        <Input placeholder={t('Phone_or_email')} />
-                    </View>
-                    <View style={centralStyle.my05}>
-                        <Input password secureText placeholder={t('Password')} />
-                    </View>
+                    <OutlinedTextInput
+                        title={t('Phone_or_email')}
+                        placeHolder={t('Phone_or_email')}
+                    />
+                    <OutlinedTextInput
+                        title={t('Password')}
+                        placeHolder={t('Password')}
+                        Password
+                    />
+                    {/* <Input password secureText placeholder={t('Password')} /> */}
                     <View style={styles.checkBoxWrapper}>
                         <TouchableOpacity
                             activeOpacity={.8}

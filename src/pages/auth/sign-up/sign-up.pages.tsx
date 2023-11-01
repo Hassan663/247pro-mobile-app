@@ -99,10 +99,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <View style={styles.inputWrapper}>
                         {!otpSupported ?
                             <View style={{ width: '100%' }}>
-                                {/* <Input placeholder={t('Phone_or_email')} /> */}
                                 <OutlinedTextInput
-                                    // val={phoneNumber}
-                                    // onChange={(val) => { setphoneNumber(val) }}
                                     title={t('Phone_or_email')}
                                     placeHolder={t('Phone_or_email')}
                                 />
