@@ -4,11 +4,11 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Text,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CountryPicker, {
     Country,
 } from 'react-native-country-picker-modal';
@@ -22,19 +22,18 @@ import { styles } from './sign-up.style';
 import { useSelector } from 'react-redux';
 import { appLanguages } from '../../../utilities/languageData';
 import {
-    centralStyle, windowHeight,
+    centralStyle,
+    windowHeight,
 } from '../../../styles/constant.style';
 import {
     changeRoute,
     setItem
 } from '../../../core/helpers/async-storage';
 import {
-    FooterText,
     Title,
+    FooterText,
 } from '../../../core/components/screen-title.component';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { platform } from '../../../utilities';
-
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [countryCode, setCountryCode] = useState<any>('PK');
@@ -100,7 +99,13 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <View style={styles.inputWrapper}>
                         {!otpSupported ?
                             <View style={{ width: '100%' }}>
-                                <Input placeholder={t('Phone_or_email')} />
+                                {/* <Input placeholder={t('Phone_or_email')} /> */}
+                                <OutlinedTextInput
+                                    // val={phoneNumber}
+                                    // onChange={(val) => { setphoneNumber(val) }}
+                                    title={t('Phone_or_email')}
+                                    placeHolder={t('Phone_or_email')}
+                                />
                             </View>
                             :
                             <>
@@ -176,7 +181,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
                             <FooterText color={Colors.primary} title={t('TermsAndConditions')} />
                         </TouchableOpacity>
-                      
+
                     </View>
                     <View style={styles.footerTextWrapper}>
                         <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />

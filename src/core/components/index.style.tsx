@@ -48,7 +48,7 @@ export const styles: any = StyleSheet.create<any>({
     },
 
     footerText: (color?: string) => ({
-        fontSize: Platform.OS == 'ios' ? RFPercentage(1.6) : RFValue(14,windowHeight),
+        fontSize: Platform.OS == 'ios' ? RFPercentage(1.6) : RFValue(14, windowHeight),
         color: color ? color : Colors.black,
     }),
 
@@ -85,14 +85,16 @@ export const styles: any = StyleSheet.create<any>({
     poppin_61: {
         fontSize: platform == 'ios' ? RFPercentage(7) : RFPercentage(7.5),
     },
-    input: (pass: boolean, isActive: boolean) => ({
+    input: (pass: boolean, isActive: boolean, inputVal: any) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
         borderRadius: 5,
-        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+
+
+        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
         paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         width: "100%",
-        color:Colors.black,
+        color: Colors.black,
         height: pass ? '100%' : '85%',
     }),
 
@@ -100,13 +102,14 @@ export const styles: any = StyleSheet.create<any>({
         height: height ? height : 65,
         justifyContent: "flex-end",
     }),
-    inputtitle: (isActive: boolean) => ({
+    inputtitle: (isActive: boolean, inputVal: any) => ({
         position: "absolute",
+
         paddingHorizontal: RFPercentage(1),
         zIndex: 2,
         backgroundColor: Colors.white,
         left: '3%',
-        color: isActive ? Colors.primary : Colors.lightGray,
+        color: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGray,
         fontSize: 14,
         fontWeight: '400',
         top: '0%',

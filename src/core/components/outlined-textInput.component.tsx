@@ -45,9 +45,9 @@ import React, {
           <Text style={styles.inputtitle(isActive)}>{title}</Text>
         } */}
         {inputVal?.length && inputVal?.length > 0 ?
-          <Text style={styles.inputtitle(isActive)}>{title}</Text>
+          <Text style={styles.inputtitle(isActive,inputVal)}>{title}</Text>
           : isActive &&
-          <Text style={styles.inputtitle(isActive)}>{title}</Text>
+          <Text style={styles.inputtitle(isActive,inputVal)}>{title}</Text>
         }
         <View style={styles.textInputContainer(isActive)}>
           {!Password ?
@@ -65,7 +65,7 @@ import React, {
                 if (onChange) { onChange(text) }
               }}
               // secureTextEntry={open ? true : false}
-              style={styles.input(false, isActive)} />
+              style={styles.input(false, isActive,inputVal)} />
             :
             <>
   
