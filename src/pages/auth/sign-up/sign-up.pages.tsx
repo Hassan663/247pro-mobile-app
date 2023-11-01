@@ -66,6 +66,9 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
             <View style={[centralStyle.container, { height: windowHeight }]}>
                 <View style={styles.titleWrapper}>
                     <View style={{ width: '70%' }}>
+                        <Image
+                            style={styles.logoStyle}
+                            source={require('../../../assets/auth-images/splashLogo.png')} />
                         <Title
                             type='Poppin-24'
                             color={Colors.black}

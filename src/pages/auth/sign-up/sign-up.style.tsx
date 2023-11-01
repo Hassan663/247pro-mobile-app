@@ -1,19 +1,28 @@
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+
 import Colors from '../../../styles/colors';
-import { centralPosition, centralStyle } from '../../../styles/constant.style';
 import { platform } from '../../../utilities';
+import {
+    centralPosition,
+    centralStyle
+} from '../../../styles/constant.style';
 
 
 export const styles = StyleSheet.create({
     titleWrapper: {
-        flex: 2,
+        flex: 3,
         ...centralStyle.row,
-        ...centralStyle.alignitemEnd,
+        ...centralStyle.alignitemCenter,
     },
-
+    logoStyle: {
+        height: RFPercentage(10),
+        width: RFPercentage(17),
+        resizeMode: 'contain',
+        tintColor: Colors.primary
+    },
     inputContainer: {
-        flex: 2,
+        flex: 1,
         justifyContent: "space-evenly"
     },
 
@@ -45,7 +54,7 @@ export const styles = StyleSheet.create({
     },
     footerTextWrapper: {
         ...centralStyle.row,
-        ...centralStyle.XAndYCenter,         
+        ...centralStyle.XAndYCenter,
     },
     flagWrapper: {
         height: 30,
