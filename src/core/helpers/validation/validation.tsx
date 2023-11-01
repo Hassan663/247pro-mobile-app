@@ -39,3 +39,36 @@ export const loginValidation = (email: any, password: any) => {
         };
     }
 };
+export const emailValidation = (email: any) => {
+    const phonePattern = /^\d{7,15}$/;
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    if (email === '') {
+        return {
+            success: false,
+            message: 'please enter your email or phone number',
+        };
+    }
+    if (emailPattern.test(email)) {
+        if (email.includes('@example.com')) {
+            return {
+                success: false,
+                message: 'Email addresses from example.com are not allowed.',
+            };
+        }
+        return {
+            success: true,
+            message: '',
+        };
+    } else if (!phonePattern.test(email)) {
+        return {
+            success: false,
+            message: 'Invalid email or phone number format.',
+        };
+    } else {
+        return {
+            success: true,
+            message: '',
+        };
+    }
+}

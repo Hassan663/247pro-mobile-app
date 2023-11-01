@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
     TouchableOpacity,
     Image,
-    View,
+    View, Text
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -35,6 +35,7 @@ import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { _error } from '../../../store/action/action';
 import { loginValidation } from '../../../core/helpers/validation/validation';
+import { Error } from '../../../core/components/error';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -49,46 +50,12 @@ const SignIn: React.FC = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     const handleSubmit = () => {
-
         let isValid = loginValidation(inputValue, password)
-        // console.log(success, message, 'isValid')
-        // seterrorMessage(isValid.message)
-        if (isValid.success) {
-
-        } else {
+        if (isValid.success) dispatch({ type: ISUSERLOGIN, payload: true });
+        else {
             seterrorMessage(isValid.message)
+            setTimeout(() => { seterrorMessage('') }, 1000);
         }
-
-        // if (success)
-        // dispatch(_error(''));
-        // const phonePattern = /^\d{7,15}$/; // Minimum 7 digits, maximum 15 digits
-        // const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
-
-        // if (emailPattern.test(inputValue)) {
-        //     if (inputValue.includes('@example.com')) {
-        //         console.log('Email addresses from example.com are not allowed.')
-        //         dispatch(_error('Email addresses from example.com are not allowed.'));
-        //     }
-        //     console.log('valid email.')
-        // } else if (phonePattern.test(inputValue)) {
-        //     console.log('valid phone number.')
-        // } else {
-        //     console.log('Invalid email or phone number format.')
-        //     dispatch(_error('Invalid email or phone number format.'));
-        // }
-
-        // // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
-
-        // console.log(password)
-        // if (!password.match(passwordRegex)) {
-        //     console.log(
-        //         'Password must be at least 8 characters long and contain at least one letter and one number.'
-        //     );
-        // } else {
-        //     console.log('');
-        // }
     };
 
     return (
@@ -161,19 +128,9 @@ const SignIn: React.FC = () => {
                 <View style={[styles.logInBtnContainer, {}]}>
                     <Button
                         title={t('logintText')}
-                        callBack={() => {
-                            // dispatch({
-                            //     type: ISUSERLOGIN,
-                            //     payload: true
-                            // });
-
-
-                            handleSubmit()
-                        }}
+                        callBack={handleSubmit}
                         primary />
-                    {errorMessage !== '' &&
-                        <Error errorMsg={errorMessage} disableError={() => seterrorMessage('')} />
-                    }
+                    {errorMessage !== '' && <Error errorMessage={errorMessage} />}
                     <View style={[
                         centralStyle.row,
                         centralStyle.justifyContentBetween,
