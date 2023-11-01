@@ -68,7 +68,6 @@ const SignIn: React.FC = () => {
                         placeHolder={t('Password')}
                         Password
                     />
-                    {/* <Input password secureText placeholder={t('Password')} /> */}
                     <View style={styles.checkBoxWrapper}>
                         <TouchableOpacity
                             activeOpacity={.8}

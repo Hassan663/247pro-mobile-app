@@ -124,11 +124,8 @@ export const styles: any = StyleSheet.create<any>({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        // borderColor: isActive ? Colors.primary : Colors.lightGrey,
-        color: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGray,
-        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGray,
-
-        paddingHorizontal: RFPercentage(3),
+        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
         width: "100%",
         height: '85%'
     }),

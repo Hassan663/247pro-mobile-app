@@ -25,6 +25,7 @@ import {
     centralStyle,
     windowHeight
 } from '../../../styles/constant.style';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
@@ -56,7 +57,10 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                         <View style={styles.inputWrapper}>
                             <View style={{ width: '100%' }}>
-                                <Input placeholder={t('Email_or_phone')} />
+                                <OutlinedTextInput
+                                    title={t('Email_or_phone')}
+                                    placeHolder={t('Email_or_phone')}
+                                />
                             </View>
                         </View>
                     </View>
