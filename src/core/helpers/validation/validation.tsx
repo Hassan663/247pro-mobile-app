@@ -39,6 +39,9 @@ export const loginValidation = (email: any, password: any) => {
         };
     }
 };
+
+
+
 export const emailValidation = (email: any) => {
     const phonePattern = /^\d{7,15}$/;
     const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
