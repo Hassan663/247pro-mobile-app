@@ -18,6 +18,7 @@ import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './set-new-password.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 
 const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
@@ -41,12 +42,16 @@ const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <View style={centralStyle.my05}>
-                            <Input placeholder={t('New_password')} />
-                        </View>
-                        <View style={centralStyle.my05}>
-                            <Input placeholder={t('Confirm_password')} />
-                        </View>
+                        <OutlinedTextInput
+                            title={t('New_password')}
+                            Password
+                            placeHolder={t('New_password')}
+                        />
+                        <OutlinedTextInput
+                            title={t('Confirm_password')}
+                            Password
+                            placeHolder={t('Confirm_password')}
+                        />
                     </View>
                     <View style={styles.logInBtnContainer}>
                         <View />
