@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 import { IResponse } from '../../core/modals';
 import { LoginModal } from '../../core/modals/login.modal';
 import { login } from '../../core/http-services/apis/identity-api/authentication.service';
-import { CURRENTUSERPROFILE } from '../constant/constant';
+import { CURRENTUSERPROFILE, ISERROR } from '../constant/constant';
 
 
 export const loginAction = (loginData: LoginModal) => {
@@ -32,4 +32,36 @@ export const loginAction = (loginData: LoginModal) => {
 }
 
 export const openSheet = (sheetRef: any) => sheetRef.current.open()
+
 export const closeSheet = (sheetRef: any) => sheetRef.current.close()
+
+// export function _error(err?: string, time?: number) {
+//     return (dispatch?: any) => {
+//         dispatch({ type: ISERROR, payload: err });
+
+//         setTimeout(
+//             () => {
+//                 dispatch({ type: ISERROR, payload: '' });
+//             },
+//             time ? time : 5000,
+//         );
+//     };
+// }
+
+
+export const _error = (err?: string, time?: number) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: ISERROR, payload: err });
+            setTimeout(
+                () => {
+                    dispatch({ type: ISERROR, payload: '' });
+                },
+                time ? time : 5000,
+            );
+        } catch (error) {
+            // if something is wrong error will save in store and will show the error here
+            console.log(error)
+        }
+    }
+}

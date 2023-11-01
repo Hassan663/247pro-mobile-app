@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     footerContainer: {
         flex: 1,
         flexDirection: "row",
-        ...centralStyle.XAndYCenter
+        ...centralStyle.XAndYCenter,
     },
 
     forgetPassword: {

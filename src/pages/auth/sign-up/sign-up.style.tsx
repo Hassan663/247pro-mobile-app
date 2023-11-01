@@ -3,15 +3,12 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
 import { platform } from '../../../utilities';
-import {
-    centralPosition,
-    centralStyle
-} from '../../../styles/constant.style';
+import { centralStyle } from '../../../styles/constant.style';
 
 
 export const styles = StyleSheet.create({
     titleWrapper: {
-        flex: 3,
+        flex: platform ? 2.5 : 3,
         ...centralStyle.row,
         ...centralStyle.alignitemCenter,
     },
@@ -22,7 +19,7 @@ export const styles = StyleSheet.create({
         tintColor: Colors.primary
     },
     inputContainer: {
-        flex: 1,
+        flex: platform ? 1.5 : 1,
         justifyContent: "space-evenly"
     },
 

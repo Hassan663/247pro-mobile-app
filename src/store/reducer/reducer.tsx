@@ -1,5 +1,6 @@
 import {
     CURRENTUSERPROFILE,
+    ISERROR,
     ISUSERLOGIN,
     OTPSUPPORTED,
     SPLASHSTATUSBAR
@@ -14,7 +15,7 @@ const INITIAL_STATE = {
     isUserLogin: false,
     otpSupported: false,
     splashStatusBar: false,
-
+    isError:"",
 }
 
 export default (states = INITIAL_STATE, action: Action) => {
@@ -38,6 +39,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 otpSupported: action.payload
+            })
+        case ISERROR:
+            return ({
+                ...states,
+                isError: action.payload
             })
         default:
             return states;

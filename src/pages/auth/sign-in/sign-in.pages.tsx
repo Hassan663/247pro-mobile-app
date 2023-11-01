@@ -9,7 +9,8 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 import { t } from 'i18next';
-import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -19,7 +20,7 @@ import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
 import { styles } from './sign-in.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { ISUSERLOGIN } from '../../../store/constant/constant';
+import { ISERROR, ISUSERLOGIN } from '../../../store/constant/constant';
 import { RootStackParamList } from '../../../router/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -32,6 +33,8 @@ import {
 } from '../../../core/components/screen-title.component';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
+import { _error } from '../../../store/action/action';
+import { loginValidation } from '../../../core/helpers/validation/validation';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -39,7 +42,55 @@ const SignIn: React.FC = () => {
 
     const navigation = useNavigation<Navigation>();
     const [isSelected, setisSelected] = useState<boolean>(false)
-    const dispatch = useDispatch()
+    const [inputValue, setInputValue] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [errorMessage, seterrorMessage] = useState('');
+
+    const dispatch: Dispatch<any> = useDispatch();
+
+    const handleSubmit = () => {
+
+        let isValid = loginValidation(inputValue, password)
+        // console.log(success, message, 'isValid')
+        // seterrorMessage(isValid.message)
+        if (isValid.success) {
+
+        } else {
+            seterrorMessage(isValid.message)
+        }
+
+        // if (success)
+        // dispatch(_error(''));
+        // const phonePattern = /^\d{7,15}$/; // Minimum 7 digits, maximum 15 digits
+        // const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+
+        // if (emailPattern.test(inputValue)) {
+        //     if (inputValue.includes('@example.com')) {
+        //         console.log('Email addresses from example.com are not allowed.')
+        //         dispatch(_error('Email addresses from example.com are not allowed.'));
+        //     }
+        //     console.log('valid email.')
+        // } else if (phonePattern.test(inputValue)) {
+        //     console.log('valid phone number.')
+        // } else {
+        //     console.log('Invalid email or phone number format.')
+        //     dispatch(_error('Invalid email or phone number format.'));
+        // }
+
+        // // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+        // console.log(password)
+        // if (!password.match(passwordRegex)) {
+        //     console.log(
+        //         'Password must be at least 8 characters long and contain at least one letter and one number.'
+        //     );
+        // } else {
+        //     console.log('');
+        // }
+    };
+
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -60,11 +111,15 @@ const SignIn: React.FC = () => {
 
                 <View style={styles.inputContainer}>
                     <OutlinedTextInput
+                        val={inputValue}
+                        onChange={(val) => setInputValue(val)}
                         title={t('Phone_or_email')}
                         placeHolder={t('Phone_or_email')}
                     />
                     <OutlinedTextInput
                         title={t('Password')}
+                        val={password}
+                        onChange={(val) => setPassword(val)}
                         placeHolder={t('Password')}
                         Password
                     />
@@ -107,13 +162,18 @@ const SignIn: React.FC = () => {
                     <Button
                         title={t('logintText')}
                         callBack={() => {
-                            dispatch({
-                                type: ISUSERLOGIN,
-                                payload: true
-                            });
+                            // dispatch({
+                            //     type: ISUSERLOGIN,
+                            //     payload: true
+                            // });
+
+
+                            handleSubmit()
                         }}
                         primary />
-
+                    {errorMessage !== '' &&
+                        <Error errorMsg={errorMessage} disableError={() => seterrorMessage('')} />
+                    }
                     <View style={[
                         centralStyle.row,
                         centralStyle.justifyContentBetween,

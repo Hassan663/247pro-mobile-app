@@ -91,7 +91,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
                 onPress={() => setOpen(!open)}
                 style={styles.eyeContainer}>
                 <Feather
-                  color={isActive?Colors.black:Colors.lightGrey}
+                  color={isActive ? Colors.black : inputVal.length > 0 ? Colors.black : Colors.lightGrey}
                   size={platform == 'ios' ? RFPercentage(2.2) : RFPercentage(3)}
                   name={open ? 'eye-off' : `eye`}
                 />
