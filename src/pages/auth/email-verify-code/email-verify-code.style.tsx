@@ -2,12 +2,14 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
 import { centralPosition, centralStyle } from '../../../styles/constant.style';
+import { platform } from '../../../utilities';
 
 export const styles = StyleSheet.create({
 
     footer: {
         flex: 3,
-        ...centralStyle.justifyContentEnd,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
         marginVertical: RFPercentage(2)
     },
 
@@ -42,15 +44,26 @@ export const styles = StyleSheet.create({
     mobileImg: {
         alignSelf: centralPosition.center,
         margin: RFPercentage(2),
-        height: '70%',
-        width: "70%"
+        height: '50%',
+        width: "50%"
     },
     deviceContainer: {
-        flex: 6,
+        flex: 3,
         justifyContent: centralPosition.flexEnd,
     },
     body: {
-        flex: 4.5,
+        flex: 6.5,
     },
-
+    verifyLaterBtn: {
+        borderWidth: 1,
+        height: RFPercentage(5.6),
+        borderColor: Colors.fontColor,
+        borderRadius: RFPercentage(1),
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    verifyLaterBtnTitle: {
+        fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
+        fontFamily: 'Poppins-Medium'
+    },
 });
