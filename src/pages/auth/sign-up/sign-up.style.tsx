@@ -7,29 +7,18 @@ import { centralStyle } from '../../../styles/constant.style';
 
 
 export const styles = StyleSheet.create({
-    titleWrapper: {
-        flex: platform ? 2.5 : 3,
-        ...centralStyle.row,
-        ...centralStyle.alignitemCenter,
+    topSection: {
+        flex: 3.5,
+        ...centralStyle.justifyContentEnd,
+    },
+    bottomSection: {
+        flex: 6.5,
     },
     logoStyle: {
-        height: RFPercentage(10),
+        height: RFPercentage(7),
         width: RFPercentage(17),
         resizeMode: 'contain',
         tintColor: Colors.primary
-    },
-    inputContainer: {
-        flex: platform ? 1.5 : 1,
-        justifyContent: "space-evenly"
-    },
-
-    logInBtnContainer: {
-        flex: 5,
-        justifyContent: 'space-between',
-    },
-    footerContainer: {
-        flex: 1,
-        ...centralStyle.XAndYCenter
     },
     inputWrapper: {
         flexDirection: 'row',
@@ -39,7 +28,6 @@ export const styles = StyleSheet.create({
         width: '15%',
         ...centralStyle.row,
         ...centralStyle.XAndYCenter,
-        height: 40
     },
     phoneNumberInput: {
         width: "85%"
@@ -52,6 +40,7 @@ export const styles = StyleSheet.create({
     footerTextWrapper: {
         ...centralStyle.row,
         ...centralStyle.XAndYCenter,
+        ...centralStyle.my1,
     },
     flagWrapper: {
         height: 30,
@@ -66,8 +55,6 @@ export const styles = StyleSheet.create({
         marginVertical: RFPercentage(2),
         ...centralStyle.row,
         ...centralStyle.XAndYCenter
-
-
     },
     line: {
         height: 1,

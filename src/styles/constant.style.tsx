@@ -236,6 +236,9 @@ export const centralStyle = StyleSheet.create<any>({
     width80: {
         width: "80%"
     },
+    width70: {
+        width: "70%"
+    },
     width90: {
         width: "90%"
     },

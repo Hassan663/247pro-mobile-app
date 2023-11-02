@@ -31,7 +31,7 @@ const Splash: React.FC = () => {
   const handleWalkThroughScreen = async () => {
     const isAppInstalled = await getItem('isAppInstalled');
     if (isAppInstalled) {
-      changeRoute(navigation, 'SignUp');
+      changeRoute(navigation, 'SignIn');
     } else {
       await setItem('isAppInstalled', true);
       changeRoute(navigation, 'WalkThrough');
