@@ -19,7 +19,7 @@ import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
 
-const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
+const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }: any) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -47,12 +47,14 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation }) => {
                             title={t('Full_name')}
                             placeHolder={t('Full_name')}
                         />
-                        <OutlinedTextInput
-                            val={email}
-                            onChange={(val) => { setEmail(val) }}
-                            title={t('Email')}
-                            placeHolder={t('Email')}
-                        />
+                        {!route?.params?.comeFromVerifyCode &&
+                            <OutlinedTextInput
+                                val={email}
+                                onChange={(val) => { setEmail(val) }}
+                                title={t('Email')}
+                                placeHolder={t('Email')}
+                            />
+                        }
                         <OutlinedTextInput
                             val={password}
                             onChange={(val) => { setPassword(val) }}

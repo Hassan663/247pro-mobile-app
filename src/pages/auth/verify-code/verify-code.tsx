@@ -99,7 +99,7 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                             <View style={styles.footer}>
                                 <Button
-                                    callBack={() => changeRoute(navigation, 'EnterNameAndEmail')}
+                                    callBack={() => changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })}
                                     title={t('Verify')} primary />
                             </View>
                         </View>

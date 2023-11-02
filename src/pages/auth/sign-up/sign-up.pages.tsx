@@ -114,10 +114,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         </View>
                         <View style={[centralStyle.mt3, centralStyle.my1]}>
                             <Button
-                                callBack={() => {
-                                    if (otpSupported) changeRoute(navigation, 'VerifyCode')
-                                    else changeRoute(navigation, 'EnterNameAndEmail')
-                                }}
+                                callBack={() => { changeRoute(navigation, 'VerifyCode') }}
                                 title={t(`Next`)}
                                 primary />
                         </View>
@@ -137,6 +134,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         </View>
                         <Button
                             title={t('Continue_with_Email')}
+                            callBack={() => changeRoute(navigation, 'EnterNameAndEmail')}
                             customStyle={[centralStyle.socialButtonContainer,]}
                             titleStyle={styles.socialText}
                         />
