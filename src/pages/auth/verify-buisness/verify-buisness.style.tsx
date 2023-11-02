@@ -6,13 +6,12 @@ import Colors from '../../../styles/colors';
 import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
-    
+
     logoStyle: {
-        alignSelf: centralPosition.center,
         height: RFPercentage(10),
         width: RFPercentage(17),
         resizeMode: 'contain',
-        tintColor: Colors.black
+        tintColor: Colors.primary
     },
     titleWrapper: {
         flex: 2.5,

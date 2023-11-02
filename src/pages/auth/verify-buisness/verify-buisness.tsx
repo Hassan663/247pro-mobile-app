@@ -26,8 +26,8 @@ const VerifyBuisness: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [isCheck, setIsCheck] = useState(false)
 
     return (
-            <View style={centralStyle.container}>
-        <SafeAreaView style={centralStyle.flex1}>
+        <View style={centralStyle.container}>
+            <SafeAreaView style={centralStyle.flex1}>
                 <View style={[styles.titleWrapper]}>
                     <TouchableOpacity
                         activeOpacity={.8}
@@ -92,8 +92,8 @@ const VerifyBuisness: React.FC<{ navigation: any }> = ({ navigation }) => {
                         title={t('Next')} primary />
                 </View>
 
-        </SafeAreaView>
-            </View>
+            </SafeAreaView>
+        </View>
     );
 };
 

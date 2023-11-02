@@ -39,7 +39,7 @@ export const centralStyle = StyleSheet.create<any>({
         height: RFPercentage(5.5),
         width: "100%",
         flexDirection: "row",
-        marginVertical: RFPercentage(1.5),
+        marginVertical: RFPercentage(1),
         borderWidth: 1,
         borderRadius: RFPercentage(1),
         borderColor: Colors.lightGray,

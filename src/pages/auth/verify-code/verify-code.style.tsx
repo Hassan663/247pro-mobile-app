@@ -46,11 +46,11 @@ export const styles = StyleSheet.create({
         width: "70%"
     },
     deviceContainer: {
-        flex: 3.5,
+        flex: 6,
         justifyContent: centralPosition.flexEnd,
     },
     body: {
-        flex: 6.5,
+        flex: 4.5,
     },
 
 });

@@ -8,6 +8,7 @@ import {
     SafeAreaView,
 } from 'react-native';
 
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -18,6 +19,7 @@ import { styles } from './enter-name-and-email.style';
 import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }: any) => {
     const [name, setName] = useState('')
@@ -29,6 +31,11 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
             <View style={[centralStyle.container, { height: windowHeight }]}>
                 <SafeAreaView style={centralStyle.flex1}>
                     <View style={styles.titleWrapper}>
+                        <AntDesign
+                            onPress={() => changeRoute(navigation, 'pop')}
+                            color={Colors.fontColor}
+                            name={`left`}
+                            size={RFPercentage(2.5)} />
                         <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
                         <Title
                             color={Colors.black}
