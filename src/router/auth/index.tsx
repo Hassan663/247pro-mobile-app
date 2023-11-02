@@ -16,6 +16,7 @@ import VerifyCode from '../../pages/auth/verify-code/verify-code';
 import ForgetPassword from '../../pages/auth/forget-password/forget-password.pages';
 import ForgetVerifyCode from '../../pages/auth/forget-verify-code/forget-verify-code';
 import SetNewPassword from '../../pages/auth/set-new-password/set-new-password';
+import EmailVerifyCode from '../../pages/auth/email-verify-code/email-verify-code';
 
 export type RootStackParamList = {
   Splash: undefined,
@@ -28,6 +29,7 @@ export type RootStackParamList = {
   VerifyCode: undefined,
   ForgetVerifyCode: undefined,
   ForgetPassword: undefined,
+  EmailVerifyCode: undefined,
   SetNewPassword: undefined,
 };
 
@@ -44,15 +46,16 @@ const AuthNavigation: React.FC = () => {
         initialRouteName='Splash'
       >
         <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="WalkThrough" component={WalkThrough} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
         <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="EnterNameAndEmail" component={EnterNameAndEmail} />
-        <Stack.Screen name="VerifyBuisness" component={VerifyBuisness} />
         <Stack.Screen name="VerifyCode" component={VerifyCode} />
+        <Stack.Screen name="WalkThrough" component={WalkThrough} />
+        <Stack.Screen name="VerifyBuisness" component={VerifyBuisness} />
         <Stack.Screen name="SetNewPassword" component={SetNewPassword} />
+        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+        <Stack.Screen name="EmailVerifyCode" component={EmailVerifyCode} />
         <Stack.Screen name="ForgetVerifyCode" component={ForgetVerifyCode} />
+        <Stack.Screen name="EnterNameAndEmail" component={EnterNameAndEmail} />
         <Stack.Screen name="BuisnessQuestions" component={BuisnessQuestions} />
       </Stack.Navigator>
     </NavigationContainer>

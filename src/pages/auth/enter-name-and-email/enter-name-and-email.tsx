@@ -71,7 +71,13 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
                     </View>
                     <View style={styles.footer}>
                         <Button
-                            callBack={() => changeRoute(navigation, 'VerifyBuisness')}
+                            callBack={() => {
+                                if (!route?.params?.comeFromVerifyCode) {
+                                    changeRoute(navigation, 'EmailVerifyCode')
+                                } else {
+                                    changeRoute(navigation, 'VerifyBuisness')
+                                }
+                            }}
                             title={t('Next')} primary />
                     </View>
                 </SafeAreaView>
