@@ -91,18 +91,15 @@ const App: React.FC = () => {
 
                         <ToastProvider
                             placement="bottom"
-                            offset={10}
-                            // Custom type example
+                            duration={1000}
                             renderType={{
                                 custom_toast: (toast) => (
-                                    <View
-                                        style={styles.customToastContainer}
-                                    >
+                                    <View style={styles.customToastContainer} >
                                         <Title
                                             type='Poppin-14'
                                             title={toast.message}
                                             color={Colors.red}
-                                            weight='600' />
+                                            weight='400' />
                                     </View>
                                 ),
                             }}

@@ -47,20 +47,17 @@ const SignIn: React.FC = () => {
     const dispatch: Dispatch<any> = useDispatch();
     const toast = useToast();
 
-    const handleSubmit = () => {
-        let isValid = loginValidation(inputValue, password)
-        if (isValid.success) dispatch({ type: ISUSERLOGIN, payload: true });
-        else {
-            toast.show(
-                isValid.message,
-                { type: "custom_toast", }
-            )
-        }
+    const handleSubmit = async () => {
+        let isValid = await loginValidation(inputValue, password)
+        if (isValid.success) await dispatch({ type: ISUSERLOGIN, payload: true });
+        else await toast.show(isValid.message, { type: "custom_toast", })
+
     };
 
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
+
                 <View style={styles.titleWrapper}>
                     <View style={styles.titleContainer}>
                         <Title
@@ -124,6 +121,7 @@ const SignIn: React.FC = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 <View style={[styles.logInBtnContainer, {}]}>
                     <Button
                         title={t('logintText')}
@@ -171,12 +169,14 @@ const SignIn: React.FC = () => {
                         titleStyle={styles.socialText}
                     />
                 </View>
+
                 <View style={styles.footerContainer}>
                     <FooterText title={t('New_here') + " "} />
                     <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
                         <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
                     </TouchableOpacity>
                 </View>
+
             </View >
         </KeyboardAwareScrollView>
     );

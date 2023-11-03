@@ -1,5 +1,5 @@
 // @app
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Image,
@@ -19,8 +19,21 @@ import { styles } from './set-new-password.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
+import { useToast } from 'react-native-toast-notifications';
+import { setUpPasswordValidation } from '../../../core/helpers/validation/validation';
 
 const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
+
+    const toast = useToast();
+    const [password1, setPassword1] = useState('')
+    const [password2, setPassword2] = useState('')
+
+    const handleSubmit = () => {
+        let isValid = setUpPasswordValidation(password1, password2)
+        if (isValid.success) { }
+        else toast.show(isValid.message, { type: "custom_toast", })
+    }
+
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -43,11 +56,15 @@ const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                     <View style={styles.inputContainer}>
                         <OutlinedTextInput
+                            val={password1}
+                            onChange={(val) => setPassword1(val)}
                             title={t('New_password')}
                             Password
                             placeHolder={t('New_password')}
                         />
                         <OutlinedTextInput
+                            val={password2}
+                            onChange={(val) => setPassword2(val)}
                             title={t('Confirm_password')}
                             Password
                             placeHolder={t('Confirm_password')}
@@ -55,7 +72,7 @@ const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </View>
                     <View style={styles.logInBtnContainer}>
                         <View />
-                        <Button title={t(`Continue`)} primary />
+                        <Button callBack={handleSubmit} title={t(`Continue`)} primary />
                     </View>
 
                 </SafeAreaView>

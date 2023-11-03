@@ -41,7 +41,6 @@ const EmailVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
                 <SafeAreaView style={[centralStyle.flex1,]}>
-
                     <AntDesign
                         onPress={() => changeRoute(navigation, 'pop')}
                         color={Colors.fontColor}

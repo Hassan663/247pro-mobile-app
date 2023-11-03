@@ -1,5 +1,5 @@
 // @app
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Image,
@@ -7,16 +7,19 @@ import {
     SafeAreaView,
 } from 'react-native';
 
-import { t } from 'i18next';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { t } from 'i18next';
+import { Dispatch } from 'redux';
+import { useToast } from "react-native-toast-notifications";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Colors from '../../../styles/colors';
-import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './forget-password.style';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { changeRoute } from '../../../core/helpers/async-storage';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import { emailValidation } from '../../../core/helpers/validation/validation';
 import {
     FooterText,
     Title,
@@ -25,9 +28,19 @@ import {
     centralStyle,
     windowHeight
 } from '../../../styles/constant.style';
-import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
+    const [email, setemail] = useState<string>('')
+
+    const toast = useToast();
+
+    const handleSubmit = () => {
+        let isValid = emailValidation(email)
+        if (isValid.success) changeRoute(navigation, 'ForgetVerifyCode')
+        else toast.show(isValid.message, { type: "custom_toast", })
+    }
+
+
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -58,6 +71,8 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <View style={styles.inputWrapper}>
                             <View style={{ width: '100%' }}>
                                 <OutlinedTextInput
+                                    val={email}
+                                    onChange={(val) => setemail(val)}
                                     title={t('Email_or_phone')}
                                     placeHolder={t('Email_or_phone')}
                                 />
@@ -67,7 +82,7 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                     <View style={[styles.logInBtnContainer,]}>
                         <View />
-                        <Button callBack={() => changeRoute(navigation, 'ForgetVerifyCode')} title={t(`Reset_Password`)} primary />
+                        <Button callBack={handleSubmit} title={t(`Reset_Password`)} primary />
                     </View>
 
                     <View style={styles.footerContainer}>

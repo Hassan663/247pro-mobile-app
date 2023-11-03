@@ -40,8 +40,6 @@ export const loginValidation = (email: any, password: any) => {
     }
 };
 
-
-
 export const emailValidation = (email: any) => {
     const phonePattern = /^\d{7,15}$/;
     const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -67,6 +65,52 @@ export const emailValidation = (email: any) => {
         return {
             success: false,
             message: 'Invalid email or phone number format.',
+        };
+    } else {
+        return {
+            success: true,
+            message: '',
+        };
+    }
+}
+
+export const passwordValidation = (password: any) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+    if (password === '') {
+        return {
+            success: false,
+            message: 'please enter password',
+        };
+    } else if (!password.match(passwordRegex)) {
+        return {
+            success: false,
+            message: 'Password must be 8+ characters with 1 letter and 1 number.',
+        };
+    } else {
+        return {
+            success: true,
+            message: '',
+        };
+    }
+}
+export const setUpPasswordValidation = (password1: any, password2: any) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+    if (password1 === '' || password2 === '') {
+        return {
+            success: false,
+            message: 'Please enter both passwords.',
+        };
+    } else if (!password1.match(passwordRegex) || !password2.match(passwordRegex)) {
+        return {
+            success: false,
+            message: 'Passwords must be 8+ characters with 1 letter and 1 number.',
+        };
+    } else if (password1 !== password2) {
+        return {
+            success: false,
+            message: 'Passwords do not match.',
         };
     } else {
         return {
