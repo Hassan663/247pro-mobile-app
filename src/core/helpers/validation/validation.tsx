@@ -74,6 +74,26 @@ export const emailValidation = (email: any) => {
     }
 }
 
+export const phoneValidation = (phone: any) => {
+    const phonePattern = /^\d{7,15}$/; // Minimum 7 digits, maximum 15 digits
+
+    if (phone === '') {
+        return {
+            success: false,
+            message: 'please enter phone number',
+        };
+    } else if (!phonePattern.test(phone)) {
+        return {
+            success: false,
+            message: 'Please enter a valid phone number.',
+        };
+    } else {
+        return {
+            success: true,
+            message: '',
+        };
+    }
+}
 export const passwordValidation = (password: any) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
 

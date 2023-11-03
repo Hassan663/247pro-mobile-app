@@ -34,11 +34,16 @@ import {
     Title,
     FooterText,
 } from '../../../core/components/screen-title.component';
+import { emailValidation, phoneValidation } from '../../../core/helpers/validation/validation';
+import { useToast } from 'react-native-toast-notifications';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [countryCode, setCountryCode] = useState<any>('PK');
     const [flag, setflag] = useState<boolean>(false);
+    const [countryCode, setCountryCode] = useState<any>('PK');
+    const [phoneNumber, setphoneNumber] = useState<string>('')
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
+
+    const toast = useToast();
 
     const otpSupported = useSelector((state: any) => state.root.otpSupported)
 
@@ -61,6 +66,12 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     };
     // CHANGE LANGUAGE 
 
+    const handleSubmit = () => {
+        let isValid = phoneValidation(phoneNumber)
+        if (isValid.success) changeRoute(navigation, 'VerifyCode')
+        else toast.show(isValid.message, { type: "custom_toast", })
+    }
+
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -77,7 +88,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 title={t(`Create_Your_Free_Account`)}
                                 weight='600' />
                         </View>
-                
+
                         <View style={centralStyle.mb3}>
                             <Title
                                 type='Poppin-14'
@@ -110,12 +121,15 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 />
                             </TouchableOpacity>
                             <View style={styles.phoneNumberInput}>
-                                <Input placeholder={t(`Mobile_phone_number`)} />
+                                <Input
+                                    value={phoneNumber}
+                                    onChangeText={(val) => setphoneNumber(val)}
+                                    placeholder={t(`Mobile_phone_number`)} />
                             </View>
                         </View>
                         <View style={[centralStyle.mt3, centralStyle.my1]}>
                             <Button
-                                callBack={() => { changeRoute(navigation, 'VerifyCode') }}
+                                callBack={handleSubmit}
                                 title={t(`Next`)}
                                 primary />
                         </View>

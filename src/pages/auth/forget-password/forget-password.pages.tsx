@@ -40,7 +40,6 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
         else toast.show(isValid.message, { type: "custom_toast", })
     }
 
-
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
