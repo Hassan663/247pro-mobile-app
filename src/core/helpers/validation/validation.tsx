@@ -94,3 +94,19 @@ export function setUpPasswordValidation(password1: string, password2: string): V
 
     return createSuccessResponse();
 }
+
+export function enterNameAndEmailValidation(name: string, email: string, password: string): ValidationResult {
+
+    if (!name || !email || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+
+    let isValidEmail = emailValidation(email)
+
+    if (isValidEmail.success == false) return createErrorResponse(VALIDATIONMESSAGE[10])
+
+    let isValidPassword = passwordValidation(password)
+
+    if (isValidPassword.success == false) return isValidPassword
+
+    return createSuccessResponse();
+
+}

@@ -10,6 +10,7 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Colors from '../../../styles/colors';
@@ -19,13 +20,24 @@ import { styles } from './enter-name-and-email.style';
 import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { useToast } from 'react-native-toast-notifications';
+import { enterNameAndEmailValidation } from '../../../core/helpers/validation/validation';
 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }: any) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const toast = useToast();
+
+    const handleSubmit = async () => {
+        let isValid = await enterNameAndEmailValidation(name, email, password)
+        if (isValid.success) {
+            if (!route?.params?.comeFromVerifyCode) changeRoute(navigation, 'EmailVerifyCode')
+            else changeRoute(navigation, 'VerifyBuisness')
+        }
+        else await toast.show(isValid.message, { type: "custom_toast", })
+    }
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -71,13 +83,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
                     </View>
                     <View style={styles.footer}>
                         <Button
-                            callBack={() => {
-                                if (!route?.params?.comeFromVerifyCode) {
-                                    changeRoute(navigation, 'EmailVerifyCode')
-                                } else {
-                                    changeRoute(navigation, 'VerifyBuisness')
-                                }
-                            }}
+                            callBack={handleSubmit}
                             title={t('Next')} primary />
                     </View>
                 </SafeAreaView>
