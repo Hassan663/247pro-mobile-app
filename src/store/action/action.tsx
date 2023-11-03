@@ -49,19 +49,19 @@ export const closeSheet = (sheetRef: any) => sheetRef.current.close()
 // }
 
 
-export const _error = (err?: string, time?: number) => {
-    return async (dispatch: Dispatch) => {
-        try {
-            dispatch({ type: ISERROR, payload: err });
-            setTimeout(
-                () => {
-                    dispatch({ type: ISERROR, payload: '' });
-                },
-                time ? time : 5000,
-            );
-        } catch (error) {
-            // if something is wrong error will save in store and will show the error here
-            console.log(error)
-        }
-    }
-}
+// export const _error = (err?: string, time?: number) => {
+//     return async (dispatch: Dispatch) => {
+//         try {
+//             dispatch({ type: ISERROR, payload: err });
+//             setTimeout(
+//                 () => {
+//                     dispatch({ type: ISERROR, payload: '' });
+//                 },
+//                 time ? time : 5000,
+//             );
+//         } catch (error) {
+//             // if something is wrong error will save in store and will show the error here
+//             console.log(error)
+//         }
+//     }
+// }

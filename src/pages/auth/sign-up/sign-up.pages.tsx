@@ -77,6 +77,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 title={t(`Create_Your_Free_Account`)}
                                 weight='600' />
                         </View>
+                
                         <View style={centralStyle.mb3}>
                             <Title
                                 type='Poppin-14'

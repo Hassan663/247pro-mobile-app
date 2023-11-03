@@ -15,20 +15,17 @@ import { useDispatch } from 'react-redux';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
-import { Error } from '../../../core/components/error';
 import { styles } from './sign-in.style';
-import { _error } from '../../../store/action/action';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { ISUSERLOGIN } from '../../../store/constant/constant';
 import { loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
     centralStyle,
     windowHeight
@@ -46,7 +43,6 @@ const SignIn: React.FC = () => {
     const [isSelected, setisSelected] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const [errorMessage, seterrorMessage] = useState('');
 
     const dispatch: Dispatch<any> = useDispatch();
     const toast = useToast();
@@ -55,7 +51,6 @@ const SignIn: React.FC = () => {
         let isValid = loginValidation(inputValue, password)
         if (isValid.success) dispatch({ type: ISUSERLOGIN, payload: true });
         else {
-            seterrorMessage(isValid.message)
             toast.show(
                 isValid.message,
                 { type: "custom_toast", }
