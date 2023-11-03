@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
+import { ToastProvider } from 'react-native-toast-notifications'
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
     LogBox,
     SafeAreaView,
     StatusBar,
+    TouchableOpacity,
     StyleSheet,
+    Text,
     View,
 } from 'react-native';
 
 import AppNavigation from './src/router/tab/index';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import store from './src/store';
 import AuthNavigation from './src/router/auth';
 
@@ -21,6 +25,8 @@ import i18n, {
     fetchTranslations
 } from './src/i18n';
 import { useNavigation } from '@react-navigation/native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import { Title } from './src/core/components/screen-title.component';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
@@ -82,7 +88,27 @@ const App: React.FC = () => {
                 <SafeAreaProvider>
                     <PortalProvider>
                         {/* {alert(process.env.BASE_URL)} */}
-                        <MainComponent />
+
+                        <ToastProvider
+                            placement="bottom"
+                            offset={10}
+                            // Custom type example
+                            renderType={{
+                                custom_toast: (toast) => (
+                                    <View
+                                        style={styles.customToastContainer}
+                                    >
+                                        <Title
+                                            type='Poppin-14'
+                                            title={toast.message}
+                                            color={Colors.red}
+                                            weight='600' />
+                                    </View>
+                                ),
+                            }}
+                        >
+                            <MainComponent />
+                        </ToastProvider>
                     </PortalProvider>
                 </SafeAreaProvider>
             </Provider>
@@ -99,5 +125,25 @@ const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const styles = StyleSheet.create({
     statusBar: {
         height: STATUSBAR_HEIGHT,
+    },
+    customToastContainer: {
+        maxWidth: "85%",
+        paddingHorizontal: 15,
+        paddingVertical: RFPercentage(2),
+        backgroundColor: Colors.white,
+        marginVertical: 4,
+        borderRadius: 8,
+        borderLeftColor: Colors.primary,
+        borderLeftWidth: 6,
+        justifyContent: "center",
+        paddingLeft: 16,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
 });

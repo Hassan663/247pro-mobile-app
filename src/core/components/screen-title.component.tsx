@@ -32,7 +32,7 @@ export const FooterText: React.FC<FooterTextProps> = ({ color, title }) => (
 );
 
 interface TitleTextProps {
-    title?: string;
+    title?: string | any;
     type?: string;
     color?: string;
     weight?: string;

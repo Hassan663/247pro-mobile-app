@@ -3,24 +3,30 @@ import React, { useState } from 'react';
 import {
     TouchableOpacity,
     Image,
-    View, Text
+    View,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
+import { useToast } from "react-native-toast-notifications";
+import { useDispatch } from 'react-redux';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+
 import Colors from '../../../styles/colors';
-import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
+import { Error } from '../../../core/components/error';
 import { styles } from './sign-in.style';
+import { _error } from '../../../store/action/action';
+import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { ISERROR, ISUSERLOGIN } from '../../../store/constant/constant';
+import { ISUSERLOGIN } from '../../../store/constant/constant';
+import { loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -31,11 +37,6 @@ import {
     FooterText,
     Title
 } from '../../../core/components/screen-title.component';
-import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
-import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
-import { _error } from '../../../store/action/action';
-import { loginValidation } from '../../../core/helpers/validation/validation';
-import { Error } from '../../../core/components/error';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
@@ -48,13 +49,17 @@ const SignIn: React.FC = () => {
     const [errorMessage, seterrorMessage] = useState('');
 
     const dispatch: Dispatch<any> = useDispatch();
+    const toast = useToast();
 
     const handleSubmit = () => {
         let isValid = loginValidation(inputValue, password)
         if (isValid.success) dispatch({ type: ISUSERLOGIN, payload: true });
         else {
             seterrorMessage(isValid.message)
-            setTimeout(() => { seterrorMessage('') }, 1000);
+            toast.show(
+                isValid.message,
+                { type: "custom_toast", }
+            )
         }
     };
 
@@ -63,7 +68,6 @@ const SignIn: React.FC = () => {
             <View style={[centralStyle.container, { height: windowHeight }]}>
                 <View style={styles.titleWrapper}>
                     <View style={styles.titleContainer}>
-
                         <Title
                             type='Poppin-24'
                             title={t(`Welcome_To`)}
@@ -130,7 +134,6 @@ const SignIn: React.FC = () => {
                         title={t('logintText')}
                         callBack={handleSubmit}
                         primary />
-                    {errorMessage !== '' && <Error errorMessage={errorMessage} />}
                     <View style={[
                         centralStyle.row,
                         centralStyle.justifyContentBetween,
