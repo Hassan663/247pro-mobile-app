@@ -96,9 +96,9 @@ export function setUpPasswordValidation(password1: string, password2: string): V
 }
 
 export function enterNameAndEmailValidation(name: string, email: string, password: string, comeFromVerifyCode: boolean): ValidationResult {
-
-    if (comeFromVerifyCode) if (!name || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
-
+    if (comeFromVerifyCode) {
+       if (!name || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+    }
     else {
         if (!name || !email || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
 
