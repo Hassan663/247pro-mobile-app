@@ -1,141 +1,96 @@
-export const loginValidation = (email: any, password: any) => {
-    const phonePattern = /^\d{7,15}$/; // Minimum 7 digits, maximum 15 digits
-    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+import { VALIDATIONMESSAGE } from "./validation-message";
 
-    if (email === '') {
-        return {
-            success: false,
-            message: 'please enter your email or phone number',
-        };
-    } else if (password === '') {
-        return {
-            success: false,
-            message: 'please enter password',
-        };
+const phonePattern: RegExp = /^\d{7,15}$/;
+const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+const passwordRegex: RegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+type ValidationResult = { success: boolean; message: string };
+
+function createErrorResponse(message: string): ValidationResult {
+    return { success: false, message };
+}
+
+function createSuccessResponse(): ValidationResult {
+    return { success: true, message: '' };
+}
+
+export function loginValidation(emailOrPhone: string, password: string): ValidationResult {
+    if (!emailOrPhone) {
+        return createErrorResponse(VALIDATIONMESSAGE[0]);
     }
-    if (emailPattern.test(email)) {
-        if (email.includes('@example.com')) {
-            return {
-                success: false,
-                message: 'Email addresses from example.com are not allowed.',
-            };
+
+    if (!password) {
+        return createErrorResponse(VALIDATIONMESSAGE[1]);
+    }
+
+    if (emailPattern.test(emailOrPhone)) {
+        if (emailOrPhone.includes('@example.com')) {
+            return createErrorResponse(VALIDATIONMESSAGE[2]);
         }
-    } else if (!phonePattern.test(email)) {
-        return {
-            success: false,
-            message: 'Invalid email or phone number format.',
-        };
+    } else if (!phonePattern.test(emailOrPhone)) {
+        return createErrorResponse(VALIDATIONMESSAGE[3]);
     }
+
     if (!password.match(passwordRegex)) {
-        return {
-            success: false,
-            message: 'Password must be 8+ characters with 1 letter and 1 number.',
-        };
-    } else {
-        return {
-            success: true,
-            message: '',
-        };
+        return createErrorResponse(VALIDATIONMESSAGE[4]);
     }
-};
 
-export const emailValidation = (email: any) => {
-    const phonePattern = /^\d{7,15}$/;
-    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return createSuccessResponse();
+}
 
-    if (email === '') {
-        return {
-            success: false,
-            message: 'please enter your email or phone number',
-        };
+export function emailValidation(email: string): ValidationResult {
+    if (!email) {
+        return createErrorResponse(VALIDATIONMESSAGE[0]);
     }
+
     if (emailPattern.test(email)) {
         if (email.includes('@example.com')) {
-            return {
-                success: false,
-                message: 'Email addresses from example.com are not allowed.',
-            };
+            return createErrorResponse(VALIDATIONMESSAGE[2]);
         }
-        return {
-            success: true,
-            message: '',
-        };
+        return createSuccessResponse();
     } else if (!phonePattern.test(email)) {
-        return {
-            success: false,
-            message: 'Invalid email or phone number format.',
-        };
-    } else {
-        return {
-            success: true,
-            message: '',
-        };
+        return createErrorResponse(VALIDATIONMESSAGE[3]);
     }
+
+    return createSuccessResponse();
 }
 
-export const phoneValidation = (phone: any) => {
-    const phonePattern = /^\d{7,15}$/; // Minimum 7 digits, maximum 15 digits
-
-    if (phone === '') {
-        return {
-            success: false,
-            message: 'please enter phone number',
-        };
-    } else if (!phonePattern.test(phone)) {
-        return {
-            success: false,
-            message: 'Please enter a valid phone number.',
-        };
-    } else {
-        return {
-            success: true,
-            message: '',
-        };
+export function phoneValidation(phone: string): ValidationResult {
+    if (!phone) {
+        return createErrorResponse(VALIDATIONMESSAGE[5]);
     }
+
+    if (!phonePattern.test(phone)) {
+        return createErrorResponse(VALIDATIONMESSAGE[6]);
+    }
+
+    return createSuccessResponse();
 }
-export const passwordValidation = (password: any) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
 
-    if (password === '') {
-        return {
-            success: false,
-            message: 'please enter password',
-        };
-    } else if (!password.match(passwordRegex)) {
-        return {
-            success: false,
-            message: 'Password must be 8+ characters with 1 letter and 1 number.',
-        };
-    } else {
-        return {
-            success: true,
-            message: '',
-        };
+export function passwordValidation(password: string): ValidationResult {
+    if (!password) {
+        return createErrorResponse(VALIDATIONMESSAGE[1]);
     }
+
+    if (!password.match(passwordRegex)) {
+        return createErrorResponse(VALIDATIONMESSAGE[4]);
+    }
+
+    return createSuccessResponse();
 }
-export const setUpPasswordValidation = (password1: any, password2: any) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
 
-    if (password1 === '' || password2 === '') {
-        return {
-            success: false,
-            message: 'Please enter both passwords.',
-        };
-    } else if (!password1.match(passwordRegex) || !password2.match(passwordRegex)) {
-        return {
-            success: false,
-            message: 'Passwords must be 8+ characters with 1 letter and 1 number.',
-        };
-    } else if (password1 !== password2) {
-        return {
-            success: false,
-            message: 'Passwords do not match.',
-        };
-    } else {
-        return {
-            success: true,
-            message: '',
-        };
+export function setUpPasswordValidation(password1: string, password2: string): ValidationResult {
+    if (!password1 || !password2) {
+        return createErrorResponse(VALIDATIONMESSAGE[7]);
     }
+
+    if (!password1.match(passwordRegex) || !password2.match(passwordRegex)) {
+        return createErrorResponse(VALIDATIONMESSAGE[4]);
+    }
+
+    if (password1 !== password2) {
+        return createErrorResponse(VALIDATIONMESSAGE[8]);
+    }
+
+    return createSuccessResponse();
 }
