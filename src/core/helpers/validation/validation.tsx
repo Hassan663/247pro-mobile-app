@@ -97,7 +97,7 @@ export function setUpPasswordValidation(password1: string, password2: string): V
 
 export function enterNameAndEmailValidation(name: string, email: string, password: string, comeFromVerifyCode: boolean): ValidationResult {
     if (comeFromVerifyCode) {
-       if (!name || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+        if (!name || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
     }
     else {
         if (!name || !email || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
@@ -110,6 +110,28 @@ export function enterNameAndEmailValidation(name: string, email: string, passwor
     let isValidPassword = passwordValidation(password)
 
     if (isValidPassword.success == false) return isValidPassword
+
+    return createSuccessResponse();
+
+}
+
+export function verifyCodeValidation(code: string,): ValidationResult {
+    if (!code) return createErrorResponse(VALIDATIONMESSAGE[9]);
+
+    // if (comeFromVerifyCode) {
+    //     if (!name || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+    // }
+    // else {
+    //     if (!name || !email || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+
+    //     let isValidEmail = emailValidation(email)
+
+    //     if (isValidEmail.success == false) return createErrorResponse(VALIDATIONMESSAGE[10])
+    // }
+
+    // let isValidPassword = passwordValidation(password)
+
+    // if (isValidPassword.success == false) return isValidPassword
 
     return createSuccessResponse();
 

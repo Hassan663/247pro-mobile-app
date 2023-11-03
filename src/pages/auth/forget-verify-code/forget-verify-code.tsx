@@ -28,13 +28,21 @@ import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './forget-verify-code.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
+import { useToast } from 'react-native-toast-notifications';
+import { verifyCodeValidation } from '../../../core/helpers/validation/validation';
 
 const CELL_COUNT = 4;
 
 const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
+    const toast = useToast();
     const [value, setValue] = useState('');
-    const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
+
+    const handleSubmit = async () => {
+        let isValid = await verifyCodeValidation(value)
+        if (isValid.success) changeRoute(navigation, 'SetNewPassword')
+        else await toast.show(isValid.message, { type: "custom_toast", })
+    };
 
     return (
         <KeyboardAwareScrollView>
@@ -81,7 +89,7 @@ const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                         }
                         <View style={styles.inputWrapper}>
                             <CodeField
-                                ref={ref}
+                                // ref={ref}
                                 {...props}
                                 value={value}
                                 onChangeText={setValue}
@@ -111,7 +119,9 @@ const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                     <View style={[styles.logInBtnContainer,]}>
                         <View />
-                        <Button callBack={() => changeRoute(navigation, 'SetNewPassword')} title={t(`Verify_Proceed`)} primary />
+                        <Button
+                            callBack={handleSubmit}
+                            title={t(`Verify_Proceed`)} primary />
                     </View>
 
                 </SafeAreaView>
