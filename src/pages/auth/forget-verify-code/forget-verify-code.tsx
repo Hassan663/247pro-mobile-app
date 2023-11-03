@@ -34,9 +34,17 @@ import { verifyCodeValidation } from '../../../core/helpers/validation/validatio
 const CELL_COUNT = 4;
 
 const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const toast = useToast();
     const [value, setValue] = useState('');
+    // const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT, callback: value.length == 4 && handleSubmit() });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
+
+    const toast = useToast();
+
+    // async function handleSubmit() {
+    //     let isValid = await verifyCodeValidation(value)
+    //     if (isValid.success) changeRoute(navigation, 'SetNewPassword')
+    //     else await toast.show(isValid.message, { type: "custom_toast", })
+    // }
 
     const handleSubmit = async () => {
         let isValid = await verifyCodeValidation(value)

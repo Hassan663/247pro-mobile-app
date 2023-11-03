@@ -116,23 +116,10 @@ export function enterNameAndEmailValidation(name: string, email: string, passwor
 }
 
 export function verifyCodeValidation(code: string,): ValidationResult {
-    if (!code) return createErrorResponse(VALIDATIONMESSAGE[9]);
 
-    // if (comeFromVerifyCode) {
-    //     if (!name || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
-    // }
-    // else {
-    //     if (!name || !email || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+    if (!code) return createErrorResponse(VALIDATIONMESSAGE[11]);
 
-    //     let isValidEmail = emailValidation(email)
-
-    //     if (isValidEmail.success == false) return createErrorResponse(VALIDATIONMESSAGE[10])
-    // }
-
-    // let isValidPassword = passwordValidation(password)
-
-    // if (isValidPassword.success == false) return isValidPassword
+    else if (code.length !== 4) return createErrorResponse(VALIDATIONMESSAGE[11]);
 
     return createSuccessResponse();
-
 }

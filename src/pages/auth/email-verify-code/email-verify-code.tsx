@@ -29,14 +29,23 @@ import {
     centralStyle,
     windowHeight
 } from '../../../styles/constant.style';
+import { verifyCodeValidation } from '../../../core/helpers/validation/validation';
+import { useToast } from 'react-native-toast-notifications';
 
 const CELL_COUNT = 4;
 
 const EmailVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [value, setValue] = useState('');
-    const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
+    // const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
 
+    const toast = useToast();
+
+    const handleSubmit = async () => {
+        let isValid = await verifyCodeValidation(value)
+        if (isValid.success) changeRoute(navigation, 'VerifyBuisness')
+        else await toast.show(isValid.message, { type: "custom_toast", })
+    };
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -65,7 +74,7 @@ const EmailVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 weight='400'
                                 type={`Poppin-16`} />
                             <CodeField
-                                ref={ref}
+                                // ref={ref}
                                 {...props}
                                 value={value}
                                 onChangeText={setValue}
@@ -99,13 +108,13 @@ const EmailVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <View style={[centralStyle.flex1, centralStyle.mx1]}>
 
                                 <Button
-                                    callBack={() => changeRoute(navigation, 'VerifyBuisness')}
+                                    callBack={handleSubmit}
                                     title={t('Verify')}
                                     primary />
                             </View>
                             <View style={[centralStyle.flex1, centralStyle.mx1]}>
                                 <Button
-                                    callBack={() => changeRoute(navigation, 'VerifyBuisness')}
+                                    callBack={handleSubmit}
                                     customStyle={styles.verifyLaterBtn}
                                     titleStyle={styles.verifyLaterBtnTitle}
                                     title={t('VerifyLater')} />

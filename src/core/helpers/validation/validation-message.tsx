@@ -10,5 +10,6 @@ export const VALIDATIONMESSAGE = [
     `Passwords do not match.`,
     `Please fill all fields.`,
     `please enter valid email.`,
+    `please enter code.`,
 
 ]

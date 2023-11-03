@@ -26,16 +26,26 @@ import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './verify-code.style';
-import { changeRoute } from '../../../core/helpers/async-storage';
-import { centralStyle, heightFlex1 } from '../../../styles/constant.style';
 import { platform } from '../../../utilities';
+import { useToast } from 'react-native-toast-notifications';
+import { changeRoute } from '../../../core/helpers/async-storage';
+import { centralStyle } from '../../../styles/constant.style';
+import { verifyCodeValidation } from '../../../core/helpers/validation/validation';
 
 const CELL_COUNT = 4;
 
 const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [value, setValue] = useState('');
-    const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
+
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
+
+    const toast = useToast();
+
+    const handleSubmit = async () => {
+        let isValid = await verifyCodeValidation(value)
+        if (isValid.success) changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })
+        else await toast.show(isValid.message, { type: "custom_toast", })
+    };
 
     return (
         <KeyboardAvoidingView
@@ -69,7 +79,7 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 weight='400'
                                 type={`Poppin-16`} />
                             <CodeField
-                                ref={ref}
+                                // ref={ref}
                                 {...props}
                                 value={value}
                                 onChangeText={setValue}
@@ -99,7 +109,7 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                             <View style={styles.footer}>
                                 <Button
-                                    callBack={() => changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })}
+                                    callBack={handleSubmit}
                                     title={t('Verify')} primary />
                             </View>
                         </View>
