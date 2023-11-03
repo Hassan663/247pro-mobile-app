@@ -31,13 +31,20 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
     const toast = useToast();
 
     const handleSubmit = async () => {
-        let isValid = await enterNameAndEmailValidation(name, email, password)
+
+        if (!route?.params?.comeFromVerifyCode) {
+
+        } else {
+
+        }
+        let isValid = await enterNameAndEmailValidation(name, email, password, route?.params?.comeFromVerifyCode)
         if (isValid.success) {
             if (!route?.params?.comeFromVerifyCode) changeRoute(navigation, 'EmailVerifyCode')
             else changeRoute(navigation, 'VerifyBuisness')
         }
         else await toast.show(isValid.message, { type: "custom_toast", })
     }
+
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>

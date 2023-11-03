@@ -99,13 +99,13 @@ const EmailVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <View style={[centralStyle.flex1, centralStyle.mx1]}>
 
                                 <Button
-                                    callBack={() => changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })}
+                                    callBack={() => changeRoute(navigation, 'VerifyBuisness')}
                                     title={t('Verify')}
                                     primary />
                             </View>
                             <View style={[centralStyle.flex1, centralStyle.mx1]}>
                                 <Button
-                                    callBack={() => changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })}
+                                    callBack={() => changeRoute(navigation, 'VerifyBuisness')}
                                     customStyle={styles.verifyLaterBtn}
                                     titleStyle={styles.verifyLaterBtnTitle}
                                     title={t('VerifyLater')} />
