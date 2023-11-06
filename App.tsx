@@ -91,7 +91,7 @@ const App: React.FC = () => {
 
                         <ToastProvider
                             placement="bottom"
-                            duration={1000}
+                            // duration={1000}
                             renderType={{
                                 custom_toast: (toast) => (
                                     <View style={styles.customToastContainer} >

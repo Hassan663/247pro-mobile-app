@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { t } from 'i18next';
+import { useToast } from 'react-native-toast-notifications';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CountryPicker, {
@@ -18,10 +20,9 @@ import Colors from '../../../styles/colors';
 import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
 import i18n from '../../../i18n';
-import { t } from 'i18next';
 import { styles } from './sign-up.style';
-import { useSelector } from 'react-redux';
 import { appLanguages } from '../../../utilities/languageData';
+import { phoneValidation } from '../../../core/helpers/validation/validation';
 import {
     centralStyle,
     windowHeight,
@@ -34,8 +35,6 @@ import {
     Title,
     FooterText,
 } from '../../../core/components/screen-title.component';
-import { emailValidation, phoneValidation } from '../../../core/helpers/validation/validation';
-import { useToast } from 'react-native-toast-notifications';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [flag, setflag] = useState<boolean>(false);
@@ -45,7 +44,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     const toast = useToast();
 
-    const otpSupported = useSelector((state: any) => state.root.otpSupported)
+    // const otpSupported = useSelector((state: any) => state.root.otpSupported)
 
     const handleOnSelect = (country: Country) => {
         setIsCountryPickerVisible(false);
@@ -67,8 +66,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     // CHANGE LANGUAGE 
 
     const handleSubmit = () => {
-        // console.log(countryCode,'countryCode',phoneNumber)
-        let isValid = phoneValidation(phoneNumber,countryCode)
+        let isValid = phoneValidation(phoneNumber, countryCode)
         if (isValid.success) changeRoute(navigation, 'VerifyCode')
         else toast.show(isValid.message, { type: "custom_toast", })
     }

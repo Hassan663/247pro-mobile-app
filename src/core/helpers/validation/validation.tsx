@@ -1,5 +1,5 @@
-import { VALIDATIONMESSAGE } from "./validation-message";
 import PhoneNumber, { CountryCode } from 'libphonenumber-js';
+import { VALIDATIONMESSAGE } from "./validation-message";
 
 const phonePattern: RegExp = /^\d{7,15}$/;
 const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

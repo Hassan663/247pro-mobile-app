@@ -9,8 +9,8 @@ export const VALIDATIONMESSAGE = [
     `Please enter both passwords`,
     `Passwords do not match.`,
     `Please fill all fields.`,
-    `please enter valid email.`,
-    `please enter code.`,
+    `Please enter valid email.`,
+    `Please enter code.`,
     `Invalid phone number.`,
 
 ]
