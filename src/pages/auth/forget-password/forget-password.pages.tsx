@@ -1,5 +1,5 @@
 // @app
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Image,
@@ -9,7 +9,6 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
-import { Dispatch } from 'redux';
 import { useToast } from "react-native-toast-notifications";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -31,14 +30,24 @@ import {
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [email, setemail] = useState<string>('')
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const toast = useToast();
 
-    const handleSubmit = () => {
-        let isValid = emailValidation(email)
-        if (isValid.success) changeRoute(navigation, 'ForgetVerifyCode')
-        else toast.show(isValid.message, { type: "custom_toast", })
+    const handleSubmit = async () => {
+        if (!isToastVisible) {
+            let isValid = emailValidation(email)
+            if (isValid.success) changeRoute(navigation, 'ForgetVerifyCode')
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
+        }
     }
+    useEffect(() => () => toast.hideAll(), [])
 
     return (
         <KeyboardAwareScrollView>

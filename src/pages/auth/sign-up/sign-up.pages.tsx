@@ -1,5 +1,5 @@
 // @app
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Image,
@@ -40,6 +40,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [flag, setflag] = useState<boolean>(false);
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [phoneNumber, setphoneNumber] = useState<string>('')
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
 
     const toast = useToast();
@@ -65,11 +66,22 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     };
     // CHANGE LANGUAGE 
 
-    const handleSubmit = () => {
-        let isValid = phoneValidation(phoneNumber, countryCode)
-        if (isValid.success) changeRoute(navigation, 'VerifyCode')
-        else toast.show(isValid.message, { type: "custom_toast", })
+    const handleSubmit = async () => {
+        if (!isToastVisible) {
+            let isValid = phoneValidation(phoneNumber, countryCode)
+            if (isValid.success) changeRoute(navigation, 'VerifyCode')
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
+        }
     }
+
+    useEffect(() => () => toast.hideAll(), [])
+
 
     return (
         <KeyboardAwareScrollView>

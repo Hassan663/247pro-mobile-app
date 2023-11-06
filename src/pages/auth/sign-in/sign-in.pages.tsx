@@ -1,5 +1,5 @@
 // @app
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     TouchableOpacity,
     Image,
@@ -46,7 +46,8 @@ const SignIn: React.FC = () => {
 
     const dispatch: Dispatch<any> = useDispatch();
     const toast = useToast();
-
+    
+    useEffect(() => () => toast.hideAll(), [])
     const handleSubmit = async () => {
         if (!isToastVisible) {
             let isValid = await loginValidation(inputValue, password);

@@ -1,5 +1,8 @@
 // @app
-import React, { useState } from 'react';
+import React, {
+    useState,
+    useEffect
+} from 'react';
 import {
     View,
     Image,
@@ -13,26 +16,38 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
-import Input from '../../../core/components/input.component';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './set-new-password.style';
-import { changeRoute } from '../../../core/helpers/async-storage';
-import { centralStyle, windowHeight } from '../../../styles/constant.style';
-import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { useToast } from 'react-native-toast-notifications';
+import { changeRoute } from '../../../core/helpers/async-storage';
 import { setUpPasswordValidation } from '../../../core/helpers/validation/validation';
+import {
+    centralStyle,
+    windowHeight
+} from '../../../styles/constant.style';
 
 const SetNewPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     const toast = useToast();
     const [password1, setPassword1] = useState('')
     const [password2, setPassword2] = useState('')
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
-    const handleSubmit = () => {
-        let isValid = setUpPasswordValidation(password1, password2)
-        if (isValid.success) { }
-        else toast.show(isValid.message, { type: "custom_toast", })
+    const handleSubmit = async () => {
+        if (!isToastVisible) {
+            let isValid = await setUpPasswordValidation(password1, password2)
+            if (isValid.success) { }
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
+        }
     }
+    useEffect(() => () => toast.hideAll(), [])
 
     return (
         <KeyboardAwareScrollView>

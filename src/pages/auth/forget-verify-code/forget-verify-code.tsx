@@ -1,14 +1,13 @@
 // @app
 import React, {
-    useState
+    useState,
+    useEffect
 } from 'react';
 import {
     View,
-    ScrollView,
     Image,
     Text,
     SafeAreaView,
-    KeyboardAvoidingView,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -18,7 +17,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {
     CodeField,
     Cursor,
-    useBlurOnFulfill,
     useClearByFocusCell
 } from 'react-native-confirmation-code-field';
 
@@ -26,31 +24,38 @@ import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './forget-verify-code.style';
-import { changeRoute } from '../../../core/helpers/async-storage';
-import { centralStyle, windowHeight } from '../../../styles/constant.style';
 import { useToast } from 'react-native-toast-notifications';
+import { changeRoute } from '../../../core/helpers/async-storage';
 import { verifyCodeValidation } from '../../../core/helpers/validation/validation';
+import {
+    centralStyle,
+    windowHeight
+} from '../../../styles/constant.style';
 
 const CELL_COUNT = 4;
 
 const ForgetVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [value, setValue] = useState('');
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     // const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT, callback: value.length == 4 && handleSubmit() });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
 
     const toast = useToast();
 
-    // async function handleSubmit() {
-    //     let isValid = await verifyCodeValidation(value)
-    //     if (isValid.success) changeRoute(navigation, 'SetNewPassword')
-    //     else await toast.show(isValid.message, { type: "custom_toast", })
-    // }
-
     const handleSubmit = async () => {
-        let isValid = await verifyCodeValidation(value)
-        if (isValid.success) changeRoute(navigation, 'SetNewPassword')
-        else await toast.show(isValid.message, { type: "custom_toast", })
+        if (!isToastVisible) {
+            let isValid = await verifyCodeValidation(value)
+            if (isValid.success) changeRoute(navigation, 'SetNewPassword')
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
+        }
     };
+    useEffect(() => () => toast.hideAll(), [])
 
     return (
         <KeyboardAwareScrollView>
