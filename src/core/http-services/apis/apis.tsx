@@ -8,6 +8,7 @@ const createEndpoint = (endpoint: string, JWTToken: boolean): Endpoint => ({
   JWTToken,
 });
 
+export const LOGIN_ENCRIPTION_ENDPOINT: Endpoint = createEndpoint('https://apidevprofinder.247pro.com/api/system/encryption/encode', false);
 export const LOGIN_ENDPOINT: Endpoint = createEndpoint('/api/login', false);
 export const USER_ENDPOINT: Endpoint = createEndpoint('/api/user', true);
 export const POST_ENDPOINT: Endpoint = createEndpoint('/api/posts', true);

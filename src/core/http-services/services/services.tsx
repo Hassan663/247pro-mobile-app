@@ -9,7 +9,6 @@ const postApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint, postData: TReq): Pr
   try {
     // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
     const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
-
     const response = await axios.post(LOGIN_ENDPOINT.url, postData, { headers });
     return response.data;
   } catch (error) {

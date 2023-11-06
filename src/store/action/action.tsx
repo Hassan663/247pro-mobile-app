@@ -11,10 +11,8 @@ import { CURRENTUSERPROFILE, ISERROR } from '../constant/constant';
 export const loginAction = (loginData: LoginModal) => {
     return async (dispatch: Dispatch) => {
         try {
-            console.log(LOGIN_ENDPOINT, 'aaaaaaaaaaaaaaaaaaaaaaaaa')
             // // loader will apear
             let userData = await login(loginData)
-            console.log(userData, 'LoginResponseData')
             dispatch({
                 type: CURRENTUSERPROFILE,
                 payload: userData
@@ -26,7 +24,7 @@ export const loginAction = (loginData: LoginModal) => {
 
         } catch (error) {
             // if something is wrong error will save in store and will show the error here
-            console.log(error)
+            console.log(error, 'error')
         }
     }
 }

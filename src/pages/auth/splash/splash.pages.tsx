@@ -18,9 +18,13 @@ import { platform } from '../../../utilities';
 type Navigation = StackNavigationProp<RootStackParamList>;
 
 const initialState: LoginModal = {
-  email: 'test1@gmail.com',
-  password: 'Karachi@123',
+  "key": "!_247PRO_AUTH_KEY_!*",
+  "object": { "email": "mynameisahmedshah@gmail.com", "password": "Karachi@123456" }
 };
+// const initialState: LoginModal = {
+//   email: 'test1@gmail.com',
+//   password: 'Karachi@123',
+// };
 
 const Splash: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();

@@ -1,8 +1,15 @@
 
-export type LoginModal = {
-    email?: string;
-    password?: string;
-};
+// export type LoginModal = {
+//     email?: string;
+//     password?: string;
+// };
+export interface LoginModal {
+    key: string;
+    object: {
+      email: string;
+      password: string;
+    };
+  }
 
 
 // LoginResponseData type
