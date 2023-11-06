@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useEffect,
     useState
 } from 'react';
 import {
@@ -27,23 +28,31 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const toast = useToast();
 
     const handleSubmit = async () => {
-
-        if (!route?.params?.comeFromVerifyCode) {
-
-        } else {
-
+        if (!isToastVisible) {
+            let isValid = await enterNameAndEmailValidation(name, email, password, route?.params?.comeFromVerifyCode)
+            if (isValid.success) {
+                if (!route?.params?.comeFromVerifyCode) changeRoute(navigation, 'EmailVerifyCode')
+                else changeRoute(navigation, 'VerifyBuisness')
+            }
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
         }
-        let isValid = await enterNameAndEmailValidation(name, email, password, route?.params?.comeFromVerifyCode)
-        if (isValid.success) {
-            if (!route?.params?.comeFromVerifyCode) changeRoute(navigation, 'EmailVerifyCode')
-            else changeRoute(navigation, 'VerifyBuisness')
-        }
-        else await toast.show(isValid.message, { type: "custom_toast", })
     }
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <KeyboardAwareScrollView>

@@ -1,20 +1,19 @@
 // @app
 import React, {
-    useState
+    useState,
+    useEffect
 } from 'react';
 import {
     View,
     Text,
     Image,
-    Dimensions,
-    ScrollView,
     SafeAreaView,
-    KeyboardAvoidingView
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
     CodeField,
     Cursor,
@@ -26,27 +25,38 @@ import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './verify-code.style';
-import { platform } from '../../../utilities';
 import { useToast } from 'react-native-toast-notifications';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { centralStyle, windowHeight } from '../../../styles/constant.style';
 import { verifyCodeValidation } from '../../../core/helpers/validation/validation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { centralStyle, windowHeight } from '../../../styles/constant.style';
 
 const CELL_COUNT = 4;
 
 const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [value, setValue] = useState('');
-
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
 
     const toast = useToast();
 
     const handleSubmit = async () => {
-        let isValid = await verifyCodeValidation(value)
-        if (isValid.success) changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })
-        else await toast.show(isValid.message, { type: "custom_toast", })
-    };
+        if (!isToastVisible) {
+            let isValid = await verifyCodeValidation(value)
+            if (isValid.success) changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
+        }
+    }
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <KeyboardAwareScrollView>

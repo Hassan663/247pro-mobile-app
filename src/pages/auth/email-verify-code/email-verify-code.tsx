@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useEffect,
     useState
 } from 'react';
 import {
@@ -36,16 +37,31 @@ const CELL_COUNT = 4;
 
 const EmailVerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [value, setValue] = useState('');
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     // const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue, });
 
     const toast = useToast();
 
     const handleSubmit = async () => {
-        let isValid = await verifyCodeValidation(value)
-        if (isValid.success) changeRoute(navigation, 'VerifyBuisness')
-        else await toast.show(isValid.message, { type: "custom_toast", })
+        if (!isToastVisible) {
+            let isValid = await verifyCodeValidation(value)
+            if (isValid.success) changeRoute(navigation, 'VerifyBuisness')
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
+        }
     };
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
+        return unsubscribe;
+    }, [navigation]);
+
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
