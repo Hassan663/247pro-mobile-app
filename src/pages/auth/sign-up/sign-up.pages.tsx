@@ -67,7 +67,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     // CHANGE LANGUAGE 
 
     const handleSubmit = () => {
-        let isValid = phoneValidation(phoneNumber)
+        // console.log(countryCode,'countryCode',phoneNumber)
+        let isValid = phoneValidation(phoneNumber,countryCode)
         if (isValid.success) changeRoute(navigation, 'VerifyCode')
         else toast.show(isValid.message, { type: "custom_toast", })
     }

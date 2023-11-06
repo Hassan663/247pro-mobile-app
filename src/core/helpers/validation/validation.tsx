@@ -1,4 +1,5 @@
 import { VALIDATIONMESSAGE } from "./validation-message";
+import PhoneNumber, { CountryCode } from 'libphonenumber-js';
 
 const phonePattern: RegExp = /^\d{7,15}$/;
 const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -55,14 +56,20 @@ export function emailValidation(email: string): ValidationResult {
     return createSuccessResponse();
 }
 
-export function phoneValidation(phone: string): ValidationResult {
+export function phoneValidation(phone: string, countryCode: CountryCode): ValidationResult {
+    const parsedPhoneNumber = PhoneNumber(phone, countryCode); // Replace 'US' with the appropriate country code.
+
     if (!phone) {
         return createErrorResponse(VALIDATIONMESSAGE[5]);
     }
 
+    if (!parsedPhoneNumber?.isValid()) {
+        return createErrorResponse(VALIDATIONMESSAGE[12]);
+    }
+    
     if (!phonePattern.test(phone)) {
         return createErrorResponse(VALIDATIONMESSAGE[6]);
-    }
+    }   
 
     return createSuccessResponse();
 }

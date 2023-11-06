@@ -11,5 +11,6 @@ export const VALIDATIONMESSAGE = [
     `Please fill all fields.`,
     `please enter valid email.`,
     `please enter code.`,
+    `Invalid phone number.`,
 
 ]
