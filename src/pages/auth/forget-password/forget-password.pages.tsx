@@ -47,7 +47,10 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
             }
         }
     }
-    useEffect(() => () => toast.hideAll(), [])
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <KeyboardAwareScrollView>

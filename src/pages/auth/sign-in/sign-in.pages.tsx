@@ -46,8 +46,12 @@ const SignIn: React.FC = () => {
 
     const dispatch: Dispatch<any> = useDispatch();
     const toast = useToast();
-    
-    useEffect(() => () => toast.hideAll(), [])
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
+        return unsubscribe;
+    }, [navigation]);
+
     const handleSubmit = async () => {
         if (!isToastVisible) {
             let isValid = await loginValidation(inputValue, password);
