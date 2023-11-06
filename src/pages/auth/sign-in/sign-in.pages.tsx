@@ -38,26 +38,32 @@ import {
 type Navigation = StackNavigationProp<RootStackParamList>;
 
 const SignIn: React.FC = () => {
-
     const navigation = useNavigation<Navigation>();
-    const [isSelected, setisSelected] = useState<boolean>(false)
-    const [inputValue, setInputValue] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const [isSelected, setisSelected] = useState<boolean>(false);
+    const [inputValue, setInputValue] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const dispatch: Dispatch<any> = useDispatch();
     const toast = useToast();
 
     const handleSubmit = async () => {
-        let isValid = await loginValidation(inputValue, password)
-        if (isValid.success) await dispatch({ type: ISUSERLOGIN, payload: true });
-        else await toast.show(isValid.message, { type: "custom_toast", })
-
+        if (!isToastVisible) {
+            let isValid = await loginValidation(inputValue, password);
+            if (isValid.success) { await dispatch({ type: ISUSERLOGIN, payload: true }); }
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast" });
+                setTimeout(() => {
+                    setIsToastVisible(false);
+                }, 5000);
+            }
+        }
     };
 
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
-
                 <View style={styles.titleWrapper}>
                     <View style={styles.titleContainer}>
                         <Title
@@ -109,7 +115,6 @@ const SignIn: React.FC = () => {
                                 type={'Poppin-14'}
                                 color={Colors.fontColor}
                                 title={t('Remember_me')} />
-
                         </TouchableOpacity>
                         <TouchableOpacity
                             activeOpacity={.8}
@@ -126,7 +131,9 @@ const SignIn: React.FC = () => {
                     <Button
                         title={t('logintText')}
                         callBack={handleSubmit}
-                        primary />
+                        primary
+                    // disabled={isToastVisible} // Disable the button when the toast is visible
+                    />
                     <View style={[
                         centralStyle.row,
                         centralStyle.justifyContentBetween,
@@ -176,9 +183,9 @@ const SignIn: React.FC = () => {
                         <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
                     </TouchableOpacity>
                 </View>
-
-            </View >
+            </View>
         </KeyboardAwareScrollView>
     );
 };
+
 export default SignIn;
