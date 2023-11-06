@@ -1,6 +1,7 @@
 import PhoneNumber, { CountryCode } from 'libphonenumber-js';
 import { VALIDATIONMESSAGE } from "./validation-message";
 
+const zipCodePattern = /^\d{5}$/;
 const phonePattern: RegExp = /^\d{7,15}$/;
 const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const passwordRegex: RegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
@@ -66,10 +67,10 @@ export function phoneValidation(phone: string, countryCode: CountryCode): Valida
     if (!parsedPhoneNumber?.isValid()) {
         return createErrorResponse(VALIDATIONMESSAGE[12]);
     }
-    
+
     if (!phonePattern.test(phone)) {
         return createErrorResponse(VALIDATIONMESSAGE[6]);
-    }   
+    }
 
     return createSuccessResponse();
 }
@@ -129,4 +130,18 @@ export function verifyCodeValidation(code: string,): ValidationResult {
     else if (code.length !== 4) return createErrorResponse(VALIDATIONMESSAGE[11]);
 
     return createSuccessResponse();
+}
+
+export function buisnessQuestionsValidation(selectedIndustry: string, primarySpecialty: string, zipCode: string, jobType: string): ValidationResult {
+    const isValidZipCode = zipCodePattern.test(zipCode);
+
+    if (selectedIndustry && primarySpecialty && isValidZipCode) {
+        if (selectedIndustry == 'Construction') {
+            if (!jobType) return createErrorResponse(VALIDATIONMESSAGE[9]);
+        }
+        return createSuccessResponse();
+    } else {
+        return createErrorResponse(VALIDATIONMESSAGE[9]);
+    }
+
 }

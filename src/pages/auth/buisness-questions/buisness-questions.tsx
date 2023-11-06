@@ -5,8 +5,6 @@ import {
     Image,
     TouchableOpacity,
     SafeAreaView,
-    KeyboardAvoidingView,
-    Platform,
     ScrollView,
 } from 'react-native';
 
@@ -34,6 +32,8 @@ import { changeRoute } from '../../../core/helpers/async-storage';
 import {
     centralStyle, windowHeight,
 } from '../../../styles/constant.style';
+import { buisnessQuestionsValidation } from '../../../core/helpers/validation/validation';
+import { useToast } from 'react-native-toast-notifications';
 
 const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const isBuisness = route?.params?.yesABuisness;
@@ -42,7 +42,10 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
     const [phoneNumber, setphoneNumber] = useState<string>('');
     const [zipCode, setZipCode] = useState<string>('');
     const [loading, setloading] = useState<boolean>(false)
+    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [selectedIndustry, setselectedIndustry] = useState<string>('');
+    const [jobType, setjobType] = useState<string>('');
+    const [primarySpecialty, setprimarySpecialty] = useState<string>('');
 
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
 
@@ -53,6 +56,27 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
     const otpSupported = useSelector((state: any) => state.root.otpSupported)
 
     const dispatch = useDispatch()
+    const toast = useToast();
+
+
+    const handleSubmit = async () => {
+        if (!isToastVisible) {
+            let isValid = buisnessQuestionsValidation(selectedIndustry, primarySpecialty, zipCode, jobType)
+            if (isValid.success) {
+                setloading(true)
+                setTimeout(() => {
+                    setloading(false)
+                    dispatch({ type: ISUSERLOGIN, payload: true });
+                }, 500);
+            }
+            else {
+                setIsToastVisible(true);
+                await toast.show(isValid.message, { type: "custom_toast", })
+                setTimeout(() => { setIsToastVisible(false); }, 5000);
+            }
+        }
+    }
+
 
     return (
         <>
@@ -94,14 +118,14 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                             />
                                             <OutlinedDropDown
                                                 title={t('primarySpecialty')}
-                                                onselect={(value: string) => { console.log(value, 'value') }}
+                                                onselect={(value: string) => { setprimarySpecialty(value) }}
                                                 DATA={INDUSTRIES}
                                                 drop_down_button_style={styles.drop_down_button_style}
                                             />
                                             {selectedIndustry == 'Construction' &&
                                                 <OutlinedDropDown
                                                     title={t('JobType')}
-                                                    onselect={(value: string) => { console.log(value, 'value') }}
+                                                    onselect={(value: string) => { setjobType(value) }}
                                                     DATA={INDUSTRIES}
                                                     drop_down_button_style={styles.drop_down_button_style}
                                                 />
@@ -113,7 +137,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                                 title={t('ZipCode')}
                                                 placeHolder={t('ZipCode')}
                                             />
-                                            {!otpSupported &&
+                                            {/* {!otpSupported &&
                                                 <View style={styles.inputWrapper2}>
                                                     <TouchableOpacity
                                                         onPress={() => setIsCountryPickerVisible(true)}
@@ -144,7 +168,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                                         />
                                                     </View>
                                                 </View>
-                                            }
+                                            } */}
                                         </>
                                         :
                                         <OutlinedTextInput
@@ -158,16 +182,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                 </View>
                                 <View style={[styles.footer,]}>
                                     <Button
-                                        callBack={() => {
-                                            setloading(true)
-                                            setTimeout(() => {
-                                                setloading(false)
-                                                dispatch({
-                                                    type: ISUSERLOGIN,
-                                                    payload: true
-                                                });
-                                            }, 500);
-                                        }}
+                                        callBack={handleSubmit}
                                         title={t('CompleteRegisration')}
                                         primary />
                                 </View>
