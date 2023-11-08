@@ -78,4 +78,10 @@ export const styles = StyleSheet.create({
         height: RFPercentage(4),
         width: RFPercentage(4),
     },
+    primaryBtnClone: {
+        height: RFPercentage(5.6),
+        backgroundColor: Colors.primary,
+        width: '100%',
+        borderRadius: RFPercentage(1)
+    },
 });

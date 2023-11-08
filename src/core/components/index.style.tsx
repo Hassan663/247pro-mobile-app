@@ -182,6 +182,23 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: RFPercentage(1),
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    loaderStyle: {
+        position: 'absolute',
+        zIndex: 10,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(10,10,10,0.4)'
+    },
 
+    spinerBox: {
+        width: RFPercentage(15),
+        height: RFPercentage(10),
+        borderRadius: RFPercentage(1),
+        justifyContent: 'center',
+        // flex: 1,
+        // backgroundColor:Colors.lightGrey
+    },
 });

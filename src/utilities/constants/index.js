@@ -9,6 +9,7 @@ export const platform = Platform.OS;
 export const deviceUId = DeviceInfo.getUniqueId();
 export const deviceType = DeviceInfo.getDeviceType();
 export const hasNotch = DeviceInfo.hasNotch();
+export const loginRequestKey = "!_247PRO_AUTH_KEY_!*";
 export const bucketRestoPic = "https://s3-ap-southeast-1.amazonaws.com/bistrochat-restaurant-pictures/";
 export const bucketRestoMenuPic = "https://s3-ap-southeast-1.amazonaws.com/dev-bistrochat-restaurant-menu/";
 export const bucketPulsePic = "https://s3-ap-southeast-1.amazonaws.com/dev-bistrochat-pulse-pictures/";

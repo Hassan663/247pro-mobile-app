@@ -7,9 +7,13 @@ const createEndpoint = (endpoint: string, JWTToken: boolean): Endpoint => ({
   url: `${BASE_URL}${endpoint}`,
   JWTToken,
 });
+const createEndpointWithoutBaseUrl = (endpoint: string, JWTToken: boolean): Endpoint => ({
+  url: `${endpoint}`,
+  JWTToken,
+});
 
-export const LOGIN_ENCRIPTION_ENDPOINT: Endpoint = createEndpoint('https://apidevprofinder.247pro.com/api/system/encryption/encode', false);
-export const LOGIN_ENDPOINT: Endpoint = createEndpoint('/api/login', false);
+export const LOGIN_ENCRIPTION_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/system/encryption/encode', false);
+export const LOGIN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/auth/login', false);
 export const USER_ENDPOINT: Endpoint = createEndpoint('/api/user', true);
 export const POST_ENDPOINT: Endpoint = createEndpoint('/api/posts', true);
 export const CHECKOUT_ENDPOINT: Endpoint = createEndpoint('/api/checkout', true);

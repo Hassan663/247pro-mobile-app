@@ -17,10 +17,10 @@ import { platform } from '../../../utilities';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
-const initialState: LoginModal = {
-  "key": "!_247PRO_AUTH_KEY_!*",
-  "object": { "email": "mynameisahmedshah@gmail.com", "password": "Karachi@123456" }
-};
+// const initialState: LoginModal = {
+//   "key": "!_247PRO_AUTH_KEY_!*",
+//   "object": { "email": "bilal.asghar@247pro.com", "password": "P@ssw0rd" }
+// };
 // const initialState: LoginModal = {
 //   email: 'test1@gmail.com',
 //   password: 'Karachi@123',
@@ -30,7 +30,7 @@ const Splash: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const navigation = useNavigation<Navigation>();
   const timerRef: any = useRef(null);
-  const [emailPass, setEmailPass] = useState<LoginModal>(initialState);
+  // const [emailPass, setEmailPass] = useState<LoginModal>(initialState);
 
   const handleWalkThroughScreen = async () => {
     const isAppInstalled = await getItem('isAppInstalled');
@@ -47,7 +47,7 @@ const Splash: React.FC = () => {
     handleWalkThroughScreen();
   };
   useEffect(() => {
-    dispatch(loginAction(emailPass))
+    // dispatch(loginAction(emailPass))
     timerRef.current = setTimeout(() => {
       handleWalkThroughScreen();
     }, 2000);

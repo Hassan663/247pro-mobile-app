@@ -11,19 +11,26 @@ import Feather from 'react-native-vector-icons/Feather'
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
 import { useToast } from "react-native-toast-notifications";
-import { useDispatch } from 'react-redux';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
+import Loader from '../../../core/components/loader.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-in.style';
+import { LOADER } from '../../../store/constant/constant';
+import { LoginModal } from '../../../core/modals/login.modal';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
+import { loginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { ISUSERLOGIN } from '../../../store/constant/constant';
+import { loginRequestKey } from '../../../utilities/constants';
 import { loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
 import {
@@ -40,11 +47,12 @@ type Navigation = StackNavigationProp<RootStackParamList>;
 const SignIn: React.FC = () => {
     const navigation = useNavigation<Navigation>();
     const [isSelected, setisSelected] = useState<boolean>(false);
-    const [inputValue, setInputValue] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [inputValue, setInputValue] = useState<string>("bilal.asghar@247pro.com");
+    const [password, setPassword] = useState<string>("P@ssw0rd");
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const dispatch: Dispatch<any> = useDispatch();
+    const loader = useSelector((state: any) => state.root.loader);
     const toast = useToast();
 
     useEffect(() => {
@@ -55,7 +63,15 @@ const SignIn: React.FC = () => {
     const handleSubmit = async () => {
         if (!isToastVisible) {
             let isValid = await loginValidation(inputValue, password);
-            if (isValid.success) { await dispatch({ type: ISUSERLOGIN, payload: true }); }
+            if (isValid.success) {
+                dispatch({ type: LOADER, payload: true });
+                const loginData: LoginModal = {
+                    "key": loginRequestKey,
+                    "object": { "email": inputValue, "password": password }
+                };
+                await dispatch(loginAction(loginData))
+                dispatch({ type: LOADER, payload: false });
+            }
             else {
                 setIsToastVisible(true);
                 await toast.show(isValid.message, { type: "custom_toast" });
@@ -65,7 +81,6 @@ const SignIn: React.FC = () => {
             }
         }
     };
-
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -132,13 +147,20 @@ const SignIn: React.FC = () => {
                     </View>
                 </View>
 
-                <View style={[styles.logInBtnContainer, {}]}>
-                    <Button
-                        title={t('logintText')}
-                        callBack={handleSubmit}
-                        primary
-                    // disabled={isToastVisible} // Disable the button when the toast is visible
-                    />
+                <View style={[styles.logInBtnContainer]}>
+
+                    {!loader ?
+                        <Button
+                            title={t('logintText')}
+                            callBack={handleSubmit}
+                            primary
+                        />
+                        :
+                        <View style={[styles.primaryBtnClone, centralStyle.XAndYCenter]}>
+                            <Loader size={'small'} color={Colors.white} />
+                        </View>
+                    }
+
                     <View style={[
                         centralStyle.row,
                         centralStyle.justifyContentBetween,

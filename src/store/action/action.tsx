@@ -5,22 +5,15 @@ import { Dispatch } from 'redux';
 import { IResponse } from '../../core/modals';
 import { LoginModal } from '../../core/modals/login.modal';
 import { login } from '../../core/http-services/apis/identity-api/authentication.service';
-import { CURRENTUSERPROFILE, ISERROR } from '../constant/constant';
+import { CURRENTUSERPROFILE, ISERROR, ISUSERLOGIN } from '../constant/constant';
 
 
 export const loginAction = (loginData: LoginModal) => {
     return async (dispatch: Dispatch) => {
         try {
-            // // loader will apear
             let userData = await login(loginData)
-            dispatch({
-                type: CURRENTUSERPROFILE,
-                payload: userData
-            });
-            // let loginResponse: IResponse<typeof userData>;
-            // // data will be save in redux store
-            // // loader will close
-
+            dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            dispatch({ type: ISUSERLOGIN, payload: true });
 
         } catch (error) {
             // if something is wrong error will save in store and will show the error here

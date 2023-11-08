@@ -16,7 +16,7 @@ export type Props = {
     icon?: React.ReactElement<object>;
     titleStyle?: any;
     icallBackcon?: any;
-    title?: string;
+    title?: string | any;
     callBack?: () => void;
 
 };
