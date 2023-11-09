@@ -46,7 +46,7 @@ const MainComponent: React.FC = () => {
         return isLoggedIn === 'true';
     };
     useEffect(() => {
-        AsyncStorage.setItem('isLoggedIn', 'false'); // this is for logout
+        // AsyncStorage.setItem('isLoggedIn', 'false'); // this is for logout
         handleAppStart()
     }, [])
 
