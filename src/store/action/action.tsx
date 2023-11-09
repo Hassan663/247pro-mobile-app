@@ -1,16 +1,14 @@
-import { CommonActions } from '@react-navigation/native';
-import { postApi } from '../../core/http-services/services/services';
-import { LOGIN_ENDPOINT } from '../../core/http-services/apis/apis';
-import { Dispatch } from 'redux';
-import { IResponse } from '../../core/modals';
-import { LoginModal } from '../../core/modals/login.modal';
 import { login } from '../../core/http-services/apis/identity-api/authentication.service';
-import { CURRENTUSERPROFILE, ISERROR, ISUSERLOGIN, LOADER } from '../constant/constant';
+import { Dispatch } from 'redux';
+import { LoginModal } from '../../core/modals/login.modal';
 import { loginRequestKey } from '../../utilities/constants';
-
+import {
+    CURRENTUSERPROFILE,
+    ISUSERLOGIN,
+    LOADER
+} from '../constant/constant';
 
 export const loginAction = (inputValue: string, password: string) => {
-
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
@@ -20,12 +18,12 @@ export const loginAction = (inputValue: string, password: string) => {
             };
             let userData = await login(loginData)
             dispatch({ type: CURRENTUSERPROFILE, payload: userData });
-            dispatch({ type: LOADER, payload: false});
             dispatch({ type: ISUSERLOGIN, payload: true });
-
-        } catch (error) {
+            dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
             // if something is wrong error will save in store and will show the error here
-            console.log(error, 'error')
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
         }
     }
 }

@@ -62,22 +62,16 @@ const SignIn: React.FC = () => {
 
     const handleSubmit = async () => {
         if (!isToastVisible) {
+            setIsToastVisible(true);
             let isValid = await loginValidation(inputValue, password);
-            if (isValid.success) {
-                // dispatch({ type: LOADER, payload: true });
-
-                await dispatch(loginAction(inputValue, password))
-                // dispatch({ type: LOADER, payload: false });
-            }
-            else {
-                setIsToastVisible(true);
-                await toast.show(isValid.message, { type: "custom_toast" });
-                setTimeout(() => {
-                    setIsToastVisible(false);
-                }, 5000);
-            }
+            if (isValid.success) await dispatch(loginAction(inputValue, password))
+            else await toast.show(isValid.message, { type: "custom_toast" }) 
+            setTimeout(() => {
+                setIsToastVisible(false);
+            }, 5000);
         }
     };
+
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
