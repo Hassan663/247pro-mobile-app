@@ -27,7 +27,7 @@ import { platform } from '../../../../utilities';
 import { CONTACTLIST } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { AlphabetList } from 'react-native-section-alphabet-list';
-import { centralStyle, windowHeight } from '../../../../styles/constant.style';
+import { centralStyle } from '../../../../styles/constant.style';
 import { SECTIONLISTDATA } from '../new-contact/data';
 import {
     CompanyList,

@@ -1,30 +1,42 @@
 // @app
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     StatusBar,
-    TouchableOpacity,
+    TextInput,
     View,
+    FlatList
 } from 'react-native';
 
+import RBSheet from 'react-native-raw-bottom-sheet';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { t } from 'i18next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
-import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
-import { Title } from '../../../../core/components/screen-title.component';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { centralStyle, windowHeight } from '../../../../styles/constant.style';
+import { styles } from './pro-finder.style';
 import { platform } from '../../../../utilities';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import {
+    centralStyle,
+    windowHeight
+} from '../../../../styles/constant.style';
+import {
+    List,
+    Status
+} from './pro-finder-component';
 
 const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+
+    const sheetRef = useRef<any>(null)
 
     return (
         <>
             <KeyboardAwareScrollView>
                 <View style={{ height: windowHeight + StatusBar?.currentHeight }}>
+                  
                     <AppHeader
                         iconL1={
                             <AntDesign
@@ -45,18 +57,47 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                         title={t(`ProFinder`)} />
 
                     <View style={centralStyle.container}>
-                        {/* <View style={centralStyle.my2}>
-                            <Title
-                                title={t(`changePassMsg`)}
-                                type='Poppin-16'
-                                color={Colors.fontColor}
-                                weight='400' />
+                        <View style={[
+                            centralStyle.height7,
+                            centralStyle.mx2,
+                            centralStyle.row,
+                            centralStyle.XAndYCenter]}>
+                            <View style={[
+                                styles.inputContainer,
+                                centralStyle.px2,
+                                centralStyle.row,
+                                centralStyle.XAndYCenter
+                            ]}>
+                                <AntDesign size={RFPercentage(2)} name='search1' color={Colors.fontColor} />
+                                <TextInput
+                                    style={[centralStyle.flex1, centralStyle.height100, centralStyle.mx1,]}
+                                    placeholder={t('Searchpostedjobs')}
+                                />
+                            </View>
+                            <MaterialIcons size={RFPercentage(2.5)} name='filter-list' />
                         </View>
 
-                        <OutlinedTextInput title={t('Oldpassword')} placeHolder={t('Oldpassword')} />
-                        <OutlinedTextInput title={t('New_password')} placeHolder={t('New_password')} />
-                        <OutlinedTextInput title={t('Confirmnewpasword')} placeHolder={t('Confirmnewpasword')} /> */}
-
+                        <FlatList
+                            showsVerticalScrollIndicator={false}
+                            data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]}
+                            renderItem={({ item }) => <List sheetRef={sheetRef} />}
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+                        
+                        <RBSheet
+                            ref={sheetRef}
+                            height={RFPercentage(35)}
+                            closeOnPressMask={true}
+                            closeOnDragDown={true}
+                            openDuration={250}
+                            animationType={`slide`}
+                            customStyles={{
+                                container: { borderRadius: RFPercentage(2) },
+                                draggableIcon: styles.draggableIconstyle
+                            }}
+                        >
+                            <Status />
+                        </RBSheet>
                     </View>
                 </View></KeyboardAwareScrollView>
 

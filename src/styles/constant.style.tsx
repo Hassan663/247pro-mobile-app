@@ -242,6 +242,12 @@ export const centralStyle = StyleSheet.create<any>({
     width90: {
         width: "90%"
     },
+    width60: {
+        width: "60%"
+    },
+    width50: {
+        width: "50%"
+    },
     width40: {
         width: "40%"
     },
@@ -257,5 +263,9 @@ export const centralStyle = StyleSheet.create<any>({
     fullHeightWithoutBottomTab: {
         marginBottom: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
         flex: 1
-    }
+    },
+    height7: {
+        height: RFPercentage(7),
+    },
+
 });

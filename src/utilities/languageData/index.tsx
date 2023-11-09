@@ -311,6 +311,14 @@ export const languageData = [
             Verify_Your_Email: "Verify Your Email",
             emailVerifyMsg: 'Enter 4 digit code sent to your email (johndoe@gmail.com)',
             VerifyLater: "Verify Later",
+            Status: "Status",
+            Open: "Open",
+            Closed: "Closed",
+            Confirm: 'Confirm',
+            Searchpostedjobs: "Search posted jobs",
+            Kitchenremodelforasinglefamilyhome: "Kitchen remodel for a single family home...",
+            Bidders: "Bidders:  ",
+            Bids: "Bids:  ",
         }
     },
     {
@@ -627,6 +635,14 @@ export const languageData = [
             Verify_Your_Email: "验证您的电子邮件",
             emailVerifyMsg: '输入发送到您的电子邮件 (johndoe@gmail.com) 的 4 位数代码',
             VerifyLater: "稍后验证",
+            Status: "地位",
+            Open: "打开",
+            Closed: "关闭",
+            Confirm: '确认',
+            Searchpostedjobs: "搜索发布的职位",
+            Kitchenremodelforasinglefamilyhome: "单身家庭的厨房改造...",
+            Bidders: "投标人：",
+            Bids: "出价：",
 
         }
     },
@@ -939,6 +955,15 @@ export const languageData = [
             Verify_Your_Email: "Verifica tu correo electrónico",
             emailVerifyMsg: 'Ingrese el código de 4 dígitos enviado a su correo electrónico (johndoe@gmail.com)',
             VerifyLater: "Verificar más tarde",
+            Status: "Estado",
+            Open: "Abierta",
+            Closed: "Cerrada",
+            Confirm: 'Confirmar',
+            Searchpostedjobs: "Buscar trabajos publicados",
+            Kitchenremodelforasinglefamilyhome: "Reforma de cocina para vivienda unifamiliar...",
+            Bidders: "Postoras: ",
+            Bids: "Ofertas:",
+
         }
     }
 ];

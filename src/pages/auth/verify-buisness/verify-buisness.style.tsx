@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
-import { centralPosition, centralStyle } from '../../../styles/constant.style';
+import { centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
 
