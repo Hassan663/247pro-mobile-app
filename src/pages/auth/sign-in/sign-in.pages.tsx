@@ -64,13 +64,10 @@ const SignIn: React.FC = () => {
         if (!isToastVisible) {
             let isValid = await loginValidation(inputValue, password);
             if (isValid.success) {
-                dispatch({ type: LOADER, payload: true });
-                const loginData: LoginModal = {
-                    "key": loginRequestKey,
-                    "object": { "email": inputValue, "password": password }
-                };
-                await dispatch(loginAction(loginData))
-                dispatch({ type: LOADER, payload: false });
+                // dispatch({ type: LOADER, payload: true });
+
+                await dispatch(loginAction(inputValue, password))
+                // dispatch({ type: LOADER, payload: false });
             }
             else {
                 setIsToastVisible(true);

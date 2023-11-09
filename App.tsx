@@ -68,7 +68,10 @@ const MyStatusBar = ({ backgroundColor, ...props }: any) => (
 );
 const App: React.FC = () => {
     const getTranslations = async () => { return fetchTranslations(); };
-    useEffect(() => { getTranslations(); }, []);
+    useEffect(() => {
+
+        getTranslations();
+    }, []);
 
     return (
         <I18nextProvider i18n={i18n}>

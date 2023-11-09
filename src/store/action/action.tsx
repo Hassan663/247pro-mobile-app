@@ -5,14 +5,22 @@ import { Dispatch } from 'redux';
 import { IResponse } from '../../core/modals';
 import { LoginModal } from '../../core/modals/login.modal';
 import { login } from '../../core/http-services/apis/identity-api/authentication.service';
-import { CURRENTUSERPROFILE, ISERROR, ISUSERLOGIN } from '../constant/constant';
+import { CURRENTUSERPROFILE, ISERROR, ISUSERLOGIN, LOADER } from '../constant/constant';
+import { loginRequestKey } from '../../utilities/constants';
 
 
-export const loginAction = (loginData: LoginModal) => {
+export const loginAction = (inputValue: string, password: string) => {
+
     return async (dispatch: Dispatch) => {
         try {
+            dispatch({ type: LOADER, payload: true });
+            const loginData: LoginModal = {
+                "key": loginRequestKey,
+                "object": { "email": inputValue, "password": password }
+            };
             let userData = await login(loginData)
             dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            dispatch({ type: LOADER, payload: false});
             dispatch({ type: ISUSERLOGIN, payload: true });
 
         } catch (error) {
