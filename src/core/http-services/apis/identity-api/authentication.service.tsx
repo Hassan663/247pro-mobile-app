@@ -21,7 +21,6 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
     // Step 2: Prepare the login request with the token received from step 1
     const loginDataWithToken: any = { token: encryptedLoginResponse.response };
     const response = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
-
     return response;
   } catch (error) {
     console.error('Login service error:', error);

@@ -27,19 +27,36 @@ import i18n, {
 import { useNavigation } from '@react-navigation/native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Title } from './src/core/components/screen-title.component';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 LogBox.ignoreAllLogs();
-var auth = true;
 const MainComponent: React.FC = () => {
 
     const [authState, setAuthState] = useState<any>(true)
     const { isUserLogin, splashStatusBar } = useSelector((state: any) => state.root)
     useEffect(() => {
-        auth = !isUserLogin
         setAuthState(!isUserLogin)
     }, [isUserLogin])
+
+    // Check if user is already logged in
+    const checkLoginStatus = async () => {
+        const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+        return isLoggedIn === 'true';
+    };
+    useEffect(() => {
+        AsyncStorage.setItem('isLoggedIn', 'false'); // this is for logout
+        handleAppStart()
+    }, [])
+
+    const handleAppStart = async () => {
+        const isUserLoggedIn = await checkLoginStatus();
+        if (isUserLoggedIn) setAuthState(false)  // Redirect to home screen}
+        else setAuthState(true)   // Redirect to login screen        
+    };
+
+
     return (
         <>
             {platform == 'ios'

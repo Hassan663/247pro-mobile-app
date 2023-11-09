@@ -1,5 +1,8 @@
 // @app
-import React, { useEffect, useState } from 'react';
+import React, {
+    useEffect,
+    useState
+} from 'react';
 import {
     TouchableOpacity,
     Image,
@@ -25,12 +28,9 @@ import Button from '../../../core/components/button.component';
 import Loader from '../../../core/components/loader.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-in.style';
-import { LOADER } from '../../../store/constant/constant';
-import { LoginModal } from '../../../core/modals/login.modal';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import { loginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { loginRequestKey } from '../../../utilities/constants';
 import { loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
 import {
@@ -65,7 +65,7 @@ const SignIn: React.FC = () => {
             setIsToastVisible(true);
             let isValid = await loginValidation(inputValue, password);
             if (isValid.success) await dispatch(loginAction(inputValue, password))
-            else await toast.show(isValid.message, { type: "custom_toast" }) 
+            else await toast.show(isValid.message, { type: "custom_toast" })
             setTimeout(() => {
                 setIsToastVisible(false);
             }, 5000);

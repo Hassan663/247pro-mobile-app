@@ -5,7 +5,6 @@ import { Toast } from 'react-native-toast-notifications';
 export const handleApiError = (error: AxiosError): void => {
   const exp: AxiosResponse | undefined = error.response;
 
-  console.log(exp, 'expexpexpexpexp')
   if (!exp) {
     // Network Error or No Response
     // Alert.alert('Network Error', 'There was a problem connecting to the server. Please check your internet connection.');

@@ -7,6 +7,7 @@ import {
     ISUSERLOGIN,
     LOADER
 } from '../constant/constant';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const loginAction = (inputValue: string, password: string) => {
     return async (dispatch: Dispatch) => {
@@ -17,6 +18,10 @@ export const loginAction = (inputValue: string, password: string) => {
                 "object": { "email": inputValue, "password": password }
             };
             let userData = await login(loginData)
+
+            // If login successful, store user credentials in local storage
+            await AsyncStorage.setItem('isLoggedIn', 'true');
+
             dispatch({ type: CURRENTUSERPROFILE, payload: userData });
             dispatch({ type: ISUSERLOGIN, payload: true });
             dispatch({ type: LOADER, payload: false });
