@@ -6,6 +6,9 @@ import { t } from "i18next"
 
 export const Item = ({ item, navigation }: any) => {
     const handleCallback = () => {
+        if (item?.name == t('ProFinder')) {
+            changeRoute(navigation, 'ProFinder')
+        }
         if (item?.name == t('CompanyProfile')) {
             Alert.alert(t('Toaccessthisfeaturepleasevisitthewebinterface'))
             // changeRoute(navigation, 'CompanyProfile')

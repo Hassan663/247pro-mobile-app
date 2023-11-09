@@ -38,12 +38,7 @@ export function CustomTabBar({ state, descriptors, navigation }: CustomTabBarPro
                     return (
                         <TouchableOpacity
                             accessibilityRole="button"
-                            // accessibilityStates={isFocused ? ['selected'] : []}
                             accessibilityState={{ selected: isFocused ? true : false }}
-                            // accessibilityState={{ selected: isFocused ? true : false }}
-
-                            // accessibilityStates={isFocused ? ['selected'] : [] as string[]}
-
                             accessibilityLabel={options.tabBarAccessibilityLabel}
                             testID={options.tabBarTestID}
                             onPress={onPress}

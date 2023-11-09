@@ -34,6 +34,7 @@ export const MENUDATA: any = [
     }
 ]
 export const APPDATA = [
+    { icon: <BizCard width={30} height={30} color="#FF9800" />, name: t('ProFinder') },
     { icon: <BizCard width={30} height={30} color="#FF9800" />, name: t('BizCard') },
     { icon: <View style={centralStyle.mt1}><Task width={30} height={30} color="#FF9800" /></View>, name: t('Tasks') },
     { icon: <Contact width={30} height={30} color="#FF9800" />, name: t('Contacts') }

@@ -28,7 +28,8 @@ import Subscription from '../../pages/app/menu-screens/subscription/subscription
 import SubscriptionBuisnessCard from '../../pages/app/menu-screens/subscription-buisness-card/subscription-buisness-card';
 import SubscriptionApplication from '../../pages/app/menu-screens/subscription-application/subscription-application';
 import AccountInformtaionRequest from '../../pages/app/menu-screens/account-infomation-request/account-infomation-request';
- 
+import ProFinder from '../../pages/app/menu-screens/pro-finder/pro-finder';
+
 const Stack = createStackNavigator();
 
 export default function appNavigation() {
@@ -41,6 +42,7 @@ export default function appNavigation() {
         <Stack.Screen name="QRCode" component={QRCode} />
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="ShareQR" component={ShareQR} />
+        <Stack.Screen name="ProFinder" component={ProFinder} />
         <Stack.Screen name="NewContact" component={NewContact} />
         <Stack.Screen name="NewCompany" component={NewCompany} />
         <Stack.Screen name="ViewContact" component={ViewContact} />
