@@ -86,6 +86,7 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                             DATA={DROPDOWNDATA}
                             navigation={navigation}
                             editCallback={() => { changeRoute(navigation, 'EditJob') }}
+                            viewCallback={() => { changeRoute(navigation, 'ViewJob') }}
                             disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                         <FlatList

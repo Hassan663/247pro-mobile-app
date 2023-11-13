@@ -333,6 +333,7 @@ export const languageData = [
             Budget:"Budget",
             FixedBudget:"Fixed Budget",
             Enterstreetaddressline2:'Enter street address line 2',
+            Kitchenremodelforasingle:"Kitchen remodel for a single...",
         }
     },
     {
@@ -670,6 +671,7 @@ export const languageData = [
             Budget:"预算",
             FixedBudget:"固定预算",
             Enterstreetaddressline2:'输入街道地址第 2 行',
+            Kitchenremodelforasingle:"单身人士的厨房改造...",
 
         }
     },
@@ -1004,7 +1006,7 @@ export const languageData = [
             Budget:"Presupuesto",
             FixedBudget:"Presupuesto fijo",
             Enterstreetaddressline2:'Ingrese la dirección de la calle en la línea 2',
-
+            Kitchenremodelforasingle:"Reforma de cocina para una persona...",
         }
     }
 ];

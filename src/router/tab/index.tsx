@@ -31,6 +31,7 @@ import AccountInformtaionRequest from '../../pages/app/menu-screens/account-info
 import ProFinder from '../../pages/app/menu-screens/pro-finder/pro-finder';
 import EditJob from '../../pages/app/menu-screens/edit-job/edit-job';
 import EditJobContactInfo from '../../pages/app/menu-screens/edit-job-contact-info/edit-job-contact-info';
+import ViewJob from '../../pages/app/menu-screens/view-job/view-job';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ export default function appNavigation() {
         initialRouteName='AppTabs'
       >
         <Stack.Screen name="QRCode" component={QRCode} />
+        <Stack.Screen name="ViewJob" component={ViewJob} />
         <Stack.Screen name="EditJob" component={EditJob} />
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="ShareQR" component={ShareQR} />
