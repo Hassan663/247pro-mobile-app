@@ -2,13 +2,13 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 import {
     AccountSetting,
     BizCard,
+    Briefcase,
     CompanyProfile,
     Contact,
     Help,
     RoleAndPermissions,
     Task,
-    TasksIcon,
-    UserGrpIcon
+     UserGrpIcon
 } from "../../../../assets/svg-icons/CustomSvgIcon";
 
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -34,7 +34,7 @@ export const MENUDATA: any = [
     }
 ]
 export const APPDATA = [
-    { icon: <BizCard width={30} height={30} color="#FF9800" />, name: t('ProFinder') },
+    { icon: <Briefcase width={35} height={35} color="#FF9800" />, name: t('ProFinder') },
     { icon: <BizCard width={30} height={30} color="#FF9800" />, name: t('BizCard') },
     { icon: <View style={centralStyle.mt1}><Task width={30} height={30} color="#FF9800" /></View>, name: t('Tasks') },
     { icon: <Contact width={30} height={30} color="#FF9800" />, name: t('Contacts') }

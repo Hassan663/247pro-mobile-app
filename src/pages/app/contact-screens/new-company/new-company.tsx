@@ -172,7 +172,6 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         type='Poppin-14'
                                         weight='600'
                                         title={t('SHOWMORE')} />
-
                                 </TouchableOpacity>}
 
                                 {showMore &&

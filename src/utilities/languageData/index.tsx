@@ -319,6 +319,20 @@ export const languageData = [
             Kitchenremodelforasinglefamilyhome: "Kitchen remodel for a single family home...",
             Bidders: "Bidders:  ",
             Bids: "Bids:  ",
+            View: "View",
+            Converttoproject: "Convert to project",
+            ChangeStatus: "Change Status",
+            EditJob: "Edit Job",
+            HourlyRate: 'Hourly Rate',
+            Amount: 'Amount',
+            Attachmentsoptional: "Attachments (optional)",
+            FindlocalprosandgetbidsforKitchenRemodelforsinglefamilyhome: "Find local pros and get bids for Kitchen Remodel for single family home",
+            Description: "Description",
+            Duedate:"Due date",
+
+            Budget:"Budget",
+            FixedBudget:"Fixed Budget",
+            Enterstreetaddressline2:'Enter street address line 2',
         }
     },
     {
@@ -643,6 +657,19 @@ export const languageData = [
             Kitchenremodelforasinglefamilyhome: "单身家庭的厨房改造...",
             Bidders: "投标人：",
             Bids: "出价：",
+            View: "看法",
+            Converttoproject: "转换为项目",
+            ChangeStatus: "更改状态",
+            EditJob: "编辑职位",
+            HourlyRate: '每小时收费',
+            Amount: '数量',
+            Attachmentsoptional: "附件（可选）",
+            FindlocalprosandgetbidsforKitchenRemodelforsinglefamilyhome: "寻找当地专业人士并获得单户住宅厨房改造的投标",
+            Description: "描述",
+            Duedate:"到期日",
+            Budget:"预算",
+            FixedBudget:"固定预算",
+            Enterstreetaddressline2:'输入街道地址第 2 行',
 
         }
     },
@@ -963,6 +990,20 @@ export const languageData = [
             Kitchenremodelforasinglefamilyhome: "Reforma de cocina para vivienda unifamiliar...",
             Bidders: "Postoras: ",
             Bids: "Ofertas:",
+            View: "Vista",
+            Converttoproject: "Convertir a proyecto",
+            ChangeStatus: "Cambiar Estado",
+            EditJob: "Editar trabajo",
+            HourlyRate: 'Tarifa por hora',
+            Amount: 'Cantidad',
+            Attachmentsoptional: "Archivos adjuntos (opcional)",
+
+            FindlocalprosandgetbidsforKitchenRemodelforsinglefamilyhome: "Encuentre profesionales locales y obtenga ofertas para remodelación de cocinas para viviendas unifamiliares",
+            Description: "Descripción",
+            Duedate:"Fecha de vencimiento",
+            Budget:"Presupuesto",
+            FixedBudget:"Presupuesto fijo",
+            Enterstreetaddressline2:'Ingrese la dirección de la calle en la línea 2',
 
         }
     }

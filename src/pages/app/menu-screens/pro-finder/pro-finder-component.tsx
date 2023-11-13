@@ -86,7 +86,8 @@ export const Status = () => {
         </>
     )
 }
-export const List = ({ sheetRef }: any) => {
+
+export const List = ({ sheetRef, callBack }: any) => {
     return (
         <TouchableOpacity
             onPress={() => { openSheet(sheetRef) }}
@@ -100,6 +101,7 @@ export const List = ({ sheetRef }: any) => {
                 <Entypo
                     size={RFPercentage(2.5)}
                     name='dots-three-vertical'
+                    onPress={callBack}
                     color={Colors.fontColor} />
             </View>
             <View style={[centralStyle.row, centralStyle.flex1, styles.jobContainerFooter]}>

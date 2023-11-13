@@ -41,7 +41,7 @@ import {
 
 const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [modalEnabled, setmodalEnabled] = useState(false)
-    const [multiCards, setmultiCards] = useState(false)
+    const [multiCards, setmultiCards] = useState(true)
     const [createBuisnessCartModalEnabled, setCreateBuisnessCartModalEnabled] = useState(false)
     const [saveContact, setsaveContact] = useState(false)
     const [alreadySaveInContact, setalreadySaveInContact] = useState(false)
@@ -57,8 +57,8 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         multiCards ?
                             <AntDesign
                                 onPress={() => { changeRoute(navigation, 'EditBizCard') }}
-                                style={styles.mx2} 
-                                name={'plus'} 
+                                style={styles.mx2}
+                                name={'plus'}
                                 size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                             :
                             <Entypo style={styles.mx2} onPress={() => setmodalEnabled(!modalEnabled)} name={`dots-three-vertical`} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />

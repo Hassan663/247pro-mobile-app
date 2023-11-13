@@ -1,5 +1,8 @@
 // @app
-import React, { useRef } from 'react';
+import React, {
+    useRef,
+    useState
+} from 'react';
 import {
     StatusBar,
     TextInput,
@@ -18,7 +21,9 @@ import AppHeader from '../../../../core/components/app-headers';
 import { styles } from './pro-finder.style';
 import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { DROPDOWNDATA } from './data';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import {
     centralStyle,
     windowHeight
@@ -30,13 +35,14 @@ import {
 
 const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
+    const [modalEnabled, setmodalEnabled] = useState(false)
     const sheetRef = useRef<any>(null)
 
     return (
         <>
             <KeyboardAwareScrollView>
                 <View style={{ height: windowHeight + StatusBar?.currentHeight }}>
-                  
+
                     <AppHeader
                         iconL1={
                             <AntDesign
@@ -48,7 +54,6 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                         iconR1={
                             <AntDesign
                                 name={`plus`}
-                                onPress={() => changeRoute(navigation, 'pop')}
                                 color={Colors.black}
                                 style={centralStyle.mx2}
                                 size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
@@ -56,7 +61,7 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                         weight='600'
                         title={t(`ProFinder`)} />
 
-                    <View style={centralStyle.container}>
+                    <View style={[centralStyle.container]}>
                         <View style={[
                             centralStyle.height7,
                             centralStyle.mx2,
@@ -77,13 +82,19 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                             <MaterialIcons size={RFPercentage(2.5)} name='filter-list' />
                         </View>
 
+                        {modalEnabled && <DropDownModal
+                            DATA={DROPDOWNDATA}
+                            navigation={navigation}
+                            editCallback={() => { changeRoute(navigation, 'EditJob') }}
+                            disableModal={() => setmodalEnabled(!modalEnabled)} />}
+
                         <FlatList
                             showsVerticalScrollIndicator={false}
                             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]}
-                            renderItem={({ item }) => <List sheetRef={sheetRef} />}
+                            renderItem={({ item }) => <List callBack={() => setmodalEnabled(!modalEnabled)} sheetRef={sheetRef} />}
                             keyExtractor={(item, index) => index.toString()}
                         />
-                        
+
                         <RBSheet
                             ref={sheetRef}
                             height={RFPercentage(35)}

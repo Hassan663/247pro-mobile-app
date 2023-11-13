@@ -29,6 +29,8 @@ import SubscriptionBuisnessCard from '../../pages/app/menu-screens/subscription-
 import SubscriptionApplication from '../../pages/app/menu-screens/subscription-application/subscription-application';
 import AccountInformtaionRequest from '../../pages/app/menu-screens/account-infomation-request/account-infomation-request';
 import ProFinder from '../../pages/app/menu-screens/pro-finder/pro-finder';
+import EditJob from '../../pages/app/menu-screens/edit-job/edit-job';
+import EditJobContactInfo from '../../pages/app/menu-screens/edit-job-contact-info/edit-job-contact-info';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +42,7 @@ export default function appNavigation() {
         initialRouteName='AppTabs'
       >
         <Stack.Screen name="QRCode" component={QRCode} />
+        <Stack.Screen name="EditJob" component={EditJob} />
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="ShareQR" component={ShareQR} />
         <Stack.Screen name="ProFinder" component={ProFinder} />
@@ -57,6 +60,7 @@ export default function appNavigation() {
         <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
         <Stack.Screen name="AccountSetting" component={AccountSetting} />
         <Stack.Screen name="ApplicationOrder" component={ApplicationOrder} />
+        <Stack.Screen name="EditJobContactInfo" component={EditJobContactInfo} />
         <Stack.Screen name="ConnectionRequests" component={ConnectionRequests} />
         <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
         <Stack.Screen name="AccountInformtaion" component={AccountInformtaion} />
