@@ -41,6 +41,7 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
     const backIcon = <AntDesign onPress={() => changeRoute(navigation, 'pop')} style={centralStyle.mx2} name={'left'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
     const downIcon = <AntDesign onPress={() => { setopenInfo(!openInfo) }} name={openInfo ? 'down' : "up"} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
     const sheetRef = useRef<any>(null)
+    const [newField, setNewField] = useState<string>('')
 
     return (
         <>
@@ -180,11 +181,11 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                     contactInfoInputs={[]}
                                     setcontactInfoInputs={[]}
                                     sheetRef={sheetRef}
-                                    placeHolder={t(`Entercustomfieldlabel`)}
-                                    // newField={newField}
-                                    title={t('AddCustomField')}
-                                    btnText={t(`SaveField`)}
-                                // setNewField={setNewField}
+                                    placeHolder={t(`Enter message (optional)`)}
+                                    newField={newField}
+                                    title={t('Hire')}
+                                    btnText={t(`Submit`)}
+                                    setNewField={setNewField}
                                 />
                             </RBSheet>
                         </ScrollView>

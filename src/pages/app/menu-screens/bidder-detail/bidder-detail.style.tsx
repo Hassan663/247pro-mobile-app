@@ -53,4 +53,35 @@ export const styles = StyleSheet.create<any>({
     bidderListBody: { flex: 8 },
     bidderListImg: { flex: 2, },
     downIconContainer: { flex: 1.5, },
+
+
+    inputContainer: (height: number) => ({
+        paddingVertical: 10,
+        justifyContent: "flex-end",
+    }),
+    textInputContainer: (isActive: boolean) => ({
+        flexDirection: 'row',
+        alignItems: "center",
+        minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
+        width: "100%",
+        maxHeight: 100,
+    }),
+    inputtitle: (isActive: boolean) => ({
+        position: "absolute",
+        paddingHorizontal: RFPercentage(1),
+        zIndex: 2,
+        backgroundColor: Colors.white,
+        left: '3%',
+        color: isActive ? Colors.primary : Colors.fontColor,
+        fontSize: 14,
+        fontWeight: '400',
+        top: '0%',
+    }),
+    input: (pass: boolean, isActive: boolean) => ({
+        paddingVertical: RFPercentage(1),
+    }),
 });
