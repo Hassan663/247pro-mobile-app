@@ -8,7 +8,15 @@ import {
 } from '../../../../styles/constant.style';
 
 export const styles = StyleSheet.create<any>({
-    tabContainer: { height: RFPercentage(.5), flexDirection: "row", justifyContent: 'space-between' },
+    container: {
+        flex: 1,
+        backgroundColor: Colors.white
+    },
+    tabContainer: {
+        height: RFPercentage(.5),
+        flexDirection: "row",
+        justifyContent: 'space-between'
+    },
     tabStyle: (color: string) => ({ height: "100%", width: '47%', backgroundColor: color }),
     inputContainer: (height: number) => ({
         paddingVertical: 10,
@@ -78,7 +86,7 @@ export const styles = StyleSheet.create<any>({
         flex: 1,
         marginLeft: RFPercentage(1)
     },
-    dropDownStyle: (val:string) => ({
+    dropDownStyle: (val: string) => ({
         backgroundColor: Colors.white,
         width: "100%",
         borderRadius: RFPercentage(1),

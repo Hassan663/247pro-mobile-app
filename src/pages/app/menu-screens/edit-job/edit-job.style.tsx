@@ -1,10 +1,20 @@
-import { StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import Colors from '../../../../styles/colors';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { platform } from '../../../../utilities';
+import { windowHeight } from '../../../../styles/constant.style';
 
 export const styles = StyleSheet.create<any>({
-    tabContainer: { height: RFPercentage(.5), flexDirection: "row", justifyContent: 'space-between' },
+
+    container: {
+        flex: 1,
+        backgroundColor: Colors.white
+    },
+    tabContainer: {
+        height: RFPercentage(.5),
+        flexDirection: "row",
+        justifyContent: 'space-between'
+    },
     tabStyle: (color: string) => ({ height: "100%", width: '47%', backgroundColor: color }),
     inputContainer: (height: number) => ({
         paddingVertical: 10,
@@ -36,11 +46,22 @@ export const styles = StyleSheet.create<any>({
         paddingVertical: RFPercentage(1),
     }),
     radioWrapper: {
-        // justifyContent: "center",
         flex: 1,
-        // backgroundColor: Colors.red,
-
         alignItems: 'center'
     },
-    takeImageContainer: { height: RFPercentage(18), justifyContent: 'center', alignItems: "center", borderRadius: RFPercentage(1), borderWidth: 2, borderColor: Colors.lightGray, borderStyle: 'dashed', width: "100%", backgroundColor: Colors.lightGrey },
+    takeImageContainer: {
+        height: RFPercentage(18),
+        justifyContent: 'center',
+        alignItems: "center",
+        borderRadius: RFPercentage(1),
+        borderWidth: 2,
+        borderColor: Colors.lightGray,
+        borderStyle: 'dashed',
+        width: "100%",
+        backgroundColor: Colors.lightGrey
+    },
+    editJobContainer: {
+        height: windowHeight + StatusBar?.currentHeight,
+        backgroundColor: Colors.white
+    },
 });
