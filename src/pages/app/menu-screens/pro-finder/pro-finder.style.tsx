@@ -4,7 +4,8 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export const styles = StyleSheet.create({
     inputContainer: {
-        backgroundColor: Colors.inputBgColor, flex: 1,
+        backgroundColor: Colors.inputBgColor,
+        flex: 1,
         height: '80%',
         borderRadius: RFPercentage(0.5)
     },

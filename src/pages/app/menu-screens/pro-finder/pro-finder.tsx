@@ -41,8 +41,7 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
     return (
         <>
             <KeyboardAwareScrollView>
-                <View style={{ height: windowHeight + StatusBar?.currentHeight }}>
-
+                <View style={{ backgroundColor: "red" }}>
                     <AppHeader
                         iconL1={
                             <AntDesign
@@ -64,7 +63,7 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                     <View style={[centralStyle.container]}>
                         <View style={[
                             centralStyle.height7,
-                            centralStyle.mx2,
+                            platform == 'ios' ? centralStyle.mx02 : centralStyle.mx2,
                             centralStyle.row,
                             centralStyle.XAndYCenter]}>
                             <View style={[
