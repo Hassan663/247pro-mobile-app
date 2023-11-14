@@ -8,6 +8,7 @@ import {
     ScrollView,
     FlatList,
     View,
+    SafeAreaView,
 } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -42,42 +43,43 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const backIcon = <AntDesign onPress={() => changeRoute(navigation, 'pop')} style={centralStyle.mx2} name={'left'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
     const downIcon = <AntDesign onPress={() => { setopenInfo(!openInfo) }} name={openInfo ? 'down' : "up"} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
-    const dotIcon = <Entypo onPress={() => setmodalEnabled(true)} style={centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
-    const uploadIcon = <AntDesign style={centralStyle.mx2} color={Colors.black} name={`upload`} size={RFPercentage(2)} />
+    const dotIcon = <Entypo onPress={() => setmodalEnabled(true)} style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
+    const dotIconWithOutCallback = <Entypo style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
+    const uploadIcon = <AntDesign style={platform == 'ios' ? centralStyle.mx02 : centralStyle.mx2} color={Colors.black} name={`upload`} size={RFPercentage(2)} />
 
     return (
         <>
-            <KeyboardAwareScrollView>
-                <View style={{ height: windowHeight + StatusBar?.currentHeight }}>
+            <SafeAreaView style={styles.container}>
+                <KeyboardAwareScrollView>
+                    <View style={[centralStyle.flex1,]}>
+                        <AppHeader
+                            iconL1={backIcon}
+                            iconR2={dotIcon}
+                            iconR1={uploadIcon}
 
-                    <AppHeader
-                        iconL1={backIcon}
-                        iconR2={dotIcon}
-                        iconR1={uploadIcon}
-
-                        weight='700'
-                        type='Poppin-16'
-                        title={t('Kitchenremodelforasingle')} />
-
-                    {modalEnabled && <DropDownModal
-                        DATA={DROPDOWNDATA}
-                        navigation={navigation}
-                        editCallback={() => { changeRoute(navigation, 'EditJob') }}
-                        viewCallback={() => { changeRoute(navigation, 'ViewJob') }}
-                        disableModal={() => setmodalEnabled(!modalEnabled)} />}
-
-                    <View style={[styles.jobInfoHeader, centralStyle.px2, centralStyle.row, centralStyle.alignitemCenter, centralStyle.justifyContentBetween]}>
-                        <Title
-                            title={t(`Job Info`)}
+                            weight='700'
                             type='Poppin-16'
-                            weight='600'
-                            color={Colors.black}
-                        />
-                        {downIcon}
-                    </View>
-                    <View style={centralStyle.container}>
+                            title={t('Kitchenremodelforasingle')} />
 
-                        <ScrollView showsVerticalScrollIndicator={false}>
+                        {modalEnabled && <DropDownModal
+                            DATA={DROPDOWNDATA}
+                            navigation={navigation}
+                            editCallback={() => { changeRoute(navigation, 'EditJob') }}
+                            viewCallback={() => { changeRoute(navigation, 'ViewJob') }}
+                            disableModal={() => setmodalEnabled(!modalEnabled)} />}
+
+                        <View style={[styles.jobInfoHeader, centralStyle.px2, centralStyle.row, centralStyle.alignitemCenter, centralStyle.justifyContentBetween]}>
+                            <Title
+                                title={t(`Job Info`)}
+                                type='Poppin-16'
+                                weight='600'
+                                color={Colors.black}
+                            />
+                            {downIcon}
+                        </View>
+                        <View style={centralStyle.container}>
+
+                            {/* <ScrollView showsVerticalScrollIndicator={false}> */}
                             <View style={{ flex: 1 }}>
                                 {openInfo ?
                                     <>
@@ -124,7 +126,7 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     </View>
                                     :
                                     <View style={centralStyle.flex1}>
-                                        <View style={{ maxHeight: !openInfo ? RFPercentage(75) : undefined }}>
+                                        <View style={{ maxHeight: !openInfo ? platform == 'ios' ? RFPercentage(70) : RFPercentage(75) : undefined }}>
                                             <FlatList
                                                 data={[0, 0, 0, 0, 0, 0, 0]}
                                                 showsVerticalScrollIndicator={false}
@@ -151,7 +153,7 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                                                 </View>
                                                             </View>
                                                             <View style={[centralStyle.flex1, centralStyle.XAndYCenter]}>
-                                                                {dotIcon}
+                                                                {dotIconWithOutCallback}
                                                             </View>
                                                         </View>
                                                         <View style={[centralStyle.row, centralStyle.px2, centralStyle.alignitemCenter, centralStyle.justifyContentBetween,]}>
@@ -200,11 +202,12 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     />
                                 </View>
                             </View>
-                        </ScrollView>
+                            {/* </ScrollView> */}
+                        </View>
                     </View>
+                </KeyboardAwareScrollView>
+            </SafeAreaView>
 
-                </View >
-            </KeyboardAwareScrollView >
 
         </>
     );

@@ -7,7 +7,10 @@ import {
     StatusBar,
     TextInput,
     View,
-    FlatList
+    FlatList,
+    Modal,
+    Text,
+    TouchableOpacity
 } from 'react-native';
 
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -23,12 +26,13 @@ import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { DROPDOWNDATA } from './data';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { DropDownModal } from '../../../../core/components/drop-down-modal';
+// import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import {
     centralStyle,
     windowHeight
 } from '../../../../styles/constant.style';
 import {
+    DropDownModal,
     List,
     Status
 } from './pro-finder-component';
@@ -36,8 +40,14 @@ import {
 const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [modalEnabled, setmodalEnabled] = useState(false)
+    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
     const sheetRef = useRef<any>(null)
 
+    const handlePress = (event) => {
+        const { pageX, pageY } = event.nativeEvent;
+        setCoordinates({ x: pageX, y: pageY });
+        setmodalEnabled(!modalEnabled)
+    };
     return (
         <>
             <KeyboardAwareScrollView>
@@ -84,14 +94,22 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                         {modalEnabled && <DropDownModal
                             DATA={DROPDOWNDATA}
                             navigation={navigation}
-                            editCallback={() => { changeRoute(navigation, 'EditJob') }}
-                            viewCallback={() => { changeRoute(navigation, 'ViewJob') }}
+                            coordinates={coordinates}
+                            modalEnabled={modalEnabled}
+                            editCallback={() => {
+                                setmodalEnabled(!modalEnabled)
+                                changeRoute(navigation, 'EditJob')
+                            }}
+                            viewCallback={() => {
+                                setmodalEnabled(!modalEnabled)
+                                changeRoute(navigation, 'ViewJob')
+                            }}
                             disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                         <FlatList
                             showsVerticalScrollIndicator={false}
                             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]}
-                            renderItem={({ item }) => <List callBack={() => setmodalEnabled(!modalEnabled)} sheetRef={sheetRef} />}
+                            renderItem={({ item }) => <List callBack={handlePress} sheetRef={sheetRef} />}
                             keyExtractor={(item, index) => index.toString()}
                         />
 
@@ -110,7 +128,7 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                             <Status />
                         </RBSheet>
                     </View>
-                </View></KeyboardAwareScrollView>
+                </View></KeyboardAwareScrollView >
 
         </>
     );

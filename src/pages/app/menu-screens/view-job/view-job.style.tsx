@@ -18,5 +18,9 @@ export const styles = StyleSheet.create<any>({
         flexDirection: 'row',
         justifyContent: "space-between",
         marginVertical: RFPercentage(.5)
-    }
+    },
+    container: {
+        flex: 1,
+        backgroundColor: Colors.white
+    },
 });
