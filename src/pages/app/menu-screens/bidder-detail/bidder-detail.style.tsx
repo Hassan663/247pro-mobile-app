@@ -30,14 +30,5 @@ export const styles = StyleSheet.create<any>({
         borderBottomWidth: 1,
         borderBottomColor: Colors.lightGrey
     },
-    invitedBtnContainer: {
-        height: RFPercentage(3),
-        borderRadius: RFPercentage(.4),
-        width: RFPercentage(8),
-        backgroundColor: Colors.lightGrey
-    },
-    bidderImgSize: {
-        height: RFPercentage(3.5),
-        width: RFPercentage(3.5)
-    }
+    invitedBtnContainer:{ height: RFPercentage(3), borderRadius: RFPercentage(.4), width: RFPercentage(8), backgroundColor: Colors.lightGrey },
 });

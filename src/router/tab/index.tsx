@@ -32,6 +32,7 @@ import ProFinder from '../../pages/app/menu-screens/pro-finder/pro-finder';
 import EditJob from '../../pages/app/menu-screens/edit-job/edit-job';
 import EditJobContactInfo from '../../pages/app/menu-screens/edit-job-contact-info/edit-job-contact-info';
 import ViewJob from '../../pages/app/menu-screens/view-job/view-job';
+import BidderDetail from '../../pages/app/menu-screens/bidder-detail/bidder-detail';
 
 const Stack = createStackNavigator();
 
@@ -55,6 +56,7 @@ export default function appNavigation() {
         <Stack.Screen name="ViewCompany" component={ViewCompany} />
         <Stack.Screen name="EditCompany" component={EditCompany} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="BidderDetail" component={BidderDetail} />
         <Stack.Screen name="SelectRegion" component={SelectRegion} />
         <Stack.Screen name="Subscription" component={Subscription} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />

@@ -3,6 +3,7 @@ import React, {
     useState
 } from 'react';
 import {
+    Image,
     ScrollView,
     FlatList,
     View,
@@ -16,20 +17,17 @@ import { t } from 'i18next';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
 import AppHeader from '../../../../core/components/app-headers';
+import { Row } from './bidder-detail-component';
 import { Title } from '../../../../core/components/screen-title.component';
-import { styles } from './view-job.style';
+import { styles } from './bidder-detail.style';
 import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import { INFORMATIONDATA } from './data';
-import {
-    BidderList,
-    Row
-} from './view-job-component';
 
-const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [bidderAvailable, setBidderAvailable] = useState(false)
@@ -40,7 +38,6 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dotIcon = <Entypo onPress={() => setmodalEnabled(true)} style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
     const dotIconWithOutCallback = <Entypo style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
     const uploadIcon = <AntDesign style={platform == 'ios' ? centralStyle.mx02 : centralStyle.mx2} color={Colors.black} name={`upload`} size={RFPercentage(2)} />
-
 
     return (
         <>
@@ -107,6 +104,7 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     : <></>
                                 }
 
+
                                 {bidderAvailable ?
                                     <View style={[centralStyle.XAndYCenter, centralStyle.flex1]}>
                                         < Title
@@ -122,7 +120,64 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                             <FlatList
                                                 data={[0, 0, 0, 0, 0, 0, 0]}
                                                 showsVerticalScrollIndicator={false}
-                                                renderItem={({ item }) => (<BidderList navigation={navigation} dotIconWithOutCallback={dotIconWithOutCallback} />)}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.listContainer}>
+                                                        <View style={[centralStyle.row]}>
+                                                            <View style={[{ flex: 1.5 }, centralStyle.XAndYCenter]}>
+                                                                <Image source={require('../../../../assets/app-images/userImg2.png')} />
+                                                            </View>
+                                                            <View style={[{ flex: 7.5 }, centralStyle.alignitemCenter, centralStyle.justifyContentBetween, centralStyle.row]}>
+                                                                <Title
+                                                                    title={t(`BidderLee`)}
+                                                                    type='Poppin-14'
+                                                                    weight='600'
+                                                                    color={Colors.black}
+                                                                />
+                                                                <View style={[styles.invitedBtnContainer, centralStyle.XAndYCenter]}>
+                                                                    <Title
+                                                                        title={t(`Invited`)}
+                                                                        type='Poppin-10'
+                                                                        weight='400'
+                                                                        color={Colors.black}
+                                                                    />
+                                                                </View>
+                                                            </View>
+                                                            <View style={[centralStyle.flex1, centralStyle.XAndYCenter]}>
+                                                                {dotIconWithOutCallback}
+                                                            </View>
+                                                        </View>
+                                                        <View style={[centralStyle.row, centralStyle.px2, centralStyle.alignitemCenter, centralStyle.justifyContentBetween,]}>
+                                                            <View style={[centralStyle.row]}>
+                                                                <Title
+                                                                    title={t(`ETA`) + ':  '}
+                                                                    type='Poppin-14'
+                                                                    weight='400'
+                                                                    color={Colors.gray}
+                                                                />
+                                                                <Title
+                                                                    title={t(`Nov 21, 2022`)}
+                                                                    type='Poppin-14'
+                                                                    weight='400'
+                                                                    color={Colors.black}
+                                                                />
+                                                            </View>
+                                                            <View style={[centralStyle.row]}>
+                                                                <Title
+                                                                    title={t(`Cost`) + `:  `}
+                                                                    type='Poppin-14'
+                                                                    weight='400'
+                                                                    color={Colors.gray}
+                                                                />
+                                                                <Title
+                                                                    title={t(`$3500.00`)}
+                                                                    type='Poppin-14'
+                                                                    weight='400'
+                                                                    color={Colors.black}
+                                                                />
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                )}
                                                 keyExtractor={(item, index) => index.toString()}
                                             />
                                         </View>
@@ -144,4 +199,4 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     );
 };
 
-export default ViewJob;
+export default BidderDetail;

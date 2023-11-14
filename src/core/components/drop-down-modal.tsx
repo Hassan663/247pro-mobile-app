@@ -1,7 +1,6 @@
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, } from 'react-native'
 
 import { t } from "i18next";
-import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import Colors from "../../styles/colors";
 import { Title } from "./screen-title.component";
