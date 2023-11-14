@@ -4,13 +4,10 @@ import React, {
     useState
 } from 'react';
 import {
-    StatusBar,
     TextInput,
     View,
     FlatList,
-    Modal,
-    Text,
-    TouchableOpacity
+    GestureResponderEvent,
 } from 'react-native';
 
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -25,12 +22,8 @@ import { styles } from './pro-finder.style';
 import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { DROPDOWNDATA } from './data';
+import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-// import { DropDownModal } from '../../../../core/components/drop-down-modal';
-import {
-    centralStyle,
-    windowHeight
-} from '../../../../styles/constant.style';
 import {
     DropDownModal,
     List,
@@ -43,10 +36,11 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
     const sheetRef = useRef<any>(null)
 
-    const handlePress = (event) => {
+ 
+    const handlePress = (event: GestureResponderEvent) => {
         const { pageX, pageY } = event.nativeEvent;
         setCoordinates({ x: pageX, y: pageY });
-        setmodalEnabled(!modalEnabled)
+        setmodalEnabled(!modalEnabled);
     };
     return (
         <>

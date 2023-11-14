@@ -1,17 +1,12 @@
 // @app
-import React, {
-    useState
-} from 'react';
+import React, { } from 'react';
 import {
-    StatusBar,
-    Image,
-    FlatList,
     View,
 } from 'react-native';
+
+import Colors from '../../../../styles/colors';
 import { styles } from './view-job.style';
 import { Title } from '../../../../core/components/screen-title.component';
-import Colors from '../../../../styles/colors';
-import { t } from 'i18next';
 import { centralStyle } from '../../../../styles/constant.style';
 
 export const Row: React.FC<{ title: string, value: string }> = ({ title, value }) => {

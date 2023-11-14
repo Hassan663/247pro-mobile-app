@@ -23,4 +23,12 @@ export const styles = StyleSheet.create<any>({
         flex: 1,
         backgroundColor: Colors.white
     },
+    listContainer: {
+        height: RFPercentage(15),
+        justifyContent: 'space-evenly',
+        width: "100%",
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.lightGrey
+    },
+    invitedBtnContainer:{ height: RFPercentage(3), borderRadius: RFPercentage(.4), width: RFPercentage(8), backgroundColor: Colors.lightGrey },
 });
