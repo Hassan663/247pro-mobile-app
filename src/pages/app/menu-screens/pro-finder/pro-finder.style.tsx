@@ -49,7 +49,9 @@ export const styles = StyleSheet.create<any>({
         alignItems: "flex-end",
     },
     modalContainer: (coordinates: any) => {
+
         let width = platform == 'ios' ? RFPercentage(17) : RFPercentage(20)
+
         // const windowHeight = Dimensions.get('window').height;
         const windowHeight = Dimensions.get('window').height;
 
@@ -77,7 +79,6 @@ export const styles = StyleSheet.create<any>({
             justifyContent: 'space-evenly',
             left: coordinates.x - width,
             ...positionStyle
-        }
-        )
+        })
     },
 });

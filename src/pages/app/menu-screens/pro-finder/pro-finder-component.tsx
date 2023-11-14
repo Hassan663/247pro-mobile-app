@@ -137,29 +137,13 @@ export const List = ({ sheetRef, callBack }: any) => {
     )
 }
 
-
-
-// import { TouchableOpacity, View } from 'react-native'
-
-// import { t } from "i18next";
-// import { RFPercentage } from 'react-native-responsive-fontsize';
-
-// import Colors from "../../styles/colors";
-// import { Title } from "./screen-title.component";
-// import { changeRoute } from '../helpers/async-storage';
-// import { styles } from './index.style';
-// import { centralStyle } from '../../styles/constant.style';
-// import { onShare } from '../../pages/app/menu-screens/company-profile-screens/company-profile/call-back';
-
 export const DropDownModal: React.FC<{ disableModal?: any, coordinates?: any, modalEnabled: boolean, viewCallback?: any, editCallback?: any, navigation?: any, DATA?: any }> = ({ disableModal, editCallback, navigation, DATA, viewCallback, modalEnabled, coordinates }) => {
     return (
         <Modal
             animationType='fade'
             transparent={true}
             visible={modalEnabled}
-            onRequestClose={() => {
-                disableModal()
-            }}
+            onRequestClose={() => { disableModal() }}
         >
             <TouchableOpacity
                 activeOpacity={.9}
@@ -167,10 +151,7 @@ export const DropDownModal: React.FC<{ disableModal?: any, coordinates?: any, mo
                 style={styles.modalContainerAbs}>
                 <TouchableOpacity
                     activeOpacity={.9}
-                    onPress={() => {
-                        disableModal()
-                        // changeRoute(navigation, 'leadPreference')
-                    }}
+                    onPress={() => { disableModal() }}
                     style={styles.modalContainer(coordinates)}>
 
                     {DATA ?
