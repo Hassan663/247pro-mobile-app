@@ -47,4 +47,10 @@ export const styles = StyleSheet.create<any>({
         borderRadius: RFPercentage(1),
         flex: 1,
     },
+    tagWrapper: { flex: 8.5, paddingVertical: RFPercentage(1), flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-between" },
+    tagContainer: { padding: RFPercentage(.5), paddingHorizontal: RFPercentage(1), marginTop: RFPercentage(1), backgroundColor: Colors.lightGrey, borderRadius: RFPercentage(1.5), },
+    bidderImg: { height: RFPercentage(6), width: RFPercentage(6) },
+    bidderListBody: { flex: 8 },
+    bidderListImg: { flex: 2, },
+    downIconContainer: { flex: 1.5, },
 });

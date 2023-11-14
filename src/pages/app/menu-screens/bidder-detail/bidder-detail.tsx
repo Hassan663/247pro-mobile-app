@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useRef,
     useState
 } from 'react';
 import {
@@ -10,6 +11,7 @@ import {
     SafeAreaView,
 } from 'react-native';
 
+import RBSheet from 'react-native-raw-bottom-sheet';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { t } from 'i18next';
 
@@ -24,7 +26,12 @@ import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
-import { INFORMATIONDATA } from './data';
+import {
+    INFORMATIONDATA,
+    TAGDATA
+} from './data';
+import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
+import { openSheet } from '../../../../store/action/action';
 
 const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -33,6 +40,7 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
 
     const backIcon = <AntDesign onPress={() => changeRoute(navigation, 'pop')} style={centralStyle.mx2} name={'left'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
     const downIcon = <AntDesign onPress={() => { setopenInfo(!openInfo) }} name={openInfo ? 'down' : "up"} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
+    const sheetRef = useRef<any>(null)
 
     return (
         <>
@@ -105,25 +113,27 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                             data={[0, 0, 0, 0, 0, 0, 0]}
                                             showsVerticalScrollIndicator={false}
                                             renderItem={({ item }) => (
-                                                <View style={[styles.listContainer, centralStyle.row, {}, centralStyle.alignitemCenter]}>
-                                                    <View style={[{ flex: 2, }, centralStyle.XAndYCenter]}>
-                                                        <Image style={{ height: RFPercentage(6), width: RFPercentage(6) }} source={require('../../../../assets/app-images/userImg2.png')} />
+                                                <View style={[styles.listContainer, centralStyle.row, centralStyle.alignitemCenter]}>
+                                                    <View style={[styles.bidderListImg, centralStyle.XAndYCenter]}>
+                                                        <Image style={styles.bidderImg} source={require('../../../../assets/app-images/userImg2.png')} />
                                                     </View>
-                                                    <View style={[{ flex: 8 },]}>
+                                                    <View style={styles.bidderListBody}>
                                                         <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.justifyContentBetween]}>
-                                                            <View style={{ flex: 8.5, paddingVertical: RFPercentage(1), flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-between" }} >
-                                                                {[`Remodel`, 'New', 'New', 'New'].map((item) => <View style={{ padding: RFPercentage(.5), paddingHorizontal: RFPercentage(1), marginTop: RFPercentage(1), backgroundColor: Colors.lightGrey, borderRadius: RFPercentage(1.5), }}>
+                                                            <View style={styles.tagWrapper} >
+                                                                {TAGDATA.map((item) => (<View style={styles.tagContainer}>
                                                                     <Title
                                                                         title={item}
                                                                         type='Poppin-11'
                                                                         weight='400'
                                                                         color={Colors.fontColor}
                                                                     />
-                                                                </View>)}
-
+                                                                </View>))}
                                                             </View>
-                                                            <View style={[{ flex: 1.5, }, centralStyle.alignitemCenter]}>
-                                                                <AntDesign name={'down'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
+                                                            <View style={[styles.downIconContainer, centralStyle.alignitemCenter]}>
+                                                                <AntDesign
+                                                                    name={'down'}
+                                                                    color={Colors.black}
+                                                                    size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
                                                             </View>
                                                         </View>
                                                         <Title
@@ -143,6 +153,7 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                 <View style={[styles.btnContainer, centralStyle.row]}>
                                     <View style={[centralStyle.flex1, centralStyle.mx1]}>
                                         <Button
+                                            callBack={() => openSheet(sheetRef)}
                                             title={t(`Reject`)}
                                             titleStyle={styles.titleStyle}
                                             customStyle={[styles.rejectContainer, centralStyle.XAndYCenter]}
@@ -156,6 +167,26 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                     </View>
                                 </View>
                             </View>
+                            <RBSheet
+                                ref={sheetRef}
+                                height={RFPercentage(35)}
+                                closeOnPressMask={true}
+                                closeOnDragDown={true}
+                                openDuration={250}
+                                animationType={`slide`}
+                                customStyles={{ container: { borderRadius: RFPercentage(2) } }}
+                            >
+                                <AddInputSheet
+                                    contactInfoInputs={[]}
+                                    setcontactInfoInputs={[]}
+                                    sheetRef={sheetRef}
+                                    placeHolder={t(`Entercustomfieldlabel`)}
+                                    // newField={newField}
+                                    title={t('AddCustomField')}
+                                    btnText={t(`SaveField`)}
+                                // setNewField={setNewField}
+                                />
+                            </RBSheet>
                         </ScrollView>
                     </View>
                 </View>
