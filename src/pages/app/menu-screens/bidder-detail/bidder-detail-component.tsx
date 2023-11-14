@@ -26,7 +26,7 @@ export const Row: React.FC<{ title: string, value: string }> = ({ title, value }
                     textAlignCenter='right'
                     type='Poppin-14'
                     weight='400'
-                    color={Colors.black}
+                    color={title == `Company:` ? Colors.blue : Colors.black}
                 />
             </View>
         </View>

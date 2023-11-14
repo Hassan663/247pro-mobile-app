@@ -10,7 +10,6 @@ import {
     SafeAreaView,
 } from 'react-native';
 
-import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { t } from 'i18next';
 
@@ -30,14 +29,10 @@ import { INFORMATIONDATA } from './data';
 const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [modalEnabled, setmodalEnabled] = useState(false)
-    const [bidderAvailable, setBidderAvailable] = useState(false)
-    const [openInfo, setopenInfo] = useState(false)
+    const [openInfo, setopenInfo] = useState(true)
 
     const backIcon = <AntDesign onPress={() => changeRoute(navigation, 'pop')} style={centralStyle.mx2} name={'left'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
     const downIcon = <AntDesign onPress={() => { setopenInfo(!openInfo) }} name={openInfo ? 'down' : "up"} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
-    const dotIcon = <Entypo onPress={() => setmodalEnabled(true)} style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
-    const dotIconWithOutCallback = <Entypo style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
-    const uploadIcon = <AntDesign style={platform == 'ios' ? centralStyle.mx02 : centralStyle.mx2} color={Colors.black} name={`upload`} size={RFPercentage(2)} />
 
     return (
         <>
@@ -45,11 +40,9 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                 <View style={[centralStyle.flex1,]}>
                     <AppHeader
                         iconL1={backIcon}
-                        iconR2={dotIcon}
-                        iconR1={uploadIcon}
                         weight='700'
                         type='Poppin-16'
-                        title={t('Kitchenremodelforasingle')} />
+                        title={t('BidderLee')} />
 
                     {modalEnabled && <DropDownModal
                         DATA={[t('View'), t(`Hire`), t(`Reject`)]}
@@ -80,12 +73,14 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                             renderItem={({ item }) => (<Row {...item} />)}
                                             keyExtractor={(item, index) => index.toString()}
                                         />
-                                        <Title
-                                            title={t('Description') + `: `}
-                                            type='Poppin-14'
-                                            weight='400'
-                                            color={Colors.gray}
-                                        />
+                                        <View style={[centralStyle.mt2, centralStyle.my1]}>
+                                            <Title
+                                                title={t('Biddescription') + `: `}
+                                                type='Poppin-14'
+                                                weight='400'
+                                                color={Colors.gray}
+                                            />
+                                        </View>
                                         <Title
                                             title={t(`viewJobDescription`)}
                                             type='Poppin-14'
@@ -94,7 +89,7 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                         />
                                         <View style={centralStyle.my1}>
                                             <Title
-                                                title={t(`BiddersAndBids`)}
+                                                title={t(`Attachments`)}
                                                 type='Poppin-14'
                                                 weight='600'
                                                 color={Colors.black}
@@ -104,91 +99,61 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                     : <></>
                                 }
 
+                                <View style={centralStyle.flex1}>
+                                    <View style={{ maxHeight: !openInfo ? platform == 'ios' ? RFPercentage(70) : RFPercentage(75) : undefined }}>
+                                        <FlatList
+                                            data={[0, 0, 0, 0, 0, 0, 0]}
+                                            showsVerticalScrollIndicator={false}
+                                            renderItem={({ item }) => (
+                                                <View style={[styles.listContainer, centralStyle.row, {}, centralStyle.alignitemCenter]}>
+                                                    <View style={[{ flex: 2, }, centralStyle.XAndYCenter]}>
+                                                        <Image style={{ height: RFPercentage(6), width: RFPercentage(6) }} source={require('../../../../assets/app-images/userImg2.png')} />
+                                                    </View>
+                                                    <View style={[{ flex: 8 },]}>
+                                                        <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.justifyContentBetween]}>
+                                                            <View style={{ flex: 8.5, paddingVertical: RFPercentage(1), flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-between" }} >
+                                                                {[`Remodel`, 'New', 'New', 'New'].map((item) => <View style={{ padding: RFPercentage(.5), paddingHorizontal: RFPercentage(1), marginTop: RFPercentage(1), backgroundColor: Colors.lightGrey, borderRadius: RFPercentage(1.5), }}>
+                                                                    <Title
+                                                                        title={item}
+                                                                        type='Poppin-11'
+                                                                        weight='400'
+                                                                        color={Colors.fontColor}
+                                                                    />
+                                                                </View>)}
 
-                                {bidderAvailable ?
-                                    <View style={[centralStyle.XAndYCenter, centralStyle.flex1]}>
-                                        < Title
-                                            title={t(`Nobidderyet`)}
-                                            type='Poppin-18'
-                                            weight='600'
-                                            color={Colors.gray}
+                                                            </View>
+                                                            <View style={[{ flex: 1.5, }, centralStyle.alignitemCenter]}>
+                                                                <AntDesign name={'down'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
+                                                            </View>
+                                                        </View>
+                                                        <Title
+                                                            title={`I likea whole house renovation (less than 10% people give description on image...`}
+                                                            type='Poppin-12'
+                                                            weight='400'
+                                                            color={Colors.fontColor}
+                                                        />
+                                                    </View>
+                                                </View>
+                                            )}
+                                            keyExtractor={(item, index) => index.toString()}
                                         />
                                     </View>
-                                    :
-                                    <View style={centralStyle.flex1}>
-                                        <View style={{ maxHeight: !openInfo ? platform == 'ios' ? RFPercentage(70) : RFPercentage(75) : undefined }}>
-                                            <FlatList
-                                                data={[0, 0, 0, 0, 0, 0, 0]}
-                                                showsVerticalScrollIndicator={false}
-                                                renderItem={({ item }) => (
-                                                    <View style={styles.listContainer}>
-                                                        <View style={[centralStyle.row]}>
-                                                            <View style={[{ flex: 1.5 }, centralStyle.XAndYCenter]}>
-                                                                <Image source={require('../../../../assets/app-images/userImg2.png')} />
-                                                            </View>
-                                                            <View style={[{ flex: 7.5 }, centralStyle.alignitemCenter, centralStyle.justifyContentBetween, centralStyle.row]}>
-                                                                <Title
-                                                                    title={t(`BidderLee`)}
-                                                                    type='Poppin-14'
-                                                                    weight='600'
-                                                                    color={Colors.black}
-                                                                />
-                                                                <View style={[styles.invitedBtnContainer, centralStyle.XAndYCenter]}>
-                                                                    <Title
-                                                                        title={t(`Invited`)}
-                                                                        type='Poppin-10'
-                                                                        weight='400'
-                                                                        color={Colors.black}
-                                                                    />
-                                                                </View>
-                                                            </View>
-                                                            <View style={[centralStyle.flex1, centralStyle.XAndYCenter]}>
-                                                                {dotIconWithOutCallback}
-                                                            </View>
-                                                        </View>
-                                                        <View style={[centralStyle.row, centralStyle.px2, centralStyle.alignitemCenter, centralStyle.justifyContentBetween,]}>
-                                                            <View style={[centralStyle.row]}>
-                                                                <Title
-                                                                    title={t(`ETA`) + ':  '}
-                                                                    type='Poppin-14'
-                                                                    weight='400'
-                                                                    color={Colors.gray}
-                                                                />
-                                                                <Title
-                                                                    title={t(`Nov 21, 2022`)}
-                                                                    type='Poppin-14'
-                                                                    weight='400'
-                                                                    color={Colors.black}
-                                                                />
-                                                            </View>
-                                                            <View style={[centralStyle.row]}>
-                                                                <Title
-                                                                    title={t(`Cost`) + `:  `}
-                                                                    type='Poppin-14'
-                                                                    weight='400'
-                                                                    color={Colors.gray}
-                                                                />
-                                                                <Title
-                                                                    title={t(`$3500.00`)}
-                                                                    type='Poppin-14'
-                                                                    weight='400'
-                                                                    color={Colors.black}
-                                                                />
-                                                            </View>
-                                                        </View>
-                                                    </View>
-                                                )}
-                                                keyExtractor={(item, index) => index.toString()}
-                                            />
-                                        </View>
-                                    </View>
+                                </View>
 
-                                }
-                                <View style={styles.btnContainer}>
-                                    <Button
-                                        title={t(`Inviteprostobid`)}
-                                        primary
-                                    />
+                                <View style={[styles.btnContainer, centralStyle.row]}>
+                                    <View style={[centralStyle.flex1, centralStyle.mx1]}>
+                                        <Button
+                                            title={t(`Reject`)}
+                                            titleStyle={styles.titleStyle}
+                                            customStyle={[styles.rejectContainer, centralStyle.XAndYCenter]}
+                                        />
+                                    </View>
+                                    <View style={[centralStyle.flex1, centralStyle.mx1]}>
+                                        <Button
+                                            title={t(`Hire`)}
+                                            primary
+                                        />
+                                    </View>
                                 </View>
                             </View>
                         </ScrollView>

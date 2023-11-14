@@ -345,6 +345,10 @@ export const languageData = [
             ETA: 'ETA',
             Cost: "Cost",
             Inviteprostobid: "Invite pros to bid",
+            Phone:"Phone",
+            Createdby:"Created by",
+            Date:"Date",
+            Biddescription:"Bid description",
         }
     },
     {
@@ -694,6 +698,11 @@ export const languageData = [
             ETA: '预计到达时间',
             Cost: "成本",
             Inviteprostobid: "邀请专业人士投标",
+            Phone:"电话",
+            Createdby:"由...制作",
+            Date:"日期",
+            Biddescription:"投标说明",
+
 
         }
     },
@@ -1040,6 +1049,11 @@ export const languageData = [
             ETA: 'ETA',
             Cost: "Costo",
             Inviteprostobid: "Invita a profesionales a pujar",
+            Phone:"Teléfono",
+            Createdby:"Creado por",
+            Date:"Fecha",
+            Biddescription:"Descripción de la oferta",
+            
         }
     }
 ];
