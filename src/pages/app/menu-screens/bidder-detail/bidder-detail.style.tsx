@@ -47,14 +47,28 @@ export const styles = StyleSheet.create<any>({
         borderRadius: RFPercentage(1),
         flex: 1,
     },
-    tagWrapper: { flex: 8.5, paddingVertical: RFPercentage(1), flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-between" },
-    tagContainer: { padding: RFPercentage(.5), paddingHorizontal: RFPercentage(1), marginTop: RFPercentage(1), backgroundColor: Colors.lightGrey, borderRadius: RFPercentage(1.5), },
-    bidderImg: { height: RFPercentage(6), width: RFPercentage(6) },
+    tagWrapper: {
+        flex: 8.5,
+        paddingVertical: RFPercentage(1),
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: "space-between"
+    },
+    tagContainer: {
+        padding: RFPercentage(.5),
+        paddingHorizontal: RFPercentage(1),
+        marginTop: RFPercentage(1),
+        backgroundColor: Colors.lightGrey,
+        borderRadius: RFPercentage(1.5),
+    },
+    bidderImg: {
+        height: RFPercentage(6),
+        width: RFPercentage(6),
+        borderRadius: RFPercentage(3)
+    },
     bidderListBody: { flex: 8 },
     bidderListImg: { flex: 2, },
     downIconContainer: { flex: 1.5, },
-
-
     inputContainer: (height: number) => ({
         paddingVertical: 10,
         justifyContent: "flex-end",
@@ -68,7 +82,7 @@ export const styles = StyleSheet.create<any>({
         borderColor: isActive ? Colors.primary : Colors.lightGrey,
         paddingHorizontal: platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         width: "100%",
-        maxHeight: 100,
+        maxHeight: 70,
     }),
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
@@ -84,4 +98,31 @@ export const styles = StyleSheet.create<any>({
     input: (pass: boolean, isActive: boolean) => ({
         paddingVertical: RFPercentage(1),
     }),
+    fullImageContainer: {
+        flex: 1,
+        backgroundColor: Colors.black,
+        alignItems: "flex-end"
+    },
+    fullSizeImageWrapper: {
+        flex: 1,
+        width: "100%"
+    },
+    fullSizeImage: {
+        height: RFPercentage(30),
+        width: '100%'
+    },
+    btnTextStyle: {
+        fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
+        color: Colors.white,
+        textTransform: 'uppercase',
+    },
+    deleteBtnContainer: {
+        backgroundColor: Colors.errorColor,
+        height: RFPercentage(7),
+        borderRadius: RFPercentage(1),
+    },
+    draggableIconstyle: {
+        width: '35%',
+        backgroundColor: Colors.fontColor
+    },
 });

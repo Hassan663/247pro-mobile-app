@@ -254,6 +254,9 @@ export const centralStyle = StyleSheet.create<any>({
     width40: {
         width: "40%"
     },
+    width45: {
+        width: "45%"
+    },
     width30: {
         width: "30%"
     },
@@ -262,7 +265,7 @@ export const centralStyle = StyleSheet.create<any>({
     },
     wrap: {
         flexWrap: 'wrap'
-    },
+    }, 
     fullHeightWithoutBottomTab: {
         marginBottom: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
         flex: 1

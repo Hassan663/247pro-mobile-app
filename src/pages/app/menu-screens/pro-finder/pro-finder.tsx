@@ -20,6 +20,8 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import { styles } from './pro-finder.style';
 import { platform } from '../../../../utilities';
+import { openSheet } from '../../../../store/action/action';
+import { DeleteJob } from '../bidder-detail/bidder-detail-component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { DROPDOWNDATA } from './data';
 import { centralStyle } from '../../../../styles/constant.style';
@@ -33,19 +35,21 @@ import {
 const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [modalEnabled, setmodalEnabled] = useState(false)
+    const [deleteEnabled, setdeleteEnabled] = useState<boolean>(false)
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
     const sheetRef = useRef<any>(null)
 
- 
+
     const handlePress = (event: GestureResponderEvent) => {
         const { pageX, pageY } = event.nativeEvent;
         setCoordinates({ x: pageX, y: pageY });
         setmodalEnabled(!modalEnabled);
     };
+
     return (
         <>
             <KeyboardAwareScrollView>
-                <View style={{ backgroundColor: "red" }}>
+                <View style={{}}>
                     <AppHeader
                         iconL1={
                             <AntDesign
@@ -98,6 +102,10 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                                 setmodalEnabled(!modalEnabled)
                                 changeRoute(navigation, 'ViewJob')
                             }}
+                            deleteCallback={() => {
+                                setdeleteEnabled(true)
+                                openSheet(sheetRef)
+                            }}
                             disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                         <FlatList
@@ -119,7 +127,17 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                                 draggableIcon: styles.draggableIconstyle
                             }}
                         >
-                            <Status />
+                            {deleteEnabled ?
+                                <DeleteJob
+                                    sheetRef={sheetRef}
+                                    placeHolder={t(`Enter message (optional)`)}
+                                    title={t('Delete Job')}
+                                    value={`Are you sure you want to delete this job?`}
+                                    btnText={t(`Delete`)}
+                                />
+                                :
+                                <Status />
+                            }
                         </RBSheet>
                     </View>
                 </View></KeyboardAwareScrollView >

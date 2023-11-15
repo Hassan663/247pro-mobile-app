@@ -137,7 +137,7 @@ export const List = ({ sheetRef, callBack }: any) => {
     )
 }
 
-export const DropDownModal: React.FC<{ disableModal?: any, coordinates?: any, modalEnabled: boolean, viewCallback?: any, editCallback?: any, navigation?: any, DATA?: any }> = ({ disableModal, editCallback, navigation, DATA, viewCallback, modalEnabled, coordinates }) => {
+export const DropDownModal: React.FC<{ disableModal?: any, deleteCallback: any, coordinates?: any, modalEnabled: boolean, viewCallback?: any, editCallback?: any, navigation?: any, DATA?: any }> = ({ disableModal, editCallback, navigation, DATA, viewCallback, modalEnabled, coordinates, deleteCallback }) => {
     return (
         <Modal
             animationType='fade'
@@ -154,52 +154,38 @@ export const DropDownModal: React.FC<{ disableModal?: any, coordinates?: any, mo
                     onPress={() => { disableModal() }}
                     style={styles.modalContainer(coordinates)}>
 
-                    {DATA ?
-                        DATA.map((item: string, index: number) => {
-                            return (
-                                <TouchableOpacity
-                                    key={index.toString()}
-                                    onPress={() => {
-                                        if (item == t("Edit") || item == t('AddNewCart')) {
-                                            disableModal()
-                                            if (editCallback) editCallback()
-                                        } else if (item == t("Share")) {
-                                            disableModal()
-                                            onShare()
-                                        }
-                                        else if (item == t("View")) {
-                                            viewCallback()
-                                        }
-                                    }}
-                                    activeOpacity={.8}
-                                    style={[centralStyle.my05,]}>
-                                    <Title
-                                        title={item}
-                                        weight='400'
-                                        color={Colors.fontColor}
-                                        type='Poppin-14' />
-                                </TouchableOpacity>
+                    {DATA?.map((item: string, index: number) => {
+                        return (
+                            <TouchableOpacity
+                                key={index.toString()}
+                                onPress={() => {
+                                    if (item == t("Edit") || item == t('AddNewCart')) {
+                                        disableModal()
+                                        if (editCallback) editCallback()
+                                    } else if (item == t("Share")) {
+                                        disableModal()
+                                        onShare()
+                                    }
+                                    else if (item == t("View")) {
+                                        viewCallback()
+                                    }
+                                    else if (item == t("Delete")) {
+                                        disableModal()
+                                        deleteCallback()
+                                    }
+                                }}
+                                activeOpacity={.8}
+                                style={[centralStyle.my05,]}>
+                                <Title
+                                    title={item}
+                                    weight='400'
+                                    color={Colors.fontColor}
+                                    type='Poppin-14' />
+                            </TouchableOpacity>
 
-                            )
-                        })
-                        :
-                        <>
-                            <Title
-                                title={t('PostaJob')}
-                                weight='400'
-                                color={Colors.fontColor}
-                                type='Poppin-14' />
-                            <Title
-                                title={t('LeadPreference')}
-                                weight='400'
-                                color={Colors.fontColor}
-                                type='Poppin-14' />
-                            <Title
-                                title={t('MyFavorJobs')}
-                                weight='400'
-                                color={Colors.fontColor}
-                                type='Poppin-14' />
-                        </>
+                        )
+                    })
+
                     }
                 </TouchableOpacity>
             </TouchableOpacity >
