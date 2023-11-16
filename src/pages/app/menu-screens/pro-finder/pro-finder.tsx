@@ -130,9 +130,9 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                             {deleteEnabled ?
                                 <DeleteJob
                                     sheetRef={sheetRef}
-                                    placeHolder={t(`Enter message (optional)`)}
-                                    title={t('Delete Job')}
-                                    value={`Are you sure you want to delete this job?`}
+                                    placeHolder={t(`deleteEntermessageOptional`)}
+                                    title={t('DeleteJob')}
+                                    value={t(`Areyousureyouwanttodeletethisjob`)}
                                     btnText={t(`Delete`)}
                                 />
                                 :

@@ -345,10 +345,13 @@ export const languageData = [
             ETA: 'ETA',
             Cost: "Cost",
             Inviteprostobid: "Invite pros to bid",
-            Phone:"Phone",
-            Createdby:"Created by",
-            Date:"Date",
-            Biddescription:"Bid description",
+            Phone: "Phone",
+            Createdby: "Created by",
+            Date: "Date",
+            Biddescription: "Bid description",
+            deleteEntermessageOptional: "Enter message (optional)",
+            DeleteJob: "Delete Job",
+            Areyousureyouwanttodeletethisjob: "Are you sure you want to delete this job?",
         }
     },
     {
@@ -698,11 +701,13 @@ export const languageData = [
             ETA: '预计到达时间',
             Cost: "成本",
             Inviteprostobid: "邀请专业人士投标",
-            Phone:"电话",
-            Createdby:"由...制作",
-            Date:"日期",
-            Biddescription:"投标说明",
-
+            Phone: "电话",
+            Createdby: "由...制作",
+            Date: "日期",
+            Biddescription: "投标说明",
+            deleteEntermessageOptional: "输入消息（可选）",
+            DeleteJob: "删除作业",
+            Areyousureyouwanttodeletethisjob: "您确定要删除此职位吗？",
 
         }
     },
@@ -1049,11 +1054,13 @@ export const languageData = [
             ETA: 'ETA',
             Cost: "Costo",
             Inviteprostobid: "Invita a profesionales a pujar",
-            Phone:"Teléfono",
-            Createdby:"Creado por",
-            Date:"Fecha",
-            Biddescription:"Descripción de la oferta",
-            
+            Phone: "Teléfono",
+            Createdby: "Creado por",
+            Date: "Fecha",
+            Biddescription: "Descripción de la oferta",
+            deleteEntermessageOptional: "Introducir mensaje (opcional)",
+            DeleteJob: "Eliminar trabajo",
+            Areyousureyouwanttodeletethisjob: "¿Estás segura de que quieres eliminar este trabajo?",
         }
     }
 ];

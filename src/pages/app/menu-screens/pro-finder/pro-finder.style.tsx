@@ -51,8 +51,6 @@ export const styles = StyleSheet.create<any>({
     modalContainer: (coordinates: any) => {
 
         let width = platform == 'ios' ? RFPercentage(17) : RFPercentage(20)
-
-        // const windowHeight = Dimensions.get('window').height;
         const windowHeight = Dimensions.get('window').height;
 
         // Calculate whether the button is in the top half or bottom half of the screen
@@ -75,7 +73,7 @@ export const styles = StyleSheet.create<any>({
             shadowRadius: 3.84,
             elevation: 5,
             borderRadius: RFPercentage(.5),
-            width: width,
+            // width: width,
             justifyContent: 'space-evenly',
             left: coordinates.x - width,
             ...positionStyle
