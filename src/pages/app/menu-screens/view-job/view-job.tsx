@@ -1,6 +1,7 @@
 // @app
 import React, {
-    useState
+    useState,
+    useRef
 } from 'react';
 import {
     ScrollView,
@@ -10,6 +11,7 @@ import {
     GestureResponderEvent,
 } from 'react-native';
 
+import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { t } from 'i18next';
@@ -32,6 +34,8 @@ import {
     dotIconWithOutCallback,
     uploadIcon
 } from './view-job-component';
+import { HireInputSheet } from '../bidder-detail/bidder-detail-component';
+import { openSheet } from '../../../../store/action/action';
 // import { DropDownModal } from '../pro-finder/pro-finder-component';
 
 const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
@@ -39,13 +43,14 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [bidderAvailable, setBidderAvailable] = useState(false)
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+    const [hireEnabled, sethireEnabled] = useState<boolean>(false)
     const [openInfo, setopenInfo] = useState(false)
+
+    const sheetRef = useRef<any>(null)
 
     const backIcon = <AntDesign onPress={() => changeRoute(navigation, 'pop')} style={centralStyle.mx2} name={'left'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
     const downIcon = <AntDesign onPress={() => { setopenInfo(!openInfo) }} name={openInfo ? 'down' : "up"} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
     const dotIcon = <Entypo onPress={() => setmodalEnabled(true)} style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
-
-
 
     const handlePress = (event: GestureResponderEvent) => {
         const { pageX, pageY } = event.nativeEvent;
@@ -69,6 +74,14 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         DATA={MOREOPTIONSDATA}
                         modalEnabled={modalEnabled}
                         viewCallback={() => changeRoute(navigation, `BidderDetail`)}
+                        hireCallback={() => {
+                            sethireEnabled(false)
+                            openSheet(sheetRef)
+                        }}
+                        rejectCallback={() => {
+                            sethireEnabled(true)
+                            openSheet(sheetRef)
+                        }}
                         disableModal={() => setmodalEnabled(!modalEnabled)}
                         coordinates={coordinates} />}
 
@@ -147,6 +160,27 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     <Button title={t(`Inviteprostobid`)} primary />
                                 </View>
                             </View>
+                            <RBSheet
+                                ref={sheetRef}
+                                height={RFPercentage(35)}
+                                closeOnPressMask={true}
+                                closeOnDragDown={true}
+                                openDuration={250}
+                                animationType={`slide`}
+                                customStyles={{
+                                    container: { borderRadius: RFPercentage(2) },
+                                    draggableIcon: styles.draggableIconstyle
+                                }}
+                            >
+                                <HireInputSheet
+                                    contactInfoInputs={[]}
+                                    setcontactInfoInputs={[]}
+                                    sheetRef={sheetRef}
+                                    placeHolder={t(`deleteEntermessageOptional`)}
+                                    title={!hireEnabled ? t('Hire') : t('Reject')}
+                                    btnText={t(`Submit`)}
+                                />
+                            </RBSheet>
                         </ScrollView>
                     </View>
                 </View>

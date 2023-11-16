@@ -128,6 +128,8 @@ export const DropDownModal: React.FC<{
     disableModal?: any,
     viewCallback?: any,
     coordinates?: any,
+    hireCallback?: any,
+    rejectCallback?: any,
     modalEnabled: boolean,
     DATA?: any
 }> = ({
@@ -136,10 +138,14 @@ export const DropDownModal: React.FC<{
     DATA,
     modalEnabled,
     coordinates,
+    hireCallback,
+    rejectCallback,
 }) => {
         const dropDownCallBack = (item: string) => {
             disableModal()
             if (item == t("View")) viewCallback()
+            if (item == t("Hire")) hireCallback()
+            if (item == t("Reject")) rejectCallback()
         }
 
         return (
