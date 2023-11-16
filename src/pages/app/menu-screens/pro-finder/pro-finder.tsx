@@ -26,6 +26,7 @@ import { changeRoute } from '../../../../core/helpers/async-storage';
 import { DROPDOWNDATA } from './data';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { dropDownCallBack } from './call-back';
 import {
     DropDownModal,
     List,
@@ -46,17 +47,12 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
         setmodalEnabled(!modalEnabled);
     };
 
-    const dropDownCallBack = (routeName: string) => {
-        // setmodalEnabled(false)
-        changeRoute(navigation, routeName)
-    }
-
     const dropDownSheetCallBack = (isDeleteSheetOpen: boolean, isconvertToProject?: boolean) => {
         setdeleteEnabled(isDeleteSheetOpen)
-        if (isconvertToProject) setConvertToProject(isconvertToProject)
+        setConvertToProject(isconvertToProject ? true : false)
         openSheet(sheetRef)
-
     }
+
     return (
         <>
             <KeyboardAwareScrollView>
@@ -104,20 +100,21 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                             DATA={DROPDOWNDATA}
                             coordinates={coordinates}
                             modalEnabled={modalEnabled}
-                            editCallback={() => { dropDownCallBack(`EditJob`) }}
-                            viewCallback={() => { dropDownCallBack(`ViewJob`) }}
-                            deleteCallback={() => { dropDownSheetCallBack(true) }}
-                            convertProjectCallback={() => {
-                                // setConvertToProject(true)
-                                dropDownSheetCallBack(false, true)
-                            }}
-                            statusCallback={() => { dropDownSheetCallBack(false) }}
-                            disableModal={() => setmodalEnabled(!modalEnabled)} />}
+                            disableModal={() => setmodalEnabled(!modalEnabled)}
+                            deleteCallback={() => dropDownSheetCallBack(true)}
+                            statusCallback={() => dropDownSheetCallBack(false, false)}
+                            editCallback={() => dropDownCallBack(`EditJob`, navigation)}
+                            viewCallback={() => dropDownCallBack(`ViewJob`, navigation)}
+                            convertProjectCallback={() => dropDownSheetCallBack(false, true)} />}
 
                         <FlatList
                             showsVerticalScrollIndicator={false}
                             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]}
-                            renderItem={({ item }) => <List callBack={handlePress} viewJobCallBack={() => { dropDownCallBack(`ViewJob`) }} />}
+                            renderItem={({ item }) => (
+                                <List
+                                    callBack={handlePress}
+                                    viewJobCallBack={() => dropDownCallBack(`ViewJob`, navigation)} />
+                            )}
                             keyExtractor={(item, index) => index.toString()}
                         />
 
