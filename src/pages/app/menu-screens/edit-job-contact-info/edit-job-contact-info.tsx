@@ -69,13 +69,13 @@ const EditJobContactInfo: React.FC<{ navigation: any, route: any }> = ({ navigat
                             </View>
 
                             <Title
-                                title={t(`Find local pros and get bids for Kitchen Remodel for single family home`)}
+                                title={t(`FindlocalprosandgetbidsforKitchenRemodelforsinglefamilyhome`)}
                                 type='Poppin-16'
                                 color={Colors.fontColor}
                                 weight='500' />
                             <View style={centralStyle.mt3}>
                                 <Title
-                                    title={t(`Contact Info`)}
+                                    title={t(`ContactInfo`)}
                                     type='Poppin-14'
                                     color={Colors.black}
                                     weight='600' />
@@ -112,7 +112,6 @@ const EditJobContactInfo: React.FC<{ navigation: any, route: any }> = ({ navigat
                                     <OutlinedTextInput val={`123456789`} title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                                 </View>
                             </View>
-
                             <>
                                 <View style={centralStyle.mt1}>
                                     <OutlinedTextInput val={`533 Airport Blvd. Burlingame, CA 94010`} title={t('Address')} placeHolder={t('Address')} />
@@ -151,14 +150,11 @@ const EditJobContactInfo: React.FC<{ navigation: any, route: any }> = ({ navigat
                                         <OutlinedTextInput val={`45222`} title={t('ZipCode')} placeHolder={t('ZipCode')} />
                                     </View>
                                 </View>
-
-
                             </>
-
                         </View>
-
-
-                    </View></KeyboardAwareScrollView></SafeAreaView>
+                    </View>
+                </KeyboardAwareScrollView>
+            </SafeAreaView>
 
         </>
     );

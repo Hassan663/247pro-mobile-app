@@ -9,7 +9,6 @@ import {
     FlatList,
     View,
     SafeAreaView,
-    TouchableOpacity,
 } from 'react-native';
 
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -26,7 +25,6 @@ import { openSheet } from '../../../../store/action/action';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import {
     BidderUI,
     HireInputSheet,
@@ -38,7 +36,6 @@ import {
 
 const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
-    const [modalEnabled, setmodalEnabled] = useState(false)
     const [openInfo, setopenInfo] = useState(true)
     const [fullImg, setfullImg] = useState<any>('')
     const [hireEnabled, sethireEnabled] = useState<boolean>(false)
@@ -58,12 +55,6 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                         type='Poppin-16'
                         title={t('BidderLee')} />
 
-                    {modalEnabled && <DropDownModal
-                        DATA={[t('View'), t(`Hire`), t(`Reject`)]}
-                        navigation={navigation}
-                        editCallback={() => { changeRoute(navigation, 'EditJob') }}
-                        viewCallback={() => { changeRoute(navigation, 'ViewJob') }}
-                        disableModal={() => setmodalEnabled(!modalEnabled)} />}
                     {fullImg > 0 ?
                         <View style={styles.fullImageContainer}>
                             {crossIcon}
@@ -172,7 +163,7 @@ const BidderDetail: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                                             contactInfoInputs={[]}
                                             setcontactInfoInputs={[]}
                                             sheetRef={sheetRef}
-                                            placeHolder={t(`Enter message (optional)`)}
+                                            placeHolder={t(`deleteEntermessageOptional`)}
                                             title={!hireEnabled ? t('Hire') : t('Reject')}
                                             btnText={t(`Submit`)}
                                         />

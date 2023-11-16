@@ -23,7 +23,7 @@ import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { DropDownModal } from '../../../../core/components/drop-down-modal';
-import { INFORMATIONDATA } from './data';
+import { DROPDOWNDATA, INFORMATIONDATA, MOREOPTIONSDATA } from './data';
 import {
     BidderList,
     Row,
@@ -54,7 +54,7 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         title={t('Kitchenremodelforasingle')} />
 
                     {modalEnabled && <DropDownModal
-                        DATA={[t('View'), t(`Hire`), t(`Reject`)]}
+                        DATA={MOREOPTIONSDATA}
                         navigation={navigation}
                         editCallback={() => { changeRoute(navigation, 'EditJob') }}
                         viewCallback={() => { changeRoute(navigation, 'ViewJob') }}

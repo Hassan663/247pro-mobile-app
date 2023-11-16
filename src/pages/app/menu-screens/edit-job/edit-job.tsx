@@ -154,8 +154,9 @@ const EditJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                 <SimpleLineIcons name={'picture'} color={Colors.gray} size={RFPercentage(4)} />
                             </TouchableOpacity>
                         </View>
-
-                    </View></KeyboardAwareScrollView></SafeAreaView>
+                    </View>
+                </KeyboardAwareScrollView>
+            </SafeAreaView>
 
         </>
     );
