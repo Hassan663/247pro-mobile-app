@@ -356,9 +356,16 @@ export const languageData = [
             ConfirmChange: "Confirm Change",
             Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage: "I likea whole house renovation (less than 10% people give description on image...",
             Remodel: "Remodel",
-            New:'New',
-            Completiondate:"Completion date",
-            Submit:"Submit",
+            New: 'New',
+            Completiondate: "Completion date",
+            Submit: "Submit",
+            Recessedlights: "Recessed lights",
+
+            Pendantlights: "Pendant lights",
+            Findlocalprosandgetbids: "Find local pros and get bids",
+            Selectaservicetostart:"Select a service to start",
+            SelectaService:'Select a Service',
+
         }
     },
     {
@@ -719,9 +726,14 @@ export const languageData = [
             ConfirmChange: "确认变更",
             Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage: "我喜欢整栋房子装修（不到 10% 的人在图片上给出描述......",
             Remodel: "改造",
-            New:'新的',
-            Completiondate:"完成日期",
-            Submit:"提交",
+            New: '新的',
+            Completiondate: "完成日期",
+            Submit: "提交",
+            Recessedlights: "嵌入式灯",
+            Pendantlights: "吊灯",
+            Findlocalprosandgetbids: "寻找当地专业人士并获得出价",
+            Selectaservicetostart:"选择要启动的服务",
+            SelectaService:'选择服务',
 
         }
     },
@@ -1079,9 +1091,14 @@ export const languageData = [
             ConfirmChange: "Confirmar cambio",
             Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage: "Me gusta una renovación completa de la casa (menos del 10% de las personas dan una descripción en la imagen...",
             Remodel: "Remodelar",
-            New:'Nueva',
-            Completiondate:"Fecha de Terminación",
-            Submit:"Entregar",
+            New: 'Nueva',
+            Completiondate: "Fecha de Terminación",
+            Submit: "Entregar",
+            Recessedlights: "Luces empotradas",
+            Pendantlights: "Luces colgantes",
+            Findlocalprosandgetbids: "Encuentre profesionales locales y obtenga ofertas",
+            Selectaservicetostart:"Seleccione un servicio para comenzar",
+            SelectaService:'Seleccione un servicio',
         }
     }
 ];

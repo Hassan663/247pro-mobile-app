@@ -5,8 +5,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import Feather from "react-native-vector-icons/Feather"
+import { RFPercentage } from 'react-native-responsive-fontsize';
+
 import Colors from '../../styles/colors';
 import { centralStyle } from '../../styles/constant.style';
 

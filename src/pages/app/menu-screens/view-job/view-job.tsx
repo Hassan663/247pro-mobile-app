@@ -22,11 +22,12 @@ import AppHeader from '../../../../core/components/app-headers';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './view-job.style';
 import { platform } from '../../../../utilities';
+import { openSheet } from '../../../../store/action/action';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-// import { DropDownModal } from '../../../../core/components/drop-down-modal';
-import { DROPDOWNDATA, INFORMATIONDATA, MOREOPTIONSDATA } from './data';
+import { HireInputSheet } from '../bidder-detail/bidder-detail-component';
+import { INFORMATIONDATA, MOREOPTIONSDATA } from './data';
 import {
     BidderList,
     DropDownModal,
@@ -34,9 +35,6 @@ import {
     dotIconWithOutCallback,
     uploadIcon
 } from './view-job-component';
-import { HireInputSheet } from '../bidder-detail/bidder-detail-component';
-import { openSheet } from '../../../../store/action/action';
-// import { DropDownModal } from '../pro-finder/pro-finder-component';
 
 const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 

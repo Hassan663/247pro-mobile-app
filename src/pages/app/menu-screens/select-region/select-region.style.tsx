@@ -19,7 +19,6 @@ export const styles = StyleSheet.create({
     },
     selectRegionContainer: {
         minHeight: RFPercentage(5),
-        backgroundColor: "red",
         borderWidth: 1,
         borderColor: Colors.lightGrey
     },

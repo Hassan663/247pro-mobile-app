@@ -68,7 +68,8 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                         iconR1={
                             <AntDesign
                                 name={`plus`}
-                                color={Colors.black}
+                                color={Colors.black}   
+                                 onPress={()=>changeRoute(navigation,'PostAJob')}
                                 style={centralStyle.mx2}
                                 size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
                         type='Poppin-18'
