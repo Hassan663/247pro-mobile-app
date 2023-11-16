@@ -7,6 +7,7 @@ import {
     FlatList,
     View,
     SafeAreaView,
+    GestureResponderEvent,
 } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -22,24 +23,35 @@ import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { DropDownModal } from '../../../../core/components/drop-down-modal';
+// import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import { DROPDOWNDATA, INFORMATIONDATA, MOREOPTIONSDATA } from './data';
 import {
     BidderList,
+    DropDownModal,
     Row,
     dotIconWithOutCallback,
     uploadIcon
 } from './view-job-component';
+// import { DropDownModal } from '../pro-finder/pro-finder-component';
 
 const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [bidderAvailable, setBidderAvailable] = useState(false)
+    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
     const [openInfo, setopenInfo] = useState(false)
 
     const backIcon = <AntDesign onPress={() => changeRoute(navigation, 'pop')} style={centralStyle.mx2} name={'left'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
     const downIcon = <AntDesign onPress={() => { setopenInfo(!openInfo) }} name={openInfo ? 'down' : "up"} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
     const dotIcon = <Entypo onPress={() => setmodalEnabled(true)} style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
+
+
+
+    const handlePress = (event: GestureResponderEvent) => {
+        const { pageX, pageY } = event.nativeEvent;
+        setCoordinates({ x: pageX, y: pageY });
+        setmodalEnabled(!modalEnabled);
+    };
 
     return (
         <>
@@ -55,10 +67,10 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
                     {modalEnabled && <DropDownModal
                         DATA={MOREOPTIONSDATA}
-                        navigation={navigation}
-                        editCallback={() => { changeRoute(navigation, 'EditJob') }}
-                        viewCallback={() => { changeRoute(navigation, 'ViewJob') }}
-                        disableModal={() => setmodalEnabled(!modalEnabled)} />}
+                        modalEnabled={modalEnabled}
+                        viewCallback={() => changeRoute(navigation, `BidderDetail`)}
+                        disableModal={() => setmodalEnabled(!modalEnabled)}
+                        coordinates={coordinates} />}
 
                     <View style={[styles.jobInfoHeader, centralStyle.px2, centralStyle.row, centralStyle.alignitemCenter, centralStyle.justifyContentBetween]}>
                         <Title
@@ -79,7 +91,7 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                             data={INFORMATIONDATA}
                                             contentContainerStyle={centralStyle.mt1}
                                             showsVerticalScrollIndicator={false}
-                                            renderItem={({ item }) => (<Row {...item} />)}
+                                            renderItem={({ item }) => (<Row  {...item} />)}
                                             keyExtractor={(item, index) => index.toString()}
                                         />
                                         <Title
@@ -108,7 +120,7 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
                                 {bidderAvailable ?
                                     <View style={[centralStyle.XAndYCenter, centralStyle.flex1]}>
-                                        < Title
+                                        <Title
                                             title={t(`Nobidderyet`)}
                                             type='Poppin-18'
                                             weight='600'
@@ -121,7 +133,10 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                             <FlatList
                                                 data={[0, 0, 0, 0, 0, 0, 0]}
                                                 showsVerticalScrollIndicator={false}
-                                                renderItem={({ item }) => (<BidderList navigation={navigation} dotIconWithOutCallback={dotIconWithOutCallback} />)}
+                                                renderItem={({ item }) => (<BidderList
+                                                    callBack={handlePress}
+                                                    navigation={navigation}
+                                                    dotIconWithOutCallback={dotIconWithOutCallback} />)}
                                                 keyExtractor={(item, index) => index.toString()}
                                             />
                                         </View>

@@ -4,6 +4,7 @@ import {
     Image,
     TouchableOpacity,
     View,
+    Modal
 } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -41,7 +42,7 @@ export const Row: React.FC<{ title: string, value: string }> = ({ title, value }
         </View>
     );
 };
-export const BidderList = ({ navigation, dotIconWithOutCallback }: any) => {
+export const BidderList = ({ navigation, callBack, dotIconWithOutCallback }: any) => {
     return (
         <TouchableOpacity
             activeOpacity={.8}
@@ -67,9 +68,12 @@ export const BidderList = ({ navigation, dotIconWithOutCallback }: any) => {
                         />
                     </View>
                 </View>
-                <View style={[centralStyle.flex1, centralStyle.XAndYCenter]}>
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={callBack}
+                    style={[centralStyle.flex1, centralStyle.XAndYCenter]}>
                     {dotIconWithOutCallback}
-                </View>
+                </TouchableOpacity>
             </View>
             <View style={[centralStyle.row, centralStyle.px2, centralStyle.alignitemCenter, centralStyle.justifyContentBetween,]}>
                 <View style={[centralStyle.row]}>
@@ -118,3 +122,60 @@ export const uploadIcon = (
         name={`upload`}
         size={RFPercentage(2)} />
 )
+
+
+export const DropDownModal: React.FC<{
+    disableModal?: any,
+    viewCallback?: any,
+    coordinates?: any,
+    modalEnabled: boolean,
+    DATA?: any
+}> = ({
+    disableModal,
+    viewCallback,
+    DATA,
+    modalEnabled,
+    coordinates,
+}) => {
+        const dropDownCallBack = (item: string) => {
+            disableModal()
+            if (item == t("View")) viewCallback()
+        }
+
+        return (
+            <Modal
+                animationType='fade'
+                transparent={true}
+                visible={modalEnabled}
+                onRequestClose={() => { disableModal() }}
+            >
+                <TouchableOpacity
+                    activeOpacity={.9}
+                    onPress={() => { disableModal() }}
+                    style={styles.modalContainerAbs}>
+                    <TouchableOpacity
+                        activeOpacity={.9}
+                        onPress={() => { disableModal() }}
+                        style={styles.modalContainer(coordinates)}>
+                        {DATA?.map((item: string, index: number) => {
+                            return (
+                                <TouchableOpacity
+                                    key={index.toString()}
+                                    onPress={() => dropDownCallBack(item)}
+                                    activeOpacity={.8}
+                                    style={[centralStyle.my05,]}>
+                                    <Title
+                                        title={item}
+                                        weight='400'
+                                        color={Colors.fontColor}
+                                        type='Poppin-14' />
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </TouchableOpacity>
+                </TouchableOpacity >
+            </Modal>
+
+        );
+    };
+

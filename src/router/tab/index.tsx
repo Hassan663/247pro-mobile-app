@@ -33,6 +33,7 @@ import EditJob from '../../pages/app/menu-screens/edit-job/edit-job';
 import EditJobContactInfo from '../../pages/app/menu-screens/edit-job-contact-info/edit-job-contact-info';
 import ViewJob from '../../pages/app/menu-screens/view-job/view-job';
 import BidderDetail from '../../pages/app/menu-screens/bidder-detail/bidder-detail';
+import PostAJob from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,7 @@ export default function appNavigation() {
         <Stack.Screen name="EditJob" component={EditJob} />
         <Stack.Screen name="AppTabs" component={AppTabs} />
         <Stack.Screen name="ShareQR" component={ShareQR} />
+        <Stack.Screen name="PostAJob" component={PostAJob} />
         <Stack.Screen name="ProFinder" component={ProFinder} />
         <Stack.Screen name="NewContact" component={NewContact} />
         <Stack.Screen name="NewCompany" component={NewCompany} />
