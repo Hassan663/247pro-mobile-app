@@ -365,7 +365,8 @@ export const languageData = [
             Findlocalprosandgetbids: "Find local pros and get bids",
             Selectaservicetostart:"Select a service to start",
             SelectaService:'Select a Service',
-
+            DefineANewService:"Define A New Service",
+            Add:"Add",
         }
     },
     {
@@ -734,6 +735,8 @@ export const languageData = [
             Findlocalprosandgetbids: "寻找当地专业人士并获得出价",
             Selectaservicetostart:"选择要启动的服务",
             SelectaService:'选择服务',
+            DefineANewService:"定义新服务",
+            Add:"添加",
 
         }
     },
@@ -1099,6 +1102,8 @@ export const languageData = [
             Findlocalprosandgetbids: "Encuentre profesionales locales y obtenga ofertas",
             Selectaservicetostart:"Seleccione un servicio para comenzar",
             SelectaService:'Seleccione un servicio', 
+            DefineANewService:"Definir un nuevo servicio",
+            Add:"Agregar",
         }
     }
 ];

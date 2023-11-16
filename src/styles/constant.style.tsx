@@ -143,6 +143,9 @@ export const centralStyle = StyleSheet.create<any>({
     my4: {
         marginVertical: RFPercentage(4)
     },
+    my10: {
+        marginVertical: RFPercentage(10)
+    },
     mb3: {
         marginBottom: RFPercentage(3)
     },
@@ -172,6 +175,12 @@ export const centralStyle = StyleSheet.create<any>({
     },
     mt7: {
         marginTop: RFPercentage(7)
+    },
+    mt8: {
+        marginTop: RFPercentage(8)
+    },
+    mt10: {
+        marginTop: RFPercentage(10)
     },
     mt2: {
         marginTop: RFPercentage(2)

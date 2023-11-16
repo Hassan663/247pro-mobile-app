@@ -5,6 +5,7 @@ import {
     FlatList,
     TextInput,
     SafeAreaView,
+    TouchableOpacity
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -32,7 +33,7 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         setSearchVal(text)
         search(text, jobTitleData, setjobTitleData, JOBTITLE)
     }
-     return (
+    return (
         <>
             <SafeAreaView style={styles.container}>
                 <KeyboardAwareScrollView>
@@ -112,22 +113,30 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                         type='Poppin-14'
                                         color={Colors.black}
                                         weight='600' />
-                                    <Title
-                                        title={`+ CREATE “${searchVal}” AS NEW SERVICE`}
-                                        type='Poppin-14'
-                                        color={Colors.primary}
-                                        weight='600' />
+                                    <TouchableOpacity activeOpacity={0.8} onPress={() => changeRoute(navigation, 'AddNewJob')}>
+                                        <Title
+                                            title={`+ CREATE “${searchVal}” AS NEW SERVICE`}
+                                            type='Poppin-14'
+                                            color={Colors.primary}
+                                            weight='600' />
+                                    </TouchableOpacity>
                                 </>
                                 :
                                 <FlatList
                                     data={jobTitleData}
                                     renderItem={({ item }) => (
-                                        <View style={centralStyle.my1}>
+                                        <View style={[centralStyle.my1, centralStyle.row, centralStyle.justifyContentBetween, centralStyle.alignitemCenter,]}>
                                             <Title
                                                 title={item.name}
                                                 type='Poppin-16'
                                                 color={Colors.black}
                                                 weight='500' />
+                                            {item.isEditable &&
+                                                <AntDesign
+                                                    size={RFPercentage(3)}
+                                                    name='edit'
+                                                    color={Colors.fontColor} />
+                                            }
                                         </View>
                                     )}
                                     keyExtractor={(item, index) => index.toString()}
