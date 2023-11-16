@@ -6,13 +6,17 @@ import {
     View,
 } from 'react-native';
 
-import Colors from '../../../../styles/colors';
-import { styles } from './view-job.style';
-import { Title } from '../../../../core/components/screen-title.component';
-import { centralStyle } from '../../../../styles/constant.style';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { t } from 'i18next';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+
+import Colors from '../../../../styles/colors';
+import { Title } from '../../../../core/components/screen-title.component';
+import { styles } from './view-job.style';
+import { platform } from '../../../../utilities';
+import { changeRoute } from '../../../../core/helpers/async-storage';
+import { centralStyle } from '../../../../styles/constant.style';
 
 export const Row: React.FC<{ title: string, value: string }> = ({ title, value }) => {
     return (
@@ -100,3 +104,17 @@ export const BidderList = ({ navigation, dotIconWithOutCallback }: any) => {
         </TouchableOpacity>
     )
 }
+export const dotIconWithOutCallback = (
+    <Entypo
+        style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2}
+        color={Colors.black}
+        name={`dots-three-vertical`}
+        size={RFPercentage(2)} />
+)
+export const uploadIcon = (
+    <AntDesign
+        style={platform == 'ios' ? centralStyle.mx02 : centralStyle.mx2}
+        color={Colors.black}
+        name={`upload`}
+        size={RFPercentage(2)} />
+)

@@ -353,7 +353,10 @@ export const languageData = [
             DeleteJob: "Delete Job",
             Areyousureyouwanttodeletethisjob: "Are you sure you want to delete this job?",
             Areyousuretocreateaprojectfothispostedjob: "Are you sure to create a project fo this posted job?",
-            ConfirmChange:"Confirm Change",
+            ConfirmChange: "Confirm Change",
+            Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage: "I likea whole house renovation (less than 10% people give description on image...",
+            Remodel: "Remodel",
+            New:'New',
         }
     },
     {
@@ -711,7 +714,10 @@ export const languageData = [
             DeleteJob: "删除作业",
             Areyousureyouwanttodeletethisjob: "您确定要删除此职位吗？",
             Areyousuretocreateaprojectfothispostedjob: "您确定要为此发布的职位创建项目吗？",
-            ConfirmChange:"确认变更",
+            ConfirmChange: "确认变更",
+            Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage: "我喜欢整栋房子装修（不到 10% 的人在图片上给出描述......",
+            Remodel: "改造",
+            New:'新的',
 
         }
     },
@@ -1066,7 +1072,10 @@ export const languageData = [
             DeleteJob: "Eliminar trabajo",
             Areyousureyouwanttodeletethisjob: "¿Estás segura de que quieres eliminar este trabajo?",
             Areyousuretocreateaprojectfothispostedjob: "¿Estás segura de crear un proyecto para este trabajo publicado?",
-            ConfirmChange:"Confirmar cambio",
+            ConfirmChange: "Confirmar cambio",
+            Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage: "Me gusta una renovación completa de la casa (menos del 10% de las personas dan una descripción en la imagen...",
+            Remodel: "Remodelar",
+            New:'Nueva',
         }
     }
 ];

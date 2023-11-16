@@ -8,19 +8,20 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { t } from 'i18next';
 
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './bidder-detail.style';
 import { TAGDATA } from './data';
+import { platform } from '../../../../utilities';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import { centralStyle } from '../../../../styles/constant.style';
 import {
     handleBlur,
     handleFocus
 } from '../../contact-screens/edit-company/call-back';
-import { platform } from '../../../../utilities';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export const Row: React.FC<{ title: string, value: string }> = ({ title, value }) => {
     return (
@@ -137,7 +138,7 @@ export const BidderUI = (setfullImg: any) => {
                     </View>
                 </View>
                 <Title
-                    title={`I likea whole house renovation (less than 10% people give description on image...`}
+                    title={t(`Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage`)}
                     type='Poppin-12'
                     weight='400'
                     color={Colors.fontColor}

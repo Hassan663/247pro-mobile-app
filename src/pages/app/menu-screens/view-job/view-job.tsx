@@ -26,7 +26,9 @@ import { DropDownModal } from '../../../../core/components/drop-down-modal';
 import { INFORMATIONDATA } from './data';
 import {
     BidderList,
-    Row
+    Row,
+    dotIconWithOutCallback,
+    uploadIcon
 } from './view-job-component';
 
 const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
@@ -38,9 +40,6 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const backIcon = <AntDesign onPress={() => changeRoute(navigation, 'pop')} style={centralStyle.mx2} name={'left'} color={Colors.black} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
     const downIcon = <AntDesign onPress={() => { setopenInfo(!openInfo) }} name={openInfo ? 'down' : "up"} color={Colors.black} size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
     const dotIcon = <Entypo onPress={() => setmodalEnabled(true)} style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
-    const dotIconWithOutCallback = <Entypo style={platform == 'ios' ? centralStyle.mx1 : centralStyle.mx2} color={Colors.black} name={`dots-three-vertical`} size={RFPercentage(2)} />
-    const uploadIcon = <AntDesign style={platform == 'ios' ? centralStyle.mx02 : centralStyle.mx2} color={Colors.black} name={`upload`} size={RFPercentage(2)} />
-
 
     return (
         <>
@@ -127,13 +126,10 @@ const ViewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                             />
                                         </View>
                                     </View>
-
                                 }
+
                                 <View style={styles.btnContainer}>
-                                    <Button
-                                        title={t(`Inviteprostobid`)}
-                                        primary
-                                    />
+                                    <Button title={t(`Inviteprostobid`)} primary />
                                 </View>
                             </View>
                         </ScrollView>

@@ -11,4 +11,4 @@ export const INFORMATIONDATA = [
     { title: t(`company`) + ':', value: 'Gold Textile PVT. (Ltd.)' },
     { title: 'Cost:', value: '$42,334.00' },
 ]
-export const TAGDATA=[`Remodel`, 'New', 'New', 'New'];
+export const TAGDATA = [t(`Remodel`), t('New'), t('New'), t('New')];
