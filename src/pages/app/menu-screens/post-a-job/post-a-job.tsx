@@ -16,7 +16,7 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import { step } from './post-a-job-component';
 import { Title } from '../../../../core/components/screen-title.component';
-import { search } from '../company-profile-screens/edit-company-profile/call-back';
+import { search } from './call-back';
 import { styles } from './post-a-job.style';
 import { JOBTITLE } from './data';
 import { platform } from '../../../../utilities';
@@ -32,8 +32,7 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         setSearchVal(text)
         search(text, jobTitleData, setjobTitleData, JOBTITLE)
     }
-
-    return (
+     return (
         <>
             <SafeAreaView style={styles.container}>
                 <KeyboardAwareScrollView>
@@ -106,19 +105,34 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     name='close'
                                     color={Colors.fontColor} />}
                             </View>
-                            <FlatList
-                                data={jobTitleData}
-                                renderItem={({ item }) => (
-                                    <View style={centralStyle.my1}>
-                                        <Title
-                                            title={item}
-                                            type='Poppin-16'
-                                            color={Colors.black}
-                                            weight='500' />
-                                    </View>
-                                )}
-                                keyExtractor={(item, index) => index.toString()}
-                            />
+                            {jobTitleData.length == 0 ?
+                                <>
+                                    <Title
+                                        title={t(`Norecordfound`)}
+                                        type='Poppin-14'
+                                        color={Colors.black}
+                                        weight='600' />
+                                    <Title
+                                        title={`+ CREATE “${searchVal}” AS NEW SERVICE`}
+                                        type='Poppin-14'
+                                        color={Colors.primary}
+                                        weight='600' />
+                                </>
+                                :
+                                <FlatList
+                                    data={jobTitleData}
+                                    renderItem={({ item }) => (
+                                        <View style={centralStyle.my1}>
+                                            <Title
+                                                title={item.name}
+                                                type='Poppin-16'
+                                                color={Colors.black}
+                                                weight='500' />
+                                        </View>
+                                    )}
+                                    keyExtractor={(item, index) => index.toString()}
+                                />
+                            }
                         </View>
                     </View>
                 </KeyboardAwareScrollView>

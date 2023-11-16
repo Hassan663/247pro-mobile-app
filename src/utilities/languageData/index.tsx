@@ -477,7 +477,7 @@ export const languageData = [
             Setmatchingcriteriasforjobopportunities: "设定工作机会的匹配标准",
             Theindustriesyouwillreceivejobleadsfrom: "您将收到工作机会的行业",
             IndustryPreferences: "行业偏好",
-            Norecordfound: "行业偏好",
+            Norecordfound: "没有找到记录",
             CREATEABCINDUSTRY: "打造“ABC”产业",
             BusinessCard: "名片",
             AddNewCart: "添加新购物车",
@@ -1098,7 +1098,7 @@ export const languageData = [
             Pendantlights: "Luces colgantes",
             Findlocalprosandgetbids: "Encuentre profesionales locales y obtenga ofertas",
             Selectaservicetostart:"Seleccione un servicio para comenzar",
-            SelectaService:'Seleccione un servicio',
+            SelectaService:'Seleccione un servicio', 
         }
     }
 ];
