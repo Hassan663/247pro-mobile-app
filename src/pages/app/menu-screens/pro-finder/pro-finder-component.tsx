@@ -15,11 +15,9 @@ import Button from '../../../../core/components/button.component';
 import { t } from 'i18next';
 import { Title } from "../../../../core/components/screen-title.component"
 import { styles } from './pro-finder.style';
-import { openSheet } from '../../../../store/action/action';
+import { onShare } from '../company-profile-screens/company-profile/call-back';
 import { centralStyle } from "../../../../styles/constant.style"
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { onShare } from '../company-profile-screens/company-profile/call-back';
 
 export const Status = () => {
 
@@ -90,10 +88,10 @@ export const Status = () => {
     )
 }
 
-export const List = ({ sheetRef, callBack }: any) => {
+export const List = ({ viewJobCallBack, callBack }: any) => {
     return (
         <TouchableOpacity
-            onPress={() => { openSheet(sheetRef) }}
+            onPress={viewJobCallBack}
             style={styles.listContainer} >
             <View style={[centralStyle.row, centralStyle.flex1, styles.jobContainerHeader]}>
                 <Title
@@ -137,60 +135,70 @@ export const List = ({ sheetRef, callBack }: any) => {
     )
 }
 
-export const DropDownModal: React.FC<{ disableModal?: any, deleteCallback: any, coordinates?: any, modalEnabled: boolean, viewCallback?: any, editCallback?: any, navigation?: any, DATA?: any }> = ({ disableModal, editCallback, navigation, DATA, viewCallback, modalEnabled, coordinates, deleteCallback }) => {
-    return (
-        <Modal
-            animationType='fade'
-            transparent={true}
-            visible={modalEnabled}
-            onRequestClose={() => { disableModal() }}
-        >
-            <TouchableOpacity
-                activeOpacity={.9}
-                onPress={() => { disableModal() }}
-                style={styles.modalContainerAbs}>
+export const DropDownModal: React.FC<{
+    disableModal?: any,
+    deleteCallback: any,
+    coordinates?: any,
+    convertProjectCallback?: any,
+    statusCallback?: any,
+    modalEnabled: boolean,
+    viewCallback?: any,
+    editCallback?: any,
+    DATA?: any
+}> = ({ disableModal,
+    editCallback,
+    DATA,
+    statusCallback,
+    viewCallback,
+    convertProjectCallback,
+    modalEnabled,
+    coordinates,
+    deleteCallback }) => {
+
+        const dropDownCallBack = (item: string) => {
+            disableModal()
+            if (item == t("Edit")) editCallback()
+            else if (item == t("Share")) onShare()
+            else if (item == t("View")) viewCallback()
+            else if (item == t('ChangeStatus')) statusCallback()
+            else if (item == t('Converttoproject')) convertProjectCallback()
+            else if (item == t("Delete")) deleteCallback()
+        }
+
+        return (
+            <Modal
+                animationType='fade'
+                transparent={true}
+                visible={modalEnabled}
+                onRequestClose={() => { disableModal() }}
+            >
                 <TouchableOpacity
                     activeOpacity={.9}
                     onPress={() => { disableModal() }}
-                    style={styles.modalContainer(coordinates)}>
+                    style={styles.modalContainerAbs}>
+                    <TouchableOpacity
+                        activeOpacity={.9}
+                        onPress={() => { disableModal() }}
+                        style={styles.modalContainer(coordinates)}>
+                        {DATA?.map((item: string, index: number) => {
+                            return (
+                                <TouchableOpacity
+                                    key={index.toString()}
+                                    onPress={() => dropDownCallBack(item)}
+                                    activeOpacity={.8}
+                                    style={[centralStyle.my05,]}>
+                                    <Title
+                                        title={item}
+                                        weight='400'
+                                        color={Colors.fontColor}
+                                        type='Poppin-14' />
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </TouchableOpacity>
+                </TouchableOpacity >
+            </Modal>
 
-                    {DATA?.map((item: string, index: number) => {
-                        return (
-                            <TouchableOpacity
-                                key={index.toString()}
-                                onPress={() => {
-                                    if (item == t("Edit") || item == t('AddNewCart')) {
-                                        disableModal()
-                                        if (editCallback) editCallback()
-                                    } else if (item == t("Share")) {
-                                        disableModal()
-                                        onShare()
-                                    }
-                                    else if (item == t("View")) {
-                                        viewCallback()
-                                    }
-                                    else if (item == t("Delete")) {
-                                        disableModal()
-                                        deleteCallback()
-                                    }
-                                }}
-                                activeOpacity={.8}
-                                style={[centralStyle.my05,]}>
-                                <Title
-                                    title={item}
-                                    weight='400'
-                                    color={Colors.fontColor}
-                                    type='Poppin-14' />
-                            </TouchableOpacity>
-
-                        )
-                    })
-
-                    }
-                </TouchableOpacity>
-            </TouchableOpacity >
-        </Modal>
-
-    );
-};
+        );
+    };
 

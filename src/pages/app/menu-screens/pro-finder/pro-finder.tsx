@@ -36,9 +36,9 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
 
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [deleteEnabled, setdeleteEnabled] = useState<boolean>(false)
+    const [convertToProject, setConvertToProject] = useState<boolean>(false)
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
     const sheetRef = useRef<any>(null)
-
 
     const handlePress = (event: GestureResponderEvent) => {
         const { pageX, pageY } = event.nativeEvent;
@@ -46,6 +46,17 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
         setmodalEnabled(!modalEnabled);
     };
 
+    const dropDownCallBack = (routeName: string) => {
+        // setmodalEnabled(false)
+        changeRoute(navigation, routeName)
+    }
+
+    const dropDownSheetCallBack = (isDeleteSheetOpen: boolean, isconvertToProject?: boolean) => {
+        setdeleteEnabled(isDeleteSheetOpen)
+        if (isconvertToProject) setConvertToProject(isconvertToProject)
+        openSheet(sheetRef)
+
+    }
     return (
         <>
             <KeyboardAwareScrollView>
@@ -91,27 +102,22 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
 
                         {modalEnabled && <DropDownModal
                             DATA={DROPDOWNDATA}
-                            navigation={navigation}
                             coordinates={coordinates}
                             modalEnabled={modalEnabled}
-                            editCallback={() => {
-                                setmodalEnabled(!modalEnabled)
-                                changeRoute(navigation, 'EditJob')
+                            editCallback={() => { dropDownCallBack(`EditJob`) }}
+                            viewCallback={() => { dropDownCallBack(`ViewJob`) }}
+                            deleteCallback={() => { dropDownSheetCallBack(true) }}
+                            convertProjectCallback={() => {
+                                // setConvertToProject(true)
+                                dropDownSheetCallBack(false, true)
                             }}
-                            viewCallback={() => {
-                                setmodalEnabled(!modalEnabled)
-                                changeRoute(navigation, 'ViewJob')
-                            }}
-                            deleteCallback={() => {
-                                setdeleteEnabled(true)
-                                openSheet(sheetRef)
-                            }}
+                            statusCallback={() => { dropDownSheetCallBack(false) }}
                             disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                         <FlatList
                             showsVerticalScrollIndicator={false}
                             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]}
-                            renderItem={({ item }) => <List callBack={handlePress} sheetRef={sheetRef} />}
+                            renderItem={({ item }) => <List callBack={handlePress} viewJobCallBack={() => { dropDownCallBack(`ViewJob`) }} />}
                             keyExtractor={(item, index) => index.toString()}
                         />
 
@@ -123,20 +129,28 @@ const ProFinder: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                             openDuration={250}
                             animationType={`slide`}
                             customStyles={{
-                                container: { borderRadius: RFPercentage(2) },
+                                container: styles.sheetContainer,
                                 draggableIcon: styles.draggableIconstyle
                             }}
                         >
                             {deleteEnabled ?
                                 <DeleteJob
                                     sheetRef={sheetRef}
-                                    placeHolder={t(`deleteEntermessageOptional`)}
                                     title={t('DeleteJob')}
                                     value={t(`Areyousureyouwanttodeletethisjob`)}
                                     btnText={t(`Delete`)}
                                 />
                                 :
-                                <Status />
+                                convertToProject ?
+                                    <DeleteJob
+                                        sheetRef={sheetRef}
+                                        title={t('Convert to project')}
+                                        primaryBtn
+                                        value={t(`Areyousuretocreateaprojectfothispostedjob`)}
+                                        btnText={t(`ConfirmChange`)}
+                                    />
+                                    :
+                                    < Status />
                             }
                         </RBSheet>
                     </View>

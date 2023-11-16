@@ -118,7 +118,7 @@ export const styles = StyleSheet.create<any>({
     },
     deleteBtnContainer: {
         backgroundColor: Colors.errorColor,
-        height: RFPercentage(7),
+        height: RFPercentage(6),
         borderRadius: RFPercentage(1),
     },
     draggableIconstyle: {

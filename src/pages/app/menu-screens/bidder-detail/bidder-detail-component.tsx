@@ -80,7 +80,7 @@ export const HireInputSheet = ({ btnText, title, placeHolder }: any) => {
         </View>
     )
 }
-export const DeleteJob = ({ btnText, title, value }: any) => {
+export const DeleteJob = ({ btnText, title, primaryBtn, value }: any) => {
     return (
         <View
             style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
@@ -101,6 +101,7 @@ export const DeleteJob = ({ btnText, title, value }: any) => {
             <View style={centralStyle.width100}>
                 <Button
                     title={btnText}
+                    primary={primaryBtn ? true : false}
                     titleStyle={styles.btnTextStyle}
                     customStyle={[styles.deleteBtnContainer, centralStyle.XAndYCenter]}
                 />

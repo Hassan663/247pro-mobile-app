@@ -79,4 +79,5 @@ export const styles = StyleSheet.create<any>({
             ...positionStyle
         })
     },
+    sheetContainer: { borderTopRightRadius: RFPercentage(2), borderTopLeftRadius: RFPercentage(2) },
 });

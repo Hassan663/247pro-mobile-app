@@ -352,6 +352,8 @@ export const languageData = [
             deleteEntermessageOptional: "Enter message (optional)",
             DeleteJob: "Delete Job",
             Areyousureyouwanttodeletethisjob: "Are you sure you want to delete this job?",
+            Areyousuretocreateaprojectfothispostedjob: "Are you sure to create a project fo this posted job?",
+            ConfirmChange:"Confirm Change",
         }
     },
     {
@@ -708,6 +710,8 @@ export const languageData = [
             deleteEntermessageOptional: "输入消息（可选）",
             DeleteJob: "删除作业",
             Areyousureyouwanttodeletethisjob: "您确定要删除此职位吗？",
+            Areyousuretocreateaprojectfothispostedjob: "您确定要为此发布的职位创建项目吗？",
+            ConfirmChange:"确认变更",
 
         }
     },
@@ -1061,6 +1065,8 @@ export const languageData = [
             deleteEntermessageOptional: "Introducir mensaje (opcional)",
             DeleteJob: "Eliminar trabajo",
             Areyousureyouwanttodeletethisjob: "¿Estás segura de que quieres eliminar este trabajo?",
+            Areyousuretocreateaprojectfothispostedjob: "¿Estás segura de crear un proyecto para este trabajo publicado?",
+            ConfirmChange:"Confirmar cambio",
         }
     }
 ];
