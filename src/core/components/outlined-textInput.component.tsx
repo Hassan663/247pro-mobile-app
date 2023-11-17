@@ -55,7 +55,6 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
           <TextInput
             placeholder={isActive ? '' : placeHolder}
             value={inputVal}
-            // value={val ? val : inputVal}
             onFocus={handleFocus}
             editable={editable == false ? editable : true}
             multiline={multiLine || false}
@@ -65,7 +64,6 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
               setInputVal(text)
               if (onChange) { onChange(text) }
             }}
-            // secureTextEntry={open ? true : false}
             style={styles.input(false, isActive, inputVal)} />
           :
           <>
@@ -78,7 +76,6 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
                   editable={editable == false ? editable : true}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  // onChangeText={(val) => onChange && onChange(val)}
                   onChangeText={(text) => {
                     setInputVal(text)
                     if (onChange) { onChange(text) }

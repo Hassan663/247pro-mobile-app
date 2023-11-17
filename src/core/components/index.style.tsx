@@ -88,8 +88,6 @@ export const styles: any = StyleSheet.create<any>({
     input: (pass: boolean, isActive: boolean, inputVal: any) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
         borderRadius: 5,
-
-
         borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
         paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),

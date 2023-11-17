@@ -1,5 +1,5 @@
 // @app
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     FlatList,
@@ -33,6 +33,13 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         setSearchVal(text)
         search(text, jobTitleData, setjobTitleData, JOBTITLE)
     }
+    useEffect(() => {
+        if (route?.params?.serviceDetail) {
+            JOBTITLE.push({ isEditable: true, name: route?.params?.serviceDetail?.serviceName },)
+            setjobTitleData(jobTitleData)
+        }
+    }, [route?.params?.serviceDetail])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -113,7 +120,7 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                         type='Poppin-14'
                                         color={Colors.black}
                                         weight='600' />
-                                    <TouchableOpacity activeOpacity={0.8} onPress={() => changeRoute(navigation, 'AddNewJob')}>
+                                    <TouchableOpacity activeOpacity={0.8} onPress={() => changeRoute(navigation, 'AddNewJob', { serviceName: searchVal })}>
                                         <Title
                                             title={`+ CREATE “${searchVal}” AS NEW SERVICE`}
                                             type='Poppin-14'

@@ -367,6 +367,11 @@ export const languageData = [
             SelectaService:'Select a Service',
             DefineANewService:"Define A New Service",
             Add:"Add",
+            Servicename:"Service name",
+            Selectspecialtyrequired:"Select specialty required",
+            AddNewIndustry:"Add New Industry",
+            Enteranewspecialty:"Enter a new specialty",
+            Enteranewindustry:"Enter a new industry",
         }
     },
     {
@@ -737,6 +742,11 @@ export const languageData = [
             SelectaService:'选择服务',
             DefineANewService:"定义新服务",
             Add:"添加",
+            Servicename:"服务名称",
+            Selectspecialtyrequired:"选择需要的专业",
+            AddNewIndustry:"新增产业",
+            Enteranewspecialty:"输入新专业",
+            Enteranewindustry:"进入新行业",
 
         }
     },
@@ -1104,6 +1114,11 @@ export const languageData = [
             SelectaService:'Seleccione un servicio', 
             DefineANewService:"Definir un nuevo servicio",
             Add:"Agregar",
+            Servicename:"Nombre del Servicio",
+            Selectspecialtyrequired:"Seleccione la especialidad requerida",
+            AddNewIndustry:"Agregar nueva industria",
+            Enteranewspecialty:"Ingrese una nueva especialidad",
+            Enteranewindustry:"Ingrese a una nueva industria",
         }
     }
 ];

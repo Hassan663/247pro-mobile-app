@@ -14,18 +14,32 @@ import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
-import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import { styles } from './add-new-jobstyle';
+import { styles } from './add-new-job.style';
 import { platform } from '../../../../utilities';
-import { INDUSTRIES } from '../../../auth/buisness-questions/data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { DropDownBtn, ServiceAddModal } from './add-new-job-component';
 
-const AddNewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, }) => {
-    const [selectedIndustry, setselectedIndustry] = useState<string>('');
-    const [primarySpecialty, setprimarySpecialty] = useState<string>('');
+const AddNewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
+    const [specialtyEnabled, setspecialityEnabled] = useState<boolean>(true);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [industryValue, setindustryValue] = useState(t('Construction'));
+    const [specialityValue, setspecialityValue] = useState(t('Selectspecialtyrequired'));
 
+    let serviceName = route?.params?.serviceName
+
+    const showModal = (status?: boolean) => {
+        setModalVisible(true);
+        setspecialityEnabled(status ? status : false)
+    };
+
+    const hideModal = () => { setModalVisible(false); };
+    const obj = {
+        industryValue,
+        specialityValue,
+        serviceName
+    }
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -45,24 +59,16 @@ const AddNewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, }) =
                             resizeMode='contain'
                             style={[styles.iconStyle, centralStyle.my3]}
                             source={require('../../../../assets/app-images/addNewJobIcon.png')} />
-                        <OutlinedTextInput val='ABCDE' title={t('Service name')} placeHolder={t('Service name')} />
-
-                        <OutlinedDropDown
-                            title={t('Industry')}
-                            onselect={(value: string) => { setselectedIndustry(value) }}
-                            defaultValueByIndex={2}
-                            DATA={INDUSTRIES}
-                            drop_down_button_style={styles.drop_down_button_style}
-                        />
-                        <OutlinedDropDown
-                            title={t('Specialty')}
-                            defaultValueByIndex={1}
-                            onselect={(value: string) => { setprimarySpecialty(value) }}
-                            DATA={INDUSTRIES}
-                            drop_down_button_style={styles.drop_down_button_style}
-                        />
-
-                        <View style={[styles.btnContainer, centralStyle.row, centralStyle.mt10]}>
+                        <View style={centralStyle.my1}>
+                            <OutlinedTextInput val={serviceName} editable={false} title={t('Servicename')} placeHolder={t('Servicename')} />
+                        </View>
+                        <View style={centralStyle.my1}>
+                            <DropDownBtn callBack={() => showModal()} title={t(`industry`)} value={industryValue} navigation={navigation} />
+                        </View>
+                        <View style={centralStyle.my1}>
+                            <DropDownBtn callBack={() => showModal(true)} title={t(`Specialty`)} value={specialityValue} navigation={navigation} />
+                        </View>
+                        <View style={[styles.btnContainer, centralStyle.row, centralStyle.my10]}>
                             <View style={[centralStyle.flex1, centralStyle.mx1]}>
                                 <Button
                                     title={t(`Cancel`)}
@@ -73,13 +79,22 @@ const AddNewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, }) =
                             <View style={[centralStyle.flex1, centralStyle.mx1]}>
                                 <Button
                                     title={t(`Add`)}
+                                    callBack={() => changeRoute(navigation, 'PostAJob', { serviceDetail: obj })}
                                     primary
                                 />
                             </View>
                         </View>
                     </View>
+                    <ServiceAddModal
+                        callBack={(val: string) => specialtyEnabled ? setspecialityValue(val) : setindustryValue(val)}
+                        title={specialtyEnabled ? t(`AddNewSpecialty`) : t(`AddNewIndustry`)}
+                        inputValue={specialtyEnabled ? specialityValue : industryValue}
+                        inputTitle={specialtyEnabled ? t(`Enteranewspecialty`) : t('Enteranewindustry')}
+                        isVisible={modalVisible}
+                        onClose={hideModal} />
+
                 </KeyboardAwareScrollView>
-            </SafeAreaView>
+            </SafeAreaView >
 
         </>
     );
