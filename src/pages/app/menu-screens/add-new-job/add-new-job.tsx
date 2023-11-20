@@ -79,7 +79,7 @@ const AddNewJob: React.FC<{ navigation: any, route: any }> = ({ navigation, rout
                             <View style={[centralStyle.flex1, centralStyle.mx1]}>
                                 <Button
                                     title={t(`Add`)}
-                                    callBack={() => changeRoute(navigation, 'PostAJob', { serviceDetail: obj })}
+                                    callBack={() => changeRoute(navigation, 'PostAJobDescribeScope', { serviceDetail: obj })}
                                     primary
                                 />
                             </View>

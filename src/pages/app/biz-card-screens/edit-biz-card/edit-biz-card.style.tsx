@@ -161,5 +161,6 @@ export const styles: any = StyleSheet.create<any>({
         height: 50,
         paddingHorizontal: RFPercentage(2),
         justifyContent: "center"
-    }
+    },
+    
 });

@@ -372,6 +372,13 @@ export const languageData = [
             AddNewIndustry:"Add New Industry",
             Enteranewspecialty:"Enter a new specialty",
             Enteranewindustry:"Enter a new industry",
+            DescribeScope:"Describe Scope",
+            FindlocalprosandgetbidsforKitchenremodelforasinglefamilyhome:"Find local pros and get bids for Kitchen remodel for a single family home",
+            Enterjobdescription:"Enter job description",
+            Pdfwordexceljpgandpngimagefilesallowedmax50MB:"Pdf, word. excel, jpg and png image files allowed, max 50MB",
+            Browse :"Browse",
+            fromdevice:"from device",
+
         }
     },
     {
@@ -747,6 +754,12 @@ export const languageData = [
             AddNewIndustry:"新增产业",
             Enteranewspecialty:"输入新专业",
             Enteranewindustry:"进入新行业",
+            DescribeScope:"描述范围",
+            FindlocalprosandgetbidsforKitchenremodelforasinglefamilyhome:"寻找当地专业人士并获得单户住宅厨房改造的投标",
+            Enterjobdescription:"输入职位描述",
+            Pdfwordexceljpgandpngimagefilesallowedmax50MB:"pdf、字。 允许 excel、jpg 和 png 图像文件，最大 50MB",
+            Browse :"浏览",
+            fromdevice:"从设备",
 
         }
     },
@@ -1119,6 +1132,12 @@ export const languageData = [
             AddNewIndustry:"Agregar nueva industria",
             Enteranewspecialty:"Ingrese una nueva especialidad",
             Enteranewindustry:"Ingrese a una nueva industria",
+            DescribeScope:"Describir el alcance",
+            FindlocalprosandgetbidsforKitchenremodelforasinglefamilyhome:"Encuentre profesionales locales y obtenga ofertas para remodelar la cocina de una casa unifamiliar",
+            Enterjobdescription:"Ingrese la descripción del trabajo",
+            Pdfwordexceljpgandpngimagefilesallowedmax50MB:"Pdf, palabra. Se permiten archivos de imagen excel, jpg y png, máximo 50 MB",
+            Browse :"Navegar",
+            fromdevice:"desde el dispositivo",
         }
     }
 ];

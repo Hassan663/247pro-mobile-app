@@ -35,6 +35,8 @@ import ViewJob from '../../pages/app/menu-screens/view-job/view-job';
 import BidderDetail from '../../pages/app/menu-screens/bidder-detail/bidder-detail';
 import PostAJob from '../../pages/app/menu-screens/post-a-job/post-a-job';
 import AddNewJob from '../../pages/app/menu-screens/add-new-job/add-new-job';
+import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job-describe-scope/post-a-job-describe-scope';
+// import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
 
@@ -73,6 +75,7 @@ export default function appNavigation() {
         <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
         <Stack.Screen name="AccountInformtaion" component={AccountInformtaion} />
         <Stack.Screen name="CountryAndLanguage" component={CountryAndLanguage} />
+        <Stack.Screen name="PostAJobDescribeScope" component={PostAJobDescribeScope} />
         <Stack.Screen name="AccountInformtaionCard" component={AccountInformtaionCard} />
         <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />
         <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />

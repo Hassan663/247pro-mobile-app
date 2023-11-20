@@ -132,7 +132,10 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                 <FlatList
                                     data={jobTitleData}
                                     renderItem={({ item }) => (
-                                        <View style={[centralStyle.my1, centralStyle.row, centralStyle.justifyContentBetween, centralStyle.alignitemCenter,]}>
+                                        <TouchableOpacity
+                                            activeOpacity={0.8}
+                                            onPress={() => { changeRoute(navigation, 'PostAJobDescribeScope') }}
+                                            style={[centralStyle.my1, centralStyle.row, centralStyle.justifyContentBetween, centralStyle.alignitemCenter,]}>
                                             <Title
                                                 title={item.name}
                                                 type='Poppin-16'
@@ -144,7 +147,7 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                                     name='edit'
                                                     color={Colors.fontColor} />
                                             }
-                                        </View>
+                                        </TouchableOpacity>
                                     )}
                                     keyExtractor={(item, index) => index.toString()}
                                 />
