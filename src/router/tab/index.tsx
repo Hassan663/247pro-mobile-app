@@ -36,6 +36,8 @@ import BidderDetail from '../../pages/app/menu-screens/bidder-detail/bidder-deta
 import PostAJob from '../../pages/app/menu-screens/post-a-job/post-a-job';
 import AddNewJob from '../../pages/app/menu-screens/add-new-job/add-new-job';
 import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job-describe-scope/post-a-job-describe-scope';
+import PostAJobMatchPro from '../../pages/app/menu-screens/post-a-job-match-pro/post-a-job-match-pro';
+import SuccessfullyPosted from '../../pages/app/menu-screens/successfully-posted/successfully-posted';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
@@ -69,12 +71,14 @@ export default function appNavigation() {
         <Stack.Screen name="SelectLanguage" component={SelectLanguage} />
         <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
         <Stack.Screen name="AccountSetting" component={AccountSetting} />
+        <Stack.Screen name="PostAJobMatchPro" component={PostAJobMatchPro} />
         <Stack.Screen name="ApplicationOrder" component={ApplicationOrder} />
         <Stack.Screen name="EditJobContactInfo" component={EditJobContactInfo} />
         <Stack.Screen name="ConnectionRequests" component={ConnectionRequests} />
         <Stack.Screen name="EditCompanyProfile" component={EditCompanyProfile} />
         <Stack.Screen name="AccountInformtaion" component={AccountInformtaion} />
         <Stack.Screen name="CountryAndLanguage" component={CountryAndLanguage} />
+        <Stack.Screen name="SuccessfullyPosted" component={SuccessfullyPosted} />
         <Stack.Screen name="PostAJobDescribeScope" component={PostAJobDescribeScope} />
         <Stack.Screen name="AccountInformtaionCard" component={AccountInformtaionCard} />
         <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />

@@ -12,6 +12,7 @@ const Colors = {
     errorColor: '#B00020',
     inputBgColor: '#FAFAFA',
     browsBgColor: "#F7F7F7",
+    success: "#27AE60",
     blue: '#3A64F8',
 };
 

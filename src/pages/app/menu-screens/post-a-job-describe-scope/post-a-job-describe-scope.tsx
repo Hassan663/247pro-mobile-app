@@ -183,7 +183,7 @@ const PostAJobDescribeScope: React.FC<{ navigation: any, }> = ({ navigation, }) 
                             </View>
                             <View style={[centralStyle.row, styles.browsContainer, centralStyle.p1p5, centralStyle.width80]}>
                                 <Title
-                                    title={t(`Browse`)}
+                                    title={t(`Browse`) + " "}
                                     type='Poppin-12'
                                     color={Colors.blue}
                                     weight='400' />
@@ -194,7 +194,10 @@ const PostAJobDescribeScope: React.FC<{ navigation: any, }> = ({ navigation, }) 
                                     weight='400' />
                             </View>
                             <View style={[centralStyle.my2, centralStyle.mt10]}>
-                                <Button title={t('Continue')} primary />
+                                <Button
+                                    callBack={() => changeRoute(navigation, 'PostAJobMatchPro')}
+                                    title={t('Continue')}
+                                    primary />
                             </View>
                         </View>
                     </View>
