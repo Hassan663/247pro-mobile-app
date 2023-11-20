@@ -31,8 +31,10 @@ import { handleBlur, handleFocus } from '../../biz-card-screens/edit-biz-card/ca
 
 const PostAJobDescribeScope: React.FC<{ navigation: any, }> = ({ navigation, }) => {
     const [isActive, setIsActive] = useState(false);
-    const [about, setAbout] = useState('')
+    const [description, setDescription] = useState('')
     const [selectedIndustry, setselectedIndustry] = useState<string>('');
+    const [date, setdate] = useState<string>('');
+    const [amount, setamount] = useState<string>('');
     const [isCheck, setIsCheck] = useState(false)
 
     return (
@@ -79,41 +81,39 @@ const PostAJobDescribeScope: React.FC<{ navigation: any, }> = ({ navigation, }) 
                             </View>
                             <View style={styles.inputContainer(60)}>
                                 {
-                                    about?.length && about?.length > 0 ?
+                                    description?.length && description?.length > 0 ?
                                         <Text style={styles.inputtitle(isActive)}>{t(`Description`)}</Text>
                                         : isActive &&
                                         <Text style={styles.inputtitle(isActive)}>{t(`Description`)}</Text>
                                 }
-                                <View style={styles.textInputContainer(isActive)}>
+                                <View style={styles.textInputContainer(isActive, description)}>
                                     <TextInput
                                         placeholder={isActive ? '' : t('Enterjobdescription')}
-                                        value={about}
+                                        value={description}
                                         onFocus={() => handleFocus(setIsActive)}
                                         multiline={true}
                                         onBlur={() => handleBlur(setIsActive)}
-                                        onChangeText={(val) => setAbout(val)}
+                                        onChangeText={(val) => setDescription(val)}
                                         style={styles.input(false, isActive)} />
                                 </View>
                             </View>
                             <OutlinedDropDown
                                 dropDownStyle={styles.dropdownstyle}
                                 title={t('JobType')}
-                                defaultValueByIndex={1}
                                 color={Colors.lightGray}
                                 iconsSize={RFPercentage(2)}
                                 onselect={(value: string) => { setselectedIndustry(value) }}
                                 DATA={RADIOBTNDATA}
-                                drop_down_button_style={[styles.dropDownStyle,]}
+                                drop_down_button_style={[styles.dropDownStyle(selectedIndustry),]}
                             />
                             <OutlinedDropDown
                                 dropDownStyle={styles.dropdownstyle}
                                 title={t('Completiondate')}
-                                defaultValueByIndex={1}
                                 color={Colors.lightGray}
                                 iconsSize={RFPercentage(2)}
-                                onselect={(value: string) => { setselectedIndustry(value) }}
+                                onselect={(value: string) => { setdate(value) }}
                                 DATA={DATEDATA}
-                                drop_down_button_style={[styles.dropDownStyle,]}
+                                drop_down_button_style={[styles.dropDownStyle(date)]}
                             />
                             <View style={centralStyle.my1}>
                                 <Title
@@ -162,12 +162,11 @@ const PostAJobDescribeScope: React.FC<{ navigation: any, }> = ({ navigation, }) 
                             <OutlinedDropDown
                                 dropDownStyle={styles.dropdownstyle}
                                 title={t('Amount')}
-                                defaultValueByIndex={1}
                                 color={Colors.lightGray}
                                 iconsSize={RFPercentage(2)}
-                                onselect={(value: string) => { setselectedIndustry(value) }}
+                                onselect={(value: string) => { setamount(value) }}
                                 DATA={AMOUTDATA}
-                                drop_down_button_style={[styles.dropDownStyle,]}
+                                drop_down_button_style={[styles.dropDownStyle(amount),]}
                             />
                             <View style={centralStyle.my2}>
                                 <Title

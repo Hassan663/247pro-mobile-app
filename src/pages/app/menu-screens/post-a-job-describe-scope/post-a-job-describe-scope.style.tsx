@@ -25,10 +25,11 @@ export const styles = StyleSheet.create<any>({
     },
     disableCircle: { backgroundColor: Colors.lightGrey },
     completeCircle: { backgroundColor: Colors.primary },
-    textInputContainer: (isActive: boolean) => ({
+    textInputContainer: (isActive: boolean, val?: any) => ({
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        borderColor: isActive ? Colors.primary : Colors.lightGrey,
+        borderColor: val?.length > 0 ? Colors.black :
+            isActive ? Colors.primary : Colors.lightGrey,
         paddingHorizontal: platform == 'ios' ? RFPercentage(1) : RFPercentage(2),
         width: "100%",
         height: RFPercentage(12),
@@ -52,13 +53,13 @@ export const styles = StyleSheet.create<any>({
         fontWeight: '400',
         top: '0%',
     }),
-    dropDownStyle: {
+    dropDownStyle: (val: string) => ({
         backgroundColor: Colors.white,
         width: "100%",
         borderRadius: RFPercentage(1),
-        borderColor: Colors.lightGrey,
+        borderColor: val?.length > 0 ? Colors.black : Colors.lightGrey,
         borderWidth: 1
-    },
+    }),
     radioWrapper: {
         flex: 1,
         alignItems: 'center'
