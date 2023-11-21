@@ -1,5 +1,5 @@
 // @app
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import {
     View,
     Image,
@@ -27,17 +27,24 @@ import {
     centralStyle,
     windowHeight
 } from '../../../styles/constant.style';
+import { forgetAction } from '../../../store/action/action';
+import { useDispatch } from 'react-redux';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [email, setemail] = useState<string>('')
+    const [email, setemail] = useState<string>('mynameismuzammilhussainshah@gmail.com')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const toast = useToast();
+    const dispatch: Dispatch<any> = useDispatch();
 
     const handleSubmit = async () => {
         if (!isToastVisible) {
             let isValid = emailValidation(email)
-            if (isValid.success) changeRoute(navigation, 'ForgetVerifyCode')
+            if (isValid.success) {
+                await dispatch(forgetAction(email))
+
+                // changeRoute(navigation, 'ForgetVerifyCode')
+            }
             else {
                 setIsToastVisible(true);
                 await toast.show(isValid.message, { type: "custom_toast", })

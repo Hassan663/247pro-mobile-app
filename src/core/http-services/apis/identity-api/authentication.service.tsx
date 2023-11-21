@@ -1,10 +1,12 @@
 import { postApi } from '../../services/services';
 import { IResponse } from '../../../modals/index';
-import { LoginModal } from '../../../modals/login.modal';
+import { ForgetModal, IForgetResponseData, LoginModal, } from '../../../modals/login.modal';
 import { ILoginResponseData } from '../../../modals/login.modal';
 import {
+  FORGET_PASSWORD_ENDPOINT,
   LOGIN_ENCRIPTION_ENDPOINT,
-  LOGIN_ENDPOINT
+  LOGIN_ENDPOINT,
+  LOGOUT_ENDPOINT
 } from '../apis';
 
 /**
@@ -20,6 +22,7 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
 
     // Step 2: Prepare the login request with the token received from step 1
     const loginDataWithToken: any = { token: encryptedLoginResponse.response };
+    
     const response = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
     return response;
   } catch (error) {
@@ -27,5 +30,29 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
     throw error;
   }
 };
+const forget_password = async (forgetdata: ForgetModal): Promise<IResponse<ILoginResponseData>> => {
+  try {
+    console.log(forgetdata, 'forgetdata')
+    FORGET_PASSWORD_ENDPOINT.url = FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`
+    const forgetPasswordData: any = {};
+    const response = await postApi<ForgetModal, IForgetResponseData>(FORGET_PASSWORD_ENDPOINT, forgetPasswordData);
+    console.log(response, 'response')
+    return response;
+  } catch (error) {
+    console.error('Login service error:', error);
+    throw error;
+  }
+};
+const logout = async (): Promise<IResponse<ILoginResponseData>> => {
+  try {
+    const logOutData: any = {};
+    const response = await postApi<LoginModal, ILoginResponseData>(LOGOUT_ENDPOINT, logOutData);
+    console.log(response, 'response')
+    return response;
+  } catch (error) {
+    console.error('Login service error:', error);
+    throw error;
+  }
+};
 
-export { login };
+export { login, forget_password, logout };

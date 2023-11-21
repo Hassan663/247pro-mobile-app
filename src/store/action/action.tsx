@@ -1,6 +1,6 @@
-import { login } from '../../core/http-services/apis/identity-api/authentication.service';
+import { forget_password, login, logout } from '../../core/http-services/apis/identity-api/authentication.service';
 import { Dispatch } from 'redux';
-import { LoginModal } from '../../core/modals/login.modal';
+import { ForgetModal, LoginModal, } from '../../core/modals/login.modal';
 import { loginRequestKey } from '../../utilities/constants';
 import {
     CURRENTUSERPROFILE,
@@ -25,6 +25,38 @@ export const loginAction = (inputValue: string, password: string) => {
             dispatch({ type: CURRENTUSERPROFILE, payload: userData });
             dispatch({ type: ISUSERLOGIN, payload: true });
             dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
+            // if something is wrong error will save in store and will show the error here
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+        }
+    }
+}
+export const forgetAction = (email: any) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            const forgetData: ForgetModal = {
+                "email": email,
+            };
+            let userData = await forget_password(forgetData)
+            dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+        }
+    }
+}
+export const logoutAction = () => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            let userData = await logout()
+            await AsyncStorage.setItem('isLoggedIn', 'false'); // this is for logout
+            dispatch({ type: CURRENTUSERPROFILE, payload: {} });
+            dispatch({ type: ISUSERLOGIN, payload: false });
+            dispatch({ type: LOADER, payload: false });
+
         } catch (error: any) {
             // if something is wrong error will save in store and will show the error here
             console.log(error.message, 'error')

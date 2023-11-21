@@ -47,8 +47,8 @@ type Navigation = StackNavigationProp<RootStackParamList>;
 const SignIn: React.FC = () => {
     const navigation = useNavigation<Navigation>();
     const [isSelected, setisSelected] = useState<boolean>(false);
-    const [inputValue, setInputValue] = useState<string>("bilal.asghar@247pro.com");
-    const [password, setPassword] = useState<string>("P@ssw0rd");
+    const [inputValue, setInputValue] = useState<string>("mynameismuzammilhussainshah@gmail.com");
+    const [password, setPassword] = useState<string>("karachi@123456");
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const dispatch: Dispatch<any> = useDispatch();

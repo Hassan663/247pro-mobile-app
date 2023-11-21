@@ -15,4 +15,10 @@ export const styles = StyleSheet.create({
     listContainer: {
         height: RFPercentage(5),
     },
+    btnContainer: {
+        marginVertical: RFPercentage(2),
+        justifyContent: 'flex-end',
+        paddingHorizontal: RFPercentage(5),
+        flex: 1,
+    },
 });
