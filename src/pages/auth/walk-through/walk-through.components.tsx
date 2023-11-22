@@ -9,12 +9,12 @@ export const SLIDESDATA = [
 // DATA
 
 // CHANGE SLIDES
-export const changeSlide = (swiperRef, navigation) => {
+export const changeSlide = (swiperRef: any, navigation: any) => {
     if (swiperRef.current) {
         const currentSlideIndex = swiperRef.current.state.index;
         const nextSlideIndex = currentSlideIndex + 1;
         if (nextSlideIndex < SLIDESDATA.length) { swiperRef.current.scrollBy(1); }
-        else { changeRoute(navigation, 'SignUp') }
+        else { changeRoute(navigation, 'SignIn') }
     }
 };
 // CHANGE SLIDES

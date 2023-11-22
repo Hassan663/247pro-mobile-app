@@ -21,4 +21,10 @@ export const styles = StyleSheet.create({
         paddingHorizontal: RFPercentage(5),
         flex: 1,
     },
+    primaryBtnClone: {
+        height: RFPercentage(5.6),
+        backgroundColor: Colors.primary,
+        width: '100%',
+        borderRadius: RFPercentage(1)
+    },
 });

@@ -10,9 +10,9 @@ export interface LoginModal {
     password: string;
   };
 }
-// export interface UserIdentity {
-//   accessToken: string; 
-// }
+export interface UserIdentity {
+  accessToken: string; 
+}
 export interface ForgetModal {
   email: string;
 }

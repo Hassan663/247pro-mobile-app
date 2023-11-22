@@ -277,7 +277,7 @@ export const centralStyle = StyleSheet.create<any>({
     },
     wrap: {
         flexWrap: 'wrap'
-    }, 
+    },
     fullHeightWithoutBottomTab: {
         marginBottom: platform == 'ios' ? RFPercentage(10) : RFPercentage(8),
         flex: 1
@@ -285,5 +285,12 @@ export const centralStyle = StyleSheet.create<any>({
     height7: {
         height: RFPercentage(7),
     },
+    primaryBtnClone: {
+        height: RFPercentage(5.6),
+        backgroundColor: Colors.primary,
+        width: '100%',
+        borderRadius: RFPercentage(1)
+
+    }
 
 });

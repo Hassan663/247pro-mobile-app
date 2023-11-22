@@ -11,8 +11,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import DragList from "react-native-draglist";
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
@@ -29,11 +29,14 @@ import {
     keyExtractor,
     onReordered
 } from './call-back';
+import Loader from '../../../../core/components/loader.component';
 
 const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [data, setData] = useState(APPLICATIONORDEROPTIONS);
     const dispatch: Dispatch<any> = useDispatch();
+
+    const loader = useSelector((state: any) => state.root.loader);
 
     const handleLogout = async () => {
         await dispatch(logoutAction())
@@ -62,11 +65,18 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
             />
 
             <View style={styles.btnContainer}>
-                <Button
-                    callBack={handleLogout}
-                    title={t('logout')}
-                    primary
-                />
+
+                {!loader ?
+                    <Button
+                        callBack={handleLogout}
+                        title={t('logout')}
+                        primary
+                    />
+                    :
+                    <View style={[centralStyle.primaryBtnClone, centralStyle.XAndYCenter]}>
+                        <Loader size={'small'} color={Colors.white} />
+                    </View>
+                }
             </View>
 
         </SafeAreaView>

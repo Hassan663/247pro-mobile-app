@@ -53,7 +53,7 @@ const forget_password = async (forgetdata: ForgetModal): Promise<IResponse<ILogi
   try {
     FORGET_PASSWORD_ENDPOINT.url = FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`
     const forgetPasswordData: any = {};
-    const response = await postApi<ForgetModal, IForgetResponseData>(FORGET_PASSWORD_ENDPOINT, forgetPasswordData);
+    const response: any = await postApi<ForgetModal, IForgetResponseData>(FORGET_PASSWORD_ENDPOINT, forgetPasswordData);
     return response;
   } catch (error) {
     console.error('Login service error:', error);
@@ -64,7 +64,6 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   try {
     const logOutData: any = {};
     const response = await postApi<LoginModal, ILoginResponseData>(LOGOUT_ENDPOINT, logOutData);
-    console.log(response, 'response')
     return response;
   } catch (error) {
     console.error('Login service error:', error);
