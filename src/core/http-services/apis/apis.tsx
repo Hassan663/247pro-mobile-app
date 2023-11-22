@@ -14,6 +14,7 @@ const createEndpointWithoutBaseUrl = (endpoint: string, JWTToken: boolean): Endp
 
 export const LOGIN_ENCRIPTION_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/system/encryption/encode', false);
 export const LOGIN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/auth/login', false);
+export const LOGIN_IDENTITY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/account/identity', false);
 export const FORGET_PASSWORD_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/auth/forgot-password', false);
 export const LOGOUT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/auth/logout', false);
 export const USER_ENDPOINT: Endpoint = createEndpoint('/api/user', true);

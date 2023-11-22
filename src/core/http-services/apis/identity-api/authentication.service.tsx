@@ -1,4 +1,4 @@
-import { postApi } from '../../services/services';
+import { getApi, postApi } from '../../services/services';
 import { IResponse } from '../../../modals/index';
 import { ForgetModal, IForgetResponseData, LoginModal, } from '../../../modals/login.modal';
 import { ILoginResponseData } from '../../../modals/login.modal';
@@ -6,6 +6,7 @@ import {
   FORGET_PASSWORD_ENDPOINT,
   LOGIN_ENCRIPTION_ENDPOINT,
   LOGIN_ENDPOINT,
+  LOGIN_IDENTITY_ENDPOINT,
   LOGOUT_ENDPOINT
 } from '../apis';
 
@@ -22,9 +23,15 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
 
     // Step 2: Prepare the login request with the token received from step 1
     const loginDataWithToken: any = { token: encryptedLoginResponse.response };
-    
-    const response = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
-    return response;
+    const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
+    LOGIN_IDENTITY_ENDPOINT.JWTToken = loginResponse.accessToken
+    LOGIN_IDENTITY_ENDPOINT.Cookie = true
+    const emptyBody: any = {};
+
+    // Step 3: get user identity 
+    let identityResponse: any = await getApi<LoginModal, ILoginResponseData>(LOGIN_IDENTITY_ENDPOINT, emptyBody);
+    identityResponse.accessToken = loginResponse.accessToken
+    return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
     throw error;
@@ -32,11 +39,9 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
 };
 const forget_password = async (forgetdata: ForgetModal): Promise<IResponse<ILoginResponseData>> => {
   try {
-    console.log(forgetdata, 'forgetdata')
     FORGET_PASSWORD_ENDPOINT.url = FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`
     const forgetPasswordData: any = {};
     const response = await postApi<ForgetModal, IForgetResponseData>(FORGET_PASSWORD_ENDPOINT, forgetPasswordData);
-    console.log(response, 'response')
     return response;
   } catch (error) {
     console.error('Login service error:', error);

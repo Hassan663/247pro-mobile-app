@@ -15,7 +15,9 @@ export interface ForgetModal {
 }
 
 // LoginResponseData type
-export interface IForgetResponseData { }
+export interface IForgetResponseData {
+  
+ }
 export interface ILoginResponseData {
   id: string;
   userId: string;

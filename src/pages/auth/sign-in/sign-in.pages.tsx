@@ -48,7 +48,7 @@ const SignIn: React.FC = () => {
     const navigation = useNavigation<Navigation>();
     const [isSelected, setisSelected] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>("mynameismuzammilhussainshah@gmail.com");
-    const [password, setPassword] = useState<string>("karachi@123456");
+    const [password, setPassword] = useState<string>("Karachi@123456");
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const dispatch: Dispatch<any> = useDispatch();

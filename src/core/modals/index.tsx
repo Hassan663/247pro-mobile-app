@@ -1,7 +1,13 @@
 export interface Endpoint {
     url: string;
     JWTToken: boolean;
-  } 
+    Cookie?: boolean;
+
+}
+export interface GetApi {
+    url?: string;
+    JWTToken?: boolean;
+}
 
 export type StringIndexer<T> = {
     [key: string]: any;

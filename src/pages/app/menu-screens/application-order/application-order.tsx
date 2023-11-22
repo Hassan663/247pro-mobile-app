@@ -9,34 +9,35 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import DragList from "react-native-draglist";
-import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { t } from 'i18next';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-import Button from '../../../../core/components/button.component';
-import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './application-order.style';
-import { platform } from '../../../../utilities';
-import { Dispatch } from 'redux';
-import { RenderItem } from './application-order-component';
-import { useDispatch } from 'react-redux';
-import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
-import { logoutAction } from '../../../../store/action/action';
+import { platform } from '../../../../utilities';
+import { Title } from '../../../../core/components/screen-title.component';
+import { changeRoute } from '../../../../core/helpers/async-storage';
 import { APPLICATIONORDEROPTIONS } from './data';
+import { RenderItem } from './application-order-component';
 import {
     keyExtractor,
     onReordered
 } from './call-back';
+import Button from '../../../../core/components/button.component';
+import { logoutAction } from '../../../../store/action/action';
+import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 
 const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [data, setData] = useState(APPLICATIONORDEROPTIONS);
     const dispatch: Dispatch<any> = useDispatch();
 
-    const handleLogout = async () => { await dispatch(logoutAction()) }
-
+    const handleLogout = async () => {
+        await dispatch(logoutAction())
+    }
     return (
         <SafeAreaView style={styles.container}>
             <AppHeader
@@ -59,6 +60,7 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
                 onReordered={(fromIndex: number, toIndex: number) => onReordered(fromIndex, toIndex, data, setData)}
                 renderItem={(info: any) => <RenderItem info={info} />}
             />
+
 
             <View style={styles.btnContainer}>
                 <Button

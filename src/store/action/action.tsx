@@ -18,15 +18,15 @@ export const loginAction = (inputValue: string, password: string) => {
                 "object": { "email": inputValue, "password": password }
             };
             let userData = await login(loginData)
-
-            // If login successful, store user credentials in local storage
-            await AsyncStorage.setItem('isLoggedIn', 'true');
-
-            dispatch({ type: CURRENTUSERPROFILE, payload: userData });
-            dispatch({ type: ISUSERLOGIN, payload: true });
+            console.log(userData,'userData')
+            if (Object.keys(userData).length > 0) {
+                await AsyncStorage.setItem('isLoggedIn', 'true');
+                console.log(userData, 'userData')
+                // dispatch({ type: ISUSERLOGIN, payload: true });
+                dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
-            // if something is wrong error will save in store and will show the error here
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
         }
