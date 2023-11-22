@@ -1,6 +1,6 @@
 import { getApi, postApi } from '../../services/services';
 import { IResponse } from '../../../modals/index';
-import { ForgetModal, IForgetResponseData, LoginModal, } from '../../../modals/login.modal';
+import { ForgetModal, IForgetResponseData, LoginModal, UserIdentity, } from '../../../modals/login.modal';
 import { ILoginResponseData } from '../../../modals/login.modal';
 import {
   FORGET_PASSWORD_ENDPOINT,
@@ -16,6 +16,7 @@ import {
  * @param loginData - The login data containing user credentials.
  * @returns A promise that resolves to the login response.
  */
+
 const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseData>> => {
   try {
     // Step 1: Encrypt the login data
@@ -24,19 +25,30 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
     // Step 2: Prepare the login request with the token received from step 1
     const loginDataWithToken: any = { token: encryptedLoginResponse.response };
     const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
-    LOGIN_IDENTITY_ENDPOINT.JWTToken = loginResponse.accessToken
-    LOGIN_IDENTITY_ENDPOINT.Cookie = true
-    const emptyBody: any = {};
 
     // Step 3: get user identity 
-    let identityResponse: any = await getApi<LoginModal, ILoginResponseData>(LOGIN_IDENTITY_ENDPOINT, emptyBody);
-    identityResponse.accessToken = loginResponse.accessToken
+    const identityResponse: any = userIdentity(loginResponse.accessToken)
     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
     throw error;
   }
 };
+
+const userIdentity = async (accessToken: string): Promise<IResponse<ILoginResponseData>> => {
+  try {
+    LOGIN_IDENTITY_ENDPOINT.JWTToken = accessToken
+    LOGIN_IDENTITY_ENDPOINT.Cookie = true
+    const emptyBody: any = {};
+    let identityResponse: any = await getApi<UserIdentity, ILoginResponseData>(LOGIN_IDENTITY_ENDPOINT, emptyBody);
+    identityResponse.accessToken = accessToken
+    return identityResponse;
+  } catch (error) {
+    console.error('Identity service error:', error);
+    throw error;
+  }
+};
+
 const forget_password = async (forgetdata: ForgetModal): Promise<IResponse<ILoginResponseData>> => {
   try {
     FORGET_PASSWORD_ENDPOINT.url = FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`
@@ -60,4 +72,4 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   }
 };
 
-export { login, forget_password, logout };
+export { login, forget_password, userIdentity, logout };

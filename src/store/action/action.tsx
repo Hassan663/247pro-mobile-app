@@ -1,15 +1,24 @@
-import { forget_password, login, logout } from '../../core/http-services/apis/identity-api/authentication.service';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dispatch } from 'redux';
-import { ForgetModal, LoginModal, } from '../../core/modals/login.modal';
+
 import { loginRequestKey } from '../../utilities/constants';
 import {
+    ForgetModal,
+    LoginModal,
+} from '../../core/modals/login.modal';
+import {
     CURRENTUSERPROFILE,
-    ISUSERLOGIN,
+    INITIALROUTE,
     LOADER
 } from '../constant/constant';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+    forget_password,
+    login,
+    logout,
+    userIdentity
+} from '../../core/http-services/apis/identity-api/authentication.service';
 
-export const loginAction = (inputValue: string, password: string) => {
+export const loginAction = (inputValue: string, password: string, directLoginToken?: string) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
@@ -17,12 +26,11 @@ export const loginAction = (inputValue: string, password: string) => {
                 "key": loginRequestKey,
                 "object": { "email": inputValue, "password": password }
             };
-            let userData = await login(loginData)
-            console.log(userData,'userData')
+            let userData: any;
+            if (directLoginToken) userData = await userIdentity(directLoginToken)
+            else userData = await login(loginData)
             if (Object.keys(userData).length > 0) {
-                await AsyncStorage.setItem('isLoggedIn', 'true');
-                console.log(userData, 'userData')
-                // dispatch({ type: ISUSERLOGIN, payload: true });
+                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
                 dispatch({ type: CURRENTUSERPROFILE, payload: userData });
             }
             dispatch({ type: LOADER, payload: false });
@@ -32,6 +40,7 @@ export const loginAction = (inputValue: string, password: string) => {
         }
     }
 }
+
 export const forgetAction = (email: any) => {
     return async (dispatch: Dispatch) => {
         try {
@@ -47,16 +56,16 @@ export const forgetAction = (email: any) => {
         }
     }
 }
+
 export const logoutAction = () => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
             let userData = await logout()
-            await AsyncStorage.setItem('isLoggedIn', 'false'); // this is for logout
+            await AsyncStorage.removeItem('accessToken');
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
-            dispatch({ type: ISUSERLOGIN, payload: false });
+            dispatch({ type: INITIALROUTE, payload: 'SignIn' });
             dispatch({ type: LOADER, payload: false });
-
         } catch (error: any) {
             // if something is wrong error will save in store and will show the error here
             console.log(error.message, 'error')

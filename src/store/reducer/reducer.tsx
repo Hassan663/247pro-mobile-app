@@ -1,9 +1,8 @@
 import {
     CURRENTUSERPROFILE,
-    // ISERROR,
-    ISUSERLOGIN,
-    LOADER,
+      LOADER,
     OTPSUPPORTED,
+    INITIALROUTE,
     SPLASHSTATUSBAR
 } from '../constant/constant'
 
@@ -13,12 +12,12 @@ export type Action = {
 }
 
 const INITIAL_STATE = {
-    isUserLogin: false,
-    otpSupported: false,
+     otpSupported: false,
     loader: false,
     splashStatusBar: false,
-    // isError:"",
-}
+    initialRoute: 'Splash',
+    currentUserProfile: {},
+ }
 
 export default (states = INITIAL_STATE, action: Action) => {
     switch (action.type) {
@@ -32,11 +31,16 @@ export default (states = INITIAL_STATE, action: Action) => {
                 ...states,
                 splashStatusBar: action.payload
             })
-        case ISUSERLOGIN:
+        case INITIALROUTE:
             return ({
                 ...states,
-                isUserLogin: action.payload
+                initialRoute: action.payload
             })
+        // case ISUSERLOGIN:
+        //     return ({
+        //         ...states,
+        //         isUserLogin: action.payload
+        //     })
         case OTPSUPPORTED:
             return ({
                 ...states,

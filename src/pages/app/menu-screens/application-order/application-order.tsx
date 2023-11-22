@@ -9,26 +9,26 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import DragList from "react-native-draglist";
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
-import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-import { styles } from './application-order.style';
-import { centralStyle } from '../../../../styles/constant.style';
-import { platform } from '../../../../utilities';
+import AppHeader from '../../../../core/components/app-headers';
+import Button from '../../../../core/components/button.component';
 import { Title } from '../../../../core/components/screen-title.component';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { APPLICATIONORDEROPTIONS } from './data';
+import { styles } from './application-order.style';
+import { platform } from '../../../../utilities';
 import { RenderItem } from './application-order-component';
+import { changeRoute } from '../../../../core/helpers/async-storage';
+import { logoutAction } from '../../../../store/action/action';
+import { centralStyle } from '../../../../styles/constant.style';
+import { APPLICATIONORDEROPTIONS } from './data';
 import {
     keyExtractor,
     onReordered
 } from './call-back';
-import Button from '../../../../core/components/button.component';
-import { logoutAction } from '../../../../store/action/action';
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
 
 const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -60,7 +60,6 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
                 onReordered={(fromIndex: number, toIndex: number) => onReordered(fromIndex, toIndex, data, setData)}
                 renderItem={(info: any) => <RenderItem info={info} />}
             />
-
 
             <View style={styles.btnContainer}>
                 <Button

@@ -12,13 +12,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import CountryPicker, {
-    Country,
-} from 'react-native-country-picker-modal';
-import {
-    useDispatch,
-    useSelector
-} from 'react-redux';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
@@ -26,14 +19,13 @@ import OutlinedDropDown from '../../../core/components/outlined-dropdown.compone
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
+import { useToast } from 'react-native-toast-notifications';
 import { INDUSTRIES } from './data';
-import { ISUSERLOGIN } from '../../../store/constant/constant';
 import { changeRoute } from '../../../core/helpers/async-storage';
+import { buisnessQuestionsValidation } from '../../../core/helpers/validation/validation';
 import {
     centralStyle, windowHeight,
 } from '../../../styles/constant.style';
-import { buisnessQuestionsValidation } from '../../../core/helpers/validation/validation';
-import { useToast } from 'react-native-toast-notifications';
 
 const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const isBuisness = route?.params?.yesABuisness;
@@ -49,13 +41,6 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
 
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
 
-    const handleOnSelect = (country: Country) => {
-        setIsCountryPickerVisible(false);
-        setCountryCode(country.cca2);
-    };
-    const otpSupported = useSelector((state: any) => state.root.otpSupported)
-
-    const dispatch = useDispatch()
     const toast = useToast();
 
 
@@ -66,7 +51,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                 setloading(true)
                 setTimeout(() => {
                     setloading(false)
-                    dispatch({ type: ISUSERLOGIN, payload: true });
+                    // dispatch({ type: ISUSERLOGIN, payload: true });
                 }, 500);
             }
             else {

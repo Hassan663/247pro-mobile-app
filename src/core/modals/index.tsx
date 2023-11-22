@@ -1,6 +1,6 @@
 export interface Endpoint {
     url: string;
-    JWTToken: boolean;
+    JWTToken?: boolean | string;
     Cookie?: boolean;
 
 }

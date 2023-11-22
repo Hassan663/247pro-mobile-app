@@ -35,7 +35,9 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const AuthNavigation: React.FC = () => {
+type AuthNavigationRoutes = 'Splash' | 'SignUp' | 'SignIn' | 'VerifyCode' | 'WalkThrough' | 'VerifyBuisness' | 'SetNewPassword' | 'ForgetPassword' | 'EmailVerifyCode' | 'ForgetVerifyCode' | 'EnterNameAndEmail' | 'BuisnessQuestions';
+
+const AuthNavigation: React.FC<{ initialRoute: AuthNavigationRoutes }> = ({ initialRoute }) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -43,7 +45,7 @@ const AuthNavigation: React.FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName='Splash'
+        initialRouteName={initialRoute}
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="SignUp" component={SignUp} />
