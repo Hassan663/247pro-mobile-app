@@ -52,7 +52,9 @@ const MainComponent: React.FC = () => {
     // Check if user is already logged in
     const checkLoginStatus = async () => {
         let accessToken = await AsyncStorage.getItem('accessToken');
-        if (accessToken !== null) { await dispatch(loginAction('', '', JSON.parse(accessToken))) }
+        if (accessToken !== null) {
+            await dispatch(loginAction('', '', JSON.parse(accessToken)))
+        }
     };
 
     useEffect(() => { checkLoginStatus() }, [])

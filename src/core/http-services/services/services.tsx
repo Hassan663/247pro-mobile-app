@@ -10,7 +10,7 @@ const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<
     // Determine whether to include the header based on ENDPOINT.JWTToken
     const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
     const response = await axios.post(ENDPOINT.url, postData, { headers });
-    
+
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -27,6 +27,7 @@ const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<I
     const response = await axios.get(ENDPOINT.url, { headers });
     return response.data;
   } catch (error) {
+    console.log(error, 'error123')
     const axiosError = error as AxiosError;
     handleApiError(axiosError);
     throw error;
