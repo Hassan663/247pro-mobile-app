@@ -1,7 +1,7 @@
-// @app
 import React, {
     useEffect,
-    useState
+    useState,
+    useCallback,
 } from 'react';
 import {
     TouchableOpacity,
@@ -9,19 +9,15 @@ import {
     View,
 } from 'react-native';
 
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import Feather from 'react-native-vector-icons/Feather'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
 import { useToast } from "react-native-toast-notifications";
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {
-    useDispatch,
-    useSelector
-} from 'react-redux';
+import { useDispatch, useSelector, } from 'react-redux';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
@@ -33,22 +29,15 @@ import { loginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
-import {
-    centralStyle,
-    windowHeight
-} from '../../../styles/constant.style';
-import {
-    FooterText,
-    Title
-} from '../../../core/components/screen-title.component';
+import { FooterText, Title, } from '../../../core/components/screen-title.component';
+import { centralStyle, windowHeight, } from '../../../styles/constant.style';
 
-type Navigation = StackNavigationProp<RootStackParamList>;
+interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
-const SignIn: React.FC = () => {
-    const navigation = useNavigation<Navigation>();
+const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
+    const [password, setPassword] = useState<string>("Karachi@123456");
     const [isSelected, setisSelected] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>("mynameismuzammilhussainshah@gmail.com");
-    const [password, setPassword] = useState<string>("Karachi@123456");
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const dispatch: Dispatch<any> = useDispatch();
@@ -60,17 +49,32 @@ const SignIn: React.FC = () => {
         return unsubscribe;
     }, [navigation]);
 
-    const handleSubmit = async () => {
+    const handleSubmit = useCallback(async () => {
         if (!isToastVisible) {
             setIsToastVisible(true);
             let isValid = await loginValidation(inputValue, password);
-            if (isValid.success) await dispatch(loginAction(inputValue, password))
-            else await toast.show(isValid.message, { type: "custom_toast" })
+            if (isValid.success) await dispatch(loginAction(inputValue, password));
+            else await toast.show(isValid.message, { type: "custom_toast" });
             setTimeout(() => {
                 setIsToastVisible(false);
             }, 5000);
         }
-    };
+    }, [dispatch, inputValue, isToastVisible, password, toast]);
+
+    // Callback to update the inputValue state based on phone or email input
+    const phoneOrEmailCallback = useCallback((val: string) => {
+        setInputValue(val);
+    }, [inputValue]);
+
+    // Callback to update the password state based on password input
+    const passwordCallback = useCallback((val: string) => {
+        setPassword(val);
+    }, [password]);
+
+    // Callback to toggle the isSelected state for a checkbox
+    const checkBoxCallback = useCallback(() => {
+        setisSelected((prevIsSelected) => !prevIsSelected);
+    }, [isSelected]);
 
     return (
         <KeyboardAwareScrollView>
@@ -92,21 +96,21 @@ const SignIn: React.FC = () => {
                 <View style={styles.inputContainer}>
                     <OutlinedTextInput
                         val={inputValue}
-                        onChange={(val) => setInputValue(val)}
+                        onChange={phoneOrEmailCallback}
                         title={t('Phone_or_email')}
                         placeHolder={t('Phone_or_email')}
                     />
                     <OutlinedTextInput
                         title={t('Password')}
                         val={password}
-                        onChange={(val) => setPassword(val)}
+                        onChange={passwordCallback}
                         placeHolder={t('Password')}
                         Password
                     />
                     <View style={styles.checkBoxWrapper}>
                         <TouchableOpacity
                             activeOpacity={.8}
-                            onPress={() => setisSelected(!isSelected)}
+                            onPress={checkBoxCallback}
                             style={[styles.row, { alignItems: "center", height: RFPercentage(3) }]}
                         >
                             {isSelected ?
@@ -204,6 +208,6 @@ const SignIn: React.FC = () => {
             </View>
         </KeyboardAwareScrollView>
     );
-};
+});
 
 export default SignIn;

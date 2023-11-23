@@ -1,4 +1,5 @@
 import React, {
+  memo,
   useState
 } from 'react';
 import {
@@ -27,7 +28,6 @@ interface OutlinedTextInputProps {
 }
 
 const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, editable, val, placeHolder, lines, multiLine, Password, onChange }) => {
-
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [inputVal, setInputVal] = useState(val ? val : '')
@@ -101,4 +101,4 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
   );
 };
 
-export default OutlinedTextInput;
+export default memo(OutlinedTextInput);
