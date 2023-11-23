@@ -28,30 +28,30 @@ import {
     windowHeight
 } from '../../../styles/constant.style';
 import { forgetAction } from '../../../store/action/action';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../../../core/components/loader.component';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [email, setemail] = useState<string>('mynameismuzammilhussainshah@gmail.com')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
+
+    const loader = useSelector((state: any) => state.root.loader);
 
     const toast = useToast();
     const dispatch: Dispatch<any> = useDispatch();
 
     const handleSubmit = async () => {
         if (!isToastVisible) {
+            setIsToastVisible(true);
             let isValid = emailValidation(email)
             if (isValid.success) {
                 await dispatch(forgetAction(email))
-
                 // changeRoute(navigation, 'ForgetVerifyCode')
             }
-            else {
-                setIsToastVisible(true);
-                await toast.show(isValid.message, { type: "custom_toast", })
-                setTimeout(() => {
-                    setIsToastVisible(false);
-                }, 5000);
-            }
+            else { await toast.show(isValid.message, { type: "custom_toast", }) }
+            setTimeout(() => {
+                setIsToastVisible(false);
+            }, 5000);
         }
     }
     useEffect(() => {
@@ -100,7 +100,19 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                     <View style={[styles.logInBtnContainer,]}>
                         <View />
-                        <Button callBack={handleSubmit} title={t(`Reset_Password`)} primary />
+
+                        {!loader ?
+                            <Button callBack={handleSubmit} title={t(`Reset_Password`)} primary />
+                            // <Button
+                            //     title={t('logintText')}
+                            //     callBack={handleSubmit}
+                            //     primary
+                            // />
+                            :
+                            <View style={[centralStyle.primaryBtnClone, centralStyle.XAndYCenter]}>
+                                <Loader size={'small'} color={Colors.white} />
+                            </View>
+                        }
                     </View>
 
                     <View style={styles.footerContainer}>

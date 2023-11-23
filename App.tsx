@@ -111,6 +111,16 @@ const App: React.FC = () => {
                                             weight='400' />
                                     </View>
                                 ),
+                                custom_success_toast: (toast) => (
+                                    <View style={[styles.customToastContainer, { borderLeftColor: Colors.success }]}>
+                                        <Title
+                                            type='Poppin-14'
+                                            title={toast.message}
+                                            color={Colors.success} // Change color for success
+                                            weight='400'
+                                        />
+                                    </View>
+                                ),
                             }}
                         >
                             <MainComponent />

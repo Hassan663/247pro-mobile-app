@@ -9,9 +9,9 @@ const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<
   try {
     // Determine whether to include the header based on ENDPOINT.JWTToken
     const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
-    const response = await axios.post(ENDPOINT.url, postData, { headers });
+    const response: any = await axios.post(ENDPOINT.url, postData, { headers });
 
-    return response.data;
+    return response
   } catch (error) {
     const axiosError = error as AxiosError;
     handleApiError(axiosError);
@@ -24,8 +24,8 @@ const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<I
     const headers: any = {}
     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
     if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D'
-    const response = await axios.get(ENDPOINT.url, { headers });
-    return response.data;
+    const response: any = await axios.get(ENDPOINT.url, { headers });
+    return response
   } catch (error) {
     console.log(error, 'error123')
     const axiosError = error as AxiosError;
@@ -39,8 +39,8 @@ const deleteApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint): Promise<IRespons
     // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
     const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
 
-    const response = await axios.delete(LOGIN_ENDPOINT.url, { headers });
-    return response.data;
+    const response: any = await axios.delete(LOGIN_ENDPOINT.url, { headers });
+    return response
   } catch (error) {
     const axiosError = error as AxiosError;
     handleApiError(axiosError);
@@ -53,8 +53,8 @@ const putApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint, postData: object): P
     // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
     const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
 
-    const response = await axios.put(LOGIN_ENDPOINT.url, postData, { headers });
-    return response.data;
+    const response: any = await axios.put(LOGIN_ENDPOINT.url, postData, { headers });
+    return response
   } catch (error) {
     const axiosError = error as AxiosError;
     handleApiError(axiosError);

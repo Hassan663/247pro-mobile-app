@@ -48,7 +48,7 @@ export const forgetAction = (email: any) => {
             const forgetData: ForgetModal = {
                 "email": email,
             };
-            let userData = await forget_password(forgetData)
+            await forget_password(forgetData)
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
@@ -61,7 +61,7 @@ export const logoutAction = () => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
-            let userData = await logout()
+            await logout()
             await AsyncStorage.removeItem('accessToken');
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
             dispatch({ type: INITIALROUTE, payload: 'SignIn' });

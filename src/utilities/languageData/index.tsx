@@ -381,8 +381,11 @@ export const languageData = [
             MatchPro: "Match Pro",
             PostAndMatchPros: "Post And Match Pros",
             FindlocalprosandgetbidsforKitchenRemodel: "Find local pros and get bids for Kitchen Remodel",
-            SuccessfullyPosted:"Successfully Posted",
-            GotoMyPostedJobs:"Go to My Posted Jobs",
+            SuccessfullyPosted: "Successfully Posted",
+            GotoMyPostedJobs: "Go to My Posted Jobs",
+            Linkhasbeensentto: "Link has been sent to",
+            Newpasswordlinksenttoyouremail:'New password link sent to your email.',
+
         }
     },
     {
@@ -767,8 +770,11 @@ export const languageData = [
             MatchPro: "匹配专业版",
             PostAndMatchPros: "帖子和匹配专家",
             FindlocalprosandgetbidsforKitchenRemodel: "寻找当地专业人士并获得厨房改造投标",
-            SuccessfullyPosted:"发布成功",
-            GotoMyPostedJobs:"转到我发布的职位",
+            SuccessfullyPosted: "发布成功",
+            GotoMyPostedJobs: "转到我发布的职位",
+            Linkhasbeensentto: "链接已发送至",
+            Newpasswordlinksenttoyouremail:'新密码链接已发送到您的电子邮件。',
+
 
         }
     },
@@ -1151,8 +1157,10 @@ export const languageData = [
 
             PostAndMatchPros: "Publicar y combinar profesionales",
             FindlocalprosandgetbidsforKitchenRemodel: "Encuentre profesionales locales y obtenga ofertas para remodelación de cocinas",
-            SuccessfullyPosted:"Publicado exitosamente",
-            GotoMyPostedJobs:"Publicado exitosamente",
+            SuccessfullyPosted: "Publicado exitosamente",
+            GotoMyPostedJobs: "Publicado exitosamente",
+            Linkhasbeensentto: "El enlace ha sido enviado a",
+            Newpasswordlinksenttoyouremail:'Enlace de nueva contraseña enviado a su correo electrónico.',
         }
     }
 ];

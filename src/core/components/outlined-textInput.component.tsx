@@ -31,15 +31,11 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [inputVal, setInputVal] = useState(val ? val : '')
-  const handleFocus = () => {
-    // if (editable == true)
-    setIsActive(true)
-  }
 
-  const handleBlur = () => {
-    // if (editable == true)
-    setIsActive(false)
-  }
+  const handleFocus = () => { setIsActive(true) }
+
+  const handleBlur = () => { setIsActive(false) }
+
   return (
     <View style={styles.inputContainer(height)}>
       {/* {isActive &&
