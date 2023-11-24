@@ -21,7 +21,6 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         ...centralStyle.XAndYCenter,
         ...centralStyle.selfCenter
-
     },
     customStyle: {
         ...centralStyle.selfEnd

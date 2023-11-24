@@ -5,9 +5,10 @@ import { platform } from '../utilities';
 
 export const windowWidth = Dimensions.get('window').width;
 
-export const flex1BottomTab = Dimensions.get('window').height - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8) - StatusBar.currentHeight);
-export const windowHeight = Platform.OS === 'android' ? Dimensions.get('window').height - StatusBar?.currentHeight : Dimensions.get('window').height;
+export const flex1BottomTab = Dimensions.get('window').height - (platform == 'ios' ? RFPercentage(10) : RFPercentage(8) - (StatusBar && StatusBar.currentHeight || 0));
+export const windowHeight = Platform.OS === 'android' ? Dimensions.get('window').height - (StatusBar && StatusBar.currentHeight || 0) : Dimensions.get('window').height;
 export const heightFlex1 = windowHeight / 10
+
 
 type CentralPosition = {
     flexStart: any,

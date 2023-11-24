@@ -17,7 +17,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {
     CodeField,
     Cursor,
-    useBlurOnFulfill,
     useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 
