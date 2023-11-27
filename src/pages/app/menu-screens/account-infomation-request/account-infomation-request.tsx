@@ -29,6 +29,7 @@ const AccountInformtaionRequest: React.FC<{ navigation: any, route: any }> = ({ 
                         onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
                 weight='700'
+                type='Roboto-20'
                 title={t('AccountInformation')} />
 
             <View style={centralStyle.container}>

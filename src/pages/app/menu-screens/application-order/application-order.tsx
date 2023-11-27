@@ -50,7 +50,10 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
                         name={'left'}
                         onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
-                title={t(`ApplicationsOrder`)} />
+                title={t(`ApplicationsOrder`)}
+                weight='700'
+                type='Roboto-20' 
+                />
 
             <View style={[centralStyle.mx2, centralStyle.row, centralStyle.my3]}>
                 <Title title={t(`Applications`)} type='Poppin-18' color={Colors.fontColor} weight='600' />

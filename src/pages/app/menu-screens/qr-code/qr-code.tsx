@@ -29,7 +29,7 @@ const QRCode: React.FC<{ navigation: any, route: any }> = ({ navigation, route }
                         style={centralStyle.mx2}
                         name={'left'}
                         onPress={() => { changeRoute(navigation, 'pop') }}
-                        size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
+                        size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}  
                 iconR1={
                     <UploadIcon
                         width={RFPercentage(4)}
@@ -58,7 +58,7 @@ const QRCode: React.FC<{ navigation: any, route: any }> = ({ navigation, route }
                         centralStyle.mt5]}>
                         <Title
                             title={`George Lee`}
-                            type='Poppin-18'
+                            type='Roboto-20'
                             color={Colors.fontColor}
                             weight='400' />
                         <Image style={styles.qrImg} source={require('../../../../assets/app-images/qr.png')} />

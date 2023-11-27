@@ -45,6 +45,12 @@ export const getFontFamily = (weight?: string) => {
     else if (weight == '500') return "Poppins-Medium"
     else return "Poppins-Regular"
 }
+export const getRobotoFontFamily = (weight?: string) => {
+    if (weight == '700') return "Roboto-Bold"
+    // else if (weight == '600') return "Poppins-SemiBold"
+    else if (weight == '500') return "Roboto-Medium"
+    else return "Roboto-Regular"
+}
 
 export const Title: React.FC<TitleTextProps> = ({ title, textAlignCenter, line, type, color, weight }) => {
     if (type == 'Poppin-10') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontFamily: getFontFamily(weight) }, styles.poppin_10]} >{title}</Text>;
@@ -56,4 +62,5 @@ export const Title: React.FC<TitleTextProps> = ({ title, textAlignCenter, line, 
     if (type == 'Poppin-20') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontFamily: getFontFamily(weight) }, styles.poppin_20]} >{title}</Text>;
     if (type == 'Poppin-24') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontFamily: getFontFamily(weight) }, styles.poppin_24]} >{title}</Text>;
     if (type == 'Poppin-61') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontFamily: getFontFamily(weight) }, styles.poppin_61]} >{title}</Text>;
+    if (type == 'Roboto-20') return <Text style={[{ textAlign: textAlignCenter, textDecorationLine: line, color: color, fontFamily: getRobotoFontFamily(weight) }, styles.roboto_20]} >{title}</Text>;
 };

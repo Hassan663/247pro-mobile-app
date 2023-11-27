@@ -22,13 +22,13 @@ import { styles } from './menu.style';
 import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
+import { ContactModal } from '../../contact-screens/new-contact/new-contact-component';
+import { InvitePropleUI } from './menu-components';
 import {
     ACCOUNTSETTINGDATA,
     APPDATA,
 } from './data';
 import { closeSheet, openSheet } from '../../../../store/action/action';
-import { InvitePropleUI } from './menu-components';
-import { ContactModal } from '../../contact-screens/new-contact/new-contact-component';
 
 const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -44,9 +44,9 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
     }
     const handleShareQR = () => {
         closeSheet(sheetRef)
-        changeRoute(navigation, 'QRCode','invitePeople')
+        changeRoute(navigation, 'QRCode', 'invitePeople')
     }
-    
+
     return (
         <SafeAreaView style={styles.container}>
             <AppHeader
@@ -65,7 +65,10 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
                         name={'setting'}
                         onPress={() => { changeRoute(navigation, 'ApplicationOrder') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
-                title={t(`GreenMetroInc`)} />
+                title={t(`GreenMetroInc`)}
+                weight='700'
+                type='Roboto-20'
+            />
 
             <View style={[centralStyle.mx2, centralStyle.my3]}>
                 <Title
