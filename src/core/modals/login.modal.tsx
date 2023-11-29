@@ -10,8 +10,24 @@ export interface LoginModal {
     password: string;
   };
 }
+export interface SignUpModal {
+  key: string;
+  object: {
+    name: string;
+    email: string;
+    password: string;
+  };
+}
+export interface MemberShipApiModal {
+  logPromotion?: string,
+  logReferral?: string,
+  accountId: string,
+  identityUserId: string,
+  userName?: string,
+  userEmail: string
+}
 export interface UserIdentity {
-  accessToken: string; 
+  accessToken: string;
 }
 export interface ForgetModal {
   email: string;
@@ -19,8 +35,24 @@ export interface ForgetModal {
 
 // LoginResponseData type
 export interface IForgetResponseData {
-  
- }
+
+}
+export interface ISignupResponseData {
+  "identityUserId": string, // Identity ID
+  "userId": string, // User ID
+  "accountId": string, // Account ID
+  "active": boolean, // Indication active login credential
+  "email": string, // User email
+  "roles": string[], // Array of assigned roles
+  "isRegister": boolean,
+  "userName": string, // User name
+  "impersonating": boolean, // Indicating impersonated user
+  "accessToken": string, // Access token
+  "accessTokenExpiration": string, // Access token expiration date
+  "forceToResetPassword": boolean, // Forcing user to reset the password
+  "resetPasswordToken": string // Token will be used to reset password
+
+}
 export interface ILoginResponseData {
   id: string;
   userId: string;

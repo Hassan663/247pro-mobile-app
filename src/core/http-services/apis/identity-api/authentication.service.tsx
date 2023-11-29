@@ -1,7 +1,7 @@
 import { Toast } from 'react-native-toast-notifications';
 import { getApi, postApi } from '../../services/services';
 import { IResponse } from '../../../modals/index';
-import { ILoginResponseData } from '../../../modals/login.modal';
+import { ILoginResponseData, ISignupResponseData, MemberShipApiModal, SignUpModal } from '../../../modals/login.modal';
 import {
   ForgetModal,
   IForgetResponseData,
@@ -13,7 +13,9 @@ import {
   LOGIN_ENCRIPTION_ENDPOINT,
   LOGIN_ENDPOINT,
   LOGIN_IDENTITY_ENDPOINT,
-  LOGOUT_ENDPOINT
+  LOGOUT_ENDPOINT,
+  MEMBERSHIP_ENDPOINT,
+  SIGNUP_ENDPOINT
 } from '../apis';
 import { t } from 'i18next';
 
@@ -24,10 +26,69 @@ import { t } from 'i18next';
  * @returns A promise that resolves to the login response.
  */
 
-const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseData>> => {
+const encryptData = async (loginData: LoginModal): Promise<IResponse<ILoginResponseData>> => {
   try {
     // Step 1: Encrypt the login data
     const encryptedLoginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENCRIPTION_ENDPOINT, loginData);
+    return encryptedLoginResponse;
+  } catch (error) {
+    console.error('Login service error:', error);
+    throw error;
+  }
+};
+
+
+const memberShipApi = async (memberShipApiData: MemberShipApiModal, accessToken: string): Promise<IResponse<ISignupResponseData>> => {
+  try {
+    MEMBERSHIP_ENDPOINT.JWTToken = accessToken
+    const memberResponse: any = await postApi<MemberShipApiModal, ISignupResponseData>(MEMBERSHIP_ENDPOINT, memberShipApiData);
+    return memberResponse;
+  } catch (error) {
+    console.error('Login service error:', error);
+    throw error;
+  }
+}
+const signUp = async (loginData: SignUpModal): Promise<IResponse<ISignupResponseData>> => {
+  try {
+
+    // Step 1: Encrypt the login data
+    const encryptedLoginResponse: any = await encryptData(loginData)
+
+    // Step 2: Prepare the login request with the token received from step 1
+    const signUpDataWithToken: any = { token: encryptedLoginResponse.data.response };
+    const SignupResponse: any = await postApi<SignUpModal, ISignupResponseData>(SIGNUP_ENDPOINT, signUpDataWithToken);
+
+    let memberShipApiData: MemberShipApiModal = {
+
+      accountId: SignupResponse.data.accountId,
+      identityUserId: SignupResponse.data.identityUserId,
+      userEmail: SignupResponse.data.email,
+    };
+
+    if (SignupResponse.data.userName) {
+      memberShipApiData.userName = SignupResponse.data.userName;
+    } else {
+      memberShipApiData.userName = SignupResponse.data.email;
+
+    }
+    console.log(memberShipApiData, 'memberShipApiDa123ta', SignupResponse)
+    const memberShipApiResponeData: any = await memberShipApi(memberShipApiData, SignupResponse.data.accessToken)
+    console.log(memberShipApiResponeData, 'memberShipApiResponeData',)
+
+    // Step 3: get user identity 
+    const identityResponse: any = await userIdentity(SignupResponse.data.accessToken)
+    console.log(identityResponse, 'identityResponse',)
+    return identityResponse;
+  } catch (error) {
+    console.error('Login service error:', error);
+    throw error;
+  }
+};
+const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseData>> => {
+  try {
+
+    // Step 1: Encrypt the login data
+    const encryptedLoginResponse: any = await encryptData(loginData)
 
     // Step 2: Prepare the login request with the token received from step 1
     const loginDataWithToken: any = { token: encryptedLoginResponse.data.response };
@@ -35,6 +96,8 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
 
     // Step 3: get user identity 
     const identityResponse: any = userIdentity(loginResponse.data.accessToken)
+
+    console.log(identityResponse, 'identityResponse')
     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
@@ -45,9 +108,11 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
 const userIdentity = async (accessToken: string): Promise<IResponse<ILoginResponseData>> => {
   try {
     LOGIN_IDENTITY_ENDPOINT.JWTToken = accessToken
-    LOGIN_IDENTITY_ENDPOINT.Cookie = true
+    // LOGIN_IDENTITY_ENDPOINT.Cookie = true
     const emptyBody: any = {};
     let identityResponse: any = await getApi<UserIdentity, ILoginResponseData>(LOGIN_IDENTITY_ENDPOINT, emptyBody);
+    console.log(identityResponse, 'identityResponse',)
+
     identityResponse.data.accessToken = accessToken
     return identityResponse.data;
   } catch (error) {
@@ -79,4 +144,4 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   }
 };
 
-export { login, forget_password, userIdentity, logout };
+export { login, forget_password, userIdentity, logout, encryptData, signUp };

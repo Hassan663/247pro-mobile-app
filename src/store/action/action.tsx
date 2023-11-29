@@ -5,6 +5,7 @@ import { loginRequestKey } from '../../utilities/constants';
 import {
     ForgetModal,
     LoginModal,
+    SignUpModal,
 } from '../../core/modals/login.modal';
 import {
     CURRENTUSERPROFILE,
@@ -14,8 +15,10 @@ import {
 import {
     forget_password,
     login,
+    encryptData,
     logout,
-    userIdentity
+    userIdentity,
+    signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
 
 export const loginAction = (inputValue: string, password: string, directLoginToken?: string) => {
@@ -73,6 +76,56 @@ export const logoutAction = () => {
         }
     }
 }
+
+
+export const signUpAction = (name: string, email: string, password: string) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            const loginData: SignUpModal = {
+                "key": loginRequestKey,
+                "object": {
+                    "name": name, // User name
+                    "email": email, // User email
+                    "password": password // User password
+                }
+            }
+
+            // let userData = await userIdentity(directLoginToken)
+            // console.log(loginData, 'loginData')
+            // const encryptedLoginResponse: any = await encryptData(loginData)
+            let SignupResponse = await signUp(loginData)
+            console.log(SignupResponse, 'SignupResponse')
+            // console.log(encryptedLoginResponse, 'encryptedLoginResponse')
+            // if (directLoginToken)
+            // else
+            //  userData =
+            //  await login(loginData)
+            // if (Object.keys(userData).length > 0) {
+            //     await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+            //     dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            // }
+            dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const openSheet = (sheetRef: any) => sheetRef.current.open()
 

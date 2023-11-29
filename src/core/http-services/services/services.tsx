@@ -8,11 +8,20 @@ const DUMMY_JWT_TOKEN = 'your_dummy_jwt_token_here';
 const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
   try {
     // Determine whether to include the header based on ENDPOINT.JWTToken
-    const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
-    const response: any = await axios.post(ENDPOINT.url, postData, { headers });
+    // console.log(postData, ' ENDPOINT', ENDPOINT)
 
+    const headers: any = {}
+    if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
+    // const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
+
+
+
+
+    const response: any = await axios.post(ENDPOINT.url, postData, { headers });
+    console.log(response, 'response', ENDPOINT)
     return response
   } catch (error) {
+    console.log(error, 'response',)
     const axiosError = error as AxiosError;
     handleApiError(axiosError);
     throw error;
@@ -63,3 +72,4 @@ const putApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint, postData: object): P
 };
 
 export { postApi, getApi, deleteApi, putApi };
+
