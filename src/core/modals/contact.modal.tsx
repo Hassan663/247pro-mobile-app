@@ -194,3 +194,4 @@ export class ContactModel implements IContactCreateModel, IContactUpdateModel {
     // Additional properties from IContactUpdateModal
     id: number = 0;
 }
+ 

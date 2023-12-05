@@ -8,6 +8,7 @@ import {
     SignUpModal,
 } from '../../core/modals/login.modal';
 import {
+    CONTACTS,
     CURRENTUSERPROFILE,
     INITIALROUTE,
     LOADER
@@ -15,11 +16,13 @@ import {
 import {
     forget_password,
     login,
-    encryptData,
     logout,
     userIdentity,
     signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
+import { getContact } from '../../core/http-services/apis/application-api/contact/contact.service';
+
+//  LOGIN ACTION
 
 export const loginAction = (inputValue: string, password: string, directLoginToken?: string) => {
     return async (dispatch: Dispatch) => {
@@ -30,6 +33,7 @@ export const loginAction = (inputValue: string, password: string, directLoginTok
                 "object": { "email": inputValue, "password": password }
             };
             let userData: any;
+
             if (directLoginToken) userData = await userIdentity(directLoginToken)
             else userData = await login(loginData)
             if (Object.keys(userData).length > 0) {
@@ -90,21 +94,29 @@ export const signUpAction = (name: string, email: string, password: string) => {
                     "password": password // User password
                 }
             }
-
-            // let userData = await userIdentity(directLoginToken)
-            // console.log(loginData, 'loginData')
-            // const encryptedLoginResponse: any = await encryptData(loginData)
             let SignupResponse = await signUp(loginData)
-            console.log(SignupResponse, 'SignupResponse')
-            // console.log(encryptedLoginResponse, 'encryptedLoginResponse')
-            // if (directLoginToken)
-            // else
-            //  userData =
-            //  await login(loginData)
-            // if (Object.keys(userData).length > 0) {
-            //     await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
-            //     dispatch({ type: CURRENTUSERPROFILE, payload: userData });
-            // }
+            dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+        }
+    }
+}
+
+//  LOGIN ACTION
+
+//  APP ACTION
+
+
+export const ContactAction = () => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            if (accessToken !== null) {
+                let contactResponse: any = await getContact(JSON.parse(accessToken), 1, 10)
+                if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: contactResponse.data.resultData.list });
+            }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
@@ -121,15 +133,18 @@ export const signUpAction = (name: string, email: string, password: string) => {
 
 
 
-
-
-
-
-
-
 export const openSheet = (sheetRef: any) => sheetRef.current.open()
 
 export const closeSheet = (sheetRef: any) => sheetRef.current.close()
+
+
+
+//  APP ACTION
+
+
+
+
+
 
 // export function _error(err?: string, time?: number) {
 //     return (dispatch?: any) => {

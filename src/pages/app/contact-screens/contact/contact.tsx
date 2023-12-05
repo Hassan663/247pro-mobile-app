@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useEffect,
     useRef,
     useState
 } from 'react';
@@ -15,7 +16,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { t } from 'i18next';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { Dispatch } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
@@ -40,6 +43,7 @@ import {
     ImportModal,
     RenderItem
 } from './contact.components';
+import { ContactAction } from '../../../../store/action/action';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -49,12 +53,28 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [contactModal, setcontactModal] = useState<boolean>(false);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [anim, setanim] = useState<string>('fadeInUpBig');
+    const [listData, setlistData] = useState<[]>([]);
 
     const sheetRef = useRef<any>(null)
+    const contact = useSelector((state: any) => state.root.contacts)
+
     const handleChangeRoute = () => {
         if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact')
         else changeRoute(navigation, 'ViewCompany')
     }
+
+    const dispatch: Dispatch<any> = useDispatch();
+
+    useEffect(() => {
+        if (contact.length > 0) {
+            contact.forEach(function (obj: any) { obj.value = obj.fullName; });
+            setlistData(contact)
+        }
+    }, [contact])
+    useEffect(() => {
+        dispatch(ContactAction());
+    }, [])
+
     return (
         <>
 
@@ -140,17 +160,18 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     {contacts ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
                             <AlphabetList
-                                data={SECTIONLISTDATA}
+                                data={listData}
                                 letterListContainerStyle={styles.listContainerStyle}
                                 showsVerticalScrollIndicator={false}
                                 indexContainerStyle={{ width: 20 }}
                                 indexLetterStyle={styles.letterStyle}
-                                renderCustomItem={(item) => <CompanyList
-                                    getCompany={() => {
-                                        handleChangeRoute()
-                                        // alert()
-                                    }}
-                                    item={item} />}
+                                renderCustomItem={(item) => {
+                                    return (
+                                        <CompanyList
+                                            getCompany={() => { handleChangeRoute() }}
+                                            item={item} />
+                                    )
+                                }}
                                 renderCustomSectionHeader={CustomSectionHeader}
                             />
                         </View>

@@ -1,8 +1,9 @@
 
 export const CURRENTUSERPROFILE = 'CURRENTUSERPROFILE';
 // export const ISUSERLOGIN = 'ISUSERLOGIN';
-export const SPLASHSTATUSBAR = 'SPLASHSTATUSBAR';
+export const LOADER = 'LOADER';
+export const ISERROR = 'ISERROR';
+export const CONTACTS = 'CONTACTS';
 export const OTPSUPPORTED = 'OTPSUPPORTED';
 export const INITIALROUTE = 'INITIALROUTE';
-export const ISERROR = 'ISERROR';
-export const LOADER = 'LOADER';
+export const SPLASHSTATUSBAR = 'SPLASHSTATUSBAR';

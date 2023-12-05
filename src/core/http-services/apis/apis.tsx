@@ -12,6 +12,7 @@ const createEndpointWithoutBaseUrl = (endpoint: string, JWTToken: boolean): Endp
   JWTToken,
 });
 
+// AUTHENTICATION ENDPOINTS
 export const LOGIN_ENCRIPTION_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/system/encryption/encode', false);
 export const LOGIN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/auth/login', false);
 export const SIGNUP_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/api/auth/register', false);
@@ -25,4 +26,10 @@ export const CHECKOUT_ENDPOINT: Endpoint = createEndpoint('/api/checkout', true)
 export const ITEMDETAIL_ENDPOINT: Endpoint = createEndpoint('/api/itemdetail', true);
 export const ITEMHISTORY_ENDPOINT: Endpoint = createEndpoint('/api/itemhistory', true);
 export const BIDCOST_ENDPOINT: Endpoint = createEndpoint('/api/bidcost', true);
+// AUTHENTICATION ENDPOINTS
+
+// APP ENDPOINTS
+export const GET_CONTACT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/application-api/v1/contacts', false);
+// APP ENDPOINTS
+
 // Rest of the code remains the same

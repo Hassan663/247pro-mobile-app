@@ -94,7 +94,7 @@ export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
                 <View style={[centralStyle.row, styles.listWrapper]}>
                     <View style={[styles.flex1p2, centralStyle.justifyContentCenter]}>
                         <Image
-                            source={require('../../../../assets/app-images/userImg.png')}
+                            source={{ uri: item.profilePicture }}
                             style={styles.userImgStyle} />
                     </View>
                     <View style={[styles.flex8p8, centralStyle.justifyContentCenter]}>
@@ -145,7 +145,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         size={RFPercentage(2)} />
                     <TextInput placeholder={t('search')} style={styles.searchInput} />
                 </View>
-                <View style={[centralStyle.px2, { flex: 1,  }]}>
+                <View style={[centralStyle.px2, { flex: 1, }]}>
                     <AlphabetList
                         data={SECTIONLISTDATA}
                         letterListContainerStyle={styles.listContainerStyle}

@@ -3,22 +3,15 @@ import { handleApiError } from '../apis/handle-api-error/api.error.service';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // Dummy JWT Token (replace this with an actual JWT token if needed)
-const DUMMY_JWT_TOKEN = 'your_dummy_jwt_token_here';
+const DUMMY_JWT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibXV6YW1taWwiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJteW5hbWVpc211emFtbWlsaHVzc2FpbnNoYWhAZ21haWwuY29tIiwidXNlcklkIjoiNDkyOGEyNWEtNTE0ZC00NjczLWJiYWMtMmIzZWI2NmIzYzA1IiwiYWNjb3VudElkIjoiNDkyOGEyNWEtNTE0ZC00NjczLWJiYWMtMmIzZWI2NmIzYzA1IiwiaWRlbnRpdHlVc2VySWQiOiI4YTVkM2NhOS0zZWM1LTQ4MDMtYmUyZC0wYTNlMWQ1Yzk4ODIiLCJqdGkiOiIwY2NiNTA1NS1mMDhkLTRmY2EtYmYxMy1lMGNkOGE3ZDBmMWYiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTcwMTc5Mzg5MywiaXNzIjoiaHR0cHM6Ly9hcGlkZXZwcm9maW5kZXIuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwZGV2cHJvZmluZGVyLjI0N3Byby5jb20ifQ.IHvZLG90aqrK-0OjIUOll5m_6-sfZSyrjca4313O4i4';
 
 const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
   try {
     // Determine whether to include the header based on ENDPOINT.JWTToken
-    // console.log(postData, ' ENDPOINT', ENDPOINT)
-
     const headers: any = {}
     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
     // const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
-
-
-
-
     const response: any = await axios.post(ENDPOINT.url, postData, { headers });
-    console.log(response, 'response', ENDPOINT)
     return response
   } catch (error) {
     console.log(error, 'response',)

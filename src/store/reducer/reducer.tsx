@@ -1,9 +1,10 @@
 import {
     CURRENTUSERPROFILE,
-      LOADER,
+    LOADER,
     OTPSUPPORTED,
     INITIALROUTE,
-    SPLASHSTATUSBAR
+    SPLASHSTATUSBAR,
+    CONTACTS
 } from '../constant/constant'
 
 export type Action = {
@@ -12,12 +13,14 @@ export type Action = {
 }
 
 const INITIAL_STATE = {
-     otpSupported: false,
+    otpSupported: false,
     loader: false,
     splashStatusBar: false,
     initialRoute: 'Splash',
     currentUserProfile: {},
- }
+    contacts: [],
+    // contactResponse.data.resultData.list
+}
 
 export default (states = INITIAL_STATE, action: Action) => {
     switch (action.type) {
@@ -50,6 +53,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 loader: action.payload
+            })
+        case CONTACTS:
+            return ({
+                ...states,
+                contacts: action.payload
             })
         // case ISERROR:
         //     return ({
