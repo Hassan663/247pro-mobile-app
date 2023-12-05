@@ -71,14 +71,11 @@ const signUp = async (loginData: SignUpModal): Promise<IResponse<ISignupResponse
       memberShipApiData.userName = SignupResponse.data.email;
 
     }
-    console.log(memberShipApiData, 'memberShipApiDa123ta', SignupResponse)
     const memberShipApiResponeData: any = await memberShipApi(memberShipApiData, SignupResponse.data.accessToken)
-    console.log(memberShipApiResponeData, 'memberShipApiResponeData',)
 
     // Step 3: get user identity 
     const identityResponse: any = await userIdentity(SignupResponse.data.accessToken)
-    console.log(identityResponse, 'identityResponse',)
-    return identityResponse;
+     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
     throw error;
@@ -93,11 +90,8 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
     // Step 2: Prepare the login request with the token received from step 1
     const loginDataWithToken: any = { token: encryptedLoginResponse.data.response };
     const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
-
     // Step 3: get user identity 
     const identityResponse: any = userIdentity(loginResponse.data.accessToken)
-
-    console.log(identityResponse, 'identityResponse')
     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
@@ -111,8 +105,6 @@ const userIdentity = async (accessToken: string): Promise<IResponse<ILoginRespon
     // LOGIN_IDENTITY_ENDPOINT.Cookie = true
     const emptyBody: any = {};
     let identityResponse: any = await getApi<UserIdentity, ILoginResponseData>(LOGIN_IDENTITY_ENDPOINT, emptyBody);
-    console.log(identityResponse, 'identityResponse',)
-
     identityResponse.data.accessToken = accessToken
     return identityResponse.data;
   } catch (error) {

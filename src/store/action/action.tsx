@@ -90,10 +90,6 @@ export const signUpAction = (name: string, email: string, password: string) => {
                     "password": password // User password
                 }
             }
-
-            // let userData = await userIdentity(directLoginToken)
-            // console.log(loginData, 'loginData')
-            // const encryptedLoginResponse: any = await encryptData(loginData)
             let SignupResponse = await signUp(loginData)
             console.log(SignupResponse, 'SignupResponse')
             // console.log(encryptedLoginResponse, 'encryptedLoginResponse')
