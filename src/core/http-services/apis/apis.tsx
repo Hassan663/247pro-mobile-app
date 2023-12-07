@@ -29,7 +29,8 @@ export const BIDCOST_ENDPOINT: Endpoint = createEndpoint('/api/bidcost', true);
 // AUTHENTICATION ENDPOINTS
 
 // APP ENDPOINTS
-export const GET_CONTACT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/application-api/v1/contacts', false);
+export const CONTACT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/application-api/v1/contacts', false);
+export const CREATE_CONTACT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl('https://apidevprofinder.247pro.com/application-api/v1/contacts', false);
 // APP ENDPOINTS
 
 // Rest of the code remains the same

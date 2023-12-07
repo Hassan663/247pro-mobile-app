@@ -38,6 +38,8 @@ import {
     RightIcon,
     SelectedAttachmentUI
 } from './new-contact-component';
+import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -51,6 +53,8 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [attechments, setAttechments] = useState<any>([])
 
+    const dispatch: Dispatch<any> = useDispatch();
+
     return (
         <>
 
@@ -59,7 +63,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                     <View style={centralStyle.flex1}>
                         <AppHeader
                             iconL1={LeftIcon(navigation)}
-                            iconR1={RightIcon()}
+                            iconR1={RightIcon(dispatch)}
                             type='Poppin-18'
                             weight='600'
                             title={t(`NewContact`)} />

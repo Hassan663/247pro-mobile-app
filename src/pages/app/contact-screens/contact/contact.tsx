@@ -17,8 +17,8 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
@@ -31,7 +31,7 @@ import { CONTACTLIST } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 import { centralStyle } from '../../../../styles/constant.style';
-import { SECTIONLISTDATA } from '../new-contact/data';
+import { ContactAction } from '../../../../store/action/action';
 import {
     CompanyList,
     CustomSectionHeader,
@@ -43,7 +43,6 @@ import {
     ImportModal,
     RenderItem
 } from './contact.components';
-import { ContactAction } from '../../../../store/action/action';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -71,6 +70,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             setlistData(contact)
         }
     }, [contact])
+
     useEffect(() => {
         dispatch(ContactAction());
     }, [])
@@ -108,6 +108,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     setImportModal(false)
                 }}
             />}
+            
             <View style={[centralStyle.fullHeightWithoutBottomTab, { backgroundColor: 'white' }]}>
                 <View style={centralStyle.row}>
                     <TouchableOpacity

@@ -27,6 +27,7 @@ import {
     handleAttachments,
     pickImage
 } from './call-back';
+import { CreateContactAction } from '../../../../store/action/action';
 
 
 export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
@@ -75,14 +76,17 @@ export const LeftIcon = (navigation?: any) => (
             title={t('Cancel')} />
     </TouchableOpacity>
 )
-export const RightIcon = (navigation?: any) => (
-    <View style={styles.mx2}>
+export const RightIcon = (dispatch?: any) => (
+    <TouchableOpacity
+        onPress={() => { dispatch(CreateContactAction()) }}
+        activeOpacity={0.8}
+        style={styles.mx2}>
         <Title
             color={1 == 1 ? Colors.fontColor : Colors.primary}
             type='Poppin-14'
             weight='600'
             title={t('Done')} />
-    </View>
+    </TouchableOpacity>
 )
 export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
     return (

@@ -1,12 +1,15 @@
 import { getApi, postApi, putApi } from '../../../services/services';
 import { ContactModel, IContactCreateModel, IContactUpdateModel } from '../../../../modals/contact.modal';
 import { IResponse } from '../../../../modals';
-import { GET_CONTACT_ENDPOINT, LOGIN_ENDPOINT } from '../../apis';
+import { CONTACT_ENDPOINT, CREATE_CONTACT_ENDPOINT, LOGIN_ENDPOINT } from '../../apis';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const createContact = async (data: IContactCreateModel): Promise<IResponse<ContactModel>> => {
   try {
-    return await postApi<IContactCreateModel, ContactModel>({ url: `api url`, JWTToken: true, }, data);
+    let accessToken = await AsyncStorage.getItem('accessToken');
+    if (accessToken !== null) { CREATE_CONTACT_ENDPOINT.JWTToken = JSON.parse(accessToken) }
+    return await postApi<IContactCreateModel, ContactModel>(CREATE_CONTACT_ENDPOINT, data);
   } catch (error) {
     console.error('Login error service:', error);
     throw error;
@@ -26,9 +29,11 @@ const updateContact = async (data: IContactUpdateModel): Promise<IResponse<Conta
 const getContact = async (accessToken: string, pageIndex: number, pageSize: number): Promise<IResponse<ContactModel>> => {
   try {
     const data: any = {};
-    GET_CONTACT_ENDPOINT.url = GET_CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}`
-    GET_CONTACT_ENDPOINT.JWTToken = accessToken
-    return await getApi<IContactUpdateModel, ContactModel>(GET_CONTACT_ENDPOINT, data);
+    if (pageIndex && pageSize) {
+      CONTACT_ENDPOINT.url = CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}`
+    }
+    CONTACT_ENDPOINT.JWTToken = accessToken
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_ENDPOINT, data);
   } catch (error) {
     console.error('getContact error service:', error);
     throw error;
