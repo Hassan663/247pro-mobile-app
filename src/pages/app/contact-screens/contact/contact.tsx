@@ -48,7 +48,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [importModal, setImportModal] = useState(false)
-    const [contacts, setContacts] = useState(true)
+    // const [contacts, setContacts] = useState(true)
     const [contactModal, setcontactModal] = useState<boolean>(false);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [anim, setanim] = useState<string>('fadeInUpBig');
@@ -108,7 +108,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     setImportModal(false)
                 }}
             />}
-            
             <View style={[centralStyle.fullHeightWithoutBottomTab, { backgroundColor: 'white' }]}>
                 <View style={centralStyle.row}>
                     <TouchableOpacity
@@ -129,7 +128,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             title={t('Company')} />
                     </TouchableOpacity>
                 </View>
-
                 <View style={[styles.listWrapper,]}>
                     <FlatList
                         showsHorizontalScrollIndicator={false}
@@ -157,8 +155,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         }}
                         size={RFPercentage(2.5)} name='filter-list' />
                 </View>
-                <View style={[contacts ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
-                    {contacts ?
+                <View style={[listData.length ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
+                    {listData.length ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
                             <AlphabetList
                                 data={listData}
