@@ -24,4 +24,10 @@ export const styles = StyleSheet.create({
         marginVertical: RFPercentage(2),
         ...centralStyle.justifyContentEnd
     },
+    primaryBtnClone: {
+        height: RFPercentage(5.6),
+        backgroundColor: Colors.primary,
+        width: '100%',
+        borderRadius: RFPercentage(1)
+    },
 });

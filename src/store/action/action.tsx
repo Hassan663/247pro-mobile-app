@@ -82,6 +82,7 @@ export const logoutAction = () => {
 }
 
 
+
 export const signUpAction = (name: string, email: string, password: string) => {
     return async (dispatch: Dispatch) => {
         try {
@@ -94,7 +95,12 @@ export const signUpAction = (name: string, email: string, password: string) => {
                     "password": password // User password
                 }
             }
-            let SignupResponse = await signUp(loginData)
+            let SignupResponse: any;
+            SignupResponse = await signUp(loginData)
+            if (Object.keys(SignupResponse).length > 0) {
+                await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
+                dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
+            }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')

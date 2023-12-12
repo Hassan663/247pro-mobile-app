@@ -51,7 +51,6 @@ export interface ISignupResponseData {
   "accessTokenExpiration": string, // Access token expiration date
   "forceToResetPassword": boolean, // Forcing user to reset the password
   "resetPasswordToken": string // Token will be used to reset password
-
 }
 export interface ILoginResponseData {
   id: string;

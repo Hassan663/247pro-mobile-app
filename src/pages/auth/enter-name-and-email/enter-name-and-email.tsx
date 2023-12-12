@@ -25,13 +25,15 @@ import { useToast } from 'react-native-toast-notifications';
 import { enterNameAndEmailValidation } from '../../../core/helpers/validation/validation';
 import { signUpAction } from '../../../store/action/action';
 import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../../../core/components/loader.component';
 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }: any) => {
     const [name, setName] = useState('Ahmed shah')
     const [email, setEmail] = useState('momo19@gmail.com')
     const [password, setPassword] = useState('Karachi@123456')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
+    const loader = useSelector((state: any) => state.root.loader);
 
     const toast = useToast();
     const dispatch: Dispatch<any> = useDispatch();
@@ -43,7 +45,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
                 if (!route?.params?.comeFromVerifyCode) {
                     // console.log('EmailVerifyCode')
                     if (isValid.success) await dispatch(signUpAction(name, email, password,));
-                    changeRoute(navigation, 'EmailVerifyCode')
+                    // changeRoute(navigation, 'EmailVerifyCode')
                 }
                 else changeRoute(navigation, 'VerifyBuisness')
             }
@@ -106,9 +108,17 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
                         />
                     </View>
                     <View style={styles.footer}>
-                        <Button
-                            callBack={handleSubmit}
-                            title={t('Next')} primary />
+                        {!loader ?
+                            <Button
+                                title={t('Next')}
+                                callBack={handleSubmit}
+                                primary
+                            />
+                            :
+                            <View style={[styles.primaryBtnClone, centralStyle.XAndYCenter]}>
+                                <Loader size={'small'} color={Colors.white} />
+                            </View>
+                        }
                     </View>
                 </SafeAreaView>
             </View>
