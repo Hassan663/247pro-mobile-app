@@ -8,6 +8,7 @@ import {
     Text,
     Image,
     SafeAreaView,
+    TouchableOpacity,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -107,12 +108,13 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                             color={Colors.fontColor}
                             weight='400'
                             type={`Poppin-16`} />
-                        <Title
-                            title={t('RESEND_CODE')}
-                            color={Colors.primary}
-                            weight='600'
-                            type={`Poppin-14`} />
-
+                        <TouchableOpacity activeOpacity={.8}>
+                            <Title
+                                title={t('RESEND_CODE')}
+                                color={Colors.primary}
+                                weight='600'
+                                type={`Poppin-14`} />
+                        </TouchableOpacity>
                         <View style={styles.footer}>
                             <Button
                                 callBack={handleSubmit}
