@@ -46,7 +46,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
         closeSheet(sheetRef)
         changeRoute(navigation, 'QRCode', 'invitePeople')
     }
-
+    
     return (
         <SafeAreaView style={styles.container}>
             <AppHeader

@@ -384,8 +384,10 @@ export const languageData = [
             SuccessfullyPosted: "Successfully Posted",
             GotoMyPostedJobs: "Go to My Posted Jobs",
             Linkhasbeensentto: "Link has been sent to",
-            Newpasswordlinksenttoyouremail:'New password link sent to your email.',
-
+            Newpasswordlinksenttoyouremail: 'New password link sent to your email.',
+            Enable_Feature: 'Enable Feature',
+            Enable_Feature_Admin:'To enable this feature you need to contact admin support to get access.',
+            Contact_Admin:'Contact Admin',
         }
     },
     {
@@ -773,9 +775,10 @@ export const languageData = [
             SuccessfullyPosted: "发布成功",
             GotoMyPostedJobs: "转到我发布的职位",
             Linkhasbeensentto: "链接已发送至",
-            Newpasswordlinksenttoyouremail:'新密码链接已发送到您的电子邮件。',
-
-
+            Newpasswordlinksenttoyouremail: '新密码链接已发送到您的电子邮件。',
+            Enable_Feature: '启用功能',
+            Enable_Feature_Admin:'要启用此功能，您需要联系管理员支持以获得访问权限',
+            Contact_Admin:'联系管理员',
         }
     },
     {
@@ -1160,7 +1163,10 @@ export const languageData = [
             SuccessfullyPosted: "Publicado exitosamente",
             GotoMyPostedJobs: "Publicado exitosamente",
             Linkhasbeensentto: "El enlace ha sido enviado a",
-            Newpasswordlinksenttoyouremail:'Enlace de nueva contraseña enviado a su correo electrónico.',
+            Newpasswordlinksenttoyouremail: 'Enlace de nueva contraseña enviado a su correo electrónico.',
+            Enable_Feature: 'Habilitar característica',
+            Enable_Feature_Admin:'Para habilitar esta función, debe comunicarse con el soporte administrativo para obtener acceso.',
+            Contact_Admin:'Contactar al administrador',
         }
     }
 ];

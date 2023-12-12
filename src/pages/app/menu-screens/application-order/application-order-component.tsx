@@ -17,10 +17,18 @@ import { Title } from '../../../../core/components/screen-title.component';
 import { MenuIcon } from '../../../../assets/svg-icons/CustomSvgIcon';
 import { toggleSwitch } from '../../biz-card-screens/edit-biz-card/call-back';
 import { styles } from './application-order.style';
-export function RenderItem({ info }: any) {
+import { t } from 'i18next';
+import Button from '../../../../core/components/button.component';
+import { closeSheet } from '../../../../store/action/action';
+
+export function RenderItem({ info, modalHandling }: any) {
     const { item, onDragStart, onDragEnd, isActive } = info;
     const [isEnabled, setIsEnabled] = useState(false);
 
+    const switherHnadler = () => {
+        modalHandling(!isEnabled)
+        toggleSwitch(setIsEnabled)
+    }
     return (
         <View
             key={item}
@@ -47,7 +55,7 @@ export function RenderItem({ info }: any) {
                     trackColor={{ false: Colors.inputBgColor, true: Colors.inputBgColor }}
                     thumbColor={isEnabled ? Colors.primary : Colors.inputBgColor}
                     ios_backgroundColor={Colors.inputBgColor}
-                    onValueChange={() => toggleSwitch(setIsEnabled)}
+                    onValueChange={switherHnadler}
                     value={isEnabled}
                     style={{ transform: [{ scale: 0.6 }] }} // Size ko chota karne ke liye scale property ka istemal kiya gaya hai
                 />
@@ -55,3 +63,37 @@ export function RenderItem({ info }: any) {
         </View>
     );
 }
+export const EnableFeatureUI = ({ sheetRef }: any) => {
+
+    return (
+        <View style={[centralStyle.container]}>
+            <View style={centralStyle.mt3}>
+                <Title
+                    color={Colors.black}
+                    type='Poppin-20'
+                    textAlignCenter='center'
+                    weight='600'
+                    title={t('Enable_Feature')} />
+            </View>
+            <View>
+                <Title
+                    color={Colors.fontColor}
+                    type='Poppin-16'
+                    textAlignCenter='center'
+                    weight='500'
+                    title={t('Enable_Feature_Admin')} />
+            </View>
+            <View style={centralStyle.mt3}>
+                <Button
+                    callBack={() => closeSheet(sheetRef)}
+                    title={t(`Contact_Admin`)}
+                    primary
+                />
+            </View >
+        </View>
+    )
+}
+
+
+
+
