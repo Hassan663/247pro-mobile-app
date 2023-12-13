@@ -1,6 +1,6 @@
 import { Toast } from 'react-native-toast-notifications';
 import { getApi, postApi } from '../../services/services';
-import { IResponse } from '../../../modals/index';
+import { Endpoint, IResponse } from '../../../modals/index';
 import { ILoginResponseData, ISignupResponseData, MemberShipApiModal, SignUpModal } from '../../../modals/login.modal';
 import {
   ForgetModal,
@@ -123,9 +123,10 @@ const userIdentity = async (accessToken: string): Promise<IResponse<ILoginRespon
 
 const forget_password = async (forgetdata: ForgetModal): Promise<IResponse<ILoginResponseData>> => {
   try {
-    FORGET_PASSWORD_ENDPOINT.url = FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`
+    const FORGET_PASSWORD_ENDPOINT_CLONE: Endpoint = { ...FORGET_PASSWORD_ENDPOINT };
+    FORGET_PASSWORD_ENDPOINT_CLONE.url = FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`
     const forgetPasswordData: any = {};
-    const response: any = await postApi<ForgetModal, IForgetResponseData>(FORGET_PASSWORD_ENDPOINT, forgetPasswordData);
+    const response: any = await postApi<ForgetModal, IForgetResponseData>(FORGET_PASSWORD_ENDPOINT_CLONE, forgetPasswordData);
     if (response.status == 204) Toast.show(t(`Newpasswordlinksenttoyouremail`) + ` ${forgetdata.email}`, { type: "custom_success_toast" });
     return response;
   } catch (error) {

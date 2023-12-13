@@ -29,14 +29,14 @@ const updateContact = async (data: IContactUpdateModel): Promise<IResponse<Conta
 const getContact = async (accessToken: string, pageIndex: number, pageSize: number): Promise<IResponse<ContactModel>> => {
   try {
     const data: any = {};
-    const urlCopy: Endpoint = { ...CONTACT_ENDPOINT };
-    
-    if (pageIndex && pageSize) {
-      urlCopy.url = CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}`
-    }
-    urlCopy.JWTToken = accessToken;
+    const CONTACT_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
 
-    return await getApi<IContactUpdateModel, ContactModel>(urlCopy, data);
+    if (pageIndex && pageSize) {
+      CONTACT_ENDPOINT_CLONE.url = CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}`
+    }
+    CONTACT_ENDPOINT_CLONE.JWTToken = accessToken;
+
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_ENDPOINT_CLONE, data);
   } catch (error) {
     console.error('getContact error service:', error);
     throw error;
