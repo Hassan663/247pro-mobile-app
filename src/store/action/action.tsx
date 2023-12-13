@@ -72,6 +72,7 @@ export const logoutAction = () => {
             await AsyncStorage.removeItem('accessToken');
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
             dispatch({ type: INITIALROUTE, payload: 'SignIn' });
+            dispatch({ type: CONTACTS, payload: [] });
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             // if something is wrong error will save in store and will show the error here
@@ -120,6 +121,7 @@ export const ContactAction = () => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 let contactResponse: any = await getContact(JSON.parse(accessToken), 1, 10)
+                console.log("contactResponse---->",contactResponse)
                 if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: contactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });

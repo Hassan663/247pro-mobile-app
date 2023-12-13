@@ -1,6 +1,6 @@
 import { getApi, postApi, putApi } from '../../../services/services';
 import { ContactModel, IContactCreateModel, IContactUpdateModel } from '../../../../modals/contact.modal';
-import { IResponse } from '../../../../modals';
+import { Endpoint, IResponse } from '../../../../modals';
 import { CONTACT_ENDPOINT, CREATE_CONTACT_ENDPOINT, LOGIN_ENDPOINT } from '../../apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -29,11 +29,14 @@ const updateContact = async (data: IContactUpdateModel): Promise<IResponse<Conta
 const getContact = async (accessToken: string, pageIndex: number, pageSize: number): Promise<IResponse<ContactModel>> => {
   try {
     const data: any = {};
+    const urlCopy: Endpoint = { ...CONTACT_ENDPOINT };
+    
     if (pageIndex && pageSize) {
-      CONTACT_ENDPOINT.url = CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}`
+      urlCopy.url = CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}`
     }
-    CONTACT_ENDPOINT.JWTToken = accessToken
-    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_ENDPOINT, data);
+    urlCopy.JWTToken = accessToken;
+
+    return await getApi<IContactUpdateModel, ContactModel>(urlCopy, data);
   } catch (error) {
     console.error('getContact error service:', error);
     throw error;
