@@ -23,7 +23,7 @@ export const captureImage = async (setimageUriLocal: any) => {
     }
 };
 
-export const pickImage = async (setState: any) => {
+export const pickImage = async (setInputValues:any, inputLabel: string) => {
     try {
         let options: any = {
             title: 'Select Image',
@@ -45,10 +45,17 @@ export const pickImage = async (setState: any) => {
             } else if (res.error) {
                 // Error occurred while selecting an image
             } else {
-                setState(res.assets[0].uri)
+                // console.log(res.assets[0].uri, 'res.assets[0].urires.assets[0].urires.assets[0].uri')
+                setInputValues((prevValues: any) => ({
+                    ...prevValues,
+                    [inputLabel]: res.assets[0].uri,
+                }));
+
+                // setState(res.assets[0].uri)
                 // setimageUriLocal(res.assets[0].uri);
             }
         });
+
     } catch (err) {
         console.log(err);
     }

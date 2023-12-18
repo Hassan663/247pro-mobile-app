@@ -43,9 +43,9 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defa
           data={DATA}
           defaultValueByIndex={defaultValueByIndex ? defaultValueByIndex : null}
           defaultButtonText={title}
-          onSelect={(selectedItem: string) => {
+          onSelect={(selectedItem: string,index:number) => {
             setdropdownVal(selectedItem)
-            onselect(selectedItem)
+            onselect(selectedItem,index)
           }}
           buttonTextAfterSelection={(selectedItem, index) => selectedItem}
           rowTextForSelection={(item, index) => item}

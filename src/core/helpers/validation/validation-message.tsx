@@ -12,5 +12,5 @@ export const VALIDATIONMESSAGE = [
     `Please enter valid email.`,
     `Please enter code.`,
     `Invalid phone number.`,
-
+    `First Name Is Required`
 ]

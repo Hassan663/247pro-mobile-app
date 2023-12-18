@@ -21,6 +21,7 @@ import {
     signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import { createContact, getContact } from '../../core/http-services/apis/application-api/contact/contact.service';
+import { ContactModel, IContactCreateModel } from '../../core/modals/contact.modal';
 
 //  LOGIN ACTION
 
@@ -132,32 +133,32 @@ export const ContactAction = () => {
     }
 }
 
-export const CreateContactAction = () => {
+export const CreateContactAction = (inputValues:IContactCreateModel) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
-            let createContactData: any = {
-                "lastName": "aaaaaa",
-                "contactTypeId": 2,
-                "contactTypeColor": "#FBC02D",
-                "firstName": "aaaaaaaaaaaaa",
-                "contactEmails": [{ "visible": true, "email": "abc@gmail.com" }],
-                "contactAddresses": [{
-                    "label": "Home",
-                    "visible": true,
-                    "city": "karachi",
-                    "hasState": true,
-                    "zipCode": "24700",
-                    "streetAddress": "R-592 sector 8 north karachi",
-                    "countryId": 224,
-                    "latitude": 0,
-                    "longitude": 0,
-                    "searchGenerated": true,
-                    "countryText": "United States"
-                }],
-                "contactTags": []
-            }
-             let createContactResponse: any = await createContact(createContactData)
+            // let createContactData: any = {
+            //     "lastName": "aaaaaa",
+            //     "contactTypeId": 2,
+            //     "contactTypeColor": "#FBC02D",
+            //     "firstName": "aaaaaaaaaaaaa",
+            //     "contactEmails": [{ "visible": true, "email": "abc@gmail.com" }],
+            //     "contactAddresses": [{
+            //         "label": "Home",
+            //         "visible": true,
+            //         "city": "karachi",
+            //         "hasState": true,
+            //         "zipCode": "24700",
+            //         "streetAddress": "R-592 sector 8 north karachi",
+            //         "countryId": 224,
+            //         "latitude": 0,
+            //         "longitude": 0,
+            //         "searchGenerated": true,
+            //         "countryText": "United States"
+            //     }],
+            //     "contactTags": []
+            // }
+             let createContactResponse: any = await createContact({...inputValues})
             console.log(createContactResponse, 'createContactResponse')
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {

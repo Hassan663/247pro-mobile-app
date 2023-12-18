@@ -1,5 +1,5 @@
 // Define a type for common contact properties
-type ContactCommon = {
+export type ContactCommon = {
     notes: string;
     fileAs: string;
     dismissed: boolean;
@@ -7,7 +7,6 @@ type ContactCommon = {
     suffix: string;
     jobTitle: string;
     nickName: string;
-    lastName: string;
     contactTypeId: number;
     middleName: string;
     department: string;
@@ -24,10 +23,23 @@ type ContactCommon = {
     phoneticMiddle: string;
     profilePicture: string;
     firstName: string;
+    lastName: string;
+    contactTypeColor: string;
+    
+    
 };
 
+
 // Interface for creating a contact
-export interface IContactCreateModel extends ContactCommon {
+export interface IContactCreateModel  {
+    firstName: string;
+    lastName: string;
+    contactTypeId: number;
+    companyName: string;
+    jobTitle: string;
+    profilePicture: string;
+
+    contactTypeColor:string;
     contactSpecialities: {
         specialtyId: number;
         specialtyName: string;
@@ -36,6 +48,7 @@ export interface IContactCreateModel extends ContactCommon {
         tagId: string;
         tagName: string;
     }[];
+
     contactEmails: {
         email: string;
         label: string;
@@ -78,6 +91,8 @@ export interface IContactUpdateModel extends ContactCommon {
         contactId: number;
         tagName: string;
     }[];
+    contactTypeColor:string;
+
     contactEmails: {
         email: string;
         label: string;
@@ -119,6 +134,18 @@ export interface IContactUpdateModel extends ContactCommon {
         contactId: number;
     }[];
 }
+export interface CountryCodeModal   {
+        name: string,
+        code: string,
+        flag: number,
+        phoneCode: string,
+        phoneFormat: string,
+        hasState: boolean,
+        hasProvince: boolean,
+        isDefault: boolean,
+        isPriority: boolean,
+        id: number
+}
 
 // ContactModal class that combines IContactCreateModel and IContactUpdateModal
 export class ContactModel implements IContactCreateModel, IContactUpdateModel {
@@ -150,6 +177,7 @@ export class ContactModel implements IContactCreateModel, IContactUpdateModel {
     // Additional properties from IContactCreateModel
     contactSpecialities: { specialtyId: number; specialtyName: string }[] = [];
     contactTags: { tagId: string; contactId: number; tagName: string }[] = [];
+    contactTypeColor!: string;
 
     contactEmails: {
         email: string;

@@ -41,7 +41,7 @@ type Navigation = StackNavigationProp<RootStackParamList>;
     // dispatch(loginAction(emailPass))
     timerRef.current = setTimeout(() => {
       handleWalkThroughScreen();
-    }, 2000);
+    }, 3000);
     return () => {
       clearTimeout(timerRef.current);
     };

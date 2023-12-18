@@ -145,3 +145,12 @@ export function buisnessQuestionsValidation(selectedIndustry: string, primarySpe
     }
 
 }
+
+
+
+export function newContactValidation(firstName: string): ValidationResult {
+    if (!firstName) {
+        return createErrorResponse(VALIDATIONMESSAGE[13]);
+    }
+    return createSuccessResponse();
+}

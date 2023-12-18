@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useCallback,
     useState,
 } from 'react';
 import {
@@ -25,7 +26,7 @@ import OutlinedDropDown from '../../../../core/components/outlined-dropdown.comp
 import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { centralStyle } from '../../../../styles/constant.style';
-import { CONTACTTYPEDATA } from './data';
+import { CONTACTTYPEDATA, CONTACTTYPECOLORDATA } from './data';
 import {
     handleAttachments,
     handleOnSelect,
@@ -36,24 +37,120 @@ import {
     LeftIcon,
     PicImgModal,
     RightIcon,
-    SelectedAttachmentUI
+    SelectedAttachmentUI,
 } from './new-contact-component';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+import { ContactModel, CountryCodeModal, IContactCreateModel } from '../../../../core/modals/contact.modal';
+import { COUNTRY_LIST } from '../../../../utilities/contact-data';
+import { emailValidation } from '../../../../core/helpers/validation/validation';
+import { useToast } from 'react-native-toast-notifications';
+import { CreateContactAction } from '../../../../store/action/action';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
-    const [imageUriLocal, setimageUriLocal] = useState('');
-    const [selectedIndustry, setselectedIndustry] = useState<string>('');
+    // const [imageUriLocal, setimageUriLocal] = useState('');
+    const [countryId, setCountryId] = useState<number>()
+    // const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
+    // const [selectedIndustry, setselectedIndustry] = useState<string>('');
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
-    const [countryCode, setCountryCode] = useState<any>('PK');
+    const [countryCode, setCountryCode] = useState<any>('US');
     const [showMore, setShowMore] = useState<boolean>(false);
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [contactModal, setcontactModal] = useState<boolean>(false);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [attechments, setAttechments] = useState<any>([])
+    const toast = useToast();
 
     const dispatch: Dispatch<any> = useDispatch();
+
+    const [inputValues, setInputValues] = useState<IContactCreateModel>({
+        firstName: '',
+        lastName: '',
+        contactTypeColor: '',
+        contactTypeId: 1,
+        companyName: '',
+        jobTitle: '',
+        profilePicture: '',
+        contactTags: [{
+            tagId: '',
+            tagName: '',
+        }],
+        contactSpecialities: [{
+            specialtyId: 0,
+            specialtyName: '',
+        }],
+        contactEmails: [{
+            email: '',
+            label: '',
+            visible: true,
+        }],
+        contactAddresses: [{
+            city: '',
+            poBox: '',
+            label: '',
+            zipCode: '',
+            stateText: '',
+            streetAddress: '',
+            streetAddressLine2: '',
+            latitude: 0,
+            longitude: 0,
+            visible: true,
+            stateId: '',
+            countryId: 0,
+            provinceId: '',
+            provinceText: '',
+        }],
+        contactPhones: [{
+            phone: '',
+            label: '',
+            visible: true,
+            countryId: 0,
+        }],
+        contactOthers: [{
+            label: '',
+            value: '',
+            contactOtherTypeId: '',
+        }],
+    });
+
+
+
+
+
+    const handleInputChange = useCallback((inputName: string, text: any, nestedProperty?: string) => {
+        setInputValues((prevValues: any) => {
+            if (nestedProperty) {
+                // If a nested property is specified, update it
+                return {
+                    ...prevValues,
+                    [inputName]: {
+                        ...prevValues[inputName],
+                        [nestedProperty]: text,
+                    },
+                };
+            } else {
+                // If no nested property is specified, update the top-level property
+                return {
+                    ...prevValues,
+                    [inputName]: text,
+                };
+            }
+        });
+    }, [setInputValues]);
+
+
+  
+
+    const filteredContactObj = Object.fromEntries(
+        Object.entries(inputValues).filter(([_, value]) => {
+            // Exclude properties with empty values (null, undefined, empty string, etc.)
+            return value !== null && value !== undefined && value !== '';
+        })
+    );
+
+    console.log(filteredContactObj, 'filteredContactObjfilteredContactObjfilteredContactObj')
+
 
     return (
         <>
@@ -63,19 +160,19 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                     <View style={centralStyle.flex1}>
                         <AppHeader
                             iconL1={LeftIcon(navigation)}
-                            iconR1={RightIcon(dispatch)}
+                            iconR1={RightIcon(dispatch, inputValues)}
                             type='Poppin-18'
                             weight='600'
                             title={t(`NewContact`)} />
 
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
-                            {imageUriLocal.length > 0 ?
+                            {inputValues?.profilePicture?.length > 0 ?
                                 <View
                                     style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
                                     <Image
                                         style={styles.profileImage}
-                                        source={{ uri: imageUriLocal }} />
+                                        source={{ uri: inputValues.profilePicture }} />
                                     <TouchableOpacity
                                         activeOpacity={.8}
                                         onPress={() => setOpenPicker(true)}
@@ -94,7 +191,13 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 </TouchableOpacity>
                             }
 
-                            {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)} setimageUriLocal={setimageUriLocal} />}
+                            {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)}
+                                setInputValues={setInputValues} inputLabel={'profilePicture'}
+
+                            // setimageUriLocal={setimageUriLocal} 
+
+
+                            />}
 
                             <View style={styles.mx2}>
                                 <View style={centralStyle.my1}>
@@ -104,43 +207,71 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         color={Colors.lightGray}
                                         // fontSize={RFPercentage(1.5)}
                                         iconsSize={RFPercentage(2)}
-                                        onselect={(value: string) => { setselectedIndustry(value) }}
+                                        onselect={(value: string, index: number) => {
+                                            handleInputChange('contactTypeId', (index + 1))
+                                            handleInputChange('contactTypeColor', CONTACTTYPECOLORDATA[index])
+                                        }}
                                         DATA={CONTACTTYPEDATA}
                                         drop_down_button_style={[styles.dropDownStyle,]}
                                     />
                                 </View>
 
-                                <OutlinedTextInput title={t('firstname')} placeHolder={t('firstname')} />
-                                <OutlinedTextInput title={t('lastname')} placeHolder={t('lastname')} />
-                                <OutlinedTextInput title={t('Companyname')} placeHolder={t('Companyname')} />
+                                <OutlinedTextInput
+                                    val={inputValues.firstName}
+                                    onChange={(text) => handleInputChange('firstName', text)}
+                                    title={t('firstname')}
+                                    placeHolder={t('firstname')} />
+                                <OutlinedTextInput
+                                    val={inputValues.lastName}
+                                    onChange={(text) => handleInputChange('lastName', text)}
+                                    title={t('lastname')}
+                                    placeHolder={t('lastname')} />
+                                <OutlinedTextInput
 
-                                <OutlinedDropDown
+                                    val={inputValues.companyName}
+                                    onChange={(text) => handleInputChange('companyName', text)}
+
+                                    title={t('Companyname')}
+                                    placeHolder={t('Companyname')} />
+
+                                {/* <OutlinedDropDown
                                     dropDownStyle={styles.dropdownstyle}
                                     title={t('Industry')}
                                     color={Colors.lightGray}
                                     // fontSize={RFPercentage(1.5)}
                                     iconsSize={RFPercentage(2)}
-                                    onselect={(value: string) => { setselectedIndustry(value) }}
+                                    onselect={(value: string) => handleInputChange('selectedIndustry', value)}
                                     DATA={CONTACTTYPEDATA}
                                     drop_down_button_style={[styles.dropDownStyle,]}
-                                />
-                                <OutlinedDropDown
+                                /> */}
+                                {inputValues.contactTypeId == 2 || inputValues.contactTypeId == 3 ? <OutlinedDropDown
                                     dropDownStyle={styles.dropdownstyle}
                                     title={t('Speciality')}
                                     color={Colors.lightGray}
                                     // fontSize={RFPercentage(1.5)}
                                     iconsSize={RFPercentage(2)}
-                                    onselect={(value: string) => { setselectedIndustry(value) }}
+                                    onselect={(value: string) => handleInputChange('contactSpecialities', value, 'specialtyName')}
                                     DATA={CONTACTTYPEDATA}
                                     drop_down_button_style={[styles.dropDownStyle,]}
-                                />
+                                /> : <></>}
 
-                                <OutlinedTextInput title={t('jobTitle')} placeHolder={t('jobTitle')} />
-                                <OutlinedTextInput title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
+                                <OutlinedTextInput
+                                    val={inputValues.jobTitle}
+                                    onChange={(text) => handleInputChange('jobTitle', text)}
+                                    title={t('jobTitle')} placeHolder={t('jobTitle')} />
+                                <OutlinedTextInput
+
+                                    val={inputValues.contactOthers[0].value}
+                                    onChange={(text) => handleInputChange('contactOthers', text, 'value')}
+
+                                    title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
 
                                 <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
                                     <View style={{ flex: 9 }}>
-                                        <OutlinedTextInput title={t('Email')} placeHolder={t('Email')} />
+                                        <OutlinedTextInput
+                                            val={inputValues.contactEmails[0].email}
+                                            onChange={(text) => handleInputChange('contactEmails', text, 'email')}
+                                            title={t('Email')} placeHolder={t('Email')} />
                                     </View>
                                     <View style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd]}>
                                         <AntDesign name={`plus`} size={RFPercentage(3)} />
@@ -157,7 +288,14 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                                 withCallingCode
                                                 withFlagButton={true}
                                                 onClose={() => setIsCountryPickerVisible(false)}
-                                                onSelect={(country) => handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)}
+                                                onSelect={(country) => {
+                                                    handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)
+                                                    const getCuntryID: CountryCodeModal[] = COUNTRY_LIST.filter((code) => countryCode.toLowerCase() == code.code)
+                                                    setCountryId(getCuntryID[0].id)
+                                                    handleInputChange('contactPhones', getCuntryID[0].id, 'countryId')
+                                                    console.log(country, getCuntryID, 'getCuntryIDgetCuntryIDgetCuntryID')
+                                                }
+                                                }
                                                 visible={isCountryPickerVisible}
                                             />
                                         </View>
@@ -168,7 +306,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         />
                                     </TouchableOpacity>
                                     <View style={styles.phoneNumberInput}>
-                                        <OutlinedTextInput title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
+                                        <OutlinedTextInput
+                                            val={inputValues.contactPhones[0].phone}
+                                            onChange={(text) => handleInputChange('contactPhones', text, 'phone')}
+                                            title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                                     </View>
                                 </View>
 
@@ -189,26 +330,47 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             color={Colors.lightGray}
                                             // fontSize={RFPercentage(1.5)}
                                             iconsSize={RFPercentage(2)}
-                                            onselect={(value: string) => { setselectedIndustry(value) }}
+                                            // onselect={(value: string) => { setselectedIndustry(value) }}
                                             DATA={CONTACTTYPEDATA}
                                             drop_down_button_style={[styles.dropDownStyle,]}
                                         />
 
-                                        <OutlinedTextInput title={t('StreetAddress')} placeHolder={t('StreetAddress')} />
-                                        <OutlinedTextInput title={t('StreetAddressLine2')} placeHolder={t('StreetAddressLine2')} />
-                                        <OutlinedTextInput title={t('City')} placeHolder={t('City')} />
+                                        <OutlinedTextInput
+                                            val={inputValues.contactAddresses[0].streetAddress}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddress')}
+                                            title={t('StreetAddress')} placeHolder={t('StreetAddress')} />
+                                        <OutlinedTextInput
+                                            val={inputValues.contactAddresses[0].streetAddressLine2}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddressLine2')}
+                                            title={t('StreetAddressLine2')} placeHolder={t('StreetAddressLine2')} />
+                                        <OutlinedTextInput
+                                            val={inputValues.contactAddresses[0].city}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'city')}
+                                            title={t('City')} placeHolder={t('City')} />
 
                                         <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
                                             <View style={styles.leftSide}>
-                                                <OutlinedTextInput title={t('State')} placeHolder={t('State')} />
+                                                <OutlinedTextInput
+                                                    val={inputValues.contactAddresses[0].stateText}
+                                                    onChange={(text) => handleInputChange('contactAddresses', text, 'stateText')}
+                                                    title={t('State')} placeHolder={t('State')} />
                                             </View>
                                             <View style={styles.rightSide}>
-                                                <OutlinedTextInput title={t('ZipCode')} placeHolder={t('ZipCode')} />
+                                                <OutlinedTextInput
+                                                    val={inputValues.contactAddresses[0].zipCode}
+                                                    onChange={(text) => handleInputChange('contactAddresses', text, 'zipCode')}
+                                                    title={t('ZipCode')} placeHolder={t('ZipCode')} />
                                             </View>
                                         </View>
 
-                                        <OutlinedTextInput title={t('PObox')} placeHolder={t('PObox')} />
-                                        <OutlinedTextInput title={t('Label')} placeHolder={t('Label')} />
+                                        <OutlinedTextInput
+                                            val={inputValues.contactAddresses[0].poBox}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'poBox')}
+                                            title={t('PObox')} placeHolder={t('PObox')} />
+                                        <OutlinedTextInput
+                                            val={inputValues.contactAddresses[0].label}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'label')}
+                                            title={t('Label')} placeHolder={t('Label')} />
 
                                         <View style={[centralStyle.my1]}>
                                             <Title

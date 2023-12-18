@@ -1,5 +1,5 @@
 // @app
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -28,9 +28,11 @@ import {
     pickImage
 } from './call-back';
 import { CreateContactAction } from '../../../../store/action/action';
+import { newContactValidation } from '../../../../core/helpers/validation/validation';
+import { ContactModel, IContactCreateModel } from '../../../../core/modals/contact.modal';
 
 
-export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
+export const PicImgModal = ({ setimageUriLocal, disableModal,setInputValues,inputLabel }: any) => {
     return (
         <TouchableOpacity
             activeOpacity={.8}
@@ -49,7 +51,7 @@ export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
                         color={Colors.fontColor} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    pickImage(setimageUriLocal)
+                    pickImage(setInputValues,inputLabel)
                     disableModal()
                 }}
                     style={styles.uploadBtn}>
@@ -76,10 +78,17 @@ export const LeftIcon = (navigation?: any) => (
             title={t('Cancel')} />
     </TouchableOpacity>
 )
-export const RightIcon = (dispatch?: any) => (
+export const RightIcon = (dispatch?: any,inputValues?: IContactCreateModel) => (
     <TouchableOpacity
-        onPress={() => { dispatch(CreateContactAction()) }}
-        activeOpacity={0.8}
+        onPress={async() => { 
+        
+            let isValid = await newContactValidation(inputValues.firstName);
+
+            dispatch(CreateContactAction(inputValues)) }
+        
+        }
+        
+            activeOpacity={0.8}
         style={styles.mx2}>
         <Title
             color={1 == 1 ? Colors.fontColor : Colors.primary}
@@ -200,3 +209,41 @@ export const SelectedAttachmentUI = ({ attechments, setAttechments }: any) => {
         </View>
     )
 }
+
+
+
+
+
+ // const firstnameCallback = useCallback((val: string) => {
+    //     setFirstname(val);
+    // }, [firstname]);
+    // const lastnameCallback = useCallback((val: string) => {
+    //     setlastname(val);
+    // }, [lastname]);
+    // const companynameCallback = useCallback((val: string) => {
+    //     setcompanyname(val);
+    // }, [companyname]);
+    // const jobTitleCallback = useCallback((val: string) => {
+    //     setJobTitle(val);
+    // }, [jobTitle]);
+    // const websiteurlCallback = useCallback((val: string) => {
+    //     setWebsiteurl(val);
+    // }, [websiteurl]);
+    // const emailCallback = useCallback((val: string) => {
+    //     setEmail(val);
+    // }, [email]);
+    // const streetAddressCallback = useCallback((val: string) => {
+    //     setStreetAddress(val);
+    // }, [streetAddress]);
+    // const streetAddressLine2Callback = useCallback((val: string) => {
+    //     setStreetAddressLine2(val);
+    // }, [streetAddressLine2]);
+    // const cityCallback = useCallback((val: string) => {
+    //     setCity(val);
+    // }, [city]);
+    // const zipCodeCallback = useCallback((val: number) => {
+    //     setZipCode(val);
+    // }, [zipCode]);
+    // const POBoxCallback = useCallback((val: number) => {
+    //     setPOBox(val);
+    // }, [POBox]);
