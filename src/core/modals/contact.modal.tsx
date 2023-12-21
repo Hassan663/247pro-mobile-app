@@ -25,8 +25,6 @@ export type ContactCommon = {
     firstName: string;
     lastName: string;
     contactTypeColor: string;
-    
-    
 };
 
 
@@ -59,11 +57,14 @@ export interface IContactCreateModel  {
         label: string;
         visible: boolean;
         countryId: number;
+        countryCode?:string;
+        countryPhoneCode?:string;
     }[];
     contactOthers: {
         label: string;
+        contactId:number;
         value: string;
-        contactOtherTypeId: string;
+        contactOtherTypeId: number;
     }[];
     contactAddresses: {
         city: string;
@@ -80,6 +81,9 @@ export interface IContactCreateModel  {
         countryId: number;
         provinceId: string;
         provinceText: string;
+        countryText?: string;
+        hasState?:boolean;
+        searchGenerated?:boolean;
     }[];
 }
 
@@ -111,7 +115,7 @@ export interface IContactUpdateModel extends ContactCommon {
     contactOthers: {
         label: string;
         value: string;
-        contactOtherTypeId: string;
+        contactOtherTypeId: number;
         id: number;
         contactId: number;
     }[];
@@ -145,6 +149,16 @@ export interface CountryCodeModal   {
         isDefault: boolean,
         isPriority: boolean,
         id: number
+}
+
+export interface SpecialitiesModal   {
+        name: string;
+        publishType: number;
+        industryId: number;
+        accountId: string;
+        isDefault: boolean;
+        jobServices: [];
+        id: number;
 }
 
 // ContactModal class that combines IContactCreateModel and IContactUpdateModal
@@ -197,7 +211,7 @@ export class ContactModel implements IContactCreateModel, IContactUpdateModel {
     contactOthers: {
         label: string;
         value: string;
-        contactOtherTypeId: string;
+        contactOtherTypeId: number;
         id: number; // Add id property
         contactId: number; // Add contactId property
     }[] = [];

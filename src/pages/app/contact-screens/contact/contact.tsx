@@ -43,6 +43,7 @@ import {
     ImportModal,
     RenderItem
 } from './contact.components';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -53,6 +54,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [listData, setlistData] = useState<[]>([]);
+    const [pageIndex, setpageIndex] = useState<number>(1);
 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
@@ -72,8 +74,20 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }, [contact])
 
     useEffect(() => {
-        dispatch(ContactAction());
-    }, [])
+        dispatch(ContactAction(pageIndex));
+    }, [contact])
+
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         dispatch(ContactAction(pageIndex));
+    //         return () => {
+    //         };
+    //     }, [])
+    // );
+
+
+
+
 
     return (
         <>
@@ -184,7 +198,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                 icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
                                 title={selectedTab == t('Company') ? t('AddCompany') : t('AddContact')}
                                 titleStyle={{ color: Colors.primary }}
-                                callBack={() => { if (selectedTab == t('Company')) { changeRoute(navigation, 'NewCompany') } }}
+                                callBack={() => {
+                                    if (selectedTab == t('Company')) { changeRoute(navigation, 'NewCompany') }
+                                    else if (selectedTab == t('Contacts')) changeRoute(navigation, 'NewContact')
+                                }}
                                 customStyle={[centralStyle.row,
                                 centralStyle.alignitemCenter,
                                 centralStyle.my2,

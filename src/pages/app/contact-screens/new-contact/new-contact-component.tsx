@@ -25,14 +25,17 @@ import {
 import {
     captureImage,
     handleAttachments,
-    pickImage
+    pickImage,
+    removeEmptyFields
 } from './call-back';
 import { CreateContactAction } from '../../../../store/action/action';
-import { newContactValidation } from '../../../../core/helpers/validation/validation';
+import { emailValidation, newContactValidation } from '../../../../core/helpers/validation/validation';
 import { ContactModel, IContactCreateModel } from '../../../../core/modals/contact.modal';
+import { createContact } from '../../../../core/http-services/apis/application-api/contact/contact.service';
 
 
-export const PicImgModal = ({ setimageUriLocal, disableModal,setInputValues,inputLabel }: any) => {
+export const PicImgModal = ({ setimageUriLocal, disableModal, setInputValues, inputLabel }: any) => {
+    // plpl
     return (
         <TouchableOpacity
             activeOpacity={.8}
@@ -51,7 +54,7 @@ export const PicImgModal = ({ setimageUriLocal, disableModal,setInputValues,inpu
                         color={Colors.fontColor} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    pickImage(setInputValues,inputLabel)
+                    pickImage(setInputValues, inputLabel)
                     disableModal()
                 }}
                     style={styles.uploadBtn}>
@@ -78,20 +81,35 @@ export const LeftIcon = (navigation?: any) => (
             title={t('Cancel')} />
     </TouchableOpacity>
 )
-export const RightIcon = (dispatch?: any,inputValues?: IContactCreateModel) => (
+export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: boolean, setIsToastVisible?: any, toast?: any, Loader?: boolean, navigation?: any) => (
     <TouchableOpacity
-        onPress={async() => { 
-        
-            let isValid = await newContactValidation(inputValues.firstName);
-
-            dispatch(CreateContactAction(inputValues)) }
-        
+        disabled={Loader}
+        onPress={async () => {
+            try {
+                if (!isToastVisible) {
+                    let isValid = await newContactValidation(inputValues.firstName);
+                    if (isValid.success) {
+                        const contactDetails = await removeEmptyFields({ ...inputValues });
+                        await dispatch(CreateContactAction(contactDetails))
+                        if (!Loader) changeRoute(navigation, 'pop');
+                    } else {
+                        setIsToastVisible(true)
+                        await toast.show(isValid.message, { type: "custom_toast" });
+                        setTimeout(() => {
+                            setIsToastVisible(false);
+                        }, 5000);
+                    }
+                }
+            } catch (error) {
+                console.log('error--->', error)
+            }
         }
-        
-            activeOpacity={0.8}
+        }
+
+        activeOpacity={0.8}
         style={styles.mx2}>
         <Title
-            color={1 == 1 ? Colors.fontColor : Colors.primary}
+            color={inputValues.firstName.length ? Colors.primary : Colors.fontColor}
             type='Poppin-14'
             weight='600'
             title={t('Done')} />
@@ -211,39 +229,14 @@ export const SelectedAttachmentUI = ({ attechments, setAttechments }: any) => {
 }
 
 
-
-
-
- // const firstnameCallback = useCallback((val: string) => {
-    //     setFirstname(val);
-    // }, [firstname]);
-    // const lastnameCallback = useCallback((val: string) => {
-    //     setlastname(val);
-    // }, [lastname]);
-    // const companynameCallback = useCallback((val: string) => {
-    //     setcompanyname(val);
-    // }, [companyname]);
-    // const jobTitleCallback = useCallback((val: string) => {
-    //     setJobTitle(val);
-    // }, [jobTitle]);
-    // const websiteurlCallback = useCallback((val: string) => {
-    //     setWebsiteurl(val);
-    // }, [websiteurl]);
-    // const emailCallback = useCallback((val: string) => {
-    //     setEmail(val);
-    // }, [email]);
-    // const streetAddressCallback = useCallback((val: string) => {
-    //     setStreetAddress(val);
-    // }, [streetAddress]);
-    // const streetAddressLine2Callback = useCallback((val: string) => {
-    //     setStreetAddressLine2(val);
-    // }, [streetAddressLine2]);
-    // const cityCallback = useCallback((val: string) => {
-    //     setCity(val);
-    // }, [city]);
-    // const zipCodeCallback = useCallback((val: number) => {
-    //     setZipCode(val);
-    // }, [zipCode]);
-    // const POBoxCallback = useCallback((val: number) => {
-    //     setPOBox(val);
-    // }, [POBox]);
+export const RenderItem = ({ item }: any) => {
+    return (
+        <View style={[centralStyle.px2, styles.titleContainer, centralStyle.py05, centralStyle.mx2]}>
+            <Title
+                weight='400'
+                type='Poppin-12'
+                color={Colors.fontColor}
+                title={item} />
+        </View>
+    )
+}

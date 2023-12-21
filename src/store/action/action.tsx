@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Dispatch } from 'redux';
+import { Dispatch, RootState } from 'redux';
 
 import { loginRequestKey } from '../../utilities/constants';
 import {
@@ -115,15 +115,23 @@ export const signUpAction = (name: string, email: string, password: string) => {
 
 //  APP ACTION
 
-export const ContactAction = () => {
+export const ContactAction = (pageIndex: number,
+    // contact, setlistData
+) => {
+    // contact.forEach(function (obj: any) { obj.value = obj.fullName; });
+    // setlistData(contact)
+
     return async (dispatch: Dispatch) => {
+
         try {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), 1, 10)
-                console.log("contactResponse---->",contactResponse)
+                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 100)
+                console.log("contactResponse---->", contactResponse)
                 if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: contactResponse.data.resultData.list });
+                // contact.forEach(function (obj: any) { obj.value = obj.fullName; });
+                // setlistData(contact)
             }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
@@ -133,8 +141,8 @@ export const ContactAction = () => {
     }
 }
 
-export const CreateContactAction = (inputValues:IContactCreateModel) => {
-    return async (dispatch: Dispatch) => {
+export const CreateContactAction = (inputValues: IContactCreateModel) => {
+    return async (dispatch: Dispatch, getState: () => RootState) => {
         try {
             dispatch({ type: LOADER, payload: true });
             // let createContactData: any = {
@@ -158,8 +166,16 @@ export const CreateContactAction = (inputValues:IContactCreateModel) => {
             //     }],
             //     "contactTags": []
             // }
-             let createContactResponse: any = await createContact({...inputValues})
-            console.log(createContactResponse, 'createContactResponse')
+            // let createContactResponse: any = await createContact(inputValues)
+            const currentState = getState();
+            let creatInputValClone = JSON.parse(JSON.stringify(inputValues));
+            creatInputValClone.fullName = inputValues?.firstName + " " + inputValues?.lastName
+            let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+            contactClone.push(creatInputValClone)
+            console.log(currentState.root.contacts, 'currentState', contactClone)
+            dispatch({ type: CONTACTS, payload: contactClone });
+
+            // console.log(createContactResponse, 'createContactResponsecreateContactResponsecreateContactResponse', inputValues)
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')

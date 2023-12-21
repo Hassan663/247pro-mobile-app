@@ -1,5 +1,6 @@
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import DocumentPicker from 'react-native-document-picker'
+import { IContactCreateModel } from "../../../../core/modals/contact.modal";
 
 export const captureImage = async (setimageUriLocal: any) => {
     try {
@@ -23,7 +24,7 @@ export const captureImage = async (setimageUriLocal: any) => {
     }
 };
 
-export const pickImage = async (setInputValues:any, inputLabel: string) => {
+export const pickImage = async (setInputValues: any, inputLabel: string) => {
     try {
         let options: any = {
             title: 'Select Image',
@@ -77,4 +78,100 @@ export const openSheet = (setanim: any, setcontactModal: any) => {
 export const handleOnSelect = (country: any, setIsCountryPickerVisible: any, setCountryCode: any) => {
     setIsCountryPickerVisible(false);
     setCountryCode(country.cca2);
+};
+
+
+export const removeEmptyFields = (data: any) => {
+    for (const key in data) {
+        if (data[key] === '' || (Array.isArray(data[key]) && data[key].length === 0)) {
+            delete data[key];
+        } else if (typeof data[key] === 'object' && data[key] !== null) {
+            // Recursive call for nested objects or arrays
+            removeEmptyFields(data[key]);
+            // Remove the entire key if it becomes an empty object after removing empty fields
+            if (Object.keys(data[key]).length === 0) {
+                delete data[key];
+            }
+        }
+
+        // Additional check for contactAddresses array
+        if (key === 'contactAddresses' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((address: any) => address.streetAddress !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].streetAddress) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactEmails' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactEmails: any) => contactEmails.email !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].email) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactSpecialities' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactSpecialities: any) => contactSpecialities.specialtyName !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].specialtyName) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactPhones' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactPhones: any) => contactPhones.phone !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].phone) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactOthers' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactOthers: any) => contactOthers.value !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].value) {
+                delete data[key];
+            }
+        }
+    } return data;
+}
+
+
+
+
+// there are three function is un use bcz they have some issue that's reason we are not using these function
+
+export const removePrevField = (key: string, indexToRemove: number, setInputValues: any, inputValues: IContactCreateModel) => {
+    if (key === 'contactEmails') {
+        let contactEmailInputsClone = JSON.parse(JSON.stringify(inputValues));
+        contactEmailInputsClone?.contactEmails?.splice(indexToRemove, 1)
+        setInputValues(contactEmailInputsClone)
+    
+    }
+};
+
+export const addNewContactField = (key: string, setInputValues: any) => {
+    if (key === 'contactEmails') {
+         setInputValues((prevValues: any) => ({
+            ...prevValues,
+            contactEmails: [
+                ...prevValues.contactEmails,
+                {
+                    email: '',
+                    label: '',
+                    visible: true,
+                 },
+            ],
+        }));
+    } else if (key === 'contactOthers') {
+        setInputValues((prevValues: any) => ({
+            ...prevValues,
+            contactOthers: [
+                ...prevValues.contactOthers,
+                {
+                    label: '',
+                    value: '',
+                    contactId: 0,
+                    contactOtherTypeId: 2,
+                },
+            ],
+        }));
+    }
 };

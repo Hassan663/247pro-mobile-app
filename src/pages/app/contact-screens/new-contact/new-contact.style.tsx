@@ -272,7 +272,7 @@ export const styles: any = StyleSheet.create<any>({
     letterStyle: {
         textAlign: 'right',
         color: Colors.fontColor,
-        fontSize: RFPercentage(1.6)  ,
+        fontSize: RFPercentage(1.6),
         width: 20,
 
     },
@@ -332,4 +332,16 @@ export const styles: any = StyleSheet.create<any>({
         height: RFPercentage(8),
         width: RFPercentage(8)
     },
+    titleContainer: {
+        backgroundColor: Colors.inputBgColor,
+        borderRadius: RFPercentage(.5)
+    },
+    labelContainer: {
+        height: 40,
+        ...centralStyle.XAndYCenter,
+        ...centralStyle.row,
+        ...centralStyle.ps1,
+        width: RFPercentage(13)
+    },
+    
 });

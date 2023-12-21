@@ -1,6 +1,8 @@
 
 export const CONTACTTYPEDATA = ["Client", 'Pro', 'Supplier', 'Staff'];
+export const EMAILLABELDATA = ["Home", 'Work', 'Other',];
 export const CONTACTTYPECOLORDATA = ["#FBC02D", '#26A69A', '#EF5350', '#5C6BC0'];
+export const WEBSITEDATA = ["Homepage"];
 export const SECTIONLISTDATA= [
     { value: ':)', key: 'lCUTs2' },
     { value: 'Allen', key: 'lCUTs2' },

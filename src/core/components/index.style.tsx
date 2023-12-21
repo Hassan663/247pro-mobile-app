@@ -102,6 +102,7 @@ export const styles: any = StyleSheet.create<any>({
     inputContainer: (height: number) => ({
         height: height ? height : 65,
         justifyContent: "flex-end",
+        // backgroundColor:"red",
     }),
     inputtitle: (isActive: boolean, inputVal: any) => ({
         position: "absolute",
@@ -201,5 +202,18 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'center',
         // flex: 1,
         // backgroundColor:Colors.lightGrey
+    },
+    contactModalHeader: {
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    headerLine: {
+        height: 3,
+        width: '30%',
+        borderRadius: RFPercentage(2),
+        backgroundColor: Colors.fontColor
+    },
+    downIconWrapper: {
+        borderWidth: 1,
     },
 });

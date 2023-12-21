@@ -51,13 +51,14 @@ import {
     SelectedAttachmentUI
 } from './new-company-component';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { COUNTRY_LIST } from '../../../../utilities/contact-data';
 
 const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
-    const [imageUriLocal, setimageUriLocal] = useState('');
+    // const [imageUriLocal, setimageUriLocal] = useState('');
     const [selectedIndustry, setselectedIndustry] = useState<string>('');
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
-    const [countryCode, setCountryCode] = useState<any>('PK');
+    const [countryCode, setCountryCode] = useState<any>('US');
     const [showMore, setShowMore] = useState<boolean>(false);
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [contactModal, setcontactModal] = useState<boolean>(false);
@@ -73,6 +74,84 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
     const sheetRef = useRef<any>(null)
 
+    const [inputValues, setInputValues] = useState<any>({
+        firstName: '',
+        lastName: '',
+        contactTypeColor: '#FBC02D',
+        contactTypeId: 1,
+        companyName: '',
+        jobTitle: '',
+        profilePicture: '',
+        contactTags: [{
+            tagId: '',
+            tagName: '',
+        }],
+        contactSpecialities: [{
+            specialtyId: 0,
+            specialtyName: '',
+        }],
+        contactEmails: [{
+            email: '',
+            label: '',
+            visible: true,
+        }],
+        contactAddresses: [{
+            city: '',
+            poBox: '',
+            label: 'Home',
+            zipCode: '',
+            stateText: '',
+            streetAddress: '',
+            streetAddressLine2: '',
+            latitude: 0,
+            longitude: 0,
+            visible: true,
+            stateId: '',
+            countryId: 224,
+            provinceId: '',
+            provinceText: '',
+            hasState: true,
+            searchGenerated: true,
+            countryText: "United States"
+        }],
+        contactPhones: [{
+            phone: '',
+            label: '',
+            visible: true,
+            countryId: 224,
+            countryCode: "us",
+            countryPhoneCode: '+1'
+        }],
+        contactOthers: [{
+            label: '',
+            value: '',
+            contactId: 0,
+            contactOtherTypeId: 2,
+        }],
+    });
+
+
+
+    const handleInputChange = (inputName: string, text: any, nestedProperty?: string, index?: number) => {
+        setInputValues((prevValues: any) => {
+            if (nestedProperty && typeof (index) === 'number') {
+                let inputValuesClone = { ...prevValues }; // Corrected: Use the cloned previous values
+                inputValuesClone[inputName][index][nestedProperty] = text;
+                return inputValuesClone; // Corrected: Return the updated values
+            } else {
+                // If no nested property is specified, update the top-level property
+                return {
+                    ...prevValues,
+                    [inputName]: text,
+                };
+            }
+        });
+    };
+
+
+
+    console.log('inputValuesinputValues', inputValues)
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -87,12 +166,12 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
-                            {imageUriLocal.length > 0 ?
+                            {inputValues.profilePicture.length > 0 ?
                                 <View
                                     style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
                                     <Image
                                         style={styles.profileImage}
-                                        source={{ uri: imageUriLocal }} />
+                                        source={{ uri: inputValues.profilePicture }} />
                                     <TouchableOpacity
                                         activeOpacity={.8}
                                         onPress={() => setOpenPicker(true)}
@@ -111,13 +190,22 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 </TouchableOpacity>
                             }
 
-                            {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)} setimageUriLocal={setimageUriLocal} />}
+                            {openPicker && <PicImgModal setInputValues={setInputValues} inputLabel={'profilePicture'} disableModal={() => setOpenPicker(false)} />}
 
                             <View style={styles.mx2}>
-                                <OutlinedTextInput title={t('Companyname')} placeHolder={t('Companyname')} />
+                                <OutlinedTextInput
+                                    val={inputValues.companyName}
+                                    onChange={(text: string) => handleInputChange('companyName', text)}
+                                    title={t('Companyname')} placeHolder={t('Companyname')} />
                                 <OutlinedTextInput title={t('Contactperson')} placeHolder={t('Contactperson')} />
-                                <OutlinedTextInput title={t('jobTitle')} placeHolder={t('jobTitle')} />
-                                <OutlinedTextInput title={t('Email')} placeHolder={t('Email')} />
+                                <OutlinedTextInput
+                                    val={inputValues.jobTitle}
+                                    onChange={(text: string) => handleInputChange('jobTitle', text)}
+                                    title={t('jobTitle')} placeHolder={t('jobTitle')} />
+                                <OutlinedTextInput
+                                    val={inputValues.companyName}
+                                    onChange={(text: string) => handleInputChange('contactEmails', text, 'email', 0)}
+                                    title={t('Email')} placeHolder={t('Email')} />
                                 <View style={styles.inputWrapper2}>
                                     <TouchableOpacity
                                         onPress={() => setIsCountryPickerVisible(true)}
@@ -129,7 +217,13 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                                 withCallingCode
                                                 withFlagButton={true}
                                                 onClose={() => setIsCountryPickerVisible(false)}
-                                                onSelect={(country) => handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)}
+                                                onSelect={async (country) => {
+                                                    handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)
+                                                    const getCuntryID: any = await COUNTRY_LIST.filter((code) => country.cca2.toLowerCase() == code.code)
+                                                    handleInputChange('contactPhones', getCuntryID[0].code, 'countryCode', 0)
+                                                    handleInputChange('contactPhones', getCuntryID[0].id, 'countryId', 0)
+                                                    handleInputChange('contactPhones', getCuntryID[0].phoneCode, 'countryPhoneCode', 0)
+                                                }}
                                                 visible={isCountryPickerVisible}
                                             />
                                         </View>
@@ -143,10 +237,16 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         <OutlinedTextInput title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                                     </View>
                                 </View>
-                                <OutlinedTextInput title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
+                                <OutlinedTextInput
+                                    val={inputValues.contactOthers.value}
+                                    onChange={(text: string) => handleInputChange('contactOthers', text, 'value', 0)}
+                                    title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
                                 <OutlinedTextInput title={t('Industry')} placeHolder={t('Industry')} />
                                 <OutlinedTextInput title={t('Speciality')} placeHolder={t('Speciality')} />
-                                <OutlinedTextInput title={t('JobType')} placeHolder={t('JobType')} />
+                                <OutlinedTextInput
+                                    val={inputValues.jobTitle.value}
+                                    onChange={(text: string) => handleInputChange('jobTitle', text, 'value', 0)}
+                                    title={t('JobType')} placeHolder={t('JobType')} />
                                 <View style={[styles.inputContainer(60), {}]}>
                                     {
                                         about?.length && about?.length > 0 ?

@@ -29,7 +29,7 @@ import {
 } from './call-back';
 
 
-export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
+export const PicImgModal = ({ setimageUriLocal, disableModal,setInputValues,inputLabel }: any) => {
     return (
         <TouchableOpacity
             activeOpacity={.8}
@@ -48,7 +48,7 @@ export const PicImgModal = ({ setimageUriLocal, disableModal }: any) => {
                         color={Colors.fontColor} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    pickImage(setimageUriLocal)
+                    pickImage(setInputValues,inputLabel)
                     disableModal()
                 }}
                     style={styles.uploadBtn}>
