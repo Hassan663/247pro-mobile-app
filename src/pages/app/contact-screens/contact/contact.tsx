@@ -67,15 +67,22 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
+        console.log(contact,'contact')
         if (contact.length > 0) {
-            contact.forEach(function (obj: any) { obj.value = obj.fullName; });
-            setlistData(contact)
+             const contactClone = JSON.parse(JSON.stringify(contact));
+
+             contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
+            
+            
+            setlistData(contactClone)
+            // dispatch(ContactAction(pageIndex));
         }
     }, [contact])
 
     useEffect(() => {
         dispatch(ContactAction(pageIndex));
-    }, [contact])
+        
+    }, [ ])
 
     // useFocusEffect(
     //     React.useCallback(() => {

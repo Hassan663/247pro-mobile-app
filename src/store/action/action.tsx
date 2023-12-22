@@ -166,17 +166,14 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             //     }],
             //     "contactTags": []
             // }
-            // let createContactResponse: any = await createContact(inputValues)
+            let createContactResponse: any = await createContact(inputValues)
             const currentState = getState();
             let creatInputValClone = JSON.parse(JSON.stringify(inputValues));
             creatInputValClone.fullName = inputValues?.firstName + " " + inputValues?.lastName
             let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-            contactClone.push(creatInputValClone)
-            console.log(currentState.root.contacts, 'currentState', contactClone)
-            dispatch({ type: CONTACTS, payload: contactClone });
-
-            // console.log(createContactResponse, 'createContactResponsecreateContactResponsecreateContactResponse', inputValues)
-            dispatch({ type: LOADER, payload: false });
+            contactClone.push(createContactResponse.data.resultData)
+             dispatch({ type: CONTACTS, payload: contactClone });
+             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
