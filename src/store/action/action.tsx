@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Dispatch, RootState } from 'redux';
+import { Dispatch, } from 'redux';
 
 import { loginRequestKey } from '../../utilities/constants';
 import {
@@ -142,7 +142,7 @@ export const ContactAction = (pageIndex: number,
 }
 
 export const CreateContactAction = (inputValues: IContactCreateModel) => {
-    return async (dispatch: Dispatch, getState: () => RootState) => {
+    return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: LOADER, payload: true });
             // let createContactData: any = {
