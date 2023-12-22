@@ -1,5 +1,5 @@
 // @app
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
     View,
     TouchableOpacity,
@@ -14,24 +14,24 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
 import Colors from '../../../../styles/colors';
+import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './new-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { SECTIONLISTDATA } from './data';
+import { EMAILLABELDATA, SECTIONLISTDATA } from './data';
+import { centralStyle } from '../../../../styles/constant.style';
 import {
-    centralStyle,
-    heightFlex1
-} from '../../../../styles/constant.style';
-import {
+    addNewContactField,
     captureImage,
     handleAttachments,
     pickImage,
-    removeEmptyFields
+    removeEmptyFields,
+    removePrevField
 } from './call-back';
 import { CreateContactAction } from '../../../../store/action/action';
-import { emailValidation, newContactValidation } from '../../../../core/helpers/validation/validation';
-import { ContactModel, IContactCreateModel } from '../../../../core/modals/contact.modal';
-import { createContact } from '../../../../core/http-services/apis/application-api/contact/contact.service';
+import { newContactValidation } from '../../../../core/helpers/validation/validation';
+import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
 
 
 export const PicImgModal = ({ setimageUriLocal, disableModal, setInputValues, inputLabel }: any) => {
@@ -239,4 +239,46 @@ export const RenderItem = ({ item }: any) => {
                 title={item} />
         </View>
     )
+}
+
+
+
+
+
+export const renderComponentOfContactEmails = ({ item, index, inputValues, handleInputChange, setInputValues }: RenderComponentPropsModal) => {
+    const condition = inputValues.contactEmails.length === index + 1;
+    return (
+        <View key={index} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
+            <View style={{ flex: 7 }}>
+                <OutlinedTextInput
+                    val={item.email}
+                    onChange={(text) => handleInputChange('contactEmails', text, 'email', index)}
+                    title={t('Email')} placeHolder={t('Email')} />
+            </View>
+            <View style={[{ flex: 2.5, marginHorizontal: RFPercentage(.6) }]}>
+                <OutlinedDropDown
+                    dropDownStyle={styles.dropdownstyle}
+                    title={t('Label')}
+                    color={Colors.lightGray}
+                    iconsSize={RFPercentage(2)}
+                    onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
+                    DATA={EMAILLABELDATA}
+                    drop_down_button_style={[styles.dropDownStyle]}
+                />
+            </View>
+            {condition ? (
+                <TouchableOpacity
+                    onPress={() => addNewContactField(setInputValues)}
+                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
+                    <AntDesign name={`plus`} size={RFPercentage(3)} />
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity
+                    onPress={() => removePrevField(index, setInputValues, inputValues)}
+                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
+                    <AntDesign name={`minus`} size={RFPercentage(3)} />
+                </TouchableOpacity>
+            )}
+        </View>
+    );
 }

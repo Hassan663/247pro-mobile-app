@@ -1,6 +1,6 @@
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import DocumentPicker from 'react-native-document-picker'
-import { IContactCreateModel } from "../../../../core/modals/contact.modal";
+import { IContactCreateModel, RemovePrevFieldModal, handleOnSelectModal } from "../../../../core/modals/contact.modal";
 
 export const captureImage = async (setimageUriLocal: any) => {
     try {
@@ -46,14 +46,10 @@ export const pickImage = async (setInputValues: any, inputLabel: string) => {
             } else if (res.error) {
                 // Error occurred while selecting an image
             } else {
-                // console.log(res.assets[0].uri, 'res.assets[0].urires.assets[0].urires.assets[0].uri')
                 setInputValues((prevValues: any) => ({
                     ...prevValues,
                     [inputLabel]: res.assets[0].uri,
                 }));
-
-                // setState(res.assets[0].uri)
-                // setimageUriLocal(res.assets[0].uri);
             }
         });
 
@@ -75,7 +71,7 @@ export const openSheet = (setanim: any, setcontactModal: any) => {
     setTimeout(() => { setcontactModal(true) }, 0)
 
 }
-export const handleOnSelect = (country: any, setIsCountryPickerVisible: any, setCountryCode: any) => {
+export const handleOnSelect: handleOnSelectModal = (country, setIsCountryPickerVisible, setCountryCode) => {
     setIsCountryPickerVisible(false);
     setCountryCode(country.cca2);
 };
@@ -136,42 +132,23 @@ export const removeEmptyFields = (data: any) => {
 
 
 
-// there are three function is un use bcz they have some issue that's reason we are not using these function
 
-export const removePrevField = (key: string, indexToRemove: number, setInputValues: any, inputValues: IContactCreateModel) => {
-    if (key === 'contactEmails') {
-        let contactEmailInputsClone = JSON.parse(JSON.stringify(inputValues));
-        contactEmailInputsClone?.contactEmails?.splice(indexToRemove, 1)
-        setInputValues(contactEmailInputsClone)
-    
-    }
+export const removePrevField: RemovePrevFieldModal = (indexToRemove, setInputValues, inputValues) => {
+    let contactEmailInputsClone = JSON.parse(JSON.stringify(inputValues));
+    contactEmailInputsClone?.contactEmails?.splice(indexToRemove, 1)
+    setInputValues(contactEmailInputsClone)
 };
 
-export const addNewContactField = (key: string, setInputValues: any) => {
-    if (key === 'contactEmails') {
-         setInputValues((prevValues: any) => ({
-            ...prevValues,
-            contactEmails: [
-                ...prevValues.contactEmails,
-                {
-                    email: '',
-                    label: '',
-                    visible: true,
-                 },
-            ],
-        }));
-    } else if (key === 'contactOthers') {
-        setInputValues((prevValues: any) => ({
-            ...prevValues,
-            contactOthers: [
-                ...prevValues.contactOthers,
-                {
-                    label: '',
-                    value: '',
-                    contactId: 0,
-                    contactOtherTypeId: 2,
-                },
-            ],
-        }));
-    }
+export const addNewContactField = (setInputValues: React.Dispatch<React.SetStateAction<IContactCreateModel>>) => {
+    setInputValues((prevValues: any) => ({
+        ...prevValues,
+        contactEmails: [
+            ...prevValues.contactEmails,
+            {
+                email: '',
+                label: '',
+                visible: true,
+            },
+        ],
+    }));
 };

@@ -14,7 +14,7 @@ import {
 
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import CountryPicker from 'react-native-country-picker-modal';
+import CountryPicker, { Country } from 'react-native-country-picker-modal';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
@@ -37,19 +37,17 @@ import {
 } from '../../../../utilities/contact-data';
 import {
     CountryCodeModal,
+    HandleInputChangeType,
     IContactCreateModel
 } from '../../../../core/modals/contact.modal';
 import {
     CONTACTTYPEDATA,
     CONTACTTYPECOLORDATA,
-    EMAILLABELDATA,
 } from './data';
 import {
-    addNewContactField,
     handleAttachments,
     handleOnSelect,
     openSheet,
-    removePrevField
 } from './call-back';
 import {
     ContactModal,
@@ -57,6 +55,7 @@ import {
     PicImgModal,
     RightIcon,
     SelectedAttachmentUI,
+    renderComponentOfContactEmails,
 } from './new-contact-component';
 
 
@@ -132,9 +131,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             contactOtherTypeId: 2,
         }],
     });
-
-    const handleInputChange = useCallback((inputName: string, text: any, nestedProperty?: string, index?: number) => {
-
+    const handleInputChange: HandleInputChangeType = useCallback((inputName, text, nestedProperty, index) => {
         setInputValues((prevValues: any) => {
             if (nestedProperty && typeof (index) === 'number') {
                 let inputValuesClone = { ...prevValues }; // Corrected: Use the cloned previous values
@@ -149,22 +146,27 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             }
         });
     }, [inputValues])
-
-
-    const HandleCountrySelect = async (country: any) => {
+    const HandleCountrySelect: (country: Country) => Promise<void> = async (country) => {
+        console.log(country);
         handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)
         const getCuntryID: CountryCodeModal[] = await COUNTRY_LIST.filter((code) => country.cca2.toLowerCase() == code.code)
-        handleInputChange('contactPhones', getCuntryID[0].code, 'countryCode', 0)
-        handleInputChange('contactPhones', getCuntryID[0].id, 'countryId', 0)
-        handleInputChange('contactPhones', getCuntryID[0].phoneCode, 'countryPhoneCode', 0)
+        const contactPhoneData = [{
+            phone: inputValues.contactPhones[0].phone,
+            label: '',
+            visible: true,
+            countryId: getCuntryID[0].id,
+            countryCode: getCuntryID[0].code,
+            countryPhoneCode: getCuntryID[0].phoneCode
+        }];
+        handleInputChange('contactPhones', contactPhoneData)
     }
-
     useEffect(() => {
         const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
             return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
         }
         setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
     }, [])
+
 
     return (
         <>
@@ -259,44 +261,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                             <View style={{ flex: 9, }}>
                                 <FlatList
                                     data={inputValues.contactEmails}
-                                    renderItem={({ item, index }) => {
-                                        const condition = inputValues.contactEmails.length === index + 1;
-                                        return (
-                                            <View key={index} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
-                                                <View style={{ flex: 7 }}>
-                                                    <OutlinedTextInput
-                                                        val={item.email}
-                                                        onChange={(text) => handleInputChange('contactEmails', text, 'email', index)}
-                                                        title={t('Email')} placeHolder={t('Email')} />
-                                                </View>
-                                                <View style={[{ flex: 2.5, marginHorizontal: RFPercentage(.6) }]}>
-                                                    <OutlinedDropDown
-                                                        dropDownStyle={styles.dropdownstyle}
-                                                        title={t('Label')}
-                                                        color={Colors.lightGray}
-                                                        iconsSize={RFPercentage(2)}
-                                                        onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
-                                                        DATA={EMAILLABELDATA}
-                                                        drop_down_button_style={[styles.dropDownStyle]}
-                                                    />
-                                                </View>
-                                                {condition ? (
-                                                    <TouchableOpacity
-                                                        onPress={() => addNewContactField(`contactEmails`, setInputValues)}
-                                                        style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
-                                                        <AntDesign name={`plus`} size={RFPercentage(3)} />
-                                                    </TouchableOpacity>
-                                                ) : (
-                                                    <TouchableOpacity
-                                                        onPress={() => removePrevField(`contactEmails`, index, setInputValues, inputValues)}
-                                                        style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
-                                                        <AntDesign name={`minus`} size={RFPercentage(3)} />
-                                                    </TouchableOpacity>
-                                                )}
-                                            </View>
-                                        );
-                                    }
-                                    }
+                                    renderItem={({ item, index }) => renderComponentOfContactEmails({ item, index, inputValues, handleInputChange, setInputValues })}
                                     keyExtractor={() => Math.floor(Math.random() * 1000000).toString().padStart(6, '0')} // Assuming each item has a unique key property
                                 />
                             </View>

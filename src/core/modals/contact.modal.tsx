@@ -1,3 +1,5 @@
+import { Country } from "react-native-country-picker-modal";
+
 // Define a type for common contact properties
 export type ContactCommon = {
     notes: string;
@@ -29,7 +31,7 @@ export type ContactCommon = {
 
 
 // Interface for creating a contact
-export interface IContactCreateModel  {
+export interface IContactCreateModel {
     firstName: string;
     lastName: string;
     contactTypeId: number;
@@ -37,7 +39,7 @@ export interface IContactCreateModel  {
     jobTitle: string;
     profilePicture: string;
 
-    contactTypeColor:string;
+    contactTypeColor: string;
     contactSpecialities: {
         specialtyId: number;
         specialtyName: string;
@@ -57,12 +59,12 @@ export interface IContactCreateModel  {
         label: string;
         visible: boolean;
         countryId: number;
-        countryCode?:string;
-        countryPhoneCode?:string;
+        countryCode?: string;
+        countryPhoneCode?: string;
     }[];
     contactOthers: {
         label: string;
-        contactId:number;
+        contactId: number;
         value: string;
         contactOtherTypeId: number;
     }[];
@@ -82,8 +84,8 @@ export interface IContactCreateModel  {
         provinceId: string;
         provinceText: string;
         countryText?: string;
-        hasState?:boolean;
-        searchGenerated?:boolean;
+        hasState?: boolean;
+        searchGenerated?: boolean;
     }[];
 }
 
@@ -95,7 +97,7 @@ export interface IContactUpdateModel extends ContactCommon {
         contactId: number;
         tagName: string;
     }[];
-    contactTypeColor:string;
+    contactTypeColor: string;
 
     contactEmails: {
         email: string;
@@ -138,27 +140,27 @@ export interface IContactUpdateModel extends ContactCommon {
         contactId: number;
     }[];
 }
-export interface CountryCodeModal   {
-        name: string,
-        code: string,
-        flag: number,
-        phoneCode: string,
-        phoneFormat: string,
-        hasState: boolean,
-        hasProvince: boolean,
-        isDefault: boolean,
-        isPriority: boolean,
-        id: number
+export interface CountryCodeModal {
+    name: string,
+    code: string,
+    flag: number,
+    phoneCode: string,
+    phoneFormat: string,
+    hasState: boolean,
+    hasProvince: boolean,
+    isDefault: boolean,
+    isPriority: boolean,
+    id: number
 }
 
-export interface SpecialitiesModal   {
-        name: string;
-        publishType: number;
-        industryId: number;
-        accountId: string;
-        isDefault: boolean;
-        jobServices: [];
-        id: number;
+export interface SpecialitiesModal {
+    name: string;
+    publishType: number;
+    industryId: number;
+    accountId: string;
+    isDefault: boolean;
+    jobServices: [];
+    id: number;
 }
 
 // ContactModal class that combines IContactCreateModel and IContactUpdateModal
@@ -236,4 +238,35 @@ export class ContactModel implements IContactCreateModel, IContactUpdateModel {
     // Additional properties from IContactUpdateModal
     id: number = 0;
 }
- 
+
+
+
+export type RenderComponentPropsModal = {
+    item: {
+        email: string,
+        label: string,
+        visible: boolean,
+    };
+    index: number;
+    inputValues: IContactCreateModel; // Replace with your actual type
+    handleInputChange: HandleInputChangeType; // Replace with your actual type
+    setInputValues: React.Dispatch<React.SetStateAction<IContactCreateModel>>; // Replace with your actual type
+}
+
+export type HandleInputChangeType = (inputName: string,
+    text: any,
+    nestedProperty?: string,
+    index?: number
+) => void;
+
+export type RemovePrevFieldModal = (
+    indexToRemove: number,
+    setInputValues: React.Dispatch<React.SetStateAction<IContactCreateModel>>,
+    inputValues: IContactCreateModel,
+) => void;
+
+export type handleOnSelectModal = (
+    country: Country,
+    setIsCountryPickerVisible: React.Dispatch<React.SetStateAction<boolean>>,
+    setCountryCode: React.Dispatch<React.SetStateAction<string>>,
+) => void;
