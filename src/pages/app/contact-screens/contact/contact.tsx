@@ -67,22 +67,16 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        console.log(contact,'contact')
         if (contact.length > 0) {
-             const contactClone = JSON.parse(JSON.stringify(contact));
-
-             contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
-            
-            
+            const contactClone = JSON.parse(JSON.stringify(contact));
+            contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
             setlistData(contactClone)
-            // dispatch(ContactAction(pageIndex));
-        }
+         }
     }, [contact])
 
     useEffect(() => {
         dispatch(ContactAction(pageIndex));
-        
-    }, [ ])
+    }, [dispatch])
 
     // useFocusEffect(
     //     React.useCallback(() => {
@@ -94,6 +88,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
 
 
+    console.log(listData, 'listData')
 
 
     return (
@@ -177,6 +172,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         size={RFPercentage(2.5)} name='filter-list' />
                 </View>
                 <View style={[listData.length ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
+
                     {listData.length ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
                             <AlphabetList

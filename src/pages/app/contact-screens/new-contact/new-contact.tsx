@@ -134,6 +134,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     });
 
     const handleInputChange = useCallback((inputName: string, text: any, nestedProperty?: string, index?: number) => {
+
         setInputValues((prevValues: any) => {
             if (nestedProperty && typeof (index) === 'number') {
                 let inputValuesClone = { ...prevValues }; // Corrected: Use the cloned previous values

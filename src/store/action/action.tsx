@@ -115,19 +115,14 @@ export const signUpAction = (name: string, email: string, password: string) => {
 
 //  APP ACTION
 
-export const ContactAction = (pageIndex: number,
-    // contact, setlistData
-) => {
-    // contact.forEach(function (obj: any) { obj.value = obj.fullName; });
-    // setlistData(contact)
-
+export const ContactAction = (pageIndex: number) => {
     return async (dispatch: Dispatch) => {
 
         try {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 100)
+                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15)
                 console.log("contactResponse---->", contactResponse)
                 if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: contactResponse.data.resultData.list });
                 // contact.forEach(function (obj: any) { obj.value = obj.fullName; });
@@ -166,14 +161,16 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             //     }],
             //     "contactTags": []
             // }
+            // console.log(inputValues,'inputValues')
             let createContactResponse: any = await createContact(inputValues)
             const currentState = getState();
             let creatInputValClone = JSON.parse(JSON.stringify(inputValues));
             creatInputValClone.fullName = inputValues?.firstName + " " + inputValues?.lastName
             let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
             contactClone.push(createContactResponse.data.resultData)
-             dispatch({ type: CONTACTS, payload: contactClone });
-             dispatch({ type: LOADER, payload: false });
+            dispatch({ type: CONTACTS, payload: contactClone });
+            dispatch({ type: LOADER, payload: false });
+
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
