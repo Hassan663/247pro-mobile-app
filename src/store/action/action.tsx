@@ -116,13 +116,13 @@ export const signUpAction = (name: string, email: string, password: string) => {
 //  APP ACTION
 
 export const ContactAction = (pageIndex: number) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch, getState: any) => {
 
         try {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15)
+                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 5)
                 console.log("contactResponse---->", contactResponse)
                 if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: contactResponse.data.resultData.list });
                 // contact.forEach(function (obj: any) { obj.value = obj.fullName; });

@@ -146,12 +146,23 @@ export const styles: any = StyleSheet.create<any>({
         paddingHorizontal: RFPercentage(2),
         justifyContent: "center"
     },
-    dropDownStyle: {
-        backgroundColor: Colors.white,
-        width: "100%",
-        borderRadius: RFPercentage(1),
-        borderColor: Colors.lightGrey,
-        borderWidth: 1
+    // dropDownStyle: {
+    //     backgroundColor: Colors.white,
+    //     width: "100%",
+    //     borderRadius: RFPercentage(1),
+    //     borderColor: Colors.lightGrey,
+    //     borderWidth: 1
+    // },
+    dropDownStyle: (val: number) => {
+        // console.log(val, 'val')
+        return (
+            {
+                backgroundColor: Colors.white,
+                width: "100%",
+                borderRadius: RFPercentage(1),
+                borderColor: val > 0 ? Colors.black : Colors.lightGrey,
+                borderWidth: 1
+            })
     },
     flagContainer: {
         width: '15%',
@@ -343,5 +354,5 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.ps1,
         width: RFPercentage(13)
     },
-    
+
 });

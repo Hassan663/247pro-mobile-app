@@ -86,20 +86,21 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
         disabled={Loader}
         onPress={async () => {
             try {
-                if (!isToastVisible) {
-                    let isValid = await newContactValidation(inputValues.firstName);
-                    if (isValid.success) {
-                        const contactDetails = await removeEmptyFields({ ...inputValues });
-                        await dispatch(CreateContactAction(contactDetails))
-                        if (!Loader) changeRoute(navigation, 'pop');
-                    } else {
-                        setIsToastVisible(true)
-                        await toast.show(isValid.message, { type: "custom_toast" });
-                        setTimeout(() => {
-                            setIsToastVisible(false);
-                        }, 5000);
-                    }
-                }
+                console.log(inputValues, 'inputValues')
+                // if (!isToastVisible) {
+                //     let isValid = await newContactValidation(inputValues.firstName);
+                //     if (isValid.success) {
+                //         const contactDetails = await removeEmptyFields({ ...inputValues });
+                //         await dispatch(CreateContactAction(contactDetails))
+                //         if (!Loader) changeRoute(navigation, 'pop');
+                //     } else {
+                //         setIsToastVisible(true)
+                //         await toast.show(isValid.message, { type: "custom_toast" });
+                //         setTimeout(() => {
+                //             setIsToastVisible(false);
+                //         }, 5000);
+                //     }
+                // }
             } catch (error) {
                 console.log('error--->', error)
             }
@@ -260,10 +261,11 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
                     dropDownStyle={styles.dropdownstyle}
                     title={t('Label')}
                     color={Colors.lightGray}
+                    isPrimaryBorderOnFocus={true}
                     iconsSize={RFPercentage(2)}
                     onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
                     DATA={EMAILLABELDATA}
-                    drop_down_button_style={[styles.dropDownStyle]}
+                    drop_down_button_style={styles.dropDownStyle()}
                 />
             </View>
             {condition ? (

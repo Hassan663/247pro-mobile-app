@@ -66,17 +66,25 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const dispatch: Dispatch<any> = useDispatch();
 
+    const loadMoreData = () => {
+        setpageIndex(pageIndex + 1);
+    };
+
+
+
+
+
     useEffect(() => {
         if (contact.length > 0) {
             const contactClone = JSON.parse(JSON.stringify(contact));
             contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
             setlistData(contactClone)
-         }
+        }
     }, [contact])
 
     useEffect(() => {
         dispatch(ContactAction(pageIndex));
-    }, [dispatch])
+    }, [])
 
     // useFocusEffect(
     //     React.useCallback(() => {
@@ -189,6 +197,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     )
                                 }}
                                 renderCustomSectionHeader={CustomSectionHeader}
+                                onEndReached={loadMoreData}
+                                onEndReachedThreshold={0.1}
                             />
                         </View>
                         :

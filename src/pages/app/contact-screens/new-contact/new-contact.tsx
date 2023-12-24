@@ -79,7 +79,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         firstName: 'momo1',
         lastName: '1',
         contactTypeColor: '#FBC02D',
-        contactTypeId: 1,
+        contactTypeId: 0,
         companyName: 'momo',
         jobTitle: 'momo',
         profilePicture: '',
@@ -166,6 +166,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         }
         setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
     }, [])
+    // console.log(inputValues.contactEmails, 'inputValues.contactEmails')
 
 
     return (
@@ -216,12 +217,13 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     title={t('Contacttype')}
                                     color={Colors.lightGray}
                                     iconsSize={RFPercentage(2)}
+                                    isPrimaryBorderOnFocus={true}
                                     onselect={(value: string, index: number) => {
                                         handleInputChange('contactTypeId', (index + 1))
                                         handleInputChange('contactTypeColor', CONTACTTYPECOLORDATA[index])
                                     }}
                                     DATA={CONTACTTYPEDATA}
-                                    drop_down_button_style={[styles.dropDownStyle,]}
+                                    drop_down_button_style={styles.dropDownStyle(inputValues.contactTypeId)}
                                 />
                             </View>
                             {inputValues.contactTypeId == 2 || inputValues.contactTypeId == 3 ?
@@ -310,6 +312,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         dropDownStyle={styles.dropdownstyle}
                                         title={t('country')}
                                         color={Colors.lightGray}
+                                        isPrimaryBorderOnFocus={true}
                                         iconsSize={RFPercentage(2)}
                                         onselect={(value: string) => {
                                             const getCuntryID: CountryCodeModal[] = COUNTRY_LIST.filter((countries) => value == countries.name);
@@ -317,7 +320,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             handleInputChange('contactAddresses', getCuntryID[0].id, 'countryId', 0);
                                         }}
                                         DATA={COUNTRY_LIST.map(country => country.name)}
-                                        drop_down_button_style={[styles.dropDownStyle,]}
+                                        drop_down_button_style={styles.dropDownStyle()}
                                         search={true}
                                     />
 

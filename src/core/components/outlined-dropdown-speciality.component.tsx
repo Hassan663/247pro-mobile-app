@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, } from 'react-native-responsive-fontsize';
 
 import Colors from '../../styles/colors';
 import { platform } from '../../utilities';
@@ -44,6 +44,10 @@ const OutlinedDropDownSpeciality: React.FC<any> = ({ title, handleObject, DATA, 
         borderColor: Colors.lightGrey,
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
+        paddingHorizontal:RFPercentage(2.4),
+        paddingRight:RFPercentage(1),
+        // backgroundColor:'red',
+        margin:0,
         padding: 0
       }}
     />
