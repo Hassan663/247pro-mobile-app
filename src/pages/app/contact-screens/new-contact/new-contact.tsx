@@ -162,9 +162,19 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
             return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
         }
+
         setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
+        console.log(replaceValueWithKey(SPECIALITIES_LIST))
     }, [])
 
+
+    const addSpeciality = (specialities: any) => {
+        const getIDOfSpecialities = SPECIALITIES_LIST
+            .filter(obj => Object.values(obj).some(value => specialities.includes(value)))
+            .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
+        console.log(getIDOfSpecialities, 'getIDOfSpecialities')
+        handleInputChange('contactSpecialities', getIDOfSpecialities)
+    }
 
     return (
         <>
@@ -225,6 +235,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                             </View>
                             {inputValues.contactTypeId == 2 || inputValues.contactTypeId == 3 ?
                                 <OutlinedDropDownSpeciality
+                                    addSpeciality={addSpeciality}
                                     title={t('Speciality')}
                                     DATA={specialityData}
                                 /> : <></>}
