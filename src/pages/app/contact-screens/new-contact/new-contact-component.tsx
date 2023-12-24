@@ -86,21 +86,20 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
         disabled={Loader}
         onPress={async () => {
             try {
-                console.log(inputValues, 'inputValues')
-                // if (!isToastVisible) {
-                //     let isValid = await newContactValidation(inputValues.firstName);
-                //     if (isValid.success) {
-                //         const contactDetails = await removeEmptyFields({ ...inputValues });
-                //         await dispatch(CreateContactAction(contactDetails))
-                //         if (!Loader) changeRoute(navigation, 'pop');
-                //     } else {
-                //         setIsToastVisible(true)
-                //         await toast.show(isValid.message, { type: "custom_toast" });
-                //         setTimeout(() => {
-                //             setIsToastVisible(false);
-                //         }, 5000);
-                //     }
-                // }
+                if (!isToastVisible) {
+                    let isValid = await newContactValidation(inputValues.firstName);
+                    if (isValid.success) {
+                        const contactDetails = await removeEmptyFields({ ...inputValues });
+                        await dispatch(CreateContactAction(contactDetails))
+                        if (!Loader) changeRoute(navigation, 'pop');
+                    } else {
+                        setIsToastVisible(true)
+                        await toast.show(isValid.message, { type: "custom_toast" });
+                        setTimeout(() => {
+                            setIsToastVisible(false);
+                        }, 5000);
+                    }
+                }
             } catch (error) {
                 console.log('error--->', error)
             }

@@ -117,16 +117,17 @@ export const signUpAction = (name: string, email: string, password: string) => {
 
 export const ContactAction = (pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {
+        console.log(pageIndex, 'pageIndex')
 
         try {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 5)
-                console.log("contactResponse---->", contactResponse)
-                if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: contactResponse.data.resultData.list });
-                // contact.forEach(function (obj: any) { obj.value = obj.fullName; });
-                // setlistData(contact)
+                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15)
+                const currentState = getState();
+                let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+                let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list]
+                if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
             }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
@@ -140,28 +141,6 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: LOADER, payload: true });
-            // let createContactData: any = {
-            //     "lastName": "aaaaaa",
-            //     "contactTypeId": 2,
-            //     "contactTypeColor": "#FBC02D",
-            //     "firstName": "aaaaaaaaaaaaa",
-            //     "contactEmails": [{ "visible": true, "email": "abc@gmail.com" }],
-            //     "contactAddresses": [{
-            //         "label": "Home",
-            //         "visible": true,
-            //         "city": "karachi",
-            //         "hasState": true,
-            //         "zipCode": "24700",
-            //         "streetAddress": "R-592 sector 8 north karachi",
-            //         "countryId": 224,
-            //         "latitude": 0,
-            //         "longitude": 0,
-            //         "searchGenerated": true,
-            //         "countryText": "United States"
-            //     }],
-            //     "contactTags": []
-            // }
-            // console.log(inputValues,'inputValues')
             let createContactResponse: any = await createContact(inputValues)
             const currentState = getState();
             let creatInputValClone = JSON.parse(JSON.stringify(inputValues));

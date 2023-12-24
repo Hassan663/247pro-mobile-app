@@ -68,12 +68,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const loadMoreData = () => {
         setpageIndex(pageIndex + 1);
+        dispatch(ContactAction(pageIndex + 1));
     };
 
-
-
-
-
+ 
     useEffect(() => {
         if (contact.length > 0) {
             const contactClone = JSON.parse(JSON.stringify(contact));
@@ -85,18 +83,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     useEffect(() => {
         dispatch(ContactAction(pageIndex));
     }, [])
-
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         dispatch(ContactAction(pageIndex));
-    //         return () => {
-    //         };
-    //     }, [])
-    // );
-
-
-
-    console.log(listData, 'listData')
 
 
     return (
