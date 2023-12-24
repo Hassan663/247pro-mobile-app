@@ -9,7 +9,6 @@ import {
     SafeAreaView,
     Image,
     TouchableOpacity,
-    FlatList,
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
@@ -57,7 +56,6 @@ import {
     SelectedAttachmentUI,
     renderComponentOfContactEmails,
 } from './new-contact-component';
-
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
@@ -166,7 +164,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         }
         setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
     }, [])
-    // console.log(inputValues.contactEmails, 'inputValues.contactEmails')
 
 
     return (
@@ -261,11 +258,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
 
                             <View style={{ flex: 9, }}>
-                                <FlatList
-                                    data={inputValues.contactEmails}
-                                    renderItem={({ item, index }) => renderComponentOfContactEmails({ item, index, inputValues, handleInputChange, setInputValues })}
-                                    keyExtractor={() => Math.floor(Math.random() * 1000000).toString().padStart(6, '0')} // Assuming each item has a unique key property
-                                />
+                                {inputValues?.contactEmails?.map((item, index) => renderComponentOfContactEmails({ item, index, inputValues, handleInputChange, setInputValues }))}
                             </View>
 
                             <View style={styles.inputWrapper2}>

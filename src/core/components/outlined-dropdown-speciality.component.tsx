@@ -40,6 +40,7 @@ const OutlinedDropDownSpeciality: React.FC<any> = ({ title, handleObject, DATA, 
       }
       save="value"
       label={title}
+      
       boxStyles={{
         borderColor: Colors.lightGrey,
         borderWidth: RFPercentage(.1),

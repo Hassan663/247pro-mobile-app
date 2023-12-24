@@ -248,7 +248,7 @@ export const RenderItem = ({ item }: any) => {
 export const renderComponentOfContactEmails = ({ item, index, inputValues, handleInputChange, setInputValues }: RenderComponentPropsModal) => {
     const condition = inputValues.contactEmails.length === index + 1;
     return (
-        <View key={index} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
+        <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
             <View style={{ flex: 7 }}>
                 <OutlinedTextInput
                     val={item.email}
