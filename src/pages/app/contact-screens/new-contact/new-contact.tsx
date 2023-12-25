@@ -332,7 +332,8 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         val={inputValues.contactAddresses[0].streetAddress}
                                         onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddress', 0)}
                                         title={t('StreetAddress')} placeHolder={t('StreetAddress')} />
-                                    <OutlinedTextInput
+                                  
+                                    <OutlinedTextInput 
                                         val={inputValues.contactAddresses[0].streetAddressLine2}
                                         onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddressLine2', 0)}
                                         title={t('StreetAddressLine2')} placeHolder={t('StreetAddressLine2')} />
