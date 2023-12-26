@@ -29,7 +29,7 @@ import { styles } from './contact.style';
 import { platform } from '../../../../utilities';
 import { CONTACTLIST } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { AlphabetList } from 'react-native-section-alphabet-list';
+import { AlphabetList, IData } from 'react-native-section-alphabet-list';
 import { centralStyle } from '../../../../styles/constant.style';
 import { ContactAction } from '../../../../store/action/action';
 import {
@@ -43,7 +43,6 @@ import {
     ImportModal,
     RenderItem
 } from './contact.components';
-import { useFocusEffect } from '@react-navigation/native';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -59,9 +58,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
 
-    const handleChangeRoute = () => {
-        if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact')
-        else changeRoute(navigation, 'ViewCompany')
+    const handleChangeRoute = (item:IData) => {
+        if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact',item)
+        else changeRoute(navigation, 'ViewCompany',item)
     }
 
     const dispatch: Dispatch<any> = useDispatch();
@@ -83,7 +82,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     useEffect(() => {
         dispatch(ContactAction(pageIndex));
     }, [])
-
 
     return (
         <>
@@ -178,7 +176,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                 renderCustomItem={(item) => {
                                     return (
                                         <CompanyList
-                                            getCompany={() => { handleChangeRoute() }}
+                                            getCompany={() => { handleChangeRoute(item) }}
                                             item={item} />
                                     )
                                 }}

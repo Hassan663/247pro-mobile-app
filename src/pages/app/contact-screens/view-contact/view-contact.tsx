@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useEffect,
     useState,
 } from 'react';
 import {
@@ -8,26 +9,42 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
+    FlatList,
 } from 'react-native';
 
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 
-import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
+import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './view-contact.style';
-import { Title } from '../../../../core/components/screen-title.component';
+import { flattenObject, removeNullFields } from './call-back';
 import { centralStyle } from '../../../../styles/constant.style';
+import { Title } from '../../../../core/components/screen-title.component';
 import {
     LeftIcon,
     RightIcon,
+    renderItem
 } from './view-contact-component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-
+    
     const [companyLinked, setcompanyLinked] = useState(false)
-
+    const [contactDetails, setContactDetails] = useState<any>([])
+    
+    const effetFunc = async () => {
+        const cleanFields = await removeNullFields(route.params);
+        
+        const flattenObjectColne = await flattenObject(cleanFields);
+        setContactDetails(flattenObjectColne)
+    }
+    
+    useEffect(() => {
+        effetFunc()
+    }, [])
+    
+    console.log()
     return (
         <>
 
@@ -61,6 +78,15 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     </View>
 
                     <View style={styles.mx2}>
+        
+                         <FlatList
+                            data={contactDetails}
+                             renderItem={renderItem}
+                             keyExtractor={(item, index) => index.toString()}
+                        />
+
+
+
 
                         <OutlinedTextInput editable={false} val='+1-5436748758' title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
                         <OutlinedTextInput editable={false} val='abc123@gmail.com' title={t('Emailaddress')} placeHolder={t('Emailaddress')} />

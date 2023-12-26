@@ -10,6 +10,7 @@ import Colors from '../../../../styles/colors';
 import { styles } from './view-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import OutlinedTextInputComponent from '../../../../core/components/outlined-textInput.component';
 
 export const LeftIcon = (navigation?: any) => (
     <TouchableOpacity
@@ -29,4 +30,24 @@ export const RightIcon = (navigation?: any) => (
             weight='600'
             title={t('Edit')} />
     </TouchableOpacity>
-) 
+)
+
+
+
+export const renderItem = ({ item }: any) => {
+    if (!Array.isArray(item.value) && item.key !== 'id' && item.key !== 'contactTypeId'  ) {
+        console.log(item,'item.valueitem.value')
+      return (
+        <OutlinedTextInputComponent
+          editable={false}
+          val={item.value}
+          title={item.key} placeHolder={t('ZipCode')}
+        />
+      );
+    }
+    // Return null or another JSX element if item.value is an array
+    return null;
+  };
+
+
+{/* <OutlinedTextInput editable={false} val='123456' title={t('ZipCode')} placeHolder={t('ZipCode')} /> */} 

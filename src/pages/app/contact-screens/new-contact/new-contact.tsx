@@ -77,7 +77,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         firstName: 'momo1',
         lastName: '1',
         contactTypeColor: '#FBC02D',
-        contactTypeId: 0,
+        contactTypeId: 1,
         companyName: 'momo',
         jobTitle: 'momo',
         profilePicture: '',
