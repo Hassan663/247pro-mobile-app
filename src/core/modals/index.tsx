@@ -32,6 +32,7 @@ export type IResponse<T> = {
     statusCode?: string | number;
     validationErrors?: string[];
     resultData?: T | T[] | Page<T>;
+    data?: any;
 };
 
 

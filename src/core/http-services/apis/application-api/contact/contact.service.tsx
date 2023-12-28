@@ -4,7 +4,6 @@ import { Endpoint, IResponse } from '../../../../modals';
 import { CONTACT_ENDPOINT, CREATE_CONTACT_ENDPOINT, LOGIN_ENDPOINT } from '../../apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 const createContact = async (data: IContactCreateModel): Promise<IResponse<ContactModel>> => {
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
@@ -43,5 +42,22 @@ const getContact = async (accessToken: string, pageIndex: number, pageSize: numb
   }
 };
 
+const getContactDetails = async (accessToken: string, id: number): Promise<IResponse<ContactModel>> => {
+  try {
+    const data: any = {};
+    const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
 
-export { createContact, updateContact, getContact };
+    if (id) {
+      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `/${id}`;
+    }
+    CONTACT_DETAILS_ENDPOINT_CLONE.JWTToken = accessToken;
+    
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_DETAILS_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
+
+
+export { createContact, updateContact, getContact, getContactDetails };

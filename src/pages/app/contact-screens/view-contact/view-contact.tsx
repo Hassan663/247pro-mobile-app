@@ -12,6 +12,8 @@ import {
     FlatList,
 } from 'react-native';
 
+import Feather from 'react-native-vector-icons/Feather'
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 
@@ -19,32 +21,29 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './view-contact.style';
-import { flattenObject, removeNullFields } from './call-back';
+import {fetchingDetails } from './call-back';
 import { centralStyle } from '../../../../styles/constant.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import {
     LeftIcon,
     RightIcon,
-    renderItem
 } from './view-contact-component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    
+
     const [companyLinked, setcompanyLinked] = useState(false)
-    const [contactDetails, setContactDetails] = useState<any>([])
-    
-    const effetFunc = async () => {
-        const cleanFields = await removeNullFields(route.params);
-        
-        const flattenObjectColne = await flattenObject(cleanFields);
-        setContactDetails(flattenObjectColne)
+    const [contactDetails, setContactDetails] = useState<any>([]);
+
+    const contactDetailing = async () => {
+        const response = await fetchingDetails(route.params.id)
+        setContactDetails(response?.data?.resultData);
     }
-    
+    console.log(contactDetails, 'contactDetailscontactDetails')
     useEffect(() => {
-        effetFunc()
+        contactDetailing()
     }, [])
-    
-    console.log()
+
+
     return (
         <>
 
@@ -58,47 +57,72 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}>
-                    <View
-                        style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                        <Image
-                            style={styles.profileImage}
-                            source={require('../../../../assets/app-images/userImg.png')} />
-                    </View>
+                    {contactDetails?.profilePicture?.length > 0 ?
+                        <View
+                            style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
+                            <Image
+                                style={styles.profileImage}
+                                source={{ uri: contactDetails.profilePicture }} />
+                            <TouchableOpacity
+                                activeOpacity={.8}
+                                style={[centralStyle.circle(RFPercentage(4)), styles.editIconAdd]}>
+                                <Feather
+                                    name={'edit-2'}
+                                    color={Colors.primary}
+                                    size={RFPercentage(2)} />
+                            </TouchableOpacity>
+                        </View> :
+                        <TouchableOpacity
+                            activeOpacity={.8}
+                            style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
+                            <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
+                        </TouchableOpacity>
+                    }
                     <View style={[centralStyle.XAndYCenter, centralStyle.mb2]}>
                         <Title
                             color={Colors.black}
                             type='Poppin-24'
                             weight='600'
-                            title={t('George Lee')} />
+                            title={contactDetails?.fullName?.length > 16 ? contactDetails?.fullName?.slice(0, 16) + "..." : contactDetails?.fullName} />
                         <Title
                             color={Colors.fontColor}
                             type='Poppin-12'
                             weight='400'
-                            title={t('Client')} />
+                            title={contactDetails?.contactTypeName} />
                     </View>
 
                     <View style={styles.mx2}>
-        
-                         <FlatList
-                            data={contactDetails}
-                             renderItem={renderItem}
-                             keyExtractor={(item, index) => index.toString()}
-                        />
 
+                        {contactDetails?.contactPhones?.length > 0 ? <FlatList
+                            data={contactDetails.contactPhones}
+                            renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.phone} title={t('MobilePhone')} placeHolder={t('MobilePhone')} />}
+                        /> : <></>}
 
+                        {contactDetails?.contactEmails?.length > 0 ? <FlatList
+                            data={contactDetails.contactEmails}
+                            renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.email} title={t('Emailaddress')} placeHolder={t('Emailaddress')} />}
+                        /> : <></>}
 
+                        {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false} val={contactDetails?.preferredAddress?.length > 50 ? contactDetails?.preferredAddress?.slice(0, 50) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>}
+                        {contactDetails?.companyName ? <OutlinedTextInput editable={false} val={contactDetails.companyName} title={t('company')} placeHolder={t('company')} /> : <></>}
+                        {contactDetails?.contactSpecialities?.length > 0 ? <FlatList
+                            data={contactDetails.contactSpecialities}
+                            renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.specialtyName} title={t('Speciality')} placeHolder={t('Speciality')} />}
+                        /> : <></>}
 
-                        <OutlinedTextInput editable={false} val='+1-5436748758' title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
-                        <OutlinedTextInput editable={false} val='abc123@gmail.com' title={t('Emailaddress')} placeHolder={t('Emailaddress')} />
-                        <OutlinedTextInput editable={false} val='abc123@gmail.com' title={t('Emailaddress')} placeHolder={t('Emailaddress')} />
-                        <OutlinedTextInput editable={false} val='2715 Ash Dr. San Jose, South Dakota 83475' title={t('Address')} placeHolder={t('Address')} />
-                        <OutlinedTextInput editable={false} val='247 pro' title={t('company')} placeHolder={t('company')} />
-                        <OutlinedTextInput editable={false} val='Business' title={t('Industry')} placeHolder={t('Industry')} />
-                        <OutlinedTextInput editable={false} val='Marketing' title={t('Speciality')} placeHolder={t('Speciality')} />
-                        <OutlinedTextInput editable={false} val='Contractor' title={t('jobTitle')} placeHolder={t('jobTitle')} />
+                        {/* <OutlinedTextInput editable={false} val='Business' title={t('Industry')} placeHolder={t('Industry')} /> //this Field does not exisit  */}
+                        {contactDetails?.jobTitle ? <OutlinedTextInput editable={false} val={contactDetails.jobTitle} title={t('jobTitle')} placeHolder={t('jobTitle')} /> : <></>}
                         <OutlinedTextInput editable={false} val='htttps://www.247pro.com' title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
-                        <OutlinedTextInput editable={false} val='New York' title={t('State')} placeHolder={t('State')} />
-                        <OutlinedTextInput editable={false} val='123456' title={t('ZipCode')} placeHolder={t('ZipCode')} />
+                        {contactDetails?.contactOthers?.length > 0 ? <FlatList
+                            data={contactDetails.contactOthers}
+                            renderItem={({ item }) => {
+                                if (item.contactOtherTypeId === 2) {
+                                    return <OutlinedTextInput editable={false} val={item.value} title={t('Speciality')} placeHolder={t('Speciality')} />
+                                } else { return <></> }
+                            }}
+                        /> : <></>}
+                        {contactDetails?.contactAddresses?.stateText ? <OutlinedTextInput editable={false} val={contactDetails.contactAddresses.stateText} title={t('State')} placeHolder={t('State')} /> : <></>}
+                        {contactDetails?.contactAddresses?.zipCode ? <OutlinedTextInput editable={false} val={contactDetails.contactAddresses.zipCode} title={t('ZipCode')} placeHolder={t('ZipCode')} /> : <></>}
 
                         <View style={[centralStyle.my1]}>
                             <Title
