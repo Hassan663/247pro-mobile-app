@@ -21,7 +21,7 @@ const ScreenLoader: React.FC<Props> = ({ color, size }: any) => {
     const loader = useSelector((state: any) => state.root.loader);
 
     return (
-        !loader && <View style={[centralStyle.flex1, centralStyle.XAndYCenter, styles.screenLoaderContainer]}>
+        loader && <View style={[centralStyle.flex1, centralStyle.XAndYCenter, styles.screenLoaderContainer]}>
             <ActivityIndicator size={size ? size : RFPercentage(15)} color={color ? color : Colors.primary} />
         </View>
     );
