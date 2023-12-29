@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 
@@ -28,6 +27,7 @@ import {
     LeftIcon,
     RightIcon,
 } from './view-contact-component';
+import { Img } from '../../../../core/components/image-component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -60,8 +60,8 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     {contactDetails?.profilePicture?.length > 0 ?
                         <View
                             style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                            <Image
-                                style={styles.profileImage}
+                            <Img
+                                customStyle={styles.profileImage}
                                 source={{ uri: contactDetails.profilePicture }} />
                             <TouchableOpacity
                                 activeOpacity={.8}
@@ -75,7 +75,10 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         <TouchableOpacity
                             activeOpacity={.8}
                             style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                            <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
+                            <Title
+                                color={Colors.black}
+                                type='Poppin-61'
+                                title={contactDetails?.fullName?.slice(0, 1)?.toUpperCase()} />
                         </TouchableOpacity>
                     }
                     <View style={[centralStyle.XAndYCenter, centralStyle.mb2]}>
@@ -103,9 +106,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.email} title={t('Emailaddress')} placeHolder={t('Emailaddress')} />}
                         /> : <></>}
 
-                        {contactDetails?.preferredAddress ? <OutlinedTextInput height={contactDetails?.preferredAddress?.length > 50 ? RFPercentage(11.7) : 65} editable={false}  multiLine val={contactDetails?.preferredAddress?.length > 101 ? contactDetails?.preferredAddress?.slice(0,101) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>}
-                        {/* {contactDetails?.preferredAddress ? <OutlinedTextInput height={RFPercentage(11.6)} editable={false}  multiLine val={contactDetails?.preferredAddress.slice(0,75)} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
-                        {/* {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false}  val={contactDetails?.preferredAddress?.length > 50 ? contactDetails?.preferredAddress?.slice(0, 50) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
+                        {contactDetails?.preferredAddress ? <OutlinedTextInput height={contactDetails?.preferredAddress?.length > 50 ? RFPercentage(11.7) : 65} editable={false} multiLine val={contactDetails?.preferredAddress?.length > 101 ? contactDetails?.preferredAddress?.slice(0, 101) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>}
                         {contactDetails?.companyName ? <OutlinedTextInput editable={false} val={contactDetails.companyName} title={t('company')} placeHolder={t('company')} /> : <></>}
                         {contactDetails?.contactSpecialities?.length > 0 ? <FlatList
                             data={contactDetails.contactSpecialities}
@@ -118,7 +119,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             data={contactDetails.contactOthers}
                             renderItem={({ item }) => {
                                 if (item.contactOtherTypeId === 2) {
-                                    return <OutlinedTextInput editable={false} val={item.value}  title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
+                                    return <OutlinedTextInput editable={false} val={item.value} title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
                                 } else { return <></> }
                             }}
                         /> : <></>}

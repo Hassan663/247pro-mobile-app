@@ -14,6 +14,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
 import Colors from '../../../../styles/colors';
+import { Img } from '../../../../core/components/image-component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './new-contact.style';
@@ -124,9 +125,9 @@ export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
             <View style={[styles.companyListContainer,]}>
                 <View style={[centralStyle.row, styles.listWrapper]}>
                     <View style={[styles.flex1p2, centralStyle.justifyContentCenter]}>
-                        <Image
+                        <Img
                             source={{ uri: item.profilePicture }}
-                            style={styles.userImgStyle} />
+                            customStyle={styles.userImgStyle} />
                     </View>
                     <View style={[styles.flex8p8, centralStyle.justifyContentCenter]}>
                         <Title

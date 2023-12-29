@@ -26,10 +26,11 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import OutlinedDropDownSpeciality from '../../../../core/components/outlined-dropdown-speciality.component';
+import { OutlinedDropDownSpeciality } from '../../../../core/components/outlined-dropdown-speciality.component';
 import { styles } from './new-contact.style';
-import { Title } from '../../../../core/components/screen-title.component';
 import { centralStyle } from '../../../../styles/constant.style';
+import { Img } from '../../../../core/components/image-component';
+import { Title } from '../../../../core/components/screen-title.component';
 import {
     COUNTRY_LIST,
     SPECIALITIES_LIST
@@ -129,6 +130,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             contactOtherTypeId: 2,
         }],
     });
+
     const handleInputChange: HandleInputChangeType = useCallback((inputName, text, nestedProperty, index) => {
         setInputValues((prevValues: any) => {
             if (nestedProperty && typeof (index) === 'number') {
@@ -173,6 +175,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
         handleInputChange('contactSpecialities', getIDOfSpecialities)
     }
+    
     return (
         <>
 
@@ -189,9 +192,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                         {inputValues?.profilePicture?.length > 0 ?
                             <View
                                 style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                                <Image
-                                    style={styles.profileImage}
-                                    source={{ uri: inputValues.profilePicture }} />
+                                <Img
+                                    customStyle={styles.profileImage}
+                                    source={{ uri: inputValues.profilePicture }}
+                                />
                                 <TouchableOpacity
                                     activeOpacity={.8}
                                     onPress={() => setOpenPicker(true)}
