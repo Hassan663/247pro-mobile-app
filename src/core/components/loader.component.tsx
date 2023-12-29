@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 
 export type Props = {
     color?: string;
-    size?: string;
+    size?: string | number;
 }
 
 const Loader: React.FC<Props> = ({ color, size }: any) => {

@@ -43,6 +43,7 @@ import {
     ImportModal,
     RenderItem
 } from './contact.components';
+import ScreenLoader from '../../../../core/components/screen-loader-component';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -116,6 +117,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     setImportModal(false)
                 }}
             />}
+            <ScreenLoader />
             <View style={[centralStyle.fullHeightWithoutBottomTab, { backgroundColor: 'white' }]}>
                 <View style={centralStyle.row}>
                     <TouchableOpacity

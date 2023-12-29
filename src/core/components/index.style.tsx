@@ -216,4 +216,12 @@ export const styles: any = StyleSheet.create<any>({
     downIconWrapper: {
         borderWidth: 1,
     },
+    screenLoaderContainer: {
+        backgroundColor: "rgba(0, 0, 0, 0.1)",
+        position: 'absolute',
+        zIndex: 10,
+        height: "100%",
+        width: "100%",
+    }
 });
+
