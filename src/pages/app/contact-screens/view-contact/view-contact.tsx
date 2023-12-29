@@ -21,7 +21,7 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './view-contact.style';
-import {fetchingDetails } from './call-back';
+import { fetchingDetails } from './call-back';
 import { centralStyle } from '../../../../styles/constant.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import {
@@ -38,7 +38,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         const response = await fetchingDetails(route.params.id)
         setContactDetails(response?.data?.resultData);
     }
-    console.log(contactDetails, 'contactDetailscontactDetails')
+
     useEffect(() => {
         contactDetailing()
     }, [])
@@ -103,7 +103,9 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.email} title={t('Emailaddress')} placeHolder={t('Emailaddress')} />}
                         /> : <></>}
 
-                        {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false} val={contactDetails?.preferredAddress?.length > 50 ? contactDetails?.preferredAddress?.slice(0, 50) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>}
+                        {contactDetails?.preferredAddress ? <OutlinedTextInput height={contactDetails?.preferredAddress?.length > 50 ? RFPercentage(11.7) : 65} editable={false}  multiLine val={contactDetails?.preferredAddress?.length > 101 ? contactDetails?.preferredAddress?.slice(0,101) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>}
+                        {/* {contactDetails?.preferredAddress ? <OutlinedTextInput height={RFPercentage(11.6)} editable={false}  multiLine val={contactDetails?.preferredAddress.slice(0,75)} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
+                        {/* {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false}  val={contactDetails?.preferredAddress?.length > 50 ? contactDetails?.preferredAddress?.slice(0, 50) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
                         {contactDetails?.companyName ? <OutlinedTextInput editable={false} val={contactDetails.companyName} title={t('company')} placeHolder={t('company')} /> : <></>}
                         {contactDetails?.contactSpecialities?.length > 0 ? <FlatList
                             data={contactDetails.contactSpecialities}
@@ -112,12 +114,11 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                         {/* <OutlinedTextInput editable={false} val='Business' title={t('Industry')} placeHolder={t('Industry')} /> //this Field does not exisit  */}
                         {contactDetails?.jobTitle ? <OutlinedTextInput editable={false} val={contactDetails.jobTitle} title={t('jobTitle')} placeHolder={t('jobTitle')} /> : <></>}
-                        <OutlinedTextInput editable={false} val='htttps://www.247pro.com' title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
                         {contactDetails?.contactOthers?.length > 0 ? <FlatList
                             data={contactDetails.contactOthers}
                             renderItem={({ item }) => {
                                 if (item.contactOtherTypeId === 2) {
-                                    return <OutlinedTextInput editable={false} val={item.value} title={t('Speciality')} placeHolder={t('Speciality')} />
+                                    return <OutlinedTextInput editable={false} val={item.value}  title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
                                 } else { return <></> }
                             }}
                         /> : <></>}

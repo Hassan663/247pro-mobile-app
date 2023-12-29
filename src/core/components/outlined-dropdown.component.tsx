@@ -33,7 +33,6 @@ interface OutlinedDropDownProps {
 const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defaultValueByIndex, dropDownStyle, isPrimaryBorderOnFocus, color, DATA, onselect, fontSize, iconsSize, drop_down_button_style, search }) => {
   const [isActive, setIsActive] = useState(false);
   const [dropdownVal, setdropdownVal] = useState(defaultValueByIndex ? DATA[defaultValueByIndex] : '')
-  console.log(dropdownVal, 'dropdownValdropdownValdropdownValdropdownVal')
 
   return (
     <>

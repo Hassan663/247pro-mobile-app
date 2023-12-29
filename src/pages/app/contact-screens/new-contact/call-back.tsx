@@ -1,6 +1,15 @@
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import DocumentPicker from 'react-native-document-picker'
-import { IContactCreateModel, RemovePrevFieldModal, handleOnSelectModal } from "../../../../core/modals/contact.modal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+    launchCamera,
+    launchImageLibrary
+} from "react-native-image-picker";
+import {
+    IContactCreateModel,
+    RemovePrevFieldModal,
+    handleOnSelectModal
+} from "../../../../core/modals/contact.modal";
+import { uploadImage } from "../../../../core/http-services/apis/application-api/contact/contact.service";
 
 export const captureImage = async (setimageUriLocal: any) => {
     try {
@@ -26,6 +35,8 @@ export const captureImage = async (setimageUriLocal: any) => {
 
 export const pickImage = async (setInputValues: any, inputLabel: string) => {
     try {
+        let accessToken = await AsyncStorage.getItem('accessToken');
+
         let options: any = {
             title: 'Select Image',
             includeBase64: true,
@@ -46,10 +57,14 @@ export const pickImage = async (setInputValues: any, inputLabel: string) => {
             } else if (res.error) {
                 // Error occurred while selecting an image
             } else {
-                setInputValues((prevValues: any) => ({
-                    ...prevValues,
-                    [inputLabel]: res.assets[0].uri,
-                }));
+                const fileName = res.fileName || 'image.jpg';
+                if (accessToken) {
+                    const img = await uploadImage(res.assets[0].uri, fileName, JSON.parse(accessToken))
+                    setInputValues((prevValues: any) => ({
+                        ...prevValues,
+                        [inputLabel]: img?.data,
+                    }));
+                }
             }
         });
 

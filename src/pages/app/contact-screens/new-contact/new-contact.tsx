@@ -144,8 +144,8 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             }
         });
     }, [inputValues])
+
     const HandleCountrySelect: (country: Country) => Promise<void> = async (country) => {
-        console.log(country);
         handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)
         const getCuntryID: CountryCodeModal[] = await COUNTRY_LIST.filter((code) => country.cca2.toLowerCase() == code.code)
         const contactPhoneData = [{
@@ -158,13 +158,12 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         }];
         handleInputChange('contactPhones', contactPhoneData)
     }
+
     useEffect(() => {
         const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
             return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
         }
-
         setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
-        console.log(replaceValueWithKey(SPECIALITIES_LIST))
     }, [])
 
 
@@ -172,10 +171,8 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         const getIDOfSpecialities = SPECIALITIES_LIST
             .filter(obj => Object.values(obj).some(value => specialities.includes(value)))
             .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
-        console.log(getIDOfSpecialities, 'getIDOfSpecialities')
         handleInputChange('contactSpecialities', getIDOfSpecialities)
     }
-
     return (
         <>
 
@@ -332,8 +329,8 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         val={inputValues.contactAddresses[0].streetAddress}
                                         onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddress', 0)}
                                         title={t('StreetAddress')} placeHolder={t('StreetAddress')} />
-                                  
-                                    <OutlinedTextInput 
+
+                                    <OutlinedTextInput
                                         val={inputValues.contactAddresses[0].streetAddressLine2}
                                         onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddressLine2', 0)}
                                         title={t('StreetAddressLine2')} placeHolder={t('StreetAddressLine2')} />

@@ -31,6 +31,7 @@ export const BIDCOST_ENDPOINT: Endpoint = createEndpoint('/api/bidcost', true);
 // APP ENDPOINTS
 export const CONTACT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/application-api/v1/contacts`, false);
 export const CREATE_CONTACT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/application-api/v1/contacts`, false);
+export const UPLOAD_IMAGE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/contacts/upload/profile-image`, false);
 // APP ENDPOINTS
 
 // Rest of the code remains the same
