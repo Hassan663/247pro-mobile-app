@@ -57,7 +57,6 @@ import {
     SelectedAttachmentUI,
     renderComponentOfContactEmails,
 } from './new-contact-component';
-import ScreenLoader from '../../../../core/components/screen-loader-component';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
@@ -179,7 +178,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
     return (
         <>
-            <ScreenLoader />
             <SafeAreaView style={styles.container}>
                 <KeyboardAwareScrollView>
                     <View style={centralStyle.flex1}>

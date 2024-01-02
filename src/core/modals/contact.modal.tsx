@@ -253,6 +253,18 @@ export type RenderComponentPropsModal = {
     setInputValues: React.Dispatch<React.SetStateAction<IContactCreateModel>>; // Replace with your actual type
 }
 
+export type RenderComponentOfEditContactPropsModal = {
+    item: {
+        email: string,
+        label: string,
+        visible: boolean,
+    };
+    index: number;
+    contactDetails: IContactCreateModel; // Replace with your actual type
+    handleInputChange: HandleInputChangeType; // Replace with your actual type
+    setContactDetails: React.Dispatch<React.SetStateAction<IContactCreateModel>>; // Replace with your actual type
+}
+
 export type HandleInputChangeType = (inputName: string,
     text: any,
     nestedProperty?: string,

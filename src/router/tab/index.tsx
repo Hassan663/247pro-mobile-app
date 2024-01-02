@@ -38,6 +38,7 @@ import AddNewJob from '../../pages/app/menu-screens/add-new-job/add-new-job';
 import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job-describe-scope/post-a-job-describe-scope';
 import PostAJobMatchPro from '../../pages/app/menu-screens/post-a-job-match-pro/post-a-job-match-pro';
 import SuccessfullyPosted from '../../pages/app/menu-screens/successfully-posted/successfully-posted';
+import EditContact from '../../pages/app/contact-screens/edit-contact/edit-contact';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
@@ -63,6 +64,7 @@ export default function appNavigation() {
         <Stack.Screen name="EditBizCard" component={EditBizCard} />
         <Stack.Screen name="ViewCompany" component={ViewCompany} />
         <Stack.Screen name="EditCompany" component={EditCompany} />
+        <Stack.Screen name="EditContact" component={EditContact} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="BidderDetail" component={BidderDetail} />
         <Stack.Screen name="SelectRegion" component={SelectRegion} />

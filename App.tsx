@@ -25,6 +25,7 @@ import Colors from './src/styles/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppNavigation from './src/router/tab/index';
 import AuthNavigation from './src/router/auth';
+import ScreenLoader from './src/core/components/screen-loader-component';
 import { Title } from './src/core/components/screen-title.component';
 import { platform } from './src/utilities';
 import { loginAction } from './src/store/action/action';
@@ -123,6 +124,7 @@ const App: React.FC = () => {
                                 ),
                             }}
                         >
+                            <ScreenLoader />
                             <MainComponent />
                         </ToastProvider>
                     </PortalProvider>

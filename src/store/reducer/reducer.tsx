@@ -4,7 +4,8 @@ import {
     OTPSUPPORTED,
     INITIALROUTE,
     SPLASHSTATUSBAR,
-    CONTACTS
+    CONTACTS,
+    SCREENLOADER
 } from '../constant/constant'
 
 export type Action = {
@@ -15,6 +16,7 @@ export type Action = {
 const INITIAL_STATE = {
     otpSupported: false,
     loader: false,
+    screenLoader: false,
     splashStatusBar: false,
     initialRoute: 'Splash',
     currentUserProfile: {},
@@ -53,6 +55,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 loader: action.payload
+            })
+        case SCREENLOADER:
+            return ({
+                ...states,
+                screenLoader: action.payload
             })
         case CONTACTS:
             return ({

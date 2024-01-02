@@ -21,8 +21,9 @@ export const LeftIcon = (navigation?: any) => (
   </TouchableOpacity>
 )
 
-export const RightIcon = (navigation?: any) => (
+export const RightIcon = (navigation?: any, contactDetails?: any) => (
   <TouchableOpacity
+    onPress={() => { if (contactDetails) changeRoute(navigation, 'EditContact', contactDetails) }}
     activeOpacity={.8}
     style={styles.mx2}>
     <Title

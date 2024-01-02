@@ -1,4 +1,6 @@
 import React, {
+    useEffect
+    , useState
 } from 'react';
 import {
     View,
@@ -18,12 +20,17 @@ export type Props = {
 }
 
 const ScreenLoader: React.FC<Props> = ({ color, size }: any) => {
-    const loader = useSelector((state: any) => state.root.loader);
+    const [isLoading, setisLoading] = useState<Boolean>(false);
+    const screenLoader = useSelector((state: any) => state.root.screenLoader);
+
+    useEffect(() => {
+        setisLoading(screenLoader);
+    }, [screenLoader]);
 
     return (
-        loader && <View style={[centralStyle.flex1, centralStyle.XAndYCenter, styles.screenLoaderContainer]}>
+        isLoading && (<View style={[centralStyle.XAndYCenter, styles.screenLoaderContainer]}>
             <ActivityIndicator size={size ? size : RFPercentage(15)} color={color ? color : Colors.primary} />
-        </View>
+        </View >)
     );
 };
 

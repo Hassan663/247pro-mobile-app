@@ -1,6 +1,7 @@
 import React, {
   memo,
-  useState
+  useState,
+  useEffect
 } from 'react';
 import {
   View,
@@ -35,6 +36,11 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
   const handleFocus = () => { setIsActive(true) }
 
   const handleBlur = () => { setIsActive(false) }
+
+
+  useEffect(() => {
+    setInputVal(val ? val : '')
+  }, [val])
 
   return (
     <View style={styles.inputContainer(height)}>

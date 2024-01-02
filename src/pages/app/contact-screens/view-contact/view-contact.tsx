@@ -28,7 +28,6 @@ import {
     RightIcon,
 } from './view-contact-component';
 import { Img } from '../../../../core/components/image-component';
-import ScreenLoader from '../../../../core/components/screen-loader-component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
@@ -50,7 +49,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
             <SafeAreaView style={styles.container}>
                 <AppHeader
                     iconL1={LeftIcon(navigation)}
-                    iconR1={RightIcon(navigation)}
+                    iconR1={RightIcon(navigation,contactDetails)}
                     type='Poppin-18'
                     weight='600'
                     title={t(`Contacts`)} />

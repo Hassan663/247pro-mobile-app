@@ -11,7 +11,8 @@ import {
     CONTACTS,
     CURRENTUSERPROFILE,
     INITIALROUTE,
-    LOADER
+    LOADER,
+    SCREENLOADER
 } from '../constant/constant';
 import {
     forget_password,
@@ -20,7 +21,7 @@ import {
     userIdentity,
     signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
-import { createContact, getContact } from '../../core/http-services/apis/application-api/contact/contact.service';
+import { createContact, editContact, getContact } from '../../core/http-services/apis/application-api/contact/contact.service';
 import { ContactModel, IContactCreateModel } from '../../core/modals/contact.modal';
 
 //  LOGIN ACTION
@@ -117,10 +118,9 @@ export const signUpAction = (name: string, email: string, password: string) => {
 
 export const ContactAction = (pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {
-        console.log(pageIndex, 'pageIndex')
-
         try {
             dispatch({ type: LOADER, payload: true });
+            dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15)
@@ -129,9 +129,11 @@ export const ContactAction = (pageIndex: number) => {
                 let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list]
                 if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
             }
+            dispatch({ type: SCREENLOADER, payload: false });
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
+            dispatch({ type: SCREENLOADER, payload: false });
             dispatch({ type: LOADER, payload: false });
         }
     }
@@ -140,6 +142,7 @@ export const ContactAction = (pageIndex: number) => {
 export const CreateContactAction = (inputValues: IContactCreateModel) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
+            dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let createContactResponse: any = await createContact(inputValues)
             const currentState = getState();
@@ -149,10 +152,28 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             contactClone.push(createContactResponse.data.resultData)
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+}
+
+export const EditContactAction = (inputValues: IContactCreateModel) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            let editContactResponse: any = await editContact(inputValues)
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
 
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
         }
     }
 }

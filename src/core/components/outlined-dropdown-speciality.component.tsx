@@ -8,7 +8,7 @@ import { platform } from '../../utilities';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 
 
-export const OutlinedDropDownSpeciality: React.FC<any> = ({ title, addSpeciality, DATA, iconsSize, dropdownShow, setDropdownShow }) => {
+export const OutlinedDropDownSpeciality: React.FC<any> = ({ title, addSpeciality, DATA, iconsSize, dropdownShow, setDropdownShow ,defaultOption}) => {
   const [specialities, setSpecialities] = useState<[]>([])
   useEffect(() => {
     addSpeciality(specialities)
@@ -28,6 +28,7 @@ export const OutlinedDropDownSpeciality: React.FC<any> = ({ title, addSpeciality
           name="check"
           size={iconsSize ? iconsSize : platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} color={Colors.primary} />
       }
+      defaultOption={defaultOption}
       save="value"
       label={title}
       boxStyles={{
