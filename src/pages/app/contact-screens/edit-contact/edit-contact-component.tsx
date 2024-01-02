@@ -24,16 +24,17 @@ import {
     heightFlex1
 } from '../../../../styles/constant.style';
 import {
+    addIdsToArrays,
     addNewContactField,
     captureImage,
     handleAttachments,
     pickImage,
+    removeEmptyFields,
     removePrevField
 } from './call-back';
 import { RenderComponentOfEditContactPropsModal } from '../../../../core/modals/contact.modal';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import { newContactValidation } from '../../../../core/helpers/validation/validation';
-import { removeEmptyFields } from '../new-contact/call-back';
 import { EditContactAction } from '../../../../store/action/action';
 
 
@@ -56,7 +57,7 @@ export const PicImgModal = ({ disableModal, setContactDetails, inputLabel }: any
                         color={Colors.fontColor} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    pickImage(setContactDetails,inputLabel)
+                    pickImage(setContactDetails, inputLabel)
                     disableModal()
                 }}
                     style={styles.uploadBtn}>
@@ -94,7 +95,8 @@ export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any
                 let isValid = await newContactValidation(contactDetails.firstName);
                 if (isValid.success) {
                     const contactDetail = await removeEmptyFields({ ...contactDetails });
-                    await dispatch(EditContactAction(contactDetail))
+                    const addContactID: any = await addIdsToArrays(contactDetail, contactDetail.id);
+                    await dispatch(EditContactAction(addContactID))
                     if (!Loader) changeRoute(navigation, 'pop');
                 } else {
                     setIsToastVisible(true)

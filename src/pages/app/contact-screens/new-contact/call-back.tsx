@@ -144,10 +144,6 @@ export const removeEmptyFields = (data: any) => {
     } return data;
 }
 
-
-
-
-
 export const removePrevField: RemovePrevFieldModal = (indexToRemove, setInputValues, inputValues) => {
     let contactEmailInputsClone = JSON.parse(JSON.stringify(inputValues));
     contactEmailInputsClone?.contactEmails?.splice(indexToRemove, 1)

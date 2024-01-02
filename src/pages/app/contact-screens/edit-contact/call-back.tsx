@@ -26,7 +26,7 @@ export const captureImage = async (setimageUriLocal: any) => {
     }
 };
 
-export const pickImage = async (setContactDetails:any,inputLabel:string) => {
+export const pickImage = async (setContactDetails: any, inputLabel: string) => {
     try {
         let accessToken = await AsyncStorage.getItem('accessToken');
         let options: any = {
@@ -103,3 +103,74 @@ export const addNewContactField = (setContactDetails: React.Dispatch<React.SetSt
         ],
     }));
 };
+
+
+interface ContactData {
+    [key: string]: any;
+}
+
+export function addIdsToArrays(data: ContactData, contactID: number): ContactData {
+    for (const key in data) {
+        if (Array.isArray(data[key])) {
+            (data[key] as Array<any>).forEach((obj: any) => {
+                obj.contactId = contactID;
+            });
+        }
+    }
+    return data;
+}
+
+
+
+
+export const removeEmptyFields = (data: any) => {
+    for (const key in data) {
+        if (data[key] === '' || data[key] === null || (Array.isArray(data[key]) && data[key].length === 0)) {
+            delete data[key];
+        } else if (typeof data[key] === 'object' && data[key] !== null) {
+            // Recursive call for nested objects or arrays
+            removeEmptyFields(data[key]);
+            // Remove the entire key if it becomes an empty object after removing empty fields
+            if (Object.keys(data[key]).length === 0) {
+                delete data[key];
+            }
+        }
+
+        // Additional check for contactAddresses array
+        if (key === 'contactAddresses' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((address: any) => address.streetAddress !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].streetAddress) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactEmails' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactEmails: any) => contactEmails.email !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].email) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactSpecialities' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactSpecialities: any) => contactSpecialities.specialtyName !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].specialtyName) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactPhones' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactPhones: any) => contactPhones.phone !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].phone) {
+                delete data[key];
+            }
+        }
+        if (key === 'contactOthers' && Array.isArray(data[key])) {
+            data[key] = data[key].filter((contactOthers: any) => contactOthers.value !== '');
+            // Remove the entire key if it becomes an empty array after filtering
+            if (!data[key][0].value) {
+                delete data[key];
+            }
+        }
+    } return data;
+}

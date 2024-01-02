@@ -162,11 +162,17 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
 }
 
 export const EditContactAction = (inputValues: IContactCreateModel) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let editContactResponse: any = await editContact(inputValues)
+            const currentState = getState();
+            let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+            contactClone.push(editContactResponse.data.resultData)
+            let removeContactIndex = contactClone.findIndex((i: any) => i.id === editContactResponse.data.resultData.id)
+            contactClone.splice(removeContactIndex, 1, editContactResponse.data.resultData)
+            dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {

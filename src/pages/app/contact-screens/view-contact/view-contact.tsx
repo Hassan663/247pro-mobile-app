@@ -39,16 +39,17 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
     const [contactDetails, setContactDetails] = useState<any>([]);
     const dispatch: Dispatch<any> = useDispatch();
     const Loader = useSelector((state: any) => state.root.loader);
+    const contact = useSelector((state: any) => state.root.contacts);
 
     const contactDetailing = async () => {
         const response = await fetchingDetails(route.params.id, dispatch)
         setContactDetails(response?.data?.resultData);
         dispatch({ type: SCREENLOADER, payload: false })
     }
-
+    
     useEffect(() => {
         contactDetailing()
-    }, [])
+    }, [contact])
 
 
     return (

@@ -18,8 +18,9 @@ const createContact = async (data: IContactCreateModel): Promise<IResponse<Conta
 const editContact = async (data: IContactCreateModel): Promise<IResponse<ContactModel>> => {
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
-    if (accessToken !== null) { CREATE_CONTACT_ENDPOINT.JWTToken = JSON.parse(accessToken) }
-    return await putApi<IContactCreateModel, ContactModel>(CREATE_CONTACT_ENDPOINT, data);
+    const uri = {...CREATE_CONTACT_ENDPOINT}
+    if (accessToken !== null) { uri.JWTToken = JSON.parse(accessToken) }
+    return await putApi<IContactCreateModel, ContactModel>(uri, data);
   } catch (error) {
     console.error('Login error service:', error);
     throw error;
