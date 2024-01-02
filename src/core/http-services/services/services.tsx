@@ -38,10 +38,11 @@ const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<I
 
 const deleteApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint): Promise<IResponse<TRes>> => {
   try {
+    console.log(LOGIN_ENDPOINT,"LOGIN_ENDPOINT")
     // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
-    const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
-
+    const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${LOGIN_ENDPOINT.JWTToken}` } : {};
     const response: any = await axios.delete(LOGIN_ENDPOINT.url, { headers });
+    console.log(response,"response Of delete")
     return response
   } catch (error) {
     const axiosError = error as AxiosError;

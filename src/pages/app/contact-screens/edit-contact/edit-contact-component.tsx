@@ -89,8 +89,8 @@ export const LeftIcon = (navigation?: any) => (
 export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any, isToastVisible?: boolean, setIsToastVisible?: any, toast?: any, Loader?: boolean) => (
     <TouchableOpacity onPress={async () => {
         try {
+            console.log(contactDetails)
             if (!isToastVisible) {
-                console.log(contactDetails, 'contactDetails')
                 let isValid = await newContactValidation(contactDetails.firstName);
                 if (isValid.success) {
                     const contactDetail = await removeEmptyFields({ ...contactDetails });

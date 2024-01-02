@@ -302,4 +302,10 @@ export const styles: any = StyleSheet.create<any>({
         height: RFPercentage(8),
         width: RFPercentage(8)
     },
+    deleteBtn: {
+        color: Colors.errorColor,
+        fontWeight: '600',
+        fontSize: 14,
+        textTransform: 'uppercase'
+    },
 });

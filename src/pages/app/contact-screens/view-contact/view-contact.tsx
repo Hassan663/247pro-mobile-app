@@ -1,5 +1,6 @@
 // @app
 import React, {
+    Dispatch,
     useEffect,
     useState,
 } from 'react';
@@ -20,7 +21,7 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './view-contact.style';
-import { fetchingDetails } from './call-back';
+import { deleteContact, fetchingDetails } from './call-back';
 import { centralStyle } from '../../../../styles/constant.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import {
@@ -28,15 +29,21 @@ import {
     RightIcon,
 } from './view-contact-component';
 import { Img } from '../../../../core/components/image-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { SCREENLOADER } from '../../../../store/constant/constant';
+import Button from '../../../../core/components/button.component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [companyLinked, setcompanyLinked] = useState(false)
     const [contactDetails, setContactDetails] = useState<any>([]);
+    const dispatch: Dispatch<any> = useDispatch();
+    const Loader = useSelector((state: any) => state.root.loader);
 
     const contactDetailing = async () => {
-        const response = await fetchingDetails(route.params.id)
+        const response = await fetchingDetails(route.params.id, dispatch)
         setContactDetails(response?.data?.resultData);
+        dispatch({ type: SCREENLOADER, payload: false })
     }
 
     useEffect(() => {
@@ -49,7 +56,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
             <SafeAreaView style={styles.container}>
                 <AppHeader
                     iconL1={LeftIcon(navigation)}
-                    iconR1={RightIcon(navigation,contactDetails)}
+                    iconR1={RightIcon(navigation, contactDetails)}
                     type='Poppin-18'
                     weight='600'
                     title={t(`Contacts`)} />
@@ -172,6 +179,15 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 />
                             </View>
                         </View>
+                        <Button
+                            callBack={() => deleteContact(contactDetails.id, navigation, Loader, dispatch)}
+                            customStyle={[
+                                centralStyle.my2,
+                                centralStyle.XAndYCenter
+                            ]}
+                            title={t('Delete Contact')}
+                            titleStyle={styles.deleteBtn}
+                        />
                     </View>
                 </ScrollView >
             </SafeAreaView >

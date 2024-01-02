@@ -106,15 +106,11 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
             }
         });
     }, [contactDetails])
-    console.log(contactDetails, 'contactDetails')
-
+    
     useEffect(() => {
-        console.log(route.params, "route.paramsroute.params")
-        const { companyName, jobTitle, firstName, lastName, contactTypeColor, profilePicture, contactTypeId, contactSpecialities, contactEmails, contactAddresses, contactPhones, contactOthers } = route.params;
-        console.log({
-            contactSpecialities
-        }, 'contactSpecialities')
+        const { companyName, jobTitle, firstName, lastName, contactTypeColor, profilePicture, contactTypeId, contactSpecialities, contactEmails, contactAddresses, contactPhones, contactOthers,id } = route.params;
         setContactDetails({
+            id,
             firstName,
             lastName,
             contactTypeColor,
@@ -168,21 +164,29 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                 contactId: 0,
                 contactOtherTypeId: 2,
             }],
-        })
+        });
+
         const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
             return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
-        }
-        setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
-    }, [route.params])
-
+        };
+        setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST));
+    }, [route.params]);
 
     const addSpeciality = (specialities: any) => {
         const getIDOfSpecialities = SPECIALITIES_LIST
             .filter(obj => Object.values(obj).some(value => specialities.includes(value)))
             .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
-        handleInputChange('contactSpecialities', getIDOfSpecialities)
+        handleInputChange('contactSpecialities', contactDetails.contactSpecialities)
     }
-
+    const getCountrySet = (id: number) => {
+        const index = COUNTRY_LIST.findIndex(countries => countries.id === id);
+        if (index !== -1) {
+            return index
+        } else {
+            console.log(`'${2}' not found in the array.`);
+        }
+    }
+    // PROB IN IT
     const HandleCountrySelect: (country: Country) => Promise<void> = async (country) => {
         handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)
         const getCuntryID: CountryCodeModal[] = await COUNTRY_LIST.filter((code) => country.cca2.toLowerCase() == code.code)
@@ -195,15 +199,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
             countryPhoneCode: getCuntryID && getCuntryID[0].phoneCode
         }];
         handleInputChange('contactPhones', contactPhoneData)
-    }
-
-    const getCountrySet = (id: number) => {
-        const index = COUNTRY_LIST.findIndex(countries => countries.id === id);
-        if (index !== -1) {
-            return index
-        } else {
-            console.log(`'${2}' not found in the array.`);
-        }
     }
 
     return (
@@ -313,7 +308,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                                     withCallingCode
                                                     withFlagButton={true}
                                                     onClose={() => setIsCountryPickerVisible(false)}
-                                                    // onSelect={HandleCountrySelect}
+                                                    onSelect={HandleCountrySelect}
                                                     visible={isCountryPickerVisible}
                                                 />
                                             </View>

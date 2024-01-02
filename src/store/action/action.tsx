@@ -21,7 +21,7 @@ import {
     userIdentity,
     signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
-import { createContact, editContact, getContact } from '../../core/http-services/apis/application-api/contact/contact.service';
+import { createContact, deleteContact, editContact, getContact } from '../../core/http-services/apis/application-api/contact/contact.service';
 import { ContactModel, IContactCreateModel } from '../../core/modals/contact.modal';
 
 //  LOGIN ACTION
@@ -169,7 +169,27 @@ export const EditContactAction = (inputValues: IContactCreateModel) => {
             let editContactResponse: any = await editContact(inputValues)
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+}
 
+export const DeleteContactAction = (id: number) => {
+    return async (dispatch: Dispatch, getState: any) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            let deleteContactResponse: any = await deleteContact(id);
+            const currentState = getState();
+            let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+            let removeContactIndex = contactClone.findIndex((i: any) => i.id === id)
+            contactClone.splice(removeContactIndex, 1)
+            dispatch({ type: CONTACTS, payload: contactClone });
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });

@@ -1,4 +1,4 @@
-import { getApi, postApi, putApi } from '../../../services/services';
+import { deleteApi, getApi, postApi, putApi } from '../../../services/services';
 import { ContactModel, IContactCreateModel, IContactUpdateModel } from '../../../../modals/contact.modal';
 import { Endpoint, IResponse } from '../../../../modals';
 import { CONTACT_ENDPOINT, CREATE_CONTACT_ENDPOINT, LOGIN_ENDPOINT, UPLOAD_IMAGE_ENDPOINT } from '../../apis';
@@ -27,14 +27,27 @@ const editContact = async (data: IContactCreateModel): Promise<IResponse<Contact
 };
 
 
-const updateContact = async (data: IContactUpdateModel): Promise<IResponse<ContactModel>> => {
+const deleteContact = async (id:number): Promise<IResponse<ContactModel>> => {
   try {
-    return await postApi<IContactUpdateModel, ContactModel>(LOGIN_ENDPOINT, data);
+    const CONTACT_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
+    let accessToken = await AsyncStorage.getItem('accessToken');
+    CONTACT_ENDPOINT_CLONE.url = CONTACT_ENDPOINT.url + `/${id}`
+    if (accessToken !== null) { CONTACT_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken) }
+    return await deleteApi<IContactUpdateModel, ContactModel>(CONTACT_ENDPOINT_CLONE);
   } catch (error) {
     console.error('Login error service:', error);
     throw error;
   }
 };
+
+// const updateContact = async (data: IContactUpdateModel): Promise<IResponse<ContactModel>> => {
+//   try {
+//     return await postApi<IContactUpdateModel, ContactModel>(LOGIN_ENDPOINT, data);
+//   } catch (error) {
+//     console.error('Login error service:', error);
+//     throw error;
+//   }
+// };
 
 const getContact = async (accessToken: string, pageIndex: number, pageSize: number): Promise<IResponse<ContactModel>> => {
   try {
@@ -97,4 +110,4 @@ export const uploadImage = async (uri: string, fileName: string, accessToken: st
 
 
 
-export { createContact, updateContact, getContact, getContactDetails,editContact };
+export { createContact, deleteContact, getContact, getContactDetails,editContact };
