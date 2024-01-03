@@ -79,6 +79,9 @@ export const centralStyle = StyleSheet.create<any>({
     justifyContentBetween: {
         justifyContent: 'space-between'
     },
+    justifyContentAround: {
+        justifyContent: 'space-around'
+    },
     alignitemStart: {
         alignItems: "flex-start"
     },

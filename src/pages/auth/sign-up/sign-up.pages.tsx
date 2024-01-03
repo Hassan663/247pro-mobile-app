@@ -7,7 +7,9 @@ import {
     SafeAreaView,
 } from 'react-native';
 
+import Fontisto from 'react-native-vector-icons/Fontisto'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { t } from 'i18next';
 import { useToast } from 'react-native-toast-notifications';
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -34,6 +36,7 @@ import {
 import {
     Title,
     FooterText,
+    ScreenSubTitle,
 } from '../../../core/components/screen-title.component';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -42,6 +45,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [phoneNumber, setphoneNumber] = useState<string>('')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
+    const [selectedTab, setSelectedTab] = useState(t('Phone'))
+    const [isCheck, setIsCheck] = useState(false)
 
     const toast = useToast();
 
@@ -90,7 +95,42 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
                 <SafeAreaView style={centralStyle.flex1}>
+                    {/* {
+                        appLanguages.map((item) => (
+                            <TouchableOpacity
+                                activeOpacity={.8}
+                                onPress={() => {
+                                    console.log(item, 'itemitemitem')
+                                    onLanguageSelect(item.id)
+                                }}
+                                style={{}}>
+                                <View style={{ margin: RFPercentage(2) }}>
+                                    <ScreenSubTitle title={item.code} />
+
+                                </View>
+
+                            </TouchableOpacity>
+                        ))} */}
+                    <View style={styles.LanguageSection}>
+                        <TouchableOpacity style={styles.LanguageButton}>
+                            <View>
+                                <Ionicons color={Colors.gray} name='earth-outline' size={RFPercentage(2.5)} />
+                            </View>
+                            <View>
+                                <Title
+                                    type='Poppin-12'
+                                    color={Colors.gray}
+                                    title={t(`English`)}
+                                    weight='600' />
+                            </View>
+                            <View style={styles.LanguageIcon}>
+                                <AntDesign name='caretdown' />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
                     <View style={styles.topSection}>
+
                         <View style={centralStyle.width70}>
                             <Image
                                 style={styles.logoStyle}
@@ -103,14 +143,35 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 weight='600' />
                         </View>
 
-                        <View style={centralStyle.mb3}>
+                        <View style={[centralStyle.row, centralStyle.m2]}>
+                            <TouchableOpacity
+                                onPress={() => setSelectedTab(t('Phone'))}
+                                activeOpacity={.9} style={[styles.tabContainer(selectedTab), centralStyle.XAndYCenter]}>
+                                <Title
+                                    weight='600'
+                                    type='Poppin-14' color={selectedTab == t('Phone') ? Colors.primary : Colors.fontColor}
+                                    title={t('Phone')} />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                onPress={() => setSelectedTab(t('Email'))}
+                                activeOpacity={.9} style={[styles.tabContainer2(selectedTab), centralStyle.XAndYCenter]}>
+                                <Title type='Poppin-14'
+                                    weight='600'
+                                    color={selectedTab == t('Email') ? Colors.primary : Colors.fontColor}
+                                    title={t('Email')} />
+                            </TouchableOpacity>
+                        </View>
+
+
+                        {/* <View style={centralStyle.mb3}>
                             <Title
                                 type='Poppin-14'
                                 color={Colors.fontColor}
                                 title={t(`Whats_your_mobile_number`)}
                                 weight='600' />
 
-                        </View>
+                        </View> */}
                     </View>
                     <View style={styles.bottomSection}>
                         <View style={styles.inputWrapper}>
@@ -141,6 +202,27 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     placeholder={t(`Mobile_phone_number`)} />
                             </View>
                         </View>
+
+
+
+                        <View style={[centralStyle.row,centralStyle.justifyContentAround,centralStyle.mt1]}>
+                            <TouchableOpacity
+                                activeOpacity={0.9}
+                                onPress={() => setIsCheck(!isCheck)} >
+                                <Fontisto
+                                    name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
+                                    // style={styles.mx}
+                                    color={isCheck ? Colors.primary : Colors.lightGray}
+                                    size={RFPercentage(2.5)}
+                                />
+                            </TouchableOpacity>
+                            <Title
+                                color={Colors.fontColor}
+                                weight='500'
+                                title={'I have read and accept the Terms of Services and Privacy Policy.'}
+                                type={`Poppin-14`} />
+                        </View>
+                        
                         <View style={[centralStyle.mt3, centralStyle.my1]}>
                             <Button
                                 callBack={handleSubmit}
