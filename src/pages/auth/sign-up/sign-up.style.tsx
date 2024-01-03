@@ -21,22 +21,22 @@ export const styles = StyleSheet.create<any>({
     LanguageSection: {
         ...centralStyle.justifyContentEnd,
         ...centralStyle.alignitemEnd,
-        flex: .4,
+        flex: .3,
     },
     LanguageButton: {
         ...centralStyle.row,
         ...centralStyle.justifyContentAround,
-        width: 85,
+        width: RFPercentage(12),
     },
     LanguageIcon: {
-      ...centralStyle.XAndYCenter
+        ...centralStyle.XAndYCenter
     },
     topSection: {
-        flex: 3,
+        flex: 2.6,
         ...centralStyle.justifyContentEnd,
     },
     bottomSection: {
-        flex: 6.6,
+        flex: 7.1,
     },
     logoStyle: {
         height: RFPercentage(7),
@@ -46,7 +46,8 @@ export const styles = StyleSheet.create<any>({
     },
     inputWrapper: {
         flexDirection: 'row',
-        alignItems: "center"
+        alignItems: "center",
+        height:RFPercentage(9),
     },
     flagContainer: {
         width: '15%',
@@ -54,7 +55,7 @@ export const styles = StyleSheet.create<any>({
         ...centralStyle.XAndYCenter,
     },
     phoneNumberInput: {
-        width: "85%"
+        width: "85%",
     },
     socialText: {
         fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
@@ -90,4 +91,13 @@ export const styles = StyleSheet.create<any>({
         height: RFPercentage(3.5),
         width: RFPercentage(3.5)
     },
+    PolicyText: [
+        centralStyle.row,
+        centralStyle.flex1,
+        centralStyle.px1,
+        {
+            flexWrap: 'wrap'
+        }
+    ]
+
 });

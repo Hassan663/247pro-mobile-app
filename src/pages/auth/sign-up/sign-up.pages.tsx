@@ -1,10 +1,11 @@
 // @app
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     View,
     Image,
     TouchableOpacity,
     SafeAreaView,
+    Text,
 } from 'react-native';
 
 import Fontisto from 'react-native-vector-icons/Fontisto'
@@ -22,6 +23,7 @@ import Colors from '../../../styles/colors';
 import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
 import i18n from '../../../i18n';
+import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-up.style';
 import { appLanguages } from '../../../utilities/languageData';
 import { phoneValidation } from '../../../core/helpers/validation/validation';
@@ -45,6 +47,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [phoneNumber, setphoneNumber] = useState<string>('')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
+    const [inputValue, setInputValue] = useState<string>("mynameismuzammilhussainshah@gmail.com");
     const [selectedTab, setSelectedTab] = useState(t('Phone'))
     const [isCheck, setIsCheck] = useState(false)
 
@@ -69,8 +72,11 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
             setflag(!flag);
         }
     };
-    // CHANGE LANGUAGE 
+    const phoneOrEmailCallback = useCallback((val: string) => {
+        setInputValue(val);
+    }, [inputValue]);
 
+    // CHANGE LANGUAGE 
     const handleSubmit = async () => {
         if (!isToastVisible) {
             let isValid = phoneValidation(phoneNumber, countryCode)
@@ -121,7 +127,6 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     type='Poppin-12'
                                     color={Colors.gray}
                                     title={t(`English`)}
-                                    
                                     weight='600' />
                             </View>
                             <View style={styles.LanguageIcon}>
@@ -175,40 +180,48 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         </View> */}
                     </View>
                     <View style={styles.bottomSection}>
-                        <View style={styles.inputWrapper}>
-                            <TouchableOpacity
-                                onPress={() => setIsCountryPickerVisible(true)}
-                                style={styles.flagContainer}
-                            >
-                                <View style={styles.flagWrapper}>
-                                    <CountryPicker
-                                        countryCode={countryCode}
-                                        withCallingCode
-                                        withFlagButton={true}
-                                        onClose={() => setIsCountryPickerVisible(false)}
-                                        onSelect={handleOnSelect}
-                                        visible={isCountryPickerVisible}
+
+                        {selectedTab == t('Phone') ?
+                            <View style={styles.inputWrapper}>
+                                <TouchableOpacity
+                                    onPress={() => setIsCountryPickerVisible(true)}
+                                    style={styles.flagContainer}
+                                >
+                                    <View style={styles.flagWrapper}>
+                                        <CountryPicker
+                                            countryCode={countryCode}
+                                            withCallingCode
+                                            withFlagButton={true}
+                                            onClose={() => setIsCountryPickerVisible(false)}
+                                            onSelect={handleOnSelect}
+                                            visible={isCountryPickerVisible}
+                                        />
+                                    </View>
+                                    <AntDesign
+                                        name={`down`}
+                                        style={styles.downIcon}
+                                        size={RFPercentage(2)}
                                     />
+                                </TouchableOpacity>
+                                <View style={styles.phoneNumberInput}>
+                                    <Input
+                                        value={phoneNumber}
+                                        onChangeText={(val) => setphoneNumber(val)}
+                                        placeholder={t(`Mobile_phone_number`)} />
                                 </View>
-                                <AntDesign
-                                    name={`down`}
-                                    style={styles.downIcon}
-                                    size={RFPercentage(2)}
-                                />
-                            </TouchableOpacity>
-                            <View style={styles.phoneNumberInput}>
-                                <Input
-                                    value={phoneNumber}
-                                    onChangeText={(val) => setphoneNumber(val)}
-                                    placeholder={t(`Mobile_phone_number`)} />
-                            </View>
-                        </View>
-
-
-
-                        <View style={[centralStyle.row,centralStyle.justifyContentAround,centralStyle.mt1]}>
+                            </View> :
+                            <OutlinedTextInput
+                                val={inputValue}
+                                height={RFPercentage(9)}
+                                onChange={phoneOrEmailCallback}
+                                title={t('Email')}
+                                placeHolder={t('Email')}
+                            />
+                        }
+                        <View style={[centralStyle.row, centralStyle.mt1]}>
                             <TouchableOpacity
                                 activeOpacity={0.9}
+                                style={centralStyle.mr05}
                                 onPress={() => setIsCheck(!isCheck)} >
                                 <Fontisto
                                     name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
@@ -217,18 +230,26 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     size={RFPercentage(2.5)}
                                 />
                             </TouchableOpacity>
-                            <Title
-                                color={Colors.fontColor}
-                                weight='500'
-                                title={'I have read and accept the Terms of Services and Privacy Policy.'}
-                                type={`Poppin-14`} />
+                            <View style={styles.PolicyText}>
+                                <FooterText color={Colors.fontColor} title={t('Readaccept') + ' '} />
+                                <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
+                                    <FooterText color={Colors.primary} title={t('Termsofservices') + ' '} />
+                                </TouchableOpacity>
+                                <FooterText color={Colors.fontColor} title={t('And') + ' '} />
+                                <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
+                                    <FooterText color={Colors.primary} title={t('Privacypolicy')} />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        
                         <View style={[centralStyle.mt3, centralStyle.my1]}>
-                            <Button
-                                callBack={handleSubmit}
+                            {inputValue.length || phoneNumber.length ? <Button
+                                callBack={() => selectedTab == t('Phone') ? handleSubmit() : changeRoute(navigation, 'EnterNameAndEmail')}
                                 title={t(`Next`)}
-                                primary />
+                                primary /> :
+                                 <Button
+                                 disable
+                                title={t(`Next`)}
+                                primary />}
                         </View>
                         <View style={styles.footerTextWrapper}>
                             <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />
@@ -239,9 +260,9 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <View style={styles.orContainer}>
                             <View style={styles.line} />
                             <Title
-                                type={'Poppin-14'}
+                                type={'Poppin-12'}
                                 color={Colors.lightGray}
-                                title={t('or')} />
+                                title={t('MoreLoginoptions')} />
                             <View style={styles.line} />
                         </View>
                         <Button
