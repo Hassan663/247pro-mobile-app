@@ -121,6 +121,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     type='Poppin-12'
                                     color={Colors.gray}
                                     title={t(`English`)}
+                                    
                                     weight='600' />
                             </View>
                             <View style={styles.LanguageIcon}>
