@@ -47,7 +47,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [phoneNumber, setphoneNumber] = useState<string>('')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
-    const [inputValue, setInputValue] = useState<string>("mynameismuzammilhussainshah@gmail.com");
+    const [email, setEmail] = useState<string>("mynameismuzammilhussainshah@gmail.com");
     const [selectedTab, setSelectedTab] = useState(t('Phone'))
     const [isCheck, setIsCheck] = useState(false)
 
@@ -73,21 +73,25 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         }
     };
     const phoneOrEmailCallback = useCallback((val: string) => {
-        setInputValue(val);
-    }, [inputValue]);
+        setEmail(val);
+    }, [setEmail]);
 
     // CHANGE LANGUAGE 
     const handleSubmit = async () => {
-        if (!isToastVisible) {
-            let isValid = phoneValidation(phoneNumber, countryCode)
-            if (isValid.success) changeRoute(navigation, 'VerifyCode')
-            else {
-                setIsToastVisible(true);
-                await toast.show(isValid.message, { type: "custom_toast", })
-                setTimeout(() => {
-                    setIsToastVisible(false);
-                }, 5000);
+        if (selectedTab == t('Phone')) {
+            if (!isToastVisible) {
+                let isValid = phoneValidation(phoneNumber, countryCode)
+                if (isValid.success) changeRoute(navigation, 'VerifyCode')
+                else {
+                    setIsToastVisible(true);
+                    await toast.show(isValid.message, { type: "custom_toast", })
+                    setTimeout(() => {
+                        setIsToastVisible(false);
+                    }, 5000);
+                }
             }
+        }else if(selectedTab == t('Email')){
+            console.log('email')
         }
     }
 
@@ -211,7 +215,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 </View>
                             </View> :
                             <OutlinedTextInput
-                                val={inputValue}
+                                val={email}
                                 height={RFPercentage(9)}
                                 onChange={phoneOrEmailCallback}
                                 title={t('Email')}
@@ -242,14 +246,14 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </View>
                         </View>
                         <View style={[centralStyle.mt3, centralStyle.my1]}>
-                            {inputValue.length || phoneNumber.length ? <Button
-                                callBack={() => selectedTab == t('Phone') ? handleSubmit() : changeRoute(navigation, 'EnterNameAndEmail')}
+                            {email.length || phoneNumber.length ? <Button
+                                callBack={() => selectedTab == t('Phone') ? handleSubmit() : changeRoute(navigation, 'EnterNameAndEmail', { email })}
                                 title={t(`Next`)}
                                 primary /> :
-                                 <Button
-                                 disable
-                                title={t(`Next`)}
-                                primary />}
+                                <Button
+                                    disable
+                                    title={t(`Next`)}
+                                    primary />}
                         </View>
                         <View style={styles.footerTextWrapper}>
                             <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />
@@ -266,8 +270,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <View style={styles.line} />
                         </View>
                         <Button
-                            title={t('Continue_with_Email')}
-                            callBack={() => changeRoute(navigation, 'EnterNameAndEmail')}
+                            title={t('Continue_with_SSO')}
                             customStyle={[centralStyle.socialButtonContainer,]}
                             titleStyle={styles.socialText}
                         />
