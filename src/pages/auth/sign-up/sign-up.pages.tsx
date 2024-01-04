@@ -130,28 +130,15 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
             <KeyboardAwareScrollView>
                 <View style={[centralStyle.container, { height: windowHeight }]}>
                     <SafeAreaView style={centralStyle.flex1}>
-                        {/* {
-                        appLanguages.map((item) => (
-                            <TouchableOpacity
-                                activeOpacity={.8}
-                                onPress={() => {
-                                    console.log(item, 'itemitemitem')
-                                    onLanguageSelect(item.id)
-                                }}
-                                style={{}}>
-                                <View style={{ margin: RFPercentage(2) }}>
-                                    <ScreenSubTitle title={item.code} />
 
-                                </View>
-
-                            </TouchableOpacity>
-                        ))} */}
                         {modalEnabled && <LanguageDropDown
-                            navigation={navigation}
-                            disableModal={() => setModalEnabled(!modalEnabled)} />}
+                            disableModal={() => setModalEnabled(!modalEnabled)}
+                            flag={flag}
+                            setflag={setflag}
+                        />}
 
                         <View style={styles.LanguageSection}>
-                            <TouchableOpacity activeOpacity={.7} onPress={()=>setModalEnabled(!modalEnabled)} style={styles.LanguageButton}>
+                            <TouchableOpacity activeOpacity={.7} onPress={() => setModalEnabled(!modalEnabled)} style={styles.LanguageButton}>
                                 <View>
                                     <Ionicons color={Colors.gray} name='earth-outline' size={RFPercentage(2.5)} />
                                 </View>
