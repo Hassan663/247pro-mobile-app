@@ -151,7 +151,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                             disableModal={() => setModalEnabled(!modalEnabled)} />}
 
                         <View style={styles.LanguageSection}>
-                            <TouchableOpacity onPress={()=>setModalEnabled(!modalEnabled)} style={styles.LanguageButton}>
+                            <TouchableOpacity activeOpacity={.7} onPress={()=>setModalEnabled(!modalEnabled)} style={styles.LanguageButton}>
                                 <View>
                                     <Ionicons color={Colors.gray} name='earth-outline' size={RFPercentage(2.5)} />
                                 </View>
