@@ -45,6 +45,7 @@ export const languageData = [
             newPassMsg: `Your new password must be different from your previous password used`,
             New_password: "New password",
             Confirm_password: "Confirm password",
+            SetAPassword: "Set a password",
             Continue: "Continue",
             Phone_or_email: "Phone or email",
             Forget_Password: 'Forget Password',
@@ -308,6 +309,7 @@ export const languageData = [
             ScanMyQRCode: "Scan My QR Code",
             Whatsyourphoneoremail: "Whats your phone or email?",
             Continue_with_Email: "Continue with email",
+            Continue_with_SSO: "Continue with SSO",
             Verify_Your_Email: "Verify Your Email",
             emailVerifyMsg: 'Enter 4 digit code sent to your email (johndoe@gmail.com)',
             VerifyLater: "Verify Later",
@@ -388,6 +390,11 @@ export const languageData = [
             Enable_Feature: 'Enable Feature',
             Enable_Feature_Admin:'To enable this feature you need to contact admin support to get access.',
             Contact_Admin:'Contact Admin',
+            Readaccept:'I have read and accept the',
+            Termsofservices:'Terms of Services',
+            And:'and',
+            Privacypolicy:'Privacy Policy.',
+            MoreLoginoptions:'More Login Options',
         }
     },
     {
@@ -433,6 +440,7 @@ export const languageData = [
             newPassMsg: `您的新密码必须与之前使用的密码不同。`,
             New_password: "新密码",
             Confirm_password: "确认密码",
+            SetAPassword: "设置密码",
             Continue: "继续",
             Phone_or_email: "电话还是邮件",
 
@@ -701,6 +709,7 @@ export const languageData = [
             ScanMyQRCode: "扫描我的二维码",
             Whatsyourphoneoremail: "您的电话或电子邮件是什么？",
             Continue_with_Email: "继续使用电子邮件",
+            Continue_with_SSO: "继续使用单点登录",
             Verify_Your_Email: "验证您的电子邮件",
             emailVerifyMsg: '输入发送到您的电子邮件 (johndoe@gmail.com) 的 4 位数代码',
             VerifyLater: "稍后验证",
@@ -779,6 +788,11 @@ export const languageData = [
             Enable_Feature: '启用功能',
             Enable_Feature_Admin:'要启用此功能，您需要联系管理员支持以获得访问权限',
             Contact_Admin:'联系管理员',
+            Readaccept:'我已阅读并接受',
+            Termsofservices:'服务条款',
+            And:'和',
+            Privacypolicy:'隐私政策。',
+            MoreLoginoptions:'更多登录选项',
         }
     },
     {
@@ -822,6 +836,7 @@ export const languageData = [
             Set_your_password: "Establece tu contraseña.",
             New_password: "Nueva contraseña",
             Confirm_password: "Confirmar Contraseña",
+            SetAPassword: "Establecer una contraseña",
             Continue: "Continuar",
             Phone_or_email: "Teléfono o correo electrónico",
             Welcome_To: "Bienvenida a",
@@ -1087,6 +1102,7 @@ export const languageData = [
             ScanMyQRCode: "Escanea mi código QR",
             Whatsyourphoneoremail: "¿Cuál es tu teléfono o correo electrónico?",
             Continue_with_Email: "Continuar con el correo electrónico",
+            Continue_with_SSO: "Continuar con SSO",
             Verify_Your_Email: "Verifica tu correo electrónico",
             emailVerifyMsg: 'Ingrese el código de 4 dígitos enviado a su correo electrónico (johndoe@gmail.com)',
             VerifyLater: "Verificar más tarde",
@@ -1167,6 +1183,11 @@ export const languageData = [
             Enable_Feature: 'Habilitar característica',
             Enable_Feature_Admin:'Para habilitar esta función, debe comunicarse con el soporte administrativo para obtener acceso.',
             Contact_Admin:'Contactar al administrador',
+            Readaccept:'He leído y acepto la',
+            Termsofservices:'Términos de servicios',
+            And:'y',
+            Privacypolicy:'Política de privacidad.',
+            MoreLoginoptions:'Más opciones de inicio de sesión',
         }
     }
 ];
