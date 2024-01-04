@@ -42,6 +42,7 @@ import {
     ScreenSubTitle,
 } from '../../../core/components/screen-title.component';
 import ModalComp from '../../../core/components/modal-component';
+import { LanguageDropDown } from './sign-up.components';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [flag, setflag] = useState<boolean>(false);
@@ -50,9 +51,10 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
-    const [selectedTab, setSelectedTab] = useState(t('Phone'))
-    const [isCheck, setIsCheck] = useState(false)
-    const [termsModal, setTermsModal] = useState(false)
+    const [selectedTab, setSelectedTab] = useState<string>(t('Phone'))
+    const [isCheck, setIsCheck] = useState<boolean>(false)
+    const [termsModal, setTermsModal] = useState<boolean>(false)
+    const [modalEnabled, setModalEnabled] = useState<boolean>(false)
 
     const toast = useToast();
 
@@ -144,8 +146,12 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                             </TouchableOpacity>
                         ))} */}
+                        {modalEnabled && <LanguageDropDown
+                            navigation={navigation}
+                            disableModal={() => setModalEnabled(!modalEnabled)} />}
+
                         <View style={styles.LanguageSection}>
-                            <TouchableOpacity style={styles.LanguageButton}>
+                            <TouchableOpacity onPress={()=>setModalEnabled(!modalEnabled)} style={styles.LanguageButton}>
                                 <View>
                                     <Ionicons color={Colors.gray} name='earth-outline' size={RFPercentage(2.5)} />
                                 </View>
@@ -234,7 +240,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         <Input
                                             value={phoneNumber}
                                             onChangeText={(val) => setphoneNumber(val)}
-                                            placeholder={t(`Mobile_phone_number`)} 
+                                            placeholder={t(`Mobile_phone_number`)}
                                             type='numeric' />
                                     </View>
                                 </View> :

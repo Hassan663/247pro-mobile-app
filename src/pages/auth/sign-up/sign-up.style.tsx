@@ -96,6 +96,30 @@ export const styles = StyleSheet.create<any>({
         centralStyle.flex1,
         centralStyle.px1,
         centralStyle.wrap,
-    ]
-
+    ],
+    modalContainerAbs: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        zIndex: 2,
+        justifyContent: 'flex-start',
+        alignItems: "flex-end",
+    },
+    modalContainer: {
+        padding: RFPercentage(1.5),
+        backgroundColor: Colors.white,
+        borderColor: Colors.fontColor,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderRadius: RFPercentage(.5),
+        justifyContent: 'space-evenly',
+        right: RFPercentage(.5),
+        top: platform == 'ios' ? RFPercentage(1) : RFPercentage(3)
+    },
 });
