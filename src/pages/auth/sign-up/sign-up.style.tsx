@@ -95,9 +95,7 @@ export const styles = StyleSheet.create<any>({
         centralStyle.row,
         centralStyle.flex1,
         centralStyle.px1,
-        {
-            flexWrap: 'wrap'
-        }
+        centralStyle.wrap,
     ]
 
 });

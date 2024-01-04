@@ -18,7 +18,6 @@ export type Props = {
     icallBackcon?: any;
     title?: string | any;
     callBack?: () => void;
-
 };
 
 const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title, disable, callBack }) => {
