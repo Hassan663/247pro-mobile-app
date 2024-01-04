@@ -52,7 +52,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [email, setEmail] = useState<string>('');
     const [selectedTab, setSelectedTab] = useState(t('Phone'))
     const [isCheck, setIsCheck] = useState(false)
-    
+    const [termsModal, setTermsModal] = useState(false)
 
     const toast = useToast();
 
@@ -81,7 +81,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     // CHANGE LANGUAGE 
     const handleSubmit = async () => {
-        
+        if (isCheck) {
             if (selectedTab == t('Phone')) {
                 if (!isToastVisible) {
                     let isValid = phoneValidation(phoneNumber, countryCode)
@@ -107,6 +107,10 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     }
                 }
             }
+        } else {
+            console.log(termsModal)
+            setTermsModal(true)
+        }
     }
 
     useEffect(() => {
@@ -114,7 +118,10 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         return unsubscribe;
     }, [navigation]);
 
-  
+    const continueBtn =  ()=>{
+        setIsCheck(true)
+        setTermsModal(false)
+    }
 
     return (
         <>
@@ -312,6 +319,13 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </SafeAreaView>
                 </View>
             </KeyboardAwareScrollView>
+            {termsModal &&
+                <ModalComp
+                    cancel={setTermsModal}
+                    state={termsModal}
+                    navigation={undefined}
+                    callBack={continueBtn}
+                />}
         </>
 
     );
