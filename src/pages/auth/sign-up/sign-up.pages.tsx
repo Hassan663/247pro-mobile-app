@@ -235,7 +235,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             value={phoneNumber}
                                             onChangeText={(val) => setphoneNumber(val)}
                                             placeholder={t(`Mobile_phone_number`)} 
-                                             />
+                                            type='numeric' />
                                     </View>
                                 </View> :
                                 <OutlinedTextInput
