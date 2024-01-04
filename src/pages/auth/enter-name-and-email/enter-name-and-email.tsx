@@ -38,7 +38,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
     const dispatch: Dispatch<any> = useDispatch();
 
     const handleSubmit = async () => {
-        const { email } = route.params
+        const { email } = route.params;
         if (!isToastVisible) {
             let isValid = await enterNameAndEmailValidation(name, email, password, route?.params?.comeFromVerifyCode)
 

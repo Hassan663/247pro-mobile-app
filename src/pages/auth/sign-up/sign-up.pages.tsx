@@ -118,7 +118,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         return unsubscribe;
     }, [navigation]);
 
-    const continueBtn =  ()=>{
+    const continueBtn = () => {
         setIsCheck(true)
         setTermsModal(false)
     }
@@ -234,7 +234,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         <Input
                                             value={phoneNumber}
                                             onChangeText={(val) => setphoneNumber(val)}
-                                            placeholder={t(`Mobile_phone_number`)} />
+                                            placeholder={t(`Mobile_phone_number`)} 
+                                             />
                                     </View>
                                 </View> :
                                 <OutlinedTextInput

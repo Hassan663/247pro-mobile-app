@@ -14,13 +14,16 @@ import { centralStyle } from '../../styles/constant.style';
 interface InputProps {
     placeholder?: string;
     value?: string;
+    type?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'number-pad' | 'decimal-pad';
     password?: boolean;
     secureText?: boolean;
     onChangeText?: (text: string) => void;
 }
 
-const Input: React.FC<InputProps> = ({ placeholder, value, secureText, password, onChangeText }) => {
-    const [isShown, setIsShown] = useState(false)
+const Input: React.FC<InputProps> = ({ placeholder, value, secureText, password, onChangeText, type }) => {
+    const [isShown, setIsShown] = useState(false);
+
+    const keyboardToUse = type ? type : 'default';
     return (
         <View style={styles.container}>
 
@@ -32,6 +35,7 @@ const Input: React.FC<InputProps> = ({ placeholder, value, secureText, password,
                         value={value}
                         secureTextEntry={!isShown ? true : false}
                         onChangeText={onChangeText}
+                        keyboardType={keyboardToUse}
                     />
                     <Feather onPress={() => setIsShown(!isShown)} color={Colors.gray} name={isShown ? 'eye' : 'eye-off'} size={RFPercentage(2.5)} />
                 </View> :
@@ -41,6 +45,7 @@ const Input: React.FC<InputProps> = ({ placeholder, value, secureText, password,
                     value={value}
                     secureTextEntry={secureText ? true : false}
                     onChangeText={onChangeText}
+                    keyboardType={keyboardToUse}
                 />
             }
         </View>
