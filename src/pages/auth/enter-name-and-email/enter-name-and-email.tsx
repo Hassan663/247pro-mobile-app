@@ -22,7 +22,7 @@ import { Title } from '../../../core/components/screen-title.component';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
 import { useToast } from 'react-native-toast-notifications';
-import { enterNameAndEmailValidation } from '../../../core/helpers/validation/validation';
+import { enterNameAndEmailValidation, setUpPasswordValidation } from '../../../core/helpers/validation/validation';
 import { signUpAction } from '../../../store/action/action';
 import { Dispatch } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,24 +30,33 @@ import Loader from '../../../core/components/loader.component';
 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }: any) => {
     const [name, setName] = useState('Ahmed shah')
-    const [email, setEmail] = useState('momo19@gmail.com')
     const [password, setPassword] = useState('Karachi@123456')
+    const [confirmPassword, setConfirmPassword] = useState('momo19@gmail.com')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const loader = useSelector((state: any) => state.root.loader);
-
     const toast = useToast();
     const dispatch: Dispatch<any> = useDispatch();
 
     const handleSubmit = async () => {
+        const { email } = route.params
         if (!isToastVisible) {
             let isValid = await enterNameAndEmailValidation(name, email, password, route?.params?.comeFromVerifyCode)
+
             if (isValid.success) {
-                if (!route?.params?.comeFromVerifyCode) {
-                    // console.log('EmailVerifyCode')
-                    if (isValid.success) await dispatch(signUpAction(name, email, password,));
-                    // changeRoute(navigation, 'EmailVerifyCode')
+                let passwordisValid = await setUpPasswordValidation(password, confirmPassword)
+                if (passwordisValid.success) {
+                    if (!route?.params?.comeFromVerifyCode) {
+                        if (isValid.success) await dispatch(signUpAction(name, email, password));
+                    } else changeRoute(navigation, 'VerifyBuisness')
+                }else{
+                    setIsToastVisible(true);
+                    await toast.show(passwordisValid.message, { type: "custom_toast", })
+                    setTimeout(() => {
+                        setIsToastVisible(false);
+                    }, 5000);
                 }
-                else changeRoute(navigation, 'VerifyBuisness')
+                // console.log('EmailVerifyCode')
+                // changeRoute(navigation, 'EmailVerifyCode')
             }
             else {
                 setIsToastVisible(true);
@@ -94,17 +103,17 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
                         />
                         {!route?.params?.comeFromVerifyCode &&
                             <OutlinedTextInput
-                                val={email}
-                                onChange={(val) => { setEmail(val) }}
-                                title={t('Email')}
-                                placeHolder={t('Email')}
+                                val={password}
+                                onChange={(val) => { setPassword(val) }}
+                                title={t('SetAPassword')}
+                                placeHolder={t('SetAPassword')}
                             />
                         }
                         <OutlinedTextInput
-                            val={password}
-                            onChange={(val) => { setPassword(val) }}
-                            title={t('Password')}
-                            placeHolder={t('Password')}
+                            val={confirmPassword}
+                            onChange={(val) => { setConfirmPassword(val) }}
+                            title={t('Confirm_password')}
+                            placeHolder={t('Confirm_password')}
                         />
                     </View>
                     <View style={styles.footer}>
