@@ -45,7 +45,6 @@ import ModalComp from '../../../core/components/modal-component';
 import { LanguageDropDown } from './sign-up.components';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [flag, setflag] = useState<boolean>(false);
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [phoneNumber, setphoneNumber] = useState<string>('')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
@@ -65,23 +64,10 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         setCountryCode(country.cca2);
     };
 
-    // CHANGE LANGUAGE 
-    const setLanguageAsync = async (lang: string) => {
-        await setItem('languagecode', lang);
-    };
-    const onLanguageSelect = async (langId: string) => {
-        let lang = appLanguages.find((item) => item.id === langId);
-        if (lang) {
-            await i18n.changeLanguage(lang.code);
-            await setLanguageAsync(lang.code);
-            setflag(!flag);
-        }
-    };
     const phoneOrEmailCallback = useCallback((val: string) => {
         setEmail(val);
     }, [setEmail]);
 
-    // CHANGE LANGUAGE 
     const handleSubmit = async () => {
         if (isCheck) {
             if (selectedTab == t('Phone')) {
@@ -110,7 +96,6 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                 }
             }
         } else {
-            console.log(termsModal)
             setTermsModal(true)
         }
     }
@@ -133,8 +118,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                         {modalEnabled && <LanguageDropDown
                             disableModal={() => setModalEnabled(!modalEnabled)}
-                            flag={flag}
-                            setflag={setflag}
+                            setSelectedTab={setSelectedTab}
+                            selectedTab={selectedTab}
                         />}
 
                         <View style={styles.LanguageSection}>
