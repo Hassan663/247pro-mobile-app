@@ -18,7 +18,8 @@ const onLanguageSelect = async (langId: string, disableModal: any, setSelectedTa
         await i18n.changeLanguage(lang.code);
         await setLanguageAsync(lang.code);
         disableModal()
-        setSelectedTab(selectedTab === t('Phone') ? t('Phone') : t('Email'))
+        console.log(lang.code,'selectedTabselectedTab')
+        setSelectedTab(t('Phone'));
     }
 };
 

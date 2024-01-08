@@ -288,12 +288,12 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 customStyle={centralStyle.socialButtonContainer}
                                 titleStyle={styles.socialText}
                             />
-                            <View style={[styles.footerTextWrapper, centralStyle.flex1, centralStyle.alignitemEnd]}>
+                            {/* <View style={[styles.footerTextWrapper, centralStyle.flex1, centralStyle.alignitemEnd]}>
                                 <FooterText color={Colors.fontColor} title={t('AgreeTo') + ' '} />
                                 <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
                                     <FooterText color={Colors.primary} title={t('TermsAndConditions')} />
                                 </TouchableOpacity>
-                            </View>
+                            </View> */}
                         </View>
                     </SafeAreaView>
                 </View>
