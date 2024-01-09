@@ -12,6 +12,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../styles/colors';
 import { centralStyle } from '../../styles/constant.style';
 import { styles } from './index.style';
+import { platform } from '../../utilities/constants';
 
 
 export type Props = {
@@ -29,7 +30,7 @@ const ScreenLoader: React.FC<Props> = ({ color, size }: any) => {
 
     return (
         isLoading && (<View style={[centralStyle.XAndYCenter, styles.screenLoaderContainer]}>
-            <ActivityIndicator size={size ? size : RFPercentage(15)} color={color ? color : Colors.primary} />
+            <ActivityIndicator size={ platform ? 'large': RFPercentage(15)} color={color ? color : Colors.primary} />
         </View >)
     );
 };

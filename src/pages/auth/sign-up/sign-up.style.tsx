@@ -120,6 +120,6 @@ export const styles = StyleSheet.create<any>({
         borderRadius: RFPercentage(.5),
         justifyContent: 'space-evenly',
         right: RFPercentage(.5),
-        top: platform == 'ios' ? RFPercentage(1) : RFPercentage(3)
+        top: platform == 'ios' ? RFPercentage(9) : RFPercentage(3)
     },
 });
