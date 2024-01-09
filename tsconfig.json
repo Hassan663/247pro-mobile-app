@@ -5,7 +5,7 @@
     "typeRoots": ["node_modules/@types", "./types"],
     "jsx": "react-native",
 
-
+    "esModuleInterop": true,
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     /* Completeness */
     "skipLibCheck": true,
