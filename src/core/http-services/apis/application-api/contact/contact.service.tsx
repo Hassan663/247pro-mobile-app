@@ -83,7 +83,23 @@ const getContactDetails = async (accessToken: string, id: number): Promise<IResp
     throw error;
   }
 };
+const searchContact = async (accessToken: string, keyword: string) => {
+  try {
+    const data: any = {};
+    const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
 
+    if (keyword) {
+      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&search=${keyword}`;
+    }
+    CONTACT_DETAILS_ENDPOINT_CLONE.JWTToken = accessToken;
+
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_DETAILS_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
+// pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&search=moazza&address=
 
 export const uploadImage = async (uri: string, fileName: string, accessToken: string | null) => {
   try {
@@ -111,4 +127,4 @@ export const uploadImage = async (uri: string, fileName: string, accessToken: st
 
 
 
-export { createContact, deleteContact, getContact, getContactDetails,editContact };
+export { createContact, deleteContact, getContact, getContactDetails,editContact ,searchContact};

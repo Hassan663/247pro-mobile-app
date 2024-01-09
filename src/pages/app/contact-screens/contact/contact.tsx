@@ -1,5 +1,6 @@
 // @app
 import React, {
+    useCallback,
     useEffect,
     useRef,
     useState
@@ -17,6 +18,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
+import { debounce } from "lodash";
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -31,7 +33,7 @@ import { CONTACTLIST } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { AlphabetList, IData } from 'react-native-section-alphabet-list';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ContactAction } from '../../../../store/action/action';
+import { ContactAction, SearchContactAction } from '../../../../store/action/action';
 import {
     CompanyList,
     CustomSectionHeader,
@@ -54,13 +56,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [listData, setlistData] = useState<[]>([]);
     const [pageIndex, setpageIndex] = useState<number>(1);
-
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
 
-    const handleChangeRoute = (item:IData) => {
-        if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact',item)
-        else changeRoute(navigation, 'ViewCompany',item)
+    const handleChangeRoute = (item: IData) => {
+        if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', item)
+        else changeRoute(navigation, 'ViewCompany', item)
     }
 
     const dispatch: Dispatch<any> = useDispatch();
@@ -70,7 +71,27 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         dispatch(ContactAction(setpageIndex, pageIndex));
     };
 
- 
+    const handleSearch = async (value: string) => {
+        try {
+            if (value && value.length > 2) {
+                dispatch(SearchContactAction(value))
+            }
+        } catch (error) {
+            console.log('error--->', error)
+        }
+    }
+    
+    const handleTextDebounce = useCallback(debounce(handleSearch, 400), [])
+
+
+
+
+
+
+
+
+
+
     useEffect(() => {
         if (contact.length > 0) {
             const contactClone = JSON.parse(JSON.stringify(contact));
@@ -80,7 +101,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }, [contact]);
 
     useEffect(() => {
-        dispatch(ContactAction(setpageIndex,pageIndex));
+        dispatch(ContactAction(setpageIndex, pageIndex));
     }, []);
 
     return (
@@ -154,6 +175,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     centralStyle.XAndYCenter]}>
                     <AntDesign size={RFPercentage(2)} name='search1' color={Colors.fontColor} />
                     <TextInput
+                        onChangeText={handleTextDebounce}
                         style={[centralStyle.flex1, centralStyle.height100, centralStyle.mx1,]}
                         placeholder={t('search')}
                     />

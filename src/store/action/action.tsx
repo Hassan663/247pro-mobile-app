@@ -21,7 +21,7 @@ import {
     userIdentity,
     signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
-import { createContact, deleteContact, editContact, getContact } from '../../core/http-services/apis/application-api/contact/contact.service';
+import { createContact, deleteContact, editContact, getContact, searchContact } from '../../core/http-services/apis/application-api/contact/contact.service';
 import { ContactModel, IContactCreateModel } from '../../core/modals/contact.modal';
 
 //  LOGIN ACTION
@@ -204,12 +204,38 @@ export const DeleteContactAction = (id: number) => {
     }
 }
 
+
+export const SearchContactAction = (keyword: string) => {
+    return async (dispatch: Dispatch, getState: any) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            if (accessToken !== null) {
+                const searchContactResponse: any = await searchContact(JSON.parse(accessToken),keyword);
+                console.log(searchContactResponse.data.resultData.list)
+                dispatch({ type: CONTACTS, payload: searchContactResponse.data.resultData.list });
+            }
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+}
+
 export const openSheet = (sheetRef: any) => sheetRef.current.open()
 
 export const closeSheet = (sheetRef: any) => sheetRef.current.close()
 
 
 
+
+// function searchContact(accessToken: any, keyword: string): any {
+//     throw new Error('Function not implemented.');
+// }
 //  APP ACTION
 
 
