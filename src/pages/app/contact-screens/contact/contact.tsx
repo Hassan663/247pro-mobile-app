@@ -66,8 +66,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = () => {
-        setpageIndex(pageIndex + 1);
-        dispatch(ContactAction(pageIndex + 1));
+        // setpageIndex(pageIndex + 1);
+        dispatch(ContactAction(setpageIndex, pageIndex));
     };
 
  
@@ -80,7 +80,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }, [contact]);
 
     useEffect(() => {
-        dispatch(ContactAction(pageIndex));
+        dispatch(ContactAction(setpageIndex,pageIndex));
     }, []);
 
     return (

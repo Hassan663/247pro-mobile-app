@@ -116,17 +116,18 @@ export const signUpAction = (name: string, email: string, password: string) => {
 
 //  APP ACTION
 
-export const ContactAction = (pageIndex: number) => {
+export const ContactAction = (setpageIndex: any, pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: LOADER, payload: true });
             dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15)
+                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
+                if (contactResponse.data.resultData.list.length > 0) setpageIndex(pageIndex + 1)
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-                let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list]
+                let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
                 if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
             }
             dispatch({ type: SCREENLOADER, payload: false });
@@ -166,12 +167,11 @@ export const EditContactAction = (inputValues: IContactCreateModel) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
-            let editContactResponse: any = await editContact(inputValues)
+            let editContactResponse: any = await editContact(inputValues);
             const currentState = getState();
             let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-            contactClone.push(editContactResponse.data.resultData)
-            let removeContactIndex = contactClone.findIndex((i: any) => i.id === editContactResponse.data.resultData.id)
-            contactClone.splice(removeContactIndex, 1, editContactResponse.data.resultData)
+            let removeContactIndex = contactClone.findIndex((i: any) => i.id == editContactResponse.data.resultData.id);
+            if (removeContactIndex !== -1) contactClone.splice(removeContactIndex, 1, editContactResponse.data.resultData);
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
