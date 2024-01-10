@@ -12,7 +12,8 @@ import {
     CURRENTUSERPROFILE,
     INITIALROUTE,
     LOADER,
-    SCREENLOADER
+    SCREENLOADER,
+    SEARCHEDDATA
 } from '../constant/constant';
 import {
     forget_password,
@@ -213,8 +214,8 @@ export const SearchContactAction = (keyword: string) => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken),keyword);
-                console.log(searchContactResponse.data.resultData.list)
-                dispatch({ type: CONTACTS, payload: searchContactResponse.data.resultData.list });
+                console.log(searchContactResponse.data.resultData.list,'searchContactResponsesearchContactResponse')
+                dispatch({ type: SEARCHEDDATA, payload: searchContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

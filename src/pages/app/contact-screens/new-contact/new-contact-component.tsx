@@ -117,6 +117,7 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
     </TouchableOpacity>
 )
 export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
+    console.log('itemitemitemitemitem',item);
     return (
         <TouchableOpacity onPress={() => {
             if (getCompany) { getCompany(item) }

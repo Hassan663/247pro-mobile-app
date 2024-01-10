@@ -5,7 +5,8 @@ import {
     INITIALROUTE,
     SPLASHSTATUSBAR,
     CONTACTS,
-    SCREENLOADER
+    SCREENLOADER,
+    SEARCHEDDATA
 } from '../constant/constant'
 
 export type Action = {
@@ -21,6 +22,7 @@ const INITIAL_STATE = {
     initialRoute: 'Splash',
     currentUserProfile: {},
     contacts: [],
+    searchedData: [],
     // contactResponse.data.resultData.list
 }
 
@@ -65,6 +67,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 contacts: action.payload
+            })
+        case SEARCHEDDATA:
+            return ({
+                ...states,
+                searchedData: action.payload
             })
         // case ISERROR:
         //     return ({

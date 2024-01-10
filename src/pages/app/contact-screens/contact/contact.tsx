@@ -48,6 +48,7 @@ import {
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
+    const [searchInput, setSearchInput] = useState('')
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [importModal, setImportModal] = useState(false)
     // const [contacts, setContacts] = useState(true)
@@ -55,9 +56,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [listData, setlistData] = useState<[]>([]);
+    const [searchListData, setsearchListData] = useState<[]>([]);
     const [pageIndex, setpageIndex] = useState<number>(1);
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
+    const searchedData = useSelector((state: any) => state.root.searchedData)
 
     const handleChangeRoute = (item: IData) => {
         if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', item)
@@ -67,24 +70,24 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = () => {
-        // setpageIndex(pageIndex + 1);
-        dispatch(ContactAction(setpageIndex, pageIndex));
+        if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
     };
 
     const handleSearch = async (value: string) => {
         try {
-            if (value && value.length > 2) {
-                dispatch(SearchContactAction(value))
+            setSearchInput(value)
+            if (value && value.length > 1) {
+                await dispatch(SearchContactAction(value));
             }
         } catch (error) {
             console.log('error--->', error)
         }
     }
-    
+
     const handleTextDebounce = useCallback(debounce(handleSearch, 400), [])
 
 
-
+    // console.log( searchedData,'searchedDatasearchedDatasearchedData')
 
 
 
@@ -99,6 +102,14 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             setlistData(contactClone)
         }
     }, [contact]);
+
+    useEffect(() => {
+        if (searchedData.length > 0) {
+            const searchContactClone = JSON.parse(JSON.stringify(searchedData));
+            searchContactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
+            setsearchListData(searchContactClone)
+        }
+    }, [searchedData]);
 
     useEffect(() => {
         dispatch(ContactAction(setpageIndex, pageIndex));
@@ -189,23 +200,42 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
                     {listData.length ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
-                            <AlphabetList
-                                data={listData}
-                                letterListContainerStyle={styles.listContainerStyle}
-                                showsVerticalScrollIndicator={false}
-                                indexContainerStyle={{ width: 20 }}
-                                indexLetterStyle={styles.letterStyle}
-                                renderCustomItem={(item) => {
-                                    return (
-                                        <CompanyList
-                                            getCompany={() => { handleChangeRoute(item) }}
-                                            item={item} />
-                                    )
-                                }}
-                                renderCustomSectionHeader={CustomSectionHeader}
-                                onEndReached={loadMoreData}
-                                onEndReachedThreshold={0.1}
-                            />
+                            {searchInput.length > 0 ?
+                                < AlphabetList
+                                    data={searchListData}
+                                    letterListContainerStyle={styles.listContainerStyle}
+                                    showsVerticalScrollIndicator={false}
+                                    indexContainerStyle={{ width: 20 }}
+                                    indexLetterStyle={styles.letterStyle}
+                                    renderCustomItem={(item) => {
+                                        return (
+                                            <CompanyList
+                                                getCompany={() => { handleChangeRoute(item) }}
+                                                item={item} />
+                                        )
+                                    }}
+                                    renderCustomSectionHeader={CustomSectionHeader}
+                                // onEndReached={loadMoreData}
+                                // onEndReachedThreshold={0.1}
+                                />
+                                :
+                                <AlphabetList
+                                    data={listData}
+                                    letterListContainerStyle={styles.listContainerStyle}
+                                    showsVerticalScrollIndicator={false}
+                                    indexContainerStyle={{ width: 20 }}
+                                    indexLetterStyle={styles.letterStyle}
+                                    renderCustomItem={(item) => {
+                                        return (
+                                            <CompanyList
+                                                getCompany={() => { handleChangeRoute(item) }}
+                                                item={item} />
+                                        )
+                                    }}
+                                    renderCustomSectionHeader={CustomSectionHeader}
+                                    onEndReached={loadMoreData}
+                                    onEndReachedThreshold={0.1}
+                                />}
                         </View>
                         :
                         <>

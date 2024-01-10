@@ -10,7 +10,7 @@
     /* Completeness */
     "skipLibCheck": true,
     "types": [
-      "node"
+      "node","jest"
     ] /* Skip type checking all .d.ts files. */
   }
 }
