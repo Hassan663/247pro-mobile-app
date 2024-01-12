@@ -16,7 +16,7 @@ import { Title } from './screen-title.component';
 import { centralStyle } from '../../styles/constant.style';
 
 interface Modal {
-    navigation: any;
+    navigation?: any;
     cancel?: (termsModal: any) => void;
     callBack?: () => void;
     state?: boolean;

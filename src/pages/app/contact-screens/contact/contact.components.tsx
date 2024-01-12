@@ -1,14 +1,16 @@
 // @app
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     FlatList,
     Image,
+    Text,
     TouchableOpacity,
     View,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Entypo from 'react-native-vector-icons/Entypo'
 import { t } from 'i18next';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
@@ -20,17 +22,86 @@ import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { FILESDATA } from './call-back';
+import { FILESDATA, contactTypefilter } from './call-back';
+import ModalComp from '../../../../core/components/modal-component';
+import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
 
-export const RenderItem = ({ item }: any) => {
+// top: RFPercentage(10.5), left: RFPercentage(32)
+
+
+export const SpecialityModal: React.FC<any> = ({ specialityModal, setSpecialityModal, position }) => {
     return (
-        <View style={[centralStyle.px2, centralStyle.py05, styles.titleContainer, centralStyle.mx2]}>
-            <Title
-                weight='400'
-                type='Poppin-12'
-                color={Colors.fontColor}
-                title={item} />
+        <>
+            <TouchableOpacity style={{
+                position: 'absolute',
+                height: "100%",
+                width: "100%",
+            }} onPress={() => setSpecialityModal(!specialityModal)} />
+
+            <View style={{ backgroundColor: "black", height: RFPercentage(20), width: RFPercentage(19.5), position: 'absolute', top: position.y- RFPercentage(6.6) , left: position.x }}>
+                <Text> Heloo</Text>
+            </View>
+        </>
+    )
+}
+
+
+
+
+
+
+
+
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, specialityModal, setSpecialityModal, setPosition }: any) => {
+
+
+    const componentRef = useRef<View>(null);
+
+    const getComponentDimension = () => {
+        if (componentRef.current) {
+            componentRef.current.measure((_x, _y, _width, _height, pageX, pageY) => {
+                setPosition({ x: pageX, y: pageY });
+                console.log(pageY)
+            });
+        }
+    }
+
+    const handlePress = () => {
+        // contactTypefilter(index, dispatch);
+        // setContactCategory(index);
+        // getComponentDimension()
+
+
+        
+    };
+    const numbers = 0;
+
+    return (
+        <View ref={componentRef} style={[centralStyle.py05, styles.titleContainer(contactCategory, index), centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
+            <TouchableOpacity
+                activeOpacity={.7}
+                onPress={handlePress}
+            >
+                <Title
+                    weight='400'
+                    type='Poppin-12'
+                    color={Colors.fontColor}
+                    title={item}
+                />
+            </TouchableOpacity >
+            {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
+                    <View style={styles.renderItemSpecialityType}>
+                        <Title
+                            weight='400'
+                            type='Poppin-12'
+                            color={Colors.fontColor}
+                            title={`${t('All')} (${numbers})`}
+                        />
+                        <Entypo onPress={() => setSpecialityModal(!specialityModal)} name='chevron-down' size={RFPercentage(2)} />
+                    </View>
+            ) : null}
         </View>
+
     )
 }
 
@@ -149,7 +220,7 @@ export const FilterCompany: React.FC<{}> = ({ }) => {
 
     return (
         <View
-            style={[centralStyle.XAndYCenter,  centralStyle.px2, centralStyle.flex1]}>
+            style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
             <Title
                 color={Colors.black}
                 type='Poppin-18'
@@ -157,11 +228,11 @@ export const FilterCompany: React.FC<{}> = ({ }) => {
                 title={t('FilterCompany')} />
             <View style={{}}>
                 <OutlinedTextInput
-                height={RFValue(65)}
+                    height={RFValue(65)}
                     title={t("Address")}
                     placeHolder={t("Address")}
                 />
-                <View style={[centralStyle.row, centralStyle.alignitemCenter, styles.justifyContentBetween,centralStyle.my2]}>
+                <View style={[centralStyle.row, centralStyle.alignitemCenter, styles.justifyContentBetween, centralStyle.my2]}>
                     <Slider
                         style={styles.sliderStyle}
                         minimumValue={0}
@@ -222,7 +293,7 @@ export const FilesCompany: React.FC<{}> = ({ }) => {
                             title={t('Contacts.xlxx')} />
                     </View>
                 )}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(_item, index) => index.toString()}
             />
         </View>
     )

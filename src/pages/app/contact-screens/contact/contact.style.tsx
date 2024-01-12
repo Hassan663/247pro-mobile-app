@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Colors from '../../../../styles/colors';
 import { platform } from '../../../../utilities';
-import { windowWidth } from '../../../../styles/constant.style';
-
+import { centralStyle, windowWidth } from '../../../../styles/constant.style';
 export const styles: any = StyleSheet.create<any>({
 
     tabContainer: (selectedTab: any) => ({
@@ -28,10 +27,13 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: RFPercentage(1),
         justifyContent: 'space-evenly'
     },
-    titleContainer: {
+    titleContainer: (contactCategory: any, index: number) => ({
         backgroundColor: Colors.inputBgColor,
-        borderRadius: RFPercentage(.5)
-    },
+        borderRadius: RFPercentage(.5),
+        borderColor: contactCategory === index ? Colors.primary : Colors.inputBgColor,
+        borderWidth: RFPercentage(.08),
+        paddingHorizontal: RFPercentage(.8)
+    }),
     listWrapper: {
         height: RFPercentage(6),
         borderBottomWidth: 1,
@@ -46,6 +48,31 @@ export const styles: any = StyleSheet.create<any>({
         alignItems: "flex-end",
     },
     modalContainer: {
+        padding: RFPercentage(1.5),
+        backgroundColor: Colors.white,
+        borderColor: Colors.fontColor,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderRadius: RFPercentage(.5),
+        justifyContent: 'space-evenly',
+        right: RFPercentage(2),
+        top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
+    },
+    modalContainerSpecialAbs: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        zIndex: 10,
+        justifyContent: 'flex-start',
+        alignItems: "flex-end",
+    },
+    modalContainerSpecial: {
         padding: RFPercentage(1.5),
         backgroundColor: Colors.white,
         borderColor: Colors.fontColor,
@@ -130,4 +157,14 @@ export const styles: any = StyleSheet.create<any>({
     listContentContainerStyle: {
         justifyContent: 'space-between'
     },
+    renderItemSpecialityType: {
+        ...centralStyle.justifyContentBetween,
+        ...centralStyle.alignitemCenter,
+        ...centralStyle.row,
+        borderLeftColor: Colors.gray,
+        borderLeftWidth: RFPercentage(.08),
+        paddingLeft: RFPercentage(.7),
+        marginLeft: RFPercentage(.7),
+        width: RFPercentage(10)
+    }
 });

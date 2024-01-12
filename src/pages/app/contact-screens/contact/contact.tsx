@@ -43,21 +43,28 @@ import {
     FilesModal,
     FilterCompany,
     ImportModal,
-    RenderItem
+    RenderItem,
+    SpecialityModal
 } from './contact.components';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    const [selectedTab, setSelectedTab] = useState(t('Contacts'))
-    const [searchInput, setSearchInput] = useState('')
-    const [modalEnabled, setmodalEnabled] = useState(false)
     const [importModal, setImportModal] = useState(false)
-    // const [contacts, setContacts] = useState(true)
+    const [modalEnabled, setmodalEnabled] = useState(false)
     const [contactModal, setcontactModal] = useState<boolean>(false);
-    const [selectedCompany, setSelectedCompany] = useState<any>([])
+    const [contactCategory, setContactCategory] = useState();
+    const [pageIndex, setpageIndex] = useState<number>(1);
+    const [contactTypeId, setcontactTypeId] = useState<number>();
+    const [searchInput, setSearchInput] = useState('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
+    const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [listData, setlistData] = useState<[]>([]);
     const [searchListData, setsearchListData] = useState<[]>([]);
-    const [pageIndex, setpageIndex] = useState<number>(1);
+    const [selectedCompany, setSelectedCompany] = useState<any>([])
+    const [specialityModal, setSpecialityModal] = useState<boolean>(false)
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
+
+
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
     const searchedData = useSelector((state: any) => state.root.searchedData)
@@ -174,7 +181,17 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         horizontal
                         contentContainerStyle={centralStyle.XAndYCenter}
                         data={CONTACTLIST}
-                        renderItem={({ item }) => <RenderItem item={item} />}
+                        renderItem={({ item, index }) => <RenderItem
+                            item={item}
+                            index={index}
+                            contactCategory={contactCategory} 
+                            setContactCategory={setContactCategory}
+                            dispatch={dispatch}
+                            specialityModal={specialityModal} 
+                            setSpecialityModal={setSpecialityModal}
+                            setPosition={setPosition}
+                            />
+                        }
                         keyExtractor={(item, index) => index.toString()}
                     />
                 </View>
@@ -279,6 +296,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         anim={anim}
                         setanim={setanim}
                         setcontactModal={setcontactModal} />}
+
+                {specialityModal &&
+                    <SpecialityModal
+                    specialityModal={specialityModal}
+                    setSpecialityModal={setSpecialityModal}
+                    position={position}
+                      />}
             </View >
         </>
 

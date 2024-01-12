@@ -22,8 +22,18 @@ import {
     userIdentity,
     signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
-import { createContact, deleteContact, editContact, getContact, searchContact } from '../../core/http-services/apis/application-api/contact/contact.service';
-import { ContactModel, IContactCreateModel } from '../../core/modals/contact.modal';
+import {
+    TypeContact,
+    createContact,
+    deleteContact,
+    editContact,
+    getContact,
+    searchContact
+} from '../../core/http-services/apis/application-api/contact/contact.service';
+import {
+    ContactModel,
+    IContactCreateModel
+} from '../../core/modals/contact.modal';
 
 //  LOGIN ACTION
 
@@ -207,15 +217,35 @@ export const DeleteContactAction = (id: number) => {
 
 
 export const SearchContactAction = (keyword: string) => {
-    return async (dispatch: Dispatch, getState: any) => {
+    return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const searchContactResponse: any = await searchContact(JSON.parse(accessToken),keyword);
-                console.log(searchContactResponse.data.resultData.list,'searchContactResponsesearchContactResponse')
+                const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword);
                 dispatch({ type: SEARCHEDDATA, payload: searchContactResponse.data.resultData.list });
+            }
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+}
+
+export const TypeContactAction = (id: number) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            if (accessToken !== null) {
+                const TypeContactResponse: any = await TypeContact(JSON.parse(accessToken), id);
+                // console.log(TypeContactResponse.data.resultData.list, 'contactTypeContactResponsecontactTypeContactResponse')
+                dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

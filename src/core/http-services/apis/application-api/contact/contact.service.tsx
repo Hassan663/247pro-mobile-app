@@ -18,7 +18,7 @@ const createContact = async (data: IContactCreateModel): Promise<IResponse<Conta
 const editContact = async (data: IContactCreateModel): Promise<IResponse<ContactModel>> => {
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
-    const uri = {...CREATE_CONTACT_ENDPOINT}
+    const uri = { ...CREATE_CONTACT_ENDPOINT }
     if (accessToken !== null) { uri.JWTToken = JSON.parse(accessToken) }
     return await putApi<IContactCreateModel, ContactModel>(uri, data);
   } catch (error) {
@@ -28,7 +28,7 @@ const editContact = async (data: IContactCreateModel): Promise<IResponse<Contact
 };
 
 
-const deleteContact = async (id:number): Promise<IResponse<ContactModel>> => {
+const deleteContact = async (id: number): Promise<IResponse<ContactModel>> => {
   try {
     const CONTACT_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
     let accessToken = await AsyncStorage.getItem('accessToken');
@@ -99,6 +99,22 @@ const searchContact = async (accessToken: string, keyword: string) => {
     throw error;
   }
 };
+const TypeContact = async (accessToken: string, id: number) => {
+  try {
+    const data: any = {};
+    const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
+
+    if (id) {
+      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&contactTypeId=${id}`;
+    }
+    CONTACT_DETAILS_ENDPOINT_CLONE.JWTToken = accessToken;
+
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_DETAILS_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
 // pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&search=moazza&address=
 
 export const uploadImage = async (uri: string, fileName: string, accessToken: string | null) => {
@@ -127,4 +143,4 @@ export const uploadImage = async (uri: string, fileName: string, accessToken: st
 
 
 
-export { createContact, deleteContact, getContact, getContactDetails,editContact ,searchContact};
+export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact ,TypeContact};
