@@ -107,6 +107,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         }
     }, [searchedData]);
 
+
+    useEffect(() => {
+        dispatch(ContactAction(setpageIndex, pageIndex));
+    }, []);
+
+
     return (
         <>
 
@@ -172,8 +178,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             contactCategory={contactCategory}
                             setContactCategory={setContactCategory}
                             dispatch={dispatch}
-                            specialityModal={specialityModal}
-                            setSpecialityModal={setSpecialityModal}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}

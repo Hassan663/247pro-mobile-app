@@ -25,12 +25,13 @@ import { styles } from './contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { FILESDATA, contactTypefilter } from './call-back';
+import SelectDropdown from 'react-native-select-dropdown';
 
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch }: any) => {
 
-   
-    const [contactModal, setcontactModal] = useState<boolean>(false);
+
+    const [isActive, setIsActive] = useState<boolean>(false);
 
 
     const handlePress = () => {
@@ -40,31 +41,55 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     const numbers = 0;
 
     return (
-        <View style={[centralStyle.py05, styles.titleContainer(contactCategory, index), centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={handlePress}
-            >
-                <Title
-                    weight='400'
-                    type='Poppin-12'
-                    color={Colors.fontColor}
-                    title={item}
-                />
-            </TouchableOpacity >
-            {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
-                <View style={styles.renderItemSpecialityType}>
+        <>
+            <View style={[centralStyle.py05, styles.titleContainer(contactCategory, index), centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={handlePress}
+                >
                     <Title
                         weight='400'
                         type='Poppin-12'
                         color={Colors.fontColor}
-                        title={`${t('All')} (${numbers})`}
+                        title={item}
                     />
-                    <Entypo name='chevron-down' size={RFPercentage(2)} />
-                </View>
-            ) : null}
-        </View>
 
+                </TouchableOpacity >
+
+                {/* {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
+                    <View style={styles.renderItemSpecialityType}>
+                        <Title
+                            weight='400'
+                            type='Poppin-12'
+                            color={Colors.fontColor}
+                            title={`${t('All')} (${numbers})`}
+                        />
+                        <Entypo name='chevron-down' size={RFPercentage(2)} />
+                    </View>
+                ) : null} */}
+                {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
+                    <SelectDropdown
+                        data={['pro', 'supplier', 'staff', 'client']}
+                        defaultButtonText={t('All')}
+                        onSelect={(selectedItem: string, index: number) => {
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+                        rowTextForSelection={(item, index) => item}
+                        onBlur={() => setIsActive(false)}
+                        onFocus={() => setIsActive(true)}
+                        renderDropdownIcon={() => <AntDesign
+                            name={'down'}
+                            color={Colors.fontColor}
+                            size={RFPercentage(2)} />}
+                        buttonStyle={{ backgroundColor: Colors.inputBgColor, width: RFPercentage(5), height: RFPercentage(3),borderLeftColor:Colors.gray,borderLeftWidth:RFPercentage(.3) }}
+                        buttonTextStyle={{
+                        }}
+                    // dropdownStyle={dropDownStyle ? dropDownStyle : styles.dropDownStyle}
+                    />
+                ) : null}
+
+            </View>
+        </>
     )
 }
 
