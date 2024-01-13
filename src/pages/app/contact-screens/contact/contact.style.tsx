@@ -32,7 +32,12 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: RFPercentage(.5),
         borderColor: contactCategory === index ? Colors.primary : Colors.inputBgColor,
         borderWidth: RFPercentage(.08),
-        paddingHorizontal: RFPercentage(.8)
+        paddingHorizontal: platform ? RFPercentage(1) : RFPercentage(.8),
+        ...centralStyle.mx2,
+        ...centralStyle.mr05,
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter,
+        ...centralStyle.py05,
     }),
     listWrapper: {
         height: RFPercentage(6),
@@ -162,9 +167,18 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.alignitemCenter,
         ...centralStyle.row,
         borderLeftColor: Colors.gray,
-        borderLeftWidth: RFPercentage(.08),
-        paddingLeft: RFPercentage(.7),
-        marginLeft: RFPercentage(.7),
-        width: RFPercentage(10)
+        // paddingLeft: RFPercentage(1.7),
+        // marginLeft: RFPercentage(.7),
+        width: 'auto',
+        backgroundColor: Colors.inputBgColor,
+        height: RFPercentage(1.8),
+        borderLeftWidth: platform ? RFPercentage(.1) : RFPercentage(.08),
+        flexDirection: 'row-reverse',
+        padding: 0
+    },
+    btnStyle: {
+        textAlign: "left", color:
+            Colors.fontColor,
+        fontSize: 14,
     }
 });

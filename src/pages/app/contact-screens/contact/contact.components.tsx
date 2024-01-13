@@ -1,48 +1,53 @@
 // @app
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FlatList,
     Image,
-    Text,
-    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Entypo from 'react-native-vector-icons/Entypo'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
-import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import Slider from '@react-native-community/slider';
+import SelectDropdown from 'react-native-select-dropdown';
 import Button from '../../../../core/components/button.component';
-import { Title } from '../../../../core/components/screen-title.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
+
 import { styles } from './contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { FILESDATA, contactTypefilter } from './call-back';
-import SelectDropdown from 'react-native-select-dropdown';
-
+import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
+import { Title } from '../../../../core/components/screen-title.component';
+import {
+    FILESDATA,
+    contactTypefilter
+} from './call-back';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch }: any) => {
 
 
-    const [isActive, setIsActive] = useState<boolean>(false);
+    const [specialityData, setSpecialityData] = useState<string[] | undefined>([]);
 
 
+    useEffect(() => {
+        const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
+            return SPECIALITIES_LIST.map(({ name }) => name);
+        }
+        setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
+    }, [])
     const handlePress = () => {
         // contactTypefilter(index, dispatch);
         setContactCategory(index);
     };
-    const numbers = 0;
-
     return (
         <>
-            <View style={[centralStyle.py05, styles.titleContainer(contactCategory, index), centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
+            <View style={styles.titleContainer(contactCategory, index)}>
                 <TouchableOpacity
                     activeOpacity={.7}
                     onPress={handlePress}
@@ -53,41 +58,26 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         color={Colors.fontColor}
                         title={item}
                     />
-
                 </TouchableOpacity >
-
-                {/* {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
-                    <View style={styles.renderItemSpecialityType}>
-                        <Title
-                            weight='400'
-                            type='Poppin-12'
-                            color={Colors.fontColor}
-                            title={`${t('All')} (${numbers})`}
-                        />
-                        <Entypo name='chevron-down' size={RFPercentage(2)} />
-                    </View>
-                ) : null} */}
                 {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
-                    <SelectDropdown
-                        data={['pro', 'supplier', 'staff', 'client']}
-                        defaultButtonText={t('All')}
-                        onSelect={(selectedItem: string, index: number) => {
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => selectedItem}
-                        rowTextForSelection={(item, index) => item}
-                        onBlur={() => setIsActive(false)}
-                        onFocus={() => setIsActive(true)}
-                        renderDropdownIcon={() => <AntDesign
-                            name={'down'}
-                            color={Colors.fontColor}
-                            size={RFPercentage(2)} />}
-                        buttonStyle={{ backgroundColor: Colors.inputBgColor, width: RFPercentage(5), height: RFPercentage(3),borderLeftColor:Colors.gray,borderLeftWidth:RFPercentage(.3) }}
-                        buttonTextStyle={{
-                        }}
-                    // dropdownStyle={dropDownStyle ? dropDownStyle : styles.dropDownStyle}
-                    />
+                    <View style={{ paddingLeft: RFPercentage(.7) }}>
+                        <SelectDropdown
+                            data={specialityData || []}
+                            defaultButtonText={`${t('All')} (0)`}
+                            onSelect={(selectedItem: string, index: number) => {
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+                            rowTextForSelection={(item, index) => item}
+                            renderDropdownIcon={() => <AntDesign
+                                name={'down'}
+                                color={Colors.fontColor}
+                                size={RFPercentage(1.2)} />}
+                            buttonStyle={styles.renderItemSpecialityType}
+                            buttonTextStyle={styles.btnStyle}
+                            dropdownStyle={{ marginTop: RFPercentage(.5) }}
+                        />
+                    </View>
                 ) : null}
-
             </View>
         </>
     )
