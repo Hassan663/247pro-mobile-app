@@ -40,12 +40,13 @@ import {
 } from '../new-contact/new-contact-component';
 import {
     ConnectionRequest,
+    ContactModal,
     FilesModal,
     FilterCompany,
     ImportModal,
     RenderItem,
-    SpecialityModal
 } from './contact.components';
+import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -56,14 +57,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [contactTypeId, setcontactTypeId] = useState<number>();
     const [searchInput, setSearchInput] = useState('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
+    const [anim2, setanim2] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [listData, setlistData] = useState<[]>([]);
     const [searchListData, setsearchListData] = useState<[]>([]);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [specialityModal, setSpecialityModal] = useState<boolean>(false)
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-
-
+    const [specialityListData, setSpecialityListData] = useState<boolean>(false)
 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
@@ -120,6 +120,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     useEffect(() => {
         dispatch(ContactAction(setpageIndex, pageIndex));
+        if (SPECIALITIES_LIST.length > 0) {
+            const contactClone = JSON.parse(JSON.stringify(SPECIALITIES_LIST));
+            contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
+            setSpecialityListData(contactClone)
+        }
     }, []);
 
     return (
@@ -184,13 +189,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         renderItem={({ item, index }) => <RenderItem
                             item={item}
                             index={index}
-                            contactCategory={contactCategory} 
+                            contactCategory={contactCategory}
                             setContactCategory={setContactCategory}
                             dispatch={dispatch}
-                            specialityModal={specialityModal} 
+                            specialityModal={specialityModal}
                             setSpecialityModal={setSpecialityModal}
-                            setPosition={setPosition}
-                            />
+                        />
                         }
                         keyExtractor={(item, index) => index.toString()}
                     />
@@ -296,13 +300,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         anim={anim}
                         setanim={setanim}
                         setcontactModal={setcontactModal} />}
-
-                {specialityModal &&
-                    <SpecialityModal
-                    specialityModal={specialityModal}
-                    setSpecialityModal={setSpecialityModal}
-                    position={position}
-                      />}
+                {contactCategory  && 
+                    <ContactModal
+                        getCompany={(val: any) => { setSelectedCompany(val) }}
+                        anim2={anim2}
+                        setanim2={setanim2}
+                        setSpecialityModal={setContactCategory} />}
             </View >
         </>
 

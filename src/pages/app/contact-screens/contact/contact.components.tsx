@@ -4,6 +4,7 @@ import {
     FlatList,
     Image,
     Text,
+    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -11,6 +12,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Entypo from 'react-native-vector-icons/Entypo'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
@@ -23,25 +25,38 @@ import { styles } from './contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { FILESDATA, contactTypefilter } from './call-back';
-import ModalComp from '../../../../core/components/modal-component';
-import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
 
 // top: RFPercentage(10.5), left: RFPercentage(32)
 
-
-export const SpecialityModal: React.FC<any> = ({ specialityModal, setSpecialityModal, position }) => {
+export const ContactModal = ({ anim2, setanim2, setSpecialityModal, getCompany,data }: any) => {
+    const disableSheet = () => {
+        setanim2('fadeOutDownBig')
+        setTimeout(() => {
+            setSpecialityModal(false)
+        }, 800)
+    }
     return (
-        <>
-            <TouchableOpacity style={{
-                position: 'absolute',
-                height: "100%",
-                width: "100%",
-            }} onPress={() => setSpecialityModal(!specialityModal)} />
+        <View style={styles.contactModalContainer}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={disableSheet}
+                style={styles.disableModalContainer} />
+            <Animatable.View
+                duration={600}
+                useNativeDriver
+                animation={anim2}
+                iterationCount={1}
+                direction="alternate"
+                style={styles.contactModalContentWrapper}>
 
-            <View style={{ backgroundColor: "black", height: RFPercentage(20), width: RFPercentage(19.5), position: 'absolute', top: position.y- RFPercentage(6.6) , left: position.x }}>
-                <Text> Heloo</Text>
-            </View>
-        </>
+                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.contactModalHeader]}>
+                    <View style={styles.headerLine} />
+                </View>
+
+                <FilesCompany />
+
+            </Animatable.View>
+        </View>
     )
 }
 
@@ -49,35 +64,20 @@ export const SpecialityModal: React.FC<any> = ({ specialityModal, setSpecialityM
 
 
 
-
-
-
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, specialityModal, setSpecialityModal, setPosition }: any) => {
 
+   
+    const [contactModal, setcontactModal] = useState<boolean>(false);
 
-    const componentRef = useRef<View>(null);
-
-    const getComponentDimension = () => {
-        if (componentRef.current) {
-            componentRef.current.measure((_x, _y, _width, _height, pageX, pageY) => {
-                setPosition({ x: pageX, y: pageY });
-                console.log(pageY)
-            });
-        }
-    }
 
     const handlePress = () => {
         // contactTypefilter(index, dispatch);
-        // setContactCategory(index);
-        // getComponentDimension()
-
-
-        
+        setContactCategory(index);
     };
     const numbers = 0;
 
     return (
-        <View ref={componentRef} style={[centralStyle.py05, styles.titleContainer(contactCategory, index), centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
+        <View style={[centralStyle.py05, styles.titleContainer(contactCategory, index), centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
             <TouchableOpacity
                 activeOpacity={.7}
                 onPress={handlePress}
@@ -90,15 +90,15 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                 />
             </TouchableOpacity >
             {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
-                    <View style={styles.renderItemSpecialityType}>
-                        <Title
-                            weight='400'
-                            type='Poppin-12'
-                            color={Colors.fontColor}
-                            title={`${t('All')} (${numbers})`}
-                        />
-                        <Entypo onPress={() => setSpecialityModal(!specialityModal)} name='chevron-down' size={RFPercentage(2)} />
-                    </View>
+                <View style={styles.renderItemSpecialityType}>
+                    <Title
+                        weight='400'
+                        type='Poppin-12'
+                        color={Colors.fontColor}
+                        title={`${t('All')} (${numbers})`}
+                    />
+                    <Entypo onPress={() => setSpecialityModal(!specialityModal)} name='chevron-down' size={RFPercentage(2)} />
+                </View>
             ) : null}
         </View>
 
@@ -325,7 +325,7 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
                     <View style={styles.headerLine} />
                 </View>
 
-                <FilesCompany />
+                {/* <FilesCompany /> */}
 
             </Animatable.View>
         </View>
