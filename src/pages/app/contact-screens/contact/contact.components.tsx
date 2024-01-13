@@ -26,45 +26,8 @@ import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { FILESDATA, contactTypefilter } from './call-back';
 
-// top: RFPercentage(10.5), left: RFPercentage(32)
 
-export const ContactModal = ({ anim2, setanim2, setSpecialityModal, getCompany,data }: any) => {
-    const disableSheet = () => {
-        setanim2('fadeOutDownBig')
-        setTimeout(() => {
-            setSpecialityModal(false)
-        }, 800)
-    }
-    return (
-        <View style={styles.contactModalContainer}>
-            <TouchableOpacity
-                activeOpacity={1}
-                onPress={disableSheet}
-                style={styles.disableModalContainer} />
-            <Animatable.View
-                duration={600}
-                useNativeDriver
-                animation={anim2}
-                iterationCount={1}
-                direction="alternate"
-                style={styles.contactModalContentWrapper}>
-
-                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.contactModalHeader]}>
-                    <View style={styles.headerLine} />
-                </View>
-
-                <FilesCompany />
-
-            </Animatable.View>
-        </View>
-    )
-}
-
-
-
-
-
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, specialityModal, setSpecialityModal, setPosition }: any) => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch }: any) => {
 
    
     const [contactModal, setcontactModal] = useState<boolean>(false);
@@ -97,7 +60,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         color={Colors.fontColor}
                         title={`${t('All')} (${numbers})`}
                     />
-                    <Entypo onPress={() => setSpecialityModal(!specialityModal)} name='chevron-down' size={RFPercentage(2)} />
+                    <Entypo name='chevron-down' size={RFPercentage(2)} />
                 </View>
             ) : null}
         </View>
