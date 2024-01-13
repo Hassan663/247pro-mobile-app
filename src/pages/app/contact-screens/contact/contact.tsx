@@ -36,6 +36,7 @@ import { centralStyle } from '../../../../styles/constant.style';
 import { ContactAction, SearchContactAction } from '../../../../store/action/action';
 import {
     CompanyList,
+    ContactModal,
     CustomSectionHeader,
 } from '../new-contact/new-contact-component';
 import {
@@ -44,6 +45,7 @@ import {
     FilterCompany,
     ImportModal,
     RenderItem,
+    SepecialityModal,
 } from './contact.components';
 import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
 
@@ -52,6 +54,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [contactModal, setcontactModal] = useState<boolean>(false);
     const [contactCategory, setContactCategory] = useState();
+    const [specialityModal, setSpecialityModal] = useState<boolean>(false);
     const [pageIndex, setpageIndex] = useState<number>(1);
     const [contactTypeId, setcontactTypeId] = useState<number>();
     const [searchInput, setSearchInput] = useState('')
@@ -60,7 +63,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [listData, setlistData] = useState<[]>([]);
     const [searchListData, setsearchListData] = useState<[]>([]);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
-    const [specialityModal, setSpecialityModal] = useState<boolean>(false)
+    const [selectedProType, setSelectedProType] = useState<any>([])
+    const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
+    const [selectedSpeciality, setSelectedSpeciality] = useState<any>([])
+    const [specialityListData, setSpecialityListData] = useState<any>([])
 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
@@ -108,10 +114,15 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }, [searchedData]);
 
 
+
     useEffect(() => {
         dispatch(ContactAction(setpageIndex, pageIndex));
+        if (SPECIALITIES_LIST.length > 0) {
+            const specialityDataClone = JSON.parse(JSON.stringify(SPECIALITIES_LIST));
+            specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; });
+            setSpecialityListData(specialityDataClone)
+        }
     }, []);
-
 
     return (
         <>
@@ -178,6 +189,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             contactCategory={contactCategory}
                             setContactCategory={setContactCategory}
                             dispatch={dispatch}
+                            setSpecialityModal={setSpecialityModal}
+                            specialityModal={specialityModal}
+                            setanim={setanim}
+                            selectedProType={selectedProType}
+                            selectedSupplierType={selectedSupplierType}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}
@@ -284,6 +300,17 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         anim={anim}
                         setanim={setanim}
                         setcontactModal={setcontactModal} />}
+                        
+
+                        {specialityModal && <SepecialityModal
+                        getCompany={(val: any) => { 
+                            contactCategory == 2 ? setSelectedProType(val) :setSelectedSupplierType(val) 
+                            }}
+                        anim={anim}
+                        setanim={setanim}
+                        contact
+                        data={specialityListData}
+                        setcontactModal={setSpecialityModal} />}
             </View >
         </>
 

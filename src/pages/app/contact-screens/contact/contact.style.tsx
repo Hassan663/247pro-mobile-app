@@ -163,18 +163,26 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'space-between'
     },
     renderItemSpecialityType: {
+        // ...centralStyle.justifyContentBetween,
+        // ...centralStyle.alignitemCenter,
+        // ...centralStyle.row,
+        // borderLeftColor: Colors.gray,
+        // paddingLeft: RFPercentage(1.7),
+        // // marginLeft: RFPercentage(.7),
+        // width: 'auto',
+        // backgroundColor: Colors.inputBgColor,
+        // height: RFPercentage(1.8),
+        // borderLeftWidth: platform ? RFPercentage(.1) : RFPercentage(.08),
+        // // flexDirection: 'row-reverse',
+        // // padding: 0
         ...centralStyle.justifyContentBetween,
         ...centralStyle.alignitemCenter,
         ...centralStyle.row,
         borderLeftColor: Colors.gray,
-        // paddingLeft: RFPercentage(1.7),
-        // marginLeft: RFPercentage(.7),
-        width: 'auto',
-        backgroundColor: Colors.inputBgColor,
-        height: RFPercentage(1.8),
-        borderLeftWidth: platform ? RFPercentage(.1) : RFPercentage(.08),
-        flexDirection: 'row-reverse',
-        padding: 0
+        borderLeftWidth: RFPercentage(.08),
+        paddingLeft: RFPercentage(.7),
+        marginLeft: RFPercentage(.7),
+        width: platform ?  RFPercentage(9): RFPercentage(10)
     },
     btnStyle: {
         textAlign: "left", color:

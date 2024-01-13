@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import {
     FlatList,
     Image,
+    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Entypo from 'react-native-vector-icons/Entypo'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
@@ -28,19 +30,11 @@ import {
     FILESDATA,
     contactTypefilter
 } from './call-back';
+import { CompanyList } from '../new-contact/new-contact-component';
+import { AlphabetList } from 'react-native-section-alphabet-list';
+import { openSheet } from '../new-contact/call-back';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch }: any) => {
-
-
-    const [specialityData, setSpecialityData] = useState<string[] | undefined>([]);
-
-
-    useEffect(() => {
-        const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
-            return SPECIALITIES_LIST.map(({ name }) => name);
-        }
-        setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
-    }, [])
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType }: any) => {
     const handlePress = () => {
         // contactTypefilter(index, dispatch);
         setContactCategory(index);
@@ -60,22 +54,16 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                     />
                 </TouchableOpacity >
                 {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
-                    <View style={{ paddingLeft: RFPercentage(.7) }}>
-                        <SelectDropdown
-                            data={specialityData || []}
-                            defaultButtonText={`${t('All')} (0)`}
-                            onSelect={(selectedItem: string, index: number) => {
-                            }}
-                            buttonTextAfterSelection={(selectedItem, index) => selectedItem}
-                            rowTextForSelection={(item, index) => item}
-                            renderDropdownIcon={() => <AntDesign
-                                name={'down'}
-                                color={Colors.fontColor}
-                                size={RFPercentage(1.2)} />}
-                            buttonStyle={styles.renderItemSpecialityType}
-                            buttonTextStyle={styles.btnStyle}
-                            dropdownStyle={{ marginTop: RFPercentage(.5) }}
+                    <View style={styles.renderItemSpecialityType}>
+                        <Title
+                            weight='400'
+                            type='Poppin-12'
+                            color={Colors.fontColor}
+                            title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${'0'}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${'0'}) ` : selectedSupplierType?.value}
                         />
+                        <Entypo onPress={() => {
+                            openSheet(setanim, setSpecialityModal)
+                        }} name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </View>
                 ) : null}
             </View>
@@ -306,6 +294,70 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
                 {/* <FilesCompany /> */}
 
             </Animatable.View>
+        </View>
+    )
+}
+
+
+
+export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, data }: any) => {
+    const disableSheet = () => {
+        setanim('fadeOutDownBig')
+        setTimeout(() => {
+            setcontactModal(false)
+        }, 800)
+    }
+    return (
+        <View style={styles.contactModalContainer}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={disableSheet}
+                style={styles.disableModalContainer} />
+
+            <Animatable.View
+                duration={600}
+                animation={anim}
+                iterationCount={1}
+                direction="alternate"
+                style={styles.contactModalContentWrapper}>
+                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.contactModalHeader]}>
+                    <View style={[centralStyle.circle(20),]} />
+                    <View style={styles.headerLine} />
+                    <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
+                        <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
+                    </View>
+                </View>
+                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
+                    <AntDesign
+                        style={centralStyle.mx1}
+                        color={Colors.fontColor}
+                        name={`search1`}
+                        size={RFPercentage(2)} />
+                    <TextInput placeholder={t('search')} style={styles.searchInput} />
+                </View>
+                <View style={[centralStyle.px2, { flex: 1, }]}>
+                    <AlphabetList
+                        data={data}
+                        letterListContainerStyle={styles.listContainerStyle}
+                        showsVerticalScrollIndicator={false}
+                        indexContainerStyle={{ width: 20 }}
+                        indexLetterStyle={styles.letterStyle}
+                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany && getCompany(val)} item={item} />}
+                        renderCustomSectionHeader={CustomSectionHeader}
+                    />
+                </View>
+            </Animatable.View>
+        </View>
+    )
+}
+export const CustomSectionHeader = (section: any) => {
+    return (
+        <View style={styles.sectionHeaderContainer}>
+            <Title
+                color={Colors.black}
+                type='Poppin-14'
+                weight='600'
+                title={section.title} />
         </View>
     )
 }
