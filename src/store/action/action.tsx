@@ -23,7 +23,7 @@ import {
     signUp
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import {
-    TypeContact,
+    typeContact,
     createContact,
     deleteContact,
     editContact,
@@ -243,7 +243,7 @@ export const TypeContactAction = (id: number) => {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const TypeContactResponse: any = await TypeContact(JSON.parse(accessToken), id);
+                const TypeContactResponse: any = await typeContact(JSON.parse(accessToken), id);
                 // console.log(TypeContactResponse.data.resultData.list, 'contactTypeContactResponsecontactTypeContactResponse')
                 dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
             }

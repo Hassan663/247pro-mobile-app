@@ -43,16 +43,23 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             <View style={styles.titleContainer(contactCategory, index)}>
                 <TouchableOpacity
                     activeOpacity={.7}
+                    style={centralStyle.row}
                     onPress={handlePress}
                 >
                     <Title
                         weight='400'
                         type='Poppin-12'
                         color={Colors.fontColor}
-                        title={item}
+                        title={item }
+                    />
+                    <Title
+                        weight='400'
+                        type='Poppin-12'
+                        color={Colors.fontColor}
+                        title={'(0)'}
                     />
                 </TouchableOpacity >
-                {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
+                {/* {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
                     <TouchableOpacity
                         onPress={() => openSheet(setanim, setSpecialityModal)}
                         activeOpacity={0.7}
@@ -65,7 +72,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         />
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </TouchableOpacity>
-                ) : null}
+                ) : null} */}
             </View>
         </>
     )

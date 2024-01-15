@@ -48,6 +48,7 @@ import {
     SepecialityModal,
 } from './contact.components';
 import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
+import { specialityCount } from './call-back';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -65,7 +66,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [selectedProType, setSelectedProType] = useState<any>([])
     const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
-    const [selectedSpeciality, setSelectedSpeciality] = useState<any>([])
+    const [contactTypes, setContactTypes] = useState<any>([])
     const [specialityListData, setSpecialityListData] = useState<any>([])
 
     const sheetRef = useRef<any>(null)
@@ -113,7 +114,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         }
     }, [searchedData]);
 
-
+    const contactTypesFunc = async()=>{
+        const response = await specialityCount()
+        if(response && response.data.length > 1)setContactTypes(response.data.resultData);
+    }
 
     useEffect(() => {
         dispatch(ContactAction(setpageIndex, pageIndex));
@@ -122,11 +126,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; });
             setSpecialityListData(specialityDataClone)
         }
+        contactTypesFunc()
     }, []);
 
     return (
         <>
-
             <AppHeader
                 iconR1={
                     <AntDesign
@@ -194,6 +198,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             setanim={setanim}
                             selectedProType={selectedProType}
                             selectedSupplierType={selectedSupplierType}
+                            contactTypes={contactTypes}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}

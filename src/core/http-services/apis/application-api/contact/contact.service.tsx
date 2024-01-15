@@ -99,7 +99,7 @@ const searchContact = async (accessToken: string, keyword: string) => {
     throw error;
   }
 };
-const TypeContact = async (accessToken: string, id: number) => {
+const typeContact = async (accessToken: string, id: number) => {
   try {
     const data: any = {};
     const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
@@ -138,9 +138,20 @@ export const uploadImage = async (uri: string, fileName: string, accessToken: st
 };
 
 
+const contactTypeCount = async (accessToken: string) => {
+  try {
+    const data: any = {};
+    const CONTACT_TYPE_COUNT_ENDPOINT_CLONE = { ...CONTACT_ENDPOINT };
+    CONTACT_TYPE_COUNT_ENDPOINT_CLONE.url = CONTACT_TYPE_COUNT_ENDPOINT_CLONE.url + '/counts/active';
+    CONTACT_TYPE_COUNT_ENDPOINT_CLONE.JWTToken = accessToken;
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_TYPE_COUNT_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('Erro contact Type Count:', error);
+  }
+}
 
 
 
 
 
-export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact ,TypeContact};
+export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount };
