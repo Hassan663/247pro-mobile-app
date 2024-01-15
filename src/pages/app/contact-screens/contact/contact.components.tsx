@@ -1,5 +1,5 @@
 // @app
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     FlatList,
     Image,
@@ -17,7 +17,6 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
 import Slider from '@react-native-community/slider';
-import SelectDropdown from 'react-native-select-dropdown';
 import Button from '../../../../core/components/button.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 
@@ -33,7 +32,7 @@ import { CompanyList } from '../new-contact/new-contact-component';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 import { openSheet } from '../new-contact/call-back';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType }: any) => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
         // contactTypefilter(index, dispatch);
         setContactCategory(index);
@@ -43,23 +42,22 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             <View style={styles.titleContainer(contactCategory, index)}>
                 <TouchableOpacity
                     activeOpacity={.7}
-                    style={centralStyle.row}
                     onPress={handlePress}
                 >
                     <Title
                         weight='400'
                         type='Poppin-12'
                         color={Colors.fontColor}
-                        title={item }
+                        title={item}
                     />
-                    <Title
+                </TouchableOpacity >
+              { index === 0 && <Title
                         weight='400'
                         type='Poppin-12'
                         color={Colors.fontColor}
-                        title={'(0)'}
-                    />
-                </TouchableOpacity >
-                {/* {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
+                        title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
+                    />}
+                {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
                     <TouchableOpacity
                         onPress={() => openSheet(setanim, setSpecialityModal)}
                         activeOpacity={0.7}
@@ -68,11 +66,24 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             weight='400'
                             type='Poppin-12'
                             color={Colors.fontColor}
-                            title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${'0'}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${'0'}) ` : selectedSupplierType?.value}
+                            title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${contactTypes[index - 1]?.count}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypes[index - 1]?.count}) ` : selectedSupplierType?.value}
                         />
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </TouchableOpacity>
-                ) : null} */}
+                ) :
+                    index > 0 && typeof contactTypes[index - 1]?.count !== 'undefined' ?
+                        <TouchableOpacity
+                            activeOpacity={.7}
+                            onPress={handlePress}
+                        >
+                            <Title
+                                weight='400'
+                                type='Poppin-12'
+                                color={Colors.fontColor}
+                                title={` (${contactTypes[index - 1]?.count})`}
+                            />
+                        </TouchableOpacity> : <></>
+                }
             </View>
         </>
     )

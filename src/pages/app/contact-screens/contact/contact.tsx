@@ -36,7 +36,6 @@ import { centralStyle } from '../../../../styles/constant.style';
 import { ContactAction, SearchContactAction } from '../../../../store/action/action';
 import {
     CompanyList,
-    ContactModal,
     CustomSectionHeader,
 } from '../new-contact/new-contact-component';
 import {
@@ -57,7 +56,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [contactCategory, setContactCategory] = useState();
     const [specialityModal, setSpecialityModal] = useState<boolean>(false);
     const [pageIndex, setpageIndex] = useState<number>(1);
-    const [contactTypeId, setcontactTypeId] = useState<number>();
     const [searchInput, setSearchInput] = useState('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -116,7 +114,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const contactTypesFunc = async()=>{
         const response = await specialityCount()
-        if(response && response.data.length > 1)setContactTypes(response.data.resultData);
+        if(response && response.data)setContactTypes(response.data.resultData);
     }
 
     useEffect(() => {
@@ -307,7 +305,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         setcontactModal={setcontactModal} />}
                         
 
-                        {specialityModal && <SepecialityModal
+                {specialityModal && 
+                    <SepecialityModal
                         getCompany={(val: any) => { 
                             contactCategory == 2 ? setSelectedProType(val) :setSelectedSupplierType(val) 
                             }}
