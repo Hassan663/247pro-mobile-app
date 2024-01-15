@@ -98,6 +98,10 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'space-between',
         height: '90%',
     },
+    specialitylistContainerStyle: {
+        justifyContent: 'space-between',
+        paddingVertical: RFPercentage(1)
+    },
     letterStyle: {
         textAlign: 'right',
         color: Colors.fontColor,
@@ -136,9 +140,21 @@ export const styles: any = StyleSheet.create<any>({
         borderTopRightRadius: RFPercentage(2),
         borderTopLeftRadius: RFPercentage(2),
     },
+    specialityModalContentWrapper: {
+        height: '85%',
+        width: '100%',
+        backgroundColor: Colors.white,
+        overflow: "hidden",
+        borderTopRightRadius: RFPercentage(2),
+        borderTopLeftRadius: RFPercentage(2),
+    },
     contactModalHeader: {
         alignItems: "center",
         justifyContent: "center",
+    },
+    specialityModalHeader: {
+        alignItems: "center",
+        justifyContent: "space-between",
     },
     headerLine: {
         height: 3,
@@ -163,18 +179,6 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'space-between'
     },
     renderItemSpecialityType: {
-        // ...centralStyle.justifyContentBetween,
-        // ...centralStyle.alignitemCenter,
-        // ...centralStyle.row,
-        // borderLeftColor: Colors.gray,
-        // paddingLeft: RFPercentage(1.7),
-        // // marginLeft: RFPercentage(.7),
-        // width: 'auto',
-        // backgroundColor: Colors.inputBgColor,
-        // height: RFPercentage(1.8),
-        // borderLeftWidth: platform ? RFPercentage(.1) : RFPercentage(.08),
-        // // flexDirection: 'row-reverse',
-        // // padding: 0
         ...centralStyle.justifyContentBetween,
         ...centralStyle.alignitemCenter,
         ...centralStyle.row,
@@ -182,11 +186,24 @@ export const styles: any = StyleSheet.create<any>({
         borderLeftWidth: RFPercentage(.08),
         paddingLeft: RFPercentage(.7),
         marginLeft: RFPercentage(.7),
-        width: platform ?  RFPercentage(9): RFPercentage(10)
     },
     btnStyle: {
         textAlign: "left", color:
             Colors.fontColor,
         fontSize: 14,
-    }
+    },
+    downIconWrapper: {
+        borderWidth: 1,
+    },
+    inputWrapper: {
+        height: RFPercentage(4),
+        backgroundColor: Colors.lightGrey,
+        width: '90%',
+        alignSelf: 'center',
+        borderRadius: RFPercentage(.5)
+    },
+    searchInput: {
+        flex: 1,
+        height: '100%',
+    },
 });

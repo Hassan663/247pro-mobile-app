@@ -22,9 +22,8 @@ import Button from '../../../../core/components/button.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 
 import { styles } from './contact.style';
-import { centralStyle } from '../../../../styles/constant.style';
+import { centralStyle, heightFlex1 } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
 import { Title } from '../../../../core/components/screen-title.component';
 import {
     FILESDATA,
@@ -54,17 +53,18 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                     />
                 </TouchableOpacity >
                 {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
-                    <View style={styles.renderItemSpecialityType}>
+                    <TouchableOpacity
+                        onPress={() => openSheet(setanim, setSpecialityModal)}
+                        activeOpacity={0.7}
+                        style={styles.renderItemSpecialityType}>
                         <Title
                             weight='400'
                             type='Poppin-12'
                             color={Colors.fontColor}
                             title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${'0'}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${'0'}) ` : selectedSupplierType?.value}
                         />
-                        <Entypo onPress={() => {
-                            openSheet(setanim, setSpecialityModal)
-                        }} name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
-                    </View>
+                        <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
+                    </TouchableOpacity>
                 ) : null}
             </View>
         </>
@@ -291,7 +291,7 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
                     <View style={styles.headerLine} />
                 </View>
 
-                {/* <FilesCompany /> */}
+                <FilesCompany />
 
             </Animatable.View>
         </View>
@@ -313,14 +313,13 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                 activeOpacity={1}
                 onPress={disableSheet}
                 style={styles.disableModalContainer} />
-
             <Animatable.View
                 duration={600}
                 animation={anim}
                 iterationCount={1}
                 direction="alternate"
-                style={styles.contactModalContentWrapper}>
-                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.contactModalHeader]}>
+                style={styles.specialityModalContentWrapper}>
+                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.specialityModalHeader]}>
                     <View style={[centralStyle.circle(20),]} />
                     <View style={styles.headerLine} />
                     <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
@@ -335,10 +334,10 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                         size={RFPercentage(2)} />
                     <TextInput placeholder={t('search')} style={styles.searchInput} />
                 </View>
-                <View style={[centralStyle.px2, { flex: 1, }]}>
+                <View style={[centralStyle.px2, { flex: heightFlex1 * 6, }]}>
                     <AlphabetList
                         data={data}
-                        letterListContainerStyle={styles.listContainerStyle}
+                        letterListContainerStyle={styles.specialitylistContainerStyle}
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
