@@ -51,12 +51,12 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         title={item}
                     />
                 </TouchableOpacity >
-              { index === 0 && <Title
+                {/* { index === 0 &&  <Title
                         weight='400'
                         type='Poppin-12'
                         color={Colors.fontColor}
                         title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
-                    />}
+                    />} */}
                 {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
                     <TouchableOpacity
                         onPress={() => openSheet(setanim, setSpecialityModal)}
@@ -71,18 +71,24 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </TouchableOpacity>
                 ) :
-                    index > 0 && typeof contactTypes[index - 1]?.count !== 'undefined' ?
-                        <TouchableOpacity
-                            activeOpacity={.7}
-                            onPress={handlePress}
-                        >
-                            <Title
-                                weight='400'
-                                type='Poppin-12'
-                                color={Colors.fontColor}
-                                title={` (${contactTypes[index - 1]?.count})`}
-                            />
-                        </TouchableOpacity> : <></>
+                    index === 0 && typeof contactTypes[index ]?.count !== 'undefined' ? < Title
+                        weight='400'
+                        type='Poppin-12'
+                        color={Colors.fontColor}
+                        title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
+                    /> :
+                        index > 0 && typeof contactTypes[index - 1]?.count !== 'undefined' ?
+                            <TouchableOpacity
+                                activeOpacity={.7}
+                                onPress={handlePress}
+                            >
+                                <Title
+                                    weight='400'
+                                    type='Poppin-12'
+                                    color={Colors.fontColor}
+                                    title={` (${contactTypes[index - 1]?.count})`}
+                                />
+                            </TouchableOpacity> : <></>
                 }
             </View>
         </>
