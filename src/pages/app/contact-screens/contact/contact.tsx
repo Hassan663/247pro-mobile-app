@@ -20,18 +20,24 @@ import { t } from 'i18next';
 import { Dispatch } from 'redux';
 import { debounce } from "lodash";
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
-import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-
+import AppHeader from '../../../../core/components/app-headers';
 import Button from '../../../../core/components/button.component';
+
 import { CONTACTLIST } from './data';
 import { styles } from './contact.style';
-import { specialityCount } from './call-back';
 import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import {
+    getProContacts,
+    specialityCount
+} from './call-back';
 import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
 import { Title } from '../../../../core/components/screen-title.component';
 import {
@@ -130,12 +136,19 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         dispatch(ContactAction(setpageIndex, pageIndex));
         if (SPECIALITIES_LIST.length > 0) {
             const specialityDataClone = JSON.parse(JSON.stringify(SPECIALITIES_LIST));
-            specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; });
+            specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
             setSpecialityListData(specialityDataClone)
         }
         contactTypesFunc()
     }, []);
-
+    const proContacts = async (val: any) => {
+        await setSelectedProType(val);
+        const response = await getProContacts(dispatch, 2, val.id);
+    };
+    const SupplierContacts = async (val: any) => {
+        await setSelectedSupplierType(val);
+        const response = await getProContacts(dispatch, 3, val.id);
+    };
     return (
         <>
             <AppHeader
@@ -317,7 +330,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 {specialityModal &&
                     <SepecialityModal
                         getCompany={(val: any) => {
-                            contactCategory == 2 ? setSelectedProType(val) : setSelectedSupplierType(val)
+                            contactCategory == 2 ? proContacts(val) : SupplierContacts(val)
                         }}
                         anim={anim}
                         setanim={setanim}

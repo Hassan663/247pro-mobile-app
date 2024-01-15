@@ -28,7 +28,8 @@ import {
     deleteContact,
     editContact,
     getContact,
-    searchContact
+    searchContact,
+    getTypeContacts
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
     ContactModel,
@@ -245,6 +246,26 @@ export const TypeContactAction = (id: number) => {
             if (accessToken !== null) {
                 const TypeContactResponse: any = await typeContact(JSON.parse(accessToken), id);
                 // dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
+            }
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+}
+
+export const GetTypeContactsAction = (type: number,specialityID:number) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            if (accessToken !== null) {
+                const TypeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type,3);
+                console.log(TypeContactResponse,'TypeContactResponseTypeContactResponse')
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

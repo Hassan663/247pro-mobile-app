@@ -150,8 +150,20 @@ const contactTypeCount = async (accessToken: string) => {
   }
 }
 
+const getTypeContacts = async (accessToken: string, type: number, specialityID: number) => {
+  try {
+    const data: any = {};
+    const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
+    if (type && specialityID) {
+      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&contactTypeId=${type}&contactSpecialtyIds=${specialityID}`;
+    }
+    CONTACT_DETAILS_ENDPOINT_CLONE.JWTToken = accessToken;
 
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_DETAILS_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
 
-
-
-export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount };
+export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount, getTypeContacts };

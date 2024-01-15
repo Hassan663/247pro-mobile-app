@@ -362,7 +362,9 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                         showsVerticalScrollIndicator={false}       
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
-                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany && getCompany(val)} item={item} />}
+                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => {
+                            console.log(val,'data')
+                            getCompany && getCompany(val)}} item={item} />}
                         renderCustomSectionHeader={CustomSectionHeader}
                     />
                 </View>
