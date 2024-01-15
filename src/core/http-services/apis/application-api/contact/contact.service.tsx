@@ -1,7 +1,13 @@
 import { deleteApi, getApi, postApi, putApi } from '../../../services/services';
 import { ContactModel, IContactCreateModel, IContactUpdateModel } from '../../../../modals/contact.modal';
 import { Endpoint, IResponse } from '../../../../modals';
-import { CONTACT_ENDPOINT, CREATE_CONTACT_ENDPOINT, LOGIN_ENDPOINT, UPLOAD_IMAGE_ENDPOINT } from '../../apis';
+import {
+  CONTACT_ENDPOINT,
+  CONTACT_SPECIALITIES,
+  CREATE_CONTACT_ENDPOINT,
+  LOGIN_ENDPOINT,
+  UPLOAD_IMAGE_ENDPOINT
+} from '../../apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const createContact = async (data: IContactCreateModel): Promise<IResponse<ContactModel>> => {
@@ -166,4 +172,17 @@ const getTypeContacts = async (accessToken: string, type: number, specialityID: 
   }
 };
 
-export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount, getTypeContacts };
+const getSpecialities = async (accessToken: string) => {
+  try {
+    const data: any = {};
+    if (accessToken) {
+      CONTACT_SPECIALITIES.JWTToken = accessToken;
+    }
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_SPECIALITIES, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
+
+export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount, getTypeContacts, getSpecialities };

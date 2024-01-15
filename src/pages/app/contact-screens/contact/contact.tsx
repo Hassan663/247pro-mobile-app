@@ -36,6 +36,7 @@ import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import {
     getProContacts,
+    specialities,
     specialityCount
 } from './call-back';
 import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
@@ -123,7 +124,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (searchedData.length > 0) {
             const searchContactClone = JSON.parse(JSON.stringify(searchedData));
             searchContactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
-            setsearchListData(searchContactClone)
+            setsearchListData(searchContactClone);
         }
     }, [searchedData]);
 
@@ -132,14 +133,21 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (response && response.data) setContactTypes(response.data.resultData);
     }
 
+    const getSpeciality = async () => {
+        // const response = await specialities();
+        // if (response && response.data) {
+            if (SPECIALITIES_LIST.length > 0) {
+                const specialityDataClone = JSON.parse(JSON.stringify(SPECIALITIES_LIST));
+                specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
+                setSpecialityListData(specialityDataClone)
+            }
+        // }
+    }
+
     useEffect(() => {
         dispatch(ContactAction(setpageIndex, pageIndex));
-        if (SPECIALITIES_LIST.length > 0) {
-            const specialityDataClone = JSON.parse(JSON.stringify(SPECIALITIES_LIST));
-            specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
-            setSpecialityListData(specialityDataClone)
-        }
         contactTypesFunc()
+        getSpeciality()
     }, []);
     const proContacts = async (val: any) => {
         await setSelectedProType(val);

@@ -1,5 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { contactTypeCount } from "../../../../core/http-services/apis/application-api/contact/contact.service";
+import {
+    contactTypeCount,
+    getSpecialities
+} from "../../../../core/http-services/apis/application-api/contact/contact.service";
 import {
     GetTypeContactsAction,
     TypeContactAction
@@ -33,3 +36,12 @@ export const getProContacts = async (dispatch: any, type: number, specialityID: 
     }
 }
 
+
+export const specialities = async () => {
+    try {
+        let accessToken = await AsyncStorage.getItem('accessToken');
+        if (accessToken !== null) return await getSpecialities(JSON.parse(accessToken));
+    } catch (error) {
+        console.log("error--->", error);
+    }
+}
