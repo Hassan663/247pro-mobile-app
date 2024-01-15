@@ -13,17 +13,18 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Entypo from 'react-native-vector-icons/Entypo'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { t } from 'i18next';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { RFPercentage,
+     RFValue } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
 import Slider from '@react-native-community/slider';
 import Button from '../../../../core/components/button.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
-
 import { styles } from './contact.style';
-import { centralStyle, heightFlex1 } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { Title } from '../../../../core/components/screen-title.component';
+import { centralStyle,
+     heightFlex1 } from '../../../../styles/constant.style';
 import {
     FILESDATA,
     contactTypefilter
@@ -34,7 +35,9 @@ import { openSheet } from '../new-contact/call-back';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
-        // contactTypefilter(index, dispatch);
+        if (contactCategory !== index) {
+            contactTypefilter(index, dispatch);
+        }
         setContactCategory(index);
     };
     return (
@@ -51,12 +54,6 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         title={item}
                     />
                 </TouchableOpacity >
-                {/* { index === 0 &&  <Title
-                        weight='400'
-                        type='Poppin-12'
-                        color={Colors.fontColor}
-                        title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
-                    />} */}
                 {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
                     <TouchableOpacity
                         onPress={() => openSheet(setanim, setSpecialityModal)}
@@ -71,7 +68,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </TouchableOpacity>
                 ) :
-                    index === 0 && typeof contactTypes[index ]?.count !== 'undefined' ? < Title
+                    index === 0 && typeof contactTypes[index]?.count !== 'undefined' ? < Title
                         weight='400'
                         type='Poppin-12'
                         color={Colors.fontColor}
@@ -362,7 +359,7 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                     <AlphabetList
                         data={data}
                         letterListContainerStyle={styles.specialitylistContainerStyle}
-                        showsVerticalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}       
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
                         renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany && getCompany(val)} item={item} />}

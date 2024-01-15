@@ -244,8 +244,7 @@ export const TypeContactAction = (id: number) => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const TypeContactResponse: any = await typeContact(JSON.parse(accessToken), id);
-                // console.log(TypeContactResponse.data.resultData.list, 'contactTypeContactResponsecontactTypeContactResponse')
-                dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
+                // dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

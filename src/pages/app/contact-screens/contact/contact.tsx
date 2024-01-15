@@ -26,14 +26,22 @@ import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
 
 import Button from '../../../../core/components/button.component';
-import { Title } from '../../../../core/components/screen-title.component';
-import { styles } from './contact.style';
-import { platform } from '../../../../utilities';
 import { CONTACTLIST } from './data';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { AlphabetList, IData } from 'react-native-section-alphabet-list';
+import { styles } from './contact.style';
+import { specialityCount } from './call-back';
+import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ContactAction, SearchContactAction } from '../../../../store/action/action';
+import { changeRoute } from '../../../../core/helpers/async-storage';
+import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
+import { Title } from '../../../../core/components/screen-title.component';
+import {
+    ContactAction,
+    SearchContactAction
+} from '../../../../store/action/action';
+import {
+    AlphabetList,
+    IData
+} from 'react-native-section-alphabet-list';
 import {
     CompanyList,
     CustomSectionHeader,
@@ -46,8 +54,6 @@ import {
     RenderItem,
     SepecialityModal,
 } from './contact.components';
-import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
-import { specialityCount } from './call-back';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -95,13 +101,16 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const handleTextDebounce = useCallback(debounce(handleSearch, 400), [])
 
-
-    useEffect(() => {
+    const getMoreContact = async (contact: string | any[]) => {
         if (contact.length > 0) {
-            const contactClone = JSON.parse(JSON.stringify(contact));
-            contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
-            setlistData(contactClone)
+            await setlistData([])
+            const contactClone = await JSON.parse(JSON.stringify(contact));
+            await contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
+            await setlistData(contactClone)
         }
+    }
+    useEffect(() => {
+        getMoreContact(contact)
     }, [contact]);
 
     useEffect(() => {
@@ -112,9 +121,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         }
     }, [searchedData]);
 
-    const contactTypesFunc = async()=>{
+    const contactTypesFunc = async () => {
         const response = await specialityCount()
-        if(response && response.data)setContactTypes(response.data.resultData);
+        if (response && response.data) setContactTypes(response.data.resultData);
     }
 
     useEffect(() => {
@@ -232,6 +241,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     indexContainerStyle={{ width: 20 }}
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => {
+
                                         return (
                                             <CompanyList
                                                 getCompany={() => { handleChangeRoute(item) }}
@@ -295,7 +305,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     >
                         <FilterCompany />
                     </RBSheet>
-                    {/* </View> */}
                 </View>
                 {contactModal &&
                     <FilesModal
@@ -303,13 +312,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         anim={anim}
                         setanim={setanim}
                         setcontactModal={setcontactModal} />}
-                        
 
-                {specialityModal && 
+
+                {specialityModal &&
                     <SepecialityModal
-                        getCompany={(val: any) => { 
-                            contactCategory == 2 ? setSelectedProType(val) :setSelectedSupplierType(val) 
-                            }}
+                        getCompany={(val: any) => {
+                            contactCategory == 2 ? setSelectedProType(val) : setSelectedSupplierType(val)
+                        }}
                         anim={anim}
                         setanim={setanim}
                         contact
