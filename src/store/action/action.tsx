@@ -265,7 +265,7 @@ export const GetTypeContactsAction = (type: number,specialityID:number) => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const TypeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type,3);
-                console.log(TypeContactResponse,'TypeContactResponseTypeContactResponse')
+                // console.log(TypeContactResponse,'TypeContactResponseTypeContactResponse')
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
@@ -282,16 +282,10 @@ export const openSheet = (sheetRef: any) => sheetRef.current.open()
 export const closeSheet = (sheetRef: any) => sheetRef.current.close()
 
 
-
-
 // function searchContact(accessToken: any, keyword: string): any {
 //     throw new Error('Function not implemented.');
 // }
 //  APP ACTION
-
-
-
-
 
 
 // export function _error(err?: string, time?: number) {

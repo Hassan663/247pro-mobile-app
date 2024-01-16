@@ -29,13 +29,13 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import Button from '../../../../core/components/button.component';
 
-import { CONTACTLIST } from './data';
+import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
 import { platform } from '../../../../utilities';
-import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { CONTACTLIST } from './data';
+import { centralStyle } from '../../../../styles/constant.style';
 import { SpecialityModal } from '../../../../core/modals/contact.modal';
-import { Title } from '../../../../core/components/screen-title.component';
 import {
     getProContacts,
     specialities,

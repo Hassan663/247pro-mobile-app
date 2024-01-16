@@ -1,5 +1,9 @@
 // @app
-import React, { useState } from 'react';
+import React,
+{
+    useCallback,
+    useState
+} from 'react';
 import {
     FlatList,
     Image,
@@ -19,6 +23,7 @@ import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './contact.style';
+import { debounce } from "lodash";
 import { openSheet } from '../new-contact/call-back';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 import { CompanyList } from '../new-contact/new-contact-component';
@@ -289,7 +294,7 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
         setTimeout(() => {
             setcontactModal(false)
         }, 800)
-    }
+    };
     return (
         <View style={styles.contactModalContainer}>
             <TouchableOpacity
@@ -318,12 +323,22 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
 
 
 export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, data }: any) => {
+    const [searchData, setSearchData] = useState();
     const disableSheet = () => {
         setanim('fadeOutDownBig')
         setTimeout(() => {
             setcontactModal(false)
         }, 800)
-    }
+    };
+    const handleSearch = (value: string) => {
+        if (value && value.length > 0) {
+            const filteredData = data.filter((item: { name: string; }) =>
+                item.name.toLowerCase().includes(value.toLowerCase())
+            );
+            setSearchData(filteredData);
+        } else setSearchData(data);
+    };
+    const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
     return (
         <View style={styles.contactModalContainer}>
             <TouchableOpacity
@@ -350,19 +365,18 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                         color={Colors.fontColor}
                         name={`search1`}
                         size={RFPercentage(2)} />
-                    <TextInput placeholder={t('search')} style={styles.searchInput} />
+                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')}
+
+                        style={styles.searchInput} />
                 </View>
                 <View style={[centralStyle.px2, { flex: heightFlex1 * 6, }]}>
                     <AlphabetList
-                        data={data}
+                        data={searchData ? searchData : data}
                         letterListContainerStyle={styles.specialitylistContainerStyle}
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
-                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => {
-                            console.log(val, 'data')
-                            getCompany && getCompany(val)
-                        }} item={item} />}
+                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany && getCompany(val)} item={item} />}
                         renderCustomSectionHeader={CustomSectionHeader}
                     />
                 </View>
