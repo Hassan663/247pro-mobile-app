@@ -1,14 +1,13 @@
 import Colors from '../../../../styles/colors';
 import { StyleSheet } from 'react-native';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 import { platform } from '../../../../utilities';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import {
     centralPosition,
     centralStyle
 } from '../../../../styles/constant.style';
 
 export const styles: any = StyleSheet.create<any>({
-
     container: {
         flex: 1,
         backgroundColor: Colors.white
@@ -139,15 +138,7 @@ export const styles: any = StyleSheet.create<any>({
         paddingHorizontal: RFPercentage(2),
         justifyContent: "center"
     },
-    // dropDownStyle: {
-    //     backgroundColor: Colors.white,
-    //     width: "100%",
-    //     borderRadius: RFPercentage(1),
-    //     borderColor: Colors.lightGrey,
-    //     borderWidth: 1
-    // },
     dropDownStyle: (val: number) => {
-        // console.log(val, 'val')
         return (
             {
                 backgroundColor: Colors.white,

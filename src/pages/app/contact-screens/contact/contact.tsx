@@ -34,13 +34,13 @@ import { styles } from './contact.style';
 import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { SpecialityModal } from '../../../../core/modals/contact.modal';
+import { Title } from '../../../../core/components/screen-title.component';
 import {
     getProContacts,
     specialities,
     specialityCount
 } from './call-back';
-import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
-import { Title } from '../../../../core/components/screen-title.component';
 import {
     ContactAction,
     SearchContactAction
@@ -61,15 +61,7 @@ import {
     RenderItem,
     SepecialityModal,
 } from './contact.components';
-interface MyObject {
-    id: number;
-    name: string;
-    publishType: number;
-    isDefault: boolean;
-    industryId: number;
-    accountId: string;
-    jobServices: any[]; // Replace 'any[]' with the appropriate type for jobServices
-}
+
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
     const [modalEnabled, setmodalEnabled] = useState(false)
@@ -86,8 +78,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [selectedProType, setSelectedProType] = useState<any>([])
     const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
     const [contactTypes, setContactTypes] = useState<any>([])
-    const [supplierSpecialityListData, setSupplierSpecialityListData] = useState<MyObject>()
-    const [proSpecialityListData, setProSpecialityListData] = useState<MyObject>()
+    const [supplierSpecialityListData, setSupplierSpecialityListData] = useState<SpecialityModal>()
+    const [proSpecialityListData, setProSpecialityListData] = useState<SpecialityModal>()
 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
@@ -147,8 +139,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (response && response.data) {
                 const specialityDataClone = JSON.parse(JSON.stringify(response.data.resultData));
                 specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
-                const idustryId27 = specialityDataClone.filter((obj: MyObject) => obj.industryId === 27);
-                const idustryId5 = specialityDataClone.filter((obj: MyObject) => obj.industryId === 5);
+                const idustryId27 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 27);
+                const idustryId5 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 5);
                 setSupplierSpecialityListData(idustryId27);
                 setProSpecialityListData(idustryId5);
         }

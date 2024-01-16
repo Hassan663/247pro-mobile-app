@@ -8,30 +8,34 @@ import {
     View,
 } from 'react-native';
 
-import * as Animatable from 'react-native-animatable';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Slider from '@react-native-community/slider';
 import Entypo from 'react-native-vector-icons/Entypo'
+import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { t } from 'i18next';
-import { RFPercentage,
-     RFValue } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
-import Slider from '@react-native-community/slider';
 import Button from '../../../../core/components/button.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './contact.style';
+import { openSheet } from '../new-contact/call-back';
+import { AlphabetList } from 'react-native-section-alphabet-list';
+import { CompanyList } from '../new-contact/new-contact-component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { Title } from '../../../../core/components/screen-title.component';
-import { centralStyle,
-     heightFlex1 } from '../../../../styles/constant.style';
 import {
     FILESDATA,
     contactTypefilter
 } from './call-back';
-import { CompanyList } from '../new-contact/new-contact-component';
-import { AlphabetList } from 'react-native-section-alphabet-list';
-import { openSheet } from '../new-contact/call-back';
+import {
+    RFPercentage,
+    RFValue
+} from 'react-native-responsive-fontsize';
+import {
+    centralStyle,
+    heightFlex1
+} from '../../../../styles/constant.style';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
@@ -91,12 +95,10 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
         </>
     )
 }
-
 const handleMoreOptions = (navigation: any, name: any, disableModal: any) => {
     changeRoute(navigation, name)
     disableModal()
 }
-
 export const ImportModal: React.FC<{ disableModal?: any, navigation?: any, openfiles?: any }> = ({ disableModal, navigation, openfiles }) => {
     return (
         <TouchableOpacity
@@ -144,7 +146,6 @@ export const ImportModal: React.FC<{ disableModal?: any, navigation?: any, openf
         </TouchableOpacity>
     )
 }
-
 export const ConnectionRequest: React.FC<{ disableModal?: any, navigation?: any, importModalEnable?: any }> = ({ disableModal, importModalEnable, navigation }) => {
     return (
         <TouchableOpacity
@@ -201,10 +202,8 @@ export const ConnectionRequest: React.FC<{ disableModal?: any, navigation?: any,
     )
 }
 export const FilterCompany: React.FC<{}> = ({ }) => {
-
     const [miles, setMiles] = useState(0);
     const handleSliderChange = (value: any) => { setMiles(value.toFixed(0)) };
-
     return (
         <View
             style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
@@ -249,7 +248,6 @@ export const FilterCompany: React.FC<{}> = ({ }) => {
         </View>
     )
 }
-
 export const FilesCompany: React.FC<{}> = ({ }) => {
     return (
         <View
@@ -285,8 +283,6 @@ export const FilesCompany: React.FC<{}> = ({ }) => {
         </View>
     )
 }
-
-
 export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) => {
     const disableSheet = () => {
         setanim('fadeOutDownBig')
@@ -360,12 +356,13 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                     <AlphabetList
                         data={data}
                         letterListContainerStyle={styles.specialitylistContainerStyle}
-                        showsVerticalScrollIndicator={false}       
+                        showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
                         renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => {
-                            console.log(val,'data')
-                            getCompany && getCompany(val)}} item={item} />}
+                            console.log(val, 'data')
+                            getCompany && getCompany(val)
+                        }} item={item} />}
                         renderCustomSectionHeader={CustomSectionHeader}
                     />
                 </View>

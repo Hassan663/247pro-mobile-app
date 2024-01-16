@@ -282,3 +282,13 @@ export type handleOnSelectModal = (
     setIsCountryPickerVisible: React.Dispatch<React.SetStateAction<boolean>>,
     setCountryCode: React.Dispatch<React.SetStateAction<string>>,
 ) => void;
+
+export interface SpecialityModal {
+    id: number;
+    name: string;
+    publishType: number;
+    isDefault: boolean;
+    industryId: number;
+    accountId: string;
+    jobServices: any[]; // Replace 'any[]' with the appropriate type for jobServices
+}

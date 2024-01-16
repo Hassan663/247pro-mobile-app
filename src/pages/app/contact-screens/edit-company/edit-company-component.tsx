@@ -14,10 +14,10 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
 import Colors from '../../../../styles/colors';
+import { SECTIONLISTDATA } from './data';
 import { styles } from './edit-company.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { SECTIONLISTDATA } from './data';
 import {
     centralStyle,
     heightFlex1

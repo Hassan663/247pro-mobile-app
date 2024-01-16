@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-    contactTypeCount,
-    getSpecialities
-} from "../../../../core/http-services/apis/application-api/contact/contact.service";
-import {
     GetTypeContactsAction,
     TypeContactAction
 } from "../../../../store/action/action";
+import {
+    contactTypeCount,
+    getSpecialities
+} from "../../../../core/http-services/apis/application-api/contact/contact.service";
 
 export const FILESDATA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 

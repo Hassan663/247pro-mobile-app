@@ -1,5 +1,5 @@
 
-export const CONTACTTYPEDATA = ["Client", 'Partner', 'Firend', 'Driver']
+export const CONTACTTYPEDATA = ["Client", 'Partner', 'Firend', 'Driver'];
 export const SECTIONLISTDATA= [
     { value: ':)', key: 'lCUTs2' },
     { value: 'Allen', key: 'lCUTs2' },

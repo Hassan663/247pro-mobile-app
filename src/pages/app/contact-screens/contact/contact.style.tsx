@@ -1,11 +1,12 @@
 import { t } from 'i18next';
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+
 import Colors from '../../../../styles/colors';
 import { platform } from '../../../../utilities';
 import { centralStyle, windowWidth } from '../../../../styles/constant.style';
-export const styles: any = StyleSheet.create<any>({
 
+export const styles: any = StyleSheet.create<any>({
     tabContainer: (selectedTab: any) => ({
         flex: 1,
         borderBottomWidth: 1,

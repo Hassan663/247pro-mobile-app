@@ -1,8 +1,14 @@
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import DocumentPicker from 'react-native-document-picker'
-import { IContactCreateModel, RemovePrevFieldModal } from "../../../../core/modals/contact.modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DocumentPicker from 'react-native-document-picker'
 import { uploadImage } from "../../../../core/http-services/apis/application-api/contact/contact.service";
+import {
+    launchCamera,
+    launchImageLibrary
+} from "react-native-image-picker";
+import {
+    IContactCreateModel,
+    RemovePrevFieldModal
+} from "../../../../core/modals/contact.modal";
 
 export const captureImage = async (setimageUriLocal: any) => {
     try {
