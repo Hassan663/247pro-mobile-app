@@ -41,6 +41,7 @@ import {
     centralStyle,
     heightFlex1
 } from '../../../../styles/constant.style';
+import { handleSearch } from '../../../../store/action/action';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
@@ -330,15 +331,12 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
             setcontactModal(false)
         }, 800)
     };
-    const handleSearch = (value: string) => {
-        if (value && value.length > 0) {
-            const filteredData = data.filter((item: { name: string; }) =>
-                item.name.toLowerCase().includes(value.toLowerCase())
-            );
-            setSearchData(filteredData);
-        } else setSearchData(data);
-    };
-    const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
+
+    const handleTextDebounce = useCallback(debounce((value) => {
+        let searchedData = handleSearch(value, data,)
+        setSearchData(searchedData)
+    }, 400), []);
+
     return (
         <View style={styles.contactModalContainer}>
             <TouchableOpacity
@@ -365,9 +363,7 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                         color={Colors.fontColor}
                         name={`search1`}
                         size={RFPercentage(2)} />
-                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')}
-
-                        style={styles.searchInput} />
+                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} style={styles.searchInput} />
                 </View>
                 <View style={[centralStyle.px2, { flex: heightFlex1 * 6, }]}>
                     <AlphabetList

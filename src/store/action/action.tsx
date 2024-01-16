@@ -267,14 +267,14 @@ export const TypeContactAction = (id: number) => {
     }
 }
 
-export const GetTypeContactsAction = (type: number,specialityID:number) => {
+export const GetTypeContactsAction = (type: number, specialityID: number) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const TypeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type,3);
+                const TypeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type, 3);
                 // console.log(TypeContactResponse,'TypeContactResponseTypeContactResponse')
             }
             dispatch({ type: LOADER, payload: false });
@@ -290,7 +290,14 @@ export const GetTypeContactsAction = (type: number,specialityID:number) => {
 export const openSheet = (sheetRef: any) => sheetRef.current.open()
 
 export const closeSheet = (sheetRef: any) => sheetRef.current.close()
-
+export const handleSearch = (value: string, data: any,) => {
+    if (value && value.length > 0) {
+        const filteredData = data.filter((item: { name: string; }) =>
+            item.name.toLowerCase().includes(value.toLowerCase())
+        );
+        return filteredData;
+    } else return data;
+};
 
 // function searchContact(accessToken: any, keyword: string): any {
 //     throw new Error('Function not implemented.');

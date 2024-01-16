@@ -205,6 +205,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     searchInput: {
         flex: 1,
+        padding: 0,
         height: '100%',
     },
 });
