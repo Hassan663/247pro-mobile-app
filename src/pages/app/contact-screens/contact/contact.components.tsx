@@ -337,6 +337,7 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
             <Animatable.View
                 duration={600}
                 animation={anim}
+                useNativeDriver
                 iterationCount={1}
                 direction="alternate"
                 style={styles.specialityModalContentWrapper}>

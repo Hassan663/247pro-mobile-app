@@ -61,7 +61,15 @@ import {
     RenderItem,
     SepecialityModal,
 } from './contact.components';
-
+interface MyObject {
+    id: number;
+    name: string;
+    publishType: number;
+    isDefault: boolean;
+    industryId: number;
+    accountId: string;
+    jobServices: any[]; // Replace 'any[]' with the appropriate type for jobServices
+}
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
     const [modalEnabled, setmodalEnabled] = useState(false)
@@ -78,7 +86,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [selectedProType, setSelectedProType] = useState<any>([])
     const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
     const [contactTypes, setContactTypes] = useState<any>([])
-    const [specialityListData, setSpecialityListData] = useState<any>([])
+    const [supplierSpecialityListData, setSupplierSpecialityListData] = useState<MyObject>()
+    const [proSpecialityListData, setProSpecialityListData] = useState<MyObject>()
 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
@@ -134,28 +143,29 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }
 
     const getSpeciality = async () => {
-        // const response = await specialities();
-        // if (response && response.data) {
-            if (SPECIALITIES_LIST.length > 0) {
-                const specialityDataClone = JSON.parse(JSON.stringify(SPECIALITIES_LIST));
+        const response = await specialities();
+        if (response && response.data) {
+                const specialityDataClone = JSON.parse(JSON.stringify(response.data.resultData));
                 specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
-                setSpecialityListData(specialityDataClone)
-            }
-        // }
+                const idustryId27 = specialityDataClone.filter((obj: MyObject) => obj.industryId === 27);
+                const idustryId5 = specialityDataClone.filter((obj: MyObject) => obj.industryId === 5);
+                setSupplierSpecialityListData(idustryId27);
+                setProSpecialityListData(idustryId5);
+        }
     }
 
     useEffect(() => {
         dispatch(ContactAction(setpageIndex, pageIndex));
-        contactTypesFunc()
-        getSpeciality()
+        contactTypesFunc();
+        getSpeciality();
     }, []);
     const proContacts = async (val: any) => {
         await setSelectedProType(val);
-        const response = await getProContacts(dispatch, 2, val.id);
+        await getProContacts(dispatch, 2, val.id);
     };
     const SupplierContacts = async (val: any) => {
         await setSelectedSupplierType(val);
-        const response = await getProContacts(dispatch, 3, val.id);
+        await getProContacts(dispatch, 3, val.id);
     };
     return (
         <>
@@ -343,7 +353,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         anim={anim}
                         setanim={setanim}
                         contact
-                        data={specialityListData}
+                        data={contactCategory == 2 ? proSpecialityListData : supplierSpecialityListData}
                         setcontactModal={setSpecialityModal} />}
             </View >
         </>
