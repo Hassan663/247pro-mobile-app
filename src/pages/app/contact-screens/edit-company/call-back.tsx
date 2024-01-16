@@ -1,5 +1,8 @@
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import DocumentPicker from 'react-native-document-picker'
+import {
+    launchCamera,
+    launchImageLibrary
+} from "react-native-image-picker";
 
 export const captureImage = async (setimageUriLocal: any) => {
     try {

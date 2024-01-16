@@ -1,7 +1,13 @@
 import { deleteApi, getApi, postApi, putApi } from '../../../services/services';
 import { ContactModel, IContactCreateModel, IContactUpdateModel } from '../../../../modals/contact.modal';
 import { Endpoint, IResponse } from '../../../../modals';
-import { CONTACT_ENDPOINT, CREATE_CONTACT_ENDPOINT, LOGIN_ENDPOINT, UPLOAD_IMAGE_ENDPOINT } from '../../apis';
+import {
+  CONTACT_ENDPOINT,
+  CONTACT_SPECIALITIES,
+  CREATE_CONTACT_ENDPOINT,
+  LOGIN_ENDPOINT,
+  UPLOAD_IMAGE_ENDPOINT
+} from '../../apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const createContact = async (data: IContactCreateModel): Promise<IResponse<ContactModel>> => {
@@ -99,7 +105,7 @@ const searchContact = async (accessToken: string, keyword: string) => {
     throw error;
   }
 };
-const TypeContact = async (accessToken: string, id: number) => {
+const typeContact = async (accessToken: string, id: number) => {
   try {
     const data: any = {};
     const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
@@ -138,9 +144,45 @@ export const uploadImage = async (uri: string, fileName: string, accessToken: st
 };
 
 
+const contactTypeCount = async (accessToken: string) => {
+  try {
+    const data: any = {};
+    const CONTACT_TYPE_COUNT_ENDPOINT_CLONE = { ...CONTACT_ENDPOINT };
+    CONTACT_TYPE_COUNT_ENDPOINT_CLONE.url = CONTACT_TYPE_COUNT_ENDPOINT_CLONE.url + '/counts/active';
+    CONTACT_TYPE_COUNT_ENDPOINT_CLONE.JWTToken = accessToken;
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_TYPE_COUNT_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('Erro contact Type Count:', error);
+  }
+}
 
+const getTypeContacts = async (accessToken: string, type: number, specialityID: number) => {
+  try {
+    const data: any = {};
+    const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
+    if (type && specialityID) {
+      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&contactTypeId=${type}&contactSpecialtyIds=${specialityID}`;
+    }
+    CONTACT_DETAILS_ENDPOINT_CLONE.JWTToken = accessToken;
 
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_DETAILS_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
 
+const getSpecialities = async (accessToken: string) => {
+  try {
+    const data: any = {};
+    if (accessToken) {
+      CONTACT_SPECIALITIES.JWTToken = accessToken;
+    }
+    return await getApi<IContactUpdateModel, ContactModel>(CONTACT_SPECIALITIES, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
 
-
-export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact ,TypeContact};
+export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount, getTypeContacts, getSpecialities };

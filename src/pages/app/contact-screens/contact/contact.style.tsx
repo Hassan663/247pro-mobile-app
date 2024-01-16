@@ -1,11 +1,12 @@
 import { t } from 'i18next';
 import { StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+
 import Colors from '../../../../styles/colors';
 import { platform } from '../../../../utilities';
 import { centralStyle, windowWidth } from '../../../../styles/constant.style';
-export const styles: any = StyleSheet.create<any>({
 
+export const styles: any = StyleSheet.create<any>({
     tabContainer: (selectedTab: any) => ({
         flex: 1,
         borderBottomWidth: 1,
@@ -32,7 +33,12 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: RFPercentage(.5),
         borderColor: contactCategory === index ? Colors.primary : Colors.inputBgColor,
         borderWidth: RFPercentage(.08),
-        paddingHorizontal: RFPercentage(.8)
+        paddingHorizontal: platform ? RFPercentage(1) : RFPercentage(.8),
+        ...centralStyle.mx2,
+        ...centralStyle.mr05,
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter,
+        ...centralStyle.py05,
     }),
     listWrapper: {
         height: RFPercentage(6),
@@ -93,6 +99,10 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'space-between',
         height: '90%',
     },
+    specialitylistContainerStyle: {
+        justifyContent: 'space-between',
+        paddingVertical: RFPercentage(1)
+    },
     letterStyle: {
         textAlign: 'right',
         color: Colors.fontColor,
@@ -131,9 +141,21 @@ export const styles: any = StyleSheet.create<any>({
         borderTopRightRadius: RFPercentage(2),
         borderTopLeftRadius: RFPercentage(2),
     },
+    specialityModalContentWrapper: {
+        height: '85%',
+        width: '100%',
+        backgroundColor: Colors.white,
+        overflow: "hidden",
+        borderTopRightRadius: RFPercentage(2),
+        borderTopLeftRadius: RFPercentage(2),
+    },
     contactModalHeader: {
         alignItems: "center",
         justifyContent: "center",
+    },
+    specialityModalHeader: {
+        alignItems: "center",
+        justifyContent: "space-between",
     },
     headerLine: {
         height: 3,
@@ -165,6 +187,24 @@ export const styles: any = StyleSheet.create<any>({
         borderLeftWidth: RFPercentage(.08),
         paddingLeft: RFPercentage(.7),
         marginLeft: RFPercentage(.7),
-        width: RFPercentage(10)
-    }
+    },
+    btnStyle: {
+        textAlign: "left", color:
+            Colors.fontColor,
+        fontSize: 14,
+    },
+    downIconWrapper: {
+        borderWidth: 1,
+    },
+    inputWrapper: {
+        height: RFPercentage(4),
+        backgroundColor: Colors.lightGrey,
+        width: '90%',
+        alignSelf: 'center',
+        borderRadius: RFPercentage(.5)
+    },
+    searchInput: {
+        flex: 1,
+        height: '100%',
+    },
 });

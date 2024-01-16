@@ -11,35 +11,47 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    Text,
-    TextInput,
 } from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Feather from 'react-native-vector-icons/Feather'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import CountryPicker, { Country } from 'react-native-country-picker-modal';
 import { t } from 'i18next';
+import { Dispatch } from 'redux';
+import { useToast } from 'react-native-toast-notifications';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import CountryPicker,
+{ Country } from 'react-native-country-picker-modal';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
 import Colors from '../../../../styles/colors';
-import Button from '../../../../core/components/button.component';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
+import { Img } from '../../../../core/components/image-component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './edit-contact.style';
-import { platform } from '../../../../utilities';
 import { centralStyle } from '../../../../styles/constant.style';
-import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
-import { CONTACTTYPECOLORDATA, CONTACTTYPEDATA } from './data';
 import { SOCIALINPUTSDATA } from '../../biz-card-screens/edit-biz-card/data';
+import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
+import { OutlinedDropDownSpeciality } from '../../../../core/components/outlined-dropdown-speciality.component';
 import {
-    handleBlur,
-    handleFocus
-} from '../../biz-card-screens/edit-biz-card/call-back';
+    COUNTRY_LIST,
+    SPECIALITIES_LIST
+} from '../../../../utilities/contact-data';
+import {
+    CountryCodeModal,
+    HandleInputChangeType
+} from '../../../../core/modals/contact.modal';
+import {
+    CONTACTTYPECOLORDATA,
+    CONTACTTYPEDATA
+} from './data';
 import {
     handleAttachments,
     handleOnSelect,
@@ -53,13 +65,6 @@ import {
     SelectedAttachmentUI,
     renderComponentOfEditContactEmails
 } from './edit-contact-component';
-import { CountryCodeModal, HandleInputChangeType } from '../../../../core/modals/contact.modal';
-import { OutlinedDropDownSpeciality } from '../../../../core/components/outlined-dropdown-speciality.component';
-import { COUNTRY_LIST, SPECIALITIES_LIST } from '../../../../utilities/contact-data';
-import { useToast } from 'react-native-toast-notifications';
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from 'redux';
-import { Img } from '../../../../core/components/image-component';
 
 const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -106,9 +111,9 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
             }
         });
     }, [contactDetails])
-    
+
     useEffect(() => {
-        const { companyName, jobTitle, firstName, lastName, contactTypeColor, profilePicture, contactTypeId, contactSpecialities, contactEmails, contactAddresses, contactPhones, contactOthers,id } = route.params;
+        const { companyName, jobTitle, firstName, lastName, contactTypeColor, profilePicture, contactTypeId, contactSpecialities, contactEmails, contactAddresses, contactPhones, contactOthers, id } = route.params;
         setContactDetails({
             id,
             firstName,

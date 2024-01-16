@@ -20,20 +20,35 @@ import { t } from 'i18next';
 import { Dispatch } from 'redux';
 import { debounce } from "lodash";
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
-import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-
+import AppHeader from '../../../../core/components/app-headers';
 import Button from '../../../../core/components/button.component';
+
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
 import { platform } from '../../../../utilities';
-import { CONTACTLIST } from './data';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { AlphabetList, IData } from 'react-native-section-alphabet-list';
+import { CONTACTLIST } from './data';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ContactAction, SearchContactAction } from '../../../../store/action/action';
+import { SpecialityModal } from '../../../../core/modals/contact.modal';
+import {
+    getProContacts,
+    specialities,
+    specialityCount
+} from './call-back';
+import {
+    ContactAction,
+    SearchContactAction
+} from '../../../../store/action/action';
+import {
+    AlphabetList,
+    IData
+} from 'react-native-section-alphabet-list';
 import {
     CompanyList,
     CustomSectionHeader,
@@ -44,23 +59,27 @@ import {
     FilterCompany,
     ImportModal,
     RenderItem,
+    SepecialityModal,
 } from './contact.components';
-import { SPECIALITIES_LIST } from '../../../../utilities/contact-data';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [contactModal, setcontactModal] = useState<boolean>(false);
     const [contactCategory, setContactCategory] = useState();
+    const [specialityModal, setSpecialityModal] = useState<boolean>(false);
     const [pageIndex, setpageIndex] = useState<number>(1);
-    const [contactTypeId, setcontactTypeId] = useState<number>();
     const [searchInput, setSearchInput] = useState('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [listData, setlistData] = useState<[]>([]);
     const [searchListData, setsearchListData] = useState<[]>([]);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
-    const [specialityModal, setSpecialityModal] = useState<boolean>(false)
+    const [selectedProType, setSelectedProType] = useState<any>([])
+    const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
+    const [contactTypes, setContactTypes] = useState<any>([])
+    const [supplierSpecialityListData, setSupplierSpecialityListData] = useState<SpecialityModal>()
+    const [proSpecialityListData, setProSpecialityListData] = useState<SpecialityModal>()
 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
@@ -94,30 +113,58 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const handleTextDebounce = useCallback(debounce(handleSearch, 400), [])
 
-
-    useEffect(() => {
+    const getMoreContact = async (contact: string | any[]) => {
         if (contact.length > 0) {
-            const contactClone = JSON.parse(JSON.stringify(contact));
-            contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
-            setlistData(contactClone)
+            await setlistData([])
+            const contactClone = await JSON.parse(JSON.stringify(contact));
+            await contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
+            await setlistData(contactClone)
         }
+    }
+    useEffect(() => {
+        getMoreContact(contact)
     }, [contact]);
 
     useEffect(() => {
         if (searchedData.length > 0) {
             const searchContactClone = JSON.parse(JSON.stringify(searchedData));
             searchContactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
-            setsearchListData(searchContactClone)
+            setsearchListData(searchContactClone);
         }
     }, [searchedData]);
 
+    const contactTypesFunc = async () => {
+        const response = await specialityCount()
+        if (response && response.data) setContactTypes(response.data.resultData);
+    }
+
+    const getSpeciality = async () => {
+        const response = await specialities();
+        if (response && response.data) {
+                const specialityDataClone = JSON.parse(JSON.stringify(response.data.resultData));
+                specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
+                const idustryId27 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 27);
+                const idustryId5 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 5);
+                setSupplierSpecialityListData(idustryId27);
+                setProSpecialityListData(idustryId5);
+        }
+    }
+
     useEffect(() => {
         dispatch(ContactAction(setpageIndex, pageIndex));
+        contactTypesFunc();
+        getSpeciality();
     }, []);
-
+    const proContacts = async (val: any) => {
+        await setSelectedProType(val);
+        await getProContacts(dispatch, 2, val.id);
+    };
+    const SupplierContacts = async (val: any) => {
+        await setSelectedSupplierType(val);
+        await getProContacts(dispatch, 3, val.id);
+    };
     return (
         <>
-
             <AppHeader
                 iconR1={
                     <AntDesign
@@ -180,8 +227,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             contactCategory={contactCategory}
                             setContactCategory={setContactCategory}
                             dispatch={dispatch}
-                            specialityModal={specialityModal}
                             setSpecialityModal={setSpecialityModal}
+                            specialityModal={specialityModal}
+                            setanim={setanim}
+                            selectedProType={selectedProType}
+                            selectedSupplierType={selectedSupplierType}
+                            contactTypes={contactTypes}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}
@@ -217,6 +268,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     indexContainerStyle={{ width: 20 }}
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => {
+
                                         return (
                                             <CompanyList
                                                 getCompany={() => { handleChangeRoute(item) }}
@@ -280,7 +332,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     >
                         <FilterCompany />
                     </RBSheet>
-                    {/* </View> */}
                 </View>
                 {contactModal &&
                     <FilesModal
@@ -288,6 +339,18 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         anim={anim}
                         setanim={setanim}
                         setcontactModal={setcontactModal} />}
+
+
+                {specialityModal &&
+                    <SepecialityModal
+                        getCompany={(val: any) => {
+                            contactCategory == 2 ? proContacts(val) : SupplierContacts(val)
+                        }}
+                        anim={anim}
+                        setanim={setanim}
+                        contact
+                        data={contactCategory == 2 ? proSpecialityListData : supplierSpecialityListData}
+                        setcontactModal={setSpecialityModal} />}
             </View >
         </>
 

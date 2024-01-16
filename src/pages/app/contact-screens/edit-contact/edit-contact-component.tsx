@@ -14,15 +14,18 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
 import Colors from '../../../../styles/colors';
+import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './edit-contact.style';
-import { Title } from '../../../../core/components/screen-title.component';
+import { EditContactAction } from '../../../../store/action/action';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { EMAILLABELDATA, SECTIONLISTDATA } from './data';
+import { Title } from '../../../../core/components/screen-title.component';
+import { newContactValidation } from '../../../../core/helpers/validation/validation';
+import { RenderComponentOfEditContactPropsModal } from '../../../../core/modals/contact.modal';
 import {
-    centralStyle,
-    heightFlex1
-} from '../../../../styles/constant.style';
+    EMAILLABELDATA,
+    SECTIONLISTDATA
+} from './data';
 import {
     addIdsToArrays,
     addNewContactField,
@@ -32,10 +35,10 @@ import {
     removeEmptyFields,
     removePrevField
 } from './call-back';
-import { RenderComponentOfEditContactPropsModal } from '../../../../core/modals/contact.modal';
-import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import { newContactValidation } from '../../../../core/helpers/validation/validation';
-import { EditContactAction } from '../../../../store/action/action';
+import {
+    centralStyle,
+    heightFlex1
+} from '../../../../styles/constant.style';
 
 
 export const PicImgModal = ({ disableModal, setContactDetails, inputLabel }: any) => {
@@ -84,9 +87,6 @@ export const LeftIcon = (navigation?: any) => (
             title={t('Cancel')} />
     </TouchableOpacity>
 )
-
-
-
 export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any, isToastVisible?: boolean, setIsToastVisible?: any, toast?: any, Loader?: boolean) => (
     <TouchableOpacity onPress={async () => {
         try {
@@ -117,12 +117,6 @@ export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any
             title={t('Done')} />
     </TouchableOpacity>
 )
-
-
-
-
-
-
 export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
     return (
         <TouchableOpacity onPress={() => {
@@ -148,7 +142,6 @@ export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
         </TouchableOpacity>
     )
 }
-
 export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any) => {
     const disableSheet = () => {
         setanim('fadeOutDownBig')
@@ -210,7 +203,6 @@ export const CustomSectionHeader = (section: any) => {
         </View>
     )
 }
-
 export const SelectedAttachmentUI = ({ attechments, setAttechments }: any) => {
     return (
         <View style={[styles.selectedAttachmentContainer, centralStyle.XAndYCenter, centralStyle.mb2]}>
@@ -235,9 +227,6 @@ export const SelectedAttachmentUI = ({ attechments, setAttechments }: any) => {
         </View>
     )
 }
-
-
-
 export const renderComponentOfEditContactEmails = ({ item, index, contactDetails, handleInputChange, setContactDetails }: RenderComponentOfEditContactPropsModal) => {
     const condition = contactDetails.contactEmails.length === index + 1;
     return (

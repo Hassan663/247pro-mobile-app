@@ -1,78 +1,109 @@
 // @app
-import React, { useEffect, useRef, useState } from 'react';
+import React,
+{
+    useCallback,
+    useState
+} from 'react';
 import {
     FlatList,
     Image,
-    Text,
     TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
 
-import * as Animatable from 'react-native-animatable';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Slider from '@react-native-community/slider';
 import Entypo from 'react-native-vector-icons/Entypo'
+import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { t } from 'i18next';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../../styles/colors';
-import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
-import Slider from '@react-native-community/slider';
 import Button from '../../../../core/components/button.component';
-import { Title } from '../../../../core/components/screen-title.component';
+import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { styles } from './contact.style';
-import { centralStyle } from '../../../../styles/constant.style';
+import { debounce } from "lodash";
+import { openSheet } from '../new-contact/call-back';
+import { AlphabetList } from 'react-native-section-alphabet-list';
+import { CompanyList } from '../new-contact/new-contact-component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { FILESDATA, contactTypefilter } from './call-back';
+import { Title } from '../../../../core/components/screen-title.component';
+import {
+    FILESDATA,
+    contactTypefilter
+} from './call-back';
+import {
+    RFPercentage,
+    RFValue
+} from 'react-native-responsive-fontsize';
+import {
+    centralStyle,
+    heightFlex1
+} from '../../../../styles/constant.style';
 
-
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch }: any) => {
-
-   
-    const [contactModal, setcontactModal] = useState<boolean>(false);
-
-
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
-        // contactTypefilter(index, dispatch);
+        if (contactCategory !== index) {
+            contactTypefilter(index, dispatch);
+        }
         setContactCategory(index);
     };
-    const numbers = 0;
-
     return (
-        <View style={[centralStyle.py05, styles.titleContainer(contactCategory, index), centralStyle.mx2, centralStyle.row, centralStyle.XAndYCenter]}>
-            <TouchableOpacity
-                activeOpacity={.7}
-                onPress={handlePress}
-            >
-                <Title
-                    weight='400'
-                    type='Poppin-12'
-                    color={Colors.fontColor}
-                    title={item}
-                />
-            </TouchableOpacity >
-            {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
-                <View style={styles.renderItemSpecialityType}>
+        <>
+            <View style={styles.titleContainer(contactCategory, index)}>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={handlePress}
+                >
                     <Title
                         weight='400'
                         type='Poppin-12'
                         color={Colors.fontColor}
-                        title={`${t('All')} (${numbers})`}
+                        title={item}
                     />
-                    <Entypo name='chevron-down' size={RFPercentage(2)} />
-                </View>
-            ) : null}
-        </View>
-
+                </TouchableOpacity >
+                {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
+                    <TouchableOpacity
+                        onPress={() => openSheet(setanim, setSpecialityModal)}
+                        activeOpacity={0.7}
+                        style={styles.renderItemSpecialityType}>
+                        <Title
+                            weight='400'
+                            type='Poppin-12'
+                            color={Colors.fontColor}
+                            title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${contactTypes[index - 1]?.count}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypes[index - 1]?.count}) ` : selectedSupplierType?.value}
+                        />
+                        <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
+                    </TouchableOpacity>
+                ) :
+                    index === 0 && typeof contactTypes[index]?.count !== 'undefined' ? < Title
+                        weight='400'
+                        type='Poppin-12'
+                        color={Colors.fontColor}
+                        title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
+                    /> :
+                        index > 0 && typeof contactTypes[index - 1]?.count !== 'undefined' ?
+                            <TouchableOpacity
+                                activeOpacity={.7}
+                                onPress={handlePress}
+                            >
+                                <Title
+                                    weight='400'
+                                    type='Poppin-12'
+                                    color={Colors.fontColor}
+                                    title={` (${contactTypes[index - 1]?.count})`}
+                                />
+                            </TouchableOpacity> : <></>
+                }
+            </View>
+        </>
     )
 }
-
 const handleMoreOptions = (navigation: any, name: any, disableModal: any) => {
     changeRoute(navigation, name)
     disableModal()
 }
-
 export const ImportModal: React.FC<{ disableModal?: any, navigation?: any, openfiles?: any }> = ({ disableModal, navigation, openfiles }) => {
     return (
         <TouchableOpacity
@@ -120,7 +151,6 @@ export const ImportModal: React.FC<{ disableModal?: any, navigation?: any, openf
         </TouchableOpacity>
     )
 }
-
 export const ConnectionRequest: React.FC<{ disableModal?: any, navigation?: any, importModalEnable?: any }> = ({ disableModal, importModalEnable, navigation }) => {
     return (
         <TouchableOpacity
@@ -177,10 +207,8 @@ export const ConnectionRequest: React.FC<{ disableModal?: any, navigation?: any,
     )
 }
 export const FilterCompany: React.FC<{}> = ({ }) => {
-
     const [miles, setMiles] = useState(0);
     const handleSliderChange = (value: any) => { setMiles(value.toFixed(0)) };
-
     return (
         <View
             style={[centralStyle.XAndYCenter, centralStyle.px2, centralStyle.flex1]}>
@@ -225,7 +253,6 @@ export const FilterCompany: React.FC<{}> = ({ }) => {
         </View>
     )
 }
-
 export const FilesCompany: React.FC<{}> = ({ }) => {
     return (
         <View
@@ -261,15 +288,13 @@ export const FilesCompany: React.FC<{}> = ({ }) => {
         </View>
     )
 }
-
-
 export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) => {
     const disableSheet = () => {
         setanim('fadeOutDownBig')
         setTimeout(() => {
             setcontactModal(false)
         }, 800)
-    }
+    };
     return (
         <View style={styles.contactModalContainer}>
             <TouchableOpacity
@@ -288,9 +313,85 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
                     <View style={styles.headerLine} />
                 </View>
 
-                {/* <FilesCompany /> */}
+                <FilesCompany />
 
             </Animatable.View>
+        </View>
+    )
+}
+
+
+
+export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, data }: any) => {
+    const [searchData, setSearchData] = useState();
+    const disableSheet = () => {
+        setanim('fadeOutDownBig')
+        setTimeout(() => {
+            setcontactModal(false)
+        }, 800)
+    };
+    const handleSearch = (value: string) => {
+        if (value && value.length > 0) {
+            const filteredData = data.filter((item: { name: string; }) =>
+                item.name.toLowerCase().includes(value.toLowerCase())
+            );
+            setSearchData(filteredData);
+        } else setSearchData(data);
+    };
+    const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
+    return (
+        <View style={styles.contactModalContainer}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={disableSheet}
+                style={styles.disableModalContainer} />
+            <Animatable.View
+                duration={600}
+                animation={anim}
+                useNativeDriver
+                iterationCount={1}
+                direction="alternate"
+                style={styles.specialityModalContentWrapper}>
+                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.specialityModalHeader]}>
+                    <View style={[centralStyle.circle(20),]} />
+                    <View style={styles.headerLine} />
+                    <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
+                        <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
+                    </View>
+                </View>
+                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
+                    <AntDesign
+                        style={centralStyle.mx1}
+                        color={Colors.fontColor}
+                        name={`search1`}
+                        size={RFPercentage(2)} />
+                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')}
+
+                        style={styles.searchInput} />
+                </View>
+                <View style={[centralStyle.px2, { flex: heightFlex1 * 6, }]}>
+                    <AlphabetList
+                        data={searchData ? searchData : data}
+                        letterListContainerStyle={styles.specialitylistContainerStyle}
+                        showsVerticalScrollIndicator={false}
+                        indexContainerStyle={{ width: 20 }}
+                        indexLetterStyle={styles.letterStyle}
+                        renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany && getCompany(val)} item={item} />}
+                        renderCustomSectionHeader={CustomSectionHeader}
+                    />
+                </View>
+            </Animatable.View>
+        </View>
+    )
+}
+export const CustomSectionHeader = (section: any) => {
+    return (
+        <View style={styles.sectionHeaderContainer}>
+            <Title
+                color={Colors.black}
+                type='Poppin-14'
+                weight='600'
+                title={section.title} />
         </View>
     )
 }

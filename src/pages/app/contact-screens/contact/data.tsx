@@ -1,1 +1,1 @@
- export const CONTACTLIST= ['All','Client', 'Pro', 'Supplier', 'Staff']
+export const CONTACTLIST = ['All', 'Client', 'Pro', 'Supplier', 'Staff'];
