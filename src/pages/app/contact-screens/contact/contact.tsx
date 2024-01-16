@@ -65,6 +65,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
     const searchedData = useSelector((state: any) => state.root.searchedData)
+    const totalContacts = useSelector((state: any) => state.root.totalContacts)
 
     const handleChangeRoute = (item: IData) => {
         if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', item)
@@ -74,7 +75,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = () => {
-        if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
+        console.log(totalContacts, listData.length, 'totalContacts !== listData.length', listData)
+        if (totalContacts > listData.length) {
+            if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
+        }
     };
 
     const handleSearch = async (value: string) => {
@@ -106,6 +110,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             setsearchListData(searchContactClone)
         }
     }, [searchedData]);
+
+    useEffect(() => {
+        dispatch(ContactAction(setpageIndex, pageIndex));
+    }, []);
 
     return (
         <>
@@ -202,7 +210,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     {listData.length ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
                             {searchInput.length > 0 ?
-                                < AlphabetList
+                                <AlphabetList
                                     data={searchListData}
                                     letterListContainerStyle={styles.listContainerStyle}
                                     showsVerticalScrollIndicator={false}

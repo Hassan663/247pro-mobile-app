@@ -13,7 +13,8 @@ import {
     INITIALROUTE,
     LOADER,
     SCREENLOADER,
-    SEARCHEDDATA
+    SEARCHEDDATA,
+    TOTALCONTACTS
 } from '../constant/constant';
 import {
     forget_password,
@@ -134,12 +135,21 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
             dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
-                if (contactResponse.data.resultData.list.length > 0) setpageIndex(pageIndex + 1)
-                const currentState = getState();
-                let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-                let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
-                if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
+                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 20);
+                if (contactResponse.data.resultData.list.length > 0) {
+                    await setpageIndex(pageIndex + 1)
+                    const currentState = getState();
+                    let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+                    let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
+                    mergeResponse.forEach(function (obj: any) {
+                        obj.value = obj.fullName;
+                        // obj.key = Math.floor(100000 + Math.random() * 900000)
+                        obj.key = obj.id;
+                    });
+                    console.log(mergeResponse, 'mergeResponse')
+                    if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
+                    if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: contactResponse.data.resultData.totalRecords });
+                }
             }
             dispatch({ type: SCREENLOADER, payload: false });
             dispatch({ type: LOADER, payload: false });

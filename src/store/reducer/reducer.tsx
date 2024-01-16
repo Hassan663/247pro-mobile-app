@@ -6,7 +6,8 @@ import {
     SPLASHSTATUSBAR,
     CONTACTS,
     SCREENLOADER,
-    SEARCHEDDATA
+    SEARCHEDDATA,
+    TOTALCONTACTS
 } from '../constant/constant'
 
 export type Action = {
@@ -23,6 +24,7 @@ const INITIAL_STATE = {
     currentUserProfile: {},
     contacts: [],
     searchedData: [],
+    totalContacts: 0,
     // contactResponse.data.resultData.list
 }
 
@@ -72,6 +74,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 searchedData: action.payload
+            })
+        case TOTALCONTACTS:
+            return ({
+                ...states,
+                totalContacts: action.payload
             })
         // case ISERROR:
         //     return ({
