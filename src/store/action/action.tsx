@@ -136,7 +136,7 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
             dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 20);
+                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
                 if (contactResponse.data.resultData.list.length > 0) {
                     await setpageIndex(pageIndex + 1)
                     const currentState = getState();

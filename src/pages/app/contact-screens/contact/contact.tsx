@@ -115,10 +115,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const getMoreContact = async (contact: string | any[]) => {
         if (contact.length > 0) {
-            await setlistData([])
+            // await setlistData([])
             const contactClone = await JSON.parse(JSON.stringify(contact));
             await contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
-            await setlistData(contactClone)
+            setlistData(contactClone)
         }
     }
     useEffect(() => {
@@ -141,12 +141,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const getSpeciality = async () => {
         const response = await specialities();
         if (response && response.data) {
-                const specialityDataClone = JSON.parse(JSON.stringify(response.data.resultData));
-                specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
-                const idustryId27 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 27);
-                const idustryId5 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 5);
-                setSupplierSpecialityListData(idustryId27);
-                setProSpecialityListData(idustryId5);
+            const specialityDataClone = JSON.parse(JSON.stringify(response.data.resultData));
+            specialityDataClone.forEach(function (obj: any) { obj.value = obj.name; obj.key = obj.id; });
+            const idustryId27 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 27);
+            const idustryId5 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 5);
+            setSupplierSpecialityListData(idustryId27);
+            setProSpecialityListData(idustryId5);
         }
     }
 
@@ -284,6 +284,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     data={listData}
                                     letterListContainerStyle={styles.listContainerStyle}
                                     showsVerticalScrollIndicator={false}
+                                    sectionHeaderHeight={ 39}
+                                    getItemHeight={() => 30}
                                     indexContainerStyle={{ width: 20 }}
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => {
