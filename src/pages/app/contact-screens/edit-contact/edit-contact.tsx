@@ -58,13 +58,13 @@ import {
     openSheet
 } from './call-back';
 import {
-    ContactModal,
     LeftIcon,
     PicImgModal,
     RightIcon,
     SelectedAttachmentUI,
     renderComponentOfEditContactEmails
 } from './edit-contact-component';
+import { ContactModal } from '../new-contact/new-contact-component';
 
 const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -481,13 +481,15 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </ScrollView >
                         </View>
 
-                        {contactModal &&
-                            <ContactModal
-                                getCompany={(val: any) => { setSelectedCompany(val) }}
-                                anim={anim}
-                                setanim={setanim}
-                                setcontactModal={setcontactModal} />}
-                    </View></KeyboardAwareScrollView>
+                    </View>
+                </KeyboardAwareScrollView>
+                {contactModal &&
+                    <ContactModal
+                        getCompany={(val: any) => { setSelectedCompany(val) }}
+                        anim={anim}
+                        setanim={setanim}
+                        contact
+                        setcontactModal={setcontactModal} />}
             </SafeAreaView >
         </>
 
