@@ -492,7 +492,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         setcontactModal={setcontactModal} />}
             </SafeAreaView >
         </>
-
     );
 };
 

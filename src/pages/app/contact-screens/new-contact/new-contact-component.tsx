@@ -22,7 +22,7 @@ import { styles } from './new-contact.style';
 import { debounce } from "lodash";
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { ALPHABET_SIZE, platform } from '../../../../utilities/constants';
 import { CreateContactAction, handleSearch } from '../../../../store/action/action';
 import { newContactValidation } from '../../../../core/helpers/validation/validation';
 import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
@@ -152,9 +152,8 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
         }, 800)
     };
     const handleTextDebounce = useCallback(debounce(async (value) => {
-            let searchedData = handleSearch(value, SECTIONLISTDATA, 'value')
-            console.log(searchedData, 'searchedData')
-            setSearchData(searchedData);
+        let searchedData = handleSearch(value, SECTIONLISTDATA, 'value')
+        setSearchData(searchedData);
     }, 400), []);
     return (
         <View style={styles.contactModalContainer}>
@@ -186,7 +185,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                 </View>
                 <View style={[centralStyle.px2, { flex: 1, }]}>
                     <AlphabetList
-                        data={searchData  ? searchData : SECTIONLISTDATA}
+                        data={searchData ? searchData : SECTIONLISTDATA}
                         letterListContainerStyle={styles.listContainerStyle}
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
@@ -258,14 +257,14 @@ export const RenderItem = ({ item }: any) => {
 export const renderComponentOfContactEmails = ({ item, index, inputValues, handleInputChange, setInputValues }: RenderComponentPropsModal) => {
     const condition = inputValues.contactEmails.length === index + 1;
     return (
-        <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
+        <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.flex1]}>
             <View style={{ flex: 7 }}>
                 <OutlinedTextInput
                     val={item.email}
                     onChange={(text) => handleInputChange('contactEmails', text, 'email', index)}
                     title={t('Email')} placeHolder={t('Email')} />
             </View>
-            <View style={[{ flex: 2.5, marginHorizontal: RFPercentage(.6) }]}>
+            <View style={[{ flex: platform ? 2.3 : 2.5, marginHorizontal: RFPercentage(.6) }]}>
                 <OutlinedDropDown
                     dropDownStyle={styles.dropdownstyle}
                     title={t('Label')}
@@ -280,13 +279,13 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
             {condition ? (
                 <TouchableOpacity
                     onPress={() => addNewContactField(setInputValues)}
-                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
+                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex:platform ? .7 : .5 }]}>
                     <AntDesign name={`plus`} size={RFPercentage(3)} />
                 </TouchableOpacity>
             ) : (
                 <TouchableOpacity
                     onPress={() => removePrevField(index, setInputValues, inputValues)}
-                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
+                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: platform ? .7:.5 }]}>
                     <AntDesign name={`minus`} size={RFPercentage(3)} />
                 </TouchableOpacity>
             )}
