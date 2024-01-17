@@ -308,4 +308,19 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: 14,
         textTransform: 'uppercase'
     },
+    customInputContainer:{
+        paddingVertical: 10,
+        justifyContent: "flex-end",
+    },
+    customTextInputContainer:{
+        flexDirection: 'row',
+        alignItems: "center",
+        minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: Colors.fontColor,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
+        paddingVertical: 5,
+        width: "100%",
+    },
 });

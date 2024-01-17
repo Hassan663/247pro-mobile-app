@@ -11,6 +11,8 @@ import {
     Image,
     TouchableOpacity,
     FlatList,
+    Text,
+    TextInput,
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
@@ -46,7 +48,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         setContactDetails(response?.data?.resultData);
         dispatch({ type: SCREENLOADER, payload: false })
     }
-    
+
     useEffect(() => {
         contactDetailing()
     }, [contact])
@@ -103,14 +105,23 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             data={contactDetails.contactEmails}
                             renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.email} title={t('Emailaddress')} placeHolder={t('Emailaddress')} />}
                         /> : <></>}
-
-                        {contactDetails?.preferredAddress ? <OutlinedTextInput height={contactDetails?.preferredAddress?.length > 50 ? RFPercentage(11.7) : 65} editable={false} multiLine val={contactDetails?.preferredAddress?.length > 101 ? contactDetails?.preferredAddress?.slice(0, 101) + "..." : contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>}
+                        {/* {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false} multiLine val={contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
+                        {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
+                            <Text style={styles.inputtitle()}>{t(`Address`)}</Text>
+                            <View style={styles.customTextInputContainer}>
+                                <TextInput
+                                    editable={false}
+                                    placeholder={t('Address')}
+                                    value={contactDetails?.preferredAddress}
+                                    multiline={true}
+                                />
+                            </View>
+                        </View> : <></>}
                         {contactDetails?.companyName ? <OutlinedTextInput editable={false} val={contactDetails.companyName} title={t('company')} placeHolder={t('company')} /> : <></>}
                         {contactDetails?.contactSpecialities?.length > 0 ? <FlatList
                             data={contactDetails.contactSpecialities}
                             renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.specialtyName} title={t('Speciality')} placeHolder={t('Speciality')} />}
                         /> : <></>}
-
                         {/* <OutlinedTextInput editable={false} val='Business' title={t('Industry')} placeHolder={t('Industry')} /> //this Field does not exisit  */}
                         {contactDetails?.jobTitle ? <OutlinedTextInput editable={false} val={contactDetails.jobTitle} title={t('jobTitle')} placeHolder={t('jobTitle')} /> : <></>}
                         {contactDetails?.contactOthers?.length > 0 ? <FlatList
