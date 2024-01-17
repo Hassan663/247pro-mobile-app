@@ -103,14 +103,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const handleSearch = async (value: string) => {
         try {
             setSearchInput(value)
-            console.log(searchedData, 'handleSearch', contact, listData)
             if (value && value.length > 1) {
                 await dispatch(SearchContactAction(value));
             }
-            else {
-                console.log(value.length, 'else', contact)
-                await setlistData(contact)
-            }
+            else await setlistData(contact)
         } catch (error) {
             console.log('error--->', error)
         }
@@ -132,7 +128,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (searchedData.length > 0) {
             const searchContactClone = JSON.parse(JSON.stringify(searchedData));
             setlistData(searchContactClone)
-        }
+        } else setlistData([])
+
     }, [searchedData]);
 
     const contactTypesFunc = async () => {
@@ -167,7 +164,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
-    console.log(searchedData, 'searchedData', contact, listData)
+
     return (
         <>
             <AppHeader

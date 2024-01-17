@@ -137,7 +137,6 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
-                console.log(contactResponse,'contactResponse')
                 if (contactResponse.data.resultData.list.length > 0) {
                     await setpageIndex(pageIndex + 1)
                     const currentState = getState();
@@ -239,7 +238,7 @@ export const SearchContactAction = (keyword: string) => {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
                 });
-                console.log(searchContactResponse,'searchContactResponse')
+                console.log(searchContactResponse, 'searchContactResponse')
                 dispatch({ type: SEARCHEDDATA, payload: searchContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
