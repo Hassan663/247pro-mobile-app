@@ -14,14 +14,21 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
 import Colors from '../../../../styles/colors';
-import { Img } from '../../../../core/components/image-component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
-import { styles } from './new-contact.style';
+import { Img } from '../../../../core/components/image-component';
 import { Title } from '../../../../core/components/screen-title.component';
+import { styles } from './new-contact.style';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import { EMAILLABELDATA, SECTIONLISTDATA } from './data';
 import { centralStyle } from '../../../../styles/constant.style';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { CreateContactAction } from '../../../../store/action/action';
+import { newContactValidation } from '../../../../core/helpers/validation/validation';
+import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
+import {
+    EMAILLABELDATA,
+    SECTIONLISTDATA
+} from './data';
 import {
     addNewContactField,
     captureImage,
@@ -30,13 +37,9 @@ import {
     removeEmptyFields,
     removePrevField
 } from './call-back';
-import { CreateContactAction } from '../../../../store/action/action';
-import { newContactValidation } from '../../../../core/helpers/validation/validation';
-import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
 
 
 export const PicImgModal = ({ setimageUriLocal, disableModal, setInputValues, inputLabel }: any) => {
-    // plpl
     return (
         <TouchableOpacity
             activeOpacity={.8}
@@ -121,8 +124,8 @@ export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
         <TouchableOpacity onPress={() => {
             if (getCompany) { getCompany(item) }
             if (disableSheet) { disableSheet() }
-        }} activeOpacity={.9} style={[centralStyle.row,]}>
-            <View style={[styles.companyListContainer,]}>
+        }} activeOpacity={.9} style={[centralStyle.row, { height: ALPHABET_SIZE.ITEM_HEIGHT }]}>
+            <View style={[styles.companyListContainer, { height: ALPHABET_SIZE.ITEM_HEIGHT }]}>
                 <View style={[centralStyle.row, styles.listWrapper]}>
                     <View style={[styles.flex1p2, centralStyle.justifyContentCenter]}>
                         <Img
@@ -159,6 +162,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
             <Animatable.View
                 duration={600}
                 animation={anim}
+                useNativeDriver
                 iterationCount={1}
                 direction="alternate"
                 style={styles.contactModalContentWrapper}>
@@ -184,6 +188,8 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
+                        sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                        getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
                         renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany && getCompany(val)} item={item} />}
                         renderCustomSectionHeader={CustomSectionHeader}
                     />
@@ -194,7 +200,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
 }
 export const CustomSectionHeader = (section: any) => {
     return (
-        <View style={styles.sectionHeaderContainer}>
+        <View style={[styles.sectionHeaderContainer, { height: ALPHABET_SIZE.HEADER_HEIGHT }]}>
             <Title
                 color={Colors.black}
                 type='Poppin-14'

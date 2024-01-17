@@ -14,6 +14,10 @@ export const bucketRestoPic = "https://s3-ap-southeast-1.amazonaws.com/bistrocha
 export const bucketRestoMenuPic = "https://s3-ap-southeast-1.amazonaws.com/dev-bistrochat-restaurant-menu/";
 export const bucketPulsePic = "https://s3-ap-southeast-1.amazonaws.com/dev-bistrochat-pulse-pictures/";
 export const googleAPIKey = "AIzaSyA7wSc5ta45wpDj7ehWCxWalxXjzx8Twso";
+export const ALPHABET_SIZE = {
+    HEADER_HEIGHT: 39,
+    ITEM_HEIGHT: 30
+};
 // export const adUnitId = "ca-app-pub-9152919921144751/4080981743"
 
 

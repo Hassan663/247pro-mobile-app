@@ -42,6 +42,7 @@ import {
     heightFlex1
 } from '../../../../styles/constant.style';
 import { handleSearch } from '../../../../store/action/action';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
@@ -368,6 +369,8 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
                 <View style={[centralStyle.px2, { flex: heightFlex1 * 6, }]}>
                     <AlphabetList
                         data={searchData ? searchData : data}
+                        sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                        getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
                         letterListContainerStyle={styles.specialitylistContainerStyle}
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
@@ -382,12 +385,12 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, d
 }
 export const CustomSectionHeader = (section: any) => {
     return (
-        <View style={styles.sectionHeaderContainer}>
+        <View style={{ height: ALPHABET_SIZE.HEADER_HEIGHT }} >
             <Title
                 color={Colors.black}
                 type='Poppin-14'
                 weight='600'
                 title={section.title} />
-        </View>
+        </View >
     )
 }

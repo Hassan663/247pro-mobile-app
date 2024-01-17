@@ -39,6 +39,7 @@ import {
     centralStyle,
     heightFlex1
 } from '../../../../styles/constant.style';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
 
 
 export const PicImgModal = ({ disableModal, setContactDetails, inputLabel }: any) => {
@@ -122,7 +123,7 @@ export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
         <TouchableOpacity onPress={() => {
             getCompany(item)
             disableSheet()
-        }} activeOpacity={.9} style={[centralStyle.row,]}>
+        }} activeOpacity={.9} style={[centralStyle.row, { height: ALPHABET_SIZE.ITEM_HEIGHT }]}>
             <View style={[styles.companyListContainer,]}>
                 <View style={[centralStyle.row, styles.listWrapper]}>
                     <View style={[styles.flex1p2, centralStyle.justifyContentCenter]}>
@@ -184,6 +185,8 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
                         indexLetterStyle={styles.letterStyle}
+                        sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                        getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
                         renderCustomItem={(item) => <CompanyList disableSheet={disableSheet} getCompany={(val: any) => getCompany(val)} item={item} />}
                         renderCustomSectionHeader={CustomSectionHeader}
                     />
@@ -194,7 +197,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
 }
 export const CustomSectionHeader = (section: any) => {
     return (
-        <View style={styles.sectionHeaderContainer}>
+        <View style={[styles.sectionHeaderContainer, { height: ALPHABET_SIZE.HEADER_HEIGHT }]}>
             <Title
                 color={Colors.black}
                 type='Poppin-14'

@@ -101,7 +101,8 @@ export const styles: any = StyleSheet.create<any>({
     },
     specialitylistContainerStyle: {
         justifyContent: 'space-between',
-        paddingVertical: RFPercentage(1)
+        height: '90%',
+        // paddingVertical: RFPercentage(1)
     },
     letterStyle: {
         textAlign: 'right',

@@ -61,6 +61,7 @@ import {
     RenderItem,
     SepecialityModal,
 } from './contact.components';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -94,7 +95,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = () => {
-        console.log(totalContacts, listData.length, 'totalContacts !== listData.length', listData)
         if (totalContacts > listData.length) {
             if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
         }
@@ -129,6 +129,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (searchedData.length > 0) {
             const searchContactClone = JSON.parse(JSON.stringify(searchedData));
             searchContactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
+            console.log(searchListData, 'searchListData')
             setsearchListData(searchContactClone);
         }
     }, [searchedData]);
@@ -265,10 +266,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     data={searchListData}
                                     letterListContainerStyle={styles.listContainerStyle}
                                     showsVerticalScrollIndicator={false}
+                                    sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                                    getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
                                     indexContainerStyle={{ width: 20 }}
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => {
-
                                         return (
                                             <CompanyList
                                                 getCompany={() => { handleChangeRoute(item) }}
@@ -284,8 +286,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     data={listData}
                                     letterListContainerStyle={styles.listContainerStyle}
                                     showsVerticalScrollIndicator={false}
-                                    sectionHeaderHeight={ 39}
-                                    getItemHeight={() => 30}
+                                    sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                                    getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
                                     indexContainerStyle={{ width: 20 }}
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => {
