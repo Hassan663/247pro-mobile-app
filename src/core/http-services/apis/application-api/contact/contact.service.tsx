@@ -62,7 +62,7 @@ const getContact = async (accessToken: string, pageIndex: number, pageSize: numb
     const CONTACT_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
 
     if (pageIndex && pageSize) {
-      CONTACT_ENDPOINT_CLONE.url = CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}`
+      CONTACT_ENDPOINT_CLONE.url = CONTACT_ENDPOINT.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}&sort=FullName&sortDirection=ASC`
     }
     CONTACT_ENDPOINT_CLONE.JWTToken = accessToken;
 
@@ -95,7 +95,7 @@ const searchContact = async (accessToken: string, keyword: string) => {
     const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
 
     if (keyword) {
-      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&search=${keyword}`;
+      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=9999&sort=FullName&sortDirection=ASC&search=${keyword}`;
     }
     CONTACT_DETAILS_ENDPOINT_CLONE.JWTToken = accessToken;
 

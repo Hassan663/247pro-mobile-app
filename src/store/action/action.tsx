@@ -137,6 +137,7 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
+                console.log(contactResponse,'contactResponse')
                 if (contactResponse.data.resultData.list.length > 0) {
                     await setpageIndex(pageIndex + 1)
                     const currentState = getState();
@@ -147,7 +148,6 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                         // obj.key = Math.floor(100000 + Math.random() * 900000)
                         obj.key = obj.id;
                     });
-                    console.log(mergeResponse, 'mergeResponse')
                     if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
                     if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: contactResponse.data.resultData.totalRecords });
                 }
@@ -235,6 +235,11 @@ export const SearchContactAction = (keyword: string) => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword);
+                searchContactResponse.data.resultData.list.forEach(function (obj: any) {
+                    obj.value = obj.fullName;
+                    obj.key = obj.id;
+                });
+                console.log(searchContactResponse,'searchContactResponse')
                 dispatch({ type: SEARCHEDDATA, payload: searchContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
@@ -255,7 +260,8 @@ export const TypeContactAction = (id: number) => {
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const TypeContactResponse: any = await typeContact(JSON.parse(accessToken), id);
-                // dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
+                console.log(TypeContactResponse.data.resultData.list, 'TypeContactResponse')
+                dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

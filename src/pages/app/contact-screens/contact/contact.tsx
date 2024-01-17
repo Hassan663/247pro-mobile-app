@@ -103,21 +103,24 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const handleSearch = async (value: string) => {
         try {
             setSearchInput(value)
+            console.log(searchedData, 'handleSearch', contact, listData)
             if (value && value.length > 1) {
                 await dispatch(SearchContactAction(value));
+            }
+            else {
+                console.log(value.length, 'else', contact)
+                await setlistData(contact)
             }
         } catch (error) {
             console.log('error--->', error)
         }
     }
 
-    const handleTextDebounce = useCallback(debounce(handleSearch, 400), [])
+    const handleTextDebounce = useCallback(debounce(handleSearch, 400), [contact, searchedData])
 
     const getMoreContact = async (contact: string | any[]) => {
         if (contact.length > 0) {
-            // await setlistData([])
             const contactClone = await JSON.parse(JSON.stringify(contact));
-            await contactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
             setlistData(contactClone)
         }
     }
@@ -128,9 +131,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     useEffect(() => {
         if (searchedData.length > 0) {
             const searchContactClone = JSON.parse(JSON.stringify(searchedData));
-            searchContactClone.forEach(function (obj: any) { obj.value = obj.fullName; });
-            console.log(searchListData, 'searchListData')
-            setsearchListData(searchContactClone);
+            setlistData(searchContactClone)
         }
     }, [searchedData]);
 
@@ -156,14 +157,17 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         contactTypesFunc();
         getSpeciality();
     }, []);
+
     const proContacts = async (val: any) => {
         await setSelectedProType(val);
         await getProContacts(dispatch, 2, val.id);
     };
+
     const SupplierContacts = async (val: any) => {
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
+    console.log(searchedData, 'searchedData', contact, listData)
     return (
         <>
             <AppHeader
@@ -252,16 +256,14 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         placeholder={t('search')}
                     />
                     <MaterialIcons
-                        onPress={() => {
-                            sheetRef.current.open()
-                        }}
+                        onPress={() => { sheetRef.current.open() }}
                         size={RFPercentage(2.5)} name='filter-list' />
                 </View>
                 <View style={[listData.length ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
 
                     {listData.length ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
-                            {searchInput.length > 0 ?
+                            {/* {searchInput.length > 0 ?
                                 <AlphabetList
                                     data={searchListData}
                                     letterListContainerStyle={styles.listContainerStyle}
@@ -281,26 +283,27 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                 // onEndReached={loadMoreData}
                                 // onEndReachedThreshold={0.1}
                                 />
-                                :
-                                <AlphabetList
-                                    data={listData}
-                                    letterListContainerStyle={styles.listContainerStyle}
-                                    showsVerticalScrollIndicator={false}
-                                    sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
-                                    getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
-                                    indexContainerStyle={{ width: 20 }}
-                                    indexLetterStyle={styles.letterStyle}
-                                    renderCustomItem={(item) => {
-                                        return (
-                                            <CompanyList
-                                                getCompany={() => { handleChangeRoute(item) }}
-                                                item={item} />
-                                        )
-                                    }}
-                                    renderCustomSectionHeader={CustomSectionHeader}
-                                    onEndReached={loadMoreData}
-                                    onEndReachedThreshold={0.1}
-                                />}
+                                : */}
+                            <AlphabetList
+                                data={listData}
+                                letterListContainerStyle={styles.listContainerStyle}
+                                showsVerticalScrollIndicator={false}
+                                sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                                getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
+                                indexContainerStyle={{ width: 20 }}
+                                indexLetterStyle={styles.letterStyle}
+                                renderCustomItem={(item) => {
+                                    return (
+                                        <CompanyList
+                                            getCompany={() => { handleChangeRoute(item) }}
+                                            item={item} />
+                                    )
+                                }}
+                                renderCustomSectionHeader={CustomSectionHeader}
+                                onEndReached={loadMoreData}
+                                onEndReachedThreshold={0.1}
+                            />
+                            {/* } */}
                         </View>
                         :
                         <>
