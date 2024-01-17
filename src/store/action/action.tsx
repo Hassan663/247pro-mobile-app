@@ -144,7 +144,6 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
                     mergeResponse.forEach(function (obj: any) {
                         obj.value = obj.fullName;
-                        // obj.key = Math.floor(100000 + Math.random() * 900000)
                         obj.key = obj.id;
                     });
                     if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
@@ -258,9 +257,16 @@ export const TypeContactAction = (id: number) => {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const TypeContactResponse: any = await typeContact(JSON.parse(accessToken), id);
-                console.log(TypeContactResponse.data.resultData.list, 'TypeContactResponse')
-                dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
+                const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id);
+                typeContactResponse.data.resultData.list.forEach(function (obj: any) {
+                    obj.value = obj.fullName;
+                    obj.key = obj.id;
+                });
+                console.log(typeContactResponse.data.resultData.list, 'typeContactResponse')
+                if (typeContactResponse.data.resultData.list?.length > 0) dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
+
+                // dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
+                if (typeContactResponse.data.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: typeContactResponse.data.resultData.totalRecords });
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
