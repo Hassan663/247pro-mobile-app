@@ -64,7 +64,7 @@ export const pickImage = async (setInputValues: any, inputLabel: string) => {
                         ...prevValues,
                         [inputLabel]: img?.data,
                     }));
-                }
+                };
             }
         });
 

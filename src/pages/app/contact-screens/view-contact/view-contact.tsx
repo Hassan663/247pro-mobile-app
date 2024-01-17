@@ -69,14 +69,6 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             <Img
                                 customStyle={styles.profileImage}
                                 source={{ uri: contactDetails.profilePicture }} />
-                            <TouchableOpacity
-                                activeOpacity={.8}
-                                style={[centralStyle.circle(RFPercentage(4)), styles.editIconAdd]}>
-                                <Feather
-                                    name={'edit-2'}
-                                    color={Colors.primary}
-                                    size={RFPercentage(2)} />
-                            </TouchableOpacity>
                         </View> :
                         <TouchableOpacity
                             activeOpacity={.8}

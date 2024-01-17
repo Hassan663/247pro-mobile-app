@@ -158,7 +158,6 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                 activeOpacity={1}
                 onPress={disableSheet}
                 style={styles.disableModalContainer} />
-
             <Animatable.View
                 duration={600}
                 animation={anim}

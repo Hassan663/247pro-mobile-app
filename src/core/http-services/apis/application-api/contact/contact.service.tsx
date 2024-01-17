@@ -135,7 +135,6 @@ export const uploadImage = async (uri: string, fileName: string, accessToken: st
       });
       const UPLOAD_IMAGE_ENDPOINT_CLONE: Endpoint = { ...UPLOAD_IMAGE_ENDPOINT };
       UPLOAD_IMAGE_ENDPOINT_CLONE.JWTToken = accessToken;
-
       return await postApi(UPLOAD_IMAGE_ENDPOINT_CLONE, formData)
     }
   } catch (error) {
