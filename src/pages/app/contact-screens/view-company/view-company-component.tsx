@@ -127,6 +127,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
             <Animatable.View
                 duration={600}
                 animation={anim}
+                useNativeDriver
                 iterationCount={1}
                 direction="alternate"
                 style={styles.contactModalContentWrapper}>

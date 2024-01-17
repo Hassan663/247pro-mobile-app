@@ -129,6 +129,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                 duration={600}
                 animation={anim}
                 iterationCount={1}
+                useNativeDriver
                 direction="alternate"
                 style={styles.contactModalContentWrapper}>
                 <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.contactModalHeader]}>
