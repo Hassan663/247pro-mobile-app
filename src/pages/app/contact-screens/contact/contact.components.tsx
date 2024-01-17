@@ -43,6 +43,7 @@ import {
 } from '../../../../styles/constant.style';
 import { handleSearch } from '../../../../store/action/action';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { SpecialityModal } from '../../../../core/modals/contact.modal';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
@@ -321,11 +322,8 @@ export const FilesModal = ({ anim, setanim, setcontactModal, getCompany }: any) 
         </View>
     )
 }
-
-
-
 export const SepecialityModal = ({ anim, setanim, setcontactModal, getCompany, data }: any) => {
-    const [searchData, setSearchData] = useState();
+    const [searchData, setSearchData] = useState<{}[]>();
     const disableSheet = () => {
         setanim('fadeOutDownBig')
         setTimeout(() => {

@@ -34,7 +34,8 @@ import {
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
     ContactModel,
-    IContactCreateModel
+    IContactCreateModel,
+    SpecialityModal
 } from '../../core/modals/contact.modal';
 
 //  LOGIN ACTION
@@ -287,18 +288,34 @@ export const GetTypeContactsAction = (type: number, specialityID: number) => {
     }
 }
 
-export const openSheet = (sheetRef: any) => sheetRef.current.open()
+export const openSheet = (sheetRef: any) => sheetRef.current.open();
 
-export const closeSheet = (sheetRef: any) => sheetRef.current.close()
-export const handleSearch = (value: string, data: any,) => {
+export const closeSheet = (sheetRef: any) => sheetRef.current.close();
+
+// export const handleSearch = (value: string, data: any, key?: any) => {
+//     if (value && value.length > 0) {
+//         const filteredData = data.filter((item: { name: string; }) =>
+//             // key ? item.name.toLowerCase().includes(value.toLowerCase()) :
+//             key ? item[key].toString().toLowerCase() : item.name.toLowerCase():
+//             item.name.toLowerCase().includes(value.toLowerCase())
+//         );
+//         return filteredData;
+//     } else return data;
+// };
+
+export const handleSearch = (
+    value: string,
+    data: { value: string, key: string }[] | SpecialityModal[],
+    key?: string
+) => {
     if (value && value.length > 0) {
-        const filteredData = data.filter((item: { name: string; }) =>
-            item.name.toLowerCase().includes(value.toLowerCase())
-        );
+        const filteredData = data.filter((item: any) => {
+            const itemName = key ? item[key].toLowerCase().includes(value.toLowerCase()) : item.name.toLowerCase().includes(value.toLowerCase());
+            return itemName;
+        });
         return filteredData;
     } else return data;
 };
-
 // function searchContact(accessToken: any, keyword: string): any {
 //     throw new Error('Function not implemented.');
 // }

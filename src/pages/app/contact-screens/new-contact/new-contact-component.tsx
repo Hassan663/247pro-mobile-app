@@ -1,5 +1,5 @@
 // @app
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -19,16 +19,14 @@ import OutlinedTextInput from '../../../../core/components/outlined-textInput.co
 import { Img } from '../../../../core/components/image-component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './new-contact.style';
+import { debounce } from "lodash";
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
-import { CreateContactAction } from '../../../../store/action/action';
+import { CreateContactAction, handleSearch } from '../../../../store/action/action';
 import { newContactValidation } from '../../../../core/helpers/validation/validation';
 import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
-import {
-    EMAILLABELDATA,
-    SECTIONLISTDATA
-} from './data';
+import { EMAILLABELDATA, SECTIONLISTDATA, } from './data';
 import {
     addNewContactField,
     captureImage,
@@ -146,12 +144,18 @@ export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
 }
 
 export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any) => {
+    const [searchData, setSearchData] = useState<{}>();
     const disableSheet = () => {
         setanim('fadeOutDownBig')
         setTimeout(() => {
             setcontactModal(false)
         }, 800)
-    }
+    };
+    const handleTextDebounce = useCallback(debounce(async (value) => {
+            let searchedData = handleSearch(value, SECTIONLISTDATA, 'value')
+            console.log(searchedData, 'searchedData')
+            setSearchData(searchedData);
+    }, 400), []);
     return (
         <View style={styles.contactModalContainer}>
             <TouchableOpacity
@@ -178,11 +182,11 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         color={Colors.fontColor}
                         name={`search1`}
                         size={RFPercentage(2)} />
-                    <TextInput placeholder={t('search')} style={styles.searchInput} />
+                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} style={styles.searchInput} />
                 </View>
                 <View style={[centralStyle.px2, { flex: 1, }]}>
                     <AlphabetList
-                        data={SECTIONLISTDATA}
+                        data={searchData  ? searchData : SECTIONLISTDATA}
                         letterListContainerStyle={styles.listContainerStyle}
                         showsVerticalScrollIndicator={false}
                         indexContainerStyle={{ width: 20 }}
