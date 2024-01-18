@@ -47,7 +47,7 @@ import { SpecialityModal } from '../../../../core/modals/contact.modal';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const handlePress = () => {
-        if (contactCategory !== index) {
+        if (contactCategory !== index && index !== 0) {
             contactTypefilter(index, dispatch);
         }
         setContactCategory(index);
@@ -80,12 +80,16 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </TouchableOpacity>
                 ) :
-                    index === 0 && typeof contactTypes[index]?.count !== 'undefined' ? < Title
-                        weight='400'
-                        type='Poppin-12'
-                        color={Colors.fontColor}
-                        title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
-                    /> :
+                    index === 0 && typeof contactTypes[index]?.count !== 'undefined' ?
+                        <TouchableOpacity onPress={handlePress}>
+                            < Title
+                                weight='400'
+                                type='Poppin-12'
+                                color={Colors.fontColor}
+                                title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
+                            />
+                        </TouchableOpacity>
+                        :
                         index > 0 && typeof contactTypes[index - 1]?.count !== 'undefined' ?
                             <TouchableOpacity
                                 activeOpacity={.7}

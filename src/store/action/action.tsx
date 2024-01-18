@@ -8,12 +8,16 @@ import {
     SignUpModal,
 } from '../../core/modals/login.modal';
 import {
+    CLIENTDATA,
     CONTACTS,
     CURRENTUSERPROFILE,
     INITIALROUTE,
     LOADER,
+    PRODATA,
     SCREENLOADER,
     SEARCHEDDATA,
+    STAFFDATA,
+    SUPPLIERDATA,
     TOTALCONTACTS
 } from '../constant/constant';
 import {
@@ -263,7 +267,12 @@ export const TypeContactAction = (id: number) => {
                     obj.key = obj.id;
                 });
                 console.log(typeContactResponse.data.resultData.list, 'typeContactResponse')
-                if (typeContactResponse.data.resultData.list?.length > 0) dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
+                if(id  === 1)dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
+                else if(id  === 2)dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
+                else if(id  === 3)dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
+                else if(id  === 4)dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
+                else dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
+                // if (typeContactResponse.data.resultData.list?.length > 0) dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
                 if (typeContactResponse.data.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: typeContactResponse.data.resultData.totalRecords });
             }
             dispatch({ type: LOADER, payload: false });
@@ -274,9 +283,9 @@ export const TypeContactAction = (id: number) => {
             dispatch({ type: SCREENLOADER, payload: false });
         }
     }
-}
+};
 
-export const GetTypeContactsAction = (type: number, specialityID: number) => {
+export const GetTypeContactsSpecialityAction = (type: number, specialityID: number) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
@@ -289,8 +298,12 @@ export const GetTypeContactsAction = (type: number, specialityID: number) => {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
                 });
-                dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
-            }
+                if(type  === 1)dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
+                else if(type  === 2)dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
+                else if(type  === 3)dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
+                else if(type  === 4)dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
+                else dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
+            };
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {

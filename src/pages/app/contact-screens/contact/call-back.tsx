@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-    GetTypeContactsAction,
+    GetTypeContactsSpecialityAction,
     TypeContactAction
 } from "../../../../store/action/action";
 import {
@@ -30,7 +30,7 @@ export const specialityCount = async () => {
 }
 export const getProContacts = async (dispatch: any, type: number, specialityID: number) => {
     try {
-        if (type !== 0 && specialityID) await dispatch(GetTypeContactsAction(type, specialityID));
+        if (type !== 0 && specialityID) await dispatch(GetTypeContactsSpecialityAction(type, specialityID));
     } catch (error) {
         console.log("error--->", error);
     }
