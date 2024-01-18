@@ -286,8 +286,13 @@ export const GetTypeContactsAction = (type: number, specialityID: number) => {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const TypeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type, 3);
-                // console.log(TypeContactResponse,'TypeContactResponseTypeContactResponse')
+                const typeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type, specialityID);
+                if (typeContactResponse.data.resultData.list?.length > 0) 
+                typeContactResponse.data.resultData.list.forEach(function (obj: any) {
+                    obj.value = obj.fullName;
+                    obj.key = obj.id;
+                });
+                dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

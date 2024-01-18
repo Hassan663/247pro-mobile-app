@@ -74,7 +74,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [listData, setlistData] = useState<[]>([]);
-    const [searchListData, setsearchListData] = useState<[]>([]);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [selectedProType, setSelectedProType] = useState<any>([])
     const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
@@ -118,8 +117,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (contact.length > 0) {
             const contactClone = await JSON.parse(JSON.stringify(contact));
             setlistData(contactClone)
-        }
-    }
+        }else setlistData([])
+    };
+    
     useEffect(() => {
         getMoreContact(contact)
     }, [contact]);
