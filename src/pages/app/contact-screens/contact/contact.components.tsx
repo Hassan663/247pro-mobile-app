@@ -43,13 +43,18 @@ import {
 } from '../../../../styles/constant.style';
 import { handleSearch } from '../../../../store/action/action';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
-import { SpecialityModal } from '../../../../core/modals/contact.modal';
+import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
-    const handlePress = () => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes, }: any) => {
+    const { clientData, proData, supplierData, staffData } = useSelector((state: any) => state.root)
+
+    const handlePress = async () => {
         if (contactCategory !== index && index !== 0) {
-            contactTypefilter(index, dispatch);
-        }
+            if (index === 1 && clientData.length === 0) await contactTypefilter(index, dispatch);
+            else if (index === 2 && proData.length === 0) await contactTypefilter(index, dispatch);
+            else if (index === 3 && supplierData.length === 0) await contactTypefilter(index, dispatch);
+            else if (index === 4 && staffData.length === 0) await contactTypefilter(index, dispatch);
+        };
         setContactCategory(index);
     };
     return (

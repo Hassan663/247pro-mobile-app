@@ -67,17 +67,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [importModal, setImportModal] = useState(false)
     const [modalEnabled, setmodalEnabled] = useState(false)
     const [contactModal, setcontactModal] = useState<boolean>(false);
-    const [contactCategory, setContactCategory] = useState();
+    const [contactCategory, setContactCategory] = useState<number>(0);
     const [specialityModal, setSpecialityModal] = useState<boolean>(false);
     const [pageIndex, setpageIndex] = useState<number>(1);
     const [searchInput, setSearchInput] = useState('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [listData, setlistData] = useState<[]>([]);
-    const [clientListData , setClientListData] = useState<[]>([]);
-    const [proListData, setProlistData] = useState<[]>([]);
-    const [supplierListData, setSupplierlistData] = useState<[]>([]);
-    const [stafflistData, setStafflistData] = useState<[]>([]);
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [selectedProType, setSelectedProType] = useState<any>([])
     const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
@@ -95,7 +91,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', item)
         else changeRoute(navigation, 'ViewCompany', item)
     }
-
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = () => {
@@ -124,15 +119,18 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             setlistData(contactClone)
         } else setlistData([]);
     };
-    // console.log({ clientData, proData, supplierData, staffData }, '{clientData,proData,supplierData , staffData}')
 
     useEffect(() => {
         getMoreContact(contact)
     }, [contact]);
 
-    // useEffect(() => {
-    //     setlistData(contact)
-    // }, [clientData, proData, supplierData, staffData]);
+    useEffect(() => {
+        if (contactCategory === 1) setlistData(clientData);
+        else if (contactCategory === 2) setlistData(proData);
+        else if (contactCategory === 3) setlistData(supplierData);
+        else if (contactCategory === 4) setlistData(staffData);
+        else setlistData(contact)
+    }, [clientData, proData, supplierData, staffData, contactCategory]);
 
     useEffect(() => {
         if (searchedData.length > 0) {

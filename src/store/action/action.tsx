@@ -266,13 +266,11 @@ export const TypeContactAction = (id: number) => {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
                 });
-                console.log(typeContactResponse.data.resultData.list, 'typeContactResponse')
-                if(id  === 1)dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
-                else if(id  === 2)dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
-                else if(id  === 3)dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
-                else if(id  === 4)dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
+                if (id === 1) dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
+                else if (id === 2) dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
+                else if (id === 3) dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
+                else if (id === 4) dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
                 else dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
-                // if (typeContactResponse.data.resultData.list?.length > 0) dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
                 if (typeContactResponse.data.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: typeContactResponse.data.resultData.totalRecords });
             }
             dispatch({ type: LOADER, payload: false });
@@ -293,15 +291,15 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type, specialityID);
-                if (typeContactResponse.data.resultData.list?.length > 0) 
-                typeContactResponse.data.resultData.list.forEach(function (obj: any) {
-                    obj.value = obj.fullName;
-                    obj.key = obj.id;
-                });
-                if(type  === 1)dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
-                else if(type  === 2)dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
-                else if(type  === 3)dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
-                else if(type  === 4)dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
+                if (typeContactResponse.data.resultData.list?.length > 0)
+                    typeContactResponse.data.resultData.list.forEach(function (obj: any) {
+                        obj.value = obj.fullName;
+                        obj.key = obj.id;
+                    });
+                if (type === 1) dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
+                else if (type === 2) dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
+                else if (type === 3) dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
+                else if (type === 4) dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
                 else dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
             };
             dispatch({ type: LOADER, payload: false });
