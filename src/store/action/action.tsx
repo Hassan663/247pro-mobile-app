@@ -238,7 +238,6 @@ export const SearchContactAction = (keyword: string) => {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
                 });
-                console.log(searchContactResponse, 'searchContactResponse')
                 dispatch({ type: SEARCHEDDATA, payload: searchContactResponse.data.resultData.list });
             }
             dispatch({ type: LOADER, payload: false });
@@ -265,8 +264,6 @@ export const TypeContactAction = (id: number) => {
                 });
                 console.log(typeContactResponse.data.resultData.list, 'typeContactResponse')
                 if (typeContactResponse.data.resultData.list?.length > 0) dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
-
-                // dispatch({ type: CONTACTS, payload: TypeContactResponse.data.resultData.list });
                 if (typeContactResponse.data.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: typeContactResponse.data.resultData.totalRecords });
             }
             dispatch({ type: LOADER, payload: false });
@@ -307,17 +304,6 @@ export const GetTypeContactsAction = (type: number, specialityID: number) => {
 export const openSheet = (sheetRef: any) => sheetRef.current.open();
 
 export const closeSheet = (sheetRef: any) => sheetRef.current.close();
-
-// export const handleSearch = (value: string, data: any, key?: any) => {
-//     if (value && value.length > 0) {
-//         const filteredData = data.filter((item: { name: string; }) =>
-//             // key ? item.name.toLowerCase().includes(value.toLowerCase()) :
-//             key ? item[key].toString().toLowerCase() : item.name.toLowerCase():
-//             item.name.toLowerCase().includes(value.toLowerCase())
-//         );
-//         return filteredData;
-//     } else return data;
-// };
 
 export const handleSearch = (
     value: string,
