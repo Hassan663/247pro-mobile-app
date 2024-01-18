@@ -32,7 +32,7 @@ const INITIAL_STATE = {
     proData: [],
     supplierData: [],
     staffData: [],
-    totalContacts: 0,
+    totalContacts: [],
     // contactResponse.data.resultData.list
 }
 

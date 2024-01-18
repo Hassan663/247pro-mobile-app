@@ -151,8 +151,9 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                         obj.value = obj.fullName;
                         obj.key = obj.id;
                     });
+
                     if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
-                    if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: contactResponse.data.resultData.totalRecords });
+                    if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
                 }
             }
             dispatch({ type: SCREENLOADER, payload: false });
@@ -255,8 +256,10 @@ export const SearchContactAction = (keyword: string) => {
 }
 
 export const TypeContactAction = (id: number) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch, getState: any) => {
         try {
+            const currentState = getState();
+            let totalContactsClone = JSON.parse(JSON.stringify(currentState.root.totalContacts));
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
@@ -266,13 +269,25 @@ export const TypeContactAction = (id: number) => {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
                 });
-                if (id === 1) dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
-                else if (id === 2) dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
-                else if (id === 3) dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
-                else if (id === 4) dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
+                if (id === 1) {
+                    dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list })
+                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });
+                }
+                else if (id === 2) {
+                    dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list })
+                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 2 });
+                }
+                else if (id === 3) {
+                    dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list })
+                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 3 });
+                }
+                else if (id === 4) {
+                    dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list })
+                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 4 });
+                }
                 else dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
-                if (typeContactResponse.data.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: typeContactResponse.data.resultData.totalRecords });
             }
+            dispatch({ type: TOTALCONTACTS, payload: totalContactsClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {

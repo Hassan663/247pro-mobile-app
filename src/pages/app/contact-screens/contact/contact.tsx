@@ -94,11 +94,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = () => {
-        if (totalContacts > listData.length) {
-            if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
-        }
+        // if (totalContacts[0].totalRecords > listData.length) {
+        //     if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
+        // }
     };
-
     const handleSearch = async (value: string) => {
         try {
             setSearchInput(value)
