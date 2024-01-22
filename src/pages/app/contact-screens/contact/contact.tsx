@@ -94,9 +94,23 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = () => {
-        // if (totalContacts[0].totalRecords > listData.length) {
-        //     if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
-        // }
+        if (contactCategory == 0) {
+            if (totalContacts[0].totalRecords > listData.length) {
+                if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
+            }
+            // alert('all')
+        } else if (contactCategory == 1) {
+            alert('client')
+        } else if (contactCategory == 2) {
+            alert('pro')
+        } else if (contactCategory == 3) {
+            alert('supplier')
+        } else if (contactCategory == 4) {
+            alert('staff')
+        }
+
+
+
     };
     const handleSearch = async (value: string) => {
         try {
@@ -171,6 +185,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
+    console.log(listData,'listData')
 
     return (
         <>

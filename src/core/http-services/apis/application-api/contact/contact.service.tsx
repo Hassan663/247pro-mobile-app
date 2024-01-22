@@ -105,13 +105,13 @@ const searchContact = async (accessToken: string, keyword: string) => {
     throw error;
   }
 };
-const typeContact = async (accessToken: string, id: number) => {
+const typeContact = async (accessToken: string, id: number, pageIndex: number, pageSize: number) => {
   try {
     const data: any = {};
     const CONTACT_DETAILS_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
-
     if (id) {
-      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&contactTypeId=${id}`;
+      // CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&contactTypeId=${id}`;
+      CONTACT_DETAILS_ENDPOINT_CLONE.url = CONTACT_DETAILS_ENDPOINT_CLONE.url + `?pageIndex=${pageIndex}&pageSize=${pageSize}&sort=FullName&sortDirection=ASC&contactTypeId=${id}`
     }
     CONTACT_DETAILS_ENDPOINT_CLONE.JWTToken = accessToken;
 

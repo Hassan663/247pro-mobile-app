@@ -255,7 +255,8 @@ export const SearchContactAction = (keyword: string) => {
     }
 }
 
-export const TypeContactAction = (id: number) => {
+// export const ContactAction = (setpageIndex: any, pageIndex: number) => {
+export const TypeContactAction = (id: number, setpageIndex: any, pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             const currentState = getState();
@@ -264,7 +265,8 @@ export const TypeContactAction = (id: number) => {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id);
+                const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, 1, 15);
+                // await setpageIndex(pageIndex + 1)
                 typeContactResponse.data.resultData.list.forEach(function (obj: any) {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
