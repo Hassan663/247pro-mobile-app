@@ -27,7 +27,7 @@ const INITIAL_STATE = {
     initialRoute: 'Splash',
     currentUserProfile: {},
     searchedData: [],
-    // contacts: [],
+    contacts: [],
     // contact:{
     //     all: [{},{}],
     //     client: [{},{}],
