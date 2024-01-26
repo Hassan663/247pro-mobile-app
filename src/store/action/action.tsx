@@ -256,7 +256,7 @@ export const SearchContactAction = (keyword: string) => {
 }
 
 // export const ContactAction = (setpageIndex: any, pageIndex: number) => {
-export const TypeContactAction = (id: number, setpageIndex: any, pageIndex: number) => {
+export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             const currentState = getState();
@@ -265,14 +265,27 @@ export const TypeContactAction = (id: number, setpageIndex: any, pageIndex: numb
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, 1, 15);
-                // await setpageIndex(pageIndex + 1)
-                typeContactResponse.data.resultData.list.forEach(function (obj: any) {
+                const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
+                if (setpageIndex && pageIndex) { await setpageIndex(pageIndex + 1) }
+                const currentState = getState();
+                // let contactClone = JSON.parse(JSON.stringify(currentState.root.clientData));
+                let contactClone = JSON.parse(JSON.stringify(id === 1 ? currentState.root.clientData : id === 2 ? currentState.root.proData : id === 3 ? currentState.root.supplierData : currentState.root.staffData));
+                let mergeResponse = [...contactClone, ...typeContactResponse.data.resultData.list];
+                mergeResponse.forEach(function (obj: any) {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
-                });
+                })
+                console.log(typeContactResponse, 'typeContactResponse', mergeResponse, pageIndex)
                 if (id === 1) {
-                    dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list })
+                    // console.log(typeContactResponse, 'typeContactResponse')
+                    // await setpageIndex(pageIndex + 1)
+                    // mergeResponse.forEach(function (obj: any) {
+                    //     obj.value = obj.fullName;
+                    //     obj.key = obj.id;
+                    // }); 
+                    // if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
+                    // if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
+                    dispatch({ type: CLIENTDATA, payload: mergeResponse })
                     if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });
                 }
                 else if (id === 2) {

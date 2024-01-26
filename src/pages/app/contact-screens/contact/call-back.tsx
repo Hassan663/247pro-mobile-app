@@ -10,7 +10,7 @@ import {
 
 export const FILESDATA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-export const contactTypefilter = async (id: number, dispatch: any, setpageIndex: any, pageIndex: number) => {
+export const contactTypefilter = async (id: number, dispatch: any, setpageIndex?: any, pageIndex?: number) => {
     try {
         if (id !== 0) await dispatch(TypeContactAction(id, setpageIndex, pageIndex));
     } catch (error) {

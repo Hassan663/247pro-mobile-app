@@ -37,6 +37,7 @@ import { CONTACTLIST } from './data';
 import { centralStyle } from '../../../../styles/constant.style';
 import { SpecialityModal } from '../../../../core/modals/contact.modal';
 import {
+    contactTypefilter,
     getProContacts,
     specialities,
     specialityCount
@@ -70,6 +71,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [contactCategory, setContactCategory] = useState<number>(0);
     const [specialityModal, setSpecialityModal] = useState<boolean>(false);
     const [pageIndex, setpageIndex] = useState<number>(1);
+    const [clientpageIndex, setClientpageIndex] = useState<number>(2);
     const [searchInput, setSearchInput] = useState('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -93,14 +95,16 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }
     const dispatch: Dispatch<any> = useDispatch();
 
-    const loadMoreData = () => {
+    const loadMoreData = async () => {
         if (contactCategory == 0) {
             if (totalContacts[0].totalRecords > listData.length) {
                 if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
             }
             // alert('all')
         } else if (contactCategory == 1) {
-            alert('client')
+            if (totalContacts[1].totalRecords > listData.length) {
+                await contactTypefilter(1, dispatch, setClientpageIndex, clientpageIndex);
+            }
         } else if (contactCategory == 2) {
             alert('pro')
         } else if (contactCategory == 3) {
@@ -185,7 +189,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
-    console.log(listData,'listData')
+    console.log(listData, 'listData')
 
     return (
         <>
