@@ -49,12 +49,12 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     const { clientData, proData, supplierData, staffData } = useSelector((state: any) => state.root)
 
     const handlePress = async () => {
-        if (contactCategory !== index && index !== 0) {
-            if (index === 1 && clientData.length === 0) await contactTypefilter(index, dispatch);
-            else if (index === 2 && proData.length === 0) await contactTypefilter(index, dispatch);
-            else if (index === 3 && supplierData.length === 0) await contactTypefilter(index, dispatch);
-            else if (index === 4 && staffData.length === 0) await contactTypefilter(index, dispatch);
-        };
+        // if (contactCategory !== index && index !== 0) {
+        //     if (index === 1 && clientData.length === 0) await contactTypefilter(index, dispatch);
+        //     else if (index === 2 && proData.length === 0) await contactTypefilter(index, dispatch);
+        //     else if (index === 3 && supplierData.length === 0) await contactTypefilter(index, dispatch);
+        //     else if (index === 4 && staffData.length === 0) await contactTypefilter(index, dispatch);
+        // };
         setContactCategory(index);
     };
     return (

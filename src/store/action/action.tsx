@@ -146,13 +146,20 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     await setpageIndex(pageIndex + 1)
                     const currentState = getState();
                     let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-                    let mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
+                    let mergeResponse;
+                    if (contactClone?.length > 0) {
+                        console.log(contactClone[0]?.contacts, 'abcd')
+                        mergeResponse = [...contactClone[0]?.contacts, ...contactResponse.data.resultData.list];
+                    } else {
+                        mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
+                    }
                     mergeResponse.forEach(function (obj: any) {
                         obj.value = obj.fullName;
                         obj.key = obj.id;
                     });
-
-                    if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
+                    let createDataForTab = [{ id: 0, contacts: mergeResponse }]
+                    // console.log(createDataForTab, 'createDataForTab', contactClone, pageIndex)
+                    if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
                     if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
                 }
             }
@@ -270,12 +277,35 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                 const currentState = getState();
                 // let contactClone = JSON.parse(JSON.stringify(currentState.root.clientData));
                 let contactClone = JSON.parse(JSON.stringify(id === 1 ? currentState.root.clientData : id === 2 ? currentState.root.proData : id === 3 ? currentState.root.supplierData : currentState.root.staffData));
-                let mergeResponse = [...contactClone, ...typeContactResponse.data.resultData.list];
+                // let mergeResponse = [...contactClone, ...typeContactResponse.data.resultData.list];
+                // mergeResponse.forEach(function (obj: any) {
+                //     obj.value = obj.fullName;
+                //     obj.key = obj.id;
+                // })
+
+
+
+                // const currentState = getState();
+                // let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+                let mergeResponse;
+                if (contactClone?.length > 0) {
+                    console.log(contactClone[0]?.contacts, 'abcd')
+                    mergeResponse = [...contactClone[1]?.contacts, ...typeContactResponse.data.resultData.list];
+                } else {
+                    mergeResponse = [...contactClone, ...typeContactResponse.data.resultData.list];
+                }
                 mergeResponse.forEach(function (obj: any) {
                     obj.value = obj.fullName;
                     obj.key = obj.id;
-                })
-                console.log(typeContactResponse, 'typeContactResponse', mergeResponse, pageIndex)
+                });
+                let createDataForTab = [{ id: id, contacts: mergeResponse }]
+                // console.log(createDataForTab, 'createDataForTab', contactClone, pageIndex)
+                // if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
+
+
+
+
+                console.log(typeContactResponse, createDataForTab,'typeContactResponse', mergeResponse, pageIndex)
                 if (id === 1) {
                     // console.log(typeContactResponse, 'typeContactResponse')
                     // await setpageIndex(pageIndex + 1)
@@ -285,7 +315,7 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                     // }); 
                     // if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
                     // if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
-                    dispatch({ type: CLIENTDATA, payload: mergeResponse })
+                    dispatch({ type: CLIENTDATA, payload: createDataForTab })
                     if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });
                 }
                 else if (id === 2) {

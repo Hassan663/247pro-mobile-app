@@ -109,6 +109,7 @@ export const styles: any = StyleSheet.create<any>({
         color: Colors.fontColor,
         fontSize: RFPercentage(1.8),
         width: 20,
+        height: platform == 'ios' ? 20 : 'auto'
     },
     justifyContentBetween: {
         justifyContent: 'space-between'

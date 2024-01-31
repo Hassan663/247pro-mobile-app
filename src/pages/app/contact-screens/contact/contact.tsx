@@ -132,8 +132,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const getMoreContact = async (contact: string | any[]) => {
         if (contact.length > 0) {
+            console.log(contact, 'contact')
             const contactClone = await JSON.parse(JSON.stringify(contact));
-            setlistData(contactClone)
+            console.log(contactClone, 'contactClone', contactClone[0]?.contacts)
+            if (contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
         } else setlistData([]);
     };
 
@@ -142,12 +144,16 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }, [contact]);
 
     useEffect(() => {
-        if (contactCategory === 1) setlistData(clientData);
-        else if (contactCategory === 2) setlistData(proData);
-        else if (contactCategory === 3) setlistData(supplierData);
-        else if (contactCategory === 4) setlistData(staffData);
-        else setlistData(contact)
-    }, [clientData, proData, supplierData, staffData, contactCategory]);
+        //   setlistData(contactClone[0]?.contacts)
+        // console.log(clientData,'clientData')
+        // if (contactCategory === 1) setlistData(clientData);
+        // else if (contactCategory === 2) setlistData(proData);
+        // else if (contactCategory === 3) setlistData(supplierData);
+        // else if (contactCategory === 4) setlistData(staffData);
+        // else setlistData(contact)
+    }, [
+        // clientData, proData, supplierData, staffData, contactCategory
+    ]);
 
     useEffect(() => {
         if (searchedData.length > 0) {
@@ -157,6 +163,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     }, [searchedData]);
 
+    console.log(listData, 'listData')
     const contactTypesFunc = async () => {
         const response = await specialityCount()
         if (response && response.data) setContactTypes(response.data.resultData);
@@ -189,7 +196,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
-    console.log(listData, 'listData')
+    // console.log(listData, 'listData')
 
     return (
         <>
