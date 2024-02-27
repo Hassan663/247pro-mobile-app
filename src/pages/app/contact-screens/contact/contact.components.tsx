@@ -2,6 +2,7 @@
 import React,
 {
     useCallback,
+    useEffect,
     useState
 } from 'react';
 import {
@@ -43,9 +44,12 @@ import {
 } from '../../../../styles/constant.style';
 import { handleSearch } from '../../../../store/action/action';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { SEARCHEDDATA } from '../../../../store/constant/constant';
 
 export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes, contact }: any) => {
+    const [allData, setAllData] = useState(0);
     const handlePress = async () => {
+        dispatch({ type: SEARCHEDDATA, payload: [] })
         await setContactCategory(index);
         if (contactCategory !== index && index !== 0) {
             if (index === 1 && typeof (contact[1]) === 'undefined') await contactTypefilter(index, dispatch);
@@ -54,6 +58,12 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             else if (index === 4 && typeof (contact[4]) === 'undefined') await contactTypefilter(index, dispatch);
         };
     };
+    useEffect(() => {
+        let allData = 0;
+        contactTypes.map((val: any) => { allData = allData + val.count })
+        setAllData(allData)
+    }, [contactTypes.length]);
+
     return (
         <>
             <View style={styles.titleContainer(contactCategory, index)}>
@@ -88,7 +98,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                                 weight='400'
                                 type='Poppin-12'
                                 color={Colors.fontColor}
-                                title={` (${contactTypes[0]?.count + contactTypes[1]?.count + contactTypes[2]?.count + contactTypes[3]?.count})`}
+                                title={` (${allData})`}
                             />
                         </TouchableOpacity>
                         :

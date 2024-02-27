@@ -8,10 +8,6 @@ import {
     SCREENLOADER,
     SEARCHEDDATA,
     TOTALCONTACTS,
-    CLIENTDATA,
-    PRODATA,
-    SUPPLIERDATA,
-    STAFFDATA
 } from '../constant/constant'
 
 export type Action = {
@@ -36,10 +32,6 @@ const INITIAL_STATE = {
     //     supplier: [{},{}],
     //     },
         // totalContacts:[{id:0,contact:[]},{id:1,contact:[]},{id:2,contact:[]},{id:3,contact:[]},],
-    clientData: [],
-    proData: [],
-    supplierData: [],
-    staffData: [],
     totalContacts: [],
     // contactResponse.data.resultData.list
 }
@@ -90,26 +82,6 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 searchedData: action.payload
-            })
-        case CLIENTDATA:
-            return ({
-                ...states,
-                clientData: action.payload
-            })
-        case PRODATA:
-            return ({
-                ...states,
-                proData: action.payload
-            })
-        case SUPPLIERDATA:
-            return ({
-                ...states,
-                supplierData: action.payload
-            })
-        case STAFFDATA:
-            return ({
-                ...states,
-                staffData: action.payload
             })
         case TOTALCONTACTS:
             return ({

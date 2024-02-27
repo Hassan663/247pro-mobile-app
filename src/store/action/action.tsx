@@ -8,16 +8,12 @@ import {
     SignUpModal,
 } from '../../core/modals/login.modal';
 import {
-    CLIENTDATA,
     CONTACTS,
     CURRENTUSERPROFILE,
     INITIALROUTE,
     LOADER,
-    PRODATA,
     SCREENLOADER,
     SEARCHEDDATA,
-    STAFFDATA,
-    SUPPLIERDATA,
     TOTALCONTACTS
 } from '../constant/constant';
 import {
@@ -236,19 +232,28 @@ export const DeleteContactAction = (id: number) => {
 }
 
 
-export const SearchContactAction = (keyword: string) => {
-    return async (dispatch: Dispatch) => {
+export const SearchContactAction = (keyword: string, type: number) => {
+    return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword);
-                searchContactResponse.data.resultData.list.forEach(function (obj: any) {
-                    obj.value = obj.fullName;
-                    obj.key = obj.id;
-                });
-                dispatch({ type: SEARCHEDDATA, payload: searchContactResponse.data.resultData.list });
+                const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type);
+                if (searchContactResponse.data.resultData.list?.length > 0) {
+                    searchContactResponse.data.resultData.list.forEach(function (obj: any) {
+                        obj.value = obj.fullName;
+                        obj.key = obj.id;
+                    });
+                }
+                const currentState = getState();
+                let contactClone = JSON.parse(JSON.stringify(currentState.root.searchedData));
+                let createDataForTab = [...contactClone, { id: type, contacts: searchContactResponse.data.resultData.list }];
+                if (type === 1) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
+                else if (type === 0) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
+                else if (type === 2) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
+                else if (type === 3) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
+                else if (type === 4) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
             }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
@@ -324,7 +329,7 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
 };
 
 export const GetTypeContactsSpecialityAction = (type: number, specialityID: number) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
@@ -337,11 +342,12 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
                         obj.key = obj.id;
                     });
                 }
-                if (type === 1) dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
-                else if (type === 2) dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
-                else if (type === 3) dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
-                else if (type === 4) dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list });
-                else dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
+                const currentState = getState();
+                let contactClone = JSON.parse(JSON.stringify(currentState.root.searchedData));
+                let createDataForTab = [...contactClone, { id: type, contacts: typeContactResponse.data.resultData.list }];
+                console.log(createDataForTab)
+                if (type === 2) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
+                else if (type === 3) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
             };
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

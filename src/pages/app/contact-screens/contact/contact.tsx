@@ -98,38 +98,37 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = async () => {
-        if (contactCategory == 0) {
-            if (totalContacts[0].totalRecords > listData.length) {
-                if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
-            }
-        } else if (contactCategory == 1) {
-            if (totalContacts[1].totalRecords > listData.length) {
-                await contactTypefilter(1, dispatch, setClientpageIndex, clientpageIndex);
-            }
-        } else if (contactCategory == 2) {
-            if (totalContacts[2].totalRecords > listData.length) {
-                await contactTypefilter(2, dispatch, setPropageIndex, propageIndex);
-            }
-        } else if (contactCategory == 3) {
-            if (totalContacts[3].totalRecords > listData.length) {
-                await contactTypefilter(3, dispatch, setSupplierpageIndex, supplierpageIndex);
-            }
-        } else if (contactCategory == 4) {
-            if (totalContacts[4].totalRecords > listData.length) {
-                await contactTypefilter(4, dispatch, setStaffpageIndex, staffpageIndex);
+        if (searchedData.length < 0) {
+            if (contactCategory == 0) {
+                if (totalContacts[0].totalRecords > listData.length) {
+                    if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
+                }
+            } else if (contactCategory == 1) {
+                if (totalContacts[1].totalRecords > listData.length) {
+                    await contactTypefilter(1, dispatch, setClientpageIndex, clientpageIndex);
+                }
+            } else if (contactCategory == 2) {
+                if (totalContacts[2].totalRecords > listData.length) {
+                    await contactTypefilter(2, dispatch, setPropageIndex, propageIndex);
+                }
+            } else if (contactCategory == 3) {
+                if (totalContacts[3].totalRecords > listData.length) {
+                    await contactTypefilter(3, dispatch, setSupplierpageIndex, supplierpageIndex);
+                }
+            } else if (contactCategory == 4) {
+                if (totalContacts[4].totalRecords > listData.length) {
+                    await contactTypefilter(4, dispatch, setStaffpageIndex, staffpageIndex);
+                }
             }
         }
-
-
-
     };
     const handleSearch = async (value: string) => {
         try {
             setSearchInput(value)
-            if (value && value.length > 1) {
-                await dispatch(SearchContactAction(value));
+            if (value && value.length > 0) {
+                    await dispatch(SearchContactAction(value,contactCategory));
             }
-            else await setlistData(contact)
+            else await setlistData(contact[contactCategory]?.contacts)
         } catch (error) {
             console.log('error--->', error)
         }
@@ -147,18 +146,24 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 else if (contactCategory === 3 && contactClone[3]?.contacts.length > 0) setlistData(contactClone[3]?.contacts);
                 else if (contactCategory === 4 && contactClone[4]?.contacts.length > 0) setlistData(contactClone[4]?.contacts);
             }
-        }else setlistData([])
+        } else setlistData([])
     };
-    // console.log(listData, contactCategory) // testing of contacts
+    console.log(listData, contactCategory) // testing of contacts
 
     useEffect(() => {
         getMoreContact(contact)
     }, [contact, contactCategory]);
 
     useEffect(() => {
+        console.log(true)
         if (searchedData.length > 0) {
             const searchContactClone = JSON.parse(JSON.stringify(searchedData));
-            setlistData(searchContactClone)
+            searchContactClone.forEach((obj: any) => {
+                if (obj.id === contactCategory) {
+                    setlistData(obj.contacts)
+                    console.log(obj.contacts, 'with')
+                }
+            })
         } else setlistData([])
 
     }, [searchedData]);
