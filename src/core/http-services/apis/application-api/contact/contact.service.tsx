@@ -121,7 +121,6 @@ const typeContact = async (accessToken: string, id: number, pageIndex: number, p
     throw error;
   }
 };
-// pageIndex=1&pageSize=50&sort=FullName&sortDirection=ASC&search=moazza&address=
 
 export const uploadImage = async (uri: string, fileName: string, accessToken: string | null) => {
   try {

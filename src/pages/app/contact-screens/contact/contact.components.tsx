@@ -43,19 +43,16 @@ import {
 } from '../../../../styles/constant.style';
 import { handleSearch } from '../../../../store/action/action';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
-import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes, }: any) => {
-    const { clientData, proData, supplierData, staffData } = useSelector((state: any) => state.root)
-
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes, contact }: any) => {
     const handlePress = async () => {
-        // if (contactCategory !== index && index !== 0) {
-        //     if (index === 1 && clientData.length === 0) await contactTypefilter(index, dispatch);
-        //     else if (index === 2 && proData.length === 0) await contactTypefilter(index, dispatch);
-        //     else if (index === 3 && supplierData.length === 0) await contactTypefilter(index, dispatch);
-        //     else if (index === 4 && staffData.length === 0) await contactTypefilter(index, dispatch);
-        // };
-        setContactCategory(index);
+        await setContactCategory(index);
+        if (contactCategory !== index && index !== 0) {
+            if (index === 1 && typeof (contact[1]) === 'undefined') await contactTypefilter(index, dispatch);
+            else if (index === 2 && typeof (contact[2]) === 'undefined') await contactTypefilter(index, dispatch);
+            else if (index === 3 && typeof (contact[3]) === 'undefined') await contactTypefilter(index, dispatch);
+            else if (index === 4 && typeof (contact[4]) === 'undefined') await contactTypefilter(index, dispatch);
+        };
     };
     return (
         <>

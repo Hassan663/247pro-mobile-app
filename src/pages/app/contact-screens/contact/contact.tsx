@@ -72,6 +72,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [specialityModal, setSpecialityModal] = useState<boolean>(false);
     const [pageIndex, setpageIndex] = useState<number>(1);
     const [clientpageIndex, setClientpageIndex] = useState<number>(2);
+    const [propageIndex, setPropageIndex] = useState<number>(2);
+    const [supplierpageIndex, setSupplierpageIndex] = useState<number>(2);
+    const [staffpageIndex, setStaffpageIndex] = useState<number>(2);
     const [searchInput, setSearchInput] = useState('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
@@ -85,7 +88,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const sheetRef = useRef<any>(null)
     const contact = useSelector((state: any) => state.root.contacts)
-    const { clientData, proData, supplierData, staffData } = useSelector((state: any) => state.root)
     const searchedData = useSelector((state: any) => state.root.searchedData)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
 
@@ -100,17 +102,22 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             if (totalContacts[0].totalRecords > listData.length) {
                 if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
             }
-            // alert('all')
         } else if (contactCategory == 1) {
             if (totalContacts[1].totalRecords > listData.length) {
                 await contactTypefilter(1, dispatch, setClientpageIndex, clientpageIndex);
             }
         } else if (contactCategory == 2) {
-            alert('pro')
+            if (totalContacts[2].totalRecords > listData.length) {
+                await contactTypefilter(2, dispatch, setPropageIndex, propageIndex);
+            }
         } else if (contactCategory == 3) {
-            alert('supplier')
+            if (totalContacts[3].totalRecords > listData.length) {
+                await contactTypefilter(3, dispatch, setSupplierpageIndex, supplierpageIndex);
+            }
         } else if (contactCategory == 4) {
-            alert('staff')
+            if (totalContacts[4].totalRecords > listData.length) {
+                await contactTypefilter(4, dispatch, setStaffpageIndex, staffpageIndex);
+            }
         }
 
 
@@ -131,29 +138,22 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const handleTextDebounce = useCallback(debounce(handleSearch, 400), [contact, searchedData])
 
     const getMoreContact = async (contact: string | any[]) => {
+        const contactClone = await JSON.parse(JSON.stringify(contact));
         if (contact.length > 0) {
-            console.log(contact, 'contact')
-            const contactClone = await JSON.parse(JSON.stringify(contact));
-            console.log(contactClone, 'contactClone', contactClone[0]?.contacts)
-            if (contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
-        } else setlistData([]);
+            if (contactClone[0]?.id === contactCategory && contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
+            else {
+                if (contactCategory === 1 && contactClone[1]?.contacts.length > 0) setlistData(contactClone[1]?.contacts);
+                else if (contactCategory === 2 && contactClone[2]?.contacts.length > 0) setlistData(contactClone[2]?.contacts);
+                else if (contactCategory === 3 && contactClone[3]?.contacts.length > 0) setlistData(contactClone[3]?.contacts);
+                else if (contactCategory === 4 && contactClone[4]?.contacts.length > 0) setlistData(contactClone[4]?.contacts);
+            }
+        }else setlistData([])
     };
+    // console.log(listData, contactCategory) // testing of contacts
 
     useEffect(() => {
         getMoreContact(contact)
-    }, [contact]);
-
-    useEffect(() => {
-        //   setlistData(contactClone[0]?.contacts)
-        // console.log(clientData,'clientData')
-        // if (contactCategory === 1) setlistData(clientData);
-        // else if (contactCategory === 2) setlistData(proData);
-        // else if (contactCategory === 3) setlistData(supplierData);
-        // else if (contactCategory === 4) setlistData(staffData);
-        // else setlistData(contact)
-    }, [
-        // clientData, proData, supplierData, staffData, contactCategory
-    ]);
+    }, [contact, contactCategory]);
 
     useEffect(() => {
         if (searchedData.length > 0) {
@@ -163,7 +163,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     }, [searchedData]);
 
-    console.log(listData, 'listData')
     const contactTypesFunc = async () => {
         const response = await specialityCount()
         if (response && response.data) setContactTypes(response.data.resultData);
@@ -196,7 +195,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
-    // console.log(listData, 'listData')
 
     return (
         <>
@@ -268,6 +266,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             selectedProType={selectedProType}
                             selectedSupplierType={selectedSupplierType}
                             contactTypes={contactTypes}
+                            contact={contact}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}
@@ -289,9 +288,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         onPress={() => { sheetRef.current.open() }}
                         size={RFPercentage(2.5)} name='filter-list' />
                 </View>
-                <View style={[listData.length ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
+                <View style={[listData?.length ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
 
-                    {listData.length ?
+                    {listData?.length ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
                             {/* {searchInput.length > 0 ?
                                 <AlphabetList

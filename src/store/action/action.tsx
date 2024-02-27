@@ -148,7 +148,6 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
                     let mergeResponse;
                     if (contactClone?.length > 0) {
-                        console.log(contactClone[0]?.contacts, 'abcd')
                         mergeResponse = [...contactClone[0]?.contacts, ...contactResponse.data.resultData.list];
                     } else {
                         mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
@@ -158,7 +157,6 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                         obj.key = obj.id;
                     });
                     let createDataForTab = [{ id: 0, contacts: mergeResponse }]
-                    // console.log(createDataForTab, 'createDataForTab', contactClone, pageIndex)
                     if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
                     if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
                 }
@@ -273,64 +271,46 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
-                if (setpageIndex && pageIndex) { await setpageIndex(pageIndex + 1) }
+                if (setpageIndex && pageIndex) { await setpageIndex(pageIndex + 1) };
                 const currentState = getState();
-                // let contactClone = JSON.parse(JSON.stringify(currentState.root.clientData));
-                let contactClone = JSON.parse(JSON.stringify(id === 1 ? currentState.root.clientData : id === 2 ? currentState.root.proData : id === 3 ? currentState.root.supplierData : currentState.root.staffData));
-                // let mergeResponse = [...contactClone, ...typeContactResponse.data.resultData.list];
-                // mergeResponse.forEach(function (obj: any) {
-                //     obj.value = obj.fullName;
-                //     obj.key = obj.id;
-                // })
-
-
-
-                // const currentState = getState();
-                // let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-                let mergeResponse;
-                if (contactClone?.length > 0) {
-                    console.log(contactClone[0]?.contacts, 'abcd')
-                    mergeResponse = [...contactClone[1]?.contacts, ...typeContactResponse.data.resultData.list];
+                let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+                let alreadyHave = contactClone.findIndex((val: any) => val.id == id)
+                if (alreadyHave == -1) {
+                    let createDataForTab = [...contactClone, { id, contacts: typeContactResponse.data.resultData.list }]
+                    await createDataForTab[id].contacts.forEach(function (obj: any) {
+                        obj.value = obj.fullName;
+                        obj.key = obj.id;
+                    });
+                    if (id === 1) {
+                        dispatch({ type: CONTACTS, payload: createDataForTab })
+                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });
+                    }
+                    else if (id === 2) {
+                        dispatch({ type: CONTACTS, payload: createDataForTab })
+                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 2 });
+                    }
+                    else if (id === 3) {
+                        dispatch({ type: CONTACTS, payload: createDataForTab })
+                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 3 });
+                    }
+                    else if (id === 4) {
+                        dispatch({ type: CONTACTS, payload: createDataForTab })
+                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 4 });
+                    }
+                    else dispatch({ type: CONTACTS, payload: createDataForTab });
                 } else {
-                    mergeResponse = [...contactClone, ...typeContactResponse.data.resultData.list];
+                    await contactClone.forEach((obj: any) => {
+                        if (obj.id === id) {
+                            let cloneDate = [...obj.contacts, ...typeContactResponse.data.resultData.list]
+                            obj.contacts = cloneDate;
+                            obj.contacts.forEach(function (obj: any) {
+                                obj.value = obj.fullName;
+                                obj.key = obj.id;
+                            });
+                        }
+                    });
+                    dispatch({ type: CONTACTS, payload: contactClone })
                 }
-                mergeResponse.forEach(function (obj: any) {
-                    obj.value = obj.fullName;
-                    obj.key = obj.id;
-                });
-                let createDataForTab = [{ id: id, contacts: mergeResponse }]
-                // console.log(createDataForTab, 'createDataForTab', contactClone, pageIndex)
-                // if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
-
-
-
-
-                console.log(typeContactResponse, createDataForTab,'typeContactResponse', mergeResponse, pageIndex)
-                if (id === 1) {
-                    // console.log(typeContactResponse, 'typeContactResponse')
-                    // await setpageIndex(pageIndex + 1)
-                    // mergeResponse.forEach(function (obj: any) {
-                    //     obj.value = obj.fullName;
-                    //     obj.key = obj.id;
-                    // }); 
-                    // if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: mergeResponse });
-                    // if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
-                    dispatch({ type: CLIENTDATA, payload: createDataForTab })
-                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });
-                }
-                else if (id === 2) {
-                    dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list })
-                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 2 });
-                }
-                else if (id === 3) {
-                    dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list })
-                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 3 });
-                }
-                else if (id === 4) {
-                    dispatch({ type: STAFFDATA, payload: typeContactResponse.data.resultData.list })
-                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 4 });
-                }
-                else dispatch({ type: CONTACTS, payload: typeContactResponse.data.resultData.list });
             }
             dispatch({ type: TOTALCONTACTS, payload: totalContactsClone });
             dispatch({ type: LOADER, payload: false });
@@ -351,11 +331,12 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type, specialityID);
-                if (typeContactResponse.data.resultData.list?.length > 0)
+                if (typeContactResponse.data.resultData.list?.length > 0) {
                     typeContactResponse.data.resultData.list.forEach(function (obj: any) {
                         obj.value = obj.fullName;
                         obj.key = obj.id;
                     });
+                }
                 if (type === 1) dispatch({ type: CLIENTDATA, payload: typeContactResponse.data.resultData.list });
                 else if (type === 2) dispatch({ type: PRODATA, payload: typeContactResponse.data.resultData.list });
                 else if (type === 3) dispatch({ type: SUPPLIERDATA, payload: typeContactResponse.data.resultData.list });
