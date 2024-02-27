@@ -245,7 +245,7 @@ export const SearchContactAction = (keyword: string, type: number) => {
                         obj.value = obj.fullName;
                         obj.key = obj.id;
                     });
-                }
+                };
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.searchedData));
                 let createDataForTab = [...contactClone, { id: type, contacts: searchContactResponse.data.resultData.list }];
@@ -345,7 +345,6 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.searchedData));
                 let createDataForTab = [...contactClone, { id: type, contacts: typeContactResponse.data.resultData.list }];
-                console.log(createDataForTab)
                 if (type === 2) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
                 else if (type === 3) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
             };

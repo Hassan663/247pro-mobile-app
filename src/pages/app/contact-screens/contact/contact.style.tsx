@@ -107,7 +107,7 @@ export const styles: any = StyleSheet.create<any>({
     letterStyle: {
         textAlign: 'right',
         color: Colors.fontColor,
-        fontSize: RFPercentage(1.8),
+        fontSize: platform == 'ios' ? RFPercentage(1.8) : RFPercentage(1.5),
         width: 20,
         height: platform == 'ios' ? 20 : 'auto'
     },

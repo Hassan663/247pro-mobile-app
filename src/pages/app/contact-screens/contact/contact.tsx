@@ -98,7 +98,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = async () => {
-        if (searchedData.length < 0) {
+        if (searchedData.length > 0) {
+        } else {
             if (contactCategory == 0) {
                 if (totalContacts[0].totalRecords > listData.length) {
                     if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
@@ -126,7 +127,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         try {
             setSearchInput(value)
             if (value && value.length > 0) {
-                    await dispatch(SearchContactAction(value,contactCategory));
+                await dispatch(SearchContactAction(value, contactCategory));
             }
             else await setlistData(contact[contactCategory]?.contacts)
         } catch (error) {
@@ -148,20 +149,17 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             }
         } else setlistData([])
     };
-    console.log(listData, contactCategory) // testing of contacts
 
     useEffect(() => {
-        getMoreContact(contact)
+        getMoreContact(contact);
     }, [contact, contactCategory]);
 
     useEffect(() => {
-        console.log(true)
         if (searchedData.length > 0) {
             const searchContactClone = JSON.parse(JSON.stringify(searchedData));
             searchContactClone.forEach((obj: any) => {
                 if (obj.id === contactCategory) {
-                    setlistData(obj.contacts)
-                    console.log(obj.contacts, 'with')
+                    setlistData(obj.contacts);
                 }
             })
         } else setlistData([])
@@ -297,27 +295,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
                     {listData?.length ?
                         <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
-                            {/* {searchInput.length > 0 ?
-                                <AlphabetList
-                                    data={searchListData}
-                                    letterListContainerStyle={styles.listContainerStyle}
-                                    showsVerticalScrollIndicator={false}
-                                    sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
-                                    getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
-                                    indexContainerStyle={{ width: 20 }}
-                                    indexLetterStyle={styles.letterStyle}
-                                    renderCustomItem={(item) => {
-                                        return (
-                                            <CompanyList
-                                                getCompany={() => { handleChangeRoute(item) }}
-                                                item={item} />
-                                        )
-                                    }}
-                                    renderCustomSectionHeader={CustomSectionHeader}
-                                // onEndReached={loadMoreData}
-                                // onEndReachedThreshold={0.1}
-                                />
-                                : */}
                             <AlphabetList
                                 data={listData}
                                 letterListContainerStyle={styles.listContainerStyle}
@@ -337,7 +314,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                 onEndReached={loadMoreData}
                                 onEndReachedThreshold={0.1}
                             />
-                            {/* } */}
                         </View>
                         :
                         <>
