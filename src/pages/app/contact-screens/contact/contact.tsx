@@ -142,7 +142,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         const contactClone = await JSON.parse(JSON.stringify(contact));
         console.log(contact, 'contact', contactCategory)
         if (contact.length > 0) {
-            let selectedTabData = contactClone.filter((val) => val.id == contactCategory)
+            let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
             console.log(selectedTabData, 'selectedTabData')
             setlistData(selectedTabData[0]?.contacts)
             // if (contactClone[0]?.id === contactCategory && contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
@@ -152,7 +152,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             //     else if (contactCategory === 3 && contactClone[3]?.contacts.length > 0) setlistData(contactClone[3]?.contacts);
             //     else if (contactCategory === 4 && contactClone[4]?.contacts.length > 0) setlistData(contactClone[4]?.contacts);
             // }
-        } 
+        }
         else setlistData([])
     };
 
