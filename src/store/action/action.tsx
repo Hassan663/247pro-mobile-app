@@ -276,16 +276,22 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
+                console.log(typeContactResponse, 'typeContactResponse')
                 if (setpageIndex && pageIndex) { await setpageIndex(pageIndex + 1) };
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
                 let alreadyHave = contactClone.findIndex((val: any) => val.id == id)
                 if (alreadyHave == -1) {
                     let createDataForTab = [...contactClone, { id, contacts: typeContactResponse.data.resultData.list }]
-                    await createDataForTab[id].contacts.forEach(function (obj: any) {
-                        obj.value = obj.fullName;
-                        obj.key = obj.id;
-                    });
+                    // console.log(createDataForTab, 'createDataForTab', id)
+                    let selectedDataFilter: any = createDataForTab.filter((val) => val.id == id)
+                    if (selectedDataFilter?.length > 0) {
+                        await selectedDataFilter[0].contacts.forEach(function (obj: any) {
+                            obj.value = obj.fullName;
+                            obj.key = obj.id;
+                        });
+                    }
+                    console.log(createDataForTab, 'createDataForTab')
                     if (id === 1) {
                         dispatch({ type: CONTACTS, payload: createDataForTab })
                         if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });
@@ -302,7 +308,10 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                         dispatch({ type: CONTACTS, payload: createDataForTab })
                         if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 4 });
                     }
-                    else dispatch({ type: CONTACTS, payload: createDataForTab });
+                    else {
+                        // console.log(createDataForTab, 'createDataForTab ')
+                        dispatch({ type: CONTACTS, payload: createDataForTab });
+                    }
                 } else {
                     await contactClone.forEach((obj: any) => {
                         if (obj.id === id) {

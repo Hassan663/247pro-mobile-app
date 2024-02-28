@@ -100,24 +100,25 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const loadMoreData = async () => {
         if (searchedData.length > 0) {
         } else {
+            let seletectTabRecords = totalContacts.filter((val: any) => val.id == contactCategory)
             if (contactCategory == 0) {
-                if (totalContacts[0].totalRecords > listData.length) {
+                if (seletectTabRecords[0].totalRecords > listData.length) {
                     if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
                 }
             } else if (contactCategory == 1) {
-                if (totalContacts[1].totalRecords > listData.length) {
+                if (seletectTabRecords[0].totalRecords > listData.length) {
                     await contactTypefilter(1, dispatch, setClientpageIndex, clientpageIndex);
                 }
             } else if (contactCategory == 2) {
-                if (totalContacts[2].totalRecords > listData.length) {
+                if (seletectTabRecords[0].totalRecords > listData.length) {
                     await contactTypefilter(2, dispatch, setPropageIndex, propageIndex);
                 }
             } else if (contactCategory == 3) {
-                if (totalContacts[3].totalRecords > listData.length) {
+                if (seletectTabRecords[0].totalRecords > listData.length) {
                     await contactTypefilter(3, dispatch, setSupplierpageIndex, supplierpageIndex);
                 }
             } else if (contactCategory == 4) {
-                if (totalContacts[4].totalRecords > listData.length) {
+                if (seletectTabRecords[0].totalRecords > listData.length) {
                     await contactTypefilter(4, dispatch, setStaffpageIndex, staffpageIndex);
                 }
             }
@@ -139,15 +140,20 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const getMoreContact = async (contact: string | any[]) => {
         const contactClone = await JSON.parse(JSON.stringify(contact));
+        console.log(contact, 'contact', contactCategory)
         if (contact.length > 0) {
-            if (contactClone[0]?.id === contactCategory && contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
-            else {
-                if (contactCategory === 1 && contactClone[1]?.contacts.length > 0) setlistData(contactClone[1]?.contacts);
-                else if (contactCategory === 2 && contactClone[2]?.contacts.length > 0) setlistData(contactClone[2]?.contacts);
-                else if (contactCategory === 3 && contactClone[3]?.contacts.length > 0) setlistData(contactClone[3]?.contacts);
-                else if (contactCategory === 4 && contactClone[4]?.contacts.length > 0) setlistData(contactClone[4]?.contacts);
-            }
-        } else setlistData([])
+            let selectedTabData = contactClone.filter((val) => val.id == contactCategory)
+            console.log(selectedTabData, 'selectedTabData')
+            setlistData(selectedTabData[0]?.contacts)
+            // if (contactClone[0]?.id === contactCategory && contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
+            // else {
+            //     if (contactCategory === 1 && contactClone[1]?.contacts.length > 0) setlistData(contactClone[1]?.contacts);
+            //     else if (contactCategory === 2 && contactClone[2]?.contacts.length > 0) setlistData(contactClone[2]?.contacts);
+            //     else if (contactCategory === 3 && contactClone[3]?.contacts.length > 0) setlistData(contactClone[3]?.contacts);
+            //     else if (contactCategory === 4 && contactClone[4]?.contacts.length > 0) setlistData(contactClone[4]?.contacts);
+            // }
+        } 
+        else setlistData([])
     };
 
     useEffect(() => {
@@ -269,7 +275,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             selectedProType={selectedProType}
                             selectedSupplierType={selectedSupplierType}
                             contactTypes={contactTypes}
-                            contact={contact}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}

@@ -45,17 +45,22 @@ import {
 import { handleSearch } from '../../../../store/action/action';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
 import { SEARCHEDDATA } from '../../../../store/constant/constant';
+import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes, contact }: any) => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
     const [allData, setAllData] = useState(0);
+    const contact = useSelector((state: any) => state.root.contacts)
+
     const handlePress = async () => {
         dispatch({ type: SEARCHEDDATA, payload: [] })
+        // console.log(contact, 'contact',
+        let selectedTabData = contact.filter((val:any) => val.id == index)
         await setContactCategory(index);
         if (contactCategory !== index && index !== 0) {
-            if (index === 1 && typeof (contact[1]) === 'undefined') await contactTypefilter(index, dispatch);
-            else if (index === 2 && typeof (contact[2]) === 'undefined') await contactTypefilter(index, dispatch);
-            else if (index === 3 && typeof (contact[3]) === 'undefined') await contactTypefilter(index, dispatch);
-            else if (index === 4 && typeof (contact[4]) === 'undefined') await contactTypefilter(index, dispatch);
+            if (index === 1 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
+            else if (index === 2 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
+            else if (index === 3 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
+            else if (index === 4 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
         };
     };
     useEffect(() => {
