@@ -47,13 +47,13 @@ import { ALPHABET_SIZE } from '../../../../utilities/constants';
 import { SEARCHEDDATA } from '../../../../store/constant/constant';
 import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, contactTypes }: any) => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType }: any) => {
     const [allData, setAllData] = useState(0);
     const contact = useSelector((state: any) => state.root.contacts)
-
+    const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
+    
     const handlePress = async () => {
         dispatch({ type: SEARCHEDDATA, payload: [] })
-        // console.log(contact, 'contact',
         let selectedTabData = contact.filter((val:any) => val.id == index)
         await setContactCategory(index);
         if (contactCategory !== index && index !== 0) {
@@ -63,11 +63,13 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             else if (index === 4 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
         };
     };
+    console.log(contactTypese,'contactTypese');
+    
     useEffect(() => {
         let allData = 0;
-        contactTypes.map((val: any) => { allData = allData + val.count })
+        contactTypese.map((val: any) => { allData = allData + val.count })
         setAllData(allData)
-    }, [contactTypes.length]);
+    }, [contactTypese.length]);
 
     return (
         <>
@@ -92,12 +94,12 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             weight='400'
                             type='Poppin-12'
                             color={Colors.fontColor}
-                            title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${contactTypes[index - 1]?.count}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypes[index - 1]?.count}) ` : selectedSupplierType?.value}
+                            title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${contactTypese[index - 1]?.count}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypese[index - 1]?.count}) ` : selectedSupplierType?.value}
                         />
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </TouchableOpacity>
                 ) :
-                    index === 0 && typeof contactTypes[index]?.count !== 'undefined' ?
+                    index === 0 && typeof contactTypese[index]?.count !== 'undefined' ?
                         <TouchableOpacity onPress={handlePress}>
                             < Title
                                 weight='400'
@@ -107,7 +109,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             />
                         </TouchableOpacity>
                         :
-                        index > 0 && typeof contactTypes[index - 1]?.count !== 'undefined' ?
+                        index > 0 && typeof contactTypese[index - 1]?.count !== 'undefined' ?
                             <TouchableOpacity
                                 activeOpacity={.7}
                                 onPress={handlePress}
@@ -116,7 +118,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                                     weight='400'
                                     type='Poppin-12'
                                     color={Colors.fontColor}
-                                    title={` (${contactTypes[index - 1]?.count})`}
+                                    title={` (${contactTypese[index - 1]?.count})`}
                                 />
                             </TouchableOpacity> : <></>
                 }

@@ -172,8 +172,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     }, [searchedData]);
 
     const contactTypesFunc = async () => {
-        const response = await specialityCount()
-        if (response && response.data) setContactTypes(response.data.resultData);
+        await specialityCount(dispatch)
     }
 
     const getSpeciality = async () => {
@@ -273,7 +272,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             setanim={setanim}
                             selectedProType={selectedProType}
                             selectedSupplierType={selectedSupplierType}
-                            contactTypes={contactTypes}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}

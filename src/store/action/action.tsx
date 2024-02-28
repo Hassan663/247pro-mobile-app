@@ -9,6 +9,7 @@ import {
 } from '../../core/modals/login.modal';
 import {
     CONTACTS,
+    CONTACTTYPESCOUNT,
     CURRENTUSERPROFILE,
     INITIALROUTE,
     LOADER,
@@ -30,7 +31,8 @@ import {
     editContact,
     getContact,
     searchContact,
-    getTypeContacts
+    getTypeContacts,
+    contactTypeCount
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
     ContactModel,
@@ -173,12 +175,13 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
 
-            let createContactResponse: any = await createContact(inputValues);
+            const createContactResponse: any = await createContact(inputValues);
             createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
             createContactResponse.data.resultData.key = createContactResponse.data.resultData.id;
             const currentState = getState();
-            let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-            let alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
+            const contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+            const contactTypeCounts = JSON.parse(JSON.stringify(currentState.root.contactTypesCount));
+            const alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
             if (alreadyHave === -1) {
                 let createDataForTab = [...contactClone, { id: inputValues.contactTypeId, contacts: createContactResponse.data.resultData }]
                 dispatch({ type: CONTACTS, payload: createDataForTab });
@@ -186,6 +189,9 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
                 await contactClone.forEach((obj: any) => obj.id === inputValues.contactTypeId && obj.contacts.push(createContactResponse.data.resultData))
                 dispatch({ type: CONTACTS, payload: contactClone });
             }
+            const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
+            filterCounts[0].count = filterCounts[0].count + 1;
+            dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
 
@@ -208,6 +214,23 @@ export const EditContactAction = (inputValues: IContactCreateModel) => {
             let removeContactIndex = contactClone.findIndex((i: any) => i.id == editContactResponse.data.resultData.id);
             if (removeContactIndex !== -1) contactClone.splice(removeContactIndex, 1, editContactResponse.data.resultData);
             dispatch({ type: CONTACTS, payload: contactClone });
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+}
+
+export const TotalCounts = (accessToken: string) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            let response: any = await contactTypeCount(accessToken);
+            dispatch({ type: CONTACTTYPESCOUNT, payload: response.data.resultData });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
@@ -273,7 +296,6 @@ export const SearchContactAction = (keyword: string, type: number) => {
     }
 }
 
-// export const ContactAction = (setpageIndex: any, pageIndex: number) => {
 export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
@@ -284,14 +306,12 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
-                console.log(typeContactResponse, 'typeContactResponse')
                 if (setpageIndex && pageIndex) { await setpageIndex(pageIndex + 1) };
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
                 let alreadyHave = contactClone.findIndex((val: any) => val.id == id)
                 if (alreadyHave == -1) {
                     let createDataForTab = [...contactClone, { id, contacts: typeContactResponse.data.resultData.list }]
-                    // console.log(createDataForTab, 'createDataForTab', id)
                     let selectedDataFilter: any = createDataForTab.filter((val) => val.id == id)
                     if (selectedDataFilter?.length > 0) {
                         await selectedDataFilter[0].contacts.forEach(function (obj: any) {
@@ -299,24 +319,11 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                             obj.key = obj.id;
                         });
                     }
-                    if (id === 1) {
+                    if (id > 1) {
                         dispatch({ type: CONTACTS, payload: createDataForTab })
-                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });
-                    }
-                    else if (id === 2) {
-                        dispatch({ type: CONTACTS, payload: createDataForTab })
-                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 2 });
-                    }
-                    else if (id === 3) {
-                        dispatch({ type: CONTACTS, payload: createDataForTab })
-                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 3 });
-                    }
-                    else if (id === 4) {
-                        dispatch({ type: CONTACTS, payload: createDataForTab })
-                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 4 });
+                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id });
                     }
                     else {
-                        // console.log(createDataForTab, 'createDataForTab ')
                         dispatch({ type: CONTACTS, payload: createDataForTab });
                     }
                 } else {
