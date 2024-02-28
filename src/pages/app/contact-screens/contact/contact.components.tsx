@@ -62,9 +62,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             else if (index === 3 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
             else if (index === 4 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
         };
-    };
-    console.log(contactTypese,'contactTypese');
-    
+    };    
     useEffect(() => {
         let allData = 0;
         contactTypese.map((val: any) => { allData = allData + val.count })

@@ -82,7 +82,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [selectedProType, setSelectedProType] = useState<any>([])
     const [selectedSupplierType, setSelectedSupplierType] = useState<any>([])
-    const [contactTypes, setContactTypes] = useState<any>([])
     const [supplierSpecialityListData, setSupplierSpecialityListData] = useState<SpecialityModal>()
     const [proSpecialityListData, setProSpecialityListData] = useState<SpecialityModal>()
 
@@ -140,18 +139,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const getMoreContact = async (contact: string | any[]) => {
         const contactClone = await JSON.parse(JSON.stringify(contact));
-        console.log(contact, 'contact', contactCategory)
         if (contact.length > 0) {
             let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
-            console.log(selectedTabData, 'selectedTabData')
             setlistData(selectedTabData[0]?.contacts)
-            // if (contactClone[0]?.id === contactCategory && contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
-            // else {
-            //     if (contactCategory === 1 && contactClone[1]?.contacts.length > 0) setlistData(contactClone[1]?.contacts);
-            //     else if (contactCategory === 2 && contactClone[2]?.contacts.length > 0) setlistData(contactClone[2]?.contacts);
-            //     else if (contactCategory === 3 && contactClone[3]?.contacts.length > 0) setlistData(contactClone[3]?.contacts);
-            //     else if (contactCategory === 4 && contactClone[4]?.contacts.length > 0) setlistData(contactClone[4]?.contacts);
-            // }
         }
         else setlistData([])
     };

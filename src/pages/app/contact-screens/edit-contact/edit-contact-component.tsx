@@ -22,10 +22,7 @@ import { changeRoute } from '../../../../core/helpers/async-storage';
 import { Title } from '../../../../core/components/screen-title.component';
 import { newContactValidation } from '../../../../core/helpers/validation/validation';
 import { RenderComponentOfEditContactPropsModal } from '../../../../core/modals/contact.modal';
-import {
-    EMAILLABELDATA,
-    SECTIONLISTDATA
-} from './data';
+import { EMAILLABELDATA } from './data';
 import {
     addIdsToArrays,
     addNewContactField,
@@ -35,10 +32,7 @@ import {
     removeEmptyFields,
     removePrevField
 } from './call-back';
-import {
-    centralStyle,
-    heightFlex1
-} from '../../../../styles/constant.style';
+import { centralStyle } from '../../../../styles/constant.style';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
 
 

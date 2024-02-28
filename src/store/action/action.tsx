@@ -174,7 +174,6 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
-
             const createContactResponse: any = await createContact(inputValues);
             createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
             createContactResponse.data.resultData.key = createContactResponse.data.resultData.id;
@@ -182,10 +181,7 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             const contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
             const contactTypeCounts = JSON.parse(JSON.stringify(currentState.root.contactTypesCount));
             const alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
-            if (alreadyHave === -1) {
-                let createDataForTab = [...contactClone, { id: inputValues.contactTypeId, contacts: createContactResponse.data.resultData }]
-                dispatch({ type: CONTACTS, payload: createDataForTab });
-            } else {
+            if (alreadyHave !== -1) {
                 await contactClone.forEach((obj: any) => obj.id === inputValues.contactTypeId && obj.contacts.push(createContactResponse.data.resultData))
                 dispatch({ type: CONTACTS, payload: contactClone });
             }
@@ -209,10 +205,21 @@ export const EditContactAction = (inputValues: IContactCreateModel) => {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let editContactResponse: any = await editContact(inputValues);
+            editContactResponse.data.resultData.value = editContactResponse.data.resultData.fullName;
+            editContactResponse.data.resultData.key = editContactResponse.data.resultData.id;
             const currentState = getState();
             let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-            let removeContactIndex = contactClone.findIndex((i: any) => i.id == editContactResponse.data.resultData.id);
-            if (removeContactIndex !== -1) contactClone.splice(removeContactIndex, 1, editContactResponse.data.resultData);
+            let findId = contactClone.findIndex((i: { id: number }) => i.id == inputValues.contactTypeId);
+            if (findId === -1) {
+                console.log(true) 
+                let contactIndexInALL = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
+                if (contactIndexInALL !== -1) contactClone[0].contacts.splice(contactIndexInALL, 1, editContactResponse.data.resultData);
+            } else {
+                let contactIndex = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
+                if (contactIndex !== -1) contactClone[0].contacts.splice(contactIndex, 1, editContactResponse.data.resultData);
+                let removeContactIndex = contactClone[findId].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
+                if (removeContactIndex !== -1) contactClone[findId].contacts.splice(removeContactIndex, 1, editContactResponse.data.resultData);
+            }
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
