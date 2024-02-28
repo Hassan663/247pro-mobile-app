@@ -210,19 +210,17 @@ export const EditContactAction = (inputValues: IContactCreateModel) => {
     }
 }
 
-export const DeleteContactAction = (id: number) => {
+export const DeleteContactAction = (id: number, tabId: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
-            let deleteContactResponse: any = await deleteContact(id);
+            await deleteContact(id);
             const currentState = getState();
-            let contactClone = currentState.root.contacts
-            console.log(contactClone, 'contactClone1', currentState.root.contacts)
-            let removeContactIndex = contactClone.findIndex((i: any) => i.id === id)
-            contactClone.splice(removeContactIndex, 1)
-            // dispatch({ type: CONTACTS, payload: [] });
-            console.log(contactClone, 'contactClone2')
+            let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+            let selectedTabContacts = contactClone.filter((val: any) => val.id == tabId)
+            const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
+            await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

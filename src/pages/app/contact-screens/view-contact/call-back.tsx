@@ -18,9 +18,9 @@ export const fetchingDetails = async (id: number, dispatch: any) => {
 }
 
 
-export const deleteContact = async (id: number, navigation?: any, Loader?: boolean, dispatch?: any) => {
-    if (id) {
-        await dispatch(DeleteContactAction(id))
+export const deleteContact = async (id: number, navigation?: any, Loader?: boolean, dispatch?: any, tabId?: any) => {
+    if (id && tabId) {
+        await dispatch(DeleteContactAction(id, tabId))
         if (!Loader) changeRoute(navigation, 'pop');
     }
 }

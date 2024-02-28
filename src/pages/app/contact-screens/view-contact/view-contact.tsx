@@ -36,7 +36,7 @@ import { SCREENLOADER } from '../../../../store/constant/constant';
 import Button from '../../../../core/components/button.component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-
+    console.log(route, 'route')
     const [companyLinked, setcompanyLinked] = useState(false)
     const [contactDetails, setContactDetails] = useState<any>([]);
     const dispatch: Dispatch<any> = useDispatch();
@@ -44,7 +44,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
     const contact = useSelector((state: any) => state.root.contacts);
 
     const contactDetailing = async () => {
-        const response = await fetchingDetails(route.params.id, dispatch)
+        const response = await fetchingDetails(route.params.item.id, dispatch)
         setContactDetails(response?.data?.resultData);
         dispatch({ type: SCREENLOADER, payload: false })
     }
@@ -184,7 +184,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </View>
                         </View>
                         <Button
-                            callBack={() => deleteContact(contactDetails.id, navigation, Loader, dispatch)}
+                            callBack={() => deleteContact(contactDetails.id, navigation, Loader, dispatch, route?.params?.contactCategory)}
                             customStyle={[
                                 centralStyle.my2,
                                 centralStyle.XAndYCenter
