@@ -172,15 +172,23 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
-            let createContactResponse: any = await createContact(inputValues)
+
+            let createContactResponse: any = await createContact(inputValues);
+            createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
+            createContactResponse.data.resultData.key = createContactResponse.data.resultData.id;
             const currentState = getState();
-            let creatInputValClone = JSON.parse(JSON.stringify(inputValues));
-            creatInputValClone.fullName = inputValues?.firstName + " " + inputValues?.lastName
             let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-            contactClone.push(createContactResponse.data.resultData)
-            dispatch({ type: CONTACTS, payload: contactClone });
+            let alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
+            if (alreadyHave === -1) {
+                let createDataForTab = [...contactClone, { id: inputValues.contactTypeId, contacts: createContactResponse.data.resultData }]
+                dispatch({ type: CONTACTS, payload: createDataForTab });
+            } else {
+                await contactClone.forEach((obj: any) => obj.id === inputValues.contactTypeId && obj.contacts.push(createContactResponse.data.resultData))
+                dispatch({ type: CONTACTS, payload: contactClone });
+            }
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
+
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
@@ -291,7 +299,6 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                             obj.key = obj.id;
                         });
                     }
-                    console.log(createDataForTab, 'createDataForTab')
                     if (id === 1) {
                         dispatch({ type: CONTACTS, payload: createDataForTab })
                         if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id: 1 });

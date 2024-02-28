@@ -168,8 +168,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     setlistData(obj.contacts);
                 }
             })
-        } else setlistData([])
-
+        }
     }, [searchedData]);
 
     const contactTypesFunc = async () => {
