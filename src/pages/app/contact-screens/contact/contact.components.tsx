@@ -53,7 +53,6 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
 
     const handlePress = async () => {
         dispatch({ type: SEARCHEDDATA, payload: [] })
-        // console.log(contact, 'contact',
         let selectedTabData = contact.filter((val:any) => val.id == index)
         await setContactCategory(index);
         if (contactCategory !== index && index !== 0) {
