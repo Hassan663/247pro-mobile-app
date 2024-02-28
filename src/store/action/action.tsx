@@ -9,6 +9,7 @@ import {
 } from '../../core/modals/login.modal';
 import {
     CONTACTS,
+    CONTACTTYPESCOUNT,
     CURRENTUSERPROFILE,
     INITIALROUTE,
     LOADER,
@@ -30,7 +31,8 @@ import {
     editContact,
     getContact,
     searchContact,
-    getTypeContacts
+    getTypeContacts,
+    contactTypeCount
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
     ContactModel,
@@ -172,15 +174,24 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
-            let createContactResponse: any = await createContact(inputValues)
+
+            const createContactResponse: any = await createContact(inputValues);
+            createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
+            createContactResponse.data.resultData.key = createContactResponse.data.resultData.id;
             const currentState = getState();
-            let creatInputValClone = JSON.parse(JSON.stringify(inputValues));
-            creatInputValClone.fullName = inputValues?.firstName + " " + inputValues?.lastName
-            let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-            contactClone.push(createContactResponse.data.resultData)
-            dispatch({ type: CONTACTS, payload: contactClone });
+            const contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+            const contactTypeCounts = JSON.parse(JSON.stringify(currentState.root.contactTypesCount));
+            const alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
+            if (alreadyHave !== -1) {
+                await contactClone.forEach((obj: any) => obj.id === inputValues.contactTypeId && obj.contacts.push(createContactResponse.data.resultData))
+                dispatch({ type: CONTACTS, payload: contactClone });
+            }
+            const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
+            filterCounts[0].count = filterCounts[0].count + 1;
+            dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
+
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
@@ -210,6 +221,23 @@ export const EditContactAction = (inputValues: IContactCreateModel) => {
     }
 }
 
+export const TotalCounts = (accessToken: string) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            let response: any = await contactTypeCount(accessToken);
+            dispatch({ type: CONTACTTYPESCOUNT, payload: response.data.resultData });
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+}
+
 export const DeleteContactAction = (id: number, tabId: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
@@ -221,6 +249,9 @@ export const DeleteContactAction = (id: number, tabId: number) => {
             let selectedTabContacts = contactClone.filter((val: any) => val.id == tabId)
             const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
             await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
+            const contactTypeCounts = currentState.root.contactTypesCount
+            const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === tabId)
+            filterCounts[0].count = filterCounts[0].count - 1;
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
@@ -266,7 +297,6 @@ export const SearchContactAction = (keyword: string, type: number) => {
     }
 }
 
-// export const ContactAction = (setpageIndex: any, pageIndex: number) => {
 export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
@@ -277,14 +307,12 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
-                console.log(typeContactResponse, 'typeContactResponse')
                 if (setpageIndex && pageIndex) { await setpageIndex(pageIndex + 1) };
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
                 let alreadyHave = contactClone.findIndex((val: any) => val.id == id)
                 if (alreadyHave == -1) {
                     let createDataForTab = [...contactClone, { id, contacts: typeContactResponse.data.resultData.list }]
-                    // console.log(createDataForTab, 'createDataForTab', id)
                     let selectedDataFilter: any = createDataForTab.filter((val) => val.id == id)
                     if (selectedDataFilter?.length > 0) {
                         await selectedDataFilter[0].contacts.forEach(function (obj: any) {
@@ -292,8 +320,7 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                             obj.key = obj.id;
                         });
                     }
-                    console.log(createDataForTab, 'createDataForTab')
-                    if (id > 0) {
+                     if (id === 1) {
                         dispatch({ type: CONTACTS, payload: createDataForTab })
                         if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id });
                     } else dispatch({ type: CONTACTS, payload: createDataForTab });

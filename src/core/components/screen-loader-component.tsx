@@ -30,7 +30,7 @@ const ScreenLoader: React.FC<Props> = ({ color, size }: any) => {
 
     return (
         isLoading && (<View style={[centralStyle.XAndYCenter, styles.screenLoaderContainer]}>
-            <ActivityIndicator size={ platform ? 'large': RFPercentage(15)} color={color ? color : Colors.primary} />
+            <ActivityIndicator size={platform === 'ios' ? 'large' : RFPercentage(15)} color={color ? color : Colors.primary} />
         </View >)
     );
 };

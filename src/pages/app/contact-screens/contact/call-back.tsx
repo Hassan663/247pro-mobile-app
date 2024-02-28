@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     GetTypeContactsSpecialityAction,
+    TotalCounts,
     TypeContactAction
 } from "../../../../store/action/action";
 import {
@@ -18,12 +19,10 @@ export const contactTypefilter = async (id: number, dispatch: any, setpageIndex?
     }
 }
 
-export const specialityCount = async () => {
+export const specialityCount = async (dispatch: any) => {
     try {
         let accessToken = await AsyncStorage.getItem('accessToken');
-        if (accessToken !== null) {
-            return await contactTypeCount(JSON.parse(accessToken));
-        }
+        if (accessToken !== null) await dispatch(TotalCounts(JSON.parse(accessToken)))
     } catch (error) {
         console.log("error--->", error);
     }

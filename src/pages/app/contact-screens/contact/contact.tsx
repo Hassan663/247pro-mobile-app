@@ -144,7 +144,14 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         if (contact.length > 0) {
             let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
             setlistData(selectedTabData[0]?.contacts)
-        }
+            // if (contactClone[0]?.id === contactCategory && contactClone[0]?.contacts) setlistData(contactClone[0]?.contacts)
+            // else {
+            //     if (contactCategory === 1 && contactClone[1]?.contacts.length > 0) setlistData(contactClone[1]?.contacts);
+            //     else if (contactCategory === 2 && contactClone[2]?.contacts.length > 0) setlistData(contactClone[2]?.contacts);
+            //     else if (contactCategory === 3 && contactClone[3]?.contacts.length > 0) setlistData(contactClone[3]?.contacts);
+            //     else if (contactCategory === 4 && contactClone[4]?.contacts.length > 0) setlistData(contactClone[4]?.contacts);
+            // }
+        } 
         else setlistData([])
     };
 
@@ -161,13 +168,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 }
             })
         }
-        // else setlistData([])
-
     }, [searchedData]);
 
     const contactTypesFunc = async () => {
-        const response = await specialityCount()
-        if (response && response.data) setContactTypes(response.data.resultData);
+        await specialityCount(dispatch)
     }
 
     const getSpeciality = async () => {
@@ -267,7 +271,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             setanim={setanim}
                             selectedProType={selectedProType}
                             selectedSupplierType={selectedSupplierType}
-                            contactTypes={contactTypes}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}

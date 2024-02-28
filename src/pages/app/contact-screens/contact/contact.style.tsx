@@ -33,7 +33,7 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: RFPercentage(.5),
         borderColor: contactCategory === index ? Colors.primary : Colors.inputBgColor,
         borderWidth: RFPercentage(.08),
-        paddingHorizontal: platform ? RFPercentage(1) : RFPercentage(.8),
+        paddingHorizontal: platform === 'ios' ? RFPercentage(1) : RFPercentage(.8),
         ...centralStyle.mx2,
         ...centralStyle.mr05,
         ...centralStyle.row,
