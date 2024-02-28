@@ -213,7 +213,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     <View style={[centralStyle.flex1,]}>
                         <AppHeader
                             iconL1={LeftIcon(navigation)}
-                            iconR1={RightIcon(navigation, dispatch, contactDetails, isToastVisible, setIsToastVisible, toast, Loader)}
+                            iconR1={RightIcon(navigation, dispatch, contactDetails, isToastVisible, setIsToastVisible, toast, Loader, route.params.contactTypeId)}
                             type='Poppin-18'
                             weight='600'
                             title={t(`Contacts`)} />

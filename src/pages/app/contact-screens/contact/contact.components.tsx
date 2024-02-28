@@ -67,7 +67,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
         let allData = 0;
         contactTypese.map((val: any) => { allData = allData + val.count })
         setAllData(allData)
-    }, [contactTypese.length]);
+    }, [contactTypese]);
 
     return (
         <>

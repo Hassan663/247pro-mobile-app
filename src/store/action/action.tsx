@@ -35,7 +35,6 @@ import {
     contactTypeCount
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
-    ContactModel,
     IContactCreateModel,
     SpecialityModal
 } from '../../core/modals/contact.modal';
@@ -181,9 +180,10 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             const contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
             const contactTypeCounts = JSON.parse(JSON.stringify(currentState.root.contactTypesCount));
             const alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
-            if (alreadyHave !== -1) {
-                await contactClone.forEach((obj: any) => obj.id === inputValues.contactTypeId && obj.contacts.push(createContactResponse.data.resultData))
-                dispatch({ type: CONTACTS, payload: contactClone });
+            if (alreadyHave === -1) contactClone[0].contacts.push(createContactResponse.data.resultData)
+            else {
+                contactClone[0].contacts.push(createContactResponse.data.resultData)
+                contactClone[alreadyHave].contacts.push(createContactResponse.data.resultData)
             }
             const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
             filterCounts[0].count = filterCounts[0].count + 1;
@@ -198,8 +198,15 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
         }
     }
 }
+const handleEditContactCount = (isAdd: boolean, selectedTabId?: number, getState?: any) => {
+    const currentState = getState();
+    const contactTypeCounts = currentState.root.contactTypesCount;
+    const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === selectedTabId)
+    if (isAdd) { filterCounts[0].count = filterCounts[0].count + 1; }
+    else { filterCounts[0].count = filterCounts[0].count - 1; }
+}
 
-export const EditContactAction = (inputValues: IContactCreateModel) => {
+export const EditContactAction = (inputValues: IContactCreateModel, id?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
@@ -210,15 +217,25 @@ export const EditContactAction = (inputValues: IContactCreateModel) => {
             const currentState = getState();
             let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
             let findId = contactClone.findIndex((i: { id: number }) => i.id == inputValues.contactTypeId);
+            let previousList = contactClone.findIndex((i: { id: number }) => i.id == id);
+            let contactIndexInALL = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
+            if (contactIndexInALL !== -1) contactClone[0].contacts.splice(contactIndexInALL, 1, editContactResponse.data.resultData);
+            let editContactIndex = contactClone[previousList].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
             if (findId === -1) {
-                console.log(true) 
-                let contactIndexInALL = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
-                if (contactIndexInALL !== -1) contactClone[0].contacts.splice(contactIndexInALL, 1, editContactResponse.data.resultData);
+                handleEditContactCount(false, id, getState)
+                handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
+                contactClone[previousList].contacts.splice(editContactIndex, 1);
             } else {
-                let contactIndex = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
-                if (contactIndex !== -1) contactClone[0].contacts.splice(contactIndex, 1, editContactResponse.data.resultData);
-                let removeContactIndex = contactClone[findId].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
-                if (removeContactIndex !== -1) contactClone[findId].contacts.splice(removeContactIndex, 1, editContactResponse.data.resultData);
+                if (id !== inputValues.contactTypeId) {
+                    if (editContactIndex !== -1) {
+                        handleEditContactCount(false, id, getState)
+                        handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
+                        contactClone[previousList].contacts.splice(editContactIndex, 1);
+                        contactClone[findId].contacts.splice(editContactIndex, 0, editContactResponse.data.resultData);
+                    }
+                } else {
+                    contactClone[findId].contacts.splice(editContactIndex, 1, editContactResponse.data.resultData);
+                }
             }
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });

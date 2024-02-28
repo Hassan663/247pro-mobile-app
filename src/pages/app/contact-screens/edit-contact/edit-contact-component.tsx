@@ -82,7 +82,7 @@ export const LeftIcon = (navigation?: any) => (
             title={t('Cancel')} />
     </TouchableOpacity>
 )
-export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any, isToastVisible?: boolean, setIsToastVisible?: any, toast?: any, Loader?: boolean) => (
+export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any, isToastVisible?: boolean, setIsToastVisible?: any, toast?: any, Loader?: boolean, id?: number) => (
     <TouchableOpacity onPress={async () => {
         try {
             console.log(contactDetails)
@@ -91,8 +91,8 @@ export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any
                 if (isValid.success) {
                     const contactDetail = await removeEmptyFields({ ...contactDetails });
                     const addContactID: any = await addIdsToArrays(contactDetail, contactDetail.id);
-                    await dispatch(EditContactAction(addContactID))
-                    if (!Loader) changeRoute(navigation, 'pop');
+                    await dispatch(EditContactAction(addContactID, id))
+                    if (!Loader) changeRoute(navigation, 'Contact');
                 } else {
                     setIsToastVisible(true)
                     await toast.show(isValid.message, { type: "custom_toast" });
