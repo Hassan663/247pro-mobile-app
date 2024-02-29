@@ -9,6 +9,7 @@ import {
     SEARCHEDDATA,
     TOTALCONTACTS,
     CONTACTTYPESCOUNT,
+    SPECIALITIES,
 } from '../constant/constant'
 
 export type Action = {
@@ -32,9 +33,10 @@ const INITIAL_STATE = {
     //     pro: [{},{}],
     //     supplier: [{},{}],
     //     },
-        // totalContacts:[{id:0,contact:[]},{id:1,contact:[]},{id:2,contact:[]},{id:3,contact:[]},],
+    // totalContacts:[{id:0,contact:[]},{id:1,contact:[]},{id:2,contact:[]},{id:3,contact:[]},],
     totalContacts: [],
     contactTypesCount: [],
+    specialities: [],
     // contactResponse.data.resultData.list
 }
 
@@ -94,6 +96,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 contactTypesCount: action.payload
+            })
+        case SPECIALITIES:
+            return ({
+                ...states,
+                specialities: action.payload
             })
         // case ISERROR:
         //     return ({

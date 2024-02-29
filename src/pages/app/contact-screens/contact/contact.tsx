@@ -63,6 +63,7 @@ import {
     SepecialityModal,
 } from './contact.components';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { SPECIALITIES } from '../../../../store/constant/constant';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -174,6 +175,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             const idustryId5 = specialityDataClone.filter((obj: SpecialityModal) => obj.industryId === 5);
             setSupplierSpecialityListData(idustryId27);
             setProSpecialityListData(idustryId5);
+            dispatch({ type: SPECIALITIES, payload: specialityDataClone })
         }
     }
 

@@ -68,8 +68,6 @@ import { ContactModal } from '../new-contact/new-contact-component';
 
 const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
-    const [imageUriLocal, setimageUriLocal] = useState('');
-    const [selectedIndustry, setselectedIndustry] = useState<string>('');
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [showMore, setShowMore] = useState<boolean>(false);
@@ -95,6 +93,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
     const sheetRef = useRef<any>(null)
     const Loader = useSelector((state: any) => state.root.loader);
+    const specialities = useSelector((state: any) => state.root.specialities);
 
     const handleInputChange: HandleInputChangeType = useCallback((inputName, text, nestedProperty, index) => {
         setContactDetails((prevValues: any) => {
@@ -174,7 +173,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
             return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
         };
-        setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST));
+        setSpecialityData(replaceValueWithKey(specialities));
     }, [route.params]);
 
     const addSpeciality = (specialities: any) => {
@@ -205,7 +204,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         }];
         handleInputChange('contactPhones', contactPhoneData)
     }
-
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -219,266 +217,263 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             title={t(`Contacts`)} />
                         <View
                             style={centralStyle.flex1}>
-                            <ScrollView
-                                showsVerticalScrollIndicator={false}>
-                                {contactDetails?.profilePicture?.length > 0 ?
-                                    <View
-                                        style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                                        <Img
-                                            customStyle={styles.profileImage}
-                                            source={{ uri: contactDetails.profilePicture }}
-                                        />
-                                        <TouchableOpacity
-                                            activeOpacity={.8}
-                                            onPress={() => setOpenPicker(true)}
-                                            style={[centralStyle.circle(RFPercentage(4)), styles.editIconAdd]}>
-                                            <Feather
-                                                name={'edit-2'}
-                                                color={Colors.primary}
-                                                size={RFPercentage(2)} />
-                                        </TouchableOpacity>
-                                    </View> :
+                            {contactDetails?.profilePicture?.length > 0 ?
+                                <View
+                                    style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
+                                    <Img
+                                        customStyle={styles.profileImage}
+                                        source={{ uri: contactDetails.profilePicture }}
+                                    />
                                     <TouchableOpacity
-                                        onPress={() => setOpenPicker(true)}
                                         activeOpacity={.8}
-                                        style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
-                                        <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
+                                        onPress={() => setOpenPicker(true)}
+                                        style={[centralStyle.circle(RFPercentage(4)), styles.editIconAdd]}>
+                                        <Feather
+                                            name={'edit-2'}
+                                            color={Colors.primary}
+                                            size={RFPercentage(2)} />
                                     </TouchableOpacity>
-                                }
-                                {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)} setContactDetails={setContactDetails} inputLabel={'profilePicture'} />}
+                                </View> :
+                                <TouchableOpacity
+                                    onPress={() => setOpenPicker(true)}
+                                    activeOpacity={.8}
+                                    style={[centralStyle.circle(RFPercentage(16)), styles.imgContainer]}>
+                                    <SimpleLineIcons name={'picture'} size={RFPercentage(4)} />
+                                </TouchableOpacity>
+                            }
+                            {openPicker && <PicImgModal disableModal={() => setOpenPicker(false)} setContactDetails={setContactDetails} inputLabel={'profilePicture'} />}
 
-                                <View style={styles.mx2}>
-                                    <View style={centralStyle.my1}>
+                            <View style={styles.mx2}>
+                                <View style={centralStyle.my1}>
+                                    <OutlinedDropDown
+                                        dropDownStyle={styles.dropdownstyle}
+                                        title={t('Contacttype')}
+                                        color={Colors.lightGray}
+                                        iconsSize={RFPercentage(2)}
+                                        isPrimaryBorderOnFocus={true}
+                                        onselect={(value: string, index: number) => {
+                                            handleInputChange('contactTypeId', (index + 1))
+                                            handleInputChange('contactTypeColor', CONTACTTYPECOLORDATA[index])
+                                        }}
+                                        DATA={CONTACTTYPEDATA}
+                                        defaultValueByIndex={(contactDetails.contactTypeId - 1)}
+                                        drop_down_button_style={styles.dropDownStyle(contactDetails.contactTypeId)}
+                                    />
+                                </View>
+                                {contactDetails.contactTypeId == 2 || contactDetails.contactTypeId == 3 ?
+                                    <OutlinedDropDownSpeciality
+                                        addSpeciality={addSpeciality}
+                                        title={t('Speciality')}
+                                        DATA={specialityData}
+                                    /> : <></>}
+
+                                {<OutlinedTextInput
+                                    val={contactDetails.firstName}
+                                    onChange={(text) => handleInputChange('firstName', text)}
+                                    title={t('firstname')}
+                                    placeHolder={t('firstname')} />}
+                                <OutlinedTextInput
+                                    val={contactDetails.lastName}
+                                    onChange={(text) => handleInputChange('lastName', text)}
+                                    title={t('lastname')}
+                                    placeHolder={t('lastname')} />
+                                <OutlinedTextInput
+                                    val={contactDetails.companyName}
+                                    onChange={(text) => handleInputChange('companyName', text)}
+                                    title={t('Companyname')}
+                                    placeHolder={t('Companyname')} />
+
+                                <OutlinedTextInput
+                                    val={contactDetails.jobTitle}
+                                    onChange={(text) => handleInputChange('jobTitle', text)}
+                                    title={t('jobTitle')} placeHolder={t('jobTitle')} />
+
+                                <OutlinedTextInput
+                                    val={contactDetails.length > 0 && contactDetails.contactOthers[0].value}
+                                    onChange={(text) => {
+                                        handleInputChange('contactOthers', text, 'value', 0);
+                                    }}
+                                    title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
+                                <View style={{ flex: 9, }}>
+                                    {contactDetails?.contactEmails?.map((item: any, index: number) => renderComponentOfEditContactEmails({ item, index, contactDetails, handleInputChange, setContactDetails }))}
+                                </View>
+
+                                <View style={styles.inputWrapper2}>
+                                    <TouchableOpacity
+                                        onPress={() => setIsCountryPickerVisible(true)}
+                                        style={styles.flagContainer}
+                                    >
+                                        <View style={styles.flagWrapper}>
+                                            <CountryPicker
+                                                countryCode={countryCode}
+                                                withCallingCode
+                                                withFlagButton={true}
+                                                onClose={() => setIsCountryPickerVisible(false)}
+                                                onSelect={HandleCountrySelect}
+                                                visible={isCountryPickerVisible}
+                                            />
+                                        </View>
+                                        <AntDesign
+                                            name={`down`}
+                                            style={styles.downIcon}
+                                            size={RFPercentage(2)}
+                                        />
+                                    </TouchableOpacity>
+                                    <View style={styles.phoneNumberInput}>
+                                        <OutlinedTextInput
+                                            val={contactDetails.length > 0 && contactDetails.contactPhones[0].phone}
+                                            onChange={(text) => handleInputChange('contactPhones', text, 'phone', 0)}
+                                            title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
+                                    </View>
+                                </View>
+
+                                {!showMore && <TouchableOpacity onPress={() => { setShowMore(true) }} activeOpacity={.9}>
+                                    <Title
+                                        color={Colors.primary}
+                                        type='Poppin-14'
+                                        weight='600'
+                                        title={t('SHOWMORE')} />
+
+                                </TouchableOpacity>}
+
+                                {showMore &&
+                                    <>
                                         <OutlinedDropDown
                                             dropDownStyle={styles.dropdownstyle}
-                                            title={t('Contacttype')}
+                                            title={t('country')}
                                             color={Colors.lightGray}
-                                            iconsSize={RFPercentage(2)}
                                             isPrimaryBorderOnFocus={true}
-                                            onselect={(value: string, index: number) => {
-                                                handleInputChange('contactTypeId', (index + 1))
-                                                handleInputChange('contactTypeColor', CONTACTTYPECOLORDATA[index])
+                                            iconsSize={RFPercentage(2)}
+                                            onselect={(value: string) => {
+                                                const getCuntryID: CountryCodeModal[] = COUNTRY_LIST.filter(countries => value == countries.name);
+                                                handleInputChange('contactAddresses', value, 'countryText', 0);
+                                                handleInputChange('contactAddresses', getCuntryID[0].id, 'countryId', 0);
                                             }}
-                                            DATA={CONTACTTYPEDATA}
-                                            defaultValueByIndex={(contactDetails.contactTypeId - 1)}
-                                            drop_down_button_style={styles.dropDownStyle(contactDetails.contactTypeId)}
+                                            DATA={COUNTRY_LIST.map(country => country.name)}
+                                            drop_down_button_style={styles.dropDownStyle()}
+                                            defaultValueByIndex={contactDetails.contactAddresses.length > 0 && getCountrySet(contactDetails.contactAddresses.countryId)}
+                                            search={true}
                                         />
-                                    </View>
-                                    {contactDetails.contactTypeId == 2 || contactDetails.contactTypeId == 3 ?
-                                        <OutlinedDropDownSpeciality
-                                            addSpeciality={addSpeciality}
-                                            title={t('Speciality')}
-                                            DATA={specialityData}
-                                        /> : <></>}
 
-                                    {<OutlinedTextInput
-                                        val={contactDetails.firstName}
-                                        onChange={(text) => handleInputChange('firstName', text)}
-                                        title={t('firstname')}
-                                        placeHolder={t('firstname')} />}
-                                    <OutlinedTextInput
-                                        val={contactDetails.lastName}
-                                        onChange={(text) => handleInputChange('lastName', text)}
-                                        title={t('lastname')}
-                                        placeHolder={t('lastname')} />
-                                    <OutlinedTextInput
-                                        val={contactDetails.companyName}
-                                        onChange={(text) => handleInputChange('companyName', text)}
-                                        title={t('Companyname')}
-                                        placeHolder={t('Companyname')} />
+                                        <OutlinedTextInput
+                                            val={contactDetails.contactAddresses[0].streetAddress}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddress', 0)}
+                                            title={t('StreetAddress')} placeHolder={t('StreetAddress')} />
 
-                                    <OutlinedTextInput
-                                        val={contactDetails.jobTitle}
-                                        onChange={(text) => handleInputChange('jobTitle', text)}
-                                        title={t('jobTitle')} placeHolder={t('jobTitle')} />
+                                        <OutlinedTextInput
+                                            val={contactDetails.contactAddresses[0].streetAddressLine2}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddressLine2', 0)}
+                                            title={t('StreetAddressLine2')} placeHolder={t('StreetAddressLine2')} />
+                                        <OutlinedTextInput
+                                            val={contactDetails.contactAddresses[0].city}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'city', 0)}
+                                            title={t('City')} placeHolder={t('City')} />
 
-                                    <OutlinedTextInput
-                                        val={contactDetails.length > 0 && contactDetails.contactOthers[0].value}
-                                        onChange={(text) => {
-                                            handleInputChange('contactOthers', text, 'value', 0);
-                                        }}
-                                        title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
-                                    <View style={{ flex: 9, }}>
-                                        {contactDetails?.contactEmails?.map((item: any, index: number) => renderComponentOfEditContactEmails({ item, index, contactDetails, handleInputChange, setContactDetails }))}
-                                    </View>
-
-                                    <View style={styles.inputWrapper2}>
-                                        <TouchableOpacity
-                                            onPress={() => setIsCountryPickerVisible(true)}
-                                            style={styles.flagContainer}
-                                        >
-                                            <View style={styles.flagWrapper}>
-                                                <CountryPicker
-                                                    countryCode={countryCode}
-                                                    withCallingCode
-                                                    withFlagButton={true}
-                                                    onClose={() => setIsCountryPickerVisible(false)}
-                                                    onSelect={HandleCountrySelect}
-                                                    visible={isCountryPickerVisible}
-                                                />
+                                        <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
+                                            <View style={styles.leftSide}>
+                                                <OutlinedTextInput
+                                                    val={contactDetails.contactAddresses[0].stateText}
+                                                    onChange={(text) => handleInputChange('contactAddresses', text, 'stateText', 0)}
+                                                    title={t('State')} placeHolder={t('State')} />
                                             </View>
-                                            <AntDesign
-                                                name={`down`}
-                                                style={styles.downIcon}
-                                                size={RFPercentage(2)}
-                                            />
-                                        </TouchableOpacity>
-                                        <View style={styles.phoneNumberInput}>
-                                            <OutlinedTextInput
-                                                val={contactDetails.length > 0 && contactDetails.contactPhones[0].phone}
-                                                onChange={(text) => handleInputChange('contactPhones', text, 'phone', 0)}
-                                                title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
+                                            <View style={styles.rightSide}>
+                                                <OutlinedTextInput
+                                                    val={contactDetails.contactAddresses[0].zipCode}
+                                                    onChange={(text) => handleInputChange('contactAddresses', text, 'zipCode', 0)}
+                                                    title={t('ZipCode')} placeHolder={t('ZipCode')} />
+                                            </View>
                                         </View>
-                                    </View>
 
-                                    {!showMore && <TouchableOpacity onPress={() => { setShowMore(true) }} activeOpacity={.9}>
+                                        <OutlinedTextInput
+                                            val={contactDetails.contactAddresses[0].poBox}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'poBox', 0)}
+                                            title={t('PObox')} placeHolder={t('PObox')} />
+                                        <OutlinedTextInput
+                                            val={contactDetails.contactAddresses[0].label}
+                                            onChange={(text) => handleInputChange('contactAddresses', text, 'label', 0)}
+                                            title={t('Label')} placeHolder={t('Label')} />
+
+                                        <View style={[centralStyle.my1]}>
+                                            <Title
+                                                color={Colors.black}
+                                                type='Poppin-18'
+                                                weight='600'
+                                                title={t('Linktocompany')} />
+                                        </View>
+                                        <TouchableOpacity
+                                            onPress={() => openSheet(setanim, setcontactModal)}
+                                            style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
+                                            <View style={[centralStyle.circle(RFPercentage(4)), styles.selectCompany,]}>
+                                                {selectedCompany?.length == 0 ?
+                                                    <AntDesign name={`plus`} color={Colors.white} size={RFPercentage(2.5)} /> :
+                                                    <Image style={styles.companyImg} source={require('../../../../assets/app-images/userImg.png')}></Image>
+                                                }
+                                            </View>
+                                            <Title
+                                                color={Colors.fontColor}
+                                                type='Poppin-16'
+                                                weight='400'
+                                                title={selectedCompany?.length == 0 ? t('SelectAcompany') : selectedCompany?.value} />
+
+                                        </TouchableOpacity>
+                                        <View
+                                            style={[centralStyle.my1]}>
+                                            <Title
+                                                color={Colors.black}
+                                                type='Poppin-18'
+                                                weight='600'
+                                                title={t('Attachment')} />
+                                        </View>
+
+                                        {Object.keys(attechments).length > 0 ?
+                                            <SelectedAttachmentUI
+                                                attechments={attechments}
+                                                setAttechments={setAttechments}
+                                            /> :
+                                            <TouchableOpacity
+                                                onPress={() => handleAttachments(setAttechments)}
+                                                style={[styles.AttechmentIcon, centralStyle.XAndYCenter, centralStyle.mb2]}>
+                                                <AntDesign name={`plus`} color={Colors.fontColor} size={RFPercentage(2.5)} />
+                                            </TouchableOpacity>
+                                        }
+                                    </>
+                                }
+
+                                {showMore &&
+                                    <TouchableOpacity
+                                        onPress={() => { setShowMore(false) }}
+                                        activeOpacity={.9}>
                                         <Title
                                             color={Colors.primary}
                                             type='Poppin-14'
                                             weight='600'
-                                            title={t('SHOWMORE')} />
+                                            title={t('SHOWLESS')} />
+                                    </TouchableOpacity>
+                                }
 
-                                    </TouchableOpacity>}
+                            </View>
 
-                                    {showMore &&
-                                        <>
-                                            <OutlinedDropDown
-                                                dropDownStyle={styles.dropdownstyle}
-                                                title={t('country')}
-                                                color={Colors.lightGray}
-                                                isPrimaryBorderOnFocus={true}
-                                                iconsSize={RFPercentage(2)}
-                                                onselect={(value: string) => {
-                                                    const getCuntryID: CountryCodeModal[] = COUNTRY_LIST.filter(countries => value == countries.name);
-                                                    handleInputChange('contactAddresses', value, 'countryText', 0);
-                                                    handleInputChange('contactAddresses', getCuntryID[0].id, 'countryId', 0);
-                                                }}
-                                                DATA={COUNTRY_LIST.map(country => country.name)}
-                                                drop_down_button_style={styles.dropDownStyle()}
-                                                defaultValueByIndex={contactDetails.contactAddresses.length > 0 && getCountrySet(contactDetails.contactAddresses.countryId)}
-                                                search={true}
-                                            />
-
-                                            <OutlinedTextInput
-                                                val={contactDetails.contactAddresses[0].streetAddress}
-                                                onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddress', 0)}
-                                                title={t('StreetAddress')} placeHolder={t('StreetAddress')} />
-
-                                            <OutlinedTextInput
-                                                val={contactDetails.contactAddresses[0].streetAddressLine2}
-                                                onChange={(text) => handleInputChange('contactAddresses', text, 'streetAddressLine2', 0)}
-                                                title={t('StreetAddressLine2')} placeHolder={t('StreetAddressLine2')} />
-                                            <OutlinedTextInput
-                                                val={contactDetails.contactAddresses[0].city}
-                                                onChange={(text) => handleInputChange('contactAddresses', text, 'city', 0)}
-                                                title={t('City')} placeHolder={t('City')} />
-
-                                            <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
-                                                <View style={styles.leftSide}>
-                                                    <OutlinedTextInput
-                                                        val={contactDetails.contactAddresses[0].stateText}
-                                                        onChange={(text) => handleInputChange('contactAddresses', text, 'stateText', 0)}
-                                                        title={t('State')} placeHolder={t('State')} />
-                                                </View>
-                                                <View style={styles.rightSide}>
-                                                    <OutlinedTextInput
-                                                        val={contactDetails.contactAddresses[0].zipCode}
-                                                        onChange={(text) => handleInputChange('contactAddresses', text, 'zipCode', 0)}
-                                                        title={t('ZipCode')} placeHolder={t('ZipCode')} />
-                                                </View>
-                                            </View>
-
-                                            <OutlinedTextInput
-                                                val={contactDetails.contactAddresses[0].poBox}
-                                                onChange={(text) => handleInputChange('contactAddresses', text, 'poBox', 0)}
-                                                title={t('PObox')} placeHolder={t('PObox')} />
-                                            <OutlinedTextInput
-                                                val={contactDetails.contactAddresses[0].label}
-                                                onChange={(text) => handleInputChange('contactAddresses', text, 'label', 0)}
-                                                title={t('Label')} placeHolder={t('Label')} />
-
-                                            <View style={[centralStyle.my1]}>
-                                                <Title
-                                                    color={Colors.black}
-                                                    type='Poppin-18'
-                                                    weight='600'
-                                                    title={t('Linktocompany')} />
-                                            </View>
-                                            <TouchableOpacity
-                                                onPress={() => openSheet(setanim, setcontactModal)}
-                                                style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
-                                                <View style={[centralStyle.circle(RFPercentage(4)), styles.selectCompany,]}>
-                                                    {selectedCompany?.length == 0 ?
-                                                        <AntDesign name={`plus`} color={Colors.white} size={RFPercentage(2.5)} /> :
-                                                        <Image style={styles.companyImg} source={require('../../../../assets/app-images/userImg.png')}></Image>
-                                                    }
-                                                </View>
-                                                <Title
-                                                    color={Colors.fontColor}
-                                                    type='Poppin-16'
-                                                    weight='400'
-                                                    title={selectedCompany?.length == 0 ? t('SelectAcompany') : selectedCompany?.value} />
-
-                                            </TouchableOpacity>
-                                            <View
-                                                style={[centralStyle.my1]}>
-                                                <Title
-                                                    color={Colors.black}
-                                                    type='Poppin-18'
-                                                    weight='600'
-                                                    title={t('Attachment')} />
-                                            </View>
-
-                                            {Object.keys(attechments).length > 0 ?
-                                                <SelectedAttachmentUI
-                                                    attechments={attechments}
-                                                    setAttechments={setAttechments}
-                                                /> :
-                                                <TouchableOpacity
-                                                    onPress={() => handleAttachments(setAttechments)}
-                                                    style={[styles.AttechmentIcon, centralStyle.XAndYCenter, centralStyle.mb2]}>
-                                                    <AntDesign name={`plus`} color={Colors.fontColor} size={RFPercentage(2.5)} />
-                                                </TouchableOpacity>
-                                            }
-                                        </>
-                                    }
-
-                                    {showMore &&
-                                        <TouchableOpacity
-                                            onPress={() => { setShowMore(false) }}
-                                            activeOpacity={.9}>
-                                            <Title
-                                                color={Colors.primary}
-                                                type='Poppin-14'
-                                                weight='600'
-                                                title={t('SHOWLESS')} />
-                                        </TouchableOpacity>
-                                    }
-
-                                </View>
-
-                                <RBSheet
-                                    ref={sheetRef}
-                                    height={RFPercentage(35)}
-                                    closeOnPressMask={true}
-                                    closeOnDragDown={true}
-                                    openDuration={250}
-                                    animationType={`slide`}
-                                    customStyles={{ container: { borderRadius: RFPercentage(2) } }}
-                                >
-                                    <AddInputSheet
-                                        contactInfoInputs={!addSocialAccountInput ? contactInfoInputs : socialInputs}
-                                        setcontactInfoInputs={!addSocialAccountInput ? setcontactInfoInputs : setsocialInputs}
-                                        sheetRef={sheetRef}
-                                        placeHolder={!addSocialAccountInput ? `Enter custom field label` : `Select social acount`}
-                                        newField={newField}
-                                        addSocialAccountInput={addSocialAccountInput}
-                                        title={!addSocialAccountInput ? t('AddCustomField') : `Add Social Account`}
-                                        btnText={!addSocialAccountInput ? `Save Field` : `Add Account`}
-                                        setNewField={setNewField}
-                                    />
-                                </RBSheet>
-                            </ScrollView >
+                            <RBSheet
+                                ref={sheetRef}
+                                height={RFPercentage(35)}
+                                closeOnPressMask={true}
+                                closeOnDragDown={true}
+                                openDuration={250}
+                                animationType={`slide`}
+                                customStyles={{ container: { borderRadius: RFPercentage(2) } }}
+                            >
+                                <AddInputSheet
+                                    contactInfoInputs={!addSocialAccountInput ? contactInfoInputs : socialInputs}
+                                    setcontactInfoInputs={!addSocialAccountInput ? setcontactInfoInputs : setsocialInputs}
+                                    sheetRef={sheetRef}
+                                    placeHolder={!addSocialAccountInput ? `Enter custom field label` : `Select social acount`}
+                                    newField={newField}
+                                    addSocialAccountInput={addSocialAccountInput}
+                                    title={!addSocialAccountInput ? t('AddCustomField') : `Add Social Account`}
+                                    btnText={!addSocialAccountInput ? `Save Field` : `Add Account`}
+                                    setNewField={setNewField}
+                                />
+                            </RBSheet>
                         </View>
 
                     </View>
