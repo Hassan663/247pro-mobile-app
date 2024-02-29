@@ -32,7 +32,8 @@ import {
     getContact,
     searchContact,
     getTypeContacts,
-    contactTypeCount
+    contactTypeCount,
+    addSpecialities
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
     IContactCreateModel,
@@ -404,6 +405,27 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
         }
     }
 }
+
+export const CreateSpeciality = (apiData: { industryId: number, name: string }) => {
+    return async (dispatch: Dispatch, getState: any) => {
+        try {
+            dispatch({ type: SCREENLOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            if (accessToken !== null) {
+                const currentState = getState();
+                let specialitiesClone = currentState.root.specialities;
+                const responseAddSpeciality: any = await addSpecialities(JSON.parse(accessToken), apiData);
+                specialitiesClone.push(responseAddSpeciality.data.resultData);
+            };
+            dispatch({ type: SCREENLOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+            dispatch({ type: SCREENLOADER, payload: false });
+        }
+    }
+};
+
 
 export const openSheet = (sheetRef: any) => sheetRef.current.open();
 

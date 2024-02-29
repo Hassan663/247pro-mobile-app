@@ -354,5 +354,25 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.ps1,
         width: RFPercentage(13)
     },
-
+    specialityTextInputContainer: {
+        ...centralStyle.XAndYCenter,
+        minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: Colors.fontColor,
+        paddingVertical: 5,
+        width: "100%",
+        backgroundColor: 'red'
+    },
+    specialitytags: {
+        backgroundColor: Colors.lightGrey,
+        borderRadius: RFPercentage(.5),
+        paddingHorizontal: platform === 'ios' ? RFPercentage(1) : RFPercentage(.8),
+        ...centralStyle.mx1,
+        ...centralStyle.my05,
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter,
+        ...centralStyle.py05,
+    },
+    flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', alignSelf: 'center', }
 });

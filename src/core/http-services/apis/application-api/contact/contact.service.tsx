@@ -183,4 +183,19 @@ const getSpecialities = async (accessToken: string) => {
   }
 };
 
-export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount, getTypeContacts, getSpecialities };
+const addSpecialities = async (accessToken: string, apiData: { industryId: number, name: string }) => {
+  try {
+    const data: any = apiData;
+    const CONTACT_SPECIALITIES_ENDPOINT_CLONE = { ...CONTACT_SPECIALITIES };
+    CONTACT_SPECIALITIES_ENDPOINT_CLONE.url = CONTACT_SPECIALITIES_ENDPOINT_CLONE.url + '/account-level';
+    if (accessToken) {
+      CONTACT_SPECIALITIES_ENDPOINT_CLONE.JWTToken = accessToken;
+    }
+    return await postApi<IContactUpdateModel, ContactModel>(CONTACT_SPECIALITIES_ENDPOINT_CLONE, data);
+  } catch (error) {
+    console.error('getContact error service:', error);
+    throw error;
+  }
+};
+
+export { createContact, deleteContact, getContact, getContactDetails, editContact, searchContact, typeContact, contactTypeCount, getTypeContacts, getSpecialities, addSpecialities };

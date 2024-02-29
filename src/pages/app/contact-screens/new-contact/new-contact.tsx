@@ -9,6 +9,8 @@ import {
     SafeAreaView,
     Image,
     TouchableOpacity,
+    Text,
+    FlatList,
 } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather'
@@ -55,12 +57,15 @@ import {
     PicImgModal,
     RightIcon,
     SelectedAttachmentUI,
+    SepecialityModal,
     renderComponentOfContactEmails,
 } from './new-contact-component';
+import { platform } from '../../../../utilities';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
     const [contactModal, setcontactModal] = useState<boolean>(false);
+    const [sepecialityModal, setSepecialityModal] = useState<boolean>(false);
     const [showMore, setShowMore] = useState<boolean>(false);
     const [openPicker, setOpenPicker] = useState(false);
     const [countryCode, setCountryCode] = useState<any>('US');
@@ -160,14 +165,13 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         }];
         handleInputChange('contactPhones', contactPhoneData)
     }
-
+    console.log(inputValues, 'inputValues');
     useEffect(() => {
         const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
             return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
         }
         setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
     }, [])
-
 
     const addSpeciality = (specialities: any) => {
         const getIDOfSpecialities = SPECIALITIES_LIST
@@ -234,12 +238,42 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 />
                             </View>
                             {inputValues.contactTypeId == 2 || inputValues.contactTypeId == 3 ?
-                                <OutlinedDropDownSpeciality
-                                    addSpeciality={addSpeciality}
-                                    title={t('Speciality')}
-                                    DATA={specialityData}
-                                /> : <></>}
+                                <View style={{
+                                    paddingVertical: 10,
+                                    justifyContent: "flex-end",
 
+                                }}>
+                                    <Text style={styles.inputtitle()}>Speciality</Text>
+                                    <View style={styles.specialityTextInputContainer}>
+                                        {inputValues.contactSpecialities.length > 0 ?
+                                            <FlatList
+                                                data={inputValues.contactSpecialities}
+                                                showsVerticalScrollIndicator={false}
+                                                contentContainerStyle={styles.flatListContainer}
+                                                renderItem={({ item }) => {
+                                                    return (
+                                                        <View style={styles.specialitytags}>
+                                                            <Title
+                                                                type='Poppin-10'
+                                                                title={item.specialtyName}
+                                                            />
+                                                        </View>
+                                                    )
+                                                }}
+                                            />
+                                            : <></>
+                                        }
+                                    </View>
+                                </View>
+                                : <></>}
+                            <TouchableOpacity
+                                activeOpacity={.8}
+                                onPress={() => openSheet(setanim, setSepecialityModal)}
+                            >
+                                <OutlinedTextInput
+                                    editable={false}
+                                    placeHolder={t('Speciality')} />
+                            </TouchableOpacity>
                             <OutlinedTextInput
                                 val={inputValues.firstName}
                                 onChange={(text) => handleInputChange('firstName', text)}
@@ -428,6 +462,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                     </View>
                 </KeyboardAwareScrollView >
+
                 {contactModal &&
                     <ContactModal
                         getCompany={(val: any) => { setSelectedCompany(val) }}
@@ -435,6 +470,17 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                         setanim={setanim}
                         contact
                         setcontactModal={setcontactModal} />}
+
+                {sepecialityModal &&
+                    <SepecialityModal
+                        getSpecialityData={(specialData: any) => { handleInputChange('contactSpecialities', specialData) }}
+                        anim={anim}
+                        setanim={setanim}
+                        contact
+                        setcontactModal={setSepecialityModal}
+                        industryId={inputValues.contactTypeId}
+                    />}
+
             </SafeAreaView >
         </>
 

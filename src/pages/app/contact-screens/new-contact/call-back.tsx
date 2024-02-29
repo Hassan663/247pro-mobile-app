@@ -163,3 +163,17 @@ export const addNewContactField = (setInputValues: React.Dispatch<React.SetState
         ],
     }));
 };
+
+
+export function searchServices(services: any, searchTerm: string) {
+    // Convert searchTerm to lowercase for case-insensitive search
+    const searchTermLower = searchTerm.toLowerCase();
+
+    // Filter services based on searchTerm
+    return services.filter((service: any) => {
+        // Convert service name to lowercase for case-insensitive search
+        const serviceNameLower = service.name.toLowerCase();
+        // Check if service name contains the searchTerm
+        return serviceNameLower.includes(searchTermLower);
+    });
+}
