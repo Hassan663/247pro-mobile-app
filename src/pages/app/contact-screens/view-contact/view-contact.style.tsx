@@ -308,11 +308,11 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: 14,
         textTransform: 'uppercase'
     },
-    customInputContainer:{
+    customInputContainer: {
         paddingVertical: 10,
         justifyContent: "flex-end",
     },
-    customTextInputContainer:{
+    customTextInputContainer: {
         flexDirection: 'row',
         alignItems: "center",
         minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
@@ -323,4 +323,24 @@ export const styles: any = StyleSheet.create<any>({
         paddingVertical: 5,
         width: "100%",
     },
+    specialityTextInputContainer: {
+        ...centralStyle.XAndYCenter,
+        minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: Colors.fontColor,
+        paddingVertical: 5,
+        width: "100%",
+    },
+    specialitytags: {
+        backgroundColor: Colors.lightGrey,
+        borderRadius: RFPercentage(.5),
+        paddingHorizontal: platform === 'ios' ? RFPercentage(1) : RFPercentage(.8),
+        ...centralStyle.mx1,
+        ...centralStyle.my05,
+        ...centralStyle.row,
+        ...centralStyle.XAndYCenter,
+        ...centralStyle.py05,
+    },
+    flatListContainer: { ...centralStyle.row, ...centralStyle.px1, ...centralStyle.py05, flexWrap: 'wrap', alignSelf: 'center', }
 });

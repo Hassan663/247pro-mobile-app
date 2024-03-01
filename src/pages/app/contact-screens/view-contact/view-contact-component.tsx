@@ -1,8 +1,9 @@
 // @app
 import React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Entypo from 'react-native-vector-icons/Entypo'
 import { t } from 'i18next';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
@@ -33,3 +34,14 @@ export const RightIcon = (navigation?: any, contactDetails?: any) => (
       title={t('Edit')} />
   </TouchableOpacity>
 )
+
+export const SpecialityTags = ({ item, index }: { item: { specialtyName: string }, index: number, }) => {
+  return (
+    <View style={styles.specialitytags}>
+      <Title
+        type='Poppin-10'
+        title={item.specialtyName}
+      />
+    </View>
+  )
+};

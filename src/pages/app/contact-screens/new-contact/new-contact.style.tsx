@@ -385,5 +385,5 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', alignSelf: 'center', }
+    flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', ...centralStyle.px1, ...centralStyle.py05, alignSelf: 'center', }
 });

@@ -29,6 +29,7 @@ import { Title } from '../../../../core/components/screen-title.component';
 import {
     LeftIcon,
     RightIcon,
+    SpecialityTags,
 } from './view-contact-component';
 import { Img } from '../../../../core/components/image-component';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,7 +37,6 @@ import { SCREENLOADER } from '../../../../store/constant/constant';
 import Button from '../../../../core/components/button.component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    console.log(route, 'route')
     const [companyLinked, setcompanyLinked] = useState(false)
     const [contactDetails, setContactDetails] = useState<any>([]);
     const dispatch: Dispatch<any> = useDispatch();
@@ -118,10 +118,28 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </View>
                         </View> : <></>}
                         {contactDetails?.companyName ? <OutlinedTextInput editable={false} val={contactDetails.companyName} title={t('company')} placeHolder={t('company')} /> : <></>}
-                        {contactDetails?.contactSpecialities?.length > 0 ? <FlatList
-                            data={contactDetails.contactSpecialities}
-                            renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.specialtyName} title={t('Speciality')} placeHolder={t('Speciality')} />}
-                        /> : <></>}
+                        {contactDetails?.contactSpecialities?.length > 0 ?
+                            <View style={{
+                                paddingVertical: 10,
+                                justifyContent: "flex-end"
+                            }}>
+                                <Text style={styles.inputtitle()}>Speciality</Text>
+                                <View style={styles.specialityTextInputContainer}>
+                                    <FlatList
+                                        data={contactDetails.contactSpecialities}
+                                        showsVerticalScrollIndicator={false}
+                                        contentContainerStyle={styles.flatListContainer}
+                                        renderItem={({ item, index }) => <SpecialityTags
+                                            key={index.toString()}
+                                            item={item}
+                                            index={index}
+                                        />}
+                                    />
+
+                                </View>
+                            </View>
+                            : <></>}
+
                         {/* <OutlinedTextInput editable={false} val='Business' title={t('Industry')} placeHolder={t('Industry')} /> //this Field does not exisit  */}
                         {contactDetails?.jobTitle ? <OutlinedTextInput editable={false} val={contactDetails.jobTitle} title={t('jobTitle')} placeHolder={t('jobTitle')} /> : <></>}
                         {contactDetails?.contactOthers?.length > 0 ? <FlatList

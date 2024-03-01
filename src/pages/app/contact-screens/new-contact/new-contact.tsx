@@ -163,8 +163,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             countryPhoneCode: getCuntryID[0].phoneCode
         }];
         handleInputChange('contactPhones', contactPhoneData)
-    }
-    console.log(inputValues, 'inputValues');
+    };
     useEffect(() => {
         const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
             return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
