@@ -362,7 +362,6 @@ export const styles: any = StyleSheet.create<any>({
         borderColor: Colors.fontColor,
         paddingVertical: 5,
         width: "100%",
-        backgroundColor: 'red'
     },
     specialitytags: {
         backgroundColor: Colors.lightGrey,

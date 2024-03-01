@@ -28,7 +28,6 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import { OutlinedDropDownSpeciality } from '../../../../core/components/outlined-dropdown-speciality.component';
 import { styles } from './new-contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { Img } from '../../../../core/components/image-component';
@@ -58,9 +57,9 @@ import {
     RightIcon,
     SelectedAttachmentUI,
     SepecialityModal,
+    SpecialityTags,
     renderComponentOfContactEmails,
 } from './new-contact-component';
-import { platform } from '../../../../utilities';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
@@ -179,7 +178,11 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
         handleInputChange('contactSpecialities', getIDOfSpecialities)
     }
-
+    const removeSpeciality = (index: number) => {
+        const specialitiesClone = JSON.parse(JSON.stringify(inputValues.contactSpecialities))
+        specialitiesClone.splice(index, 1)
+        handleInputChange('contactSpecialities', specialitiesClone)
+    }
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -238,42 +241,35 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 />
                             </View>
                             {inputValues.contactTypeId == 2 || inputValues.contactTypeId == 3 ?
-                                <View style={{
-                                    paddingVertical: 10,
-                                    justifyContent: "flex-end",
-
-                                }}>
-                                    <Text style={styles.inputtitle()}>Speciality</Text>
-                                    <View style={styles.specialityTextInputContainer}>
-                                        {inputValues.contactSpecialities.length > 0 ?
+                                inputValues.contactSpecialities[0]?.specialtyName ?
+                                    <View style={{
+                                        paddingVertical: 10,
+                                        justifyContent: "flex-end"
+                                    }}>
+                                        <Text style={styles.inputtitle()} > Speciality</Text>
+                                        <View style={styles.specialityTextInputContainer}>
                                             <FlatList
                                                 data={inputValues.contactSpecialities}
                                                 showsVerticalScrollIndicator={false}
                                                 contentContainerStyle={styles.flatListContainer}
-                                                renderItem={({ item }) => {
-                                                    return (
-                                                        <View style={styles.specialitytags}>
-                                                            <Title
-                                                                type='Poppin-10'
-                                                                title={item.specialtyName}
-                                                            />
-                                                        </View>
-                                                    )
-                                                }}
+                                                renderItem={({ item, index }) => <SpecialityTags
+                                                    item={item}
+                                                    index={index}
+                                                    removeSpeciality={removeSpeciality}
+                                                />}
                                             />
-                                            : <></>
-                                        }
+
+                                        </View>
                                     </View>
-                                </View>
-                                : <></>}
-                            <TouchableOpacity
-                                activeOpacity={.8}
-                                onPress={() => openSheet(setanim, setSepecialityModal)}
-                            >
-                                <OutlinedTextInput
-                                    editable={false}
-                                    placeHolder={t('Speciality')} />
-                            </TouchableOpacity>
+                                    : <TouchableOpacity
+                                        activeOpacity={.8}
+                                        onPress={() => openSheet(setanim, setSepecialityModal)}
+                                    >
+                                        <OutlinedTextInput
+                                            editable={false}
+                                            placeHolder={t('Speciality')} />
+                                    </TouchableOpacity> : <></>}
+
                             <OutlinedTextInput
                                 val={inputValues.firstName}
                                 onChange={(text) => handleInputChange('firstName', text)}
