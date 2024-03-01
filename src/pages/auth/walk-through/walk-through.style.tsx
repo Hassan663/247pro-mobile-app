@@ -11,6 +11,7 @@ import {
     centralPosition,
     centralStyle
 } from '../../../styles/constant.style';
+import { platform } from '../../../utilities';
 
 interface Styles {
     wrapper: ViewStyle;
@@ -31,7 +32,8 @@ export const styles: Styles = StyleSheet.create<any>({
     wrapper: {},
     titleStyle: {
         color: Colors.black,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: platform == 'android' ? RFPercentage(2) : RFPercentage(0)
     },
     imgWrapper: {
         flex: 3.5,

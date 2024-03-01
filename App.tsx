@@ -68,13 +68,19 @@ const MainComponent: React.FC = () => {
                     <></> :
                     <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                 authState ?
-                    splashStatusBar ?
-                        <MyStatusBar backgroundColor={Colors.primary} barStyle="light-content" /> :
-                        <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                    splashStatusBar === 'walkThrough' ?
+                        // <SafeAreaView>
+                            <StatusBar barStyle="dark-content" backgroundColor={'transparent'} hidden={false} translucent={true} />
+                        // {/* </SafeAreaView>  */}
+                        :
+                        // <MyStatusBar backgroundColor={'transparent'} barStyle="light-content" /> :
+                        splashStatusBar === true ?
+                            <MyStatusBar backgroundColor={Colors.primary} barStyle="light-content" /> :
+                            <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
                     <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
             }
 
-            {authState ? <AuthNavigation initialRoute={initialRoute} /> : <AppNavigation />}
+            {authState ? <AuthNavigation initialRoute={'WalkThrough'} /> : <AppNavigation />}
 
         </>
 

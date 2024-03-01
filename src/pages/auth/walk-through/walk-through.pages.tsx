@@ -19,21 +19,35 @@ import { styles } from './walk-through.style';
 import Button from '../../../core/components/button.component';
 import Swiper from 'react-native-swiper';
 import { RootStackParamList } from '../../../router/auth';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { centralStyle } from '../../../styles/constant.style';
+import { platform } from '../../../utilities';
+import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
+import { useDispatch } from 'react-redux';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
 interface PaginationProps {
     isSelected: boolean;
 }
+
 const WalkThrough: React.FC = () => {
     const navigation = useNavigation<Navigation>();
     const swiperRef = useRef(null);
+    const dispatch = useDispatch()
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: 'walkThrough' });
+            return () => {
+                dispatch({ type: SPLASHSTATUSBAR, payload: false });
+            };
+        }, [])
+    );
     return (
         <>
-            <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
+            {/* <StatusBar barStyle="dark-content" hidden={false} translucent={true} /> */}
             <Swiper
                 ref={swiperRef}
                 loop={false}
