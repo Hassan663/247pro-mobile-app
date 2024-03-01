@@ -229,8 +229,7 @@ export const styles: any = StyleSheet.create<any>({
     inputWrapper: {
         height: RFPercentage(4),
         backgroundColor: Colors.lightGrey,
-        width: '90%',
-        alignSelf: 'center',
+        width: '75%',
         borderRadius: RFPercentage(.5)
     },
     sectionHeaderContainer: {
@@ -372,6 +371,19 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.row,
         ...centralStyle.XAndYCenter,
         ...centralStyle.py05,
+    },
+    specialityModaltitleStyle: {
+        color: Colors.white,
+        fontWeight: '600',
+        fontSize: platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
+        textTransform: 'uppercase',
+    },
+    specialityModalcustomStyle: {
+        height: RFPercentage(4),
+        backgroundColor: Colors.primary,
+        borderRadius: RFPercentage(.5),
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', alignSelf: 'center', }
 });

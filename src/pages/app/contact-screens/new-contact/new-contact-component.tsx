@@ -353,16 +353,29 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
                         <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
                     </View>
                 </View>
-                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
-                    <AntDesign
-                        style={centralStyle.mx1}
-                        color={Colors.fontColor}
-                        name={`search1`}
-                        size={RFPercentage(2)} />
-                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} style={styles.searchInput} />
+                <View style={[centralStyle.row, centralStyle.my05, centralStyle.justifyContentEvenly, centralStyle.selfCenter, centralStyle.width100, { height: RFPercentage(5) }]}>
+                    <View style={[styles.inputWrapper, centralStyle.row, centralStyle.XAndYCenter]}>
+                        <AntDesign
+                            style={centralStyle.mx1}
+                            color={Colors.fontColor}
+                            name={`search1`}
+                            size={RFPercentage(2)} />
+                        <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} style={styles.searchInput} />
+                    </View>
+                    <View style={{ width: '15%', height: RFPercentage(5) }}>
+                        <Button
+                            title={"Add"}
+                            callBack={() => {
+                                disableSheet()
+                                getSpecialityData(isSelectedValues)
+                            }}
+                            customStyle={styles.specialityModalcustomStyle}
+                            titleStyle={styles.specialityModaltitleStyle}
+                        />
+                    </View>
                 </View>
-                <View style={{ flex: 1 }}>
-                    <View style={{ flex: 9 }}>
+                <View >
+                    <View>
                         {dataClone?.length > 0 ?
                             <View style={centralStyle.my05}>
                                 <FlatList
@@ -378,21 +391,9 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
                                 customStyle={centralStyle.m2}
                             />}
                     </View>
-                    <View style={{ flex: 1, ...centralStyle.px2, }}>
-                        <Button
-                            icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
-                            title={"Add"}
-                            titleStyle={{ color: Colors.primary }}
-                            callBack={() => {
-                                disableSheet()
-                                getSpecialityData(isSelectedValues)
-                            }}
-                            primary
-                        />
-                    </View>
                 </View>
-            </Animatable.View>
-        </View>
+            </Animatable.View >
+        </View >
     )
 };
 
