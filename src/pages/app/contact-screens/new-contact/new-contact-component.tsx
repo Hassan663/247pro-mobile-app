@@ -367,7 +367,7 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
                             title={"Add"}
                             callBack={() => {
                                 disableSheet()
-                                getSpecialityData(isSelectedValues)
+                                isSelectedValues.length > 0 && getSpecialityData(isSelectedValues)
                             }}
                             customStyle={styles.specialityModalcustomStyle}
                             titleStyle={styles.specialityModaltitleStyle}
@@ -409,13 +409,13 @@ const SpecialityRenderModal = ({ item, index, getSpecialities }: any) => {
             activeOpacity={.8}
             style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2]}>
             <Title
-                type='Poppin-11'
+                type='Poppin-14'
                 title={item.name}
             />
             <MaterialIcons
                 color={isSelected ? Colors.primary : Colors.fontColor}
                 name={isSelected ? 'check-box' : 'check-box-outline-blank'}
-                size={RFPercentage(2.2)} />
+                size={RFPercentage(2.5)} />
         </TouchableOpacity>
     );
 };
