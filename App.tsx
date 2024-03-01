@@ -71,8 +71,11 @@ const MainComponent: React.FC = () => {
                     splashStatusBar ?
                         <MyStatusBar backgroundColor={Colors.primary} barStyle="light-content" /> :
                         <MyStatusBar backgroundColor={Colors.white} barStyle="light-content" /> :
+                    // <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
                     <StatusBar barStyle="dark-content" hidden={false} translucent={true} />
             }
+            
+            {/* <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" /> */}
 
             {authState ? <AuthNavigation initialRoute={initialRoute} /> : <AppNavigation />}
 
