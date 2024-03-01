@@ -51,10 +51,10 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     const [allData, setAllData] = useState(0);
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
-    
+
     const handlePress = async () => {
         dispatch({ type: SEARCHEDDATA, payload: [] })
-        let selectedTabData = contact.filter((val:any) => val.id == index)
+        let selectedTabData = contact.filter((val: any) => val.id == index)
         await setContactCategory(index);
         if (contactCategory !== index && index !== 0) {
             if (index === 1 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);

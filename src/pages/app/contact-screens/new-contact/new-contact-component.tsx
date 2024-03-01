@@ -98,7 +98,7 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
                     if (isValid.success) {
                         const contactDetails = await removeEmptyFields({ ...inputValues });
                         await dispatch(CreateContactAction(contactDetails))
-                        // if (!Loader) changeRoute(navigation, 'pop');
+                        if (!Loader) changeRoute(navigation, 'pop');
                     } else {
                         setIsToastVisible(true)
                         await toast.show(isValid.message, { type: "custom_toast" });
@@ -255,7 +255,6 @@ export const RenderItem = ({ item }: any) => {
         </View>
     )
 }
-
 
 
 

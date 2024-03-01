@@ -92,8 +92,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
 
     const handleChangeRoute = (item: IData) => {
-        if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', item)
-        else changeRoute(navigation, 'ViewCompany', item)
+        if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', { item, contactCategory })
+        else changeRoute(navigation, 'ViewCompany', { item, contactCategory })
     }
     const dispatch: Dispatch<any> = useDispatch();
 
