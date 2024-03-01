@@ -1,7 +1,6 @@
 // @app
 import React, {
     useCallback,
-    useEffect,
     useState,
 } from 'react';
 import {
@@ -34,7 +33,6 @@ import { Img } from '../../../../core/components/image-component';
 import { Title } from '../../../../core/components/screen-title.component';
 import {
     COUNTRY_LIST,
-    SPECIALITIES_LIST
 } from '../../../../utilities/contact-data';
 import {
     CountryCodeModal,
@@ -60,6 +58,7 @@ import {
     SpecialityTags,
     renderComponentOfContactEmails,
 } from './new-contact-component';
+import { platform } from '../../../../utilities';
 
 const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
@@ -70,7 +69,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [countryCode, setCountryCode] = useState<any>('US');
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedCompany, setSelectedCompany] = useState<any>([])
-    const [specialityData, setSpecialityData] = useState<any>([]);
     const [attechments, setAttechments] = useState<any>([])
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const toast = useToast();
@@ -164,19 +162,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         }];
         handleInputChange('contactPhones', contactPhoneData)
     };
-    useEffect(() => {
-        const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
-            return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
-        }
-        setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
-    }, [])
 
-    const addSpeciality = (specialities: any) => {
-        const getIDOfSpecialities = SPECIALITIES_LIST
-            .filter(obj => Object.values(obj).some(value => specialities.includes(value)))
-            .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
-        handleInputChange('contactSpecialities', getIDOfSpecialities)
-    }
     const removeSpeciality = (index: number) => {
         const specialitiesClone = JSON.parse(JSON.stringify(inputValues.contactSpecialities))
         specialitiesClone.splice(index, 1)
@@ -245,7 +231,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         paddingVertical: 10,
                                         justifyContent: "flex-end"
                                     }}>
-                                        <Text style={styles.inputtitle()} > Speciality</Text>
+                                        <Text style={styles.inputtitle()} >{t('Speciality')}</Text>
                                         <TouchableOpacity
                                             activeOpacity={.9}
                                             onPress={() => openSheet(setanim, setSepecialityModal)}
@@ -265,12 +251,17 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         </TouchableOpacity>
                                     </View>
                                     : <TouchableOpacity
+                                        style={{height: 65}}
                                         activeOpacity={.8}
                                         onPress={() => openSheet(setanim, setSepecialityModal)}
                                     >
-                                        <OutlinedTextInput
-                                            editable={false}
-                                            placeHolder={t('Speciality')} />
+                                        <View style={styles.specialityButton}>
+                                            <Title  
+                                            type='Poppin-14'
+                                            title={t('Speciality')}
+                                            color={Colors.lightGray}
+                                            />
+                                        </View>
                                     </TouchableOpacity> : <></>}
 
                             <OutlinedTextInput

@@ -368,7 +368,7 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
                     </View>
                     <View style={{ width: '15%', height: RFPercentage(5) }}>
                         <Button
-                            title={"Add"}
+                            title={t(`Add`)}
                             callBack={() => {
                                 disableSheet()
                                 isSelectedValues.length > 0 && getSpecialityData(isSelectedValues)
@@ -394,7 +394,7 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
                             </View> :
                             <Button
                                 icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
-                                title={" Create " + customField}
+                                title={` ${t(`Create`)} ` + customField}
                                 titleStyle={{ color: Colors.primary }}
                                 callBack={customFieldFunc}
                                 customStyle={centralStyle.m2}

@@ -85,7 +85,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
 
     // My work in States 
-    const [specialityData, setSpecialityData] = useState<any>([]);
     const [contactDetails, setContactDetails] = useState<any>({});
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const toast = useToast();
@@ -169,11 +168,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                 contactOtherTypeId: 2,
             }],
         });
-
-        const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
-            return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
-        };
-        setSpecialityData(replaceValueWithKey(specialities));
     }, [route.params]);
 
     const getCountrySet = (id: number) => {
@@ -293,13 +287,18 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                             </TouchableOpacity>
                                         </View>
                                         : <TouchableOpacity
-                                            activeOpacity={.8}
-                                            onPress={() => openSheet(setanim, setSepecialityModal)}
-                                        >
-                                            <OutlinedTextInput
-                                                editable={false}
-                                                placeHolder={t('Speciality')} />
-                                        </TouchableOpacity> : <></>}
+                                        style={{height: 65}}
+                                        activeOpacity={.8}
+                                        onPress={() => openSheet(setanim, setSepecialityModal)}
+                                    >
+                                        <View style={styles.specialityButton}>
+                                            <Title  
+                                            type='Poppin-14'
+                                            title={t('Speciality')}
+                                            color={Colors.lightGray}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>  : <></>}
 
                                 {<OutlinedTextInput
                                     val={contactDetails.firstName}

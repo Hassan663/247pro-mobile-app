@@ -339,5 +339,14 @@ export const styles: any = StyleSheet.create<any>({
         paddingVertical: 5,
         width: "100%",
     },
+    specialityButton:{
+        width: "100%",
+        height: "85%",
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: Colors.lightGrey,
+        ...centralStyle.justifyContentCenter,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2): RFPercentage(3) ,
+    },
     flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', ...centralStyle.px1, ...centralStyle.py05, alignSelf: 'center', }
 });
