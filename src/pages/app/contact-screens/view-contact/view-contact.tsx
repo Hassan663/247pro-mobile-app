@@ -98,12 +98,12 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                         {contactDetails?.contactPhones?.length > 0 ? <FlatList
                             data={contactDetails.contactPhones}
-                            renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.phone} title={t('MobilePhone')} placeHolder={t('MobilePhone')} />}
+                            renderItem={({ item, index }) => <OutlinedTextInput key={index.toString()} editable={false} val={item.phone} title={t('MobilePhone')} placeHolder={t('MobilePhone')} />}
                         /> : <></>}
 
                         {contactDetails?.contactEmails?.length > 0 ? <FlatList
                             data={contactDetails.contactEmails}
-                            renderItem={({ item }) => <OutlinedTextInput editable={false} val={item.email} title={t('Emailaddress')} placeHolder={t('Emailaddress')} />}
+                            renderItem={({ item, index }) => <OutlinedTextInput key={index.toString()} editable={false} val={item.email} title={t('Emailaddress')} placeHolder={t('Emailaddress')} />}
                         /> : <></>}
                         {/* {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false} multiLine val={contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
                         {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
@@ -144,9 +144,9 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         {contactDetails?.jobTitle ? <OutlinedTextInput editable={false} val={contactDetails.jobTitle} title={t('jobTitle')} placeHolder={t('jobTitle')} /> : <></>}
                         {contactDetails?.contactOthers?.length > 0 ? <FlatList
                             data={contactDetails.contactOthers}
-                            renderItem={({ item }) => {
+                            renderItem={({ item, index }) => {
                                 if (item.contactOtherTypeId === 2) {
-                                    return <OutlinedTextInput editable={false} val={item.value} title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
+                                    return <OutlinedTextInput key={index.toString()} editable={false} val={item.value} title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
                                 } else { return <></> }
                             }}
                         /> : <></>}

@@ -11,7 +11,6 @@ import Colors from '../../../../styles/colors';
 import { styles } from './view-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
-import OutlinedTextInputComponent from '../../../../core/components/outlined-textInput.component';
 
 export const LeftIcon = (navigation?: any) => (
   <TouchableOpacity

@@ -8,9 +8,10 @@ import React, {
 import {
     View,
     SafeAreaView,
-    ScrollView,
     Image,
     TouchableOpacity,
+    Text,
+    FlatList,
 } from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
@@ -39,10 +40,8 @@ import { styles } from './edit-contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { SOCIALINPUTSDATA } from '../../biz-card-screens/edit-biz-card/data';
 import { AddInputSheet } from '../../biz-card-screens/edit-biz-card/edit-biz-card-component';
-import { OutlinedDropDownSpeciality } from '../../../../core/components/outlined-dropdown-speciality.component';
 import {
     COUNTRY_LIST,
-    SPECIALITIES_LIST
 } from '../../../../utilities/contact-data';
 import {
     CountryCodeModal,
@@ -64,10 +63,11 @@ import {
     SelectedAttachmentUI,
     renderComponentOfEditContactEmails
 } from './edit-contact-component';
-import { ContactModal } from '../new-contact/new-contact-component';
+import { ContactModal, SepecialityModal, SpecialityTags } from '../new-contact/new-contact-component';
 
 const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
+    const [sepecialityModal, setSepecialityModal] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
     const [countryCode, setCountryCode] = useState<any>('PK');
     const [showMore, setShowMore] = useState<boolean>(false);
@@ -176,12 +176,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         setSpecialityData(replaceValueWithKey(specialities));
     }, [route.params]);
 
-    const addSpeciality = (specialities: any) => {
-        const getIDOfSpecialities = SPECIALITIES_LIST
-            .filter(obj => Object.values(obj).some(value => specialities.includes(value)))
-            .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
-        handleInputChange('contactSpecialities', contactDetails.contactSpecialities)
-    }
     const getCountrySet = (id: number) => {
         const index = COUNTRY_LIST.findIndex(countries => countries.id === id);
         if (index !== -1) {
@@ -203,6 +197,11 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
             countryPhoneCode: getCuntryID && getCuntryID[0].phoneCode
         }];
         handleInputChange('contactPhones', contactPhoneData)
+    };
+    const removeSpeciality = (index: number) => {
+        const specialitiesClone = JSON.parse(JSON.stringify(contactDetails.contactSpecialities))
+        specialitiesClone.splice(index, 1)
+        handleInputChange('contactSpecialities', specialitiesClone)
     }
     return (
         <>
@@ -211,10 +210,17 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     <View style={[centralStyle.flex1,]}>
                         <AppHeader
                             iconL1={LeftIcon(navigation)}
-                            iconR1={RightIcon(navigation, dispatch, contactDetails, isToastVisible, setIsToastVisible, toast, Loader, route.params.contactTypeId)}
+                            iconR1={RightIcon(navigation,
+                                dispatch,
+                                contactDetails,
+                                isToastVisible,
+                                setIsToastVisible,
+                                toast,
+                                Loader,
+                                route.params.contactTypeId)}
                             type='Poppin-18'
                             weight='600'
-                            title={t(`Contacts`)} />
+                            title={t(`Edit`) + ' ' + t(`Contacts`)} />
                         <View
                             style={centralStyle.flex1}>
                             {contactDetails?.profilePicture?.length > 0 ?
@@ -260,12 +266,40 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                         drop_down_button_style={styles.dropDownStyle(contactDetails.contactTypeId)}
                                     />
                                 </View>
+
                                 {contactDetails.contactTypeId == 2 || contactDetails.contactTypeId == 3 ?
-                                    <OutlinedDropDownSpeciality
-                                        addSpeciality={addSpeciality}
-                                        title={t('Speciality')}
-                                        DATA={specialityData}
-                                    /> : <></>}
+                                    contactDetails.contactSpecialities[0]?.specialtyName ?
+                                        <View style={{
+                                            paddingVertical: 10,
+                                            justifyContent: "flex-end"
+                                        }}>
+                                            <Text style={styles.inputtitle()} > Speciality</Text>
+                                            <TouchableOpacity
+                                                activeOpacity={.9}
+                                                onPress={() => openSheet(setanim, setSepecialityModal)}
+                                                style={styles.specialityTextInputContainer}>
+                                                <FlatList
+                                                    data={contactDetails.contactSpecialities}
+                                                    showsVerticalScrollIndicator={false}
+                                                    contentContainerStyle={styles.flatListContainer}
+                                                    renderItem={({ item, index }) => <SpecialityTags
+                                                        key={index.toString()}
+                                                        item={item}
+                                                        index={index}
+                                                        removeSpeciality={removeSpeciality}
+                                                    />}
+                                                />
+
+                                            </TouchableOpacity>
+                                        </View>
+                                        : <TouchableOpacity
+                                            activeOpacity={.8}
+                                            onPress={() => openSheet(setanim, setSepecialityModal)}
+                                        >
+                                            <OutlinedTextInput
+                                                editable={false}
+                                                placeHolder={t('Speciality')} />
+                                        </TouchableOpacity> : <></>}
 
                                 {<OutlinedTextInput
                                     val={contactDetails.firstName}
@@ -485,6 +519,17 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                         setanim={setanim}
                         contact
                         setcontactModal={setcontactModal} />}
+
+                {sepecialityModal &&
+                    <SepecialityModal
+                        getSpecialityData={(specialData: any) => { handleInputChange('contactSpecialities', contactDetails.contactSpecialities.length > 0 ? [...specialData, ...contactDetails.contactSpecialities] : specialData) }}
+                        anim={anim}
+                        selectedData={contactDetails.contactSpecialities}
+                        setanim={setanim}
+                        contact
+                        setcontactModal={setSepecialityModal}
+                        industryId={contactDetails.contactTypeId}
+                    />}
             </SafeAreaView >
         </>
     );

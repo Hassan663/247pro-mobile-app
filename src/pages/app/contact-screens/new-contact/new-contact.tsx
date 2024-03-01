@@ -246,19 +246,23 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         justifyContent: "flex-end"
                                     }}>
                                         <Text style={styles.inputtitle()} > Speciality</Text>
-                                        <View style={styles.specialityTextInputContainer}>
+                                        <TouchableOpacity
+                                            activeOpacity={.9}
+                                            onPress={() => openSheet(setanim, setSepecialityModal)}
+                                            style={styles.specialityTextInputContainer}>
                                             <FlatList
                                                 data={inputValues.contactSpecialities}
                                                 showsVerticalScrollIndicator={false}
                                                 contentContainerStyle={styles.flatListContainer}
                                                 renderItem={({ item, index }) => <SpecialityTags
+                                                    key={index.toString()}
                                                     item={item}
                                                     index={index}
                                                     removeSpeciality={removeSpeciality}
                                                 />}
                                             />
 
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                     : <TouchableOpacity
                                         activeOpacity={.8}
@@ -468,9 +472,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                 {sepecialityModal &&
                     <SepecialityModal
-                        getSpecialityData={(specialData: any) => { handleInputChange('contactSpecialities', specialData) }}
+                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', inputValues.contactSpecialities[0].specialtyName.length === 0 ? specialData : inputValues.contactSpecialities.length > 0 ? [...specialData, ...inputValues.contactSpecialities] : specialData)}
                         anim={anim}
                         setanim={setanim}
+                        selectedData={inputValues.contactSpecialities}
                         contact
                         setcontactModal={setSepecialityModal}
                         industryId={inputValues.contactTypeId}

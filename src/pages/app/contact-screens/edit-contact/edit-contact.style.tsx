@@ -330,4 +330,14 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: 14,
         textTransform: 'uppercase'
     },
+    specialityTextInputContainer: {
+        ...centralStyle.XAndYCenter,
+        minHeight: platform == 'ios' ? RFPercentage(5.6) : 30,
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: Colors.fontColor,
+        paddingVertical: 5,
+        width: "100%",
+    },
+    flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', ...centralStyle.px1, ...centralStyle.py05, alignSelf: 'center', }
 });

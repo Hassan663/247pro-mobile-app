@@ -1,5 +1,5 @@
 // @app
-import React, { Dispatch, useCallback, useState } from 'react';
+import React, { Dispatch, useCallback, useEffect, useState } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -25,8 +25,12 @@ import { styles } from './new-contact.style';
 import { debounce } from "lodash";
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE, platform } from '../../../../utilities/constants';
-import { CreateContactAction, CreateSpeciality, handleSearch } from '../../../../store/action/action';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import {
+    CreateContactAction,
+    CreateSpeciality,
+    handleSearch
+} from '../../../../store/action/action';
 import { newContactValidation } from '../../../../core/helpers/validation/validation';
 import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
 import { EMAILLABELDATA, SECTIONLISTDATA, } from './data';
@@ -300,7 +304,7 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
 }
 
 
-export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpecialityData, industryId }: any) => {
+export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpecialityData, industryId, selectedData }: any) => {
     const specialities = useSelector((state: any) => state.root.specialities);
     const [isSelectedValues, setisSelectedValues] = useState([]);
     const [dataClone, setDataClone] = useState(specialities ? specialities : []);
@@ -380,7 +384,12 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
                             <View style={centralStyle.my05}>
                                 <FlatList
                                     data={dataClone && dataClone}
-                                    renderItem={({ item, index }) => <SpecialityRenderModal getSpecialities={(get: { specialtyId: number, specialtyName: string }) => getSpeciality(get)} item={item} index={index} />}
+                                    renderItem={({ item, index }) => <SpecialityRenderModal
+                                        selectedData={selectedData}
+                                        getSpecialities={(get: { specialtyId: number, specialtyName: string }) => getSpeciality(get)}
+                                        key={index.toString()}
+                                        item={item}
+                                        index={index} />}
                                 />
                             </View> :
                             <Button
@@ -397,12 +406,21 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
     )
 };
 
-const SpecialityRenderModal = ({ item, index, getSpecialities }: any) => {
+const SpecialityRenderModal = ({ item, index, getSpecialities, selectedData }: any) => {
+
     const [isSelected, setisSelected] = useState(false)
     const toggleCheckbox = () => {
         setisSelected(!isSelected)
         getSpecialities({ specialtyId: item.id, specialtyName: item.name })
-    }
+    };
+    useEffect(() => {
+        if (selectedData.length > 0) {
+            const isAlready = selectedData.findIndex(({ specialtyName }: { specialtyName: string }) => specialtyName == item.name);
+            if (isAlready !== -1) setisSelected(true)
+        }
+    }, [selectedData.length])
+
+
     return (
         <TouchableOpacity
             onPress={toggleCheckbox}
