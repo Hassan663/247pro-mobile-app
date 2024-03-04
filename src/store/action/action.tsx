@@ -348,11 +348,8 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                             obj.key = obj.id;
                         });
                     }
-                     if (id === 1) {
-                        dispatch({ type: CONTACTS, payload: createDataForTab })
-                        if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id });
-                    } else dispatch({ type: CONTACTS, payload: createDataForTab });
-
+                    dispatch({ type: CONTACTS, payload: createDataForTab })
+                    if (typeContactResponse.data.resultData?.totalRecords) totalContactsClone.push({ totalRecords: typeContactResponse.data.resultData.totalRecords, id });
                 } else {
                     await contactClone.forEach((obj: any) => {
                         if (obj.id === id) {
