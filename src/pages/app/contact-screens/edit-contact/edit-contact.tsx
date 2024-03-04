@@ -125,10 +125,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                 tagId: '',
                 tagName: '',
             }],
-            contactSpecialities: contactSpecialities.length > 0 ? contactSpecialities : [{
-                specialtyId: 0,
-                specialtyName: '',
-            }],
+            contactSpecialities: contactSpecialities.length > 0 ? contactSpecialities : [],
             contactEmails: contactEmails && contactEmails?.length > 0 ? contactEmails : [{
                 email: '',
                 label: '',
@@ -521,11 +518,10 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                 {sepecialityModal &&
                     <SepecialityModal
-                        getSpecialityData={(specialData: any) => { handleInputChange('contactSpecialities', contactDetails.contactSpecialities.length > 0 ? [...specialData, ...contactDetails.contactSpecialities] : specialData) }}
+                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', specialData)}
                         anim={anim}
                         selectedData={contactDetails.contactSpecialities}
                         setanim={setanim}
-                        contact
                         setcontactModal={setSepecialityModal}
                         industryId={contactDetails.contactTypeId}
                     />}

@@ -88,10 +88,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             tagId: '',
             tagName: '',
         }],
-        contactSpecialities: [{
-            specialtyId: 0,
-            specialtyName: '',
-        }],
+        contactSpecialities: [],
         contactEmails: [{
             email: 'momo@gmail.com',
             label: 'Home',
@@ -464,11 +461,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                 {sepecialityModal &&
                     <SepecialityModal
-                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', inputValues.contactSpecialities[0].specialtyName.length === 0 ? specialData : inputValues.contactSpecialities.length > 0 ? [...specialData, ...inputValues.contactSpecialities] : specialData)}
+                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', specialData)}
                         anim={anim}
                         setanim={setanim}
                         selectedData={inputValues.contactSpecialities}
-                        contact
                         setcontactModal={setSepecialityModal}
                         industryId={inputValues.contactTypeId}
                     />}

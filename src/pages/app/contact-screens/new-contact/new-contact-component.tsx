@@ -306,12 +306,15 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
 
 
 export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpecialityData, industryId, selectedData }: any) => {
+    const dispatch: Dispatch<any> = useDispatch();
     const specialities = useSelector((state: any) => state.root.specialities);
     const [isSelectedValues, setisSelectedValues] = useState([]);
     const [dataClone, setDataClone] = useState(specialities ? specialities : []);
     const [customField, setCustomField] = useState('');
 
-    const dispatch: Dispatch<any> = useDispatch();
+    useEffect(() => {
+        if (selectedData.length > 0) setisSelectedValues(selectedData)
+    }, [selectedData])
 
     const disableSheet = () => {
         setanim('fadeOutDownBig')
@@ -319,13 +322,16 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
             setcontactModal(false)
         }, 800);
     };
+
     const getSpeciality = (obj: { specialtyId: number, specialtyName: string }) => {
         let deepCopyisSelectedValues = JSON.parse(JSON.stringify(isSelectedValues))
         let alreadySelected = deepCopyisSelectedValues.findIndex((val: any) => val.specialtyId === obj.specialtyId)
         if (alreadySelected == -1) deepCopyisSelectedValues.push(obj)
         else deepCopyisSelectedValues.splice(alreadySelected, 1)
+        console.log(deepCopyisSelectedValues, 'deepCopyisSelectedValues')
         setisSelectedValues(deepCopyisSelectedValues)
     };
+
     const handleSearch = async (value: string) => {
         setCustomField(value);
         if (value.length > 0) {
@@ -333,11 +339,14 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
             setDataClone(searchData)
         } else setDataClone(specialities)
     };
+
     const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
+
     const customFieldFunc = async () => {
         await dispatch(CreateSpeciality({ industryId: industryId == 2 ? 5 : 27, name: customField }))
         await setDataClone(specialities)
     };
+
     return (
         <View style={styles.contactModalContainer}>
             <TouchableOpacity
@@ -419,8 +428,7 @@ const SpecialityRenderModal = ({ item, index, getSpecialities, selectedData }: a
             const isAlready = selectedData.findIndex(({ specialtyName }: { specialtyName: string }) => specialtyName == item.name);
             if (isAlready !== -1) setisSelected(true)
         }
-    }, [selectedData.length])
-
+    }, [selectedData.length]);
 
     return (
         <TouchableOpacity
