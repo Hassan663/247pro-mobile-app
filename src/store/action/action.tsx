@@ -173,7 +173,6 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            dispatch({ type: LOADER, payload: true });
             const createContactResponse: any = await createContact(inputValues);
             createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
             createContactResponse.data.resultData.key = createContactResponse.data.resultData.id;
@@ -188,8 +187,8 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             }
             const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
             filterCounts[0].count = filterCounts[0].count + 1;
+            dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
-            dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
 
         } catch (error: any) {
