@@ -251,7 +251,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         </TouchableOpacity>
                                     </View>
                                     : <TouchableOpacity
-                                        style={{height: 65}}
+                                        style={{height: 55.25}}
                                         activeOpacity={.8}
                                         onPress={() => openSheet(setanim, setSepecialityModal)}
                                     >

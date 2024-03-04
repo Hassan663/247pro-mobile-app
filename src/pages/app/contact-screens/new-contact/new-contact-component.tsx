@@ -186,7 +186,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
                     </View>
                 </View>
-                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
+                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter,centralStyle.selfCenter]}>
                     <AntDesign
                         style={centralStyle.mx1}
                         color={Colors.fontColor}
@@ -425,7 +425,7 @@ const SpecialityRenderModal = ({ item, index, getSpecialities, selectedData }: a
         <TouchableOpacity
             onPress={toggleCheckbox}
             activeOpacity={.8}
-            style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2]}>
+            style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2,centralStyle.my05]}>
             <Title
                 type='Poppin-14'
                 title={item.name}
@@ -443,7 +443,7 @@ export const SpecialityTags = ({ item, index, removeSpeciality }: { item: { spec
     return (
         <View style={styles.specialitytags}>
             <Title
-                type='Poppin-10'
+                type='Poppin-12'
                 title={item.specialtyName}
             />
             <TouchableOpacity

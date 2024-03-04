@@ -131,7 +131,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                         contentContainerStyle={styles.flatListContainer}
                                         renderItem={({ item, index }) => <SpecialityTags
                                             key={index.toString()}
-                                            item={item}
+                                            item={item} 
                                             index={index}
                                         />}
                                     />

@@ -92,7 +92,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
     const sheetRef = useRef<any>(null)
     const Loader = useSelector((state: any) => state.root.loader);
-    const specialities = useSelector((state: any) => state.root.specialities);
 
     const handleInputChange: HandleInputChangeType = useCallback((inputName, text, nestedProperty, index) => {
         setContactDetails((prevValues: any) => {
@@ -248,7 +247,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                     <OutlinedDropDown
                                         dropDownStyle={styles.dropdownstyle}
                                         title={t('Contacttype')}
-                                        color={Colors.lightGray}
+                                        color={Colors.black}
                                         iconsSize={RFPercentage(2)}
                                         isPrimaryBorderOnFocus={true}
                                         onselect={(value: string, index: number) => {
@@ -287,7 +286,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                             </TouchableOpacity>
                                         </View>
                                         : <TouchableOpacity
-                                        style={{height: 65}}
+                                        style={{height: 55.25}}
                                         activeOpacity={.8}
                                         onPress={() => openSheet(setanim, setSepecialityModal)}
                                     >
