@@ -8,23 +8,26 @@ import {
     ImageBackground,
     TouchableOpacity,
     SafeAreaView,
-    StatusBar,
 } from 'react-native';
 
+import Swiper from 'react-native-swiper';
+import { useDispatch } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import {
+    useFocusEffect,
+    useNavigation
+} from '@react-navigation/native';
+
+import Button from '../../../core/components/button.component';
+import { styles } from './walk-through.style';
+import { platform } from '../../../utilities';
+import { centralStyle } from '../../../styles/constant.style';
+import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
+import { RootStackParamList } from '../../../router/auth';
 import {
     SLIDESDATA,
     changeSlide
 } from './walk-through.components';
-import { styles } from './walk-through.style';
-import Button from '../../../core/components/button.component';
-import Swiper from 'react-native-swiper';
-import { RootStackParamList } from '../../../router/auth';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { centralStyle } from '../../../styles/constant.style';
-import { platform } from '../../../utilities';
-import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
-import { useDispatch } from 'react-redux';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 

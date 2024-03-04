@@ -1,27 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Image, SafeAreaView } from 'react-native';
-import { changeRoute, getItem, setItem } from '../../../core/helpers/async-storage';
+import React, {
+  useEffect,
+  useRef,
+} from 'react';
+import {
+  View,
+  Image,
+  SafeAreaView
+} from 'react-native';
+
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import {
+  useFocusEffect,
+  useNavigation
+} from '@react-navigation/native';
+
 import { styles } from './splash.style';
 import Button from '../../../core/components/button.component';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../router/auth';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { loginAction } from '../../../store/action/action';
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
-import { LoginModal } from '../../../core/modals/login.modal';
-import { centralStyle } from '../../../styles/constant.style';
 import Colors from '../../../styles/colors';
-import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
 import { platform } from '../../../utilities';
+import { centralStyle } from '../../../styles/constant.style';
+import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
+import { RootStackParamList } from '../../../router/auth';
+import {
+  changeRoute,
+  getItem,
+  setItem
+} from '../../../core/helpers/async-storage';
 
 type Navigation = StackNavigationProp<RootStackParamList>;
 
- const Splash: React.FC = () => {
+const Splash: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const navigation = useNavigation<Navigation>();
   const timerRef: any = useRef(null);
-  // const [emailPass, setEmailPass] = useState<LoginModal>(initialState);
 
   const handleWalkThroughScreen = async () => {
     const isAppInstalled = await getItem('isAppInstalled');
@@ -38,7 +51,6 @@ type Navigation = StackNavigationProp<RootStackParamList>;
     handleWalkThroughScreen();
   };
   useEffect(() => {
-    // dispatch(loginAction(emailPass))
     timerRef.current = setTimeout(() => {
       handleWalkThroughScreen();
     }, 3000);
@@ -51,9 +63,6 @@ type Navigation = StackNavigationProp<RootStackParamList>;
   useFocusEffect(
     React.useCallback(() => {
       if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: true });
-      // return () => {
-      //   dispatch({ type: SPLASHSTATUSBAR, payload: false });
-      // };
     }, [])
   );
 

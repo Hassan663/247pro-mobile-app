@@ -80,12 +80,9 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     }, [isSelected]);
     useFocusEffect(
         React.useCallback(() => {
-          if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
-          // return () => {
-          //   dispatch({ type: SPLASHSTATUSBAR, payload: false });
-          // };
+            if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
         }, [])
-      );
+    );
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
