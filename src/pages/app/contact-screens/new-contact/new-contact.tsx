@@ -212,7 +212,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                         <View style={styles.mx2}>
                             <View style={centralStyle.my1}>
                                 <OutlinedDropDown
-                                    dropDownStyle={styles.dropdownstyle}
+                                    // dropDownStyle={styles.dropdownstyle}
                                     title={t('Contacttype')}
                                     color={Colors.lightGray}
                                     iconsSize={RFPercentage(2)}
@@ -251,16 +251,16 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         </TouchableOpacity>
                                     </View>
                                     : <TouchableOpacity
-                                        style={{height: 65}}
+                                        style={{ height: 55.25 }}
                                         activeOpacity={.8}
                                         onPress={() => openSheet(setanim, setSepecialityModal)}
                                     >
                                         <View style={styles.specialityButton}>
-                                            <Title  
-                                            type='Poppin-14'
-                                            title={t('Speciality')}
-                                            color={Colors.lightGray}
-                                            />
+                                            <Title
+                                                type='Poppin-12'
+                                                title={t('Speciality')}
+                                                color={Colors.lightGray}
+                                            />                
                                         </View>
                                     </TouchableOpacity> : <></>}
 

@@ -384,14 +384,15 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    specialityButton:{
+    specialityButton: {
         width: "100%",
         height: "85%",
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
         borderColor: Colors.lightGrey,
         ...centralStyle.justifyContentCenter,
-        paddingHorizontal: platform == 'ios' ? RFPercentage(2): RFPercentage(3) ,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : 17,
+
     },
     flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', ...centralStyle.px1, ...centralStyle.py05, alignSelf: 'center', }
 });
