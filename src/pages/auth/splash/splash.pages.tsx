@@ -51,9 +51,9 @@ type Navigation = StackNavigationProp<RootStackParamList>;
   useFocusEffect(
     React.useCallback(() => {
       if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: true });
-      return () => {
-        dispatch({ type: SPLASHSTATUSBAR, payload: false });
-      };
+      // return () => {
+      //   dispatch({ type: SPLASHSTATUSBAR, payload: false });
+      // };
     }, [])
   );
 

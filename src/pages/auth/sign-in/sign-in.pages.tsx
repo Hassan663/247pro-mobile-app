@@ -31,6 +31,9 @@ import { loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
 import { FooterText, Title, } from '../../../core/components/screen-title.component';
 import { centralStyle, windowHeight, } from '../../../styles/constant.style';
+import { useFocusEffect } from '@react-navigation/native';
+import { platform } from '../../../utilities';
+import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
 
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
@@ -75,7 +78,14 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     const checkBoxCallback = useCallback(() => {
         setisSelected((prevIsSelected) => !prevIsSelected);
     }, [isSelected]);
-
+    useFocusEffect(
+        React.useCallback(() => {
+          if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
+          // return () => {
+          //   dispatch({ type: SPLASHSTATUSBAR, payload: false });
+          // };
+        }, [])
+      );
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>

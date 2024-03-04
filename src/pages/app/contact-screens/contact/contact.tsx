@@ -197,22 +197,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     return (
         <>
-            <AppHeader
-                iconR1={
-                    <AntDesign
-                        onPress={() => changeRoute(navigation, 'NewContact')}
-                        name={`plus`}
-                        size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
-                iconR2={
-                    <Entypo
-                        onPress={() => setmodalEnabled(true)}
-                        style={centralStyle.mx2}
-                        name={`dots-three-vertical`}
-                        size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
-                }
-                type='Poppin-18'
-                weight='600'
-                title={selectedTab == t('Company') ? t('company') : t(`Contacts`)} />
 
             {modalEnabled && <ConnectionRequest
                 importModalEnable={() => setImportModal(!importModal)}
@@ -228,6 +212,22 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 }}
             />}
             <View style={[centralStyle.fullHeightWithoutBottomTab, { backgroundColor: 'white' }]}>
+                <AppHeader
+                    iconR1={
+                        <AntDesign
+                            onPress={() => changeRoute(navigation, 'NewContact')}
+                            name={`plus`}
+                            size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
+                    iconR2={
+                        <Entypo
+                            onPress={() => setmodalEnabled(true)}
+                            style={centralStyle.mx2}
+                            name={`dots-three-vertical`}
+                            size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
+                    }
+                    type='Poppin-18'
+                    weight='600'
+                    title={selectedTab == t('Company') ? t('company') : t(`Contacts`)} />
                 <View style={centralStyle.row}>
                     <TouchableOpacity
                         onPress={() => setSelectedTab(t('Contacts'))}
