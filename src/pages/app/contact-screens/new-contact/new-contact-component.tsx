@@ -1,5 +1,5 @@
 // @app
-import React, { Dispatch, useCallback, useState } from 'react';
+import React, { Dispatch, useCallback, useEffect, useState } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -12,6 +12,7 @@ import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { t } from 'i18next';
+import Entypo from 'react-native-vector-icons/Entypo'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
@@ -24,8 +25,12 @@ import { styles } from './new-contact.style';
 import { debounce } from "lodash";
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE, platform } from '../../../../utilities/constants';
-import { CreateContactAction, CreateSpeciality, handleSearch } from '../../../../store/action/action';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import {
+    CreateContactAction,
+    CreateSpeciality,
+    handleSearch
+} from '../../../../store/action/action';
 import { newContactValidation } from '../../../../core/helpers/validation/validation';
 import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
 import { EMAILLABELDATA, SECTIONLISTDATA, } from './data';
@@ -299,7 +304,7 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
 }
 
 
-export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpecialityData, industryId }: any) => {
+export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpecialityData, industryId, selectedData }: any) => {
     const specialities = useSelector((state: any) => state.root.specialities);
     const [isSelectedValues, setisSelectedValues] = useState([]);
     const [dataClone, setDataClone] = useState(specialities ? specialities : []);
@@ -312,7 +317,6 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
         setTimeout(() => {
             setcontactModal(false)
         }, 800);
-        getSpecialityData(isSelectedValues)
     };
     const getSpeciality = (obj: { specialtyId: number, specialtyName: string }) => {
         let deepCopyisSelectedValues = JSON.parse(JSON.stringify(isSelectedValues))
@@ -353,53 +357,105 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
                         <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
                     </View>
                 </View>
-                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
-                    <AntDesign
-                        style={centralStyle.mx1}
-                        color={Colors.fontColor}
-                        name={`search1`}
-                        size={RFPercentage(2)} />
-                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} style={styles.searchInput} />
-                </View>
-                {dataClone?.length > 0 ?
-                    <View style={centralStyle.my05}>
-                        <FlatList
-                            data={dataClone && dataClone}
-                            renderItem={({ item, index }) => <SpecialityRenderModal getSpecialities={(get: { specialtyId: number, specialtyName: string }) => getSpeciality(get)} item={item} index={index} />}
+                <View style={[centralStyle.row, centralStyle.my05, centralStyle.justifyContentEvenly, centralStyle.selfCenter, centralStyle.width100, { height: RFPercentage(5) }]}>
+                    <View style={[styles.inputWrapper, centralStyle.row, centralStyle.XAndYCenter]}>
+                        <AntDesign
+                            style={centralStyle.mx1}
+                            color={Colors.fontColor}
+                            name={`search1`}
+                            size={RFPercentage(2)} />
+                        <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} style={styles.searchInput} />
+                    </View>
+                    <View style={{ width: '15%', height: RFPercentage(5) }}>
+                        <Button
+                            title={t(`Add`)}
+                            callBack={() => {
+                                disableSheet()
+                                isSelectedValues.length > 0 && getSpecialityData(isSelectedValues)
+                            }}
+                            customStyle={styles.specialityModalcustomStyle}
+                            titleStyle={styles.specialityModaltitleStyle}
                         />
-                    </View> :
-                    <Button
-                        icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
-                        title={" Create " + customField}
-                        titleStyle={{ color: Colors.primary }}
-                        callBack={customFieldFunc}
-                        customStyle={centralStyle.m2}
-                    />}
-                    
-            </Animatable.View>
-        </View>
+                    </View>
+                </View>
+                <View >
+                    <View>
+                        {dataClone?.length > 0 ?
+                            <View style={centralStyle.my05}>
+                                <FlatList
+                                    data={dataClone && dataClone}
+                                    renderItem={({ item, index }) => <SpecialityRenderModal
+                                        selectedData={selectedData}
+                                        getSpecialities={(get: { specialtyId: number, specialtyName: string }) => getSpeciality(get)}
+                                        key={index.toString()}
+                                        item={item}
+                                        index={index} />}
+                                />
+                            </View> :
+                            <Button
+                                icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
+                                title={` ${t(`Create`)} ` + customField}
+                                titleStyle={{ color: Colors.primary }}
+                                callBack={customFieldFunc}
+                                customStyle={centralStyle.m2}
+                            />}
+                    </View>
+                </View>
+            </Animatable.View >
+        </View >
     )
 };
 
-const SpecialityRenderModal = ({ item, index, getSpecialities }: any) => {
+const SpecialityRenderModal = ({ item, index, getSpecialities, selectedData }: any) => {
+
     const [isSelected, setisSelected] = useState(false)
     const toggleCheckbox = () => {
         setisSelected(!isSelected)
         getSpecialities({ specialtyId: item.id, specialtyName: item.name })
-    }
+    };
+    useEffect(() => {
+        if (selectedData.length > 0) {
+            const isAlready = selectedData.findIndex(({ specialtyName }: { specialtyName: string }) => specialtyName == item.name);
+            if (isAlready !== -1) setisSelected(true)
+        }
+    }, [selectedData.length])
+
+
     return (
         <TouchableOpacity
             onPress={toggleCheckbox}
             activeOpacity={.8}
             style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2]}>
             <Title
-                type='Poppin-11'
+                type='Poppin-14'
                 title={item.name}
             />
             <MaterialIcons
                 color={isSelected ? Colors.primary : Colors.fontColor}
                 name={isSelected ? 'check-box' : 'check-box-outline-blank'}
-                size={RFPercentage(2.2)} />
+                size={RFPercentage(2.5)} />
         </TouchableOpacity>
     );
-}
+};
+
+
+export const SpecialityTags = ({ item, index, removeSpeciality }: { item: { specialtyName: string }, index: number, removeSpeciality: any }) => {
+    return (
+        <View style={styles.specialitytags}>
+            <Title
+                type='Poppin-10'
+                title={item.specialtyName}
+            />
+            <TouchableOpacity
+                onPress={() => removeSpeciality(index)}
+            >
+                <Entypo
+                    name={`cross`}
+                    style={styles.downIcon}
+                    color={Colors.fontColor}
+                    size={RFPercentage(2)}
+                />
+            </TouchableOpacity>
+        </View>
+    )
+};

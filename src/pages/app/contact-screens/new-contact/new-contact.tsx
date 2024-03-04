@@ -1,7 +1,6 @@
 // @app
 import React, {
     useCallback,
-    useEffect,
     useState,
 } from 'react';
 import {
@@ -28,14 +27,12 @@ import Colors from '../../../../styles/colors';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import { OutlinedDropDownSpeciality } from '../../../../core/components/outlined-dropdown-speciality.component';
 import { styles } from './new-contact.style';
 import { centralStyle } from '../../../../styles/constant.style';
 import { Img } from '../../../../core/components/image-component';
 import { Title } from '../../../../core/components/screen-title.component';
 import {
     COUNTRY_LIST,
-    SPECIALITIES_LIST
 } from '../../../../utilities/contact-data';
 import {
     CountryCodeModal,
@@ -58,6 +55,7 @@ import {
     RightIcon,
     SelectedAttachmentUI,
     SepecialityModal,
+    SpecialityTags,
     renderComponentOfContactEmails,
 } from './new-contact-component';
 import { platform } from '../../../../utilities';
@@ -71,7 +69,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [countryCode, setCountryCode] = useState<any>('US');
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedCompany, setSelectedCompany] = useState<any>([])
-    const [specialityData, setSpecialityData] = useState<any>([]);
     const [attechments, setAttechments] = useState<any>([])
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const toast = useToast();
@@ -164,22 +161,13 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             countryPhoneCode: getCuntryID[0].phoneCode
         }];
         handleInputChange('contactPhones', contactPhoneData)
-    }
-    console.log(inputValues, 'inputValues');
-    useEffect(() => {
-        const replaceValueWithKey = (SPECIALITIES_LIST: any[]) => {
-            return SPECIALITIES_LIST.map(({ key, name, ...rest }, index) => ({ key: index, value: name, ...rest }));
-        }
-        setSpecialityData(replaceValueWithKey(SPECIALITIES_LIST))
-    }, [])
+    };
 
-    const addSpeciality = (specialities: any) => {
-        const getIDOfSpecialities = SPECIALITIES_LIST
-            .filter(obj => Object.values(obj).some(value => specialities.includes(value)))
-            .map(({ id, name }) => ({ specialtyId: id, specialtyName: name }));
-        handleInputChange('contactSpecialities', getIDOfSpecialities)
+    const removeSpeciality = (index: number) => {
+        const specialitiesClone = JSON.parse(JSON.stringify(inputValues.contactSpecialities))
+        specialitiesClone.splice(index, 1)
+        handleInputChange('contactSpecialities', specialitiesClone)
     }
-
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -238,42 +226,44 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 />
                             </View>
                             {inputValues.contactTypeId == 2 || inputValues.contactTypeId == 3 ?
-                                <View style={{
-                                    paddingVertical: 10,
-                                    justifyContent: "flex-end",
-
-                                }}>
-                                    <Text style={styles.inputtitle()}>Speciality</Text>
-                                    <View style={styles.specialityTextInputContainer}>
-                                        {inputValues.contactSpecialities.length > 0 ?
+                                inputValues.contactSpecialities[0]?.specialtyName ?
+                                    <View style={{
+                                        paddingVertical: 10,
+                                        justifyContent: "flex-end"
+                                    }}>
+                                        <Text style={styles.inputtitle()} >{t('Speciality')}</Text>
+                                        <TouchableOpacity
+                                            activeOpacity={.9}
+                                            onPress={() => openSheet(setanim, setSepecialityModal)}
+                                            style={styles.specialityTextInputContainer}>
                                             <FlatList
                                                 data={inputValues.contactSpecialities}
                                                 showsVerticalScrollIndicator={false}
                                                 contentContainerStyle={styles.flatListContainer}
-                                                renderItem={({ item }) => {
-                                                    return (
-                                                        <View style={styles.specialitytags}>
-                                                            <Title
-                                                                type='Poppin-10'
-                                                                title={item.specialtyName}
-                                                            />
-                                                        </View>
-                                                    )
-                                                }}
+                                                renderItem={({ item, index }) => <SpecialityTags
+                                                    key={index.toString()}
+                                                    item={item}
+                                                    index={index}
+                                                    removeSpeciality={removeSpeciality}
+                                                />}
                                             />
-                                            : <></>
-                                        }
+
+                                        </TouchableOpacity>
                                     </View>
-                                </View>
-                                : <></>}
-                            <TouchableOpacity
-                                activeOpacity={.8}
-                                onPress={() => openSheet(setanim, setSepecialityModal)}
-                            >
-                                <OutlinedTextInput
-                                    editable={false}
-                                    placeHolder={t('Speciality')} />
-                            </TouchableOpacity>
+                                    : <TouchableOpacity
+                                        style={{height: 65}}
+                                        activeOpacity={.8}
+                                        onPress={() => openSheet(setanim, setSepecialityModal)}
+                                    >
+                                        <View style={styles.specialityButton}>
+                                            <Title  
+                                            type='Poppin-14'
+                                            title={t('Speciality')}
+                                            color={Colors.lightGray}
+                                            />
+                                        </View>
+                                    </TouchableOpacity> : <></>}
+
                             <OutlinedTextInput
                                 val={inputValues.firstName}
                                 onChange={(text) => handleInputChange('firstName', text)}
@@ -473,9 +463,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                 {sepecialityModal &&
                     <SepecialityModal
-                        getSpecialityData={(specialData: any) => { handleInputChange('contactSpecialities', specialData) }}
+                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', inputValues.contactSpecialities[0].specialtyName.length === 0 ? specialData : inputValues.contactSpecialities.length > 0 ? [...specialData, ...inputValues.contactSpecialities] : specialData)}
                         anim={anim}
                         setanim={setanim}
+                        selectedData={inputValues.contactSpecialities}
                         contact
                         setcontactModal={setSepecialityModal}
                         industryId={inputValues.contactTypeId}

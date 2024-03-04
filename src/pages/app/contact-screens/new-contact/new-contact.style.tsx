@@ -229,8 +229,7 @@ export const styles: any = StyleSheet.create<any>({
     inputWrapper: {
         height: RFPercentage(4),
         backgroundColor: Colors.lightGrey,
-        width: '90%',
-        alignSelf: 'center',
+        width: '75%',
         borderRadius: RFPercentage(.5)
     },
     sectionHeaderContainer: {
@@ -257,8 +256,7 @@ export const styles: any = StyleSheet.create<any>({
         width: '100%',
         backgroundColor: Colors.white,
         overflow: "hidden",
-        borderTopLeftRadius: RFPercentage(2),
-        borderTopRightRadius: RFPercentage(2),
+        borderRadius: RFPercentage(2),
     },
     contactModalHeader: {
         alignItems: "center",
@@ -362,7 +360,6 @@ export const styles: any = StyleSheet.create<any>({
         borderColor: Colors.fontColor,
         paddingVertical: 5,
         width: "100%",
-        backgroundColor: 'red'
     },
     specialitytags: {
         backgroundColor: Colors.lightGrey,
@@ -374,5 +371,27 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.XAndYCenter,
         ...centralStyle.py05,
     },
-    flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', alignSelf: 'center', }
+    specialityModaltitleStyle: {
+        color: Colors.white,
+        fontWeight: '600',
+        fontSize: platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
+        textTransform: 'uppercase',
+    },
+    specialityModalcustomStyle: {
+        height: RFPercentage(4),
+        backgroundColor: Colors.primary,
+        borderRadius: RFPercentage(.5),
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    specialityButton:{
+        width: "100%",
+        height: "85%",
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        borderColor: Colors.lightGrey,
+        ...centralStyle.justifyContentCenter,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2): RFPercentage(3) ,
+    },
+    flatListContainer: { ...centralStyle.row, flexWrap: 'wrap', ...centralStyle.px1, ...centralStyle.py05, alignSelf: 'center', }
 });

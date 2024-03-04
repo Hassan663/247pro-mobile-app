@@ -80,7 +80,7 @@ const styles = StyleSheet.create<any>({
         backgroundColor: 'rgba(0,0,0,0.2)',
     },
     modalContainer: {
-        height: platform  ? '16.5%' :'22%',
+        height: platform === 'ios' ? '16.5%' : '22%',
         width: '85%',
         backgroundColor: 'white', shadowColor: "#000",
         shadowOffset: {

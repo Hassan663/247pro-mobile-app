@@ -8,6 +8,7 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  KeyboardTypeOptions,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -22,13 +23,14 @@ interface OutlinedTextInputProps {
   lines?: number;
   height?: number;
   placeHolder?: string;
+  keyboardType?: KeyboardTypeOptions;
   Password?: boolean;
   multiLine?: boolean;
   editable?: boolean;
   onChange?: (val: string) => void;
 }
 
-const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, editable, val, placeHolder, lines, multiLine, Password, onChange }) => {
+const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, editable, val, keyboardType, placeHolder, lines, multiLine, Password, onChange }) => {
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [inputVal, setInputVal] = useState(val ? val : '')
@@ -61,6 +63,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
             editable={editable == false ? editable : true}
             multiline={multiLine || false}
             numberOfLines={lines}
+            keyboardType={keyboardType ? keyboardType : 'default'}
             onBlur={handleBlur}
             onChangeText={(text) => {
               setInputVal(text)
@@ -76,6 +79,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
                   placeholder={isActive ? '' : placeHolder}
                   value={inputVal}
                   editable={editable == false ? editable : true}
+                  keyboardType={keyboardType ? keyboardType : 'default'}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   onChangeText={(text) => {

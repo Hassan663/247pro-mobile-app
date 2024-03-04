@@ -209,22 +209,30 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         />
                                     </TouchableOpacity>
                                     <View style={styles.phoneNumberInput}>
-                                        <Input
+                                        <OutlinedTextInput
+                                            val={phoneNumber}
+                                            // height={RFPercentage(9)}
+                                            onChange={(val) => setphoneNumber(val)}
+                                            title={t('Mobile_phone_number')}
+                                            placeHolder={t(`Mobile_phone_number`)}
+                                            keyboardType='numeric'
+                                        />
+                                        {/* <Input
                                             value={phoneNumber}
                                             onChangeText={(val) => setphoneNumber(val)}
                                             placeholder={t(`Mobile_phone_number`)}
-                                            type='numeric' />
+                                            type='numeric' /> */}
                                     </View>
                                 </View> :
                                 <OutlinedTextInput
                                     val={email}
-                                    height={RFPercentage(9)}
+                                    // height={RFPercentage(9)}
                                     onChange={phoneOrEmailCallback}
                                     title={t('Email')}
                                     placeHolder={t('Email')}
                                 />
                             }
-                            <View style={[centralStyle.row, centralStyle.mt1]}>
+                            <View style={[centralStyle.row, centralStyle.mt1,centralStyle.XAndYCenter]}>
                                 <TouchableOpacity
                                     activeOpacity={0.9}
                                     style={centralStyle.mr05}

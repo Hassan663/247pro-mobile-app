@@ -26,7 +26,7 @@ export const styles: any = StyleSheet.create<any>({
         height: RFPercentage(4),
         width: RFPercentage(20),
         borderRadius: RFPercentage(1),
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
     },
     titleContainer: (contactCategory: any, index: number) => ({
         backgroundColor: Colors.inputBgColor,
