@@ -101,6 +101,7 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
                 if (!isToastVisible) {
                     let isValid = await newContactValidation(inputValues.firstName);
                     if (isValid.success) {
+                        if (inputValues.contactTypeId == 1 || inputValues.contactTypeId == 4) inputValues.contactSpecialities = [];
                         const contactDetails = await removeEmptyFields({ ...inputValues });
                         await dispatch(CreateContactAction(contactDetails))
                         if (!Loader) changeRoute(navigation, 'pop');
@@ -186,7 +187,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
                     </View>
                 </View>
-                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter,centralStyle.selfCenter]}>
+                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter, centralStyle.selfCenter]}>
                     <AntDesign
                         style={centralStyle.mx1}
                         color={Colors.fontColor}
@@ -425,7 +426,7 @@ const SpecialityRenderModal = ({ item, index, getSpecialities, selectedData }: a
         <TouchableOpacity
             onPress={toggleCheckbox}
             activeOpacity={.8}
-            style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2,centralStyle.my05]}>
+            style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2, centralStyle.my05]}>
             <Title
                 type='Poppin-14'
                 title={item.name}

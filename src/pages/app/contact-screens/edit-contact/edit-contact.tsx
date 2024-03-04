@@ -64,6 +64,7 @@ import {
     renderComponentOfEditContactEmails
 } from './edit-contact-component';
 import { ContactModal, SepecialityModal, SpecialityTags } from '../new-contact/new-contact-component';
+import { platform } from '../../../../utilities';
 
 const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -286,18 +287,18 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                             </TouchableOpacity>
                                         </View>
                                         : <TouchableOpacity
-                                        style={{height: 55.25}}
-                                        activeOpacity={.8}
-                                        onPress={() => openSheet(setanim, setSepecialityModal)}
-                                    >
-                                        <View style={styles.specialityButton}>
-                                            <Title  
-                                            type='Poppin-14'
-                                            title={t('Speciality')}
-                                            color={Colors.lightGray}
-                                            />
-                                        </View>
-                                    </TouchableOpacity>  : <></>}
+                                            style={{ height: 55.25 }}
+                                            activeOpacity={.8}
+                                            onPress={() => openSheet(setanim, setSepecialityModal)}
+                                        >
+                                            <View style={styles.specialityButton}>
+                                                <Title
+                                                    type={platform === 'ios' ? 'Poppin-12' : 'Poppin-11'}
+                                                    title={t('Speciality')}
+                                                    color={Colors.lightGray}
+                                                />
+                                            </View>
+                                        </TouchableOpacity> : <></>}
 
                                 {<OutlinedTextInput
                                     val={contactDetails.firstName}
@@ -307,8 +308,8 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 <OutlinedTextInput
                                     val={contactDetails.lastName}
                                     onChange={(text) => handleInputChange('lastName', text)}
-                                    title={t('lastname')}
-                                    placeHolder={t('lastname')} />
+                                    title={t('lastName')}
+                                    placeHolder={t('lastName')} />
                                 <OutlinedTextInput
                                     val={contactDetails.companyName}
                                     onChange={(text) => handleInputChange('companyName', text)}
