@@ -165,6 +165,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     useEffect(() => {
         getMoreContact(contact);
+        setSelectedProType([])
     }, [contact, contactCategory]);
 
     useEffect(() => {
@@ -331,7 +332,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     onEndReachedThreshold={0.1}
                                 />
                             </View> :
-                            !loader ?
+                            loader ?
                                 <Loader size={'large'} />
                                 :
                                 <>
