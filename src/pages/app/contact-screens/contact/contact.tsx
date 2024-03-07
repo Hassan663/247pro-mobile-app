@@ -63,7 +63,7 @@ import {
     SepecialityModal,
 } from './contact.components';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
-import { SPECIALITIES } from '../../../../store/constant/constant';
+import { SEARCHEDDATA, SPECIALITIES } from '../../../../store/constant/constant';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -98,9 +98,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = async () => {
+        console.log(searchInput, 'seletectTabRecords', searchedData)
         if (searchedData.length > 0) {
         } else {
             let seletectTabRecords = totalContacts.filter((val: any) => val.id == contactCategory)
+            console.log(seletectTabRecords, 'seletectTabRecords', searchedData)
             if (contactCategory == 0) {
                 if (seletectTabRecords[0].totalRecords > listData.length) {
                     if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
@@ -126,11 +128,21 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     };
     const handleSearch = async (value: string) => {
         try {
-            setSearchInput(value)
-            if (value && value.length > 0) {
-                await dispatch(SearchContactAction(value, contactCategory));
+            console.log(value, 'valuevaluevaluevalue',)
+            if (value.length > 0) {
+                setSearchInput(value)
+                if (value && value.length > 0) await dispatch(SearchContactAction(value, contactCategory))
+                else await setlistData(contact[contactCategory]?.contacts)
             }
-            else await setlistData(contact[contactCategory]?.contacts)
+            else {
+                const contactClone = await JSON.parse(JSON.stringify(contact));
+                if (contact.length > 0) {
+                    let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
+                    setlistData(selectedTabData[0]?.contacts)
+                }
+                else setlistData([])
+                dispatch({ type: SEARCHEDDATA, payload: [] })
+            }
         } catch (error) {
             console.log('error--->', error)
         }
