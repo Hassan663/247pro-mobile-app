@@ -94,7 +94,7 @@ export const styles: any = StyleSheet.create<any>({
         borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
         // paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
-        paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : 17,
+        paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : 17,
         fontSize: platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
 
         width: "100%",

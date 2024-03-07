@@ -136,7 +136,7 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: LOADER, payload: true });
-            dispatch({ type: SCREENLOADER, payload: true });
+            // dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
@@ -159,11 +159,11 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
                 }
             }
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
             dispatch({ type: LOADER, payload: false });
         }
     }
@@ -252,16 +252,16 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
 export const TotalCounts = (accessToken: string) => {
     return async (dispatch: Dispatch) => {
         try {
-            dispatch({ type: SCREENLOADER, payload: true });
+            // dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let response: any = await contactTypeCount(accessToken);
             dispatch({ type: CONTACTTYPESCOUNT, payload: response.data.resultData });
             dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         }
     }
 }
@@ -296,7 +296,7 @@ export const SearchContactAction = (keyword: string, type: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            dispatch({ type: LOADER, payload: true });
+            // dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type);
@@ -315,11 +315,11 @@ export const SearchContactAction = (keyword: string, type: number) => {
                 else if (type === 3) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
                 else if (type === 4) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
             }
-            dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         }
     }
@@ -330,7 +330,7 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
         try {
             const currentState = getState();
             let totalContactsClone = JSON.parse(JSON.stringify(currentState.root.totalContacts));
-            dispatch({ type: SCREENLOADER, payload: true });
+            // dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
@@ -366,11 +366,11 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             }
             dispatch({ type: TOTALCONTACTS, payload: totalContactsClone });
             dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         }
     }
 };
