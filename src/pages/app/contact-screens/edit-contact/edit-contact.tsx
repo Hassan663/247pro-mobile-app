@@ -64,6 +64,7 @@ import {
     renderComponentOfEditContactEmails
 } from './edit-contact-component';
 import { ContactModal, SepecialityModal, SpecialityTags } from '../new-contact/new-contact-component';
+import { platform } from '../../../../utilities';
 
 const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -92,7 +93,6 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
     const sheetRef = useRef<any>(null)
     const Loader = useSelector((state: any) => state.root.loader);
-    const specialities = useSelector((state: any) => state.root.specialities);
 
     const handleInputChange: HandleInputChangeType = useCallback((inputName, text, nestedProperty, index) => {
         setContactDetails((prevValues: any) => {
@@ -125,10 +125,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                 tagId: '',
                 tagName: '',
             }],
-            contactSpecialities: contactSpecialities.length > 0 ? contactSpecialities : [{
-                specialtyId: 0,
-                specialtyName: '',
-            }],
+            contactSpecialities: contactSpecialities.length > 0 ? contactSpecialities : [],
             contactEmails: contactEmails && contactEmails?.length > 0 ? contactEmails : [{
                 email: '',
                 label: '',
@@ -248,7 +245,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                     <OutlinedDropDown
                                         dropDownStyle={styles.dropdownstyle}
                                         title={t('Contacttype')}
-                                        color={Colors.lightGray}
+                                        color={Colors.black}
                                         iconsSize={RFPercentage(2)}
                                         isPrimaryBorderOnFocus={true}
                                         onselect={(value: string, index: number) => {
@@ -287,18 +284,18 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                             </TouchableOpacity>
                                         </View>
                                         : <TouchableOpacity
-                                        style={{height: 65}}
-                                        activeOpacity={.8}
-                                        onPress={() => openSheet(setanim, setSepecialityModal)}
-                                    >
-                                        <View style={styles.specialityButton}>
-                                            <Title  
-                                            type='Poppin-14'
-                                            title={t('Speciality')}
-                                            color={Colors.lightGray}
-                                            />
-                                        </View>
-                                    </TouchableOpacity>  : <></>}
+                                            style={{ height: 55.25 }}
+                                            activeOpacity={.8}
+                                            onPress={() => openSheet(setanim, setSepecialityModal)}
+                                        >
+                                            <View style={styles.specialityButton}>
+                                                <Title
+                                                    type={platform === 'ios' ? 'Poppin-12' : 'Poppin-11'}
+                                                    title={t('Speciality')}
+                                                    color={Colors.lightGray}
+                                                />
+                                            </View>
+                                        </TouchableOpacity> : <></>}
 
                                 {<OutlinedTextInput
                                     val={contactDetails.firstName}
@@ -308,8 +305,8 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 <OutlinedTextInput
                                     val={contactDetails.lastName}
                                     onChange={(text) => handleInputChange('lastName', text)}
-                                    title={t('lastname')}
-                                    placeHolder={t('lastname')} />
+                                    title={t('lastName')}
+                                    placeHolder={t('lastName')} />
                                 <OutlinedTextInput
                                     val={contactDetails.companyName}
                                     onChange={(text) => handleInputChange('companyName', text)}
@@ -521,11 +518,10 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                 {sepecialityModal &&
                     <SepecialityModal
-                        getSpecialityData={(specialData: any) => { handleInputChange('contactSpecialities', contactDetails.contactSpecialities.length > 0 ? [...specialData, ...contactDetails.contactSpecialities] : specialData) }}
+                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', specialData)}
                         anim={anim}
                         selectedData={contactDetails.contactSpecialities}
                         setanim={setanim}
-                        contact
                         setcontactModal={setSepecialityModal}
                         industryId={contactDetails.contactTypeId}
                     />}

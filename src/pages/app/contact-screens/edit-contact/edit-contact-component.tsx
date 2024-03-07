@@ -89,6 +89,7 @@ export const RightIcon = (navigation?: any, dispatch?: any, contactDetails?: any
             if (!isToastVisible) {
                 let isValid = await newContactValidation(contactDetails.firstName);
                 if (isValid.success) {
+                    if (contactDetails.contactTypeId == 1 || contactDetails.contactTypeId == 4) contactDetails.contactSpecialities = [];
                     const contactDetail = await removeEmptyFields({ ...contactDetails });
                     const addContactID: any = await addIdsToArrays(contactDetail, contactDetail.id);
                     await dispatch(EditContactAction(addContactID, id))

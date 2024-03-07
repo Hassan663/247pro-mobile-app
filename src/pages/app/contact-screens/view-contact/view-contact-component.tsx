@@ -38,7 +38,7 @@ export const SpecialityTags = ({ item, index }: { item: { specialtyName: string 
   return (
     <View style={styles.specialitytags}>
       <Title
-        type='Poppin-10'
+        type='Poppin-12'
         title={item.specialtyName}
       />
     </View>

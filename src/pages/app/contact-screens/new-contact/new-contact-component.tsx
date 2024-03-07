@@ -101,6 +101,7 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
                 if (!isToastVisible) {
                     let isValid = await newContactValidation(inputValues.firstName);
                     if (isValid.success) {
+                        if (inputValues.contactTypeId == 1 || inputValues.contactTypeId == 4) inputValues.contactSpecialities = [];
                         const contactDetails = await removeEmptyFields({ ...inputValues });
                         await dispatch(CreateContactAction(contactDetails))
                         if (!Loader) changeRoute(navigation, 'pop');
@@ -186,7 +187,7 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                         <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
                     </View>
                 </View>
-                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter]}>
+                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter, centralStyle.selfCenter]}>
                     <AntDesign
                         style={centralStyle.mx1}
                         color={Colors.fontColor}
@@ -305,12 +306,15 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
 
 
 export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpecialityData, industryId, selectedData }: any) => {
+    const dispatch: Dispatch<any> = useDispatch();
     const specialities = useSelector((state: any) => state.root.specialities);
     const [isSelectedValues, setisSelectedValues] = useState([]);
     const [dataClone, setDataClone] = useState(specialities ? specialities : []);
     const [customField, setCustomField] = useState('');
 
-    const dispatch: Dispatch<any> = useDispatch();
+    useEffect(() => {
+        if (selectedData.length > 0) setisSelectedValues(selectedData)
+    }, [selectedData])
 
     const disableSheet = () => {
         setanim('fadeOutDownBig')
@@ -318,13 +322,16 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
             setcontactModal(false)
         }, 800);
     };
+
     const getSpeciality = (obj: { specialtyId: number, specialtyName: string }) => {
         let deepCopyisSelectedValues = JSON.parse(JSON.stringify(isSelectedValues))
         let alreadySelected = deepCopyisSelectedValues.findIndex((val: any) => val.specialtyId === obj.specialtyId)
         if (alreadySelected == -1) deepCopyisSelectedValues.push(obj)
         else deepCopyisSelectedValues.splice(alreadySelected, 1)
+        console.log(deepCopyisSelectedValues, 'deepCopyisSelectedValues')
         setisSelectedValues(deepCopyisSelectedValues)
     };
+
     const handleSearch = async (value: string) => {
         setCustomField(value);
         if (value.length > 0) {
@@ -332,11 +339,14 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
             setDataClone(searchData)
         } else setDataClone(specialities)
     };
+
     const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
+
     const customFieldFunc = async () => {
         await dispatch(CreateSpeciality({ industryId: industryId == 2 ? 5 : 27, name: customField }))
         await setDataClone(specialities)
     };
+
     return (
         <View style={styles.contactModalContainer}>
             <TouchableOpacity
@@ -418,14 +428,13 @@ const SpecialityRenderModal = ({ item, index, getSpecialities, selectedData }: a
             const isAlready = selectedData.findIndex(({ specialtyName }: { specialtyName: string }) => specialtyName == item.name);
             if (isAlready !== -1) setisSelected(true)
         }
-    }, [selectedData.length])
-
+    }, [selectedData.length]);
 
     return (
         <TouchableOpacity
             onPress={toggleCheckbox}
             activeOpacity={.8}
-            style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2]}>
+            style={[centralStyle.row, centralStyle.justifyContentBetween, centralStyle.mx2, centralStyle.my05]}>
             <Title
                 type='Poppin-14'
                 title={item.name}
@@ -443,7 +452,7 @@ export const SpecialityTags = ({ item, index, removeSpeciality }: { item: { spec
     return (
         <View style={styles.specialitytags}>
             <Title
-                type='Poppin-10'
+                type='Poppin-12'
                 title={item.specialtyName}
             />
             <TouchableOpacity

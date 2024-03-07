@@ -88,10 +88,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             tagId: '',
             tagName: '',
         }],
-        contactSpecialities: [{
-            specialtyId: 0,
-            specialtyName: '',
-        }],
+        contactSpecialities: [],
         contactEmails: [{
             email: 'momo@gmail.com',
             label: 'Home',
@@ -214,7 +211,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 <OutlinedDropDown
                                     // dropDownStyle={styles.dropdownstyle}
                                     title={t('Contacttype')}
-                                    color={Colors.lightGray}
+                                    color={Colors.black}
                                     iconsSize={RFPercentage(2)}
                                     isPrimaryBorderOnFocus={true}
                                     onselect={(value: string, index: number) => {
@@ -223,6 +220,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     }}
                                     DATA={CONTACTTYPEDATA}
                                     drop_down_button_style={styles.dropDownStyle(inputValues.contactTypeId)}
+                                    defaultValueByIndex={0}
                                 />
                             </View>
                             {inputValues.contactTypeId == 2 || inputValues.contactTypeId == 3 ?
@@ -257,10 +255,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     >
                                         <View style={styles.specialityButton}>
                                             <Title
-                                                type='Poppin-12'
+                                                type={platform === 'ios' ? 'Poppin-12' : 'Poppin-11'}
                                                 title={t('Speciality')}
                                                 color={Colors.lightGray}
-                                            />                
+                                            />
                                         </View>
                                     </TouchableOpacity> : <></>}
 
@@ -272,8 +270,8 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                             <OutlinedTextInput
                                 val={inputValues.lastName}
                                 onChange={(text) => handleInputChange('lastName', text)}
-                                title={t('lastname')}
-                                placeHolder={t('lastname')} />
+                                title={t('lastName')}
+                                placeHolder={t('lastName')} />
                             <OutlinedTextInput
                                 val={inputValues.companyName}
                                 onChange={(text) => handleInputChange('companyName', text)}
@@ -463,11 +461,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                 {sepecialityModal &&
                     <SepecialityModal
-                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', inputValues.contactSpecialities[0].specialtyName.length === 0 ? specialData : inputValues.contactSpecialities.length > 0 ? [...specialData, ...inputValues.contactSpecialities] : specialData)}
+                        getSpecialityData={(specialData: any) => handleInputChange('contactSpecialities', specialData)}
                         anim={anim}
                         setanim={setanim}
                         selectedData={inputValues.contactSpecialities}
-                        contact
                         setcontactModal={setSepecialityModal}
                         industryId={inputValues.contactTypeId}
                     />}

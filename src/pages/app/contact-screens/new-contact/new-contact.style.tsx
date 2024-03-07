@@ -256,7 +256,8 @@ export const styles: any = StyleSheet.create<any>({
         width: '100%',
         backgroundColor: Colors.white,
         overflow: "hidden",
-        borderRadius: RFPercentage(2),
+        borderTopLeftRadius: RFPercentage(2),
+        borderTopRightRadius: RFPercentage(2),
     },
     contactModalHeader: {
         alignItems: "center",

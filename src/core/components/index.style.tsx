@@ -109,7 +109,6 @@ export const styles: any = StyleSheet.create<any>({
     }),
     inputtitle: (isActive: boolean, inputVal: any) => ({
         position: "absolute",
-
         paddingHorizontal: RFPercentage(1),
         zIndex: 2,
         backgroundColor: Colors.white,

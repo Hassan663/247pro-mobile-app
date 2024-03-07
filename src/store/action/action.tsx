@@ -144,18 +144,24 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     await setpageIndex(pageIndex + 1)
                     const currentState = getState();
                     let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+                    const alreadyHave = contactClone.findIndex((obj: { id: number }) => obj.id === 0)
                     let mergeResponse;
                     if (contactClone?.length > 0) {
-                        mergeResponse = [...contactClone[0]?.contacts, ...contactResponse.data.resultData.list];
+                        contactResponse.data.resultData.list.forEach(function (obj: any) {
+                            obj.value = obj.fullName;
+                            obj.key = obj.id;
+                        });
+                        contactClone[alreadyHave]?.contacts.push(...contactResponse.data.resultData.list);
+                        dispatch({ type: CONTACTS, payload: contactClone });
                     } else {
                         mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
+                        mergeResponse.forEach(function (obj: any) {
+                            obj.value = obj.fullName;
+                            obj.key = obj.id;
+                        });
+                        let createDataForTab = [{ id: 0, contacts: mergeResponse }];
+                        if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
                     }
-                    mergeResponse.forEach(function (obj: any) {
-                        obj.value = obj.fullName;
-                        obj.key = obj.id;
-                    });
-                    let createDataForTab = [{ id: 0, contacts: mergeResponse }]
-                    if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
                     if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
                 }
             }
@@ -188,6 +194,7 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             }
             const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
             filterCounts[0].count = filterCounts[0].count + 1;
+            dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
