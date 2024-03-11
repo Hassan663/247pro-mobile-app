@@ -185,19 +185,21 @@ export const renderComponentOfEditContactEmails = ({ item, index, contactDetails
                     onChange={(text) => handleInputChange('contactEmails', text, 'email', index)}
                     title={t('Email')} placeHolder={t('Email')} />
             </View>
-            <View style={[{ flex: 2.5, marginHorizontal: RFPercentage(.6) }]}>
-                <OutlinedDropDown
-                    dropDownStyle={styles.dropdownstyle}
-                    title={t('Label')}
-                    color={labelIndex !== -1 ? Colors.black : Colors.lightGray}
-                    isPrimaryBorderOnFocus={true}
-                    iconsSize={RFPercentage(2)}
-                    onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
-                    DATA={EMAILLABELDATA}
-                    defaultValueByIndex={labelIndex}
-                    drop_down_button_style={styles.dropDownStyle(labelIndex + 1)}
-                />
-            </View>
+            {item?.email?.length > 0 &&
+                <View style={[{ flex: 2.5, marginHorizontal: RFPercentage(.6) }]}>
+                    <OutlinedDropDown
+                        dropDownStyle={styles.dropdownstyle}
+                        title={t('Label')}
+                        color={labelIndex !== -1 ? Colors.black : Colors.lightGray}
+                        isPrimaryBorderOnFocus={true}
+                        iconsSize={RFPercentage(2)}
+                        onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
+                        DATA={EMAILLABELDATA}
+                        defaultValueByIndex={labelIndex}
+                        drop_down_button_style={styles.dropDownStyle(labelIndex + 1)}
+                    />
+                </View>
+            }
             {condition ? (
                 <TouchableOpacity
                     onPress={() => addNewContactField(setContactDetails)}

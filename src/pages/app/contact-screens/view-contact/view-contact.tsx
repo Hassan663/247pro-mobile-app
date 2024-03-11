@@ -117,14 +117,17 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                             placeHolder={t('Emailaddress')} />
 
                                     </View>
-                                    <View style={[styles.labelWrapper]}>
-                                        <OutlinedTextInput
-                                            key={index.toString()}
-                                            editable={false}
-                                            val={item.label}
-                                            title={t('label')}
-                                            placeHolder={t('label')} />
-                                    </View>
+                                    {item?.label?.length > 0
+                                        &&
+                                        <View style={[styles.labelWrapper]}>
+                                            <OutlinedTextInput
+                                                key={index.toString()}
+                                                editable={false}
+                                                val={item.label}
+                                                title={t('label')}
+                                                placeHolder={t('label')} />
+                                        </View>
+                                    }
                                 </View>
                             )
                             }
