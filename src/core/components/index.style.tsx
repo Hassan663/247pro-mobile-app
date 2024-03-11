@@ -128,7 +128,7 @@ export const styles: any = StyleSheet.create<any>({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        // borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : 17,
         width: "100%",
         height: '85%'

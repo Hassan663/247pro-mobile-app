@@ -132,7 +132,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     };
     const handleSearch = async (value: string) => {
         try {
-            console.log(value, 'valuevaluevaluevalue',)
             if (value.length > 0) {
                 setSearchInput(value)
                 if (value && value.length > 0) await dispatch(SearchContactAction(value, contactCategory))

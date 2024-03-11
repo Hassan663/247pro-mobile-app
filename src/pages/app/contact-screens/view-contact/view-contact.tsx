@@ -35,6 +35,9 @@ import { Img } from '../../../../core/components/image-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { SCREENLOADER } from '../../../../store/constant/constant';
 import Button from '../../../../core/components/button.component';
+import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
+import { EMAILLABELDATA } from '../edit-contact/data';
+import { platform } from '../../../../utilities';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [companyLinked, setcompanyLinked] = useState(false)
@@ -48,7 +51,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         setContactDetails(response?.data?.resultData);
         dispatch({ type: SCREENLOADER, payload: false })
     }
-
+    // console.log(contactDetails,'contactDetails')
     useEffect(() => {
         contactDetailing()
     }, [contact])
@@ -103,7 +106,29 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                         {contactDetails?.contactEmails?.length > 0 ? <FlatList
                             data={contactDetails.contactEmails}
-                            renderItem={({ item, index }) => <OutlinedTextInput key={index.toString()} editable={false} val={item.email} title={t('Emailaddress')} placeHolder={t('Emailaddress')} />}
+                            renderItem={({ item, index }) => (
+                                <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
+                                    <View style={{ flex: 7 }}>
+                                        <OutlinedTextInput
+                                            key={index.toString()}
+                                            editable={false}
+                                            val={item.email}
+                                            title={t('Emailaddress')}
+                                            placeHolder={t('Emailaddress')} />
+
+                                    </View>
+                                    <View style={[styles.labelWrapper]}>
+                                        <View style={styles.labelContainer}>
+                                            <Title
+                                                color={Colors.black}
+                                                type='Poppin-11'
+                                                weight='400'
+                                                title={item.label} />
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                            }
                         /> : <></>}
                         {/* {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false} multiLine val={contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
                         {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
@@ -131,7 +156,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                         contentContainerStyle={styles.flatListContainer}
                                         renderItem={({ item, index }) => <SpecialityTags
                                             key={index.toString()}
-                                            item={item} 
+                                            item={item}
                                             index={index}
                                         />}
                                     />

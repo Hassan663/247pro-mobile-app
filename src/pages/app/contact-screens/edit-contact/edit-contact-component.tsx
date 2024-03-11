@@ -33,7 +33,7 @@ import {
     removePrevField
 } from './call-back';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { ALPHABET_SIZE, platform } from '../../../../utilities/constants';
 
 
 export const PicImgModal = ({ disableModal, setContactDetails, inputLabel }: any) => {
@@ -176,6 +176,7 @@ export const SelectedAttachmentUI = ({ attechments, setAttechments }: any) => {
 }
 export const renderComponentOfEditContactEmails = ({ item, index, contactDetails, handleInputChange, setContactDetails }: RenderComponentOfEditContactPropsModal) => {
     const condition = contactDetails.contactEmails.length === index + 1;
+    const labelIndex = EMAILLABELDATA.findIndex((val) => val === item.label)
     return (
         <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
             <View style={{ flex: 7 }}>
@@ -188,25 +189,28 @@ export const renderComponentOfEditContactEmails = ({ item, index, contactDetails
                 <OutlinedDropDown
                     dropDownStyle={styles.dropdownstyle}
                     title={t('Label')}
-                    color={Colors.lightGray}
+                    color={labelIndex !== -1 ? Colors.black : Colors.lightGray}
                     isPrimaryBorderOnFocus={true}
                     iconsSize={RFPercentage(2)}
                     onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
                     DATA={EMAILLABELDATA}
-                    drop_down_button_style={styles.dropDownStyle()}
+                    defaultValueByIndex={labelIndex}
+                    drop_down_button_style={styles.dropDownStyle(labelIndex + 1)}
                 />
             </View>
             {condition ? (
                 <TouchableOpacity
                     onPress={() => addNewContactField(setContactDetails)}
                     style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
-                    <AntDesign name={`plus`} size={RFPercentage(3)} />
+                    <AntDesign name={`plus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
+
                 </TouchableOpacity>
             ) : (
                 <TouchableOpacity
                     onPress={() => removePrevField(index, setContactDetails, contactDetails)}
                     style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
-                    <AntDesign name={`minus`} size={RFPercentage(3)} />
+                    <AntDesign name={`minus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
+
                 </TouchableOpacity>
             )}
         </View>

@@ -25,7 +25,7 @@ import { styles } from './new-contact.style';
 import { debounce } from "lodash";
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { ALPHABET_SIZE, platform } from '../../../../utilities/constants';
 import {
     CreateContactAction,
     CreateSpeciality,
@@ -291,13 +291,13 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
                 <TouchableOpacity
                     onPress={() => addNewContactField(setInputValues)}
                     style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .7 }]}>
-                    <AntDesign name={`plus`} size={RFPercentage(3)} />
+                    <AntDesign name={`plus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                 </TouchableOpacity>
             ) : (
                 <TouchableOpacity
                     onPress={() => removePrevField(index, setInputValues, inputValues)}
                     style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .7 }]}>
-                    <AntDesign name={`minus`} size={RFPercentage(3)} />
+                    <AntDesign name={`minus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                 </TouchableOpacity>
             )}
         </View>
