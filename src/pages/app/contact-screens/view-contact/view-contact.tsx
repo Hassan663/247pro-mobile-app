@@ -118,13 +118,12 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
 
                                     </View>
                                     <View style={[styles.labelWrapper]}>
-                                        <View style={styles.labelContainer}>
-                                            <Title
-                                                color={Colors.black}
-                                                type='Poppin-11'
-                                                weight='400'
-                                                title={item.label} />
-                                        </View>
+                                        <OutlinedTextInput
+                                            key={index.toString()}
+                                            editable={false}
+                                            val={item.label}
+                                            title={t('label')}
+                                            placeHolder={t('label')} />
                                     </View>
                                 </View>
                             )
