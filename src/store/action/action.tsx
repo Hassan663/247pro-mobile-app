@@ -136,8 +136,8 @@ export const signUpAction = (name: string, email: string, password: string) => {
 export const ContactAction = (setpageIndex: any, pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
-            dispatch({ type: PAGINATIONLOADER, payload: true });
-            // dispatch({ type: LOADER, payload: true });
+            // dispatch({ type: PAGINATIONLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
             // dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
@@ -170,13 +170,13 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                 }
             }
             // dispatch({ type: SCREENLOADER, payload: false });
-            dispatch({ type: PAGINATIONLOADER, payload: false });
-            // dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
+            dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
             // dispatch({ type: SCREENLOADER, payload: false });
-            dispatch({ type: PAGINATIONLOADER, payload: false });
-            // dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
+            dispatch({ type: LOADER, payload: false });
         }
     }
 }
@@ -304,15 +304,26 @@ export const DeleteContactAction = (id: number, tabId: number) => {
             }, 1000);
             const currentState = getState();
             let contactClone = currentState.root.contacts;
+            // if(tabId!==0){
+            // }else{
+            // }
             let selectedTabContacts = contactClone.filter((val: any) => val.id == tabId)
             const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
             await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
+            if (tabId !== 0) {
+                let selectedTabContacts = contactClone.filter((val: any) => val.id == 0)
+                const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
+                await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
+            }
             const contactTypeCounts = currentState.root.contactTypesCount
-            const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === tabId)
-            filterCounts[0].count = filterCounts[0].count - 1;
-            console.log(contactClone, 'contactClone', contactTypeCounts)
+            const filterCountsFromSpecialityTab = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === tabId)
+            filterCountsFromSpecialityTab[0].count = filterCountsFromSpecialityTab[0].count - 1;
+            const contactTypeCountsForTotalContact = currentState.root.totalContacts
+            const filterCountsFromSpecialityTabForTotalContact = contactTypeCountsForTotalContact.filter((obj: { id: number, count: number; }) => obj.id === tabId)
+            filterCountsFromSpecialityTabForTotalContact[0].totalRecords = filterCountsFromSpecialityTabForTotalContact[0].totalRecords - 1;
             dispatch({ type: CONTACTS, payload: [] });
             dispatch({ type: CONTACTS, payload: contactClone });
+            dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             // dispatch({ type: LOADER, payload: false });
             // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
@@ -364,8 +375,8 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             const currentState = getState();
             let totalContactsClone = JSON.parse(JSON.stringify(currentState.root.totalContacts));
             // dispatch({ type: SCREENLOADER, payload: true });
-            // dispatch({ type: LOADER, payload: true });
-            dispatch({ type: PAGINATIONLOADER, payload: true });
+            dispatch({ type: LOADER, payload: true });
+            // dispatch({ type: PAGINATIONLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
@@ -401,13 +412,13 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                 }
             }
             dispatch({ type: TOTALCONTACTS, payload: totalContactsClone });
-            // dispatch({ type: LOADER, payload: false });
-            dispatch({ type: PAGINATIONLOADER, payload: false });
+            dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
             // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            // dispatch({ type: LOADER, payload: false });
-            dispatch({ type: PAGINATIONLOADER, payload: false });
+            dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
             // dispatch({ type: SCREENLOADER, payload: false });
         }
     }

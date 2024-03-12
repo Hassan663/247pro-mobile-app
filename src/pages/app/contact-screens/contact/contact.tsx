@@ -92,6 +92,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const contact = useSelector((state: any) => state.root.contacts)
     const searchedData = useSelector((state: any) => state.root.searchedData)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
+    const contactTypesCount = useSelector((state: any) => state.root.contactTypesCount)
     const loader = useSelector((state: any) => state.root.loader);
     const paginationLoader = useSelector((state: any) => state.root.paginationLoader);
 
@@ -102,12 +103,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = async () => {
-        // console.log('asdas')
         if (loader) { }
         else {
             if (searchedData.length > 0) {
             } else {
                 let seletectTabRecords = totalContacts.filter((val: any) => val.id == contactCategory)
+                console.log(contactCategory,'asdas', 2,totalContacts, seletectTabRecords,listData,'contactTypesCount',contactTypesCount)
                 if (contactCategory == 0) {
                     if (seletectTabRecords[0].totalRecords > listData.length) {
                         if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
@@ -329,11 +330,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                         )
                                     }}
                                     renderCustomSectionHeader={CustomSectionHeader}
-                                    // ListFooterComponent={() => {
-                                    //     console.log(searchInput, 'searchInput')
-                                    //     if (searchInput.length > 0) return <Loader size={'large'} />
-                                    //     else { return <Loader size={'large'} /> }
-                                    // }}
+                                    ListFooterComponent={() => {
+                                        console.log(searchInput, 'searchInput')
+                                        if (searchInput.length > 0) return <Loader size={'large'} />
+                                        else { return <Loader size={'large'} /> }
+                                    }}
                                     // lis
                                     onEndReached={loadMoreData}
                                     onEndReachedThreshold={0.1}
@@ -378,12 +379,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         <FilterCompany />
                     </RBSheet>
                 </View>
-                {
+                {/* {
                     paginationLoader &&
                     <View style={{ height: 50, bottom: 0, backgroundColor: "rgba(0,0,0,0)", justifyContent: 'center', alignItems: 'center', width: '100%', }}>
                         <ActivityIndicator size={'large'} color={Colors.primary} />
                         {/* <Loader size={'large'} /> */}
-                    </View>}
+                    {/* </View>}  */}
                 {contactModal &&
                     <FilesModal
                         getCompany={(val: any) => { setSelectedCompany(val) }}
