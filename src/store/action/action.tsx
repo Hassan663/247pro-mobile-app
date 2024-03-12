@@ -151,7 +151,8 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     if (contactClone?.length > 0) {
                         contactResponse.data.resultData.list.forEach(function (obj: any) {
                             obj.value = obj.fullName;
-                            obj.key = obj.id;
+                            obj.key = Math.floor(Math.random() * Date.now());;
+
                         });
                         contactClone[alreadyHave]?.contacts.push(...contactResponse.data.resultData.list);
                         dispatch({ type: CONTACTS, payload: contactClone });
@@ -159,7 +160,8 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                         mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
                         mergeResponse.forEach(function (obj: any) {
                             obj.value = obj.fullName;
-                            obj.key = obj.id;
+                            obj.key = Math.floor(Math.random() * Date.now());;
+
                         });
                         let createDataForTab = [{ id: 0, contacts: mergeResponse }];
                         if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
@@ -333,7 +335,8 @@ export const SearchContactAction = (keyword: string, type: number) => {
                 if (searchContactResponse.data.resultData.list?.length > 0) {
                     searchContactResponse.data.resultData.list.forEach(function (obj: any) {
                         obj.value = obj.fullName;
-                        obj.key = obj.id;
+                        obj.key = Math.floor(Math.random() * Date.now());;
+
                     });
                 };
                 const currentState = getState();
@@ -376,7 +379,8 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                     if (selectedDataFilter?.length > 0) {
                         await selectedDataFilter[0].contacts.forEach(function (obj: any) {
                             obj.value = obj.fullName;
-                            obj.key = obj.id;
+                            obj.key = Math.floor(Math.random() * Date.now());;
+
                         });
                     }
                     dispatch({ type: CONTACTS, payload: createDataForTab })
@@ -388,7 +392,8 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                             obj.contacts = cloneDate;
                             obj.contacts.forEach(function (obj: any) {
                                 obj.value = obj.fullName;
-                                obj.key = obj.id;
+                                obj.key = Math.floor(Math.random() * Date.now());;
+
                             });
                         }
                     });
@@ -419,7 +424,8 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
                 if (typeContactResponse.data.resultData.list?.length > 0) {
                     typeContactResponse.data.resultData.list.forEach(function (obj: any) {
                         obj.value = obj.fullName;
-                        obj.key = obj.id;
+                        obj.key = Math.floor(Math.random() * Date.now());;
+
                     });
                 }
                 const currentState = getState();
