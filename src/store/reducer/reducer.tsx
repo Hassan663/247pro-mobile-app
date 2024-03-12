@@ -10,6 +10,7 @@ import {
     TOTALCONTACTS,
     CONTACTTYPESCOUNT,
     SPECIALITIES,
+    PAGINATIONLOADER,
 } from '../constant/constant'
 
 export type Action = {
@@ -35,6 +36,7 @@ const INITIAL_STATE = {
     //     },
     // totalContacts:[{id:0,contact:[]},{id:1,contact:[]},{id:2,contact:[]},{id:3,contact:[]},],
     totalContacts: [],
+    paginationLoader: false,
     contactTypesCount: [],
     specialities: [],
     // contactResponse.data.resultData.list
@@ -101,6 +103,11 @@ export default (states = INITIAL_STATE, action: Action) => {
             return ({
                 ...states,
                 specialities: action.payload
+            })
+        case PAGINATIONLOADER:
+            return ({
+                ...states,
+                paginationLoader: action.payload
             })
         // case ISERROR:
         //     return ({

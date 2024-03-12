@@ -93,6 +93,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const searchedData = useSelector((state: any) => state.root.searchedData)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
     const loader = useSelector((state: any) => state.root.loader);
+    const paginationLoader = useSelector((state: any) => state.root.paginationLoader);
 
     const handleChangeRoute = (item: IData) => {
         if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', { item, contactCategory })
@@ -101,6 +102,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = async () => {
+        // console.log('asdas')
         if (loader) { }
         else {
             if (searchedData.length > 0) {
@@ -155,8 +157,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const getMoreContact = async (contact: string | any[]) => {
         const contactClone = await JSON.parse(JSON.stringify(contact));
+        console.log(contactClone, 'contactClone')
         if (contact.length > 0) {
             let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
+            console.log(selectedTabData, 'selectedTabData')
             setlistData(selectedTabData[0]?.contacts)
         }
         else setlistData([])
@@ -165,6 +169,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     useEffect(() => {
         getMoreContact(contact);
         setSelectedProType([])
+        console.log(contact, contactCategory, 'contact, asddsa')
+
     }, [contact, contactCategory]);
 
     useEffect(() => {
@@ -210,6 +216,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
+    console.log(contact, contactCategory, 'contact, contactCategory', listData)
 
     return (
         <>
@@ -322,11 +329,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                         )
                                     }}
                                     renderCustomSectionHeader={CustomSectionHeader}
-                                    ListFooterComponent={() => {
-                                        console.log(searchInput, 'searchInput')
-                                        if (searchInput.length > 0) return <Loader size={'large'} />
-                                        else { return <Loader size={'large'} /> }
-                                    }}
+                                    // ListFooterComponent={() => {
+                                    //     console.log(searchInput, 'searchInput')
+                                    //     if (searchInput.length > 0) return <Loader size={'large'} />
+                                    //     else { return <Loader size={'large'} /> }
+                                    // }}
+                                    // lis
                                     onEndReached={loadMoreData}
                                     onEndReachedThreshold={0.1}
                                 />
@@ -356,6 +364,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     />
                                 </>
                     }
+
                     <RBSheet
                         ref={sheetRef}
                         // height={RFValue(240,windowHeight)}
@@ -369,6 +378,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         <FilterCompany />
                     </RBSheet>
                 </View>
+                {
+                    paginationLoader &&
+                    <View style={{ height: 50, bottom: 0, backgroundColor: "rgba(0,0,0,0)", justifyContent: 'center', alignItems: 'center', width: '100%', }}>
+                        <ActivityIndicator size={'large'} color={Colors.primary} />
+                        {/* <Loader size={'large'} /> */}
+                    </View>}
                 {contactModal &&
                     <FilesModal
                         getCompany={(val: any) => { setSelectedCompany(val) }}
