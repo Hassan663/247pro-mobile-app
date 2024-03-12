@@ -64,11 +64,11 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             else if (index === 4 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
         };
     };
-    useEffect(() => {
-        let allData = 0;
-        contactTypese.map((val: any) => { allData = allData + val.count })
-        setAllData(allData)
-    }, [contactTypese]);
+    // useEffect(() => {
+    //     let allData = 0;
+    //     contactTypese.map((val: any) => { allData = allData + val.count })
+    //     setAllData(allData)
+    // }, [contactTypese]);
 
     return (
         <>
@@ -94,9 +94,9 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             type='Poppin-12'
                             color={Colors.fontColor}
                             title={contactCategory === 2 ? selectedProType?.length == 0 ?
-                                `${t('All')} (${contactTypese[index - 1]?.count}) ` :
+                                `${t('All')} (${contactTypese[index ]?.count}) ` :
                                 selectedProType?.value :
-                                selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypese[index - 1]?.count}) ` :
+                                selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypese[index ]?.count}) ` :
                                     selectedSupplierType?.value}
                         />
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
@@ -108,11 +108,11 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                                 weight='400'
                                 type='Poppin-12'
                                 color={Colors.fontColor}
-                                title={` (${allData})`}
+                                title={` (${contactTypese[index]?.count})`}
                             />
                         </TouchableOpacity>
                         :
-                        index > 0 && typeof contactTypese[index - 1]?.count !== 'undefined' ?
+                        index > 0 && typeof contactTypese[index ]?.count !== 'undefined' ?
                             <TouchableOpacity
                                 activeOpacity={.7}
                                 onPress={handlePress}
@@ -121,7 +121,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                                     weight='400'
                                     type='Poppin-12'
                                     color={Colors.fontColor}
-                                    title={` (${contactTypese[index - 1]?.count})`}
+                                    title={` (${contactTypese[index]?.count})`}
                                 />
                             </TouchableOpacity> : <></>
                 }
