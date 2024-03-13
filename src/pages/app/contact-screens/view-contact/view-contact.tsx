@@ -15,29 +15,31 @@ import {
     TextInput,
 } from 'react-native';
 
-import Feather from 'react-native-vector-icons/Feather'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 
 import Colors from '../../../../styles/colors';
+import Button from '../../../../core/components/button.component';
 import AppHeader from '../../../../core/components/app-headers';
 import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
-import { styles } from './view-contact.style';
-import { deleteContact, fetchingDetails } from './call-back';
-import { centralStyle } from '../../../../styles/constant.style';
+import { Img } from '../../../../core/components/image-component';
 import { Title } from '../../../../core/components/screen-title.component';
+import { styles } from './view-contact.style';
+import { centralStyle } from '../../../../styles/constant.style';
+import { SCREENLOADER } from '../../../../store/constant/constant';
+import {
+    deleteContact,
+    fetchingDetails
+} from './call-back';
 import {
     LeftIcon,
     RightIcon,
     SpecialityTags,
 } from './view-contact-component';
-import { Img } from '../../../../core/components/image-component';
-import { useDispatch, useSelector } from 'react-redux';
-import { SCREENLOADER } from '../../../../store/constant/constant';
-import Button from '../../../../core/components/button.component';
-import OutlinedDropDown from '../../../../core/components/outlined-dropdown.component';
-import { EMAILLABELDATA } from '../edit-contact/data';
-import { platform } from '../../../../utilities';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [companyLinked, setcompanyLinked] = useState(false)
@@ -132,7 +134,6 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             )
                             }
                         /> : <></>}
-                        {/* {contactDetails?.preferredAddress ? <OutlinedTextInput editable={false} multiLine val={contactDetails?.preferredAddress} title={t('Address')} placeHolder={t('Address')} /> : <></>} */}
                         {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
                             <Text style={styles.inputtitle()}>{t(`Address`)}</Text>
                             <View style={styles.customTextInputContainer}>
@@ -167,7 +168,6 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </View>
                             : <></>}
 
-                        {/* <OutlinedTextInput editable={false} val='Business' title={t('Industry')} placeHolder={t('Industry')} /> //this Field does not exisit  */}
                         {contactDetails?.jobTitle ? <OutlinedTextInput editable={false} val={contactDetails.jobTitle} title={t('jobTitle')} placeHolder={t('jobTitle')} /> : <></>}
                         {contactDetails?.contactOthers?.length > 0 ? <FlatList
                             data={contactDetails.contactOthers}

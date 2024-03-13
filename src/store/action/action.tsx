@@ -213,12 +213,9 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
     }
 }
 const handleEditContactCount = (isAdd: boolean, selectedTabId?: number, getState?: any) => {
-
-    console.log(isAdd, '11111', selectedTabId,)
     const currentState = getState();
     const contactTypeCounts = currentState.root.contactTypesCount;
     const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === selectedTabId)
-    console.log(isAdd, '1231231232', selectedTabId, contactTypeCounts, filterCounts)
     if (isAdd) { filterCounts[0].count = filterCounts[0].count + 1; }
     else { filterCounts[0].count = filterCounts[0].count - 1; }
 }
@@ -234,11 +231,9 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
             const currentState = getState();
             let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
             let findId = contactClone.findIndex((i: { id: number }) => i.id == inputValues.contactTypeId);
-            let findContact = contactClone.filter((i: { id: number }) => i.id == inputValues.contactTypeId);
             let previousList = contactClone.findIndex((i: { id: number }) => i.id == id);
             let contactIndexInALL = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
             if (contactIndexInALL !== -1) contactClone[0].contacts.splice(contactIndexInALL, 1, editContactResponse.data.resultData);
-            console.log(contactIndexInALL, 'contactIndexInALL', findId, findContact, id, editContactResponse.data.resultData.contactTypeId, previousList)
             if (previousList == -1 && findId === -1) {
                 handleEditContactCount(false, id, getState)
                 removeFromTotalContact(currentState, id)
@@ -309,14 +304,9 @@ export const DeleteContactAction = (id: number, tabId: number) => {
             // dispatch({ type: SCREENLOADER, payload: true });
             // dispatch({ type: LOADER, payload: true });
             // await deleteContact(id);
-            await setTimeout(() => {
-
-            }, 1000);
+            await setTimeout(() => { }, 1000);
             const currentState = getState();
             let contactClone = currentState.root.contacts;
-            // if(tabId!==0){
-            // }else{
-            // }
             let selectedTabContacts = contactClone.filter((val: any) => val.id == tabId)
             const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
             await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)

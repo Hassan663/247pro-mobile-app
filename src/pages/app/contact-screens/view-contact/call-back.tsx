@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getContactDetails } from "../../../../core/http-services/apis/application-api/contact/contact.service";
-import { SCREENLOADER } from "../../../../store/constant/constant";
 import { changeRoute } from "../../../../core/helpers/async-storage";
+import { SCREENLOADER } from "../../../../store/constant/constant";
+import { getContactDetails } from "../../../../core/http-services/apis/application-api/contact/contact.service";
 import { DeleteContactAction } from "../../../../store/action/action";
 
 export const fetchingDetails = async (id: number, dispatch: any) => {
