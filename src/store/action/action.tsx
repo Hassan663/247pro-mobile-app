@@ -241,18 +241,21 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
             console.log(contactIndexInALL, 'contactIndexInALL', findId, findContact, id, editContactResponse.data.resultData.contactTypeId, previousList)
             if (previousList == -1 && findId === -1) {
                 handleEditContactCount(false, id, getState)
+                removeFromTotalContact(currentState, id)
                 handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
             }
             else {
                 let editContactIndex = contactClone[previousList].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
                 if (findId === -1) {
                     handleEditContactCount(false, id, getState)
+                    removeFromTotalContact(currentState, id)
                     handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
                     contactClone[previousList].contacts.splice(editContactIndex, 1);
                 } else {
                     if (id !== inputValues.contactTypeId) {
                         if (editContactIndex !== -1) {
                             handleEditContactCount(false, id, getState)
+                            removeFromTotalContact(currentState, id)
                             handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
                             contactClone[previousList].contacts.splice(editContactIndex, 1);
                             contactClone[findId].contacts.splice(editContactIndex, 0, editContactResponse.data.resultData);
@@ -262,6 +265,7 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
                     }
                 }
             }
+
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
@@ -292,6 +296,12 @@ export const TotalCounts = (accessToken: string) => {
         }
     }
 }
+const removeFromTotalContact = (currentState: any, tabId?: number) => {
+    const contactTypeCountsForTotalContact = currentState.root.totalContacts
+    const filterCountsFromSpecialityTabForTotalContact = contactTypeCountsForTotalContact.filter((obj: { id: number, count: number; }) => obj.id === tabId)
+    filterCountsFromSpecialityTabForTotalContact[0].totalRecords = filterCountsFromSpecialityTabForTotalContact[0].totalRecords - 1;
+
+}
 
 export const DeleteContactAction = (id: number, tabId: number) => {
     return async (dispatch: Dispatch, getState: any) => {
@@ -318,9 +328,7 @@ export const DeleteContactAction = (id: number, tabId: number) => {
             const contactTypeCounts = currentState.root.contactTypesCount
             const filterCountsFromSpecialityTab = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === tabId)
             filterCountsFromSpecialityTab[0].count = filterCountsFromSpecialityTab[0].count - 1;
-            const contactTypeCountsForTotalContact = currentState.root.totalContacts
-            const filterCountsFromSpecialityTabForTotalContact = contactTypeCountsForTotalContact.filter((obj: { id: number, count: number; }) => obj.id === tabId)
-            filterCountsFromSpecialityTabForTotalContact[0].totalRecords = filterCountsFromSpecialityTabForTotalContact[0].totalRecords - 1;
+            removeFromTotalContact(currentState, tabId)
             dispatch({ type: CONTACTS, payload: [] });
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
