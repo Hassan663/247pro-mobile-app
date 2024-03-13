@@ -27,22 +27,21 @@ import {
 } from 'react-redux';
 
 import Colors from '../../../../styles/colors';
-import AppHeader from '../../../../core/components/app-headers';
+import Loader from '../../../../core/components/loader.component';
 import Button from '../../../../core/components/button.component';
-
+import AppHeader from '../../../../core/components/app-headers';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './contact.style';
 import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { CONTACTLIST } from './data';
 import { centralStyle } from '../../../../styles/constant.style';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
 import { SpecialityModal } from '../../../../core/modals/contact.modal';
 import {
-    contactTypefilter,
-    getProContacts,
-    specialities,
-    specialityCount
-} from './call-back';
+    SEARCHEDDATA,
+    SPECIALITIES
+} from '../../../../store/constant/constant';
 import {
     ContactAction,
     SearchContactAction
@@ -56,6 +55,12 @@ import {
     CustomSectionHeader,
 } from '../new-contact/new-contact-component';
 import {
+    contactTypefilter,
+    getProContacts,
+    specialities,
+    specialityCount
+} from './call-back';
+import {
     ConnectionRequest,
     FilesModal,
     FilterCompany,
@@ -63,9 +68,6 @@ import {
     RenderItem,
     SepecialityModal,
 } from './contact.components';
-import { ALPHABET_SIZE } from '../../../../utilities/constants';
-import Loader from '../../../../core/components/loader.component';
-import { SEARCHEDDATA, SPECIALITIES } from '../../../../store/constant/constant';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -108,7 +110,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             if (searchedData.length > 0) {
             } else {
                 let seletectTabRecords = totalContacts.filter((val: any) => val.id == contactCategory)
-                console.log(contactCategory,'asdas', 2,totalContacts, seletectTabRecords,listData,'contactTypesCount',contactTypesCount)
+                console.log(contactCategory, 'asdas', 2, totalContacts, seletectTabRecords, listData, 'contactTypesCount', contactTypesCount)
                 if (contactCategory == 0) {
                     if (seletectTabRecords[0].totalRecords > listData.length) {
                         if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
@@ -217,8 +219,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
-    console.log(contact, contactCategory, 'contact, contactCategory', listData)
-
+ 
     return (
         <>
 
@@ -384,7 +385,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     <View style={{ height: 50, bottom: 0, backgroundColor: "rgba(0,0,0,0)", justifyContent: 'center', alignItems: 'center', width: '100%', }}>
                         <ActivityIndicator size={'large'} color={Colors.primary} />
                         {/* <Loader size={'large'} /> */}
-                    {/* </View>}  */}
+                {/* </View>}  */}
                 {contactModal &&
                     <FilesModal
                         getCompany={(val: any) => { setSelectedCompany(val) }}

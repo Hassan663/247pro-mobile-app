@@ -185,6 +185,7 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
+            console.log(`CreateContactAction`,'check API call')
             dispatch({ type: LOADER, payload: true });
             const createContactResponse: any = await createContact(inputValues);
             createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
@@ -223,6 +224,7 @@ const handleEditContactCount = (isAdd: boolean, selectedTabId?: number, getState
 export const EditContactAction = (inputValues: IContactCreateModel, id?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
+            console.log(`EditContactAction`,'check API call')
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let editContactResponse: any = await editContact(inputValues);
@@ -338,6 +340,7 @@ export const SearchContactAction = (keyword: string, type: number) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             // dispatch({ type: LOADER, payload: true });
+            console.log('SearchContactAction','check API call')
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type);
@@ -426,6 +429,7 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
+            console.log('GetTypeContactsSpecialityAction','check API call')
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
@@ -457,6 +461,7 @@ export const CreateSpeciality = (apiData: { industryId: number, name: string }) 
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
+            console.log('CreateSpeciality','check API call')
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const currentState = getState();
