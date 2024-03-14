@@ -24,16 +24,3 @@ export const deleteContact = async (id: number, navigation?: any, Loader?: boole
         if (!Loader) changeRoute(navigation, 'pop');
     }
 } 
-
-// let array1= [
-//      { id: 0, contact: [{ name: 'abcd', id: 9243, }, { name: 'abcd', id: 9723, }, { name: 'abcd', id: 938, }, { name: 'abcd', id: 943, }] },
-//      { id: 1, contact: [{ name: 'abcd', id: 943223, }] },
-//      { id: 2, contact: [{ name: 'abcd', id: 938, }] },
-//      { id: 3, contact: [{ name: 'abcd', id: 912323, }] },
-//      { id: 4, contact: [{ name: 'abcd', id: 273, }] },
-//  ]
-//  let array2=[
-//      { totalRecords: 40, id: 0 },
-//      { totalRecords: 30, id: 1 },
-//      { totalRecords: 3, id: 2 },
-//  ]

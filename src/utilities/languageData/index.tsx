@@ -388,13 +388,14 @@ export const languageData = [
             Linkhasbeensentto: "Link has been sent to",
             Newpasswordlinksenttoyouremail: 'New password link sent to your email.',
             Enable_Feature: 'Enable Feature',
-            Enable_Feature_Admin:'To enable this feature you need to contact admin support to get access.',
-            Contact_Admin:'Contact Admin',
-            Readaccept:'I have read and accept the',
-            Termsofservices:'Terms of Services',
-            And:'and',
-            Privacypolicy:'Privacy Policy.',
-            MoreLoginoptions:'More Login Options',
+            Enable_Feature_Admin: 'To enable this feature you need to contact admin support to get access.',
+            Contact_Admin: 'Contact Admin',
+            Readaccept: 'I have read and accept the',
+            Termsofservices: 'Terms of Services',
+            And: 'and',
+            Privacypolicy: 'Privacy Policy.',
+            MoreLoginoptions: 'More Login Options',
+            label: "label"
         }
     },
     {
@@ -786,13 +787,15 @@ export const languageData = [
             Linkhasbeensentto: "链接已发送至",
             Newpasswordlinksenttoyouremail: '新密码链接已发送到您的电子邮件。',
             Enable_Feature: '启用功能',
-            Enable_Feature_Admin:'要启用此功能，您需要联系管理员支持以获得访问权限',
-            Contact_Admin:'联系管理员',
-            Readaccept:'我已阅读并接受',
-            Termsofservices:'服务条款',
-            And:'和',
-            Privacypolicy:'隐私政策。',
-            MoreLoginoptions:'更多登录选项',
+            Enable_Feature_Admin: '要启用此功能，您需要联系管理员支持以获得访问权限',
+            Contact_Admin: '联系管理员',
+            Readaccept: '我已阅读并接受',
+            Termsofservices: '服务条款',
+            And: '和',
+            Privacypolicy: '隐私政策。',
+            MoreLoginoptions: '更多登录选项',
+            label: "标签"
+
         }
     },
     {
@@ -1181,13 +1184,15 @@ export const languageData = [
             Linkhasbeensentto: "El enlace ha sido enviado a",
             Newpasswordlinksenttoyouremail: 'Enlace de nueva contraseña enviado a su correo electrónico.',
             Enable_Feature: 'Habilitar característica',
-            Enable_Feature_Admin:'Para habilitar esta función, debe comunicarse con el soporte administrativo para obtener acceso.',
-            Contact_Admin:'Contactar al administrador',
-            Readaccept:'He leído y acepto la',
-            Termsofservices:'Términos de servicios',
-            And:'y',
-            Privacypolicy:'Política de privacidad.',
-            MoreLoginoptions:'Más opciones de inicio de sesión',
+            Enable_Feature_Admin: 'Para habilitar esta función, debe comunicarse con el soporte administrativo para obtener acceso.',
+            Contact_Admin: 'Contactar al administrador',
+            Readaccept: 'He leído y acepto la',
+            Termsofservices: 'Términos de servicios',
+            And: 'y',
+            Privacypolicy: 'Política de privacidad.',
+            MoreLoginoptions: 'Más opciones de inicio de sesión',
+            label: "etiqueta",
+
         }
     }
 ];

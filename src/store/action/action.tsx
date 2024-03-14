@@ -226,7 +226,6 @@ const handleEditContactCount = (isAdd: boolean, selectedTabId?: number, getState
 export const EditContactAction = (inputValues: IContactCreateModel, id?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
-            console.log(`EditContactAction`, 'check API call')
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let editContactResponse: any = await editContact(inputValues);
@@ -279,28 +278,20 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
 export const TotalCounts = (accessToken: string) => {
     return async (dispatch: Dispatch) => {
         try {
-            // dispatch({ type: SCREENLOADER, payload: true });
-            // dispatch({ type: LOADER, payload: true });
             let response: any = await contactTypeCount(accessToken);
             let allData: number = 0;
             response?.data?.resultData?.map((val: any) => { allData = allData + val.count })
             response?.data?.resultData.unshift({ contactTypeId: 0, count: allData })
             dispatch({ type: CONTACTTYPESCOUNT, payload: response.data.resultData });
-            // dispatch({ type: LOADER, payload: false });
-            // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            // dispatch({ type: LOADER, payload: false });
-            // dispatch({ type: SCREENLOADER, payload: false });
         }
     }
 }
 const removeFromTotalContact = (currentState: any, tabId?: number) => {
     const contactTypeCountsForTotalContact = currentState.root.totalContacts
-    console.log(contactTypeCountsForTotalContact, 'contactTypeCountsForTotalContact', tabId)
     const filterCountsFromSpecialityTabForTotalContact = contactTypeCountsForTotalContact.filter((obj: { id: number, count: number; }) => obj.id === tabId)
-    if (filterCountsFromSpecialityTabForTotalContact.length > 0) {
-
+    if (filterCountsFromSpecialityTabForTotalContact?.length > 0) {
         filterCountsFromSpecialityTabForTotalContact[0].totalRecords = filterCountsFromSpecialityTabForTotalContact[0].totalRecords - 1;
     }
 
@@ -330,7 +321,7 @@ export const DeleteContactAction = (id: number, activeTabId: number, contactType
             await setTimeout(() => { }, 1000);
             const currentState = getState();
             let contactClone = currentState.root.contacts;
-             if (contactTypeId == activeTabId) {
+            if (contactTypeId == activeTabId) {
                 removeFromTotalContact(currentState, contactTypeId)
                 handleEditContactCount(false, contactTypeId, getState)
                 removeFromTotalContact(currentState, 0)
@@ -351,8 +342,6 @@ export const DeleteContactAction = (id: number, activeTabId: number, contactType
             // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            // dispatch({ type: LOADER, payload: false });
-            // dispatch({ type: SCREENLOADER, payload: false });
         }
     }
 }

@@ -58,7 +58,6 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         contactDetailing()
     }, [contact])
 
-
     return (
         <>
             <SafeAreaView style={styles.container}>

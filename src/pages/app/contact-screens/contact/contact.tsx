@@ -110,7 +110,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             if (searchedData.length > 0) {
             } else {
                 let seletectTabRecords = totalContacts.filter((val: any) => val.id == contactCategory)
-                console.log(contactCategory, 'asdas', 2, totalContacts, seletectTabRecords, listData, 'contactTypesCount', contactTypesCount)
                 if (contactCategory == 0) {
                     if (seletectTabRecords[0].totalRecords > listData.length) {
                         if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
@@ -160,10 +159,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const getMoreContact = async (contact: string | any[]) => {
         const contactClone = await JSON.parse(JSON.stringify(contact));
-        console.log(contactClone, 'contactClone')
         if (contact.length > 0) {
             let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
-            console.log(selectedTabData, 'selectedTabData')
             setlistData(selectedTabData[0]?.contacts)
         }
         else setlistData([])
@@ -172,8 +169,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     useEffect(() => {
         getMoreContact(contact);
         setSelectedProType([])
-        console.log(contact, contactCategory, 'contact, asddsa')
-
     }, [contact, contactCategory]);
 
     useEffect(() => {
@@ -219,7 +214,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
- 
+
     return (
         <>
 
@@ -332,11 +327,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                                     }}
                                     renderCustomSectionHeader={CustomSectionHeader}
                                     ListFooterComponent={() => {
-                                        console.log(searchInput, 'searchInput')
                                         if (searchInput.length > 0) return <Loader size={'large'} />
                                         else { return <Loader size={'large'} /> }
                                     }}
-                                    // lis
                                     onEndReached={loadMoreData}
                                     onEndReachedThreshold={0.1}
                                 />
