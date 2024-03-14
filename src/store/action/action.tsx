@@ -185,7 +185,7 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            console.log(`CreateContactAction`,'check API call')
+            console.log(`CreateContactAction`, 'check API call')
             dispatch({ type: LOADER, payload: true });
             const createContactResponse: any = await createContact(inputValues);
             createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
@@ -217,14 +217,16 @@ const handleEditContactCount = (isAdd: boolean, selectedTabId?: number, getState
     const currentState = getState();
     const contactTypeCounts = currentState.root.contactTypesCount;
     const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === selectedTabId)
-    if (isAdd) { filterCounts[0].count = filterCounts[0].count + 1; }
-    else { filterCounts[0].count = filterCounts[0].count - 1; }
+    if (filterCounts?.length > 0) {
+        if (isAdd) { filterCounts[0].count = filterCounts[0].count + 1; }
+        else { filterCounts[0].count = filterCounts[0].count - 1; }
+    }
 }
 
 export const EditContactAction = (inputValues: IContactCreateModel, id?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
-            console.log(`EditContactAction`,'check API call')
+            console.log(`EditContactAction`, 'check API call')
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             let editContactResponse: any = await editContact(inputValues);
@@ -295,12 +297,31 @@ export const TotalCounts = (accessToken: string) => {
 }
 const removeFromTotalContact = (currentState: any, tabId?: number) => {
     const contactTypeCountsForTotalContact = currentState.root.totalContacts
+    console.log(contactTypeCountsForTotalContact, 'contactTypeCountsForTotalContact', tabId)
     const filterCountsFromSpecialityTabForTotalContact = contactTypeCountsForTotalContact.filter((obj: { id: number, count: number; }) => obj.id === tabId)
-    filterCountsFromSpecialityTabForTotalContact[0].totalRecords = filterCountsFromSpecialityTabForTotalContact[0].totalRecords - 1;
+    if (filterCountsFromSpecialityTabForTotalContact.length > 0) {
+
+        filterCountsFromSpecialityTabForTotalContact[0].totalRecords = filterCountsFromSpecialityTabForTotalContact[0].totalRecords - 1;
+    }
 
 }
 
-export const DeleteContactAction = (id: number, tabId: number) => {
+interface Contact {
+    id: number; // Assuming id is of type number, adjust as necessary
+}
+
+interface ObjectWithContacts {
+    contacts: Contact[];
+}
+
+function removeObjectById(array: ObjectWithContacts[], idToRemove: number): ObjectWithContacts[] {
+    return array.filter((obj: ObjectWithContacts) => {
+        obj.contacts = obj.contacts.filter((contact: Contact) => contact.id !== idToRemove);
+        return obj.contacts.length > 0;
+    });
+}
+
+export const DeleteContactAction = (id: number, activeTabId: number, contactTypeId: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             // dispatch({ type: SCREENLOADER, payload: true });
@@ -309,21 +330,23 @@ export const DeleteContactAction = (id: number, tabId: number) => {
             await setTimeout(() => { }, 1000);
             const currentState = getState();
             let contactClone = currentState.root.contacts;
-            let selectedTabContacts = contactClone.filter((val: any) => val.id == tabId)
-            const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
-            await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
-            if (tabId !== 0) {
-                let selectedTabContacts = contactClone.filter((val: any) => val.id == 0)
-                const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
-                await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
+             if (contactTypeId == activeTabId) {
+                removeFromTotalContact(currentState, contactTypeId)
+                handleEditContactCount(false, contactTypeId, getState)
+                removeFromTotalContact(currentState, 0)
+                handleEditContactCount(false, 0, getState)
+
             }
-            const contactTypeCounts = currentState.root.contactTypesCount
-            const filterCountsFromSpecialityTab = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === tabId)
-            filterCountsFromSpecialityTab[0].count = filterCountsFromSpecialityTab[0].count - 1;
-            removeFromTotalContact(currentState, tabId)
+            else {
+                removeFromTotalContact(currentState, activeTabId)
+                removeFromTotalContact(currentState, contactTypeId)
+                handleEditContactCount(false, activeTabId, getState)
+                handleEditContactCount(false, contactTypeId, getState)
+            }
+            let arrayOfObjects = removeObjectById(contactClone, id);
             dispatch({ type: CONTACTS, payload: [] });
-            dispatch({ type: CONTACTS, payload: contactClone });
-            dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
+            dispatch({ type: CONTACTS, payload: arrayOfObjects });
+            // dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             // dispatch({ type: LOADER, payload: false });
             // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
@@ -340,7 +363,7 @@ export const SearchContactAction = (keyword: string, type: number) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             // dispatch({ type: LOADER, payload: true });
-            console.log('SearchContactAction','check API call')
+            console.log('SearchContactAction', 'check API call')
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type);
@@ -429,7 +452,7 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            console.log('GetTypeContactsSpecialityAction','check API call')
+            console.log('GetTypeContactsSpecialityAction', 'check API call')
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
@@ -461,7 +484,7 @@ export const CreateSpeciality = (apiData: { industryId: number, name: string }) 
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            console.log('CreateSpeciality','check API call')
+            console.log('CreateSpeciality', 'check API call')
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const currentState = getState();
