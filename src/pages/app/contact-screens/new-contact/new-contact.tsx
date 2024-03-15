@@ -1,6 +1,7 @@
 // @app
 import React, {
     useCallback,
+    useEffect,
     useState,
 } from 'react';
 import {
@@ -83,6 +84,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         contactTypeId: 1,
         companyName: 'momo',
         jobTitle: 'momo',
+        fileAs: '',
         profilePicture: '',
         contactTags: [{
             tagId: '',
@@ -165,6 +167,10 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         specialitiesClone.splice(index, 1)
         handleInputChange('contactSpecialities', specialitiesClone)
     }
+    useEffect(() => {
+        // console.log(attechments, 'attechmentsattechmentsattechments1111')
+        handleInputChange('fileAs', attechments.uri)
+    }, [attechments])
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -426,7 +432,11 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             setAttechments={setAttechments}
                                         /> :
                                         <TouchableOpacity
-                                            onPress={() => handleAttachments(setAttechments)}
+                                            onPress={() => {
+                                                let attachmentData = handleAttachments(setAttechments)
+                                                console.log(attachmentData, 'attachmentData2222222222222')
+                                                // handleInputChange('fileAs', attechments)
+                                            }}
                                             style={[styles.AttechmentIcon, centralStyle.XAndYCenter, centralStyle.mb2]}>
                                             <AntDesign name={`plus`} color={Colors.fontColor} size={RFPercentage(2.5)} />
                                         </TouchableOpacity>

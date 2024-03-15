@@ -35,6 +35,7 @@ export interface IContactCreateModel {
     firstName: string;
     lastName: string;
     contactTypeId: number;
+    fileAs:string;
     companyName: string;
     jobTitle: string;
     profilePicture: string;

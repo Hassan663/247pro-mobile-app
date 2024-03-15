@@ -184,8 +184,8 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
 export const CreateContactAction = (inputValues: IContactCreateModel) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
+            // console.log(inputValues, 'inputValues')
             dispatch({ type: SCREENLOADER, payload: true });
-            console.log(`CreateContactAction`, 'check API call')
             dispatch({ type: LOADER, payload: true });
             const createContactResponse: any = await createContact(inputValues);
             createContactResponse.data.resultData.value = createContactResponse.data.resultData.fullName;
@@ -194,13 +194,26 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             const contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
             const contactTypeCounts = JSON.parse(JSON.stringify(currentState.root.contactTypesCount));
             const alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
-            if (alreadyHave === -1) contactClone[0].contacts.push(createContactResponse.data.resultData)
+            if (alreadyHave === -1) {
+                console.log(contactClone, 'contactClone')
+                if (contactClone.length > 0) {
+                    contactClone[0].contacts.push(createContactResponse.data.resultData)
+                }
+                else {
+                    contactClone.push(
+                        { id: 0, contacts: [createContactResponse.data.resultData] },
+                        { id: inputValues.contactTypeId, contacts: [createContactResponse.data.resultData] }
+                    );
+                }
+            }
             else {
                 contactClone[0].contacts.push(createContactResponse.data.resultData)
                 contactClone[alreadyHave].contacts.push(createContactResponse.data.resultData)
             }
             const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
             filterCounts[0].count = filterCounts[0].count + 1;
+            const filterCountsForAllTabs = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === 0)
+            filterCountsForAllTabs[0].count = filterCountsForAllTabs[0].count + 1;
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             dispatch({ type: LOADER, payload: false });
@@ -315,10 +328,7 @@ function removeObjectById(array: ObjectWithContacts[], idToRemove: number): Obje
 export const DeleteContactAction = (id: number, activeTabId: number, contactTypeId: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
-            // dispatch({ type: SCREENLOADER, payload: true });
-            // dispatch({ type: LOADER, payload: true });
-            // await deleteContact(id);
-            await setTimeout(() => { }, 1000);
+            await deleteContact(id);
             const currentState = getState();
             let contactClone = currentState.root.contacts;
             if (contactTypeId == activeTabId) {
@@ -352,7 +362,6 @@ export const SearchContactAction = (keyword: string, type: number) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             // dispatch({ type: LOADER, payload: true });
-            console.log('SearchContactAction', 'check API call')
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type);
@@ -441,7 +450,6 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            console.log('GetTypeContactsSpecialityAction', 'check API call')
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
@@ -473,7 +481,6 @@ export const CreateSpeciality = (apiData: { industryId: number, name: string }) 
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            console.log('CreateSpeciality', 'check API call')
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const currentState = getState();
