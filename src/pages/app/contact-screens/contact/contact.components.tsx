@@ -51,7 +51,6 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
-
     // console.log(contactTypese,'contactTypese',contact,totalContacts)
     const handlePress = async () => {
         // if(contactTypese.)

@@ -184,7 +184,6 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
 export const CreateContactAction = (inputValues: IContactCreateModel) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
-            // console.log(inputValues, 'inputValues')
             dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
             const createContactResponse: any = await createContact(inputValues);
@@ -192,10 +191,9 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
             createContactResponse.data.resultData.key = createContactResponse.data.resultData.id;
             const currentState = getState();
             const contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
-            const contactTypeCounts = JSON.parse(JSON.stringify(currentState.root.contactTypesCount));
+            const contactTypeCounts = currentState.root.contactTypesCount;
             const alreadyHave = contactClone.findIndex((obj: any) => obj.id === inputValues.contactTypeId);
             if (alreadyHave === -1) {
-                console.log(contactClone, 'contactClone')
                 if (contactClone.length > 0) {
                     contactClone[0].contacts.push(createContactResponse.data.resultData)
                 }
@@ -210,22 +208,27 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
                 contactClone[0].contacts.push(createContactResponse.data.resultData)
                 contactClone[alreadyHave].contacts.push(createContactResponse.data.resultData)
             }
-            const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
-            if (filterCounts.length > 0) {
-                filterCounts[0].count = filterCounts[0].count + 1;
+
+            const alreadyHaveCount = contactTypeCounts.findIndex((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
+            if (alreadyHaveCount !== -1) {
+                // filterCounts[0].count = filterCounts[0].count + 1;
+                handleEditContactCount(true, inputValues.contactTypeId, getState)
             } else {
-                contactTypeCounts.push([{ count: 1, contactTypeId: inputValues.contactTypeId }])
+                contactTypeCounts.push({ count: 1, contactTypeId: inputValues.contactTypeId })
             }
             
             const filterCountsForAllTabs = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === 0)
             if (filterCountsForAllTabs.length > 0) {
-                filterCountsForAllTabs[0].count = filterCountsForAllTabs[0].count + 1;
+                // filterCountsForAllTabs[0].count = filterCountsForAllTabs[0].count + 1;
+                handleEditContactCount(true, 0, getState)
+                // handleEditContactCount(true, 0, getState)
                 // filterCountsForAllTabs[0].count = filterCounts[0].count + 1;
             } else {
-                contactTypeCounts.push([{ count: 1, contactTypeId: inputValues.contactTypeId }])
+                contactTypeCounts.push({ count: 1, contactTypeId: inputValues.contactTypeId })
             }
+            console.log(contactTypeCounts, 'contactTypeCounts');
             dispatch({ type: CONTACTS, payload: contactClone });
-            dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
+            // dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
 
@@ -287,7 +290,7 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
                 }
             }
 
-            dispatch({ type: CONTACTS, payload: contactClone });
+            // dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
