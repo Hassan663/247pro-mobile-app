@@ -211,9 +211,19 @@ export const CreateContactAction = (inputValues: IContactCreateModel) => {
                 contactClone[alreadyHave].contacts.push(createContactResponse.data.resultData)
             }
             const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === inputValues.contactTypeId)
-            filterCounts[0].count = filterCounts[0].count + 1;
+            if (filterCounts.length > 0) {
+                filterCounts[0].count = filterCounts[0].count + 1;
+            } else {
+                contactTypeCounts.push([{ count: 1, contactTypeId: inputValues.contactTypeId }])
+            }
+            
             const filterCountsForAllTabs = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === 0)
-            filterCountsForAllTabs[0].count = filterCountsForAllTabs[0].count + 1;
+            if (filterCountsForAllTabs.length > 0) {
+                filterCountsForAllTabs[0].count = filterCountsForAllTabs[0].count + 1;
+                // filterCountsForAllTabs[0].count = filterCounts[0].count + 1;
+            } else {
+                contactTypeCounts.push([{ count: 1, contactTypeId: inputValues.contactTypeId }])
+            }
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
             dispatch({ type: LOADER, payload: false });
