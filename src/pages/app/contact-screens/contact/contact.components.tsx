@@ -51,6 +51,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
+    // const [counts, setCounts] = useState<number>()
     // console.log(contactTypese,'contactTypese',contact,totalContacts)
     const handlePress = async () => {
         // if(contactTypese.)
@@ -67,10 +68,15 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     };
 
     // console.log(contactTypese , 'contactTypese[index]?.count',totalContacts,contact, contactCategory)
-    // useEffect(() => {
-    // }
+    console.log(contactTypese, 'contactypeseunder')
+    const counts = contactTypese.filter((obj: { contactTypeId: number }) => obj.contactTypeId === index);
 
-    //     , [])
+    // useEffect(() => {
+    //     console.log(contactTypese , 'contactypese')
+    //     if (counts.length > 0) setCounts(counts[0].count)
+    //     else setCounts(0)
+    // }, [contactTypese.length])
+
     return (
         <>
             <View style={styles.titleContainer(contactCategory, index)}>
@@ -148,7 +154,8 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             weight='400'
                             type='Poppin-12'
                             color={Colors.fontColor}
-                            title={` (${contactTypese[index]?.count === undefined ? 0 : contactTypese[index]?.count})`}
+                            title={` (${counts.length > 0 ? counts[0].count : 0})`}
+                        // title={` (${contactTypese[index]?.count === undefined ? 0 : contactTypese[index]?.count})`}
                         />
                     </TouchableOpacity>
                 }
