@@ -244,6 +244,8 @@ const handleEditContactCount = (isAdd: boolean, selectedTabId?: number, getState
         else {
             if (filterCounts[0]?.count > 0) filterCounts[0].count = filterCounts[0].count - 1;
         }
+    } else {
+        contactTypeCounts.push({ contactTypeId: selectedTabId, count: 1 })
     }
 }
 
@@ -261,7 +263,11 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
             let previousList = contactClone.findIndex((i: { id: number }) => i.id == id);
             let contactIndexInALL = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
             if (contactIndexInALL !== -1) contactClone[0].contacts.splice(contactIndexInALL, 1, editContactResponse.data.resultData);
+            const contactTypeCounts = currentState.root.contactTypesCount;
+            const contactTypeCountsForTotalContact = currentState.root.totalContacts
+
             if (previousList == -1 && findId === -1) {
+                console.log('266 - inputValues.contactTypeId', contactTypeCounts,)
                 handleEditContactCount(false, id, getState)
                 removeFromTotalContact(currentState, id)
                 handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
@@ -269,12 +275,14 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
             else {
                 let editContactIndex = contactClone[previousList].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
                 if (findId === -1) {
+                    console.log('274 - inputValues.contactTypeId', contactTypeCounts, findId, editContactResponse.data.resultData.contactTypeId)
                     handleEditContactCount(false, id, getState)
                     removeFromTotalContact(currentState, id)
                     handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
                     contactClone[previousList].contacts.splice(editContactIndex, 1);
                 } else {
                     if (id !== inputValues.contactTypeId) {
+                        console.log('279 - inputValues.contactTypeId', contactTypeCounts, editContactIndex)
                         if (editContactIndex !== -1) {
                             handleEditContactCount(false, id, getState)
                             removeFromTotalContact(currentState, id)
@@ -283,11 +291,12 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
                             contactClone[findId].contacts.splice(editContactIndex, 0, editContactResponse.data.resultData);
                         }
                     } else {
+                        console.log('287 - inputValues.contactTypeId', contactTypeCounts, editContactIndex)
                         contactClone[findId].contacts.splice(editContactIndex, 1, editContactResponse.data.resultData);
                     }
                 }
             }
-
+            console.log(contactClone, 'contactClone', contactTypeCounts, contactTypeCountsForTotalContact)
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
