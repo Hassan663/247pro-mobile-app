@@ -51,10 +51,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
-    // const [counts, setCounts] = useState<number>()
-    // console.log(contactTypese,'contactTypese',contact,totalContacts)
     const handlePress = async () => {
-        // if(contactTypese.)
         dispatch({ type: SEARCHEDDATA, payload: [] })
         let selectedTabData = contact.filter((val: any) => val.id == index)
 
@@ -67,15 +64,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
         };
     };
 
-    // console.log(contactTypese , 'contactTypese[index]?.count',totalContacts,contact, contactCategory)
-    console.log(contactTypese, 'contactypeseunder')
     const counts = contactTypese.filter((obj: { contactTypeId: number }) => obj.contactTypeId === index);
-
-    // useEffect(() => {
-    //     console.log(contactTypese , 'contactypese')
-    //     if (counts.length > 0) setCounts(counts[0].count)
-    //     else setCounts(0)
-    // }, [contactTypese.length])
 
     return (
         <>
@@ -142,9 +131,9 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             type='Poppin-12'
                             color={Colors.fontColor}
                             title={contactCategory === 2 ? selectedProType?.length == 0 ?
-                                `${t('All')} (${contactTypese[index]?.count === undefined ? 0 : contactTypese[index]?.count})` :
+                                `${t('All')} (${counts.length > 0 ? counts[0].count : 0})` :
                                 selectedProType?.value :
-                                selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypese[index]?.count === undefined ? 0 : contactTypese[index]?.count})` :
+                                selectedSupplierType?.length == 0 ? `${t('All')} (${counts.length > 0 ? counts[0].count : 0})` :
                                     selectedSupplierType?.value}
                         />
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />

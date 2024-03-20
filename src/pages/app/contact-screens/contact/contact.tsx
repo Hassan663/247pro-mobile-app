@@ -103,7 +103,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         else changeRoute(navigation, 'ViewCompany', { item, contactCategory })
     }
     const dispatch: Dispatch<any> = useDispatch();
-
+    console.log(contact,'contact')
     const loadMoreData = async () => {
         if (loader) { }
         else {
