@@ -328,7 +328,6 @@ export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpeciality
         let alreadySelected = deepCopyisSelectedValues.findIndex((val: any) => val.specialtyId === obj.specialtyId)
         if (alreadySelected == -1) deepCopyisSelectedValues.push(obj)
         else deepCopyisSelectedValues.splice(alreadySelected, 1)
-        console.log(deepCopyisSelectedValues, 'deepCopyisSelectedValues')
         setisSelectedValues(deepCopyisSelectedValues)
     };
 

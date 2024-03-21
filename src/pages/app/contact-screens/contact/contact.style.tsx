@@ -16,7 +16,7 @@ export const styles: any = StyleSheet.create<any>({
     tabContainer2: (selectedTab: any) => ({
         flex: 1, height: RFPercentage(5),
         borderBottomWidth: 1,
-        borderColor: selectedTab == t('Company (200)') ? Colors.primary : Colors.lightGrey,
+        borderColor: selectedTab == t('Company') ? Colors.primary : Colors.lightGrey,
     }),
     height7: {
         height: RFPercentage(7),

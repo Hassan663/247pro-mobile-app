@@ -278,7 +278,7 @@ const EditCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                             centralStyle.my2,
                                             centralStyle.XAndYCenter
                                         ]}
-                                        title={t('Delete Contact')}
+                                        title={t('DeleteContact')}
                                         titleStyle={styles.deleteBtn}
                                     />
                                 </View>
