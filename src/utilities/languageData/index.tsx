@@ -1191,7 +1191,6 @@ export const languageData = [
             And: 'y',
             Privacypolicy: 'Política de privacidad.',
             MoreLoginoptions: 'Más opciones de inicio de sesión',
-            MoreLoginoptions: 'Más opciones de inicio de sesión',
         }
     }
 ];

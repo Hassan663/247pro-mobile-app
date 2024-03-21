@@ -65,7 +65,7 @@ const ViewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                 color={Colors.black}
                                 type='Poppin-24'
                                 weight='600'
-                                title={t('George Lee')} />
+                                title={'George Lee'} />
                             <Title
                                 color={Colors.fontColor}
                                 type='Poppin-12'
