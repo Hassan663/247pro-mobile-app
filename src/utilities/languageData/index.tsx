@@ -195,6 +195,7 @@ export const languageData = [
             Deny: "Deny",
             Allow: "Allow",
             Files: "Files",
+            logout: 'logout',
             Client: "Client",
             Emailaddress: "Email address",
             Nocompanylinked: "No company linked",
@@ -749,6 +750,7 @@ export const languageData = [
             Cost: "成本",
             Inviteprostobid: "邀请专业人士投标",
             Phone: "电话",
+            logout: '登出',
             Createdby: "由...制作",
             Date: "日期",
             Biddescription: "投标说明",
@@ -1123,6 +1125,7 @@ export const languageData = [
             EditJob: "Editar trabajo",
             HourlyRate: 'Tarifa por hora',
             Amount: 'Cantidad',
+            logout: 'cerrar sesión',
             Attachmentsoptional: "Archivos adjuntos (opcional)",
 
             FindlocalprosandgetbidsforKitchenRemodelforsinglefamilyhome: "Encuentre profesionales locales y obtenga ofertas para remodelación de cocinas para viviendas unifamiliares",
