@@ -304,7 +304,7 @@ export const FilesCompany: React.FC<{}> = ({ }) => {
                             textAlignCenter='center'
                             type='Poppin-12'
                             weight='400'
-                            title={t('Contacts.xlxx')} />
+                            title={'Contacts.xlxx'} />
                     </View>
                 )}
                 keyExtractor={(_item, index) => index.toString()}
