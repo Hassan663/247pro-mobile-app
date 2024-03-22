@@ -1,6 +1,6 @@
 import { t } from "i18next";
 
-export const DROPDOWNDATA = [t('Share'), t('Edit'), t('Convert to project'), t('Change Status'), t('Delete')]
+export const DROPDOWNDATA = [t('Share'), t('Edit'), t('Convert to project'), t('atus'), t('Delete')]
 export const MOREOPTIONSDATA = [t('View'), t(`Hire`), t(`Reject`)]
 export const INFORMATIONDATA = [
     { title: t(`ID`) + ' :', value: 'J34234' },

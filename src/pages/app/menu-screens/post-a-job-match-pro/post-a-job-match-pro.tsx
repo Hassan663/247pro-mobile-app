@@ -85,7 +85,7 @@ const PostAJobMatchPro: React.FC<{ navigation: any, }> = ({ navigation, }) => {
                                     color={Colors.fontColor}
                                     type='Poppin-16'
                                     weight='600'
-                                    title={t('Contact Info')} />
+                                    title={t('ContactInfo')} />
                                 {contactInfoInputs?.map((item, index) => <OutlinedTextInput key={index.toString()} title={item} placeHolder={item} />)}
                             </View>
                             <View style={styles.inputWrapper2}>

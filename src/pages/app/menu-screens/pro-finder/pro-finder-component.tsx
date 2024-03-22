@@ -113,7 +113,7 @@ export const List = ({ viewJobCallBack, callBack }: any) => {
                         color={Colors.gray}
                         weight='600' />
                     <Title
-                        title={t('3 ')}
+                        title={t('3')}
                         type='Poppin-14'
                         color={Colors.black}
                         weight='600' />
@@ -125,7 +125,7 @@ export const List = ({ viewJobCallBack, callBack }: any) => {
                         color={Colors.gray}
                         weight='600' />
                     <Title
-                        title={t('1 ')}
+                        title={t('1')}
                         type='Poppin-14'
                         color={Colors.black}
                         weight='600' />

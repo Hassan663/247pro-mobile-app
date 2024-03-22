@@ -84,7 +84,7 @@ export const BidderList = ({ navigation, callBack, dotIconWithOutCallback }: any
                         color={Colors.gray}
                     />
                     <Title
-                        title={t(`Nov 21, 2022`)}
+                        title={`Nov 21, 2022`}
                         type='Poppin-14'
                         weight='400'
                         color={Colors.black}
@@ -98,7 +98,7 @@ export const BidderList = ({ navigation, callBack, dotIconWithOutCallback }: any
                         color={Colors.gray}
                     />
                     <Title
-                        title={t(`$3500.00`)}
+                        title={`$3500.00`}
                         type='Poppin-14'
                         weight='400'
                         color={Colors.black}

@@ -102,7 +102,7 @@ const PostAJob: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     style={[centralStyle.flex1, centralStyle.mx1,]}
                                     value={searchVal}
                                     onChangeText={handleOnChangeText}
-                                    placeholder={t('Search')}
+                                    placeholder={t('search')}
                                 />
                                 {searchVal.length > 0 && <AntDesign
                                     onPress={() => {
