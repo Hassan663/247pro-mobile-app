@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -233,13 +234,15 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             <View style={[centralStyle.fullHeightWithoutBottomTab, { backgroundColor: 'white' }]}>
                 <AppHeader
                     iconR1={
-                        <AntDesign
+                        <Feather
                             onPress={() => changeRoute(navigation, 'NewContact')}
                             name={`plus`}
-                            size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)} />}
+                            color={Colors.black}
+                            size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.9)} />}
                     iconR2={
                         <Entypo
                             onPress={() => setmodalEnabled(true)}
+                            color={Colors.black}
                             style={centralStyle.mx2}
                             name={`dots-three-vertical`}
                             size={platform == 'ios' ? RFPercentage(2) : RFPercentage(2.5)} />
