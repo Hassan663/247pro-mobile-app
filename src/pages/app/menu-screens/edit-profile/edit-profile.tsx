@@ -119,8 +119,8 @@ const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             />
                             <OutlinedTextInput
                                 val='Lee'
-                                title={t('lastname')}
-                                placeHolder={t('lastname')}
+                                title={t('lastName')}
+                                placeHolder={t('lastName')}
                             />
                             <View style={styles.inputWrapper2}>
                                 <TouchableOpacity

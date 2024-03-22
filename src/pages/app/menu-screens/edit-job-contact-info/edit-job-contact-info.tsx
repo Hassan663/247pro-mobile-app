@@ -82,7 +82,7 @@ const EditJobContactInfo: React.FC<{ navigation: any, route: any }> = ({ navigat
                             </View>
                             <OutlinedTextInput val={`George`} title={t('firstname')} placeHolder={t('firstname')} />
                             <View style={centralStyle.mt1}>
-                                <OutlinedTextInput val={`Lee`} title={t('lastname')} placeHolder={t('lastname')} />
+                                <OutlinedTextInput val={`Lee`} title={t('lastName')} placeHolder={t('lastName')} />
                             </View>
                             <View style={centralStyle.mt1}>
                                 <OutlinedTextInput val={`geolee@247pro.com`} title={t('Email')} placeHolder={t('Email')} />
