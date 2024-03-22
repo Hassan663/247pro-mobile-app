@@ -52,6 +52,7 @@ import {
 } from './new-company-component';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { COUNTRY_LIST } from '../../../../utilities/contact-data';
+import { renderComponentOfContactEmails } from '../new-contact/new-contact-component';
 
 const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [openPicker, setOpenPicker] = useState(false);
@@ -202,10 +203,17 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                     val={inputValues.jobTitle}
                                     onChange={(text: string) => handleInputChange('jobTitle', text)}
                                     title={t('jobTitle')} placeHolder={t('jobTitle')} />
-                                <OutlinedTextInput
+                                {/* <OutlinedTextInput
                                     val={inputValues.companyName}
                                     onChange={(text: string) => handleInputChange('contactEmails', text, 'email', 0)}
-                                    title={t('Email')} placeHolder={t('Email')} />
+                                    title={t('Email')} placeHolder={t('Email')} /> */}
+                                <View style={{ flex: 9, }}>
+                                    {inputValues?.contactEmails?.map((item: {
+                                        email: string,
+                                        label: string,
+                                        visible: boolean,
+                                    }, index: number) => renderComponentOfContactEmails({ item, index, inputValues, handleInputChange, setInputValues }))}
+                                </View>
                                 <View style={styles.inputWrapper2}>
                                     <TouchableOpacity
                                         onPress={() => setIsCountryPickerVisible(true)}
@@ -303,15 +311,9 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
 
                                         <View style={[centralStyle.row, centralStyle.XAndYCenter]}>
                                             <View style={styles.leftSide}>
-                                                <OutlinedDropDown
-                                                    dropDownStyle={styles.dropdownstyle}
-                                                    title={t('State')}
-                                                    color={Colors.lightGray}
-                                                    iconsSize={RFPercentage(2)}
-                                                    onselect={(value: string) => { setselectedIndustry(value) }}
-                                                    DATA={CONTACTTYPEDATA}
-                                                    drop_down_button_style={[styles.dropDownStyle,]}
-                                                />
+                                                <OutlinedTextInput
+                                                    onChange={(text) => handleInputChange('contactAddresses', text, 'stateText', 0)}
+                                                    title={t('State')} placeHolder={t('State')} />
                                             </View>
                                             <View style={styles.rightSide}>
                                                 <OutlinedTextInput title={t('ZipCode')} placeHolder={t('ZipCode')} />
@@ -338,7 +340,7 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             }}
                                             icon={
                                                 <AntDesign name={'plus'}
-                                                    size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
+                                                    size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(2.5)}
                                                     color={Colors.primary} />
                                             }
                                             customStyle={[

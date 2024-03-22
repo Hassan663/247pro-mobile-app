@@ -1,10 +1,11 @@
 import Colors from '../../../../styles/colors';
 import { StyleSheet } from 'react-native';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { platform } from '../../../../utilities';
 import {
     centralPosition,
-    centralStyle
+    centralStyle,
+    windowHeight
 } from '../../../../styles/constant.style';
 
 export const styles: any = StyleSheet.create<any>({
@@ -37,8 +38,7 @@ export const styles: any = StyleSheet.create<any>({
         color: Colors.primary,
         fontWeight: "600",
         textTransform: 'uppercase',
-        fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2.1),
-
+        fontSize: platform == 'ios' ? RFPercentage(1.5) : RFValue(14, windowHeight),
     },
     spaceBetweenRow: {
         justifyContent: "space-between"
