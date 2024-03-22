@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     FlatList,
     TextInput,
+    ActivityIndicator,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -63,7 +64,8 @@ import {
     SepecialityModal,
 } from './contact.components';
 import { ALPHABET_SIZE } from '../../../../utilities/constants';
-import { SPECIALITIES } from '../../../../store/constant/constant';
+import Loader from '../../../../core/components/loader.component';
+import { SEARCHEDDATA, SPECIALITIES } from '../../../../store/constant/constant';
 
 const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [importModal, setImportModal] = useState(false)
@@ -90,6 +92,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const contact = useSelector((state: any) => state.root.contacts)
     const searchedData = useSelector((state: any) => state.root.searchedData)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
+    const contactTypesCount = useSelector((state: any) => state.root.contactTypesCount)
+    const loader = useSelector((state: any) => state.root.loader);
+    const paginationLoader = useSelector((state: any) => state.root.paginationLoader);
 
     const handleChangeRoute = (item: IData) => {
         if (selectedTab == t('Contacts')) changeRoute(navigation, 'ViewContact', { item, contactCategory })
@@ -98,39 +103,52 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const dispatch: Dispatch<any> = useDispatch();
 
     const loadMoreData = async () => {
-        if (searchedData.length > 0) {
-        } else {
-            let seletectTabRecords = totalContacts.filter((val: any) => val.id == contactCategory)
-            if (contactCategory == 0) {
-                if (seletectTabRecords[0].totalRecords > listData.length) {
-                    if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
-                }
-            } else if (contactCategory == 1) {
-                if (seletectTabRecords[0].totalRecords > listData.length) {
-                    await contactTypefilter(1, dispatch, setClientpageIndex, clientpageIndex);
-                }
-            } else if (contactCategory == 2) {
-                if (seletectTabRecords[0].totalRecords > listData.length) {
-                    await contactTypefilter(2, dispatch, setPropageIndex, propageIndex);
-                }
-            } else if (contactCategory == 3) {
-                if (seletectTabRecords[0].totalRecords > listData.length) {
-                    await contactTypefilter(3, dispatch, setSupplierpageIndex, supplierpageIndex);
-                }
-            } else if (contactCategory == 4) {
-                if (seletectTabRecords[0].totalRecords > listData.length) {
-                    await contactTypefilter(4, dispatch, setStaffpageIndex, staffpageIndex);
+        if (loader) { }
+        else {
+            if (searchedData.length > 0) {
+            } else {
+                let seletectTabRecords = totalContacts.filter((val: any) => val.id == contactCategory)
+                console.log(contactCategory,'asdas', 2,totalContacts, seletectTabRecords,listData,'contactTypesCount',contactTypesCount)
+                if (contactCategory == 0) {
+                    if (seletectTabRecords[0].totalRecords > listData.length) {
+                        if (searchInput.length < 2) dispatch(ContactAction(setpageIndex, pageIndex));
+                    }
+                } else if (contactCategory == 1) {
+                    if (seletectTabRecords[0].totalRecords > listData.length) {
+                        await contactTypefilter(1, dispatch, setClientpageIndex, clientpageIndex);
+                    }
+                } else if (contactCategory == 2) {
+                    if (seletectTabRecords[0].totalRecords > listData.length) {
+                        await contactTypefilter(2, dispatch, setPropageIndex, propageIndex);
+                    }
+                } else if (contactCategory == 3) {
+                    if (seletectTabRecords[0].totalRecords > listData.length) {
+                        await contactTypefilter(3, dispatch, setSupplierpageIndex, supplierpageIndex);
+                    }
+                } else if (contactCategory == 4) {
+                    if (seletectTabRecords[0].totalRecords > listData.length) {
+                        await contactTypefilter(4, dispatch, setStaffpageIndex, staffpageIndex);
+                    }
                 }
             }
         }
     };
     const handleSearch = async (value: string) => {
         try {
-            setSearchInput(value)
-            if (value && value.length > 0) {
-                await dispatch(SearchContactAction(value, contactCategory));
+            if (value.length > 0) {
+                setSearchInput(value)
+                if (value && value.length > 0) await dispatch(SearchContactAction(value, contactCategory))
+                else await setlistData(contact[contactCategory]?.contacts)
             }
-            else await setlistData(contact[contactCategory]?.contacts)
+            else {
+                const contactClone = await JSON.parse(JSON.stringify(contact));
+                if (contact.length > 0) {
+                    let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
+                    setlistData(selectedTabData[0]?.contacts)
+                }
+                else setlistData([])
+                dispatch({ type: SEARCHEDDATA, payload: [] })
+            }
         } catch (error) {
             console.log('error--->', error)
         }
@@ -140,8 +158,10 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     const getMoreContact = async (contact: string | any[]) => {
         const contactClone = await JSON.parse(JSON.stringify(contact));
+        console.log(contactClone, 'contactClone')
         if (contact.length > 0) {
             let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
+            console.log(selectedTabData, 'selectedTabData')
             setlistData(selectedTabData[0]?.contacts)
         }
         else setlistData([])
@@ -149,6 +169,9 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
 
     useEffect(() => {
         getMoreContact(contact);
+        setSelectedProType([])
+        console.log(contact, contactCategory, 'contact, asddsa')
+
     }, [contact, contactCategory]);
 
     useEffect(() => {
@@ -194,6 +217,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
     };
+    console.log(contact, contactCategory, 'contact, contactCategory', listData)
 
     return (
         <>
@@ -286,51 +310,62 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         size={RFPercentage(2.5)} name='filter-list' />
                 </View>
                 <View style={[listData?.length ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
+                    {
 
-                    {listData?.length ?
-                        <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
-                            <AlphabetList
-                                data={listData}
-                                letterListContainerStyle={styles.listContainerStyle}
-                                showsVerticalScrollIndicator={false}
-                                sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
-                                getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
-                                indexContainerStyle={{ width: 20 }}
-                                indexLetterStyle={styles.letterStyle}
-                                renderCustomItem={(item) => {
-                                    return (
-                                        <CompanyList
-                                            getCompany={() => { handleChangeRoute(item) }}
-                                            item={item} />
-                                    )
-                                }}
-                                renderCustomSectionHeader={CustomSectionHeader}
-                                onEndReached={loadMoreData}
-                                onEndReachedThreshold={0.1}
-                            />
-                        </View>
-                        :
-                        <>
-                            <Title type='Poppin-12'
-                                weight='400'
-                                color={Colors.black}
-                                title={t('Youhavenocontact')} />
-                            <Button
-                                icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
-                                title={selectedTab == t('Company') ? t('AddCompany') : t('AddContact')}
-                                titleStyle={{ color: Colors.primary }}
-                                callBack={() => {
-                                    if (selectedTab == t('Company')) { changeRoute(navigation, 'NewCompany') }
-                                    else if (selectedTab == t('Contacts')) changeRoute(navigation, 'NewContact')
-                                }}
-                                customStyle={[centralStyle.row,
-                                centralStyle.alignitemCenter,
-                                centralStyle.my2,
-                                styles.addContactContaienr
-                                ]}
-                            />
-                        </>
+                        listData?.length ?
+                            <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
+                                <AlphabetList
+                                    data={listData}
+                                    letterListContainerStyle={styles.listContainerStyle}
+                                    showsVerticalScrollIndicator={false}
+                                    sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                                    getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
+                                    indexContainerStyle={{ width: 20 }}
+                                    indexLetterStyle={styles.letterStyle}
+                                    renderCustomItem={(item) => {
+                                        return (
+                                            <CompanyList
+                                                getCompany={() => { handleChangeRoute(item) }}
+                                                item={item} />
+                                        )
+                                    }}
+                                    renderCustomSectionHeader={CustomSectionHeader}
+                                    ListFooterComponent={() => {
+                                        console.log(searchInput, 'searchInput')
+                                        if (searchInput.length > 0) return <Loader size={'large'} />
+                                        else { return <Loader size={'large'} /> }
+                                    }}
+                                    // lis
+                                    onEndReached={loadMoreData}
+                                    onEndReachedThreshold={0.1}
+                                />
+                            </View> :
+                            loader ?
+                                <Loader size={'large'} />
+                                :
+                                <>
+
+                                    <Title type='Poppin-12'
+                                        weight='400'
+                                        color={Colors.black}
+                                        title={t('Youhavenocontact')} />
+                                    <Button
+                                        icon={<AntDesign size={RFPercentage(2)} name='plus' color={Colors.primary} />}
+                                        title={selectedTab == t('Company') ? t('AddCompany') : t('AddContact')}
+                                        titleStyle={{ color: Colors.primary }}
+                                        callBack={() => {
+                                            if (selectedTab == t('Company')) { changeRoute(navigation, 'NewCompany') }
+                                            else if (selectedTab == t('Contacts')) changeRoute(navigation, 'NewContact')
+                                        }}
+                                        customStyle={[centralStyle.row,
+                                        centralStyle.alignitemCenter,
+                                        centralStyle.my2,
+                                        styles.addContactContaienr
+                                        ]}
+                                    />
+                                </>
                     }
+
                     <RBSheet
                         ref={sheetRef}
                         // height={RFValue(240,windowHeight)}
@@ -344,6 +379,12 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         <FilterCompany />
                     </RBSheet>
                 </View>
+                {/* {
+                    paginationLoader &&
+                    <View style={{ height: 50, bottom: 0, backgroundColor: "rgba(0,0,0,0)", justifyContent: 'center', alignItems: 'center', width: '100%', }}>
+                        <ActivityIndicator size={'large'} color={Colors.primary} />
+                        {/* <Loader size={'large'} /> */}
+                    {/* </View>}  */}
                 {contactModal &&
                     <FilesModal
                         getCompany={(val: any) => { setSelectedCompany(val) }}

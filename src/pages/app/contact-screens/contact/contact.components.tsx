@@ -47,7 +47,7 @@ import { ALPHABET_SIZE } from '../../../../utilities/constants';
 import { SEARCHEDDATA } from '../../../../store/constant/constant';
 import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType }: any) => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim,  selectedProType, selectedSupplierType }: any) => {
     const [allData, setAllData] = useState(0);
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
@@ -55,6 +55,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
     const handlePress = async () => {
         dispatch({ type: SEARCHEDDATA, payload: [] })
         let selectedTabData = contact.filter((val: any) => val.id == index)
+        
         await setContactCategory(index);
         if (contactCategory !== index && index !== 0) {
             if (index === 1 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
@@ -62,12 +63,12 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             else if (index === 3 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
             else if (index === 4 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
         };
-    };    
-    useEffect(() => {
-        let allData = 0;
-        contactTypese.map((val: any) => { allData = allData + val.count })
-        setAllData(allData)
-    }, [contactTypese]);
+    };
+    // useEffect(() => {
+    //     let allData = 0;
+    //     contactTypese.map((val: any) => { allData = allData + val.count })
+    //     setAllData(allData)
+    // }, [contactTypese]);
 
     return (
         <>
@@ -92,7 +93,11 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             weight='400'
                             type='Poppin-12'
                             color={Colors.fontColor}
-                            title={contactCategory === 2 ? selectedProType?.length == 0 ? `${t('All')} (${contactTypese[index - 1]?.count}) ` : selectedProType?.value : selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypese[index - 1]?.count}) ` : selectedSupplierType?.value}
+                            title={contactCategory === 2 ? selectedProType?.length == 0 ?
+                                `${t('All')} (${contactTypese[index ]?.count}) ` :
+                                selectedProType?.value :
+                                selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypese[index ]?.count}) ` :
+                                    selectedSupplierType?.value}
                         />
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
                     </TouchableOpacity>
@@ -103,11 +108,11 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                                 weight='400'
                                 type='Poppin-12'
                                 color={Colors.fontColor}
-                                title={` (${allData})`}
+                                title={` (${contactTypese[index]?.count})`}
                             />
                         </TouchableOpacity>
                         :
-                        index > 0 && typeof contactTypese[index - 1]?.count !== 'undefined' ?
+                        index > 0 && typeof contactTypese[index ]?.count !== 'undefined' ?
                             <TouchableOpacity
                                 activeOpacity={.7}
                                 onPress={handlePress}
@@ -116,7 +121,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                                     weight='400'
                                     type='Poppin-12'
                                     color={Colors.fontColor}
-                                    title={` (${contactTypese[index - 1]?.count})`}
+                                    title={` (${contactTypese[index]?.count})`}
                                 />
                             </TouchableOpacity> : <></>
                 }

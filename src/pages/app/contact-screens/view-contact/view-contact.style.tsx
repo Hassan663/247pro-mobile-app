@@ -342,5 +342,13 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.XAndYCenter,
         ...centralStyle.py05,
     },
-    flatListContainer: { ...centralStyle.row, ...centralStyle.px1, ...centralStyle.py05, flexWrap: 'wrap', alignSelf: 'center', }
+    flatListContainer: { ...centralStyle.row, ...centralStyle.px1, ...centralStyle.py05, flexWrap: 'wrap', alignSelf: 'center', },
+     labelWrapper: {
+        flex: 2.5,
+        marginHorizontal: RFPercentage(.6),
+        borderColor: Colors.lightGray,
+        height: 65,
+        flexDirection: 'row',
+        alignItems: "center"
+    },
 });

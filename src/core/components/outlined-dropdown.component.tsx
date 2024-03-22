@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   useState
 } from 'react';
 import {
@@ -32,7 +33,12 @@ interface OutlinedDropDownProps {
 
 const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defaultValueByIndex, dropDownStyle, isPrimaryBorderOnFocus, color, DATA, onselect, fontSize, iconsSize, drop_down_button_style, search }) => {
   const [isActive, setIsActive] = useState(false);
-  const [dropdownVal, setdropdownVal] = useState(defaultValueByIndex ? DATA[defaultValueByIndex] : '')
+  const [dropdownVal, setdropdownVal] = useState('')
+
+  useEffect(() => {
+    setdropdownVal(DATA[defaultValueByIndex])
+  }, [defaultValueByIndex])
+
   return (
     <>
       {search ? <View style={styles.inputContainer(height)}>
@@ -69,7 +75,8 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defa
               textAlign: "left", color:
                 defaultValueByIndex == true ? Colors.black :
                   dropdownVal?.length && dropdownVal?.length > 0 ? Colors.black : color ? color : Colors.black,
-              fontSize: fontSize ? fontSize : 14
+              fontSize: fontSize ? fontSize : platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
+
             }}
             dropdownStyle={dropDownStyle ? dropDownStyle : styles.dropDownStyle}
           />
@@ -102,7 +109,8 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defa
               textAlign: "left", color:
                 defaultValueByIndex == true ? Colors.black :
                   dropdownVal?.length && dropdownVal?.length > 0 ? Colors.black : color ? color : Colors.black,
-              fontSize: fontSize ? fontSize : 14
+              fontSize: fontSize ? fontSize : platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
+
             }}
             dropdownStyle={dropDownStyle ? dropDownStyle : styles.dropDownStyle}
           />

@@ -25,7 +25,7 @@ import { styles } from './new-contact.style';
 import { debounce } from "lodash";
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import { ALPHABET_SIZE, platform } from '../../../../utilities/constants';
 import {
     CreateContactAction,
     CreateSpeciality,
@@ -275,29 +275,31 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
                     onChange={(text) => handleInputChange('contactEmails', text, 'email', index)}
                     title={t('Email')} placeHolder={t('Email')} />
             </View>
-            <View style={[{ flex: 2.3, marginHorizontal: RFPercentage(.6) }]}>
-                <OutlinedDropDown
-                    dropDownStyle={styles.dropdownstyle}
-                    title={t('Label')}
-                    color={Colors.lightGray}
-                    isPrimaryBorderOnFocus={true}
-                    iconsSize={RFPercentage(2)}
-                    onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
-                    DATA={EMAILLABELDATA}
-                    drop_down_button_style={styles.dropDownStyle()}
-                />
-            </View>
+            {item?.email?.length > 0 &&
+                <View style={[{ flex: 2.3, marginHorizontal: RFPercentage(.6) }]}>
+                    <OutlinedDropDown
+                        dropDownStyle={styles.dropdownstyle}
+                        title={t('Label')}
+                        color={Colors.lightGray}
+                        isPrimaryBorderOnFocus={true}
+                        iconsSize={RFPercentage(2)}
+                        onselect={(value: string) => handleInputChange('contactEmails', value, 'label', index)}
+                        DATA={EMAILLABELDATA}
+                        drop_down_button_style={styles.dropDownStyle()}
+                    />
+                </View>
+            }
             {condition ? (
                 <TouchableOpacity
                     onPress={() => addNewContactField(setInputValues)}
                     style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .7 }]}>
-                    <AntDesign name={`plus`} size={RFPercentage(3)} />
+                    <AntDesign name={`plus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                 </TouchableOpacity>
             ) : (
                 <TouchableOpacity
                     onPress={() => removePrevField(index, setInputValues, inputValues)}
                     style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .7 }]}>
-                    <AntDesign name={`minus`} size={RFPercentage(3)} />
+                    <AntDesign name={`minus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
                 </TouchableOpacity>
             )}
         </View>

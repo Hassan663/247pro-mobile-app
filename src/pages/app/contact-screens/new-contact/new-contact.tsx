@@ -209,7 +209,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                         <View style={styles.mx2}>
                             <View style={centralStyle.my1}>
                                 <OutlinedDropDown
-                                    dropDownStyle={styles.dropdownstyle}
+                                    // dropDownStyle={styles.dropdownstyle}
                                     title={t('Contacttype')}
                                     color={Colors.black}
                                     iconsSize={RFPercentage(2)}

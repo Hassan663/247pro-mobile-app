@@ -13,6 +13,7 @@ import {
     CURRENTUSERPROFILE,
     INITIALROUTE,
     LOADER,
+    PAGINATIONLOADER,
     SCREENLOADER,
     SEARCHEDDATA,
     TOTALCONTACTS
@@ -135,8 +136,9 @@ export const signUpAction = (name: string, email: string, password: string) => {
 export const ContactAction = (setpageIndex: any, pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
+            // dispatch({ type: PAGINATIONLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
-            dispatch({ type: SCREENLOADER, payload: true });
+            // dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
@@ -149,7 +151,8 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     if (contactClone?.length > 0) {
                         contactResponse.data.resultData.list.forEach(function (obj: any) {
                             obj.value = obj.fullName;
-                            obj.key = obj.id;
+                            obj.key = Math.floor(Math.random() * Date.now());;
+
                         });
                         contactClone[alreadyHave]?.contacts.push(...contactResponse.data.resultData.list);
                         dispatch({ type: CONTACTS, payload: contactClone });
@@ -157,7 +160,8 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                         mergeResponse = [...contactClone, ...contactResponse.data.resultData.list];
                         mergeResponse.forEach(function (obj: any) {
                             obj.value = obj.fullName;
-                            obj.key = obj.id;
+                            obj.key = Math.floor(Math.random() * Date.now());;
+
                         });
                         let createDataForTab = [{ id: 0, contacts: mergeResponse }];
                         if (contactResponse?.data?.resultData?.list?.length > 0) dispatch({ type: CONTACTS, payload: createDataForTab });
@@ -165,11 +169,13 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
                     if (contactResponse?.data?.resultData?.totalRecords) dispatch({ type: TOTALCONTACTS, payload: [{ totalRecords: contactResponse.data.resultData.totalRecords, id: 0 }] });
                 }
             }
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
             dispatch({ type: LOADER, payload: false });
         }
     }
@@ -228,23 +234,33 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
             let previousList = contactClone.findIndex((i: { id: number }) => i.id == id);
             let contactIndexInALL = contactClone[0].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
             if (contactIndexInALL !== -1) contactClone[0].contacts.splice(contactIndexInALL, 1, editContactResponse.data.resultData);
-            let editContactIndex = contactClone[previousList].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
-            if (findId === -1) {
+            if (previousList == -1 && findId === -1) {
                 handleEditContactCount(false, id, getState)
+                removeFromTotalContact(currentState, id)
                 handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
-                contactClone[previousList].contacts.splice(editContactIndex, 1);
-            } else {
-                if (id !== inputValues.contactTypeId) {
-                    if (editContactIndex !== -1) {
-                        handleEditContactCount(false, id, getState)
-                        handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
-                        contactClone[previousList].contacts.splice(editContactIndex, 1);
-                        contactClone[findId].contacts.splice(editContactIndex, 0, editContactResponse.data.resultData);
-                    }
+            }
+            else {
+                let editContactIndex = contactClone[previousList].contacts.findIndex((i: { id: number }) => i.id == editContactResponse.data.resultData.id);
+                if (findId === -1) {
+                    handleEditContactCount(false, id, getState)
+                    removeFromTotalContact(currentState, id)
+                    handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
+                    contactClone[previousList].contacts.splice(editContactIndex, 1);
                 } else {
-                    contactClone[findId].contacts.splice(editContactIndex, 1, editContactResponse.data.resultData);
+                    if (id !== inputValues.contactTypeId) {
+                        if (editContactIndex !== -1) {
+                            handleEditContactCount(false, id, getState)
+                            removeFromTotalContact(currentState, id)
+                            handleEditContactCount(true, editContactResponse.data.resultData.contactTypeId, getState)
+                            contactClone[previousList].contacts.splice(editContactIndex, 1);
+                            contactClone[findId].contacts.splice(editContactIndex, 0, editContactResponse.data.resultData);
+                        }
+                    } else {
+                        contactClone[findId].contacts.splice(editContactIndex, 1, editContactResponse.data.resultData);
+                    }
                 }
             }
+
             dispatch({ type: CONTACTS, payload: contactClone });
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
@@ -259,41 +275,59 @@ export const EditContactAction = (inputValues: IContactCreateModel, id?: number)
 export const TotalCounts = (accessToken: string) => {
     return async (dispatch: Dispatch) => {
         try {
-            dispatch({ type: SCREENLOADER, payload: true });
-            dispatch({ type: LOADER, payload: true });
+            // dispatch({ type: SCREENLOADER, payload: true });
+            // dispatch({ type: LOADER, payload: true });
             let response: any = await contactTypeCount(accessToken);
+            let allData: number = 0;
+            response?.data?.resultData?.map((val: any) => { allData = allData + val.count })
+            response?.data?.resultData.unshift({ contactTypeId: 0, count: allData })
             dispatch({ type: CONTACTTYPESCOUNT, payload: response.data.resultData });
-            dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         }
     }
+}
+const removeFromTotalContact = (currentState: any, tabId?: number) => {
+    const contactTypeCountsForTotalContact = currentState.root.totalContacts
+    const filterCountsFromSpecialityTabForTotalContact = contactTypeCountsForTotalContact.filter((obj: { id: number, count: number; }) => obj.id === tabId)
+    filterCountsFromSpecialityTabForTotalContact[0].totalRecords = filterCountsFromSpecialityTabForTotalContact[0].totalRecords - 1;
+
 }
 
 export const DeleteContactAction = (id: number, tabId: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
-            dispatch({ type: SCREENLOADER, payload: true });
-            dispatch({ type: LOADER, payload: true });
-            await deleteContact(id);
+            // dispatch({ type: SCREENLOADER, payload: true });
+            // dispatch({ type: LOADER, payload: true });
+            // await deleteContact(id);
+            await setTimeout(() => { }, 1000);
             const currentState = getState();
-            let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
+            let contactClone = currentState.root.contacts;
             let selectedTabContacts = contactClone.filter((val: any) => val.id == tabId)
             const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
             await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
+            if (tabId !== 0) {
+                let selectedTabContacts = contactClone.filter((val: any) => val.id == 0)
+                const removeContactIndex = await selectedTabContacts[0]?.contacts?.findIndex((contacts: any) => contacts.id === id);
+                await selectedTabContacts[0]?.contacts.splice(removeContactIndex, 1)
+            }
             const contactTypeCounts = currentState.root.contactTypesCount
-            const filterCounts = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === tabId)
-            filterCounts[0].count = filterCounts[0].count - 1;
+            const filterCountsFromSpecialityTab = contactTypeCounts.filter((obj: { contactTypeId: number, count: number; }) => obj.contactTypeId === tabId)
+            filterCountsFromSpecialityTab[0].count = filterCountsFromSpecialityTab[0].count - 1;
+            removeFromTotalContact(currentState, tabId)
+            dispatch({ type: CONTACTS, payload: [] });
             dispatch({ type: CONTACTS, payload: contactClone });
-            dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            dispatch({ type: CONTACTTYPESCOUNT, payload: contactTypeCounts });
+            // dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         }
     }
 }
@@ -303,14 +337,15 @@ export const SearchContactAction = (keyword: string, type: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
-            dispatch({ type: LOADER, payload: true });
+            // dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type);
                 if (searchContactResponse.data.resultData.list?.length > 0) {
                     searchContactResponse.data.resultData.list.forEach(function (obj: any) {
                         obj.value = obj.fullName;
-                        obj.key = obj.id;
+                        obj.key = Math.floor(Math.random() * Date.now());;
+
                     });
                 };
                 const currentState = getState();
@@ -322,11 +357,11 @@ export const SearchContactAction = (keyword: string, type: number) => {
                 else if (type === 3) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
                 else if (type === 4) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
             }
-            dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
-            dispatch({ type: LOADER, payload: false });
+            // dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
         }
     }
@@ -337,8 +372,9 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
         try {
             const currentState = getState();
             let totalContactsClone = JSON.parse(JSON.stringify(currentState.root.totalContacts));
-            dispatch({ type: SCREENLOADER, payload: true });
+            // dispatch({ type: SCREENLOADER, payload: true });
             dispatch({ type: LOADER, payload: true });
+            // dispatch({ type: PAGINATIONLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
@@ -352,7 +388,8 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                     if (selectedDataFilter?.length > 0) {
                         await selectedDataFilter[0].contacts.forEach(function (obj: any) {
                             obj.value = obj.fullName;
-                            obj.key = obj.id;
+                            obj.key = Math.floor(Math.random() * Date.now());;
+
                         });
                     }
                     dispatch({ type: CONTACTS, payload: createDataForTab })
@@ -364,7 +401,8 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                             obj.contacts = cloneDate;
                             obj.contacts.forEach(function (obj: any) {
                                 obj.value = obj.fullName;
-                                obj.key = obj.id;
+                                obj.key = Math.floor(Math.random() * Date.now());;
+
                             });
                         }
                     });
@@ -373,11 +411,13 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             }
             dispatch({ type: TOTALCONTACTS, payload: totalContactsClone });
             dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
-            dispatch({ type: SCREENLOADER, payload: false });
+            // dispatch({ type: PAGINATIONLOADER, payload: false });
+            // dispatch({ type: SCREENLOADER, payload: false });
         }
     }
 };
@@ -393,7 +433,8 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
                 if (typeContactResponse.data.resultData.list?.length > 0) {
                     typeContactResponse.data.resultData.list.forEach(function (obj: any) {
                         obj.value = obj.fullName;
-                        obj.key = obj.id;
+                        obj.key = Math.floor(Math.random() * Date.now());;
+
                     });
                 }
                 const currentState = getState();

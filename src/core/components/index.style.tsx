@@ -93,7 +93,10 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: 5,
         borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
-        paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
+        // paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
+        paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : 17,
+        fontSize: platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
+
         width: "100%",
         color: Colors.black,
         height: pass ? '100%' : '85%',
@@ -125,8 +128,8 @@ export const styles: any = StyleSheet.create<any>({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
-        paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
+        // borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : 17,
         width: "100%",
         height: '85%'
     }),

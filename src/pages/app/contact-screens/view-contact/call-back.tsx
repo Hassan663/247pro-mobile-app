@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getContactDetails } from "../../../../core/http-services/apis/application-api/contact/contact.service";
-import { SCREENLOADER } from "../../../../store/constant/constant";
 import { changeRoute } from "../../../../core/helpers/async-storage";
+import { SCREENLOADER } from "../../../../store/constant/constant";
+import { getContactDetails } from "../../../../core/http-services/apis/application-api/contact/contact.service";
 import { DeleteContactAction } from "../../../../store/action/action";
 
 export const fetchingDetails = async (id: number, dispatch: any) => {
@@ -19,8 +19,8 @@ export const fetchingDetails = async (id: number, dispatch: any) => {
 
 
 export const deleteContact = async (id: number, navigation?: any, Loader?: boolean, dispatch?: any, tabId?: any) => {
-    if (id && tabId) {
-        await dispatch(DeleteContactAction(id, tabId))
+    if (id !== undefined && tabId !== undefined) {
+        await dispatch(DeleteContactAction(id, tabId));
         if (!Loader) changeRoute(navigation, 'pop');
     }
 }

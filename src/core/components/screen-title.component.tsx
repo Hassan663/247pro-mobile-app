@@ -47,7 +47,6 @@ export const getFontFamily = (weight?: string) => {
 }
 export const getRobotoFontFamily = (weight?: string) => {
     if (weight == '700') return "Roboto-Bold"
-    // else if (weight == '600') return "Poppins-SemiBold"
     else if (weight == '500') return "Roboto-Medium"
     else return "Roboto-Regular"
 }
