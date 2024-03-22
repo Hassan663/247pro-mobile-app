@@ -53,11 +53,10 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
         setContactDetails(response?.data?.resultData);
         dispatch({ type: SCREENLOADER, payload: false })
     }
-    // console.log(contactDetails,'contactDetails')
+
     useEffect(() => {
         contactDetailing()
     }, [contact])
-
 
     return (
         <>
@@ -229,7 +228,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             </View>
                         </View>
                         <Button
-                            callBack={() => deleteContact(contactDetails.id, navigation, Loader, dispatch, route?.params?.contactCategory)}
+                            callBack={() => deleteContact(contactDetails.id, navigation, Loader, dispatch, route?.params?.contactCategory, contactDetails.contactTypeId)}
                             customStyle={[
                                 centralStyle.my2,
                                 centralStyle.XAndYCenter

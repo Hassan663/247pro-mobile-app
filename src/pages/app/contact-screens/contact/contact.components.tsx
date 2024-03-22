@@ -47,15 +47,14 @@ import { ALPHABET_SIZE } from '../../../../utilities/constants';
 import { SEARCHEDDATA } from '../../../../store/constant/constant';
 import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim,  selectedProType, selectedSupplierType }: any) => {
-    const [allData, setAllData] = useState(0);
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType }: any) => {
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
-
+    const totalContacts = useSelector((state: any) => state.root.totalContacts)
     const handlePress = async () => {
         dispatch({ type: SEARCHEDDATA, payload: [] })
         let selectedTabData = contact.filter((val: any) => val.id == index)
-        
+
         await setContactCategory(index);
         if (contactCategory !== index && index !== 0) {
             if (index === 1 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
@@ -64,11 +63,8 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
             else if (index === 4 && selectedTabData.length == 0) await contactTypefilter(index, dispatch);
         };
     };
-    // useEffect(() => {
-    //     let allData = 0;
-    //     contactTypese.map((val: any) => { allData = allData + val.count })
-    //     setAllData(allData)
-    // }, [contactTypese]);
+
+    const counts = contactTypese.filter((obj: { contactTypeId: number }) => obj.contactTypeId === index);
 
     return (
         <>
@@ -84,7 +80,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                         title={item}
                     />
                 </TouchableOpacity >
-                {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
+                {/* {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ? (
                     <TouchableOpacity
                         onPress={() => openSheet(setanim, setSpecialityModal)}
                         activeOpacity={0.7}
@@ -94,9 +90,9 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             type='Poppin-12'
                             color={Colors.fontColor}
                             title={contactCategory === 2 ? selectedProType?.length == 0 ?
-                                `${t('All')} (${contactTypese[index ]?.count}) ` :
+                                `${t('All')}(${contactTypese[index]?.count})` :
                                 selectedProType?.value :
-                                selectedSupplierType?.length == 0 ? `${t('All')} (${contactTypese[index ]?.count}) ` :
+                                selectedSupplierType?.length == 0 ? `${t('All')}(${contactTypese[index]?.count})` :
                                     selectedSupplierType?.value}
                         />
                         <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
@@ -104,7 +100,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                 ) :
                     index === 0 && typeof contactTypese[index]?.count !== 'undefined' ?
                         <TouchableOpacity onPress={handlePress}>
-                            < Title
+                            <Title
                                 weight='400'
                                 type='Poppin-12'
                                 color={Colors.fontColor}
@@ -112,7 +108,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                             />
                         </TouchableOpacity>
                         :
-                        index > 0 && typeof contactTypese[index ]?.count !== 'undefined' ?
+                        index > 0 && typeof contactTypese[index]?.count !== 'undefined' ?
                             <TouchableOpacity
                                 activeOpacity={.7}
                                 onPress={handlePress}
@@ -124,6 +120,33 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
                                     title={` (${contactTypese[index]?.count})`}
                                 />
                             </TouchableOpacity> : <></>
+                } */}
+                {contactCategory === index && index !== 0 && index !== 1 && index !== 4 ?
+                    <TouchableOpacity
+                        onPress={() => openSheet(setanim, setSpecialityModal)}
+                        activeOpacity={0.7}
+                        style={styles.renderItemSpecialityType}>
+                        <Title
+                            weight='400'
+                            type='Poppin-12'
+                            color={Colors.fontColor}
+                            title={contactCategory === 2 ? selectedProType?.length == 0 ?
+                                `${t('All')} (${counts.length > 0 ? counts[0].count : 0})` :
+                                selectedProType?.value :
+                                selectedSupplierType?.length == 0 ? `${t('All')} (${counts.length > 0 ? counts[0].count : 0})` :
+                                    selectedSupplierType?.value}
+                        />
+                        <Entypo name='chevron-down' color={Colors.fontColor} size={RFPercentage(2)} />
+                    </TouchableOpacity> :
+                    <TouchableOpacity onPress={handlePress}>
+                        <Title
+                            weight='400'
+                            type='Poppin-12'
+                            color={Colors.fontColor}
+                            title={` (${counts.length > 0 ? counts[0].count : 0})`}
+                        // title={` (${contactTypese[index]?.count === undefined ? 0 : contactTypese[index]?.count})`}
+                        />
+                    </TouchableOpacity>
                 }
             </View>
         </>
@@ -144,7 +167,7 @@ export const ImportModal: React.FC<{ disableModal?: any, navigation?: any, openf
                 style={[styles.importModalContainer, centralStyle.row]}>
 
                 <View style={[{ flex: 2.5 }, centralStyle.XAndYCenter]}>
-                    <FontAwesome name={`folder-o`} size={RFPercentage(3)} />
+                    <FontAwesome name={`folder - o`} size={RFPercentage(3)} />
                 </View>
 
                 <View style={[{ flex: 7.5, }, centralStyle.justifyContentCenter]}>

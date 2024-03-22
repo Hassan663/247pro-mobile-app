@@ -77,7 +77,6 @@ const signUp = async (loginData: SignUpModal): Promise<IResponse<ISignupResponse
 
     // Step 3: get user identity 
     const identityResponse: any = await userIdentity(SignupResponse.data.accessToken)
-    console.log(identityResponse, 'identityResponse',)
     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
@@ -111,8 +110,6 @@ const userIdentity = async (accessToken: string): Promise<IResponse<ILoginRespon
     // LOGIN_IDENTITY_ENDPOINT.Cookie = true
     const emptyBody: any = {};
     let identityResponse: any = await getApi<UserIdentity, ILoginResponseData>(LOGIN_IDENTITY_ENDPOINT, emptyBody);
-    console.log(identityResponse, 'identityResponse',)
-
     identityResponse.data.accessToken = accessToken
     return identityResponse.data;
   } catch (error) {

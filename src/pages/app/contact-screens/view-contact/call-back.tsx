@@ -18,9 +18,9 @@ export const fetchingDetails = async (id: number, dispatch: any) => {
 }
 
 
-export const deleteContact = async (id: number, navigation?: any, Loader?: boolean, dispatch?: any, tabId?: any) => {
-    if (id !== undefined && tabId !== undefined) {
-        await dispatch(DeleteContactAction(id, tabId));
+export const deleteContact = async (id: number, navigation?: any, Loader?: boolean, dispatch?: any, activeTabId?: any, contactTypeId?: number) => {
+    if (id !== undefined && activeTabId !== undefined && contactTypeId !== undefined) {
+        await dispatch(DeleteContactAction(id, activeTabId, contactTypeId));
         if (!Loader) changeRoute(navigation, 'pop');
     }
-}
+} 

@@ -29,9 +29,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../core/components/loader.component';
 
 const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }: any) => {
-    const [name, setName] = useState('Ahmed shah')
-    const [password, setPassword] = useState('Karachi@123456')
-    const [confirmPassword, setConfirmPassword] = useState('momo19@gmail.com')
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const loader = useSelector((state: any) => state.root.loader);
     const toast = useToast();
@@ -106,6 +106,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
                                 val={password}
                                 onChange={(val) => { setPassword(val) }}
                                 title={t('SetAPassword')}
+                                Password
                                 placeHolder={t('SetAPassword')}
                             />
                         }
@@ -113,6 +114,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
                             val={confirmPassword}
                             onChange={(val) => { setConfirmPassword(val) }}
                             title={t('Confirm_password')}
+                            Password
                             placeHolder={t('Confirm_password')}
                         />
                     </View>
