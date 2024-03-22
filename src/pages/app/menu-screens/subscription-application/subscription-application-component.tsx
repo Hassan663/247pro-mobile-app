@@ -51,12 +51,12 @@ export const ApplicationCard = ({ available, sheetRef, navigation }: any) => {
             <View style={[centralStyle.row, centralStyle.mt1]}>
 
                 <Title
-                    title={t(`$49.00 - 199.00`)}
+                    title={`$49.00 - 199.00`}
                     type='Poppin-18'
                     color={Colors.black}
                     weight='600' />
                 <Title
-                    title={t(` / mo`)}
+                    title={` / ${t(`mo`)}`}
                     type='Poppin-14'
                     color={Colors.black}
                     weight='400' />

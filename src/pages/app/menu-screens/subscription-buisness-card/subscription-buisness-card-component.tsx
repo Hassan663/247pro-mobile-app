@@ -191,7 +191,7 @@ export const LicenseUI = ({ sheetRef, setsubscriptionActivatedUI }: any) => {
                         color={Colors.black}
                         name='minus' />
                     <Title
-                        title={t(`${numOfLicense} ${t('License')}`)}
+                        title={`${numOfLicense} ${t('License')}`}
                         type='Poppin-16'
                         textAlignCenter='center'
                         color={Colors.black}

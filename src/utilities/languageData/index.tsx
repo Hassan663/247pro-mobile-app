@@ -41,6 +41,7 @@ export const languageData = [
             Code_has_been_sent_to_your_phone_number: 'Code has been sent to your phone number.',
             Code_has_been_sent_to_your_EmailAddress: 'Code has been sent to your email address.',
             Set_your_password: "Set your password.",
+            mo: "mo",
 
             newPassMsg: `Your new password must be different from your previous password used`,
             New_password: "New password",
@@ -55,6 +56,7 @@ export const languageData = [
             New_here: "New here? ",
             Create_an_free_account: "Create an free account ",
             or: "or",
+            Free: "Free",
             Whats_your_mobile_number: "What’s your mobile number?",
             Enter_Your_Email: "Enter Your Email",
             Mobile_phone_number: "Mobile phone number",
@@ -442,6 +444,7 @@ export const languageData = [
             Verify_Proceed: "验证并继续",
             Code_has_been_sent_to_your_EmailAddress: '代码已发送至您的电子邮件地址。',
             Set_your_password: "设置你的密码。",
+            Free: "自由的",
             newPassMsg: `您的新密码必须与之前使用的密码不同。`,
             New_password: "新密码",
             Confirm_password: "确认密码",
@@ -766,6 +769,7 @@ export const languageData = [
             Ilikeawholehouserenovationlessthanpeoplegivedescriptiononimage: "我喜欢整栋房子装修（不到 10% 的人在图片上给出描述......",
             Remodel: "改造",
             New: '新的',
+            mo: "月",
             Completiondate: "完成日期",
             Submit: "提交",
             Recessedlights: "嵌入式灯",
@@ -849,7 +853,7 @@ export const languageData = [
             Phone_or_email: "Teléfono o correo electrónico",
             Welcome_To: "Bienvenida a",
             Forget_Password: 'Contraseña olvidada',
-
+            Free: "Gratis",
             Remember_me: "Acuérdate de mí",
             Continue_with_google: "continuar con google",
             Continue_with_Apple: "Continuar con Apple",
@@ -1185,6 +1189,7 @@ export const languageData = [
             Browse: "Navegar",
             MatchPro: "Partido profesional",
             fromdevice: "desde el dispositivo",
+            mo: "mes",
 
             PostAndMatchPros: "Publicar y combinar profesionales",
             FindlocalprosandgetbidsforKitchenRemodel: "Encuentre profesionales locales y obtenga ofertas para remodelación de cocinas",
