@@ -39,9 +39,9 @@ const ModalComp: React.FC<Modal> = ({ navigation, cancel, state, callBack }) => 
                     weight='600' />
                 <View style={[centralStyle.row, centralStyle.wrap, centralStyle.justifyContentCenter]}>
                     <Text style={{ textAlign: 'center' }}>
-                        <Text style={styles.text()}>{t(`To proceed please agree with`)} </Text>
+                        <Text style={styles.text()}>{t(`ToProceedPleaseAgreeWith`)} </Text>
                         <Text style={styles.text(Colors.primary)}>{t(`Termsofservices`)} </Text>
-                        <Text style={styles.text()}>{t(`&`)} </Text>
+                        <Text style={styles.text()}>{t(`and`)} </Text>
                         <Text style={styles.text(Colors.primary)}>{t(`Privacypolicy`)}</Text>
                     </Text>
                 </View>
