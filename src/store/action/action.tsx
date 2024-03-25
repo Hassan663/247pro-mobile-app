@@ -376,14 +376,16 @@ export const DeleteContactAction = (id: number, activeTabId: number, contactType
 }
 
 
-export const SearchContactAction = (keyword: string, type: number) => {
+export const SearchContactAction = (keyword: string, type: number, specialityID?: number) => {
     return async (dispatch: Dispatch, getState: any) => {
         try {
             dispatch({ type: SCREENLOADER, payload: true });
             // dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type);
+                const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type, specialityID);
+                console.log(searchContactResponse, "searchContactResponse")
+
                 if (searchContactResponse.data.resultData.list?.length > 0) {
                     searchContactResponse.data.resultData.list.forEach(function (obj: any) {
                         obj.value = obj.fullName;

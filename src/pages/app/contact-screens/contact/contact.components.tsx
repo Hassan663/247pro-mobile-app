@@ -47,12 +47,14 @@ import { ALPHABET_SIZE } from '../../../../utilities/constants';
 import { SEARCHEDDATA } from '../../../../store/constant/constant';
 import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType }: any) => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, setSelectedProType, setSelectedSupplierType }: any) => {
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
     const handlePress = async () => {
         dispatch({ type: SEARCHEDDATA, payload: [] })
+        setSelectedSupplierType([]);
+        setSelectedProType([]);
         let selectedTabData = contact.filter((val: any) => val.id == index)
 
         await setContactCategory(index);

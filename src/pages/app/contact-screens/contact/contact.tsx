@@ -138,7 +138,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
         try {
             if (value.length > 0) {
                 setSearchInput(value)
-                if (value && value.length > 0) await dispatch(SearchContactAction(value, contactCategory))
+                if (value && value.length > 0) {
+                    if (contactCategory === 3 || contactCategory === 2)
+                        contactCategory === 3 ? await dispatch(SearchContactAction(value, contactCategory, selectedSupplierType.id))
+                            :
+                            contactCategory === 2 && dispatch(SearchContactAction(value, contactCategory, selectedProType.id));
+                    else dispatch(SearchContactAction(value, contactCategory))
+                }
                 else await setlistData(contact[contactCategory]?.contacts)
             }
             else {
@@ -286,6 +292,8 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             setanim={setanim}
                             selectedProType={selectedProType}
                             selectedSupplierType={selectedSupplierType}
+                            setSelectedProType={setSelectedProType}
+                            setSelectedSupplierType={setSelectedSupplierType}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}
