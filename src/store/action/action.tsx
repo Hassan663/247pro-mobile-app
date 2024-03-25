@@ -384,7 +384,6 @@ export const SearchContactAction = (keyword: string, type: number, specialityID?
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
                 const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type, specialityID);
-                console.log(searchContactResponse, "searchContactResponse")
 
                 if (searchContactResponse.data.resultData.list?.length > 0) {
                     searchContactResponse.data.resultData.list.forEach(function (obj: any) {
@@ -395,12 +394,14 @@ export const SearchContactAction = (keyword: string, type: number, specialityID?
                 };
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.searchedData));
-                let createDataForTab = [...contactClone, { id: type, contacts: searchContactResponse.data.resultData.list }];
-                if (type === 1) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
-                else if (type === 0) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
-                else if (type === 2) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
-                else if (type === 3) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
-                else if (type === 4) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
+
+                const isAlreadyHave = contactClone.findIndex((obj: { id: number }) => obj.id === type)
+                if (isAlreadyHave === -1) {
+                    contactClone.push({ id: type, contacts: searchContactResponse.data.resultData.list });
+                } else {
+                    contactClone[isAlreadyHave].contacts = searchContactResponse.data.resultData.list;
+                }
+                dispatch({ type: SEARCHEDDATA, payload: contactClone })
             }
             // dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });
@@ -427,7 +428,6 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
                 let alreadyHave = contactClone.findIndex((val: any) => val.id == id);
-                console.log(alreadyHave)
                 if (alreadyHave === -1) {
                     let createDataForTab = [...contactClone, { id, contacts: typeContactResponse.data.resultData.list }]
                     let selectedDataFilter: any = createDataForTab.filter((val) => val.id == id)
@@ -484,9 +484,14 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
                 }
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.searchedData));
-                let createDataForTab = [...contactClone, { id: type, contacts: typeContactResponse.data.resultData.list }];
-                if (type === 2) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
-                else if (type === 3) dispatch({ type: SEARCHEDDATA, payload: createDataForTab })
+                const isAlreadyHave = contactClone.findIndex((obj: { id: number }) => obj.id === type)
+                if (isAlreadyHave === -1) {
+                    contactClone.push({ id: type, contacts: typeContactResponse.data.resultData.list });
+                } else {
+                    contactClone[isAlreadyHave].contacts = typeContactResponse.data.resultData.list;
+                }
+
+                dispatch({ type: SEARCHEDDATA, payload: contactClone })
             };
             dispatch({ type: LOADER, payload: false });
             dispatch({ type: SCREENLOADER, payload: false });

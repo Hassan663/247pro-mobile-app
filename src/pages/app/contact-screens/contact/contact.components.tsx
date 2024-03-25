@@ -47,7 +47,7 @@ import { ALPHABET_SIZE } from '../../../../utilities/constants';
 import { SEARCHEDDATA } from '../../../../store/constant/constant';
 import { useSelector } from 'react-redux';
 
-export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, setSelectedProType, setSelectedSupplierType }: any) => {
+export const RenderItem = ({ item, index, contactCategory, setContactCategory, dispatch, setSpecialityModal, setanim, selectedProType, selectedSupplierType, setSelectedProType, setSelectedSupplierType, setSearchInput }: any) => {
     const contact = useSelector((state: any) => state.root.contacts)
     const contactTypese = useSelector((state: any) => state.root.contactTypesCount)
     const totalContacts = useSelector((state: any) => state.root.totalContacts)
@@ -55,6 +55,7 @@ export const RenderItem = ({ item, index, contactCategory, setContactCategory, d
         dispatch({ type: SEARCHEDDATA, payload: [] })
         setSelectedSupplierType([]);
         setSelectedProType([]);
+        setSearchInput('');
         let selectedTabData = contact.filter((val: any) => val.id == index)
 
         await setContactCategory(index);

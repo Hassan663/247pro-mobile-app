@@ -81,7 +81,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const [propageIndex, setPropageIndex] = useState<number>(2);
     const [supplierpageIndex, setSupplierpageIndex] = useState<number>(2);
     const [staffpageIndex, setStaffpageIndex] = useState<number>(2);
-    const [searchInput, setSearchInput] = useState('')
+    const [searchInput, setSearchInput] = useState<string>('')
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const [listData, setlistData] = useState<[]>([]);
@@ -149,12 +149,23 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
             }
             else {
                 const contactClone = await JSON.parse(JSON.stringify(contact));
-                if (contact.length > 0) {
-                    let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory)
-                    setlistData(selectedTabData[0]?.contacts)
+                if (contactCategory === 2 || contactCategory === 3) {
+                    const selectedTypeLength = contactCategory === 2 ? selectedProType.length : selectedSupplierType.length;
+                    if (selectedTypeLength === 0) {
+                        let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory);
+                        setlistData(selectedTabData[0]?.contacts);
+                    }
+                    else await getProContacts(dispatch, contactCategory, contactCategory == 2 ? selectedProType.id : selectedSupplierType.id);
                 }
-                else setlistData([])
-                dispatch({ type: SEARCHEDDATA, payload: [] })
+                else {
+                    if (contact.length > 0) {
+                        let selectedTabData = contactClone.filter((val: any) => val.id == contactCategory);
+                        setlistData(selectedTabData[0]?.contacts);
+                    }
+                    else setlistData([])
+                    dispatch({ type: SEARCHEDDATA, payload: [] })
+                }
+
             }
         } catch (error) {
             console.log('error--->', error)
@@ -214,11 +225,13 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
     const proContacts = async (val: any) => {
         await setSelectedProType(val);
         await getProContacts(dispatch, 2, val.id);
+        setSearchInput('');
     };
 
     const SupplierContacts = async (val: any) => {
         await setSelectedSupplierType(val);
         await getProContacts(dispatch, 3, val.id);
+        setSearchInput('');
     };
 
     return (
@@ -294,6 +307,7 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                             selectedSupplierType={selectedSupplierType}
                             setSelectedProType={setSelectedProType}
                             setSelectedSupplierType={setSelectedSupplierType}
+                            setSearchInput={setSearchInput}
                         />
                         }
                         keyExtractor={(item, index) => index.toString()}
@@ -307,7 +321,11 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                     centralStyle.XAndYCenter]}>
                     <AntDesign size={RFPercentage(2)} name='search1' color={Colors.fontColor} />
                     <TextInput
-                        onChangeText={handleTextDebounce}
+                        value={searchInput}
+                        onChangeText={(val: string) => {
+                            handleTextDebounce(val);
+                            setSearchInput(val)
+                        }}
                         style={[centralStyle.flex1, centralStyle.height100, centralStyle.mx1,]}
                         placeholder={t('search')}
                     />
@@ -317,7 +335,6 @@ const Contact: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                 </View>
                 <View style={[listData?.length ? centralStyle.XAndYStart : centralStyle.XAndYCenter, centralStyle.flex1,]}>
                     {
-
                         listData?.length ?
                             <View style={[centralStyle.px2, { flex: 1, width: "100%" }]}>
                                 <AlphabetList
