@@ -169,6 +169,7 @@ export const languageData = [
             SHOWMORE: "SHOW MORE",
             Country: "Country",
             country: "country",
+            forgetPasswordSign: "Forgot password?",
             StreetAddressLine2: "Street address line 2",
             City: "City",
             State: "State",
@@ -433,6 +434,7 @@ export const languageData = [
             RESEND_CODE: "重新发送验证码",
             resentText: "如果您没有收到代码。 请点击下面的按钮。",
             enter_Code_Text: '输入发送至您手机 +1 (234) 567 8900 的 4 位数代码。',
+            forgetPasswordSign: "忘记密码？",
 
             Verify_Your_Mobile: "验证您的手机",
             Forget_your_password: "忘记密码？",
@@ -969,6 +971,7 @@ export const languageData = [
             Youhavenocontact: "no tienes contacto",
             search: "buscar",
             Company: "Empresa (200)",
+            forgetPasswordSign: "¿Has olvidado tu contraseña?",
             AddContact: "Agregar contacto",
             ConnectionRequests: "Solicitudes de conexión",
             NewContact: "Nuevo contacto",

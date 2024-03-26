@@ -144,7 +144,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                             <Title
                                 type={'Poppin-14'}
                                 color={Colors.primary}
-                                title={t('Forget_Password')} />
+                                title={t('forgetPasswordSign')} />
                         </TouchableOpacity>
                     </View>
                 </View>
