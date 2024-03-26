@@ -63,6 +63,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     poppin_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
+        // fontSize: platform == 'ios' ? RFPercentage(2.5) : RFValue(20, windowHeight),
     },
     poppin_10: {
         fontSize: platform == 'ios' ? RFPercentage(1.2) : RFPercentage(1.5),

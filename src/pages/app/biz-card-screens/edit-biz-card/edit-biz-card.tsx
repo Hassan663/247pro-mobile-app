@@ -32,7 +32,6 @@ import { platform } from '../../../../utilities';
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import {
     centralStyle,
-    windowHeight
 } from '../../../../styles/constant.style';
 import {
     CONTACTINFOINPUTS,
@@ -60,7 +59,6 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
     const [imageUriLocal, setimageUriLocal] = useState('');
 
     const sheetRef = useRef<any>(null)
-
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -91,7 +89,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             }
                             type='Poppin-18'
                             weight='600'
-                            title={t(`NewBusinessCard`)} />
+                            title={route.params ? t(`Edit`) + t(`NewBusinessCard`).slice(3) : t(`NewBusinessCard`)} />
 
 
                         <ScrollView showsVerticalScrollIndicator={false}>
@@ -187,7 +185,7 @@ const EditBizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                     weight='600'
                                     title={t('SocialProfile')} />
                                 <Switch
-                                    trackColor={{ false: Colors.lightGrey, true: Colors.lightGrey }}
+                                    trackColor={{ false: Colors.lightGrey, true: `${Colors.primary}40` }}
                                     thumbColor={isEnabled ? Colors.primary : Colors.lightGray}
                                     ios_backgroundColor={Colors.lightGrey}
                                     onValueChange={() => toggleSwitch(setIsEnabled)}

@@ -87,7 +87,7 @@ const BizCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route 
                         {modalEnabled && <DropDownModal
                             DATA={MODALDATA}
                             navigation={navigation}
-                            editCallback={() => { changeRoute(navigation, 'EditBizCard') }}
+                            editCallback={(headerTag: string | boolean) => { changeRoute(navigation, 'EditBizCard', headerTag) }}
                             disableModal={() => setmodalEnabled(!modalEnabled)} />}
 
                         <ScrollView showsVerticalScrollIndicator={false}                        >

@@ -32,7 +32,7 @@ export const DropDownModal: React.FC<{ disableModal?: any, viewCallback?: any, e
                                 onPress={() => {
                                     if (item == t("Edit") || item == t('AddNewCart')) {
                                         disableModal()
-                                        if (editCallback) editCallback()
+                                        if (editCallback) item == t("Edit") ? editCallback(t("Edit")) : editCallback(false)
                                     } else if (item == t("Share")) {
                                         disableModal()
                                         onShare()
