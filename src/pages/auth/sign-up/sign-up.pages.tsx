@@ -5,8 +5,8 @@ import {
     Image,
     TouchableOpacity,
     SafeAreaView,
+    TextInput,
     Text,
-    TouchableWithoutFeedback,
 } from 'react-native';
 
 import Fontisto from 'react-native-vector-icons/Fontisto'
@@ -14,38 +14,36 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { t } from 'i18next';
 import { useToast } from 'react-native-toast-notifications';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CountryPicker, {
     Country,
 } from 'react-native-country-picker-modal';
 
 import Colors from '../../../styles/colors';
-import Input from '../../../core/components/input.component';
 import Button from '../../../core/components/button.component';
-import i18n from '../../../i18n';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-up.style';
-import { appLanguages } from '../../../utilities/languageData';
-import { emailValidation, phoneValidation } from '../../../core/helpers/validation/validation';
+import {
+    emailValidation,
+    phoneValidation
+} from '../../../core/helpers/validation/validation';
 import {
     centralStyle,
     windowHeight,
 } from '../../../styles/constant.style';
 import {
     changeRoute,
-    setItem
 } from '../../../core/helpers/async-storage';
 import {
     Title,
     FooterText,
-    ScreenSubTitle,
 } from '../../../core/components/screen-title.component';
 import ModalComp from '../../../core/components/modal-component';
 import { LanguageDropDown } from './sign-up.components';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [countryCode, setCountryCode] = useState<any>('PK');
+    const [countryCode, setCountryCode] = useState<any>('92');
     const [phoneNumber, setphoneNumber] = useState<string>('')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
@@ -61,7 +59,9 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     const handleOnSelect = (country: Country) => {
         setIsCountryPickerVisible(false);
-        setCountryCode(country.cca2);
+        // console.log(country,'country',callingCode
+        // )
+        setCountryCode(country.callingCode);
     };
 
     const phoneOrEmailCallback = useCallback((val: string) => {
@@ -187,52 +187,62 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <View style={styles.bottomSection}>
 
                             {selectedTab == t('Phone') ?
-                                <View style={styles.inputWrapper}>
-                                    <TouchableOpacity
-                                        onPress={() => setIsCountryPickerVisible(true)}
-                                        style={styles.flagContainer}
-                                    >
-                                        <View style={styles.flagWrapper}>
-                                            <CountryPicker
-                                                countryCode={countryCode}
-                                                withCallingCode
-                                                withFlagButton={true}
-                                                onClose={() => setIsCountryPickerVisible(false)}
-                                                onSelect={handleOnSelect}
-                                                visible={isCountryPickerVisible}
+                                <View style={[{
+                                    height: 65,
+                                    justifyContent: "flex-end"
+                                },]}>
+                                    <View style={styles.inputWrapper}>
+                                        <TouchableOpacity
+                                            onPress={() => setIsCountryPickerVisible(true)}
+                                            style={styles.flagContainer}
+                                        >
+                                            <View>
+                                                <CountryPicker
+                                                    countryCode={countryCode}
+                                                    withCallingCode
+                                                    withCallingCodeButton
+                                                    renderFlagButton={() =>
+                                                        <Text style={{ fontSize: RFValue(16, windowHeight) }}>
+                                                            +{countryCode}</Text>}
+                                                    withFlagButton={false}
+                                                    onClose={() => setIsCountryPickerVisible(false)}
+                                                    onSelect={handleOnSelect}
+                                                    visible={isCountryPickerVisible}
+                                                />
+                                            </View>
+                                            <AntDesign
+                                                name={`down`}
+                                                style={styles.downIcon}
+                                                color={Colors.black}
+                                                size={RFPercentage(2)}
                                             />
+                                        </TouchableOpacity>
+                                        < View style={styles.phoneNumberInput}>
+                                            <TextInput
+                                                style={styles.phoneInput}
+                                                placeholder={t(`enterYourPhoneNumber`)}
+                                                keyboardType='numeric'
+                                            />
+                                            {/* <OutlinedTextInput
+                                                val={phoneNumber}
+                                                // height={RFPercentage(9)}
+                                                onChange={(val) => setphoneNumber(val)}
+                                                title={t('Mobile_phone_number')}
+                                                placeHolder={t(`Mobile_phone_number`)}
+                                                keyboardType='numeric'
+                                            /> */}
                                         </View>
-                                        <AntDesign
-                                            name={`down`}
-                                            style={styles.downIcon}
-                                            size={RFPercentage(2)}
-                                        />
-                                    </TouchableOpacity>
-                                    <View style={styles.phoneNumberInput}>
-                                        <OutlinedTextInput
-                                            val={phoneNumber}
-                                            // height={RFPercentage(9)}
-                                            onChange={(val) => setphoneNumber(val)}
-                                            title={t('Mobile_phone_number')}
-                                            placeHolder={t(`Mobile_phone_number`)}
-                                            keyboardType='numeric'
-                                        />
-                                        {/* <Input
-                                            value={phoneNumber}
-                                            onChangeText={(val) => setphoneNumber(val)}
-                                            placeholder={t(`Mobile_phone_number`)}
-                                            type='numeric' /> */}
                                     </View>
-                                </View> :
+                                </View>
+                                :
                                 <OutlinedTextInput
                                     val={email}
-                                    // height={RFPercentage(9)}
                                     onChange={phoneOrEmailCallback}
                                     title={t('Email')}
                                     placeHolder={t('Email')}
                                 />
                             }
-                            <View style={[centralStyle.row, centralStyle.mt1,centralStyle.XAndYCenter]}>
+                            <View style={[centralStyle.row, centralStyle.mt1, centralStyle.XAndYCenter]}>
                                 <TouchableOpacity
                                     activeOpacity={0.9}
                                     style={centralStyle.mr05}
@@ -291,7 +301,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 titleStyle={styles.socialText}
                             />
                             <Button
-                                icon={<AntDesign name={`apple1`} size={RFPercentage(2.5)} style={centralStyle.mr1} />}
+                                icon={<AntDesign name={`apple1`} size={RFPercentage(2.5)} color={Colors.black} style={centralStyle.mr1} />}
                                 title={" " + t('Continue_with_Apple')}
                                 customStyle={centralStyle.socialButtonContainer}
                                 titleStyle={styles.socialText}
@@ -304,8 +314,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                             </View> */}
                         </View>
                     </SafeAreaView>
-                </View>
-            </KeyboardAwareScrollView>
+                </View >
+            </KeyboardAwareScrollView >
             {termsModal &&
                 <ModalComp
                     cancel={setTermsModal}

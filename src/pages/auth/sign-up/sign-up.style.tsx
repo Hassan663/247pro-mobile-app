@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import Colors from '../../../styles/colors';
 import { platform } from '../../../utilities';
-import { centralStyle } from '../../../styles/constant.style';
+import { centralStyle, windowHeight } from '../../../styles/constant.style';
 import { t } from 'i18next';
 
 
@@ -45,17 +45,24 @@ export const styles = StyleSheet.create<any>({
         tintColor: Colors.primary
     },
     inputWrapper: {
+        height: '73%',
         flexDirection: 'row',
         alignItems: "center",
-        height:RFPercentage(9),
+        borderColor: Colors.lightGrey,
+        borderWidth: 1,
+        borderRadius: 5,
+        ...centralStyle.px1,
+        ...centralStyle.mb1,
     },
     flagContainer: {
-        width: '15%',
+        width: '17%',
         ...centralStyle.row,
         ...centralStyle.XAndYCenter,
+        borderRightColor: Colors.lightGray,
+        borderRightWidth: 1
     },
     phoneNumberInput: {
-        width: "85%",
+        width: "83%",
     },
     socialText: {
         fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
@@ -66,10 +73,6 @@ export const styles = StyleSheet.create<any>({
         ...centralStyle.row,
         ...centralStyle.XAndYCenter,
         ...centralStyle.my1,
-    },
-    flagWrapper: {
-        height: 30,
-        width: 30
     },
     downIcon: {
         marginHorizontal: RFPercentage(.5)
@@ -122,4 +125,5 @@ export const styles = StyleSheet.create<any>({
         right: RFPercentage(.5),
         top: platform == 'ios' ? RFPercentage(9) : RFPercentage(3)
     },
+    phoneInput: [centralStyle.width100, { fontSize: RFValue(16, windowHeight) }]
 });

@@ -43,6 +43,7 @@ export const languageData = [
             Code_has_been_sent_to_your_EmailAddress: 'Code has been sent to your email address.',
             Set_your_password: "Set your password.",
             mo: "mo",
+            enterYourPhoneNumber: "Enter your phone number",
 
             newPassMsg: `Your new password must be different from your previous password used`,
             New_password: "New password",
@@ -715,6 +716,7 @@ export const languageData = [
             CurrentSubscription: "当前订阅",
             Permonthbilledyearly: "按月、按年计费",
             ProFinderPriority: "专业查找器 - 优先",
+            enterYourPhoneNumber: "输入你的电话号码",
             Receivejobleadsinyourareas: "接收您所在地区的工作机会",
             Renewon: "续订日期：",
             EditSubscription: "编辑订阅",
@@ -883,6 +885,7 @@ export const languageData = [
             RESET: "REINICIAR",
             Jobtype: "El tipo de trabajo",
             Specialty: "Especialidad",
+            enterYourPhoneNumber: "Ingrese su número telefónico",
             Location: 'Ubicación',
             ApplyFilter: "Aplicar filtro",
             Majorrennovationforasinglefamilyhome: "Renovación importante para una vivienda unifamiliar.",
