@@ -11,11 +11,12 @@ import {
   KeyboardTypeOptions,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import { styles } from './index.style';
 import Colors from '../../styles/colors';
 import { platform } from '../../utilities';
+import { windowHeight } from '../../styles/constant.style';
 
 interface OutlinedTextInputProps {
   title?: string;
@@ -95,7 +96,8 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, ed
                 style={styles.eyeContainer}>
                 <Feather
                   color={isActive ? Colors.black : inputVal.length > 0 ? Colors.black : Colors.lightGrey}
-                  size={platform == 'ios' ? RFPercentage(2.2) : RFPercentage(3)}
+                  size={platform == 'ios' ? RFPercentage(2.2) : RFValue(20, windowHeight)}
+                  // size={platform == 'ios' ? RFPercentage(2.2) : RFPercentage(3)}
                   name={open ? 'eye-off' : `eye`}
                 />
               </TouchableOpacity>
