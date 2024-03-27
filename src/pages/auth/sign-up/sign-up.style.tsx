@@ -62,7 +62,7 @@ export const styles = StyleSheet.create<any>({
         borderRightWidth: 1
     },
     phoneNumberInput: {
-        width: "83%",
+        width: "85%",
     },
     socialText: {
         fontSize: platform == 'ios' ? RFPercentage(1.7) : RFPercentage(2.1),
@@ -125,5 +125,5 @@ export const styles = StyleSheet.create<any>({
         right: RFPercentage(.5),
         top: platform == 'ios' ? RFPercentage(9) : RFPercentage(3)
     },
-    phoneInput: [centralStyle.width100, { fontSize: RFValue(16, windowHeight) }]
+    phoneInput: [centralStyle.width100, { fontSize: RFValue(14, windowHeight) }]
 });

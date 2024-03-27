@@ -43,7 +43,7 @@ import ModalComp from '../../../core/components/modal-component';
 import { LanguageDropDown } from './sign-up.components';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [countryCode, setCountryCode] = useState<any>('92');
+    const [country, setCountry] = useState<{ callingCode: string, countryCode: any }>({ callingCode: '92', countryCode: 'PK' });
     const [phoneNumber, setphoneNumber] = useState<string>('')
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
     const [isCountryPickerVisible, setIsCountryPickerVisible] = useState<boolean>(false);
@@ -59,9 +59,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     const handleOnSelect = (country: Country) => {
         setIsCountryPickerVisible(false);
-        // console.log(country,'country',callingCode
-        // )
-        setCountryCode(country.callingCode);
+        setCountry({ callingCode: country.callingCode[0], countryCode: country.cca2 });
     };
 
     const phoneOrEmailCallback = useCallback((val: string) => {
@@ -72,7 +70,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         if (isCheck) {
             if (selectedTab == t('Phone')) {
                 if (!isToastVisible) {
-                    let isValid = phoneValidation(phoneNumber, countryCode)
+                    let isValid = phoneValidation(phoneNumber, country.countryCode)
                     if (isValid.success) changeRoute(navigation, 'VerifyCode')
                     else {
                         setIsToastVisible(true);
@@ -99,7 +97,6 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
             setTermsModal(true)
         }
     }
-
     useEffect(() => {
         const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
         return unsubscribe;
@@ -198,12 +195,12 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         >
                                             <View>
                                                 <CountryPicker
-                                                    countryCode={countryCode}
+                                                    countryCode={country.countryCode}
                                                     withCallingCode
                                                     withCallingCodeButton
                                                     renderFlagButton={() =>
                                                         <Text style={{ fontSize: RFValue(16, windowHeight) }}>
-                                                            +{countryCode}</Text>}
+                                                            +{country.callingCode}</Text>}
                                                     withFlagButton={false}
                                                     onClose={() => setIsCountryPickerVisible(false)}
                                                     onSelect={handleOnSelect}
@@ -221,6 +218,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             <TextInput
                                                 style={styles.phoneInput}
                                                 placeholder={t(`enterYourPhoneNumber`)}
+                                                onChangeText={(val: string) => setphoneNumber(val)}
                                                 keyboardType='numeric'
                                             />
                                             {/* <OutlinedTextInput
