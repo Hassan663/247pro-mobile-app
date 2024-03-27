@@ -121,7 +121,7 @@ const AccountInformtaion: React.FC<{ navigation: any, route: any }> = ({ navigat
                                 weight='400'
                                 title={item} />
                             <Switch
-                                trackColor={{ false: Colors.lightGrey, true: 'rgba(255, 241, 221,1)' }}
+                                trackColor={{ false: Colors.lightGrey, true: `${Colors.primary}40` }}
                                 thumbColor={isEnabled ? Colors.primary : Colors.lightGray}
                                 ios_backgroundColor={Colors.lightGrey}
                                 onValueChange={() => toggleSwitch(setIsEnabled)}

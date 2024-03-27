@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         alignItems: "center"
     },
     listContainer: {
-        height: RFPercentage(5),
+        height: RFPercentage(6),
     },
     btnContainer: {
         marginVertical: RFPercentage(2),

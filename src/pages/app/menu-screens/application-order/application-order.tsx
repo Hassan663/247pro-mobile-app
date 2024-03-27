@@ -31,7 +31,7 @@ import {
     keyExtractor,
     onReordered
 } from './call-back';
-import {openSheet } from '../../../../store/action/action';
+import { openSheet } from '../../../../store/action/action';
 import Loader from '../../../../core/components/loader.component';
 
 const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
@@ -41,7 +41,7 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
 
     const loader = useSelector((state: any) => state.root.loader);
     const sheetRef = useRef<any>(null)
-    
+
     const handleLogout = async () => {
         await dispatch(logoutAction())
     }
@@ -57,7 +57,7 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
                         name={'left'}
                         onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
-                title={t(`ApplicationsOrder`)}
+                title={t(`ApplicationsOrder`) + " " + t('hide_show')}
                 weight='700'
                 type='Roboto-20'
             />
@@ -95,7 +95,7 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
                 closeOnDragDown={true}
                 openDuration={250}
                 animationType={'slide'}
-                customStyles={{ container: { borderRadius: RFPercentage(2) } }}>
+                customStyles={{ container: { borderTopLeftRadius: RFPercentage(2), borderTopRightRadius: RFPercentage(2) } }}>
                 <EnableFeatureUI
                     sheetRef={sheetRef}
                 />

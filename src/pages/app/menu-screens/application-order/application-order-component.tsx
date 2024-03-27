@@ -22,7 +22,7 @@ import Button from '../../../../core/components/button.component';
 import { closeSheet } from '../../../../store/action/action';
 
 export function RenderItem({ info, modalHandling }: any) {
-    const { item, onDragStart, onDragEnd, isActive } = info;
+    const { item, onDragStart, onDragEnd } = info;
     const [isEnabled, setIsEnabled] = useState(false);
 
     const switherHnadler = () => {
@@ -34,6 +34,7 @@ export function RenderItem({ info, modalHandling }: any) {
             key={item}
             style={[styles.listContainer,
             centralStyle.row,
+            centralStyle.justifyContentCenter,
             centralStyle.mx2,
             ]}
         >
@@ -52,12 +53,11 @@ export function RenderItem({ info, modalHandling }: any) {
             </View>
             <View style={[{ flex: 1.5 }, centralStyle.XAndYCenter]}>
                 <Switch
-                    trackColor={{ false: Colors.inputBgColor, true: Colors.inputBgColor }}
-                    thumbColor={isEnabled ? Colors.primary : Colors.inputBgColor}
-                    ios_backgroundColor={Colors.inputBgColor}
-                    onValueChange={switherHnadler}
+                    trackColor={{ false: Colors.lightGrey, true: `${Colors.primary}40` }}
+                    thumbColor={isEnabled ? Colors.primary : Colors.lightGray}
+                    ios_backgroundColor={Colors.lightGrey}
                     value={isEnabled}
-                    style={{ transform: [{ scale: 0.6 }] }} // Size ko chota karne ke liye scale property ka istemal kiya gaya hai
+                    onValueChange={switherHnadler}
                 />
             </View>
         </View>
