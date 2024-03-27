@@ -118,6 +118,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
             {contactModal &&
                 <ContactModal
                     anim={anim}
+                    invitePeopleModal={true}
                     setanim={setanim}
                     setcontactModal={setcontactModal} />}
         </SafeAreaView>

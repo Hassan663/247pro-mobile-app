@@ -6,6 +6,7 @@ import {
     centralPosition,
     centralStyle
 } from '../../../../styles/constant.style';
+import { t } from 'i18next';
 
 export const styles: any = StyleSheet.create<any>({
 
@@ -401,5 +402,16 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.px1,
         ...centralStyle.py05,
         alignSelf: 'center',
-    }
+    },
+    tabContainer: (selectedTab: any) => ({
+        flex: 1,
+        borderBottomWidth: 1,
+        borderColor: selectedTab == t('Contacts') ? Colors.primary : Colors.lightGrey,
+        height: RFPercentage(5),
+    }),
+    tabContainer2: (selectedTab: any) => ({
+        flex: 1, height: RFPercentage(5),
+        borderBottomWidth: 1,
+        borderColor: selectedTab == t('Company') ? Colors.primary : Colors.lightGrey,
+    }),
 });

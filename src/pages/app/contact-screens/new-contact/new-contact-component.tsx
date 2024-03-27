@@ -154,8 +154,9 @@ export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
     )
 }
 
-export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any) => {
+export const ContactModal = ({ anim, setanim, setcontactModal, getCompany, invitePeopleModal }: any) => {
     const [searchData, setSearchData] = useState<{}>();
+    const [selectedTab, setSelectedTab] = useState(t('Contacts'))
     const disableSheet = () => {
         setanim('fadeOutDownBig')
         setTimeout(() => {
@@ -179,23 +180,47 @@ export const ContactModal = ({ anim, setanim, setcontactModal, getCompany }: any
                 useNativeDriver
                 iterationCount={1}
                 direction="alternate"
-                style={styles.contactModalContentWrapper}>
-                <View style={[centralStyle.row, centralStyle.px2, centralStyle.py1, styles.contactModalHeader]}>
-                    <View style={[centralStyle.circle(20),]} />
+                style={[styles.contactModalContentWrapper]}>
+                <View style={[centralStyle.row, centralStyle.py1, centralStyle.px2, styles.contactModalHeader]}>
+                    <View style={[centralStyle.circle(20)]} />
                     <View style={styles.headerLine} />
-                    <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
-                        <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
+                    {invitePeopleModal ?
+                        <View /> :
+                        <View style={[centralStyle.circle(20), styles.downIconWrapper]}>
+                            <AntDesign onPress={disableSheet} name={`arrowdown`} size={RFPercentage(1.5)} />
+                        </View>}
+                </View>
+                {invitePeopleModal ?
+                    <View style={centralStyle.row}>
+                        <TouchableOpacity
+                            onPress={() => setSelectedTab(t('Contacts'))}
+                            activeOpacity={.9} style={[styles.tabContainer(selectedTab), centralStyle.XAndYCenter]}>
+                            <Title
+                                weight='600'
+                                type='Poppin-14' color={selectedTab == t('Contacts') ? Colors.primary : Colors.fontColor}
+                                title={t('Contacts')} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => setSelectedTab(t('Company'))}
+                            activeOpacity={.9} style={[styles.tabContainer2(selectedTab), centralStyle.XAndYCenter]}>
+                            <Title type='Poppin-14'
+                                weight='600'
+                                color={selectedTab == t('Company') ? Colors.primary : Colors.fontColor}
+                                title={t('Company')} />
+                        </TouchableOpacity>
+                    </View> : <></>}
+                <View style={centralStyle.px2}>
+                    <View style={[styles.inputWrapper, centralStyle.width100, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter, centralStyle.selfCenter]}>
+                        <AntDesign
+                            style={centralStyle.mx1}
+                            color={Colors.gray}
+                            name={`search1`}
+                            size={RFPercentage(2)} />
+                        <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} placeholderTextColor={Colors.gray} style={styles.searchInput} />
                     </View>
                 </View>
-                <View style={[styles.inputWrapper, centralStyle.row, centralStyle.my05, centralStyle.XAndYCenter, centralStyle.selfCenter]}>
-                    <AntDesign
-                        style={centralStyle.mx1}
-                        color={Colors.fontColor}
-                        name={`search1`}
-                        size={RFPercentage(2)} />
-                    <TextInput onChangeText={handleTextDebounce} placeholder={t('search')} style={styles.searchInput} />
-                </View>
-                <View style={[centralStyle.px2, { flex: 1, }]}>
+                <View style={[centralStyle.selfCenter, centralStyle.px2, { flex: 1, width: "100%" }]}>
                     <AlphabetList
                         data={searchData ? searchData : SECTIONLISTDATA}
                         letterListContainerStyle={styles.listContainerStyle}
