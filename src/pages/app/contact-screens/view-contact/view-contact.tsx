@@ -12,7 +12,6 @@ import {
     TouchableOpacity,
     FlatList,
     Text,
-    TextInput,
 } from 'react-native';
 
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -21,7 +20,6 @@ import { t } from 'i18next';
 import Colors from '../../../../styles/colors';
 import Button from '../../../../core/components/button.component';
 import AppHeader from '../../../../core/components/app-headers';
-import OutlinedTextInput from '../../../../core/components/outlined-textInput.component';
 import { Img } from '../../../../core/components/image-component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './view-contact.style';
@@ -32,9 +30,11 @@ import {
     fetchingDetails
 } from './call-back';
 import {
+    EmailContainer,
     LeftIcon,
     RightIcon,
     SpecialityTags,
+    ViewContainer,
 } from './view-contact-component';
 import {
     useDispatch,
@@ -99,41 +99,48 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     </View>
 
                     <View style={styles.mx2}>
-
                         {contactDetails?.contactPhones?.length > 0 ? <FlatList
                             data={contactDetails.contactPhones}
-                            renderItem={({ item, index }) => <OutlinedTextInput key={index.toString()} editable={false} val={item.phone} title={t('MobilePhone')} placeHolder={t('MobilePhone')} />}
+                            renderItem={({ item, index }) =>
+                                <ViewContainer key={index.toString()} title={'MobilePhone'} content={item.phone} />}
                         /> : <></>}
+                        {contactDetails?.contactEmails?.length > 0 ?
+                            <View style={contactDetails?.contactEmails?.length > 1 && styles.viewContainer}>
+                                <FlatList
+                                    data={contactDetails.contactEmails}
+                                    renderItem={({ item, index }) => <EmailContainer
+                                        key={index.toString()}
+                                        item={item}
+                                        index={index}
+                                        data={contactDetails.contactEmails} />}
+                                />
+                            </View>
 
-                        {contactDetails?.contactEmails?.length > 0 ? <FlatList
-                            data={contactDetails.contactEmails}
-                            renderItem={({ item, index }) => (
-                                <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
-                                    <View style={{ flex: 7 }}>
-                                        <OutlinedTextInput
-                                            key={index.toString()}
-                                            editable={false}
-                                            val={item.email}
-                                            title={t('Emailaddress')}
-                                            placeHolder={t('Emailaddress')} />
+                            // <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
+                            //     <View style={{ flex: 7 }}>
+                            //         <OutlinedTextInput
+                            //             key={index.toString()}
+                            //             editable={false}
+                            //             val={item.email}
+                            //             title={t('Emailaddress')}
+                            //             placeHolder={t('Emailaddress')} />
 
-                                    </View>
-                                    {item?.label?.length > 0
-                                        &&
-                                        <View style={[styles.labelWrapper]}>
-                                            <OutlinedTextInput
-                                                key={index.toString()}
-                                                editable={false}
-                                                val={item.label}
-                                                title={t('label')}
-                                                placeHolder={t('label')} />
-                                        </View>
-                                    }
-                                </View>
-                            )
-                            }
-                        /> : <></>}
-                        {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
+                            //     </View>
+                            //     {item?.label?.length > 0
+                            //         &&
+                            //         <View style={[styles.labelWrapper]}>
+                            //             <OutlinedTextInput
+                            //                 key={index.toString()}
+                            //                 editable={false}
+                            //                 val={item.label}
+                            //                 title={t('label')}
+                            //                 placeHolder={t('label')} />
+                            //         </View>
+                            //     }
+                            // </View>
+                            : <></>}
+
+                        {/* {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
                             <Text style={styles.inputtitle()}>{t(`Address`)}</Text>
                             <View style={styles.customTextInputContainer}>
                                 <TextInput
@@ -143,41 +150,42 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                     multiline={true}
                                 />
                             </View>
+                        </View> : <></>} */}
+                        {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
+                            <ViewContainer title={'Address'} content={contactDetails?.preferredAddress} />
                         </View> : <></>}
-                        {contactDetails?.companyName ? <OutlinedTextInput editable={false} val={contactDetails.companyName} title={t('company')} placeHolder={t('company')} /> : <></>}
+                        {contactDetails?.companyName ?
+                            <ViewContainer title={'company'} content={contactDetails?.companyName} />
+                            : <></>}
                         {contactDetails?.contactSpecialities?.length > 0 ?
-                            <View style={{
-                                paddingVertical: 10,
-                                justifyContent: "flex-end"
-                            }}>
-                                <Text style={styles.inputtitle()}>Speciality</Text>
-                                <View style={styles.specialityTextInputContainer}>
-                                    <FlatList
-                                        data={contactDetails.contactSpecialities}
-                                        showsVerticalScrollIndicator={false}
-                                        contentContainerStyle={styles.flatListContainer}
-                                        renderItem={({ item, index }) => <SpecialityTags
-                                            key={index.toString()}
-                                            item={item}
-                                            index={index}
-                                        />}
-                                    />
-
-                                </View>
+                            <View style={[styles.viewContainer]}>
+                                <Text style={{ fontSize: 12, color: Colors.gray }}>{t('Speciality')}</Text>
+                                <FlatList
+                                    data={contactDetails.contactSpecialities}
+                                    showsVerticalScrollIndicator={false}
+                                    contentContainerStyle={styles.flatListContainer}
+                                    renderItem={({ item, index }) => <SpecialityTags
+                                        key={index.toString()}
+                                        item={item}
+                                        index={index}
+                                    />}
+                                />
                             </View>
                             : <></>}
 
-                        {contactDetails?.jobTitle ? <OutlinedTextInput editable={false} val={contactDetails.jobTitle} title={t('jobTitle')} placeHolder={t('jobTitle')} /> : <></>}
+                        {contactDetails?.jobTitle ? <ViewContainer title={'jobTitle'} content={contactDetails.jobTitle} /> : <></>}
                         {contactDetails?.contactOthers?.length > 0 ? <FlatList
                             data={contactDetails.contactOthers}
                             renderItem={({ item, index }) => {
                                 if (item.contactOtherTypeId === 2) {
-                                    return <OutlinedTextInput key={index.toString()} editable={false} val={item.value} title={t('Websiteurl')} placeHolder={t('Websiteurl')} />
+                                    return <ViewContainer key={index.toString()} title={'Websiteurl'} content={item.value} />
                                 } else { return <></> }
                             }}
                         /> : <></>}
-                        {contactDetails?.contactAddresses?.stateText ? <OutlinedTextInput editable={false} val={contactDetails.contactAddresses.stateText} title={t('State')} placeHolder={t('State')} /> : <></>}
-                        {contactDetails?.contactAddresses?.zipCode ? <OutlinedTextInput editable={false} val={contactDetails.contactAddresses.zipCode} title={t('ZipCode')} placeHolder={t('ZipCode')} /> : <></>}
+                        {contactDetails?.contactAddresses?.stateText ? <ViewContainer title={'State'} content={contactDetails.contactAddresses.stateText} />
+                            : <></>}
+                        {contactDetails?.contactAddresses?.zipCode ? <ViewContainer title={'ZipCode'} content={contactDetails.contactAddresses.zipCode} />
+                            : <></>}
 
                         <View style={[centralStyle.my1]}>
                             <Title
@@ -190,7 +198,7 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             activeOpacity={.8}
                             style={[centralStyle.row, centralStyle.my1, centralStyle.alignitemCenter]}>
                             {companyLinked ?
-                                < View style={[]}>
+                                < View>
                                     <Title
                                         color={Colors.fontColor}
                                         type='Poppin-16'

@@ -1,6 +1,6 @@
 // @app
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -11,6 +11,7 @@ import Colors from '../../../../styles/colors';
 import { styles } from './view-contact.style';
 import { Title } from '../../../../core/components/screen-title.component';
 import { changeRoute } from '../../../../core/helpers/async-storage';
+import { centralStyle } from '../../../../styles/constant.style';
 
 export const LeftIcon = (navigation?: any) => (
   <TouchableOpacity
@@ -44,3 +45,26 @@ export const SpecialityTags = ({ item, index }: { item: { specialtyName: string 
     </View>
   )
 };
+
+
+export const ViewContainer = ({ title, content }: { title: string, content: string }) => (
+  <View style={styles.viewContainer}>
+    <Text style={{ fontSize: 12, color: Colors.gray }}>{t(title)}</Text>
+    <Text style={[centralStyle.my02, { fontSize: 16, color: Colors.fontColor }]}>{content}</Text>
+  </View>
+);
+
+export const EmailContainer = ({ item, index, data }: { item: { email: string }, index: number, data: [] }) => (
+  <>
+    {data.length > 1 ?
+      <View style={{
+        ...centralStyle.py05,
+        borderTopWidth: index !== 0 ? RFPercentage(.3) : 0,
+        borderColor: Colors.lightGrey,
+      }}>
+        <Text style={{ fontSize: 12, color: Colors.gray }}>{t('Emailaddress')}</Text>
+        <Text style={[centralStyle.my02, { fontSize: 16, color: Colors.fontColor }]}>{item.email}</Text>
+      </View>
+      : <ViewContainer title={'Emailaddress'} content={item.email} />}
+  </>
+)

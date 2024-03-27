@@ -343,7 +343,7 @@ export const styles: any = StyleSheet.create<any>({
         ...centralStyle.py05,
     },
     flatListContainer: { ...centralStyle.row, ...centralStyle.px1, ...centralStyle.py05, flexWrap: 'wrap', alignSelf: 'center', },
-     labelWrapper: {
+    labelWrapper: {
         flex: 2.5,
         marginHorizontal: RFPercentage(.6),
         borderColor: Colors.lightGray,
@@ -351,4 +351,17 @@ export const styles: any = StyleSheet.create<any>({
         flexDirection: 'row',
         alignItems: "center"
     },
+    viewContainer: [centralStyle.px2, centralStyle.justifyContentCenter, centralStyle.py1, centralStyle.my05, {
+        minHeight: 55.25,
+        borderRadius: RFPercentage(.5),
+        backgroundColor: 'white',
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 1.00,
+        elevation: 3
+    }]
 });
