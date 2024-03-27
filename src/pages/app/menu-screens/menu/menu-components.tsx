@@ -50,7 +50,21 @@ export const InvitePropleUI = ({ inviteCallBack, shareQR, }: any) => {
                             style={centralStyle.mr2}
                             size={RFPercentage(2.5)}
                             color={Colors.black} />}
-                    title={t(`InvitewithContacts`)}
+                    title={t(`InvitewithApplicationContacts`)}
+                />
+            </View >
+            <View style={centralStyle.my1}>
+                <Button
+                    callBack={inviteCallBack}
+                    titleStyle={styles.inviteBtnTitle}
+                    customStyle={[styles.inviteContact, centralStyle.XAndYCenter]}
+                    icon={
+                        <AntDesign
+                            name={`adduser`}
+                            style={centralStyle.mr2}
+                            size={RFPercentage(2.5)}
+                            color={Colors.black} />}
+                    title={t(`InviteWithPhoneContacts`)}
                 />
             </View >
             <View style={centralStyle.my1}>

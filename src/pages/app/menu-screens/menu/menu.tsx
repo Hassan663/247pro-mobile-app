@@ -46,7 +46,7 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
         closeSheet(sheetRef)
         changeRoute(navigation, 'QRCode', 'invitePeople')
     }
-    
+
     return (
         <SafeAreaView style={styles.container}>
             <AppHeader
@@ -103,12 +103,12 @@ const Menu: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) 
             </View>
             <RBSheet
                 ref={sheetRef}
-                height={RFPercentage(45)}
+                height={RFPercentage(50)}
                 closeOnPressMask={true}
                 closeOnDragDown={true}
                 openDuration={250}
                 animationType={'slide'}
-                customStyles={{ container: { borderRadius: RFPercentage(2) } }}
+                customStyles={{ container: { borderTopLeftRadius: RFPercentage(2), borderTopRightRadius: RFPercentage(2) } }}
             >
                 <InvitePropleUI
                     shareQR={handleShareQR}
