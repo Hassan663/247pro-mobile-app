@@ -49,7 +49,7 @@ export function RenderItem({ info, modalHandling }: any) {
 
             </TouchableOpacity>
             <View style={[{ flex: 7.5, }, centralStyle.justifyContentCenter, centralStyle.px1]}>
-                <Title title={item} type='Poppin-16' color={Colors.black} weight='400' />
+                <Title title={item} type='Poppin-16' color={isEnabled ? Colors.black : Colors.gray} weight='400' />
             </View>
             <View style={[{ flex: 1.5 }, centralStyle.XAndYCenter]}>
                 <Switch

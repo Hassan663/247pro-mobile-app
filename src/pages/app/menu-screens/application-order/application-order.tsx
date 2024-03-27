@@ -57,7 +57,7 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
                         name={'left'}
                         onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
-                title={t(`ApplicationsOrder`) + " " + t('hide_show')}
+                title={t(`Applications`) + " " + t('hide_show')}
                 weight='700'
                 type='Roboto-20'
             />
@@ -75,7 +75,6 @@ const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigatio
             />
 
             <View style={styles.btnContainer}>
-
                 {!loader ?
                     <Button
                         callBack={handleLogout}
