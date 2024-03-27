@@ -127,7 +127,7 @@ export function verifyCodeValidation(code: string,): ValidationResult {
 
     if (!code) return createErrorResponse(VALIDATIONMESSAGE[11]);
 
-    else if (code.length !== 4) return createErrorResponse(VALIDATIONMESSAGE[11]);
+    else if (code.length !== 6) return createErrorResponse(VALIDATIONMESSAGE[11]);
 
     return createSuccessResponse();
 }

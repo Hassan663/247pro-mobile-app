@@ -42,7 +42,7 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const handleSubmit = async () => {
         if (!isToastVisible) {
             let isValid = await verifyCodeValidation(value)
-            if (isValid.success) changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: true })
+            if (isValid.success) changeRoute(navigation, 'EnterNameAndEmail', { comeFromVerifyCode: false })
             else {
                 setIsToastVisible(true);
                 await toast.show(isValid.message, { type: "custom_toast", })
