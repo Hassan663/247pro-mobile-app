@@ -30,7 +30,7 @@ import { changeRoute } from '../../../core/helpers/async-storage';
 import { verifyCodeValidation } from '../../../core/helpers/validation/validation';
 import { centralStyle, windowHeight } from '../../../styles/constant.style';
 
-const CELL_COUNT = 4;
+const CELL_COUNT = 6;
 
 const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [value, setValue] = useState('');
@@ -95,12 +95,17 @@ const VerifyCode: React.FC<{ navigation: any }> = ({ navigation }) => {
                             keyboardType="number-pad"
                             textContentType="oneTimeCode"
                             renderCell={({ index, symbol, isFocused }) => (
-                                <Text
-                                    key={index}
-                                    style={[styles.cell, isFocused && styles.focusCell]}
-                                    onLayout={getCellOnLayoutHandler(index)}>
-                                    {symbol || (isFocused ? <Cursor /> : null)}
-                                </Text>
+                                <>
+                                    <Text
+                                        key={index}
+                                        style={[styles.cell, isFocused && styles.focusCell]}
+                                        onLayout={getCellOnLayoutHandler(index)}>
+                                        {symbol || (isFocused ? <Cursor /> : null)}
+                                    </Text>
+                                    {index === 2 ? (
+                                        <View key={`separator-${index}`} style={styles.separator} />
+                                    ) : null}
+                                </>
                             )}
                         />
                         <Title

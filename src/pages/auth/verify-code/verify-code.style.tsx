@@ -4,13 +4,17 @@ import Colors from '../../../styles/colors';
 import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
-
+    separator: {
+        height: RFPercentage(.3),
+        width: '2.5%',
+        backgroundColor: Colors.fontColor,
+        alignSelf: 'center',
+    },
     footer: {
         flex: 3,
         ...centralStyle.justifyContentEnd,
         marginVertical: RFPercentage(2)
     },
-
     root: {
         flex: 1,
         padding: 20
