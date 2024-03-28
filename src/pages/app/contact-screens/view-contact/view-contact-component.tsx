@@ -54,8 +54,13 @@ export const ViewContainer = ({ title, content }: { title: string, content: stri
   </View>
 );
 
-export const EmailContainer = ({ item, index, data }: { item: { email: string }, index: number, data: [] }) => (
+export const EmailContainer = ({ item, index, data }: {
+  item: {
+    phone: string; email: string
+  }, index: number, data: []
+}) => (
   <>
+    {console.log(item, 'item', item.email)}
     {data.length > 1 ?
       <View style={{
         ...centralStyle.py05,
@@ -63,8 +68,8 @@ export const EmailContainer = ({ item, index, data }: { item: { email: string },
         borderColor: Colors.lightGrey,
       }}>
         <Text style={{ fontSize: 12, color: Colors.gray }}>{t('Emailaddress')}</Text>
-        <Text style={[centralStyle.my02, { fontSize: 16, color: Colors.fontColor }]}>{item.email}</Text>
+        <Text style={[centralStyle.my02, { fontSize: 16, color: Colors.fontColor }]}>{item.email !== undefined ? item.email : item.phone}</Text>
       </View>
-      : <ViewContainer title={'Emailaddress'} content={item.email} />}
+      : <ViewContainer title={'Emailaddress'} content={item.email !== undefined ? item.email : item.phone} />}
   </>
 )

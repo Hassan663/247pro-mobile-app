@@ -100,14 +100,26 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     </View>
 
                     <View style={styles.mx2}>
-                        {contactDetails?.contactPhones?.length > 0 ?
+                        {/* {contactDetails?.contactPhones?.length > 0 ?
                             contactDetails?.contactPhones?.map((item: { phone: string }, index: number) =>
-                                <ViewContainer key={index.toString()} title={'MobilePhone'} content={item.phone} />) : <></>}
+                                <ViewContainer key={index.toString()} title={'MobilePhone'} content={item.phone} />) : <></>} */}
 
+                        {/* This is for Phones  */}
+                        {contactDetails?.contactPhones?.length > 0 ?
+                            <View style={contactDetails?.contactPhones.length > 1 && styles.viewContainer}>
+                                {contactDetails?.contactPhones?.map((item: { phone: string; email: string }, index: number) =>
+                                    <EmailContainer
+                                        key={index.toString()}
+                                        item={item}
+                                        index={index}
+                                        data={contactDetails?.contactPhones} />)}
+                            </View>
+                            : <></>}
 
+                        {/* This is for Emails  */}
                         {contactDetails?.contactEmails?.length > 0 ?
                             <View style={contactDetails?.contactEmails?.length > 1 && styles.viewContainer}>
-                                {contactDetails.contactEmails.map((item: { email: string }, index: number) =>
+                                {contactDetails.contactEmails.map((item: { phone: string; email: string }, index: number) =>
                                     <EmailContainer
                                         key={index.toString()}
                                         item={item}
@@ -139,14 +151,15 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                             : <></>}
 
                         {contactDetails?.jobTitle ? <ViewContainer title={'jobTitle'} content={contactDetails.jobTitle} /> : <></>}
-                        {contactDetails?.contactOthers?.length > 0 ? <FlatList
-                            data={contactDetails.contactOthers}
-                            renderItem={({ item, index }) => {
-                                if (item.contactOtherTypeId === 2) {
-                                    return <ViewContainer key={index.toString()} title={'Websiteurl'} content={item.value} />
-                                } else { return <></> }
-                            }}
-                        /> : <></>}
+                        {contactDetails?.contactOthers?.length > 0 ?
+                            <FlatList
+                                data={contactDetails.contactOthers}
+                                renderItem={({ item, index }) => {
+                                    if (item.contactOtherTypeId === 2) {
+                                        return <ViewContainer key={index.toString()} title={'Websiteurl'} content={item.value} />
+                                    } else { return <></> }
+                                }}
+                            /> : <></>}
                         {contactDetails?.contactAddresses?.stateText ? <ViewContainer title={'State'} content={contactDetails.contactAddresses.stateText} />
                             : <></>}
                         {contactDetails?.contactAddresses?.zipCode ? <ViewContainer title={'ZipCode'} content={contactDetails.contactAddresses.zipCode} />
