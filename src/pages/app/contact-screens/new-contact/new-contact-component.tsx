@@ -13,6 +13,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { t } from 'i18next';
 import Entypo from 'react-native-vector-icons/Entypo'
+import CountryPicker, {
+    CountryCode
+} from 'react-native-country-picker-modal';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 
@@ -25,22 +28,33 @@ import { styles } from './new-contact.style';
 import { debounce } from "lodash";
 import { changeRoute } from '../../../../core/helpers/async-storage';
 import { centralStyle } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE, platform } from '../../../../utilities/constants';
+import {
+    ALPHABET_SIZE,
+    platform
+} from '../../../../utilities/constants';
 import {
     CreateContactAction,
     CreateSpeciality,
     handleSearch
 } from '../../../../store/action/action';
 import { newContactValidation } from '../../../../core/helpers/validation/validation';
-import { RenderComponentPropsModal } from '../../../../core/modals/contact.modal';
-import { EMAILLABELDATA, SECTIONLISTDATA, } from './data';
+import {
+    RenderComponentOFPhonePropsModal,
+    RenderComponentPropsModal
+} from '../../../../core/modals/contact.modal';
+import {
+    EMAILLABELDATA,
+    SECTIONLISTDATA,
+} from './data';
 import {
     addNewContactField,
+    addNewContactFieldInPhone,
     captureImage,
     handleAttachments,
     pickImage,
     removeEmptyFields,
     removePrevField,
+    removePrevFieldOfPhone,
     searchServices
 } from './call-back';
 import Button from '../../../../core/components/button.component';
@@ -330,6 +344,59 @@ export const renderComponentOfContactEmails = ({ item, index, inputValues, handl
         </View>
     );
 }
+
+export const RenderComponentOfPhone = ({ item, index, inputValues, HandleCountrySelect, isCountryPickerVisible, setIsCountryPickerVisible, handleInputChange, setInputValues }: RenderComponentOFPhonePropsModal) => {
+    const condition = inputValues.contactPhones.length === index + 1;
+    const [country, setcountry] = useState<CountryCode>('US')
+    return (
+        <View style={styles.inputWrapper2}>
+            <TouchableOpacity
+                onPress={() => setIsCountryPickerVisible(true)}
+                style={styles.flagContainer}
+            >
+                <View style={styles.flagWrapper}>
+                    <CountryPicker
+                        countryCode={country}
+                        withCallingCode
+                        withFlagButton={true}
+                        onClose={() => setIsCountryPickerVisible(false)}
+                        onSelect={(country) => {
+                            setcountry(country.cca2)
+                            HandleCountrySelect(country, index,)
+                        }}
+                        visible={isCountryPickerVisible}
+                    />
+                </View>
+                <AntDesign
+                    name={`down`}
+                    style={styles.downIcon}
+                    size={RFPercentage(2)}
+                />
+            </TouchableOpacity>
+            <View style={[centralStyle.row, centralStyle.alignitemCenter, centralStyle.flex1]}>
+                <View style={{ flex: 8.9 }} >
+                    <OutlinedTextInput
+                        val={item.phone}
+                        onChange={(text) => handleInputChange('contactPhones', text, 'phone', index)}
+                        title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
+                </View>
+                {condition ? (
+                    <TouchableOpacity
+                        onPress={() => addNewContactFieldInPhone(setInputValues)}
+                        style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: 1.1 }]}>
+                        <AntDesign name={`plus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
+                    </TouchableOpacity>
+                ) : (
+                    <TouchableOpacity
+                        onPress={() => removePrevFieldOfPhone(index, setInputValues, inputValues)}
+                        style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: 1.1 }]}>
+                        <AntDesign name={`minus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
+                    </TouchableOpacity>
+                )}
+            </View>
+        </View >
+    );
+};
 
 
 export const SepecialityModal = ({ anim, setanim, setcontactModal, getSpecialityData, industryId, selectedData }: any) => {

@@ -86,10 +86,6 @@ export const openSheet = (setanim: any, setcontactModal: any) => {
     setTimeout(() => { setcontactModal(true) }, 0)
 
 }
-export const handleOnSelect: handleOnSelectModal = (country, setIsCountryPickerVisible, setCountryCode) => {
-    setIsCountryPickerVisible(false);
-    setCountryCode(country.cca2);
-};
 
 
 export const removeEmptyFields = (data: any) => {
@@ -104,7 +100,6 @@ export const removeEmptyFields = (data: any) => {
                 delete data[key];
             }
         }
-
         // Additional check for contactAddresses array
         if (key === 'contactAddresses' && Array.isArray(data[key])) {
             data[key] = data[key].filter((address: any) => address.streetAddress !== '');
@@ -159,6 +154,31 @@ export const addNewContactField = (setInputValues: React.Dispatch<React.SetState
                 email: '',
                 label: '',
                 visible: true,
+            },
+        ],
+    }));
+};
+
+// Phone's functional
+
+export const removePrevFieldOfPhone: RemovePrevFieldModal = (indexToRemove, setInputValues, inputValues) => {
+    let contactEmailInputsClone = JSON.parse(JSON.stringify(inputValues));
+    contactEmailInputsClone?.contactPhones?.splice(indexToRemove, 1)
+    setInputValues(contactEmailInputsClone)
+};
+
+export const addNewContactFieldInPhone = (setInputValues: React.Dispatch<React.SetStateAction<IContactCreateModel>>) => {
+    setInputValues((prevValues: any) => ({
+        ...prevValues,
+        contactPhones: [
+            ...prevValues.contactPhones,
+            {
+                phone: '',
+                label: '',
+                visible: true,
+                countryId: 224,
+                countryCode: "us",
+                countryPhoneCode: '+1'
             },
         ],
     }));

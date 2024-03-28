@@ -46,7 +46,6 @@ import {
 } from './data';
 import {
     handleAttachments,
-    handleOnSelect,
     openSheet,
 } from './call-back';
 import {
@@ -58,6 +57,7 @@ import {
     SepecialityModal,
     SpecialityTags,
     renderComponentOfContactEmails,
+    RenderComponentOfPhone,
 } from './new-contact-component';
 import { platform } from '../../../../utilities';
 
@@ -67,7 +67,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
     const [sepecialityModal, setSepecialityModal] = useState<boolean>(false);
     const [showMore, setShowMore] = useState<boolean>(false);
     const [openPicker, setOpenPicker] = useState(false);
-    const [countryCode, setCountryCode] = useState<any>('US');
     const [anim, setanim] = useState<string>('fadeInUpBig');
     const [selectedCompany, setSelectedCompany] = useState<any>([])
     const [attechments, setAttechments] = useState<any>([])
@@ -122,7 +121,7 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
             visible: true,
             countryId: 224,
             countryCode: "us",
-            countryPhoneCode: '+1'
+            countryPhoneCode: "\u002B1"
         }],
         contactOthers: [{
             label: '',
@@ -148,18 +147,22 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         });
     }, [inputValues])
 
-    const HandleCountrySelect: (country: Country) => Promise<void> = async (country) => {
-        handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)
-        const getCuntryID: CountryCodeModal[] = await COUNTRY_LIST.filter((code) => country.cca2.toLowerCase() == code.code)
-        const contactPhoneData = [{
-            phone: inputValues.contactPhones[0].phone,
-            label: '',
-            visible: true,
-            countryId: getCuntryID[0].id,
-            countryCode: getCuntryID[0].code,
-            countryPhoneCode: getCuntryID[0].phoneCode
-        }];
-        handleInputChange('contactPhones', contactPhoneData)
+    const HandleCountrySelect: (country: Country, index: number) => Promise<void> = async (country, index) => {
+        try {
+            setIsCountryPickerVisible(false);
+            const getCuntryID: CountryCodeModal[] = await COUNTRY_LIST.filter((code) => country.cca2.toLowerCase() == code.code)
+            const contactPhoneData = {
+                phone: inputValues.contactPhones[index].phone,
+                label: inputValues.contactPhones[index].label,
+                visible: true,
+                countryId: getCuntryID[0].id,
+                countryCode: getCuntryID[0].code,
+                countryPhoneCode: getCuntryID[0].phoneCode
+            };
+            await inputValues.contactPhones.splice(index, 1, contactPhoneData)
+        } catch (error) {
+            console.log('error--->', error)
+        }
     };
 
     const removeSpeciality = (index: number) => {
@@ -168,9 +171,9 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
         handleInputChange('contactSpecialities', specialitiesClone)
     }
     useEffect(() => {
-        // console.log(attechments, 'attechmentsattechmentsattechments1111')
         handleInputChange('fileAs', attechments.uri)
     }, [attechments])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -215,7 +218,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                         <View style={styles.mx2}>
                             <View style={centralStyle.my1}>
                                 <OutlinedDropDown
-                                    // dropDownStyle={styles.dropdownstyle}
                                     title={t('Contacttype')}
                                     color={Colors.black}
                                     iconsSize={RFPercentage(2)}
@@ -300,33 +302,20 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                 {inputValues?.contactEmails?.map((item, index) => renderComponentOfContactEmails({ item, index, inputValues, handleInputChange, setInputValues }))}
                             </View>
 
-                            <View style={styles.inputWrapper2}>
-                                <TouchableOpacity
-                                    onPress={() => setIsCountryPickerVisible(true)}
-                                    style={styles.flagContainer}
-                                >
-                                    <View style={styles.flagWrapper}>
-                                        <CountryPicker
-                                            countryCode={countryCode}
-                                            withCallingCode
-                                            withFlagButton={true}
-                                            onClose={() => setIsCountryPickerVisible(false)}
-                                            onSelect={HandleCountrySelect}
-                                            visible={isCountryPickerVisible}
-                                        />
-                                    </View>
-                                    <AntDesign
-                                        name={`down`}
-                                        style={styles.downIcon}
-                                        size={RFPercentage(2)}
+                            <View style={{ flex: 9, }}>
+                                {inputValues.contactPhones.map((item, index) => (
+                                    <RenderComponentOfPhone
+                                        key={index.toString()}
+                                        item={item}
+                                        index={index}
+                                        inputValues={inputValues}
+                                        HandleCountrySelect={HandleCountrySelect}
+                                        isCountryPickerVisible={isCountryPickerVisible}
+                                        setIsCountryPickerVisible={setIsCountryPickerVisible}
+                                        handleInputChange={handleInputChange}
+                                        setInputValues={setInputValues}
                                     />
-                                </TouchableOpacity>
-                                <View style={styles.phoneNumberInput}>
-                                    <OutlinedTextInput
-                                        val={inputValues.contactPhones[0].phone}
-                                        onChange={(text) => handleInputChange('contactPhones', text, 'phone', 0)}
-                                        title={t('MobilePhone')} placeHolder={t('MobilePhone')} />
-                                </View>
+                                ))}
                             </View>
 
                             {!showMore && <TouchableOpacity onPress={() => { setShowMore(true) }} activeOpacity={.9}>
@@ -434,7 +423,6 @@ const NewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                         <TouchableOpacity
                                             onPress={() => {
                                                 let attachmentData = handleAttachments(setAttechments)
-                                                console.log(attachmentData, 'attachmentData2222222222222')
                                                 // handleInputChange('fileAs', attechments)
                                             }}
                                             style={[styles.AttechmentIcon, centralStyle.XAndYCenter, centralStyle.mb2]}>

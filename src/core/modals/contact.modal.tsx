@@ -35,7 +35,7 @@ export interface IContactCreateModel {
     firstName: string;
     lastName: string;
     contactTypeId: number;
-    fileAs:string;
+    fileAs: string;
     companyName: string;
     jobTitle: string;
     profilePicture: string;
@@ -249,6 +249,24 @@ export type RenderComponentPropsModal = {
         visible: boolean,
     };
     index: number;
+    inputValues: IContactCreateModel; // Replace with your actual type
+    handleInputChange: HandleInputChangeType; // Replace with your actual type
+    setInputValues: React.Dispatch<React.SetStateAction<IContactCreateModel>>; // Replace with your actual type
+}
+
+export type RenderComponentOFPhonePropsModal = {
+    item: {
+        phone: string;
+        label: string;
+        visible: boolean;
+        countryId: number;
+        countryCode?: string | undefined | any; // Any has been given due to the package.
+        countryPhoneCode?: string | undefined;
+    }
+    index: number;
+    HandleCountrySelect: (country: Country, index: number) => void;
+    isCountryPickerVisible: boolean;
+    setIsCountryPickerVisible: React.Dispatch<React.SetStateAction<boolean>>;
     inputValues: IContactCreateModel; // Replace with your actual type
     handleInputChange: HandleInputChangeType; // Replace with your actual type
     setInputValues: React.Dispatch<React.SetStateAction<IContactCreateModel>>; // Replace with your actual type
