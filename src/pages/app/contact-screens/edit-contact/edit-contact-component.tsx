@@ -186,7 +186,7 @@ export const renderComponentOfEditContactEmails = ({ item, index, contactDetails
                     title={t('Email')} placeHolder={t('Email')} />
             </View>
             {item?.email?.length > 0 &&
-                <View style={[{ flex: 2.5, marginHorizontal: RFPercentage(.6) }]}>
+                <View style={[{ flex: 2.3, marginHorizontal: RFPercentage(.6) }]}>
                     <OutlinedDropDown
                         dropDownStyle={styles.dropdownstyle}
                         title={t('Label')}
@@ -203,14 +203,14 @@ export const renderComponentOfEditContactEmails = ({ item, index, contactDetails
             {condition ? (
                 <TouchableOpacity
                     onPress={() => addNewContactField(setContactDetails)}
-                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
+                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .7 }]}>
                     <AntDesign name={`plus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
 
                 </TouchableOpacity>
             ) : (
                 <TouchableOpacity
                     onPress={() => removePrevField(index, setContactDetails, contactDetails)}
-                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .5 }]}>
+                    style={[centralStyle.flex1, centralStyle.justifyContentCenter, centralStyle.alignitemEnd, { flex: .7 }]}>
                     <AntDesign name={`minus`} size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />
 
                 </TouchableOpacity>
