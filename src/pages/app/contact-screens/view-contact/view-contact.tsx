@@ -40,6 +40,7 @@ import {
     useDispatch,
     useSelector
 } from 'react-redux';
+import OutlinedTextInputComponent from '../../../../core/components/outlined-textInput.component';
 
 const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [companyLinked, setcompanyLinked] = useState(false)
@@ -99,58 +100,22 @@ const ViewContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                     </View>
 
                     <View style={styles.mx2}>
-                        {contactDetails?.contactPhones?.length > 0 ? <FlatList
-                            data={contactDetails.contactPhones}
-                            renderItem={({ item, index }) =>
-                                <ViewContainer key={index.toString()} title={'MobilePhone'} content={item.phone} />}
-                        /> : <></>}
+                        {contactDetails?.contactPhones?.length > 0 ?
+                            contactDetails?.contactPhones?.map((item: { phone: string }, index: number) =>
+                                <ViewContainer key={index.toString()} title={'MobilePhone'} content={item.phone} />) : <></>}
+
+
                         {contactDetails?.contactEmails?.length > 0 ?
                             <View style={contactDetails?.contactEmails?.length > 1 && styles.viewContainer}>
-                                <FlatList
-                                    data={contactDetails.contactEmails}
-                                    renderItem={({ item, index }) => <EmailContainer
+                                {contactDetails.contactEmails.map((item: { email: string }, index: number) =>
+                                    <EmailContainer
                                         key={index.toString()}
                                         item={item}
                                         index={index}
-                                        data={contactDetails.contactEmails} />}
-                                />
+                                        data={contactDetails.contactEmails} />)}
                             </View>
-
-                            // <View key={index?.toString()} style={[centralStyle.row, centralStyle.alignitemCenter, { flex: 1 }]}>
-                            //     <View style={{ flex: 7 }}>
-                            //         <OutlinedTextInput
-                            //             key={index.toString()}
-                            //             editable={false}
-                            //             val={item.email}
-                            //             title={t('Emailaddress')}
-                            //             placeHolder={t('Emailaddress')} />
-
-                            //     </View>
-                            //     {item?.label?.length > 0
-                            //         &&
-                            //         <View style={[styles.labelWrapper]}>
-                            //             <OutlinedTextInput
-                            //                 key={index.toString()}
-                            //                 editable={false}
-                            //                 val={item.label}
-                            //                 title={t('label')}
-                            //                 placeHolder={t('label')} />
-                            //         </View>
-                            //     }
-                            // </View>
                             : <></>}
 
-                        {/* {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
-                            <Text style={styles.inputtitle()}>{t(`Address`)}</Text>
-                            <View style={styles.customTextInputContainer}>
-                                <TextInput
-                                    editable={false}
-                                    placeholder={t('Address')}
-                                    value={contactDetails?.preferredAddress}
-                                    multiline={true}
-                                />
-                            </View>
-                        </View> : <></>} */}
                         {contactDetails?.preferredAddress ? <View style={styles.customInputContainer}>
                             <ViewContainer title={'Address'} content={contactDetails?.preferredAddress} />
                         </View> : <></>}
