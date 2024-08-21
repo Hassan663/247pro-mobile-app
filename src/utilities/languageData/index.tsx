@@ -408,7 +408,12 @@ export const languageData = [
             Privacypolicy: 'Privacy Policy.',
             MoreLoginoptions: 'More Login Options',
             label: "label",
-            timecard:"timecard",
+            timecard:"Timecard",
+            MyReport:"My Report",
+            ClockIn:"Clock In",
+            ClockOut:"Clock Out",
+            BreakIn:"Break In",
+            BreakOut:"Break Out",
         }
     },
     {
@@ -821,6 +826,13 @@ export const languageData = [
             label: "标签",
             timecard:"时间卡",
 
+            MyReport:"我的报告",
+            ClockIn:"打卡",
+            ClockOut:"下班打卡",
+            BreakIn:"打破",
+            BreakOut:"爆发",
+
+
         }
     },
     {
@@ -1229,7 +1241,11 @@ export const languageData = [
             MoreLoginoptions: 'Más opciones de inicio de sesión',
             label: "etiqueta",
             timecard:"tarjeta de tiempo",
-
+            MyReport:"Mi informe",
+            ClockIn:"Marcar entrada",
+            ClockOut:"Reloj de salida",
+            BreakIn:"Interrumpir",
+            BreakOut:"Fugarse",
         }
     }
 ];

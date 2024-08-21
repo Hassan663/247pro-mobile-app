@@ -17,18 +17,19 @@ export type Props = {
     titleStyle?: any;
     icallBackcon?: any;
     title?: string | any;
+    secondary?: boolean | any;
     callBack?: () => void;
 };
 
-const Button: React.FC<Props> = ({ customStyle, primary, icon, titleStyle, title, disable, callBack }) => {
+const Button: React.FC<Props> = ({ customStyle, primary, secondary, icon, titleStyle, title, disable, callBack }) => {
     return (
         <TouchableOpacity
-            style={[icon ? centralStyle.row : centralStyle.column, disable ? styles.disable : primary ? styles.primaryBtn : customStyle]}
+            style={[secondary ? styles.secondaryBtn : icon ? centralStyle.row : centralStyle.column, disable ? styles.disable : primary ? styles.primaryBtn : customStyle]}
             activeOpacity={0.8}
             onPress={() => callBack && callBack()}
         >
             {icon && icon}
-            <Text style={primary ? styles.primaryText : titleStyle}>{title}</Text>
+            <Text style={secondary ? styles.secondaryText : primary ? styles.primaryText : titleStyle}>{title}</Text>
         </TouchableOpacity>
     );
 };

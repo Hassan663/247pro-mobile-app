@@ -39,7 +39,21 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    secondaryBtn: {
+        height: RFPercentage(5.6),
+        backgroundColor: Colors.white,
+        borderWidth: 1,
+        borderRadius: RFValue(10, windowHeight),
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 
+    secondaryText: {
+        // color: Colors.white,
+        fontWeight: '600',
+        fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2),
+        textTransform: 'uppercase',
+    },
     primaryText: {
         color: Colors.white,
         fontWeight: '600',
