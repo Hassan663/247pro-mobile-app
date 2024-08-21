@@ -39,6 +39,7 @@ import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job-descr
 import PostAJobMatchPro from '../../pages/app/menu-screens/post-a-job-match-pro/post-a-job-match-pro';
 import SuccessfullyPosted from '../../pages/app/menu-screens/successfully-posted/successfully-posted';
 import EditContact from '../../pages/app/contact-screens/edit-contact/edit-contact';
+import TimeCard from '../../pages/app/menu-screens/time-card/time-card';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
@@ -86,6 +87,7 @@ export default function appNavigation() {
         <Stack.Screen name="SubscriptionApplication" component={SubscriptionApplication} />
         <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />
         <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
+        <Stack.Screen name="TimeCard" component={TimeCard} />
       </Stack.Navigator>
     </NavigationContainer>
   );

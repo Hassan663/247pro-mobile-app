@@ -197,6 +197,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                                 <CountryPicker
                                                     countryCode={country.countryCode}
                                                     withCallingCode
+                                                    withFilter
                                                     withCallingCodeButton
                                                     renderFlagButton={() =>
                                                         <Text style={{ fontSize: RFValue(16, windowHeight) }}>

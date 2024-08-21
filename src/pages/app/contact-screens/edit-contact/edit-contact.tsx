@@ -338,6 +338,7 @@ const EditContact: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                                 countryCode={countryCode}
                                                 withCallingCode
                                                 withFlagButton={true}
+                                                withFilter
                                                 onClose={() => setIsCountryPickerVisible(false)}
                                                 onSelect={HandleCountrySelect}
                                                 visible={isCountryPickerVisible}

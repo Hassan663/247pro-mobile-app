@@ -407,7 +407,8 @@ export const languageData = [
             And: 'and',
             Privacypolicy: 'Privacy Policy.',
             MoreLoginoptions: 'More Login Options',
-            label: "label"
+            label: "label",
+            timecard:"timecard",
         }
     },
     {
@@ -817,7 +818,8 @@ export const languageData = [
             And: '和',
             Privacypolicy: '隐私政策。',
             MoreLoginoptions: '更多登录选项',
-            label: "标签"
+            label: "标签",
+            timecard:"时间卡",
 
         }
     },
@@ -1226,6 +1228,7 @@ export const languageData = [
             Privacypolicy: 'Política de privacidad.',
             MoreLoginoptions: 'Más opciones de inicio de sesión',
             label: "etiqueta",
+            timecard:"tarjeta de tiempo",
 
         }
     }

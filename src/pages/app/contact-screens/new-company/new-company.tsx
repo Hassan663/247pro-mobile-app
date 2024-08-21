@@ -223,6 +223,7 @@ const NewCompany: React.FC<{ navigation: any, route: any }> = ({ navigation, rou
                                             <CountryPicker
                                                 countryCode={countryCode}
                                                 withCallingCode
+                                                withFilter
                                                 withFlagButton={true}
                                                 onClose={() => setIsCountryPickerVisible(false)}
                                                 onSelect={async (country) => {

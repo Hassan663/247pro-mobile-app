@@ -358,6 +358,7 @@ export const RenderComponentOfPhone = ({ item, index, inputValues, HandleCountry
                     <CountryPicker
                         countryCode={country}
                         withCallingCode
+                        withFilter
                         withFlagButton={true}
                         onClose={() => setIsCountryPickerVisible(false)}
                         onSelect={(country) => {

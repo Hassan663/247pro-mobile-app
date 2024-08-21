@@ -107,6 +107,7 @@ export const MobilePhoneUI = ({ countryCode, setIsCountryPickerVisible, isCountr
                 <View style={styles.flagWrapper}>
                     <CountryPicker
                         countryCode={countryCode}
+                        withFilter
                         withCallingCode
                         withFlagButton={true}
                         onClose={() => setIsCountryPickerVisible(false)}

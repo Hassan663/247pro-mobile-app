@@ -131,6 +131,7 @@ const EditProfile: React.FC<{ navigation: any, route: any }> = ({ navigation, ro
                                         <CountryPicker
                                             countryCode={countryCode}
                                             withCallingCode
+                                            withFilter
                                             withFlagButton={true}
                                             onClose={() => setIsCountryPickerVisible(false)}
                                             onSelect={handleOnSelect}

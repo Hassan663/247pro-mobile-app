@@ -19,6 +19,7 @@ export const Item = ({ item, navigation }: any) => {
         else if (item?.name == t('Contacts')) changeRoute(navigation, 'Contact')
         else if (item?.name == t('RolesAndPermissions')) Alert.alert(t('Toaccessthisfeaturepleasevisitthewebinterface'))
         else if (item?.name == t('UserAdmin')) Alert.alert(t('Toaccessthisfeaturepleasevisitthewebinterface'))
+        else if (item?.name == t('timecard')) changeRoute(navigation, 'TimeCard')
     }
 
     return (

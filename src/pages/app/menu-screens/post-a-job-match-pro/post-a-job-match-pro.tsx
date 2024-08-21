@@ -98,6 +98,7 @@ const PostAJobMatchPro: React.FC<{ navigation: any, }> = ({ navigation, }) => {
                                             countryCode={countryCode}
                                             withCallingCode
                                             withFlagButton={true}
+                                            withFilter
                                             onClose={() => setIsCountryPickerVisible(false)}
                                             onSelect={(country) => handleOnSelect(country, setIsCountryPickerVisible, setCountryCode)}
                                             visible={isCountryPickerVisible}

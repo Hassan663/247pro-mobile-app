@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 import Colors from '../../../../styles/colors';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { platform } from '../../../../utilities';
+import { windowHeight } from '../../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
     container: {
@@ -26,5 +27,9 @@ export const styles = StyleSheet.create({
     inviteBtnTitle: {
         fontSize: platform == 'ios' ? RFPercentage(1.9) : RFPercentage(2.4),
         fontWeight: '500'
+    },
+    timeCardIcon: {
+        marginTop: RFValue(15, windowHeight),
+        fontWeight: "400"
     },
 });

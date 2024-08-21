@@ -95,6 +95,7 @@ const EditJobContactInfo: React.FC<{ navigation: any, route: any }> = ({ navigat
                                     <View style={styles.flagWrapper}>
                                         <CountryPicker
                                             countryCode={countryCode}
+                                            withFilter
                                             withCallingCode
                                             withFlagButton={true}
                                             onClose={() => setIsCountryPickerVisible(false)}

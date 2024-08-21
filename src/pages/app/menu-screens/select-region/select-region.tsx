@@ -47,6 +47,7 @@ const SelectRegion: React.FC<{ navigation: any, route: any }> = ({ navigation, r
                     <CountryPicker
                         countryCode={countryCode}
                         withFlagButton
+                        withFilter
                         withCountryNameButton
                         withCurrencyButton
                         onClose={() => setIsCountryPickerVisible(false)}
