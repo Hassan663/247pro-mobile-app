@@ -95,8 +95,6 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
 
     // Step 3: get user identity 
     const identityResponse: any = userIdentity(loginResponse.data.accessToken)
-
-    console.log(identityResponse, 'identityResponse')
     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);

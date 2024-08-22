@@ -142,11 +142,12 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
             title={t('Done')} />
     </TouchableOpacity>
 )
-export const CompanyList = ({ item, getCompany, disableSheet }: any) => {
+export const CompanyList = ({ item, getCompany, disableSheet, callBack }: any) => {
     return (
         <TouchableOpacity onPress={() => {
             if (getCompany) { getCompany(item) }
             if (disableSheet) { disableSheet() }
+            if (callBack) { callBack() }
         }} activeOpacity={.9} style={[centralStyle.row, { height: ALPHABET_SIZE.ITEM_HEIGHT }]}>
             <View style={[styles.companyListContainer, { height: ALPHABET_SIZE.ITEM_HEIGHT }]}>
                 <View style={[centralStyle.row, styles.listWrapper]}>

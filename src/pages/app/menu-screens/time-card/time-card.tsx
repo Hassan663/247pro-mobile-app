@@ -157,7 +157,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => {
                                         return (
-                                            <CompanyList item={item} />
+                                            <CompanyList callBack={() => changeRoute(navigation, 'Team')} item={item} />
                                         )
                                     }}
                                     renderCustomSectionHeader={CustomSectionHeader}
@@ -236,7 +236,6 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     title={'4 Hr'} />
                             </View>
                             {DATA.map((item, index) => <Item index={index} title={item.title} />)}
-
                         </ScrollView>
                     </View>
 

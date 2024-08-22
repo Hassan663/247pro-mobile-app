@@ -415,6 +415,7 @@ export const languageData = [
             BreakIn:"Break In",
             BreakOut:"Break Out",
             Totalworkhours:"Total work hours",
+            Team:"Team",
         }
     },
     {
@@ -834,6 +835,7 @@ export const languageData = [
             BreakOut:"爆发",
 
             Totalworkhours:"总工作时间",
+            Team:"团队",
 
         }
     },
@@ -1249,6 +1251,7 @@ export const languageData = [
             BreakIn:"Interrumpir",
             BreakOut:"Fugarse",
             Totalworkhours:"Horas totales de trabajo",
+            Team:"Equipo",
         }
     }
 ];

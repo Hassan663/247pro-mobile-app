@@ -40,6 +40,7 @@ import PostAJobMatchPro from '../../pages/app/menu-screens/post-a-job-match-pro/
 import SuccessfullyPosted from '../../pages/app/menu-screens/successfully-posted/successfully-posted';
 import EditContact from '../../pages/app/contact-screens/edit-contact/edit-contact';
 import TimeCard from '../../pages/app/menu-screens/time-card/time-card';
+import Team from '../../pages/app/menu-screens/team/team';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
@@ -49,7 +50,7 @@ export default function appNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName='AppTabs'
+        initialRouteName='TimeCard'
       >
         <Stack.Screen name="QRCode" component={QRCode} />
         <Stack.Screen name="ViewJob" component={ViewJob} />
@@ -88,6 +89,7 @@ export default function appNavigation() {
         <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />
         <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
         <Stack.Screen name="TimeCard" component={TimeCard} />
+        <Stack.Screen name="Team" component={Team} />
       </Stack.Navigator>
     </NavigationContainer>
   );
