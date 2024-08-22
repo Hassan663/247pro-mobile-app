@@ -21,7 +21,8 @@ export const styles: any = StyleSheet.create<any>({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: Colors.white
+        backgroundColor: Colors.white,
+        // marginv
     },
     timer: {
         fontSize: RFValue(48, windowHeight),
@@ -45,7 +46,7 @@ export const styles: any = StyleSheet.create<any>({
     listContainerStyle: {
         justifyContent: 'space-between',
         height: '90%',
-        top:'5%'
+        top: '5%'
         // marginTop:'10%',
     },
     letterStyle: {
@@ -54,5 +55,59 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: platform == 'ios' ? RFPercentage(1.8) : RFPercentage(1.5),
         width: 20,
         height: platform == 'ios' ? 20 : 'auto',
+    },
+    myreportContainer: {
+        flex: 1,
+        width: "100%",
+        paddingHorizontal: RFValue(20, windowHeight)
+    },
+    myReportProfileContainer: {
+        height: RFValue(100, windowHeight),
+        width: "100%",
+        alignItems: "center",
+        flexDirection: "row",
+    },
+    profileImage: {
+        height: "100%",
+        width: "100%"
+    },
+    reportTitle: {
+        height: RFValue(80, windowHeight),
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.gray,
+        borderTopWidth: 1,
+        borderTopColor: Colors.gray,
+        justifyContent: "space-between",
+        padding: RFValue(10, windowHeight),
+        width: "100%",
+    },
+    reportHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    totalHours: {
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    reportTimeHeader: {
+        flexDirection: "row",
+        padding: RFValue(10, windowHeight),
+        justifyContent: "space-between"
+    },
+    verticalLine: {
+        height: '100%',
+        width: 2,
+        backgroundColor: Colors.gray,
+        top: RFValue(5, windowHeight),
+        left: RFValue(20, windowHeight),
+        position: "absolute"
+    },
+    circle: {
+        marginTop: RFValue(5, windowHeight),
+        backgroundColor: Colors.primary
+    },
+    itemContainer: {
+        flex: 1,
+        alignItems: "center",
     },
 });

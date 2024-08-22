@@ -11,7 +11,10 @@ import {
     View
 } from 'react-native';
 
+import moment from 'moment-timezone';
+import Entypo from 'react-native-vector-icons/Entypo'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { ScrollView } from 'react-native-gesture-handler';
 import { t } from 'i18next';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
@@ -19,16 +22,26 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import AppHeader from '../../../../core/components/app-headers';
 import Button from '../../../../core/components/button.component';
 import Colors from '../../../../styles/colors';
-import { data } from './data';
+import { Item } from './time-card-component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './time-card.style';
 import { platform } from '../../../../utilities';
-import { changeRoute } from '../../../../core/helpers/async-storage';
-import { centralStyle, windowHeight } from '../../../../styles/constant.style';
-import { ALPHABET_SIZE } from '../../../../utilities/constants';
-import { formatDate, formatTime } from './call-back';
-import { CompanyList, CustomSectionHeader } from '../../contact-screens/new-contact/new-contact-component';
+import { DATA, data } from './data';
 import { useSelector } from 'react-redux';
+import { changeRoute } from '../../../../core/helpers/async-storage';
+import { ALPHABET_SIZE } from '../../../../utilities/constants';
+import {
+    centralStyle,
+    windowHeight,
+} from '../../../../styles/constant.style';
+import {
+    formatDate,
+    formatTime
+} from './call-back';
+import {
+    CompanyList,
+    CustomSectionHeader
+} from '../../contact-screens/new-contact/new-contact-component';
 
 const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState(t('timecard'))
@@ -64,9 +77,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         }
     };
 
-
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
             <AppHeader
                 iconL1={
                     <AntDesign
@@ -102,9 +114,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                         <Text style={styles.timer}>{formatTime(time)}</Text>
                         <View style={[centralStyle.my1, styles.timerButtonContainer]}>
                             <View style={centralStyle.width45}>
-
                                 {isRunning ?
-
                                     breakIn ?
                                         <Button
                                             disable={false}
@@ -134,7 +144,6 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
                                 />
                             </View>
-
                         </View>
                         <View style={[centralStyle.flex1, centralStyle.width100]}>
                             <View style={centralStyle.px2}>
@@ -148,52 +157,91 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     indexLetterStyle={styles.letterStyle}
                                     renderCustomItem={(item) => {
                                         return (
-                                            <CompanyList
-                                                // getCompany={() => { handleChangeRoute(item) }}
-                                                item={item} />
+                                            <CompanyList item={item} />
                                         )
                                     }}
                                     renderCustomSectionHeader={CustomSectionHeader}
-                                    // ListFooterComponent={() => {
-                                    //     if (searchInput.length > 0) return <Loader size={'large'} />
-                                    //     else { return <Loader size={'large'} /> }
-                                    // }}
-                                    // onEndReached={loadMoreData}
                                     onEndReachedThreshold={0.1}
                                 />
                             </View>
                         </View>
                     </>
                     :
-                    <View style={{ flex: 1, width: "100%", paddingHorizontal: RFValue(20, windowHeight) }}>
-                        <View style={[{ height: RFValue(100, windowHeight), width: "100%", alignItems: "center", flexDirection: "row", borderBottomWidth: 1, borderBottomColor: Colors.gray }]}>
-                            <View style={[centralStyle.circle(RFValue(70, windowHeight)), centralStyle.mx1, { overflow: "hidden" }]} >
-                                <Image
-                                    source={{ uri: currentUserProfile?.profile ? currentUserProfile?.profile : 'https://via.placeholder.com/150' }}
-                                    style={{ height: "100%", width: "100%" }}
-                                />
-                            </View>
-                            <Title
-                                type='Poppin-14'
-                                weight='600'
-                                color={Colors.fontColor}
-                                title={currentUserProfile.name} />
-                        </View>
-                        <View style={{ height: RFValue(100, windowHeight), width: "100%", backgroundColor: "red" }}>
-                            <View style={{ flexDirection: "row" }}>
+                    <View style={styles.myreportContainer}>
+                        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ width: "100%", }}>
+                            <View style={styles.myReportProfileContainer}>
+                                <View style={[centralStyle.circle(RFValue(70, windowHeight)), centralStyle.mx1, { overflow: "hidden" }]} >
+                                    <Image
+                                        source={{ uri: currentUserProfile?.profile ? currentUserProfile?.profile : 'https://via.placeholder.com/150' }}
+                                        style={styles.profileImage}
+                                    />
+                                </View>
                                 <Title
-                                    type='Poppin-12'
+                                    type='Poppin-14'
+                                    weight='600'
                                     color={Colors.fontColor}
-                                    title={'Total work hours'} />
-                                <Title
-                                    type='Poppin-12'
-                                    color={Colors.fontColor}
-                                    title={'Total work hours'} />
+                                    title={currentUserProfile.name} />
                             </View>
-                        </View>
+                            <View style={styles.reportTitle}>
+                                <View style={styles.reportHeader}>
+                                    <Title
+                                        type='Poppin-12'
+                                        textTransform={'capitalize'}
+                                        color={Colors.fontColor}
+                                        title={t('Totalworkhours')} />
+                                    <Title
+                                        type='Poppin-12'
+                                        color={Colors.fontColor}
+                                        title={moment().format('DD/MM/YYYY') + " - " + moment().format('DD/MM/YYYY')} />
+                                </View>
+                                <View style={styles.totalHours}>
+                                    <Title
+                                        type='Poppin-18'
+                                        textTransform={'capitalize'}
+                                        weight='600'
+                                        color={Colors.black}
+                                        title={'12 Hr'} />
+                                    <Entypo
+                                        name={'dots-three-vertical'}
+                                        color={Colors.fontColor}
+                                        size={RFValue(20, windowHeight)} />
+                                </View>
+
+                            </View>
+                            <View style={styles.reportTimeHeader}>
+                                <Title
+                                    type='Poppin-16'
+                                    weight='500'
+                                    color={Colors.black}
+                                    title={moment().format('DD/MM/YYYY')} />
+                                <Title
+                                    type='Poppin-14'
+                                    textTransform={'capitalize'}
+                                    weight='600'
+                                    color={Colors.black}
+                                    title={'4 Hr'} />
+                            </View>
+                            {DATA.map((item, index) => <Item index={index} title={item.title} />)}
+                            <View style={styles.reportTimeHeader}>
+                                <Title
+                                    type='Poppin-16'
+                                    weight='500'
+                                    color={Colors.black}
+                                    title={moment().format('DD/MM/YYYY')} />
+                                <Title
+                                    type='Poppin-14'
+                                    textTransform={'capitalize'}
+                                    weight='600'
+                                    color={Colors.black}
+                                    title={'4 Hr'} />
+                            </View>
+                            {DATA.map((item, index) => <Item index={index} title={item.title} />)}
+
+                        </ScrollView>
                     </View>
+
                 }
-            </View>
+            </View >
         </SafeAreaView >
     );
 };
