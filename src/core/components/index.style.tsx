@@ -100,6 +100,10 @@ export const styles: any = StyleSheet.create<any>({
     poppin_61: {
         fontSize: platform == 'ios' ? RFPercentage(7) : RFPercentage(7.5),
     },
+    poppin_50: {
+        fontSize: RFValue(50, windowHeight),
+        
+    },
     roboto_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
     },

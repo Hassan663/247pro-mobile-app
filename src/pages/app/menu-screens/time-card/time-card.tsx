@@ -221,7 +221,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     color={Colors.black}
                                     title={'4 Hr'} />
                             </View>
-                            {DATA.map((item, index) => <Item index={index} title={item.title} />)}
+                            {DATA.map((item, index) => <Item callBack={() => { changeRoute(navigation, 'ReportDetail') }} index={index} title={item.title} />)}
                             <View style={styles.reportTimeHeader}>
                                 <Title
                                     type='Poppin-16'

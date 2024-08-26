@@ -41,6 +41,7 @@ import SuccessfullyPosted from '../../pages/app/menu-screens/successfully-posted
 import EditContact from '../../pages/app/contact-screens/edit-contact/edit-contact';
 import TimeCard from '../../pages/app/menu-screens/time-card/time-card';
 import Team from '../../pages/app/menu-screens/team/team';
+import ReportDetail from '../../pages/app/menu-screens/report-detail/report-detail';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
@@ -90,6 +91,7 @@ export default function appNavigation() {
         <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
         <Stack.Screen name="TimeCard" component={TimeCard} />
         <Stack.Screen name="Team" component={Team} />
+        <Stack.Screen name="ReportDetail" component={ReportDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
