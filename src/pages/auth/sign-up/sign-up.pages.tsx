@@ -14,6 +14,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { t } from 'i18next';
 import { useToast } from 'react-native-toast-notifications';
+import { parsePhoneNumberFromString, validatePhoneNumberLength } from 'libphonenumber-js';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CountryPicker, {
@@ -58,6 +59,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     // const otpSupported = useSelector((state: any) => state.root.otpSupported)
 
     const handleOnSelect = (country: Country) => {
+        setphoneNumber('')
+
         setIsCountryPickerVisible(false);
         setCountry({ callingCode: country.callingCode[0], countryCode: country.cca2 });
     };
@@ -65,6 +68,26 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const phoneOrEmailCallback = useCallback((val: string) => {
         setEmail(val);
     }, [setEmail]);
+    const formatPhoneNumber = (number: any) => {
+        // console.log(number, country.countryCode,'number, country.countryCode')
+        const phoneNumberObject = parsePhoneNumberFromString(number, country.countryCode);
+        if (phoneNumberObject?.number?.length) {
+            // console.log(phoneNumberObject?.number?.length - country.callingCode.length - 1, 'phoneNumberObject.number.length', phoneNumberObject.isValid())
+
+        }
+        // console.log(phoneNumberObject, 'phoneNumberObject.number.length',)
+
+        const regex = new RegExp(`^\\+${country.callingCode}\\s*`);
+        // Remove the calling code using the regular expression
+        if (phoneNumberObject && phoneNumberObject.isValid()) {
+            return phoneNumberObject ? phoneNumberObject.formatInternational().replace(regex, '') : number;
+        } else {
+            return phoneNumberObject ? phoneNumberObject.formatInternational().replace(regex, '') : number;
+            // return phoneNumberObject ? phoneNumberObject.formatNational() : number;
+            // return null
+        }
+
+    };
 
     const handleSubmit = async () => {
         if (isCheck) {
@@ -219,7 +242,13 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             <TextInput
                                                 style={styles.phoneInput}
                                                 placeholder={t(`enterYourPhoneNumber`)}
-                                                onChangeText={(val: string) => setphoneNumber(val)}
+                                                value={formatPhoneNumber(phoneNumber) && formatPhoneNumber(phoneNumber)}
+                                                // maxLength={validatePhoneNumberLength(phoneNumber) === 'TOO_SHORT' ? phoneNumber.length + 1 : phoneNumber.length  }
+                                                // maxLength={getMaxLength(country.countryCode)} // Set maximum length based on country
+                                                onChangeText={(val: string) => {
+                                                    // console.log(formatPhoneNumber(val),'formatPhoneNumber(phoneNumber)',val)
+                                                    setphoneNumber(val)
+                                                }}
                                                 keyboardType='numeric'
                                             />
                                             {/* <OutlinedTextInput

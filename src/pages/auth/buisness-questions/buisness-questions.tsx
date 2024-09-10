@@ -26,7 +26,6 @@ import { buisnessQuestionsValidation } from '../../../core/helpers/validation/va
 import {
     centralStyle, windowHeight,
 } from '../../../styles/constant.style';
-import SearchDropDown from '../../../core/components/search-dropdown-with-create-button.component';
 
 const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const isBuisness = route?.params?.yesABuisness;
@@ -94,14 +93,8 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                         type={`Poppin-18`} />
                                 </View>
                                 <View style={[styles.inputWrapper,]}>
-                                    {!isBuisness ?
+                                    {isBuisness ?
                                         <>
-                                            {/* <SearchDropDown
-                                                title={t('Industry')}
-                                                onselect={(value: string) => { setselectedIndustry(value) }}
-                                                DATA={INDUSTRIES}
-                                                drop_down_button_style={styles.drop_down_button_style}
-                                            /> */}
                                             <OutlinedDropDown
                                                 title={t('Industry')}
                                                 onselect={(value: string) => { setselectedIndustry(value) }}
