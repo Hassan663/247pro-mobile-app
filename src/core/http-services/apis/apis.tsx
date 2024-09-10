@@ -11,7 +11,7 @@ const createEndpointWithoutBaseUrl = (endpoint: string, JWTToken: boolean): Endp
   url: `${endpoint}`,
   JWTToken,
 });
-
+console.log(BASE_URL,'BASE_URL')
 // AUTHENTICATION ENDPOINTS
 export const LOGIN_ENCRIPTION_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/system/encryption/encode`, false);
 export const LOGIN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/auth/login`, false);

@@ -87,17 +87,18 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
   try {
 
     // Step 1: Encrypt the login data
-    const encryptedLoginResponse: any = await encryptData(loginData)
+    // const encryptedLoginResponse: any = await encryptData(loginData)
 
     // Step 2: Prepare the login request with the token received from step 1
-    const loginDataWithToken: any = { token: encryptedLoginResponse.data.response };
-    const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
+    // const loginDataWithToken: any = { token: encryptedLoginResponse.data.response };
+    // const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
 
     // Step 3: get user identity 
-    const identityResponse: any = userIdentity(loginResponse.data.accessToken)
-    return identityResponse;
+    // const identityResponse: any = userIdentity(loginResponse.data.accessToken)
+    console.log(  'identityResponse', LOGIN_ENDPOINT, )
+    // return identityResponse;
   } catch (error) {
-    console.error('Login service error:', error);
+    console.error( LOGIN_ENDPOINT,'Login service error:', error);
     throw error;
   }
 };

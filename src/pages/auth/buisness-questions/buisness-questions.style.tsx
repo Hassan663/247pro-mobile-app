@@ -12,13 +12,16 @@ export const styles = StyleSheet.create({
         tintColor: Colors.primary
     },
     titleWrapper: {
-        flex: 3,
+        flex: 1,
+        // backgroundColor:"red"
     },
     inputWrapper: {
-        flex: 6,
+        flex: 5.5,
+        // backgroundColor:'blue',
     },
     footer: {
-        flex: 1,
+        flex: 3.5,
+        // backgroundColor:'green',
         justifyContent: centralPosition.flexEnd,
         marginVertical: RFPercentage(2)
     },

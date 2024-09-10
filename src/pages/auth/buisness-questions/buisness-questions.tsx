@@ -93,7 +93,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                         type={`Poppin-18`} />
                                 </View>
                                 <View style={[styles.inputWrapper,]}>
-                                    {isBuisness ?
+                                    {!isBuisness ?
                                         <>
                                             <OutlinedDropDown
                                                 title={t('Industry')}

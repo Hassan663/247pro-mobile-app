@@ -2,9 +2,8 @@
 import React from 'react';
 import {
     Image,
+    View,
     SafeAreaView,
-    Text,
-    View
 } from 'react-native';
 
 import moment from 'moment-timezone';
@@ -16,8 +15,6 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import AppHeader from '../../../../core/components/app-headers';
 import Colors from '../../../../styles/colors';
-import { DATA } from '../time-card/data';
-import { Item } from '../time-card/time-card-component';
 import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './report-detail.style';
 import { platform } from '../../../../utilities';
@@ -38,7 +35,7 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                         name={'left'}
                         onPress={() => { changeRoute(navigation, 'pop') }}
                         size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)} />}
-                title={t('Team')} />
+                title={t('ReportDetail')} />
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.myReportProfileContainer}>
@@ -52,7 +49,7 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                             type='Poppin-14'
                             weight='600'
                             color={Colors.fontColor}
-                            title={currentUserProfile.name ? currentUserProfile.name : 'user name'} />
+                            title={currentUserProfile.name ? currentUserProfile.name : t('username')} />
                     </View>
                     <View style={[styles.mapContainer, centralStyle.XAndYCenter]}>
                         <Title
@@ -62,16 +59,16 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                             title={'Map Content'} />
                     </View>
                     <View style={[styles.timeContainer, centralStyle.my1, centralStyle.row]}>
-                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                            <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'flex-end' }}>
-                                <View style={{ height: RFValue(55, windowHeight), }}>
+                        <View style={styles.totalHoursContainer}>
+                            <View style={styles.hrContainer}>
+                                <View style={styles.hr}>
                                     <Title
                                         type='Poppin-50'
                                         textTransform={'capitalize'}
                                         color={Colors.black}
                                         title={'8'} />
                                 </View>
-                                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', height: "100%" }}>
+                                <View style={styles.hrWrapper}>
                                     <Title
                                         type='Poppin-12'
                                         textTransform={'capitalize'}
@@ -83,19 +80,19 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                                 type='Poppin-12'
                                 textTransform={'capitalize'}
                                 color={Colors.black}
-                                title={'Work hours'} />
+                                title={t('Workhours')} />
                         </View>
-                        <View style={{ backgroundColor: "black", height: '100%', width: 2, }}></View>
-                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                            <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'flex-end' }}>
-                                <View style={{ height: RFValue(55, windowHeight), }}>
+                        <View style={styles.hrLine}></View>
+                        <View style={styles.totalHoursContainer}>
+                            <View style={styles.hrContainer}>
+                                <View style={styles.hr}>
                                     <Title
                                         type='Poppin-50'
                                         textTransform={'capitalize'}
                                         color={Colors.black}
                                         title={'1.1'} />
                                 </View>
-                                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', height: "100%" }}>
+                                <View style={styles.hrWrapper}>
                                     <Title
                                         type='Poppin-12'
                                         textTransform={'capitalize'}
@@ -107,7 +104,7 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                                 type='Poppin-12'
                                 textTransform={'capitalize'}
                                 color={Colors.black}
-                                title={'Break Hours'} />
+                                title={t('BreakHours')} />
                         </View>
                     </View>
                     <View style={styles.timeContainer}>
@@ -116,7 +113,7 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                                 type='Poppin-12'
                                 textTransform={'capitalize'}
                                 color={Colors.gray}
-                                title={'clock in'} />
+                                title={t('ClockIn')} />
                             <Title
                                 type='Poppin-12'
                                 color={Colors.black}
@@ -127,7 +124,7 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                                 type='Poppin-12'
                                 textTransform={'capitalize'}
                                 color={Colors.gray}
-                                title={'break in'} />
+                                title={t('BreakIn')} />
                             <Title
                                 type='Poppin-12'
                                 color={Colors.black}
@@ -138,7 +135,7 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                                 type='Poppin-12'
                                 textTransform={'capitalize'}
                                 color={Colors.gray}
-                                title={'break out'} />
+                                title={t('BreakOut')} />
 
                             <Title
                                 type='Poppin-12'
@@ -150,7 +147,7 @@ const ReportDetail: React.FC<{ navigation: any, route: any }> = ({ navigation })
                                 type='Poppin-12'
                                 textTransform={'capitalize'}
                                 color={Colors.gray}
-                                title={'clock out'} />
+                                title={t('ClockOut')} />
                             <Title
                                 type='Poppin-12'
                                 color={Colors.black}

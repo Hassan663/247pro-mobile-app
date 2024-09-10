@@ -6,8 +6,8 @@ import { centralPosition, centralStyle } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
     titleWrapper: {
-        flex: 3,
-
+        flex: 2.5,
+ 
     },
     logoStyle: {
         height: RFPercentage(10),
@@ -16,18 +16,18 @@ export const styles = StyleSheet.create({
         tintColor: Colors.primary
     },
     inputContainer: {
-        flex: 3,
+        flex: 3.5,
         paddingVertical: RFPercentage(1),
-    },
+     },
 
     logInBtnContainer: {
         flex: 4,
-        justifyContent: centralPosition.spacebetween
+         justifyContent: centralPosition.spacebetween
 
     },
     footerContainer: {
         flex: 1,
-        ...centralStyle.XAndYCenter
+         ...centralStyle.XAndYCenter
     },
     inputWrapper: {
         ...centralStyle.row,

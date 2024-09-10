@@ -77,7 +77,7 @@ const MainComponent: React.FC = () => {
                             <MyStatusBar backgroundColor={Colors.white} barStyle="dark-content" /> :
                     <StatusBar barStyle="dark-content" backgroundColor={'transparent'} hidden={false} translucent={true} />
             }
-            {!authState ? <AuthNavigation initialRoute={initialRoute} /> : <AppNavigation />}
+            {authState ? <AuthNavigation initialRoute={initialRoute} /> : <AppNavigation />}
 
         </>
 

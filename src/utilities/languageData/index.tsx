@@ -416,6 +416,10 @@ export const languageData = [
             BreakOut:"Break Out",
             Totalworkhours:"Total work hours",
             Team:"Team",
+            ReportDetail:"Report Detail",
+            username:"user name",
+            BreakHours:"Break Hours",
+            Workhours:"Work hours",
         }
     },
     {
@@ -836,6 +840,10 @@ export const languageData = [
 
             Totalworkhours:"总工作时间",
             Team:"团队",
+            ReportDetail:"报告详细信息",
+            username:"用户名",
+            BreakHours:"休息时间",
+            Workhours:"工作时间",
 
         }
     },
@@ -1252,6 +1260,11 @@ export const languageData = [
             BreakOut:"Fugarse",
             Totalworkhours:"Horas totales de trabajo",
             Team:"Equipo",
+            ReportDetail:"Detalle del informe",
+            username:"nombre de usuario",
+            BreakHours:"Horas de descanso",
+            Workhours:"Horas de trabajo",
+
         }
     }
 ];

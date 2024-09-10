@@ -60,5 +60,27 @@ export const styles: any = StyleSheet.create<any>({
         alignContent: "center",
         padding: RFValue(15, windowHeight),
         borderRadius: 10,
-    }
+    },
+    totalHoursContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    hrContainer: {
+        flexDirection: "row",
+        justifyContent: 'center',
+    },
+    hr: {
+        height: RFValue(55, windowHeight),
+    },
+    hrWrapper: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        height: "85%"
+    },
+    hrLine: {
+        backgroundColor: "black",
+        height: '100%',
+        width: 2,
+    },
 });
