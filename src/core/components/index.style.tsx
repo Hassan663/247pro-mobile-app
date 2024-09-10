@@ -102,7 +102,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     poppin_50: {
         fontSize: RFValue(50, windowHeight),
-        
+
     },
     roboto_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
@@ -161,7 +161,7 @@ export const styles: any = StyleSheet.create<any>({
     dropDownStyle: {
         borderBottomLeftRadius: 10,
         marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
-        borderBottomRightRadius: 10
+        borderBottomRightRadius: 10,
     },
     headerContainer: {
         marginTop: platform !== 'ios' ? RFPercentage(3.5) : 0,
@@ -244,6 +244,14 @@ export const styles: any = StyleSheet.create<any>({
         zIndex: 10,
         height: "100%",
         width: "100%",
+    },
+    customRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        paddingVertical: 10,
+        paddingHorizontal: 15,
     }
 });
 
