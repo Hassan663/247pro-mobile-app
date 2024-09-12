@@ -161,7 +161,17 @@ export const styles: any = StyleSheet.create<any>({
     dropDownStyle: {
         marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
         borderRadius: 10,
-        backgroundColor: Colors.secondaryWhite,
+        backgroundColor: Colors.white,
+        overflow: 'visible',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+
+        elevation: 9,
         paddingVertical: 20,
     },
     headerContainer: {
@@ -261,7 +271,7 @@ export const styles: any = StyleSheet.create<any>({
         borderRadius: 10
     },
     searchInputStyle: {
-        backgroundColor: '#e0e0e0',
+        backgroundColor: '#ededed',
         width: '90%',
         marginLeft: 20,
         overflow: 'hidden',

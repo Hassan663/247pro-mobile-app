@@ -53,9 +53,9 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
         <>
             <View style={styles.inputContainer(height)}>
                 {dropdownVal?.length && dropdownVal?.length > 0 ? (
-                    <Text style={styles.inputtitle(isActive, dropdownVal)}>{title}</Text>
+                    <Text style={[styles.inputtitle(false, dropdownVal), { color: Colors.black }]}>{title}</Text>
                 ) : (
-                    isActive && <Text style={styles.inputtitle(isActive, dropdownVal)}>{title}</Text>
+                    isActive && <Text style={[styles.inputtitle(false, dropdownVal), { color: Colors.black }]}>{title}</Text>
                 )}
                 <View style={styles.textInputContainer(isActive)}>
                     <SelectDropdown
@@ -118,7 +118,7 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                                 <>
                                     <View style={[styles.customRow, styles.rowChildContainer]}>
                                         <View style={[styles.rowWrapper, {
-                                            backgroundColor: item === 'Create New' ? Colors.primary : '#e0e0e0',
+                                            backgroundColor: item === 'Create New' ? Colors.primary : '#ededed',
                                             justifyContent: item === 'Create New' ? "center" : 'space-between',
                                         }]}>
                                             <Text style={{

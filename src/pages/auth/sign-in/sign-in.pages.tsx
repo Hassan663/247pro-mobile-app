@@ -34,6 +34,7 @@ import { centralStyle, windowHeight, } from '../../../styles/constant.style';
 import { useFocusEffect } from '@react-navigation/native';
 import { platform } from '../../../utilities';
 import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
+import { handleGoogle } from '../../../core/helpers/social-auths';
 
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
@@ -195,6 +196,12 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                     <Button
                         icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={[styles.googleIcon, centralStyle.mr1]} />}
                         title={t('Continue_with_google')}
+                        callBack={async() => {
+                            const googleUserData = await handleGoogle()
+                            console.log(googleUserData,'googleUserData')
+                            // alert('googel auth')
+
+                        }}
                         customStyle={[centralStyle.socialButtonContainer,]}
                         titleStyle={styles.socialText}
                     />

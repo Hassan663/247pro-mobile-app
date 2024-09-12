@@ -100,6 +100,7 @@ const BuisnessQuestions: React.FC<{ navigation: any, route: any }> = ({ navigati
                                                 title={t('Industry')}
                                                 onselect={(value: string) => { setselectedIndustry(value) }}
                                                 DATA={INDUSTRIES}
+                                                isPrimaryBorderOnFocus={true}
                                                 drop_down_button_style={styles.drop_down_button_style}
                                             /> */}
                                             <OutlinedDropDown
