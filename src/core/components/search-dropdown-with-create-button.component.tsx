@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import an icon for "Create New"
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SelectDropdown from 'react-native-select-dropdown';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { styles } from './index.style';
@@ -108,25 +108,53 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                             fontSize: fontSize ? fontSize : platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
                         }}
                         dropdownStyle={dropDownStyle ? dropDownStyle : styles.dropDownStyle}
+                        dropdownOverlayColor={'transparent'}
+                        rowStyle={styles.rowStyle}
+                        searchInputStyle={styles.searchInputStyle}
                         renderCustomizedRowChild={(item, index) => {
+                            const isSelected = dropdownVal === item; // Check if the item is selected
+
                             return (
-                                <View style={styles.customRow}>
-                                    {/* Show icon only for "Create New" */}
-                                    <Text style={{
-                                        color: item === 'Create New' ? Colors.primary : Colors.black,
-                                        fontSize: RFValue(18, windowHeight)
-                                    }}>
-                                        {item}
-                                    </Text>
-                                    {item === 'Create New' && (
-                                        <MaterialIcons
-                                            name="add-circle"
-                                            size={RFValue(25, windowHeight)}
-                                            color={Colors.primary}
-                                            style={{ marginLeft: 10 }}
-                                        />
-                                    )}
-                                </View>
+                                <>
+                                    <View style={[styles.customRow, styles.rowChildContainer]}>
+                                        <View style={[styles.rowWrapper, {
+                                            backgroundColor: item === 'Create New' ? Colors.primary : '#e0e0e0',
+                                            justifyContent: item === 'Create New' ? "center" : 'space-between',
+                                        }]}>
+                                            <Text style={{
+                                                color: item === 'Create New' ? Colors.white : Colors.black,
+                                                fontSize: RFValue(18, windowHeight),
+                                                textAlign: "center",
+                                            }}>
+                                                {item}
+                                            </Text>
+                                            {item === 'Create New' && (
+                                                <MaterialIcons
+                                                    name="add-circle"
+                                                    size={RFValue(25, windowHeight)}
+                                                    color={Colors.white}
+                                                    style={{ marginLeft: 10 }}
+                                                />
+                                            )}
+                                            {/* Add a checkmark icon next to the selected item */}
+                                            {item !== 'Create New' && isSelected ?
+                                                <FontAwesome
+                                                    name="check-circle"
+                                                    size={RFValue(20, windowHeight)}
+                                                    color={Colors.black}
+                                                    style={{ marginLeft: 10 }}
+                                                />
+                                                :
+                                                item !== 'Create New' && <FontAwesome
+                                                    name="circle-thin"
+                                                    size={RFValue(20, windowHeight)}
+                                                    color={Colors.black}
+                                                    style={{ marginLeft: 10 }}
+                                                />
+                                            }
+                                        </View>
+                                    </View>
+                                </>
                             );
                         }}
                     />

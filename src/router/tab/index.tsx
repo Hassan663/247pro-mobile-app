@@ -51,7 +51,7 @@ export default function appNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName='TimeCard'
+        initialRouteName='AppTabs'
       >
         <Stack.Screen name="QRCode" component={QRCode} />
         <Stack.Screen name="ViewJob" component={ViewJob} />

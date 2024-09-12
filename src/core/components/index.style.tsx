@@ -159,9 +159,10 @@ export const styles: any = StyleSheet.create<any>({
         alignItems: "center"
     },
     dropDownStyle: {
-        borderBottomLeftRadius: 10,
         marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
-        borderBottomRightRadius: 10,
+        borderRadius: 10,
+        backgroundColor: Colors.secondaryWhite,
+        paddingVertical: 20,
     },
     headerContainer: {
         marginTop: platform !== 'ios' ? RFPercentage(3.5) : 0,
@@ -222,8 +223,6 @@ export const styles: any = StyleSheet.create<any>({
         height: RFPercentage(10),
         borderRadius: RFPercentage(1),
         justifyContent: 'center',
-        // flex: 1,
-        // backgroundColor:Colors.lightGrey
     },
     contactModalHeader: {
         alignItems: "center",
@@ -246,12 +245,31 @@ export const styles: any = StyleSheet.create<any>({
         width: "100%",
     },
     customRow: {
+
+        // paddingHorizontal: 15,
+    },
+    rowChildContainer: {
+        width: '100%',
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    rowWrapper: {
+        height: '100%', width: "100%",
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-    }
+        paddingHorizontal: 20,
+        borderRadius: 10
+    },
+    searchInputStyle: {
+        backgroundColor: '#e0e0e0',
+        width: '90%',
+        marginLeft: 20,
+        overflow: 'hidden',
+        borderRadius: 10
+    },
+    rowStyle: {
+        borderBottomWidth: 0,
+        marginTop: 10
+    },
 });
 

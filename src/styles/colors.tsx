@@ -6,6 +6,8 @@ const Colors = {
     gray: '#9E9E9E',
     white: "#FFFFFF",
     lightGrey: '#E0E0E0',
+    secondaryWhite: '#ededed',
+
     yellow: '#ffd203',
     red: 'red',
 
