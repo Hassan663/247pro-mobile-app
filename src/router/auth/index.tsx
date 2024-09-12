@@ -45,7 +45,7 @@ const AuthNavigation: React.FC<{ initialRoute: AuthNavigationRoutes }> = ({ init
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS, // Apply slide animation
         }}
-        initialRouteName={'BuisnessQuestions'}
+        initialRouteName={initialRoute}
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="SignUp" component={SignUp} />
