@@ -33,7 +33,7 @@ interface OutlinedDropDownProps {
 
 const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defaultValueByIndex, dropDownStyle, isPrimaryBorderOnFocus, color, DATA, onselect, fontSize, iconsSize, drop_down_button_style, search }) => {
   const [isActive, setIsActive] = useState(false);
-  const [dropdownVal, setdropdownVal] = useState('')
+  const [dropdownVal, setdropdownVal] = useState('');
 
   useEffect(() => {
     setdropdownVal(DATA[defaultValueByIndex])
@@ -49,7 +49,7 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defa
         }
         <View style={styles.textInputContainer(isActive)}>
           <SelectDropdown
-            search
+              search
             searchPlaceHolder={'Search here'}
             searchPlaceHolderColor={Colors.black}
             renderSearchInputLeftIcon={() => {

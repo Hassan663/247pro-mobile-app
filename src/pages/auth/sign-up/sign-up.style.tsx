@@ -8,6 +8,14 @@ import { t } from 'i18next';
 
 
 export const styles = StyleSheet.create<any>({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+      },
+      innerContainer: {
+        flex: 1,
+        justifyContent: 'space-between',
+      },
     tabContainer: (selectedTab: any) => ({
         flex: 1,
         borderBottomWidth: 1,

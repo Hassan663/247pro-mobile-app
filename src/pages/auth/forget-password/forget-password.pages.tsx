@@ -40,7 +40,7 @@ import {
 } from '../../../styles/constant.style';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [email, setEmail] = useState<string>('mynameismuzammilhussainshah@gmail.com');
+    const [email, setEmail] = useState<string>('');
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
     const loader = useSelector((state: any) => state.root.loader);

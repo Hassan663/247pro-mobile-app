@@ -34,6 +34,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n, {
     fetchTranslations
 } from './src/i18n';
+import MainNavigator from './src/router';
 
 // Ignore warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
@@ -77,7 +78,10 @@ const MainComponent: React.FC = () => {
                             <MyStatusBar backgroundColor={Colors.white} barStyle="dark-content" /> :
                     <StatusBar barStyle="dark-content" backgroundColor={'transparent'} hidden={false} translucent={true} />
             }
-            {!authState ? <AuthNavigation initialRoute={initialRoute} /> : <AppNavigation />}
+            {<MainNavigator />
+            }
+            {/* {authState ? <MainNavigator /> : <AppNavigation />
+            } */}
 
         </>
 

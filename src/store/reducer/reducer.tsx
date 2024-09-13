@@ -11,6 +11,8 @@ import {
     CONTACTTYPESCOUNT,
     SPECIALITIES,
     PAGINATIONLOADER,
+    GET_INDUSTRIES_SUCCESS,
+    GET_JOB_TYPES_SUCCESS,
 } from '../constant/constant'
 
 export type Action = {
@@ -39,6 +41,7 @@ const INITIAL_STATE = {
     paginationLoader: false,
     contactTypesCount: [],
     specialities: [],
+    industries:[],
     // contactResponse.data.resultData.list
 }
 
@@ -109,6 +112,11 @@ export default (states = INITIAL_STATE, action: Action) => {
                 ...states,
                 paginationLoader: action.payload
             })
+            case GET_INDUSTRIES_SUCCESS:
+                return ({
+                    ...states,
+                    industries: action.payload
+                })
         // case ISERROR:
         //     return ({
         //         ...states,

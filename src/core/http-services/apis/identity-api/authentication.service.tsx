@@ -1,7 +1,12 @@
-import { Toast } from 'react-native-toast-notifications';
-import { getApi, postApi } from '../../services/services';
-import { Endpoint, IResponse } from '../../../modals/index';
-import { ILoginResponseData, ISignupResponseData, MemberShipApiModal, SignUpModal } from '../../../modals/login.modal';
+import {Toast} from 'react-native-toast-notifications';
+import {getApi, postApi} from '../../services/services';
+import {Endpoint, IResponse} from '../../../modals/index';
+import {
+  ILoginResponseData,
+  ISignupResponseData,
+  MemberShipApiModal,
+  SignUpModal,
+} from '../../../modals/login.modal';
 import {
   ForgetModal,
   IForgetResponseData,
@@ -15,9 +20,10 @@ import {
   LOGIN_IDENTITY_ENDPOINT,
   LOGOUT_ENDPOINT,
   MEMBERSHIP_ENDPOINT,
-  SIGNUP_ENDPOINT
+  SIGNUP_ENDPOINT,
 } from '../apis';
-import { t } from 'i18next';
+import {t} from 'i18next';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 /**
  * Performs user login by sending login data to the server.
@@ -26,40 +32,61 @@ import { t } from 'i18next';
  * @returns A promise that resolves to the login response.
  */
 
-const encryptData = async (loginData: LoginModal): Promise<IResponse<ILoginResponseData>> => {
+const encryptData = async (
+  loginData: LoginModal,
+): Promise<IResponse<ILoginResponseData>> => {
   try {
     // Step 1: Encrypt the login data
-    const encryptedLoginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENCRIPTION_ENDPOINT, loginData);
+    console.log(
+      'DataForEncryption: ',
+      loginData,
+      ' :',
+      LOGIN_ENCRIPTION_ENDPOINT,
+    );
+    const encryptedLoginResponse: any = await postApi<
+      LoginModal,
+      ILoginResponseData
+    >(LOGIN_ENCRIPTION_ENDPOINT, loginData);
     return encryptedLoginResponse;
   } catch (error) {
-    console.error('Login service error:', error);
+    console.error('Encrypt Login service error:', error);
     throw error;
   }
 };
 
-
-const memberShipApi = async (memberShipApiData: MemberShipApiModal, accessToken: string): Promise<IResponse<ISignupResponseData>> => {
+const memberShipApi = async (
+  memberShipApiData: MemberShipApiModal,
+  accessToken: string,
+): Promise<IResponse<ISignupResponseData>> => {
   try {
-    MEMBERSHIP_ENDPOINT.JWTToken = accessToken
-    const memberResponse: any = await postApi<MemberShipApiModal, ISignupResponseData>(MEMBERSHIP_ENDPOINT, memberShipApiData);
+    MEMBERSHIP_ENDPOINT.JWTToken = accessToken;
+    const memberResponse: any = await postApi<
+      MemberShipApiModal,
+      ISignupResponseData
+    >(MEMBERSHIP_ENDPOINT, memberShipApiData);
     return memberResponse;
   } catch (error) {
     console.error('Login service error:', error);
     throw error;
   }
-}
-const signUp = async (loginData: SignUpModal): Promise<IResponse<ISignupResponseData>> => {
+};
+const signUp = async (
+  loginData: SignUpModal,
+): Promise<IResponse<ISignupResponseData>> => {
   try {
-
     // Step 1: Encrypt the login data
-    const encryptedLoginResponse: any = await encryptData(loginData)
+    const encryptedLoginResponse: any = await encryptData(loginData);
 
     // Step 2: Prepare the login request with the token received from step 1
-    const signUpDataWithToken: any = { token: encryptedLoginResponse.data.response };
-    const SignupResponse: any = await postApi<SignUpModal, ISignupResponseData>(SIGNUP_ENDPOINT, signUpDataWithToken);
+    const signUpDataWithToken: any = {
+      token: encryptedLoginResponse.data.response,
+    };
+    const SignupResponse: any = await postApi<SignUpModal, ISignupResponseData>(
+      SIGNUP_ENDPOINT,
+      signUpDataWithToken,
+    );
 
     let memberShipApiData: MemberShipApiModal = {
-
       accountId: SignupResponse.data.accountId,
       identityUserId: SignupResponse.data.identityUserId,
       userEmail: SignupResponse.data.email,
@@ -69,32 +96,42 @@ const signUp = async (loginData: SignUpModal): Promise<IResponse<ISignupResponse
       memberShipApiData.userName = SignupResponse.data.userName;
     } else {
       memberShipApiData.userName = SignupResponse.data.email;
-
     }
-    console.log(memberShipApiData, 'memberShipApiDa123ta', SignupResponse)
-    const memberShipApiResponeData: any = await memberShipApi(memberShipApiData, SignupResponse.data.accessToken)
-    console.log(memberShipApiResponeData, 'memberShipApiResponeData',)
+    console.log(memberShipApiData, 'memberShipApiDa123ta', SignupResponse);
+    const memberShipApiResponeData: any = await memberShipApi(
+      memberShipApiData,
+      SignupResponse.data.accessToken,
+    );
+    console.log(memberShipApiResponeData, 'memberShipApiResponeData');
 
-    // Step 3: get user identity 
-    const identityResponse: any = await userIdentity(SignupResponse.data.accessToken)
+    // Step 3: get user identity
+    const identityResponse: any = await userIdentity(
+      SignupResponse.data.accessToken,
+    );
     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
     throw error;
   }
 };
-const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseData>> => {
+const login = async (
+  loginData: LoginModal,
+): Promise<IResponse<ILoginResponseData>> => {
   try {
-
     // Step 1: Encrypt the login data
-    const encryptedLoginResponse: any = await encryptData(loginData)
+    const encryptedLoginResponse: any = await encryptData(loginData);
 
     // Step 2: Prepare the login request with the token received from step 1
-    const loginDataWithToken: any = { token: encryptedLoginResponse.data.response };
-    const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(LOGIN_ENDPOINT, loginDataWithToken);
+    const loginDataWithToken: any = {
+      token: encryptedLoginResponse.data.response,
+    };
+    const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(
+      LOGIN_ENDPOINT,
+      loginDataWithToken,
+    );
 
-    // Step 3: get user identity 
-    const identityResponse: any = userIdentity(loginResponse.data.accessToken)
+    // Step 3: get user identity
+    const identityResponse: any = userIdentity(loginResponse.data.accessToken);
     return identityResponse;
   } catch (error) {
     console.error('Login service error:', error);
@@ -102,13 +139,18 @@ const login = async (loginData: LoginModal): Promise<IResponse<ILoginResponseDat
   }
 };
 
-const userIdentity = async (accessToken: string): Promise<IResponse<ILoginResponseData>> => {
+const userIdentity = async (
+  accessToken: string,
+): Promise<IResponse<ILoginResponseData>> => {
   try {
-    LOGIN_IDENTITY_ENDPOINT.JWTToken = accessToken
+    LOGIN_IDENTITY_ENDPOINT.JWTToken = accessToken;
     // LOGIN_IDENTITY_ENDPOINT.Cookie = true
     const emptyBody: any = {};
-    let identityResponse: any = await getApi<UserIdentity, ILoginResponseData>(LOGIN_IDENTITY_ENDPOINT, emptyBody);
-    identityResponse.data.accessToken = accessToken
+    let identityResponse: any = await getApi<UserIdentity, ILoginResponseData>(
+      LOGIN_IDENTITY_ENDPOINT,
+      emptyBody,
+    );
+    identityResponse.data.accessToken = accessToken;
     return identityResponse.data;
   } catch (error) {
     console.error('Identity service error:', error);
@@ -116,13 +158,25 @@ const userIdentity = async (accessToken: string): Promise<IResponse<ILoginRespon
   }
 };
 
-const forget_password = async (forgetdata: ForgetModal): Promise<IResponse<ILoginResponseData>> => {
+const forget_password = async (
+  forgetdata: ForgetModal,
+): Promise<IResponse<ILoginResponseData>> => {
   try {
-    const FORGET_PASSWORD_ENDPOINT_CLONE: Endpoint = { ...FORGET_PASSWORD_ENDPOINT };
-    FORGET_PASSWORD_ENDPOINT_CLONE.url = FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`
+    const FORGET_PASSWORD_ENDPOINT_CLONE: Endpoint = {
+      ...FORGET_PASSWORD_ENDPOINT,
+    };
+    FORGET_PASSWORD_ENDPOINT_CLONE.url =
+      FORGET_PASSWORD_ENDPOINT.url + `?email=${forgetdata.email}`;
     const forgetPasswordData: any = {};
-    const response: any = await postApi<ForgetModal, IForgetResponseData>(FORGET_PASSWORD_ENDPOINT_CLONE, forgetPasswordData);
-    if (response.status == 204) Toast.show(t(`Newpasswordlinksenttoyouremail`) + ` ${forgetdata.email}`, { type: "custom_success_toast" });
+    const response: any = await postApi<ForgetModal, IForgetResponseData>(
+      FORGET_PASSWORD_ENDPOINT_CLONE,
+      forgetPasswordData,
+    );
+    if (response.status === 204) {
+      Toast.show(t(`Newpasswordlinksenttoyouremail`) + ` ${forgetdata.email}`, {
+        type: 'custom_success_toast',
+      });
+    }
     return response;
   } catch (error) {
     console.error('Login service error:', error);
@@ -132,7 +186,10 @@ const forget_password = async (forgetdata: ForgetModal): Promise<IResponse<ILogi
 const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   try {
     const logOutData: any = {};
-    const response = await postApi<LoginModal, ILoginResponseData>(LOGOUT_ENDPOINT, logOutData);
+    const response = await postApi<LoginModal, ILoginResponseData>(
+      LOGOUT_ENDPOINT,
+      logOutData,
+    );
     return response;
   } catch (error) {
     console.error('Login service error:', error);
@@ -140,4 +197,4 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   }
 };
 
-export { login, forget_password, userIdentity, logout, encryptData, signUp };
+export {login, forget_password, userIdentity, logout, encryptData, signUp};

@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { NavigationContainer, } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import QRCode from '../../pages/app/menu-screens/qr-code/qr-code';
@@ -45,12 +44,11 @@ import Team from '../../pages/app/menu-screens/team/team';
 
 const Stack = createStackNavigator();
 
-export default function appNavigation() {
+export default function AppNavigation() {
   return (
-    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName='TimeCard'
+        initialRouteName='AppTabs'
       >
         <Stack.Screen name="QRCode" component={QRCode} />
         <Stack.Screen name="ViewJob" component={ViewJob} />
@@ -91,6 +89,5 @@ export default function appNavigation() {
         <Stack.Screen name="TimeCard" component={TimeCard} />
         <Stack.Screen name="Team" component={Team} />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 }

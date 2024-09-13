@@ -20,8 +20,7 @@ export function loginValidation(emailOrPhone: string, password: string): Validat
     if (!emailOrPhone) {
         return createErrorResponse(VALIDATIONMESSAGE[0]);
     }
-
-    if (!password) {
+    else if (!password) {
         return createErrorResponse(VALIDATIONMESSAGE[1]);
     }
 
@@ -33,7 +32,7 @@ export function loginValidation(emailOrPhone: string, password: string): Validat
         return createErrorResponse(VALIDATIONMESSAGE[3]);
     }
 
-    if (!password.match(passwordRegex)) {
+    if (password && !password.match(passwordRegex)) {
         return createErrorResponse(VALIDATIONMESSAGE[4]);
     }
 
@@ -41,19 +40,22 @@ export function loginValidation(emailOrPhone: string, password: string): Validat
 }
 
 export function emailValidation(email: string): ValidationResult {
+    // Check if the email is empty
     if (!email) {
-        return createErrorResponse(VALIDATIONMESSAGE[0]);
+        return createErrorResponse(VALIDATIONMESSAGE[0]); // 'Email is required' message
     }
 
-    if (emailPattern.test(email)) {
-        if (email.includes('@example.com')) {
-            return createErrorResponse(VALIDATIONMESSAGE[2]);
-        }
-        return createSuccessResponse();
-    } else if (!phonePattern.test(email)) {
-        return createErrorResponse(VALIDATIONMESSAGE[3]);
+    // Check if the email matches the defined pattern
+    if (!emailPattern.test(email)) {
+        return createErrorResponse(VALIDATIONMESSAGE[10]); // 'Invalid email format' message
     }
 
+    // Check if the email domain is '@example.com' which is not allowed
+    if (email.includes('@example.com')) {
+        return createErrorResponse(VALIDATIONMESSAGE[3]); // 'Emails from @example.com are not allowed' message
+    }
+
+    // If all checks pass, return success response
     return createSuccessResponse();
 }
 
@@ -92,13 +94,16 @@ export function setUpPasswordValidation(password1: string, password2: string): V
         return createErrorResponse(VALIDATIONMESSAGE[7]);
     }
 
-    if (!password1.match(passwordRegex) || !password2.match(passwordRegex)) {
+    if (!password1.match(passwordRegex)
+        // || !password2.match(passwordRegex)
+        ) {
         return createErrorResponse(VALIDATIONMESSAGE[4]);
     }
 
-    if (password1 !== password2) {
-        return createErrorResponse(VALIDATIONMESSAGE[8]);
-    }
+    // if (password1
+    //      !== password2) {
+    //     return createErrorResponse(VALIDATIONMESSAGE[8]);
+    // }
 
     return createSuccessResponse();
 }
@@ -132,18 +137,36 @@ export function verifyCodeValidation(code: string,): ValidationResult {
     return createSuccessResponse();
 }
 
-export function buisnessQuestionsValidation(selectedIndustry: string, primarySpecialty: string, zipCode: string, jobType: string): ValidationResult {
-    const isValidZipCode = zipCodePattern.test(zipCode);
-
-    if (selectedIndustry && primarySpecialty && isValidZipCode) {
-        if (selectedIndustry == 'Construction') {
-            if (!jobType) return createErrorResponse(VALIDATIONMESSAGE[9]);
-        }
-        return createSuccessResponse();
-    } else {
+export function buisnessQuestionsValidation(
+  selectedIndustry: string,
+  primarySpecialty: string,
+  jobType: string,
+): ValidationResult {
+  //   const isValidZipCode = zipCodePattern.test(zipCode);
+  if (selectedIndustry && primarySpecialty) {
+    if (selectedIndustry === 'Construction') {
+      if (!jobType) {
         return createErrorResponse(VALIDATIONMESSAGE[9]);
+      }
     }
+    return createSuccessResponse();
+  } else {
+    return createErrorResponse(VALIDATIONMESSAGE[9]);
+  }
+}
 
+export function zipAndPhoneValidation(
+  zipCode: string,
+  phone: string,
+  countryCode: CountryCode,
+): ValidationResult {
+  const isValidZipCode = zipCodePattern.test(zipCode);
+  const isPhoneNumberValid = phoneValidation(phone, countryCode);
+  if (isValidZipCode && isPhoneNumberValid) {
+    return createSuccessResponse();
+  } else {
+    return createErrorResponse(VALIDATIONMESSAGE[14]);
+  }
 }
 
 

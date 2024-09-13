@@ -13,7 +13,7 @@ export type StringIndexer<T> = {
     [key: string]: any;
 };
 
-type IBaseModel = any
+type IBaseModel = any;
 
 export interface Page<T extends IBaseModel> {
     list: T[];

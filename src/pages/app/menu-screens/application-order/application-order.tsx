@@ -1,7 +1,8 @@
 // @app
 import React, {
     useRef,
-    useState
+    useState,
+    useEffect
 } from 'react';
 import {
     View,
@@ -37,10 +38,19 @@ import Loader from '../../../../core/components/loader.component';
 const ApplicationOrder: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
 
     const [data, setData] = useState(APPLICATIONORDEROPTIONS);
+    const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
     const dispatch: Dispatch<any> = useDispatch();
 
     const loader = useSelector((state: any) => state.root.loader);
     const sheetRef = useRef<any>(null)
+
+    useEffect(() => {
+        if (!currentUserProfile || Object.keys(currentUserProfile).length === 0) {
+            console.log("Move to Auth");
+          // If no user data is present, navigate to the Auth Stack (e.g., home screen)
+          changeRoute(navigation,'AuthNavigation');
+        }
+      }, [currentUserProfile, navigation]);
 
     const handleLogout = async () => {
         await dispatch(logoutAction())

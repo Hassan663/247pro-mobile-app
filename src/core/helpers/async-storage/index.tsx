@@ -26,14 +26,32 @@ export const setItem = async (key: string, value: any) => {
     }
 }
 
-export const changeRoute = async (navigation: any, value: string, prams?: any) => {
+export const changeRoute = async (navigation: any, value: string, params?: any) => {
     try {
-        if (value == 'pop') { navigation.goBack() }
-        else { navigation.navigate(value, prams) }
+      if (value === 'pop') {
+        navigation.goBack();
+      }
+    //    else if (value === 'AppNavigation') {
+    //     // Reset the navigation stack and navigate to the initial route of 'AppTabs'
+    //     navigation.reset({
+    //     index: 0,
+    //     routes: [{ name: value, params }], // Here, value is 'AppTabs'
+    //     });
+    //   }
+    //   else if (value === 'AuthNavigation') {
+    //     // Reset the navigation stack and navigate to the initial route of 'AppTabs'
+    //     navigation.reset({
+    //     index: 0,
+    //       routes: [{ name: value, params }], // Here, value is 'AuthNavigation'
+    //     });
+    //   }
+       else {
+        navigation.navigate(value, params);
+      }
     } catch (error) {
-        return null
+      console.error('Navigation error:', error);
     }
-}
+  };
 
 export const formatPhoneNumber = (phoneNumber?: string) => {
     var cleaned = ('' + phoneNumber)

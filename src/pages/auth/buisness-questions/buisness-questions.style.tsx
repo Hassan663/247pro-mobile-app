@@ -58,6 +58,20 @@ export const styles = StyleSheet.create({
         height: 30,
         width: 30
     },
+    progressContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: RFPercentage(4),
+      },
+    bar: {
+        width: RFPercentage(15),
+        height: RFPercentage(1),
+        backgroundColor: '#ccc',
+        marginHorizontal: RFPercentage(1),
+      },
+      activeBar: {
+        backgroundColor: '#007bff',
+      },
     downIcon: {
         marginHorizontal: RFPercentage(.5)
     },
@@ -68,6 +82,12 @@ export const styles = StyleSheet.create({
         zIndex: 20,
         backgroundColor: 'rgba(225,225,225,0.8)',
         ...centralStyle.XAndYCenter,
-    }
+    },
+    primaryBtnClone: {
+        height: RFPercentage(5.6),
+        backgroundColor: Colors.primary,
+        width: '100%',
+        borderRadius: RFPercentage(1)
+    },
 
 });

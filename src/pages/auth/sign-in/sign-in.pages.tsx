@@ -7,6 +7,10 @@ import {
     TouchableOpacity,
     Image,
     View,
+    SafeAreaView,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -27,21 +31,27 @@ import { styles } from './sign-in.style';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import { loginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { loginValidation } from '../../../core/helpers/validation/validation';
+import { emailValidation, loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
 import { FooterText, Title, } from '../../../core/components/screen-title.component';
 import { centralStyle, windowHeight, } from '../../../styles/constant.style';
 import { useFocusEffect } from '@react-navigation/native';
 import { platform } from '../../../utilities';
 import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
+import { Text } from 'react-native-paper';
 
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
 const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
-    const [password, setPassword] = useState<string>("Karachi@123456");
+    const [password, setPassword] = useState<string>("");
     const [isSelected, setisSelected] = useState<boolean>(false);
-    const [inputValue, setInputValue] = useState<string>("mynameismuzammilhussainshah@gmail.com");
+    const [inputValue, setInputValue] = useState<string>(""); //email
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
+    const [isValid, setIsValid] = useState(false);
+    const [errors, setErrors] = useState({
+        emailError: '',
+        passwordError: '',
+      });
 
     const dispatch: Dispatch<any> = useDispatch();
     const loader = useSelector((state: any) => state.root.loader);
@@ -52,11 +62,35 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         return unsubscribe;
     }, [navigation]);
 
+
+  const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
+
+  useEffect(() => {
+    console.log('currentUserProfile:', currentUserProfile);
+    if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
+        if (!currentUserProfile.isOnboarded) {
+            changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
+           // changeRoute(navigation, 'VerifyBuisness');
+        }
+    }
+}, [currentUserProfile]);
+
+
+  const validateForm = () => {
+    let isValidated = loginValidation(inputValue, password);
+    if (isValidated.success) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+    return isValidated;
+  };
+
     const handleSubmit = useCallback(async () => {
         if (!isToastVisible) {
             setIsToastVisible(true);
-            let isValid = await loginValidation(inputValue, password);
-            if (isValid.success) await dispatch(loginAction(inputValue, password));
+            let isValidated = await loginValidation(inputValue, password);
+            if (isValidated.success){ await dispatch(loginAction(inputValue, password));}
             else await toast.show(isValid.message, { type: "custom_toast" });
             setTimeout(() => {
                 setIsToastVisible(false);
@@ -67,11 +101,22 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     // Callback to update the inputValue state based on phone or email input
     const phoneOrEmailCallback = useCallback((val: string) => {
         setInputValue(val);
+        let valid = emailValidation(val);
+        console.log(valid.message);
+      if (valid.success) {
+            setIsValid(true);
+        }
+        else
+        {
+            setIsValid(false);
+        setErrors({emailError: valid.message});
+    }
     }, [inputValue]);
 
     // Callback to update the password state based on password input
     const passwordCallback = useCallback((val: string) => {
         setPassword(val);
+        validateForm();
     }, [password]);
 
     // Callback to toggle the isSelected state for a checkbox
@@ -84,29 +129,64 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         }, [])
     );
     return (
-        <KeyboardAwareScrollView>
+        <SafeAreaView style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+        style={styles.innerContainer}
+        >
             <View style={[centralStyle.container, { height: windowHeight }]}>
-                <View style={styles.titleWrapper}>
+            <View style={styles.titleWrapper}>
+                        <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
+                        {/* <Title
+                            color={Colors.black}
+                            weight='600'
+                            title={t(`Welcome_to_247PRO`) + '!'}
+                            type={`Poppin-24`} /> */}
+                        <Title
+                            color={`#212121`}
+                            title={t(`Welcome_Back`)}
+                            type={`Poppin-16`}
+                            weight={`600`} />
+                    </View>
+                {/* <View style={styles.titleWrapper}>
                     <View style={styles.titleContainer}>
-                        <Title
-                            type='Poppin-24'
-                            title={t(`Welcome_To`)}
-                            weight='600' />
-                        <Title
+                    <Title
                             type='Poppin-24'
                             title={t(`247PRO`)}
                             color={Colors.primary}
-                            weight='600' />
+                            weight='400' />
+                        <Title
+                            type='Poppin-24'
+                            title={t(`Welcome_Back`)}
+                            weight='400' />
+                        
                     </View>
-                </View>
+                </View> */}
 
+                <Button
+                        icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={[styles.googleIcon, centralStyle.mr1]} />}
+                        title={t('Continue_with_google')}
+                        customStyle={[centralStyle.socialButtonContainer,]}
+                        titleStyle={styles.socialText}
+                    />
+
+                <View style={styles.orContainer}>
+                        {/* <View style={styles.line} /> */}
+                        <Title
+                            type={'Poppin-14'}
+                            color={Colors.lightGray}
+                            title={t('or')} />
+                        {/* <View style={styles.line} /> */}
+                    </View>
                 <View style={styles.inputContainer}>
                     <OutlinedTextInput
                         val={inputValue}
                         onChange={phoneOrEmailCallback}
-                        title={t('Phone_or_email')}
-                        placeHolder={t('Phone_or_email')}
+                        title={t('_email')}
+                        placeHolder={t('_email')}
+                        className={errors.emailError ? 'input-error' : 'input-normal' }
                     />
+                    {errors.emailError ? <Text style={styles.errorText}>{errors.emailError}</Text> : null}
                     <OutlinedTextInput
                         title={t('Password')}
                         val={password}
@@ -152,18 +232,29 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                 <View style={[styles.logInBtnContainer]}>
 
                     {!loader ?
-                        <Button
-                            title={t('logintText')}
-                            callBack={handleSubmit}
-                            primary
-                        />
+                    <TouchableOpacity
+                    style={[styles.primaryBtnClone, centralStyle.XAndYCenter, isValid ? styles.primaryBtnClone : styles.disabledButton]}
+                    onPress={handleSubmit}
+                    disabled={!isValid}
+                    >
+                    <Title
+                                type={'Poppin-14'}
+                                color={'#9E9E9E'}
+                                title={t('logintText')} />
+                  </TouchableOpacity>
+                        // <Button
+                        //     title={t('logintText')}
+                        //     onPress={handleSubmit} 
+                        //     disabled={!isValid}
+                        //     primary                            
+                        // />
                         :
                         <View style={[styles.primaryBtnClone, centralStyle.XAndYCenter]}>
                             <Loader size={'small'} color={Colors.white} />
                         </View>
                     }
 
-                    <View style={[
+                    {/* <View style={[
                         centralStyle.row,
                         centralStyle.justifyContentBetween,
                         centralStyle.alignitemCenter,
@@ -182,28 +273,16 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                                 style={styles.fingerPrintImg}
                                 source={require('../../../assets/app-images/fingerprint.png')} />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.orContainer}>
-                        <View style={styles.line} />
-                        <Title
-                            type={'Poppin-14'}
-                            color={Colors.lightGray}
-                            title={t('or')} />
-                        <View style={styles.line} />
-                    </View>
-                    <Button
-                        icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={[styles.googleIcon, centralStyle.mr1]} />}
-                        title={t('Continue_with_google')}
-                        customStyle={[centralStyle.socialButtonContainer,]}
-                        titleStyle={styles.socialText}
-                    />
-                    <Button
+                    
+                    
+                    {/* <Button
                         icon={<AntDesign name={`apple1`} size={RFPercentage(2.5)} style={centralStyle.mr1} />}
                         title={" " + t('Continue_with_Apple')}
                         customStyle={centralStyle.socialButtonContainer}
                         titleStyle={styles.socialText}
-                    />
+                    /> */}
                 </View>
 
                 <View style={styles.footerContainer}>
@@ -213,7 +292,10 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </KeyboardAwareScrollView>
+            </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
+        
     );
 });
 

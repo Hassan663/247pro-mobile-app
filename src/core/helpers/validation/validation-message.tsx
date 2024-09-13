@@ -1,6 +1,6 @@
 export const VALIDATIONMESSAGE = [
-    `Please enter your email or phone number.`,
-    `Please enter a password.`,
+    `Please enter email.`,
+    `Please enter a valid password.`,
     `Email addresses from example.com are not allowed.`,
     `Invalid email or phone number format.`,
     `Password must be 8+ characters with 1 letter and 1 number.`,
@@ -12,5 +12,6 @@ export const VALIDATIONMESSAGE = [
     `Please enter valid email.`,
     `Please enter code.`,
     `Invalid phone number.`,
-    `First Name Is Required`
+    `First Name Is Required`,
+    `Zip or phone number is invalid`
 ]

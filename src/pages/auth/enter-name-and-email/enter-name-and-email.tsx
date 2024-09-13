@@ -37,20 +37,40 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
     const toast = useToast();
     const dispatch: Dispatch<any> = useDispatch();
 
+  const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
+
+  useEffect(() => {
+    console.log('currentUserProfile:', currentUserProfile);
+    if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
+        if (!currentUserProfile.isOnboarded) {
+            changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
+            //changeRoute(navigation, 'VerifyBuisness');
+        }
+    }
+}, [currentUserProfile]);
+
     const handleSubmit = async () => {
         const { email } = route.params;
+
         if (!isToastVisible) {
             let isValid = await enterNameAndEmailValidation(name, email, password, route?.params?.comeFromVerifyCode)
 
             if (isValid.success) {
                 let passwordisValid = await setUpPasswordValidation(password, confirmPassword)
                 if (passwordisValid.success) {
-                    if (!route?.params?.comeFromVerifyCode) {
-                        if (isValid.success) await dispatch(signUpAction(name, email, password));
-                    } else changeRoute(navigation, 'VerifyBuisness')
-                }else{
+                    // if (!route?.params?.comeFromVerifyCode) {
+                    //     const isSignUpSuccessful = await dispatch(signUpAction(name, email, password));
+                    //     if (isSignUpSuccessful) {
+                    //         changeRoute(navigation, 'VerifyBuisness'); // Navigate to VerifyBuisness
+                    //     }
+                    // } else {
+                    //     changeRoute(navigation, 'VerifyBuisness');
+                    // }
+                    const isSignUpSuccessful = await dispatch(signUpAction(name, email, password));
+
+                } else {
                     setIsToastVisible(true);
-                    await toast.show(passwordisValid.message, { type: "custom_toast", })
+                    await toast.show(passwordisValid.message, { type: "custom_toast" });
                     setTimeout(() => {
                         setIsToastVisible(false);
                     }, 5000);

@@ -7,6 +7,7 @@ const createEndpoint = (endpoint: string, JWTToken: boolean): Endpoint => ({
   url: `${BASE_URL}${endpoint}`,
   JWTToken,
 });
+
 const createEndpointWithoutBaseUrl = (endpoint: string, JWTToken: boolean): Endpoint => ({
   url: `${endpoint}`,
   JWTToken,
@@ -34,4 +35,12 @@ export const CONTACT_SPECIALITIES: Endpoint = createEndpointWithoutBaseUrl(`${BA
 export const CREATE_CONTACT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/application-api/v1/contacts`, false);
 export const UPLOAD_IMAGE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/contacts/upload/profile-image`, false);
 // APP ENDPOINTS
+
+// OnBoarding Endpoints
+export const INDUSTORY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/industries/account`, false);
+export const PRIMARY_SPECIALITY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/specialities/account/industry`, false);
+export const JOB_TYPE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/job-types/industry`, false);
+
+export const ZIP_PHONE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/accounts/zip-and-phone`, false);
+export const SUBMIT_JOB_LEAD_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/accounts/job-leads`, false);
 // Rest of the code remains the same

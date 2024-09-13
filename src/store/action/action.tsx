@@ -7,8 +7,7 @@ import {
     LoginModal,
     SignUpModal,
 } from '../../core/modals/login.modal';
-import {
-    CONTACTS,
+import { CONTACTS,
     CONTACTTYPESCOUNT,
     CURRENTUSERPROFILE,
     INITIALROUTE,
@@ -16,7 +15,9 @@ import {
     PAGINATIONLOADER,
     SCREENLOADER,
     SEARCHEDDATA,
-    TOTALCONTACTS
+    TOTALCONTACTS,
+    GET_INDUSTRIES_SUCCESS,
+    GET_JOB_TYPES_SUCCESS
 } from '../constant/constant';
 import {
     forget_password,
@@ -40,6 +41,13 @@ import {
     IContactCreateModel,
     SpecialityModal
 } from '../../core/modals/contact.modal';
+import {
+  fetchIndustries,
+  fetchSpecialityByIndustry,
+  fetchJobTypeByIndustry,
+} from '../../core/http-services/apis/application-api/onboarding-api/industries.service';
+import {Industry,PrimarySpecialty} from '../../core/modals/industry.modal';
+
 
 //  LOGIN ACTION
 
@@ -87,10 +95,12 @@ export const logoutAction = () => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
+           // console.log("logout");
             await logout()
             await AsyncStorage.removeItem('accessToken');
+            console.log("logout");
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
-            dispatch({ type: INITIALROUTE, payload: 'SignIn' });
+            dispatch({ type: INITIALROUTE, payload: 'AuthNavigation'});
             dispatch({ type: CONTACTS, payload: [] });
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
@@ -102,36 +112,118 @@ export const logoutAction = () => {
 }
 
 
-
 export const signUpAction = (name: string, email: string, password: string) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
             const loginData: SignUpModal = {
-                "key": loginRequestKey,
-                "object": {
-                    "name": name, // User name
-                    "email": email, // User email
-                    "password": password // User password
-                }
+        key: loginRequestKey,
+        object: {
+          name: name, // User name
+          email: email, // User email
+          password: password, // User password
+        },
             }
+            console.log(loginData, ' SignUp:')
             let SignupResponse: any;
-            SignupResponse = await signUp(loginData)
+            SignupResponse = await signUp(loginData);
+            dispatch({ type: LOADER, payload: false });
+            console.log(SignupResponse, ' SignUp:')
             if (Object.keys(SignupResponse).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
                 dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
+               // return true;  // Return true if sign-up is successful
             }
-            dispatch({ type: LOADER, payload: false });
+            return false; // Return false if sign-up failed
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
+            return false; // Return false if an error occurred
         }
     }
 }
 
+
+
+
+
+// export const signUpAction = (name: string, email: string, password: string) => {
+//     return async (dispatch: Dispatch) => {
+//         try {
+//             dispatch({ type: LOADER, payload: true });
+//             const loginData: SignUpModal = {
+//                 "key": loginRequestKey,
+//                 "object": {
+//                     "name": name, // User name
+//                     "email": email, // User email
+//                     "password": password // User password
+//                 }
+//             }
+//             let SignupResponse: any;
+//             SignupResponse = await signUp(loginData)
+//             if (Object.keys(SignupResponse).length > 0) {
+//                 await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
+//                 dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
+//             }
+//             dispatch({ type: LOADER, payload: false });
+//         } catch (error: any) {
+//             console.log(error.message, 'error')
+//             dispatch({ type: LOADER, payload: false });
+//         }
+//     }
+// }
+
 //  LOGIN ACTION
 
 //  APP ACTION
+
+
+export const GetIndustriesAction = () => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            const industries = await fetchIndustries(accessToken);
+            console.log(industries);
+            dispatch({ type: GET_INDUSTRIES_SUCCESS, payload: industries });
+            dispatch({ type: LOADER, payload: false });
+        } catch (error) {
+            console.log('Error fetching industries:', error);
+            dispatch({ type: LOADER, payload: false });
+        }
+    };
+};
+
+export const GetSpecialityByIndustriesAction = (industryId) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            const industries = await fetchSpecialityByIndustry(accessToken,industryId);
+            dispatch({ type: GET_INDUSTRIES_SUCCESS, payload: industries });
+            dispatch({ type: LOADER, payload: false });
+        } catch (error) {
+            console.log('Error fetching industries:', error);
+            dispatch({ type: LOADER, payload: false });
+        }
+    };
+};
+
+export const GetJobTypesByIndustryAction = (industryId) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            let accessToken = await AsyncStorage.getItem('accessToken');
+            const jobTypes = await fetchJobTypeByIndustry(accessToken,industryId);
+            dispatch({ type: GET_JOB_TYPES_SUCCESS, payload: jobTypes });
+            dispatch({ type: LOADER, payload: false });
+        } catch (error) {
+            console.log('Error fetching job types:', error);
+            dispatch({ type: LOADER, payload: false });
+        }
+    };
+};
+
 
 export const ContactAction = (setpageIndex: any, pageIndex: number) => {
     return async (dispatch: Dispatch, getState: any) => {

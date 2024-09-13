@@ -232,11 +232,11 @@ PODS:
   - React-jsinspector (0.70.10)
   - React-logger (0.70.10):
     - glog
-  - react-native-config (1.5.1):
-    - react-native-config/App (= 1.5.1)
-  - react-native-config/App (1.5.1):
+  - react-native-config (1.5.3):
+    - react-native-config/App (= 1.5.3)
+  - react-native-config/App (1.5.3):
     - React-Core
-  - react-native-document-picker (9.2.0):
+  - react-native-document-picker (9.3.1):
     - React-Core
   - react-native-image-picker (7.1.2):
     - React-Core
@@ -314,9 +314,9 @@ PODS:
     - React-jsi (= 0.70.10)
     - React-logger (= 0.70.10)
     - React-perflogger (= 0.70.10)
-  - RNCAsyncStorage (1.23.1):
+  - RNCAsyncStorage (1.24.0):
     - React-Core
-  - RNDeviceInfo (10.13.2):
+  - RNDeviceInfo (10.14.0):
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
@@ -327,7 +327,7 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (13.14.0):
+  - RNSVG (13.14.1):
     - React-Core
   - RNVectorIcons (9.2.0):
     - React-Core
@@ -505,8 +505,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1457c7bb2f08f257e6b5ece8b62348da43c4ccf2
   React-jsinspector: 2a1985769123b199c195a96f46478b35db139712
   React-logger: 7fbdc3576b2ed3834360c8ea3c1c2ec54ac3043a
-  react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
-  react-native-document-picker: 2b3efb60622b7be891b8d0e0e5424632150e0c94
+  react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
+  react-native-document-picker: 940269e45632f48eb5e81543381ffd15a970d849
   react-native-image-picker: 6f8b3ea523b02c622b9e4f9c36f17348aff0909d
   react-native-safe-area-context: eb0b9284834d1173db8de53ef32dde3d608ee533
   react-native-slider: bc212e8d10ee28f51cd0db28c7f23827e6adec0a
@@ -522,12 +522,12 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0b23ba09f2f6671a1ddee3c37d27b772b9448346
   React-runtimeexecutor: 77aa3714a353cfb1a5f5e315e8af5154cd3d9402
   ReactCommon: a29dac86d7219579db079cef8f380ebffe1ba545
-  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
-  RNDeviceInfo: 42aadf1282ffa0a88dc38a504a7be145eb010dfa
+  RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
+  RNDeviceInfo: 59344c19152c4b2b32283005f9737c5c64b42fba
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: 4f4986408310a43f1606c391f38f76e0d6e790d5
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
-  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
