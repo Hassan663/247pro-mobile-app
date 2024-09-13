@@ -121,9 +121,9 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     //     }
     // }
     const handleSubmit = async () => {
-       // const { email } = route.params;
+        // const { email } = route.params;
 
-       
+
         if (!isToastVisible) {
             let isValid = await enterNameAndEmailValidation(name, email, password, false)
 
@@ -174,12 +174,12 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
         <>
             <SafeAreaView style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-        style={styles.innerContainer}
-        >
-                {/* <View style={[centralStyle.container, { height: windowHeight }]}> */}
-                    {/* <SafeAreaView style={centralStyle.flex1}> */}
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <KeyboardAvoidingView
+                        style={styles.innerContainer}
+                    >
+                        {/* <View style={[centralStyle.container, { height: windowHeight }]}> */}
+                        {/* <SafeAreaView style={centralStyle.flex1}> */}
 
                         {modalEnabled && <LanguageDropDown
                             disableModal={() => setModalEnabled(!modalEnabled)}
@@ -187,71 +187,72 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                             selectedTab={selectedTab}
                         />}
 
-                        <View style={styles.LanguageSection}>
-                            <TouchableOpacity activeOpacity={.7} onPress={() => setModalEnabled(!modalEnabled)} style={styles.LanguageButton}>
-                                <View>
-                                    <Ionicons color={Colors.gray} name='earth-outline' size={RFPercentage(2.5)} />
-                                </View>
-                                <View>
+                        <View style={[centralStyle.container, { height: windowHeight, }]}>
+                            <View style={styles.LanguageSection}>
+                                <TouchableOpacity activeOpacity={.7} onPress={() => setModalEnabled(!modalEnabled)} style={styles.LanguageButton}>
+                                    <View>
+                                        <Ionicons color={Colors.gray} name='earth-outline' size={RFPercentage(2.5)} />
+                                    </View>
+                                    <View>
+                                        <Title
+                                            type='Poppin-12'
+                                            color={Colors.gray}
+                                            title={t(`English`)}
+                                            weight='600' />
+                                    </View>
+                                    <View style={styles.LanguageIcon}>
+                                        <AntDesign name='caretdown' />
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View>
+
+                                <View style={centralStyle.width70}>
+                                    <Image
+                                        style={styles.logoStyle}
+                                        resizeMode='contain'
+                                        source={require('../../../assets/auth-images/splashLogo.png')} />
                                     <Title
-                                        type='Poppin-12'
-                                        color={Colors.gray}
-                                        title={t(`English`)}
+                                        type='Poppin-24'
+                                        color={Colors.black}
+                                        title={t(`Create_Your_Free_Account`)}
                                         weight='600' />
                                 </View>
-                                <View style={styles.LanguageIcon}>
-                                    <AntDesign name='caretdown' />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
 
-                        <View>
-
-                            <View style={centralStyle.width70}>
-                                <Image
-                                    style={styles.logoStyle}
-                                    resizeMode='contain'
-                                    source={require('../../../assets/auth-images/splashLogo.png')} />
-                                <Title
-                                    type='Poppin-24'
-                                    color={Colors.black}
-                                    title={t(`Create_Your_Free_Account`)}
-                                    weight='600' />
-                            </View>
-                            
-                            {/* <Button
+                                {/* <Button
                                 title={t('Continue_with_SSO')}
                                 customStyle={[centralStyle.socialButtonContainer,]}
                                 titleStyle={styles.socialText}
                             /> */}
-                            <Button
-                                icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
-                                title={' ' + t('Continue_with_google')}
-                                customStyle={[centralStyle.socialButtonContainer,]}
-                                titleStyle={styles.socialText}
-                            />
-                            <View style={styles.orContainer}>
-                                {/* <View style={styles.line} /> */}
-                                <Title
-                                    type={'Poppin-12'}
-                                    color={Colors.lightGray}
-                                    title={t('or')} />
-                                {/* <View style={styles.line} /> */}
-                            </View>
-                            {/* <Button
+                                <Button
+                                    icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
+                                    title={' ' + t('Continue_with_google')}
+                                    customStyle={[centralStyle.socialButtonContainer,]}
+                                    titleStyle={styles.socialText}
+                                />
+                                <View style={styles.orContainer}>
+                                    {/* <View style={styles.line} /> */}
+                                    <Title
+                                        type={'Poppin-12'}
+                                        color={Colors.lightGray}
+                                        title={t('or')} />
+                                    {/* <View style={styles.line} /> */}
+                                </View>
+                                {/* <Button
                                 icon={<AntDesign name={`apple1`} size={RFPercentage(2.5)} color={Colors.black} style={centralStyle.mr1} />}
                                 title={" " + t('Continue_with_Apple')}
                                 customStyle={centralStyle.socialButtonContainer}
                                 titleStyle={styles.socialText}
                             /> */}
-                            {/* <View style={[styles.footerTextWrapper, centralStyle.flex1, centralStyle.alignitemEnd]}>
+                                {/* <View style={[styles.footerTextWrapper, centralStyle.flex1, centralStyle.alignitemEnd]}>
                                 <FooterText color={Colors.fontColor} title={t('AgreeTo') + ' '} />
                                 <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
                                     <FooterText color={Colors.primary} title={t('TermsAndConditions')} />
                                 </TouchableOpacity>
                             </View> */}
-                            <View style={[centralStyle.row, centralStyle.m2]}>
-                                {/* <TouchableOpacity
+                                <View style={[centralStyle.row, centralStyle.m2]}>
+                                    {/* <TouchableOpacity
                                     onPress={() => setSelectedTab(t('Phone'))}
                                     activeOpacity={.9} style={[styles.tabContainer(selectedTab), centralStyle.XAndYCenter]}>
                                     <Title
@@ -260,7 +261,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         title={t('Phone')} />
                                 </TouchableOpacity> */}
 
-                                {/* <TouchableOpacity
+                                    {/* <TouchableOpacity
                                     onPress={() => setSelectedTab(t('Email'))}
                                     activeOpacity={.9} style={[styles.tabContainer2(selectedTab), centralStyle.XAndYCenter]}
                                     
@@ -270,11 +271,11 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         color={selectedTab == t('Email') ? Colors.primary : Colors.fontColor}
                                         title={t('Email')} />
                                 </TouchableOpacity> */}
-                            </View>
+                                </View>
 
 
 
-                            {/* <View style={centralStyle.mb3}>
+                                {/* <View style={centralStyle.mb3}>
                             <Title
                                 type='Poppin-14'
                                 color={Colors.fontColor}
@@ -282,10 +283,10 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 weight='600' />
 
                         </View> */}
-                        </View>
-                        <View style={styles.bottomSection}>
+                            </View>
+                            <View style={styles.bottomSection}>
 
-                            {/* {selectedTab == t('Phone') ? 
+                                {/* {selectedTab == t('Phone') ? 
                                 // <View style={[{
                                 //     height: 65,
                                 //     justifyContent: "flex-end"
@@ -337,70 +338,71 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                 // </View>
                                 :*/}
                                 <OutlinedTextInput
-                            val={name}
-                            onChange={(val) => { setName(val) }}
-                            title={t('Full_name')}
-                            placeHolder={t('Full_name')}
-                        />
+                                    val={name}
+                                    onChange={(val) => { setName(val) }}
+                                    title={t('Full_name')}
+                                    placeHolder={t('Full_name')}
+                                />
                                 <OutlinedTextInput
                                     val={email}
                                     onChange={phoneOrEmailCallback}
                                     title={t('Email')}
                                     placeHolder={t('Email')}
                                 />
-                            <OutlinedTextInput
-                                val={password}
-                                onChange={(val) => { setPassword(val) }}
-                                title={t('SetAPassword')}
-                                Password
-                                placeHolder={t('SetAPassword')}
-                            />
-                            <View style={[centralStyle.row, centralStyle.mt1, centralStyle.XAndYCenter]}>
-                                <TouchableOpacity
-                                    activeOpacity={0.9}
-                                    style={centralStyle.mr05}
-                                    onPress={() => setIsCheck(!isCheck)} >
-                                    <Fontisto
-                                        name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
-                                        // style={styles.mx}
-                                        color={isCheck ? Colors.primary : Colors.lightGray}
-                                        size={RFPercentage(2.5)}
-                                    />
-                                </TouchableOpacity>
-                                <View style={styles.PolicyText}>
-                                    <FooterText color={Colors.fontColor} title={t('Readaccept') + ' '} />
-                                    <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
-                                        <FooterText color={Colors.primary} title={t('Termsofservices') + ' '} />
+                                <OutlinedTextInput
+                                    val={password}
+                                    onChange={(val) => { setPassword(val) }}
+                                    title={t('SetAPassword')}
+                                    Password
+                                    placeHolder={t('SetAPassword')}
+                                />
+                                <View style={[centralStyle.row, centralStyle.mt1, centralStyle.XAndYCenter]}>
+                                    <TouchableOpacity
+                                        activeOpacity={0.9}
+                                        style={centralStyle.mr05}
+                                        onPress={() => setIsCheck(!isCheck)} >
+                                        <Fontisto
+                                            name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
+                                            // style={styles.mx}
+                                            color={isCheck ? Colors.primary : Colors.lightGray}
+                                            size={RFPercentage(2.5)}
+                                        />
                                     </TouchableOpacity>
-                                    <FooterText color={Colors.fontColor} title={t('And') + ' '} />
-                                    <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
-                                        <FooterText color={Colors.primary} title={t('Privacypolicy')} />
+                                    <View style={styles.PolicyText}>
+                                        <FooterText color={Colors.fontColor} title={t('Readaccept') + ' '} />
+                                        <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
+                                            <FooterText color={Colors.primary} title={t('Termsofservices') + ' '} />
+                                        </TouchableOpacity>
+                                        <FooterText color={Colors.fontColor} title={t('And') + ' '} />
+                                        <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
+                                            <FooterText color={Colors.primary} title={t('Privacypolicy')} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={[centralStyle.mt3, centralStyle.my1]}>
+                                    {email.length || phoneNumber.length ? <Button
+                                        callBack={handleSubmit}
+                                        title={t(`Next`)}
+                                        primary /> :
+                                        <Button
+                                            disable
+                                            title={t(`Next`)}
+                                            primary />}
+                                </View>
+                                <View style={styles.footerTextWrapper}>
+                                    <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />
+                                    <TouchableOpacity onPress={() => changeRoute(navigation, 'SignIn')} activeOpacity={0.8}>
+                                        <FooterText color={Colors.primary} title={t('logintText') + " "} />
                                     </TouchableOpacity>
                                 </View>
+
                             </View>
-                            <View style={[centralStyle.mt3, centralStyle.my1]}>
-                                {email.length || phoneNumber.length ? <Button
-                                    callBack={handleSubmit}
-                                    title={t(`Next`)}
-                                    primary /> :
-                                    <Button
-                                        disable
-                                        title={t(`Next`)}
-                                        primary />}
-                            </View>
-                            <View style={styles.footerTextWrapper}>
-                                <FooterText color={Colors.fontColor} title={t('Already_have_an_account')} />
-                                <TouchableOpacity onPress={() => changeRoute(navigation, 'SignIn')} activeOpacity={0.8}>
-                                    <FooterText color={Colors.primary} title={t('logintText') + " "} />
-                                </TouchableOpacity>
-                            </View>
-                            
+                            {/* </SafeAreaView> */}
+                            {/* </View > */}
                         </View>
-                    {/* </SafeAreaView> */}
-                {/* </View > */}
-                </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+                    </KeyboardAvoidingView>
+                </TouchableWithoutFeedback>
+            </SafeAreaView>
             {termsModal &&
                 <ModalComp
                     cancel={setTermsModal}

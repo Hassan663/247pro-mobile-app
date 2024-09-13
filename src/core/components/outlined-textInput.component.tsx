@@ -63,6 +63,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, er
             value={inputVal}
             onFocus={handleFocus}
             editable={editable == false ? editable : true}
+            placeholderTextColor={Colors.fontColor}
             multiline={multiLine || false}
             numberOfLines={lines}
             keyboardType={keyboardType ? keyboardType : 'default'}
@@ -79,6 +80,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, er
               <View style={{ flex: 9 }}>
                 <TextInput
                   placeholder={isActive ? '' : placeHolder}
+                  placeholderTextColor={Colors.fontColor}
                   value={inputVal}
                   editable={editable == false ? editable : true}
                   keyboardType={keyboardType ? keyboardType : 'default'}

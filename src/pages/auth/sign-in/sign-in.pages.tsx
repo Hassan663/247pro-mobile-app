@@ -137,7 +137,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                 <KeyboardAvoidingView
                     style={styles.innerContainer}
                 >
-                    <View style={[centralStyle.container, { height: windowHeight }]}>
+                    <View style={[centralStyle.container, { height: windowHeight, }]}>
                         <View style={styles.titleWrapper}>
                             <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
                             <Title
@@ -157,7 +157,8 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                         <View style={styles.orContainer}>
                             <Title
                                 type={'Poppin-14'}
-                                color={Colors.lightGray}
+                                color={Colors.fontColor}
+                                textTransform='capitalize'
                                 title={t('or')} />
                         </View>
                         <View style={styles.inputContainer}>
@@ -179,7 +180,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                             />
                             {errors.passwordError ? <Text style={styles.errorText}>{errors.passwordError}</Text> : null}
 
-                            <View style={styles.checkBoxWrapper}>
+                            <View style={[styles.checkBoxWrapper, centralStyle.alignitemCenter]}>
                                 <TouchableOpacity
                                     activeOpacity={.8}
                                     onPress={checkBoxCallback}
@@ -199,7 +200,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                                             size={RFPercentage(2.5)} />
                                     }
                                     <Title
-                                        type={'Poppin-14'}
+                                        type={'Roboto-14'}
                                         color={Colors.fontColor}
                                         title={t('Remember_me')} />
                                 </TouchableOpacity>
@@ -207,8 +208,8 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                                     activeOpacity={.8}
                                     onPress={() => changeRoute(navigation, 'ForgetPassword')}>
                                     <Title
-                                        type={'Poppin-14'}
-                                        color={Colors.primary}
+                                        type={'Roboto-14'}
+                                        color={Colors.gray}
                                         title={t('forgetPasswordSign')} />
                                 </TouchableOpacity>
                             </View>
@@ -220,6 +221,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                                     title={t('logintText')}
                                     callBack={handleSubmit}
                                     disable={isValid ? false : true}
+                                    // titleStyle={{textTransform:'capitalize'}}
                                     primary
                                 />
                                 :
@@ -229,9 +231,9 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                             }
                         </View>
                         <View style={styles.footerContainer}>
-                            <FooterText title={t('New_here') + " "} />
+                            <FooterText title={t('Noaccount') + " "} />
                             <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
-                                <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
+                                <FooterText color={Colors.primary} title={t('Createone') + ' '} />
                             </TouchableOpacity>
                         </View>
                     </View>

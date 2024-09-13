@@ -29,7 +29,7 @@ const Button: React.FC<Props> = ({ customStyle, primary, secondary, icon, titleS
             onPress={() => callBack && callBack()}
         >
             {icon && icon}
-            <Text style={secondary ? styles.secondaryText : primary ? styles.primaryText : titleStyle}>{title}</Text>
+            <Text style={disable ? styles.disableText :secondary ? styles.secondaryText : primary ? styles.primaryText : titleStyle}>{title}</Text>
         </TouchableOpacity>
     );
 };

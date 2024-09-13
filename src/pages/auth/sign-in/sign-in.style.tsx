@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
     innerContainer: {
         flex: 1,
         justifyContent: 'space-between',
+
     },
     // inputContainer: {
     //     flex: 3,
@@ -93,7 +94,7 @@ export const styles = StyleSheet.create({
     orContainer: {
         // paddingVertical: RFPercentage(1),
         // marginVertical: RFPercentage(4),
-        marginTop:9.75,
+        marginTop: 4,
         ...centralStyle.row,
         ...centralStyle.XAndYCenter,
         // backgroundColor: 'red'

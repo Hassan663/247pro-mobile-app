@@ -100,6 +100,9 @@ export const styles: any = StyleSheet.create<any>({
     poppin_61: {
         fontSize: platform == 'ios' ? RFPercentage(7) : RFPercentage(7.5),
     },
+    roboto_14: {
+        fontSize: RFValue(14, windowHeight),
+    },
     roboto_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
     },
@@ -109,8 +112,8 @@ export const styles: any = StyleSheet.create<any>({
         borderColor: errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
         // paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
-        paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : 17,
-        fontSize: platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6),
+        paddingHorizontal: pass ? 0 : platform == 'ios' ? 16 : 17,
+        fontSize: RFValue(16, windowHeight),
 
         width: "100%",
         color: Colors.black,
@@ -143,9 +146,9 @@ export const styles: any = StyleSheet.create<any>({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        borderColor: errorLine ? Colors.red: isActive? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        borderColor: errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         color: isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
-        paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : 17,
+        paddingHorizontal: platform == 'ios' ? 16 : 17,
         width: "100%",
         height: '85%'
     }),
@@ -198,7 +201,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     disable: {
         height: RFPercentage(5.6),
-        backgroundColor: Colors.lightGray,
+        backgroundColor: Colors.lightGrey,
         borderRadius: RFPercentage(1),
         justifyContent: 'center',
         alignItems: 'center',
@@ -240,6 +243,10 @@ export const styles: any = StyleSheet.create<any>({
         zIndex: 10,
         height: "100%",
         width: "100%",
+    },
+    disableText: {
+        color: Colors.gray,
+        textTransform:'uppercase'
     }
 });
 
