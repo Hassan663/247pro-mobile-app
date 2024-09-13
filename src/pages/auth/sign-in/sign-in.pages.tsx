@@ -20,7 +20,6 @@ import { Dispatch } from 'redux';
 import { useToast } from "react-native-toast-notifications";
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector, } from 'react-redux';
 
 import Colors from '../../../styles/colors';
@@ -28,10 +27,9 @@ import Button from '../../../core/components/button.component';
 import Loader from '../../../core/components/loader.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-in.style';
-import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import { loginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
-import { emailValidation, loginValidation } from '../../../core/helpers/validation/validation';
+import { emailValidation, loginValidation, passwordValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
 import { FooterText, Title, } from '../../../core/components/screen-title.component';
 import { centralStyle, windowHeight, } from '../../../styles/constant.style';
@@ -47,11 +45,12 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     const [isSelected, setisSelected] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>(""); //email
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
-    const [isValid, setIsValid] = useState(false);
-    const [errors, setErrors] = useState({
+    const [isValid, setIsValid] = useState<any>(false);
+    const [errors, setErrors] = useState<any>({
         emailError: '',
         passwordError: '',
-      });
+    });
+
 
     const dispatch: Dispatch<any> = useDispatch();
     const loader = useSelector((state: any) => state.root.loader);
@@ -63,34 +62,32 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     }, [navigation]);
 
 
-  const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
+    const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
 
-  useEffect(() => {
-    console.log('currentUserProfile:', currentUserProfile);
-    if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
-        if (!currentUserProfile.isOnboarded) {
-            changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
-           // changeRoute(navigation, 'VerifyBuisness');
+    useEffect(() => {
+        if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
+            if (!currentUserProfile.isOnboarded) {
+                changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
+            }
         }
-    }
-}, [currentUserProfile]);
+    }, [currentUserProfile]);
 
 
-  const validateForm = () => {
-    let isValidated = loginValidation(inputValue, password);
-    if (isValidated.success) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-    return isValidated;
-  };
+    const validateForm = (email: string, pass: string) => {
+        let isValidated = loginValidation(email, pass);
+        if (isValidated.success) {
+            setIsValid(true);
+        } else {
+            setIsValid(false);
+        }
+        return isValidated;
+    };
 
     const handleSubmit = useCallback(async () => {
         if (!isToastVisible) {
             setIsToastVisible(true);
             let isValidated = await loginValidation(inputValue, password);
-            if (isValidated.success){ await dispatch(loginAction(inputValue, password));}
+            if (isValidated.success) { await dispatch(loginAction(inputValue, password)); }
             else await toast.show(isValid.message, { type: "custom_toast" });
             setTimeout(() => {
                 setIsToastVisible(false);
@@ -102,21 +99,27 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     const phoneOrEmailCallback = useCallback((val: string) => {
         setInputValue(val);
         let valid = emailValidation(val);
+        validateForm(val, password);
         console.log(valid.message);
-      if (valid.success) {
-            setIsValid(true);
+        if (valid.success) {
+            setErrors({ ...errors, emailError: '' });
         }
-        else
-        {
-            setIsValid(false);
-        setErrors({emailError: valid.message});
-    }
+        else {
+            setErrors({ ...errors, emailError: valid.message });
+        }
     }, [inputValue]);
 
     // Callback to update the password state based on password input
     const passwordCallback = useCallback((val: string) => {
         setPassword(val);
-        validateForm();
+        validateForm(inputValue, val);
+        let valid = passwordValidation(val);
+        if (valid.success) {
+            setErrors({ ...errors, passwordError: '' });
+        }
+        else {
+            setErrors({ ...errors, passwordError: valid.message });
+        }
     }, [password]);
 
     // Callback to toggle the isSelected state for a checkbox
@@ -130,172 +133,112 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     );
     return (
         <SafeAreaView style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-        style={styles.innerContainer}
-        >
-            <View style={[centralStyle.container, { height: windowHeight }]}>
-            <View style={styles.titleWrapper}>
-                        <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-                        {/* <Title
-                            color={Colors.black}
-                            weight='600'
-                            title={t(`Welcome_to_247PRO`) + '!'}
-                            type={`Poppin-24`} /> */}
-                        <Title
-                            color={`#212121`}
-                            title={t(`Welcome_Back`)}
-                            type={`Poppin-16`}
-                            weight={`600`} />
-                    </View>
-                {/* <View style={styles.titleWrapper}>
-                    <View style={styles.titleContainer}>
-                    <Title
-                            type='Poppin-24'
-                            title={t(`247PRO`)}
-                            color={Colors.primary}
-                            weight='400' />
-                        <Title
-                            type='Poppin-24'
-                            title={t(`Welcome_Back`)}
-                            weight='400' />
-                        
-                    </View>
-                </View> */}
-
-                <Button
-                        icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={[styles.googleIcon, centralStyle.mr1]} />}
-                        title={t('Continue_with_google')}
-                        customStyle={[centralStyle.socialButtonContainer,]}
-                        titleStyle={styles.socialText}
-                    />
-
-                <View style={styles.orContainer}>
-                        {/* <View style={styles.line} /> */}
-                        <Title
-                            type={'Poppin-14'}
-                            color={Colors.lightGray}
-                            title={t('or')} />
-                        {/* <View style={styles.line} /> */}
-                    </View>
-                <View style={styles.inputContainer}>
-                    <OutlinedTextInput
-                        val={inputValue}
-                        onChange={phoneOrEmailCallback}
-                        title={t('_email')}
-                        placeHolder={t('_email')}
-                        className={errors.emailError ? 'input-error' : 'input-normal' }
-                    />
-                    {errors.emailError ? <Text style={styles.errorText}>{errors.emailError}</Text> : null}
-                    <OutlinedTextInput
-                        title={t('Password')}
-                        val={password}
-                        onChange={passwordCallback}
-                        placeHolder={t('Password')}
-                        Password
-                    />
-                    <View style={styles.checkBoxWrapper}>
-                        <TouchableOpacity
-                            activeOpacity={.8}
-                            onPress={checkBoxCallback}
-                            style={[styles.row, { alignItems: "center", height: RFPercentage(3) }]}
-                        >
-                            {isSelected ?
-                                <AntDesign
-                                    style={styles.mr1}
-                                    color={Colors.fontColor}
-                                    name={'checksquareo'}
-                                    size={RFPercentage(2.5)} />
-                                :
-                                <Feather
-                                    style={styles.mr1}
-                                    color={Colors.gray}
-                                    name={'square'}
-                                    size={RFPercentage(2.5)} />
-                            }
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <KeyboardAvoidingView
+                    style={styles.innerContainer}
+                >
+                    <View style={[centralStyle.container, { height: windowHeight }]}>
+                        <View style={styles.titleWrapper}>
+                            <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
                             <Title
-                                type={'Poppin-14'}
-                                color={Colors.fontColor}
-                                title={t('Remember_me')} />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            activeOpacity={.8}
-                            onPress={() => changeRoute(navigation, 'ForgetPassword')}>
-                            <Title
-                                type={'Poppin-14'}
-                                color={Colors.primary}
-                                title={t('forgetPasswordSign')} />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View style={[styles.logInBtnContainer]}>
-
-                    {!loader ?
-                    <TouchableOpacity
-                    style={[styles.primaryBtnClone, centralStyle.XAndYCenter, isValid ? styles.primaryBtnClone : styles.disabledButton]}
-                    onPress={handleSubmit}
-                    disabled={!isValid}
-                    >
-                    <Title
-                                type={'Poppin-14'}
-                                color={'#9E9E9E'}
-                                title={t('logintText')} />
-                  </TouchableOpacity>
-                        // <Button
-                        //     title={t('logintText')}
-                        //     onPress={handleSubmit} 
-                        //     disabled={!isValid}
-                        //     primary                            
-                        // />
-                        :
-                        <View style={[styles.primaryBtnClone, centralStyle.XAndYCenter]}>
-                            <Loader size={'small'} color={Colors.white} />
+                                color={`#212121`}
+                                title={t(`Welcome_Back`) + "!"}
+                                type={`Poppin-24`}
+                                weight={`600`} />
                         </View>
-                    }
+                        <Button
+                            icon={<Image source={require('../../../assets/auth-images/googleIcon.png')}
+                                style={[styles.googleIcon, centralStyle.mr1]} />}
+                            title={t('Continue_with_google')}
+                            customStyle={[centralStyle.socialButtonContainer,]}
+                            titleStyle={styles.socialText}
+                        />
 
-                    {/* <View style={[
-                        centralStyle.row,
-                        centralStyle.justifyContentBetween,
-                        centralStyle.alignitemCenter,
-                        centralStyle.width30,
-                        centralStyle.selfCenter,
-                        centralStyle.mt2]}>
-                        <TouchableOpacity activeOpacity={.8}>
-                            <FaceIdLogo
-                                width={RFPercentage(4)}
-                                height={RFPercentage(4)}
-                                color={Colors.black} />
-                        </TouchableOpacity>
-                        <View style={styles.yline}></View>
-                        <TouchableOpacity activeOpacity={.8}>
-                            <Image
-                                style={styles.fingerPrintImg}
-                                source={require('../../../assets/app-images/fingerprint.png')} />
-                        </TouchableOpacity>
-                    </View> */}
+                        <View style={styles.orContainer}>
+                            <Title
+                                type={'Poppin-14'}
+                                color={Colors.lightGray}
+                                title={t('or')} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <OutlinedTextInput
+                                val={inputValue}
+                                errorLine={errors.emailError ? true : false}
+                                onChange={phoneOrEmailCallback}
+                                title={t('_email')}
+                                placeHolder={t('_email')}
+                            />
+                            {errors.emailError ? <Text style={styles.errorText}>{errors.emailError}</Text> : null}
+                            <OutlinedTextInput
+                                title={t('Password')}
+                                val={password}
+                                errorLine={errors.passwordError ? true : false}
+                                onChange={passwordCallback}
+                                placeHolder={t('Password')}
+                                Password
+                            />
+                            {errors.passwordError ? <Text style={styles.errorText}>{errors.passwordError}</Text> : null}
 
-                    
-                    
-                    {/* <Button
-                        icon={<AntDesign name={`apple1`} size={RFPercentage(2.5)} style={centralStyle.mr1} />}
-                        title={" " + t('Continue_with_Apple')}
-                        customStyle={centralStyle.socialButtonContainer}
-                        titleStyle={styles.socialText}
-                    /> */}
-                </View>
+                            <View style={styles.checkBoxWrapper}>
+                                <TouchableOpacity
+                                    activeOpacity={.8}
+                                    onPress={checkBoxCallback}
+                                    style={[styles.row, { alignItems: "center", height: RFPercentage(3) }]}
+                                >
+                                    {isSelected ?
+                                        <AntDesign
+                                            style={styles.mr1}
+                                            color={Colors.fontColor}
+                                            name={'checksquareo'}
+                                            size={RFPercentage(2.5)} />
+                                        :
+                                        <Feather
+                                            style={styles.mr1}
+                                            color={Colors.gray}
+                                            name={'square'}
+                                            size={RFPercentage(2.5)} />
+                                    }
+                                    <Title
+                                        type={'Poppin-14'}
+                                        color={Colors.fontColor}
+                                        title={t('Remember_me')} />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    activeOpacity={.8}
+                                    onPress={() => changeRoute(navigation, 'ForgetPassword')}>
+                                    <Title
+                                        type={'Poppin-14'}
+                                        color={Colors.primary}
+                                        title={t('forgetPasswordSign')} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
 
-                <View style={styles.footerContainer}>
-                    <FooterText title={t('New_here') + " "} />
-                    <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
-                        <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-            </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
-        
+                        <View style={[styles.logInBtnContainer]}>
+                            {!loader ?
+                                <Button
+                                    title={t('logintText')}
+                                    callBack={handleSubmit}
+                                    disable={isValid ? false : true}
+                                    primary
+                                />
+                                :
+                                <View style={[styles.primaryBtnClone, centralStyle.XAndYCenter]}>
+                                    <Loader size={'small'} color={Colors.white} />
+                                </View>
+                            }
+                        </View>
+                        <View style={styles.footerContainer}>
+                            <FooterText title={t('New_here') + " "} />
+                            <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
+                                <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
+        </SafeAreaView>
+
     );
 });
 

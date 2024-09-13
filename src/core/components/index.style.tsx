@@ -103,10 +103,10 @@ export const styles: any = StyleSheet.create<any>({
     roboto_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
     },
-    input: (pass: boolean, isActive: boolean, inputVal: any) => ({
+    input: (pass: boolean, isActive: boolean, inputVal: any, errorLine: boolean) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
         borderRadius: 5,
-        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        borderColor: errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
         // paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : 17,
@@ -122,13 +122,13 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: "flex-end",
         // backgroundColor:"red",
     }),
-    inputtitle: (isActive: boolean, inputVal: any) => ({
+    inputtitle: (isActive: boolean, inputVal: any, errorLine: any) => ({
         position: "absolute",
         paddingHorizontal: RFPercentage(1),
         zIndex: 2,
         backgroundColor: Colors.white,
         left: '3%',
-        color: isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
+        color: errorLine ? Colors.fontColor : isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
         fontSize: 14,
         fontWeight: '400',
         top: '0%',
@@ -139,11 +139,11 @@ export const styles: any = StyleSheet.create<any>({
         height: "85%"
     }),
 
-    passwordContainer: (isActive: boolean, inputVal: any) => ({
+    passwordContainer: (isActive: boolean, inputVal: any, errorLine: any) => ({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        borderColor: isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        borderColor: errorLine ? Colors.red: isActive? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         color: isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
         paddingHorizontal: platform == 'ios' ? RFPercentage(2.5) : 17,
         width: "100%",
