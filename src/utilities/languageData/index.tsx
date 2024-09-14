@@ -420,7 +420,12 @@ export const languageData = [
             Team: "Team",
             Noaccount: "No account?",
             Createone: "Create one",
-
+            byClickingNext: 'By clicking "Next" or "Continue with Google", you agree to the',
+            Enjoylifetimeaccessatnocost: "Enjoy lifetime access at no cost!",
+            Mustbeatleast6characters: "Must be at least 6 characters .",
+            privacypolicy: "privacy policy.",
+            terms: "terms",
+            Thisemailisalreadytakenpleaselogin: "This email is already taken. please login."
         }
     },
     {
@@ -843,6 +848,14 @@ export const languageData = [
             Team: "团队",
             Noaccount: "没有账户？",
             Createone: "创建一个",
+            byClickingNext: '点击“下一步”或“继续使用 Google”，即表示您同意',
+            Enjoylifetimeaccessatnocost: "享受免费终身访问！",
+            Mustbeatleast6characters: "必须至少包含 6 个字符",
+            privacypolicy: "隐私政策。",
+            terms: "条款",
+            Thisemailisalreadytakenpleaselogin: "该邮箱已被使用。请登录。"
+
+
         }
     },
     {
@@ -1260,6 +1273,12 @@ export const languageData = [
             Team: "Equipo",
             Noaccount: "¿No tienes cuenta?",
             Createone: "Crea uno",
+            byClickingNext: 'Al hacer clic en "Siguiente" o "Continuar con Google", acepta los términos y condiciones.',
+            Enjoylifetimeaccessatnocost: "¡Disfruta de acceso de por vida sin coste alguno!",
+            Mustbeatleast6characters: "Debe tener al menos 6 caracteres",
+            privacypolicy: "política de privacidad.",
+            terms: "términos",
+            Thisemailisalreadytakenpleaselogin: "Este correo electrónico ya está tomado. Por favor, inicie sesión."
         }
     }
 ];

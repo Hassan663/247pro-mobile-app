@@ -54,6 +54,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
 
     const dispatch: Dispatch<any> = useDispatch();
     const loader = useSelector((state: any) => state.root.loader);
+    const errorMsg = useSelector((state: any) => state.root.errorMsg);
     const toast = useToast();
 
     useEffect(() => {
@@ -169,7 +170,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                                 title={t('_email')}
                                 placeHolder={t('_email')}
                             />
-                            {errors.emailError ? <Text style={styles.errorText}>{errors.emailError}</Text> : null}
+                            {!errorMsg && errors.emailError ? <Text style={styles.errorText}>{errors.emailError}</Text> : null}
                             <OutlinedTextInput
                                 title={t('Password')}
                                 val={password}
@@ -178,7 +179,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                                 placeHolder={t('Password')}
                                 Password
                             />
-                            {errors.passwordError ? <Text style={styles.errorText}>{errors.passwordError}</Text> : null}
+                            {!errorMsg && errors.passwordError ? <Text style={styles.errorText}>{errors.passwordError}</Text> : null}
 
                             <View style={[styles.checkBoxWrapper, centralStyle.alignitemCenter]}>
                                 <TouchableOpacity

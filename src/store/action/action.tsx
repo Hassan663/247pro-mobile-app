@@ -7,7 +7,8 @@ import {
     LoginModal,
     SignUpModal,
 } from '../../core/modals/login.modal';
-import { CONTACTS,
+import {
+    CONTACTS,
     CONTACTTYPESCOUNT,
     CURRENTUSERPROFILE,
     INITIALROUTE,
@@ -42,11 +43,11 @@ import {
     SpecialityModal
 } from '../../core/modals/contact.modal';
 import {
-  fetchIndustries,
-  fetchSpecialityByIndustry,
-  fetchJobTypeByIndustry,
+    fetchIndustries,
+    fetchSpecialityByIndustry,
+    fetchJobTypeByIndustry,
 } from '../../core/http-services/apis/application-api/onboarding-api/industries.service';
-import {Industry,PrimarySpecialty} from '../../core/modals/industry.modal';
+import { Industry, PrimarySpecialty } from '../../core/modals/industry.modal';
 
 
 //  LOGIN ACTION
@@ -62,7 +63,7 @@ export const loginAction = (inputValue: string, password: string, directLoginTok
             let userData: any;
 
             if (directLoginToken) userData = await userIdentity(directLoginToken)
-            else userData = await login(loginData)
+            else userData = await login(loginData, dispatch)
             if (Object.keys(userData).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
                 dispatch({ type: CURRENTUSERPROFILE, payload: userData });
@@ -95,12 +96,12 @@ export const logoutAction = () => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
-           // console.log("logout");
+            // console.log("logout");
             await logout()
             await AsyncStorage.removeItem('accessToken');
             console.log("logout");
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
-            dispatch({ type: INITIALROUTE, payload: 'AuthNavigation'});
+            dispatch({ type: INITIALROUTE, payload: 'AuthNavigation' });
             dispatch({ type: CONTACTS, payload: [] });
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
@@ -112,27 +113,27 @@ export const logoutAction = () => {
 }
 
 
-export const signUpAction = (name: string, email: string, password: string) => {
+export const signUpAction = (name: string, email: string, password: string,) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch({ type: LOADER, payload: true });
             const loginData: SignUpModal = {
-        key: loginRequestKey,
-        object: {
-          name: name, // User name
-          email: email, // User email
-          password: password, // User password
-        },
+                key: loginRequestKey,
+                object: {
+                    name: name, // User name
+                    email: email, // User email
+                    password: password, // User password
+                },
             }
             console.log(loginData, ' SignUp:')
             let SignupResponse: any;
-            SignupResponse = await signUp(loginData);
+            SignupResponse = await signUp(loginData, dispatch);
             dispatch({ type: LOADER, payload: false });
             console.log(SignupResponse, ' SignUp:')
             if (Object.keys(SignupResponse).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
                 dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
-               // return true;  // Return true if sign-up is successful
+                // return true;  // Return true if sign-up is successful
             }
             return false; // Return false if sign-up failed
         } catch (error: any) {
@@ -142,6 +143,23 @@ export const signUpAction = (name: string, email: string, password: string) => {
         }
     }
 }
+
+export const showError = (errMsg?: string, errorTitle?: string): any => async (dispatch: Dispatch) => {
+    dispatch({ type: 'IS_ERROR', payload: true });
+    dispatch({ type: 'SET_ERROR_MSG', payload: errMsg });
+    dispatch({ type: 'SET_ERROR_TITLE', payload: errorTitle });
+    setTimeout(() => {
+        dispatch({ type: 'IS_ERROR', payload: false });
+        dispatch({ type: 'SET_ERROR_MSG', payload: '' });
+        dispatch({ type: 'SET_ERROR_TITLE', payload: '' });
+    }, 5000);
+};
+
+export const hideError = (): any => async (dispatch: Dispatch) => {
+    dispatch({ type: 'IS_ERROR', payload: false });
+    dispatch({ type: 'SET_ERROR_MSG', payload: '' });
+    dispatch({ type: 'SET_ERROR_TITLE', payload: '' });
+};
 
 
 
@@ -199,7 +217,7 @@ export const GetSpecialityByIndustriesAction = (industryId) => {
         try {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
-            const industries = await fetchSpecialityByIndustry(accessToken,industryId);
+            const industries = await fetchSpecialityByIndustry(accessToken, industryId);
             dispatch({ type: GET_INDUSTRIES_SUCCESS, payload: industries });
             dispatch({ type: LOADER, payload: false });
         } catch (error) {
@@ -214,7 +232,7 @@ export const GetJobTypesByIndustryAction = (industryId) => {
         try {
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
-            const jobTypes = await fetchJobTypeByIndustry(accessToken,industryId);
+            const jobTypes = await fetchJobTypeByIndustry(accessToken, industryId);
             dispatch({ type: GET_JOB_TYPES_SUCCESS, payload: jobTypes });
             dispatch({ type: LOADER, payload: false });
         } catch (error) {

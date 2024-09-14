@@ -1,6 +1,6 @@
-import {Toast} from 'react-native-toast-notifications';
-import {getApi, postApi} from '../../services/services';
-import {Endpoint, IResponse} from '../../../modals/index';
+import { Toast } from 'react-native-toast-notifications';
+import { getApi, postApi } from '../../services/services';
+import { Endpoint, IResponse } from '../../../modals/index';
 import {
   ILoginResponseData,
   ISignupResponseData,
@@ -22,8 +22,10 @@ import {
   MEMBERSHIP_ENDPOINT,
   SIGNUP_ENDPOINT,
 } from '../apis';
-import {t} from 'i18next';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { t } from 'i18next';
+
+import { showError } from '../../../../store/action/action';
+import { Dispatch } from 'redux';
 
 /**
  * Performs user login by sending login data to the server.
@@ -72,6 +74,7 @@ const memberShipApi = async (
 };
 const signUp = async (
   loginData: SignUpModal,
+  dispatch: Dispatch
 ): Promise<IResponse<ISignupResponseData>> => {
   try {
     // Step 1: Encrypt the login data
@@ -109,13 +112,19 @@ const signUp = async (
       SignupResponse.data.accessToken,
     );
     return identityResponse;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response.data.fields[0].message == 'User already exists!') {
+      dispatch(showError(t('Thisemailisalreadytakenpleaselogin'), t('Email')))
+    } else {
+      dispatch(showError('invalid crendentials', 'all'))
+    }
     console.error('Login service error:', error);
     throw error;
   }
 };
 const login = async (
   loginData: LoginModal,
+  dispatch:Dispatch
 ): Promise<IResponse<ILoginResponseData>> => {
   try {
     // Step 1: Encrypt the login data
@@ -134,6 +143,9 @@ const login = async (
     const identityResponse: any = userIdentity(loginResponse.data.accessToken);
     return identityResponse;
   } catch (error) {
+    // else {
+    dispatch(showError('invalid crendentials', 'all'))
+    // }
     console.error('Login service error:', error);
     throw error;
   }
@@ -197,4 +209,4 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   }
 };
 
-export {login, forget_password, userIdentity, logout, encryptData, signUp};
+export { login, forget_password, userIdentity, logout, encryptData, signUp };

@@ -41,7 +41,7 @@ const INITIAL_STATE = {
     paginationLoader: false,
     contactTypesCount: [],
     specialities: [],
-    industries:[],
+    industries: [],
     // contactResponse.data.resultData.list
 }
 
@@ -112,16 +112,31 @@ export default (states = INITIAL_STATE, action: Action) => {
                 ...states,
                 paginationLoader: action.payload
             })
-            case GET_INDUSTRIES_SUCCESS:
-                return ({
-                    ...states,
-                    industries: action.payload
-                })
+        case GET_INDUSTRIES_SUCCESS:
+            return ({
+                ...states,
+                industries: action.payload
+            })
         // case ISERROR:
         //     return ({
         //         ...states,
         //         isError: action.payload
         //     })
+        case 'IS_ERROR':
+            return {
+                ...states,
+                isError: action.payload,
+            };
+        case 'SET_ERROR_MSG':
+            return {
+                ...states,
+                errorMsg: action.payload,
+            };
+        case 'SET_ERROR_TITLE':
+            return {
+                ...states,
+                errorTitle: action.payload,
+            };
         default:
             return states;
     }

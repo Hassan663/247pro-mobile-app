@@ -34,7 +34,8 @@ export const centralStyle = StyleSheet.create<any>({
     container: {
         flex: 1,
         paddingHorizontal: RFPercentage(2.5),
-        backgroundColor: Colors.white
+        backgroundColor: Colors.white,
+        
     },
     socialButtonContainer: {
         height: RFPercentage(5.5),

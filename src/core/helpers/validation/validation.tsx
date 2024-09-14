@@ -1,12 +1,13 @@
 import PhoneNumber, { CountryCode } from 'libphonenumber-js';
 import { VALIDATIONMESSAGE } from "./validation-message";
+import { t } from 'i18next';
 
 const zipCodePattern = /^\d{5}$/;
 const phonePattern: RegExp = /^\d{7,15}$/;
 const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const passwordRegex: RegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
 
-type ValidationResult = { success: boolean; message: string };
+type ValidationResult = { success: boolean; message: string, type?: string };
 
 function createErrorResponse(message: string): ValidationResult {
     return { success: false, message };
@@ -96,7 +97,7 @@ export function setUpPasswordValidation(password1: string, password2: string): V
 
     if (!password1.match(passwordRegex)
         // || !password2.match(passwordRegex)
-        ) {
+    ) {
         return createErrorResponse(VALIDATIONMESSAGE[4]);
     }
 
@@ -110,17 +111,17 @@ export function setUpPasswordValidation(password1: string, password2: string): V
 
 export function enterNameAndEmailValidation(name: string, email: string, password: string, comeFromVerifyCode: boolean): ValidationResult {
     if (comeFromVerifyCode) {
-        if (!name || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+        if (!name || !password) return { ...createErrorResponse(VALIDATIONMESSAGE[9]), type: 'all' };
     }
     else {
-        if (!name || !email || !password) return createErrorResponse(VALIDATIONMESSAGE[9]);
+        if (!name || !email || !password) return { ...createErrorResponse(VALIDATIONMESSAGE[9]), type: 'all' };
 
         let isValidEmail = emailValidation(email)
 
-        if (isValidEmail.success == false) return createErrorResponse(VALIDATIONMESSAGE[10])
+        if (isValidEmail.success == false) return { ...createErrorResponse(VALIDATIONMESSAGE[10]), type: t('Email') }
     }
 
-    let isValidPassword = passwordValidation(password)
+    let isValidPassword = { ...passwordValidation(password), type: t('SetAPassword') }
 
     if (isValidPassword.success == false) return isValidPassword
 
@@ -138,35 +139,35 @@ export function verifyCodeValidation(code: string,): ValidationResult {
 }
 
 export function buisnessQuestionsValidation(
-  selectedIndustry: string,
-  primarySpecialty: string,
-  jobType: string,
+    selectedIndustry: string,
+    primarySpecialty: string,
+    jobType: string,
 ): ValidationResult {
-  //   const isValidZipCode = zipCodePattern.test(zipCode);
-  if (selectedIndustry && primarySpecialty) {
-    if (selectedIndustry === 'Construction') {
-      if (!jobType) {
+    //   const isValidZipCode = zipCodePattern.test(zipCode);
+    if (selectedIndustry && primarySpecialty) {
+        if (selectedIndustry === 'Construction') {
+            if (!jobType) {
+                return createErrorResponse(VALIDATIONMESSAGE[9]);
+            }
+        }
+        return createSuccessResponse();
+    } else {
         return createErrorResponse(VALIDATIONMESSAGE[9]);
-      }
     }
-    return createSuccessResponse();
-  } else {
-    return createErrorResponse(VALIDATIONMESSAGE[9]);
-  }
 }
 
 export function zipAndPhoneValidation(
-  zipCode: string,
-  phone: string,
-  countryCode: CountryCode,
+    zipCode: string,
+    phone: string,
+    countryCode: CountryCode,
 ): ValidationResult {
-  const isValidZipCode = zipCodePattern.test(zipCode);
-  const isPhoneNumberValid = phoneValidation(phone, countryCode);
-  if (isValidZipCode && isPhoneNumberValid) {
-    return createSuccessResponse();
-  } else {
-    return createErrorResponse(VALIDATIONMESSAGE[14]);
-  }
+    const isValidZipCode = zipCodePattern.test(zipCode);
+    const isPhoneNumberValid = phoneValidation(phone, countryCode);
+    if (isValidZipCode && isPhoneNumberValid) {
+        return createSuccessResponse();
+    } else {
+        return createErrorResponse(VALIDATIONMESSAGE[14]);
+    }
 }
 
 

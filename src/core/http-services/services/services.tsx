@@ -15,8 +15,8 @@ const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<
     return response;
   } catch (error) {
     console.log('response:', error);
-    const axiosError = error as AxiosError;
-    handleApiError(axiosError);
+    // const axiosError = error as AxiosError;
+    // handleApiError(axiosError);
     throw error;
   }
 };

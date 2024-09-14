@@ -11,11 +11,11 @@ export const styles = StyleSheet.create<any>({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-      },
-      innerContainer: {
+    },
+    innerContainer: {
         flex: 1,
         justifyContent: 'space-between',
-      },
+    },
     tabContainer: (selectedTab: any) => ({
         flex: 1,
         borderBottomWidth: 1,
@@ -88,7 +88,7 @@ export const styles = StyleSheet.create<any>({
     orContainer: {
         width: '40%',
         alignSelf: 'center',
-        marginVertical: RFPercentage(2),
+        marginVertical: RFPercentage(.5),
         ...centralStyle.row,
         ...centralStyle.XAndYCenter
     },
@@ -105,7 +105,8 @@ export const styles = StyleSheet.create<any>({
     PolicyText: [
         centralStyle.row,
         centralStyle.flex1,
-        centralStyle.px1,
+        centralStyle.mt2,
+        // centralStyle.px1,
         centralStyle.wrap,
     ],
     modalContainerAbs: {

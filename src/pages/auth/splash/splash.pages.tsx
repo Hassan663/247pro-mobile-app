@@ -70,7 +70,7 @@ const Splash: React.FC = () => {
     <SafeAreaView style={[centralStyle.flex1, { backgroundColor: Colors.primary }]}>
       <View style={styles.container} >
         <Button
-          title="Skip"
+          title=" "
           callBack={handleSkip}
           customStyle={styles.customStyle}
           titleStyle={styles.titleStyle}

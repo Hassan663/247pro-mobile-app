@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import Colors from '../../../styles/colors';
-import { centralPosition, centralStyle } from '../../../styles/constant.style';
+import { centralPosition, centralStyle, windowHeight } from '../../../styles/constant.style';
 
 export const styles = StyleSheet.create({
 
@@ -12,22 +12,25 @@ export const styles = StyleSheet.create({
         tintColor: Colors.primary
     },
     titleWrapper: {
-        flex: 3,
+        flex: 1.5,
     },
     inputWrapper: {
-        flex: 6,
+        flex: 7.5,
     },
     footer: {
         flex: 1,
         justifyContent: centralPosition.flexEnd,
-        marginVertical: RFPercentage(2)
+        backgroundColor: Colors.white,
+        // marginVertical: RFPercentage(2)
+        paddingHorizontal: RFPercentage(2)
     },
     row: {
         ...centralStyle.row,
     },
     radioWrapper: {
-        flex: 1,
-        marginVertical: RFPercentage(1)
+        // flex: 1,
+        marginVertical: RFValue(15, windowHeight),
+        // backgroundColor:'red',
     },
 
     mx: {
@@ -62,16 +65,17 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         marginBottom: RFPercentage(4),
-      },
+    },
     bar: {
-        width: RFPercentage(15),
-        height: RFPercentage(1),
+        width: '45%',
+        height: RFValue(5, windowHeight),
+        borderRadius: 10,
         backgroundColor: '#ccc',
         marginHorizontal: RFPercentage(1),
-      },
-      activeBar: {
-        backgroundColor: '#007bff',
-      },
+    },
+    activeBar: {
+        backgroundColor: Colors.primary,
+    },
     downIcon: {
         marginHorizontal: RFPercentage(.5)
     },
