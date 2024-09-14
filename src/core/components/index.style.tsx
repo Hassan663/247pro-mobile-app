@@ -112,10 +112,14 @@ export const styles: any = StyleSheet.create<any>({
     roboto_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
     },
-    input: (pass: boolean, isActive: boolean, inputVal: any, errorLine: boolean, errorTitle: string, title: string) => ({
+    input: (pass: boolean, isActive: boolean, inputVal: any, errorLine: boolean, errorTitle: string, title: string, disableValidation: any) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
         borderRadius: 5,
-        borderColor: errorTitle == 'all' ? Colors.red : errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() ? Colors.red : errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        borderColor:
+            disableValidation ?
+                isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey :
+                errorTitle == 'all' ? Colors.red : errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() ? Colors.red
+                    : errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
         // paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         paddingHorizontal: pass ? 0 : platform == 'ios' ? 16 : 17,
@@ -149,7 +153,7 @@ export const styles: any = StyleSheet.create<any>({
         height: "85%"
     }),
 
-    passwordContainer: (isActive: boolean, inputVal: any, errorLine: any,errorTitle:string,title:string) => ({
+    passwordContainer: (isActive: boolean, inputVal: any, errorLine: any, errorTitle: string, title: string) => ({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,

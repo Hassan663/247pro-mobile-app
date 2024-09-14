@@ -147,12 +147,12 @@ export function buisnessQuestionsValidation(
     if (selectedIndustry && primarySpecialty) {
         if (selectedIndustry === 'Construction') {
             if (!jobType) {
-                return createErrorResponse(VALIDATIONMESSAGE[9]);
+                return { ...createErrorResponse(VALIDATIONMESSAGE[9]), type: 'all' };
             }
         }
         return createSuccessResponse();
     } else {
-        return createErrorResponse(VALIDATIONMESSAGE[9]);
+        return {...createErrorResponse(VALIDATIONMESSAGE[9]),type:'all'};
     }
 }
 
@@ -166,7 +166,7 @@ export function zipAndPhoneValidation(
     if (isValidZipCode && isPhoneNumberValid) {
         return createSuccessResponse();
     } else {
-        return createErrorResponse(VALIDATIONMESSAGE[14]);
+        return {...createErrorResponse(VALIDATIONMESSAGE[14]),type:''};
     }
 }
 

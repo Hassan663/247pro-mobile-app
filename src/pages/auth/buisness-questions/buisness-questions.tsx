@@ -49,6 +49,7 @@ import CountryPicker, { Country, CountryCode } from 'react-native-country-picker
 import { getCountryCallingCode } from 'libphonenumber-js';
 import { CURRENTUSERPROFILE, LOADER } from '../../../store/constant/constant';
 import { Text } from 'react-native-paper';
+import { showError } from '../../../store/action/action';
 
 const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   navigation,
@@ -69,7 +70,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   const [speciality, setSpeciality] = useState<PrimarySpecialty>('');
   const loader = useSelector((state: any) => state.root.loader);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [countryCode, setCountryCode] = useState<CountryCode>('US');
+  const [countryCode, setCountryCode] = useState<any>('US');
   const [countryCallineCode, setCountryCallingCode] = useState<number>(1);
   //const industriess = useSelector(state => state.root.industries); for Redux
   //   const industries: Industry[] = useSelector(
@@ -200,7 +201,9 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         selectedPrimarySpeciality,
         selectedJobType,
       );
-      if (isValid.success) {
+      let isZipAndPhoneValid: any = zipAndPhoneValidation(zipCode, phoneNumber, countryCode);
+
+      if (isValid.success && isZipAndPhoneValid.success) {
         dispatch({ type: LOADER, payload: true });
         setloading(true);
         let accessToken = await AsyncStorage.getItem('accessToken');
@@ -233,13 +236,19 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
             setloading(false);
             toast.show(isValid.message, { type: 'custom_toast' });
             // dispatch({ type: ISUSERLOGIN, payload: true });
-          }, 500);
+          });
       } else {
-        setIsToastVisible(true);
-        await toast.show(isValid.message, { type: 'custom_toast' });
-        setTimeout(() => {
-          setIsToastVisible(false);
-        }, 5000);
+        if (isZipAndPhoneValid.success == false) {
+          dispatch(showError(isValid.message, isValid.type))
+        }
+        else if (isZipAndPhoneValid.success == false) {
+          dispatch(showError(isValid.message, isValid.type))
+        }
+        // setIsToastVisible(true);
+        // await toast.show(isValid.message, { type: 'custom_toast' });
+        // setTimeout(() => {
+        //   setIsToastVisible(false);
+        // }, 5000);
       }
     }
   };
@@ -371,7 +380,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         </View>
         {step === 2 &&
           (
-            <View style={[centralStyle.container,{flex:1.4} ]}>
+            <View style={[centralStyle.container, { flex: 1.4 }]}>
               <SafeAreaView style={centralStyle.flex1}>
                 <ScrollView
                   contentContainerStyle={{ flexGrow: 1 }}

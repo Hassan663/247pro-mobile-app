@@ -31,10 +31,11 @@ interface OutlinedTextInputProps {
   editable?: boolean;
   errorLine?: boolean;
   autoFocus?: boolean;
+  disableValidation?: boolean;
   onChange?: (val: string) => void;
 }
 
-const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, errorLine, editable, val, autoFocus, keyboardType, placeHolder, lines, multiLine, Password, onChange }) => {
+const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, disableValidation,errorLine, editable, val, autoFocus, keyboardType, placeHolder, lines, multiLine, Password, onChange }) => {
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [inputVal, setInputVal] = useState(val ? val : '')
@@ -51,7 +52,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, er
   useEffect(() => {
     setInputVal(val ? val : '')
   }, [val])
-  console.log(errorMsg,'errorMsg',errorTitle)
+  console.log(errorMsg, 'errorMsg', errorTitle)
 
   return (
     <>
@@ -82,12 +83,12 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, er
                 if (onChange) { onChange(text) }
               }}
               style={[
-                styles.input(false, isActive, inputVal, errorLine, errorTitle, title),
+                styles.input(false, isActive, inputVal, errorLine, errorTitle, title,disableValidation),
               ]} />
             :
             <>
 
-              <View style={styles.passwordContainer(isActive, inputVal, errorLine, errorTitle, title)}>
+              <View style={styles.passwordContainer(isActive, inputVal, errorLine, errorTitle, title,disableValidation)}>
                 <View style={{ flex: 9 }}>
                   <TextInput
                     placeholder={isActive ? '' : placeHolder}
@@ -121,7 +122,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, er
           }
         </View>
       </View>
-      {errorMsg &&
+      {!disableValidation && errorMsg &&
         errorTitle == 'all' ?
         <Text style={[{
           color: 'red',
