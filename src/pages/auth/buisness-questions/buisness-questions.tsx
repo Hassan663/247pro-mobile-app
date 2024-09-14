@@ -12,8 +12,9 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { t } from 'i18next';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { parsePhoneNumberFromString, validatePhoneNumberLength } from 'libphonenumber-js';
 
 import Colors from '../../../styles/colors';
 import Button from '../../../core/components/button.component';
@@ -49,7 +50,7 @@ import CountryPicker, { Country, CountryCode } from 'react-native-country-picker
 import { getCountryCallingCode } from 'libphonenumber-js';
 import { CURRENTUSERPROFILE, LOADER } from '../../../store/constant/constant';
 import { Text } from 'react-native-paper';
-import { showError } from '../../../store/action/action';
+import { hideError, showError } from '../../../store/action/action';
 
 const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   navigation,
@@ -57,6 +58,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 }) => {
   const isBuisness = route?.params?.yesABuisness;
 
+  const [country, setCountry] = useState<{ callingCode: string, countryCode: any }>({ callingCode: '92', countryCode: 'PK' });
   //const [countryCode, setCountryCode] = useState<any>('PK');
   const [step, setStep] = useState(1);
   const [isCheck, setIsCheck] = useState(true);
@@ -252,8 +254,36 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       }
     }
   };
+  const formatPhoneNumber = (number: any) => {
+    // console.log(number, country.countryCode,'number, country.countryCode')
+    const phoneNumberObject = parsePhoneNumberFromString(number, country.countryCode);
+    if (phoneNumberObject?.number?.length) {
+      // console.log(phoneNumberObject?.number?.length - country.callingCode.length - 1, 'phoneNumberObject.number.length', phoneNumberObject.isValid())
 
+    }
+    // console.log(phoneNumberObject, 'phoneNumberObject.number.length',)
+
+    const regex = new RegExp(`^\\+${country.callingCode}\\s*`);
+    // Remove the calling code using the regular expression
+    // console.log(phoneNumberObject.isValid(), 'phoneNumberObject')
+    if (phoneNumberObject && phoneNumberObject.isValid()) {
+      dispatch(hideError())
+      return phoneNumberObject ? phoneNumberObject.formatInternational().replace(regex, '') : number;
+    } else {
+      if (number.length > 0) {
+        dispatch(showError('invalid phone number', t('MobilePhone'), true))
+      }
+      // else {
+
+      // }
+      return phoneNumberObject ? phoneNumberObject.formatInternational().replace(regex, '') : number;
+      // return phoneNumberObject ? phoneNumberObject.formatNational() : number;
+      // return null
+    }
+
+  };
   const handleOnSelect = (country: any) => {
+    setphoneNumber('')
     setIsCountryPickerVisible(false);
     // Assuming country.callingCode is an array, we select the first one
     console.log('Selected Country Numeric Code:', getCountryCallingCode(countryCode));
@@ -262,6 +292,8 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       const numericCode = parseInt(country.callingCode[0], 10);
     }
     //setCountryCode(country.cca2);
+    setCountry({ callingCode: country.callingCode[0], countryCode: country.cca2 });
+
     console.log(country, ': country');
   };
 
@@ -452,17 +484,30 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                                 placeHolder={t('ZipCode')}
                               />
 
-                              <View style={styles.inputWrapper2}>
+                              <View style={[styles.inputWrapper2,{ }]}>
                                 <TouchableOpacity
                                   onPress={() => setIsCountryPickerVisible(true)}
-                                  style={styles.flagContainer}>
+                                  style={[styles.flagContainer,{ marginTop:RFValue(13,windowHeight)}]}>
                                   <View style={styles.flagWrapper}>
-                                    <CountryPicker
+                                    {/* <CountryPicker
                                       countryCode={countryCode}
                                       withCallingCode
                                       withFlagButton={true}
                                       onClose={() => setIsCountryPickerVisible(false)}
                                       onSelect={country => handleOnSelect(country)}
+                                      visible={isCountryPickerVisible}
+                                    /> */}
+                                    <CountryPicker
+                                      countryCode={country.countryCode}
+                                      withCallingCode
+                                      withFilter
+                                      // withCallingCodeButton
+                                      // renderFlagButton={() =>
+                                      //   <Text style={{ fontSize: RFValue(16, windowHeight) }}>
+                                      //     +{country.callingCode}</Text>}
+                                      // withFlagButton={false}
+                                      onClose={() => setIsCountryPickerVisible(false)}
+                                      onSelect={handleOnSelect}
                                       visible={isCountryPickerVisible}
                                     />
                                   </View>
@@ -474,7 +519,8 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                                 </TouchableOpacity>
                                 <View style={styles.phoneNumberInput}>
                                   <OutlinedTextInput
-                                    val={phoneNumber}
+                                    val={formatPhoneNumber(phoneNumber) && formatPhoneNumber(phoneNumber)}
+                                    // val={phoneNumber}
                                     onChange={val => {
                                       setphoneNumber(val);
                                     }}

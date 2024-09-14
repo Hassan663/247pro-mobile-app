@@ -144,15 +144,20 @@ export const signUpAction = (name: string, email: string, password: string,) => 
     }
 }
 
-export const showError = (errMsg?: string, errorTitle?: string): any => async (dispatch: Dispatch) => {
+export const showError = (errMsg?: string, errorTitle?: string, disbleHideError?: boolean): any => async (dispatch: Dispatch) => {
     dispatch({ type: 'IS_ERROR', payload: true });
     dispatch({ type: 'SET_ERROR_MSG', payload: errMsg });
     dispatch({ type: 'SET_ERROR_TITLE', payload: errorTitle });
-    setTimeout(() => {
-        dispatch({ type: 'IS_ERROR', payload: false });
-        dispatch({ type: 'SET_ERROR_MSG', payload: '' });
-        dispatch({ type: 'SET_ERROR_TITLE', payload: '' });
-    }, 5000);
+    if (disbleHideError) {
+
+    } else {
+
+        setTimeout(() => {
+            dispatch({ type: 'IS_ERROR', payload: false });
+            dispatch({ type: 'SET_ERROR_MSG', payload: '' });
+            dispatch({ type: 'SET_ERROR_TITLE', payload: '' });
+        }, 5000);
+    }
 };
 
 export const hideError = (): any => async (dispatch: Dispatch) => {

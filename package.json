@@ -22,7 +22,7 @@
     "@types/lodash.debounce": "^4.0.9",
     "axios": "1.4.0",
     "i18next": "^23.4.1",
-    "libphonenumber-js": "^1.10.49",
+    "libphonenumber-js": "^1.11.8",
     "moment-timezone": "^0.5.45",
     "react": "18.1.0",
     "react-i18next": "^13.0.3",

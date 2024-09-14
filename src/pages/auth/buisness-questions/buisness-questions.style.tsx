@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1
     },
     inputWrapper2: {
-        alignItems: centralPosition.center,
+        // alignItems: centralPosition.center,
         marginVertical: RFPercentage(1),
         ...centralStyle.row,
     },
