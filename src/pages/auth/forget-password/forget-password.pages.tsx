@@ -10,6 +10,7 @@ import {
     Image,
     TouchableOpacity,
     SafeAreaView,
+    Text,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -28,7 +29,7 @@ import OutlinedTextInput from '../../../core/components/outlined-textInput.compo
 import { styles } from './forget-password.style';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { forgetAction } from '../../../store/action/action';
+import { forgetAction, showError } from '../../../store/action/action';
 import { emailValidation } from '../../../core/helpers/validation/validation';
 import {
     FooterText,
@@ -38,31 +39,56 @@ import {
     centralStyle,
     windowHeight
 } from '../../../styles/constant.style';
+import { VALIDATIONMESSAGE } from '../../../core/helpers/validation/validation-message';
 
 const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [email, setEmail] = useState<string>('');
     const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
+    const [errors, setErrors] = useState<any>({
+        emailError: '',
+    });
 
     const loader = useSelector((state: any) => state.root.loader);
-
+    const errorMsg = useSelector((state: any) => state.root.errorMsg);
     const toast = useToast();
     const dispatch: Dispatch<any> = useDispatch();
 
-    const handleSubmit = useCallback(async () => {
+    // const handleSubmit = useCallback(async () => {
+    //     if (!isToastVisible) {
+    //         // alert()
+    //         setIsToastVisible(true);
+    //         const isValid = emailValidation(email);
+    //         console.log(isValid,'isValid')
+    //         if (isValid.success) {
+    //             await dispatch(forgetAction(email));
+    //             // changeRoute(navigation, 'ForgetVerifyCode')
+    //         } else {
+    //             dispatch(showError(VALIDATIONMESSAGE[3], t('Email_or_phone')))
+    //             await toast.show(isValid.message, { type: 'custom_toast' });
+    //         }
+    //         // setTimeout(() => {
+    //         //     setIsToastVisible(false);
+    //         // }, 5000);
+    //     }
+    // }, [isToastVisible, email, dispatch, toast, navigation]);
+    const handleSubmit = async () => {
         if (!isToastVisible) {
+            // alert()
             setIsToastVisible(true);
             const isValid = emailValidation(email);
+            console.log(isValid, 'isValid')
             if (isValid.success) {
                 await dispatch(forgetAction(email));
                 // changeRoute(navigation, 'ForgetVerifyCode')
             } else {
+                dispatch(showError(VALIDATIONMESSAGE[3], t('Email_or_phone')))
                 await toast.show(isValid.message, { type: 'custom_toast' });
             }
-            setTimeout(() => {
-                setIsToastVisible(false);
-            }, 5000);
+            // setTimeout(() => {
+            //     setIsToastVisible(false);
+            // }, 5000);
         }
-    }, [isToastVisible, email, dispatch, toast, navigation]);
+    };
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('blur', () => {
@@ -82,7 +108,20 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
             return <Button callBack={handleSubmit} title={t('Reset_Password')} primary />;
         }
     };
+    const phoneOrEmailCallback = useCallback((val: string) => {
 
+        // (val) => setEmail(val)
+        setEmail(val);
+        let valid = emailValidation(val);
+        // validateForm(val, password);
+        console.log(valid.message);
+        if (valid.success) {
+            setErrors({ ...errors, emailError: '' });
+        }
+        else {
+            setErrors({ ...errors, emailError: valid.message });
+        }
+    }, [email]);
     return (
         <KeyboardAwareScrollView>
             <View style={[centralStyle.container, { height: windowHeight }]}>
@@ -116,10 +155,12 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <View style={{ width: '100%' }}>
                                 <OutlinedTextInput
                                     val={email}
-                                    onChange={(val) => setEmail(val)}
+                                    onChange={phoneOrEmailCallback}
+                                    errorLine={errors.emailError ? true : false}
                                     title={t('Email_or_phone')}
                                     placeHolder={t('Email_or_phone')}
                                 />
+                                {!errorMsg && errors.emailError ? <Text style={styles.errorText}>{errors.emailError}</Text> : null}
                             </View>
                         </View>
                     </View>

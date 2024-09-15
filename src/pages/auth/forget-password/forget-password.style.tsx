@@ -35,4 +35,8 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         ...centralStyle.XAndYCenter
     },
+    errorText: {
+        color: 'red',
+        marginBottom: 10,
+    },
 });

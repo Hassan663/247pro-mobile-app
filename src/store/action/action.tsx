@@ -83,7 +83,7 @@ export const forgetAction = (email: any) => {
             const forgetData: ForgetModal = {
                 "email": email,
             };
-            await forget_password(forgetData)
+            await forget_password(forgetData,dispatch)
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')

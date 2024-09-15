@@ -26,6 +26,7 @@ import { t } from 'i18next';
 
 import { showError } from '../../../../store/action/action';
 import { Dispatch } from 'redux';
+import { VALIDATIONMESSAGE } from '../../../helpers/validation/validation-message';
 
 /**
  * Performs user login by sending login data to the server.
@@ -124,7 +125,7 @@ const signUp = async (
 };
 const login = async (
   loginData: LoginModal,
-  dispatch:Dispatch
+  dispatch: Dispatch
 ): Promise<IResponse<ILoginResponseData>> => {
   try {
     // Step 1: Encrypt the login data
@@ -172,6 +173,7 @@ const userIdentity = async (
 
 const forget_password = async (
   forgetdata: ForgetModal,
+  dispatch: Dispatch
 ): Promise<IResponse<ILoginResponseData>> => {
   try {
     const FORGET_PASSWORD_ENDPOINT_CLONE: Endpoint = {
@@ -190,7 +192,8 @@ const forget_password = async (
       });
     }
     return response;
-  } catch (error) {
+  } catch (error: any) {
+    dispatch(showError(VALIDATIONMESSAGE[10], t('Email_or_phone')))
     console.error('Login service error:', error);
     throw error;
   }
