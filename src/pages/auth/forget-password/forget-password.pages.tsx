@@ -114,8 +114,7 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
         setEmail(val);
         let valid = emailValidation(val);
         // validateForm(val, password);
-        console.log(valid.message);
-        if (valid.success) {
+         if (valid.success) {
             setErrors({ ...errors, emailError: '' });
         }
         else {
