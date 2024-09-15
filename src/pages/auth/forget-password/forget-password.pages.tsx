@@ -105,7 +105,7 @@ const ForgetPassword: React.FC<{ navigation: any }> = ({ navigation }) => {
                 </View>
             );
         } else {
-            return <Button callBack={handleSubmit} title={t('Reset_Password')} primary />;
+            return <Button disable={!email} callBack={handleSubmit} title={t('Reset_Password')} primary />;
         }
     };
     const phoneOrEmailCallback = useCallback((val: string) => {
