@@ -51,6 +51,7 @@ import { getCountryCallingCode } from 'libphonenumber-js';
 import { CURRENTUSERPROFILE, LOADER } from '../../../store/constant/constant';
 import { Text } from 'react-native-paper';
 import { hideError, showError } from '../../../store/action/action';
+import SearchDropDown from '../../../core/components/search-dropdown-with-create-button.component';
 
 const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   navigation,
@@ -69,11 +70,10 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   const [selectedIndustry, setselectedIndustry] = useState<string>('');
   const [selectedPrimarySpeciality, setSelectedPrimarySpeciality] = useState<string>('');
   const [selectedJobType, setselectedJobType] = useState<string>('');
-  const [speciality, setSpeciality] = useState<PrimarySpecialty>('');
   const loader = useSelector((state: any) => state.root.loader);
   const [selectedOption, setSelectedOption] = useState(null);
   const [countryCode, setCountryCode] = useState<any>('US');
-  const [countryCallineCode, setCountryCallingCode] = useState<number>(1);
+  const [countryCallineCode, setCountryCallingCode] = useState<any>(1);
   //const industriess = useSelector(state => state.root.industries); for Redux
   //   const industries: Industry[] = useSelector(
   //     (state: RootState) => state.root.industries,
@@ -113,7 +113,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       //await getIndustries(dispatch);
       setloading(true);
       try {
-        let accessToken = await AsyncStorage.getItem('accessToken');
+        let accessToken: any = await AsyncStorage.getItem('accessToken');
         // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
         const industryResponse = await fetchIndustries(accessToken);
         if (industryResponse.resultData) {
@@ -136,14 +136,14 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 
   useEffect(() => {
     if (industries !== null && selectedIndustry !== '') {
-      const industryId = industries && industries.find(
+      const industryId: any = industries && industries.find(
         industry => industry.name === selectedIndustry,
       )?.id;
 
       const loadSpecialities = async () => {
         setloading(true);
         try {
-          let accessToken = await AsyncStorage.getItem('accessToken');
+          let accessToken: any = await AsyncStorage.getItem('accessToken');
           // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
           const specialityResponse = await fetchSpecialityByIndustry(
             accessToken,
@@ -166,14 +166,14 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 
   useEffect(() => {
     if ((industries.length > 0 && selectedIndustry != null)) {
-      const industryId = industries && industries.find(
+      const industryId: any = industries && industries.find(
         industry => industry.name === selectedIndustry,
       )?.id;
 
       const loadJobType = async () => {
         setloading(true);
         try {
-          let accessToken = await AsyncStorage.getItem('accessToken');
+          let accessToken: any = await AsyncStorage.getItem('accessToken');
           // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
           const jobTypeResponse = await fetchJobTypeByIndustry(
             accessToken,
@@ -202,23 +202,24 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         selectedIndustry,
         selectedPrimarySpeciality,
         selectedJobType,
+        zipCode,
+        phoneNumber,
+        countryCode
       );
-      let isZipAndPhoneValid: any = zipAndPhoneValidation(zipCode, phoneNumber, countryCode);
-
-      if (isValid.success && isZipAndPhoneValid.success) {
+      if (isValid.success) {
         dispatch({ type: LOADER, payload: true });
         setloading(true);
-        let accessToken = await AsyncStorage.getItem('accessToken');
+        let accessToken: any = await AsyncStorage.getItem('accessToken');
 
-        const industryId = industries.find(
+        const industryId: any = industries.find(
           industry => industry.name === selectedIndustry,
         )?.id;
 
-        const specialtyIds = primarySpecialty.find(
+        const specialtyIds: any = primarySpecialty.find(
           industry => industry.name === selectedPrimarySpeciality,
         )?.id;
 
-        const jobTypeId = jobType.find(
+        const jobTypeId: any = jobType.find(
           industry => industry.name === selectedJobType,
         )?.id;
         console.log(industryId, specialtyIds, jobTypeId)
@@ -240,12 +241,15 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
             // dispatch({ type: ISUSERLOGIN, payload: true });
           });
       } else {
-        if (isZipAndPhoneValid.success == false) {
-          dispatch(showError(isValid.message, isValid.type))
-        }
-        else if (isZipAndPhoneValid.success == false) {
-          dispatch(showError(isValid.message, isValid.type))
-        }
+        dispatch(showError(isValid.message, isValid.type))
+        // if (isZipA÷ndPhoneValid.success == false) {
+        //   dispatch(showError(isValid.message, isValid.type))
+        //   console.log(isZipAndPhoneValid, 'isZipAndPhoneValid11111')
+        // }
+        // else if (isValid.success == false) {
+        //   console.log(isZipAndPhoneValid, 'isZipAndPhoneValid2222')
+        //   dispatch(showError(isValid.message, isValid.type))
+        // }
         // setIsToastVisible(true);
         // await toast.show(isValid.message, { type: 'custom_toast' });
         // setTimeout(() => {
@@ -301,35 +305,36 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
     if (!isToastVisible) {
       console.log('Selected Country Numeric Code:', getCountryCallingCode(countryCode));
       setCountryCallingCode(getCountryCallingCode(countryCode)); // Set the country code as an integer
-      let isValid = zipAndPhoneValidation(zipCode, phoneNumber, countryCode);
-      if (isValid.success) {
-        // setloading(true);
-        dispatch({ type: LOADER, payload: true });
-        let accessToken = await AsyncStorage.getItem('accessToken');
-        console.log(zipCode, phoneNumber, countryCode);
-        await submitZipAndPhone(accessToken, zipCode, phoneNumber, countryCallineCode)
-          .then(response => {
-            dispatch({ type: CURRENTUSERPROFILE, payload: response.data.resultData });
-            dispatch({ type: LOADER, payload: false });
-            //setloading(false);
-            console.log('API Response ZipCode:', response.data);
-            if (response.data.isSuccess) {
-              // changeRoute(navigation, 'AppNavigation');
-            }
-          })
-          .catch(error => {
-            console.error('API Error:', error);
-            // setloading(false);
-            toast.show(isValid.message, { type: 'custom_toast' });
-            // dispatch({ type: ISUSERLOGIN, payload: true });
-          }, 500);
-      } else {
-        setIsToastVisible(true);
-        await toast.show(isValid.message, { type: 'custom_toast' });
-        setTimeout(() => {
-          setIsToastVisible(false);
-        }, 5000);
-      }
+      // let isValid = zipAndPhoneValidation(zipCode, phoneNumber, countryCode);
+      // console.log(isValid,'isValidisValidisValidisValid')
+      // if (isValid.success) {
+      // setloading(true);
+      dispatch({ type: LOADER, payload: true });
+      let accessToken: any = await AsyncStorage.getItem('accessToken');
+      console.log(zipCode, phoneNumber, countryCode);
+      await submitZipAndPhone(accessToken, zipCode, phoneNumber, countryCallineCode)
+        .then(response => {
+          dispatch({ type: CURRENTUSERPROFILE, payload: response.data.resultData });
+          dispatch({ type: LOADER, payload: false });
+          //setloading(false);
+          console.log('API Response ZipCode:', response.data);
+          if (response.data.isSuccess) {
+            // changeRoute(navigation, 'AppNavigation');
+          }
+        })
+        .catch(error => {
+          console.error('API Error:', error);
+          // setloading(false);
+          toast.show(error, { type: 'custom_toast' });
+          // dispatch({ type: ISUSERLOGIN, payload: true });
+        });
+      // } else {
+      //   setIsToastVisible(true);
+      //   await toast.show(isValid.message, { type: 'custom_toast' });
+      //   setTimeout(() => {
+      //     setIsToastVisible(false);
+      //   }, 5000);
+      // }
     }
   };
 
@@ -443,7 +448,15 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                     <View style={[styles.inputWrapper]}>
                       {isBuisness ? (
                         <>
-                          <OutlinedDropDown
+                          <SearchDropDown
+                            title={t('Industry')}
+                            disableCreateButton={true}
+                            onselect={(value: string) => { setselectedIndustry(value) }}
+                            DATA={INDUSTRIES}
+                            isPrimaryBorderOnFocus={true}
+                            drop_down_button_style={styles.drop_down_button_style}
+                          />
+                          {/* <OutlinedDropDown
                             title={t('Industry')}
                             search={true}
                             onselect={(value: string) => {
@@ -451,8 +464,19 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                             }}
                             DATA={industryLabels}
                             drop_down_button_style={styles.drop_down_button_style}
+                          /> */}
+                          <SearchDropDown
+                            title={t('primarySpecialty')}
+                            disableCreateButton={true}
+                            onselect={(value: string) => {
+                              setSelectedPrimarySpeciality(value);
+
+                            }}
+                            DATA={specialityLabels}
+                            isPrimaryBorderOnFocus={true}
+                            drop_down_button_style={styles.drop_down_button_style}
                           />
-                          <OutlinedDropDown
+                          {/* <OutlinedDropDown
                             title={t('primarySpecialty')}
                             search={true}
                             onselect={(value: string) => {
@@ -461,10 +485,11 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                             DATA={specialityLabels}
                             drop_down_button_style={styles.drop_down_button_style}
 
-                          />
+                          /> */}
                           {selectedIndustry && selectedIndustry === 'Construction' && (
-                            <OutlinedDropDown
+                            <SearchDropDown
                               title={t('JobType')}
+                              disableCreateButton={true}
                               onselect={(value: string) => {
                                 setselectedJobType(value);
                               }}
@@ -484,10 +509,10 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                                 placeHolder={t('ZipCode')}
                               />
 
-                              <View style={[styles.inputWrapper2,{ }]}>
+                              <View style={[styles.inputWrapper2, {}]}>
                                 <TouchableOpacity
                                   onPress={() => setIsCountryPickerVisible(true)}
-                                  style={[styles.flagContainer,{ marginTop:RFValue(13,windowHeight)}]}>
+                                  style={[styles.flagContainer, { marginTop: RFValue(13, windowHeight) }]}>
                                   <View style={styles.flagWrapper}>
                                     {/* <CountryPicker
                                       countryCode={countryCode}

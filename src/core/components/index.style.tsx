@@ -112,14 +112,10 @@ export const styles: any = StyleSheet.create<any>({
     roboto_20: {
         fontSize: platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3),
     },
-    input: (pass: boolean, isActive: boolean, inputVal: any, errorLine: boolean, errorTitle: string, title: string, disableValidation: any) => ({
+    input: (pass: boolean, isActive: boolean, inputVal: any, errorLine: boolean) => ({
         borderWidth: pass ? 0 : RFPercentage(.1),
         borderRadius: 5,
-        borderColor:
-            disableValidation ?
-                isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey :
-                errorTitle == 'all' ? Colors.red : errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() ? Colors.red
-                    : errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        borderColor: errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         alignItems: "center",
         // paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
         paddingHorizontal: pass ? 0 : platform == 'ios' ? 16 : 17,
@@ -153,12 +149,11 @@ export const styles: any = StyleSheet.create<any>({
         height: "85%"
     }),
 
-    passwordContainer: (isActive: boolean, inputVal: any, errorLine: any, errorTitle: string, title: string) => ({
+    passwordContainer: (isActive: boolean, inputVal: any, errorLine: any) => ({
         flexDirection: 'row',
         borderWidth: RFPercentage(.1),
         borderRadius: 5,
-        // borderColor: errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
-        borderColor: errorTitle == 'all' ? Colors.red : errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() ? Colors.red : errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        borderColor: errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
         color: isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
         paddingHorizontal: platform == 'ios' ? 16 : 17,
         width: "100%",
@@ -259,6 +254,148 @@ export const styles: any = StyleSheet.create<any>({
     disableText: {
         color: Colors.gray,
         textTransform: 'uppercase'
-    }
+    },
+
+
+
+
+
+    input: (pass: boolean, isActive: boolean, inputVal: any, errorLine: boolean, errorTitle: string, title: string, disableValidation: any) => ({
+        borderWidth: pass ? 0 : RFPercentage(.1),
+        borderRadius: 5,
+        borderColor:
+            disableValidation ?
+                isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey :
+                errorTitle == 'all' ? Colors.red : errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() ? Colors.red
+                    : errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        alignItems: "center",
+        // paddingHorizontal: pass ? 0 : platform == 'ios' ? RFPercentage(2) : RFPercentage(3),
+        paddingHorizontal: pass ? 0 : platform == 'ios' ? 16 : 17,
+        fontSize: RFValue(16, windowHeight),
+
+        width: "100%",
+        color: Colors.black,
+        height: pass ? '100%' : '85%',
+    }),
+
+    inputContainer: (height: number) => ({
+        height: height ? height : 65,
+        justifyContent: "flex-end",
+        // backgroundColor:"red",
+    }),
+    inputtitle: (isActive: boolean, inputVal: any, errorLine: any) => ({
+        position: "absolute",
+        paddingHorizontal: RFPercentage(1),
+        zIndex: 2,
+        backgroundColor: Colors.white,
+        left: '3%',
+        color: errorLine ? Colors.fontColor : isActive ? Colors.fontColor : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
+        // color: errorLine ? Colors.fontColor : isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
+        fontSize: 14,
+        fontWeight: '400',
+        top: '0%',
+    }),
+    textInputContainer: () => ({
+        flexDirection: 'row',
+        width: "100%",
+        height: "85%"
+    }),
+
+    passwordContainer: (isActive: boolean, inputVal: any, errorLine: any, errorTitle: string, title: string) => ({
+        flexDirection: 'row',
+        borderWidth: RFPercentage(.1),
+        borderRadius: 5,
+        // borderColor: errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        borderColor: errorTitle == 'all' ? Colors.red : errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() ? Colors.red : errorLine ? Colors.red : isActive ? Colors.primary : inputVal.length > 0 ? Colors.fontColor : Colors.lightGrey,
+        color: isActive ? Colors.primary : inputVal?.length > 0 ? Colors.fontColor : Colors.lightGray,
+        paddingHorizontal: platform == 'ios' ? 16 : 17,
+        width: "100%",
+        height: '85%'
+    }),
+    eyeContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: "center"
+    },
+    dropDownStyle: {
+        marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
+        borderRadius: 10,
+        backgroundColor: Colors.white,
+        overflow: 'visible',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+
+        elevation: 9,
+        paddingVertical: 20,
+    },
+    headerContainer: {
+        marginTop: platform !== 'ios' ? RFPercentage(3.5) : 0,
+        height: platform == 'ios' ? RFPercentage(6) : 50,
+        backgroundColor: Colors.white,
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        alignItems: centralPosition.center,
+        width: '100%',
+        borderBottomColor: Colors.lightGrey,
+    },
+    modalContainerAbs: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        zIndex: 2,
+        justifyContent: 'flex-start',
+        alignItems: "flex-end",
+    },
+    modalContainer: {
+        paddingHorizontal: RFPercentage(1.5),
+        backgroundColor: Colors.white,
+        borderColor: Colors.fontColor,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderRadius: RFPercentage(.5),
+        width: platform == 'ios' ? RFPercentage(17) : RFPercentage(20),
+        justifyContent: 'space-evenly',
+        right: RFPercentage(2),
+        top: platform == 'ios' ? RFPercentage(3) : RFPercentage(8)
+
+    },
+    customRow: {
+
+        // paddingHorizontal: 15,
+    },
+    rowChildContainer: {
+        width: '100%',
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    rowWrapper: {
+        height: '100%', width: "100%",
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        borderRadius: 10
+    },
+    searchInputStyle: {
+        backgroundColor: '#ededed',
+        width: '90%',
+        marginLeft: 20,
+        overflow: 'hidden',
+        borderRadius: 10
+    },
+    rowStyle: {
+        borderBottomWidth: 0,
+        marginTop: 10
+    },
 });
 

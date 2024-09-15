@@ -68,6 +68,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     const toast = useToast();
     const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
+    const errorMsg = useSelector((state: any) => state.root.errorMsg);
     // const otpSupported = useSelector((state: any) => state.root.otpSupported)
 
     useEffect(() => {
@@ -271,11 +272,14 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     Password
                                     placeHolder={t('SetAPassword')}
                                 />
-                                <Title
-                                    type={'Roboto-12'}
-                                    color={Colors.gray}
-                                    textTransform='capitalize'
-                                    title={t('Mustbeatleast6characters')} />
+
+                                {!errorMsg &&
+                                    <Title
+                                        type={'Roboto-12'}
+                                        color={Colors.gray}
+                                        textTransform='capitalize'
+                                        title={t('Mustbeatleast6characters')} />
+                                }
 
                                 <View style={[centralStyle.row, centralStyle.mt1, centralStyle.XAndYCenter]}>
 
@@ -301,10 +305,11 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     <View style={[centralStyle.mt3, centralStyle.my1, {
 
                                     }]}>
-                                        {name.length && email.length && password.length ? <Button
-                                            callBack={handleSubmit}
-                                            title={t(`Next`)}
-                                            primary /> :
+                                        {name.length && email.length && password.length ?
+                                            <Button
+                                                callBack={handleSubmit}
+                                                title={t(`Next`)}
+                                                primary /> :
                                             <Button
                                                 disable
                                                 title={t(`Next`)}

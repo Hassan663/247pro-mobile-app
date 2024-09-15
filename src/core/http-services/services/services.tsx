@@ -59,7 +59,8 @@ const putApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint, postData: TReq): Pro
     return response
   } catch (error) {
     const axiosError = error as AxiosError;
-    handleApiError(axiosError);
+    console.log(error, 'error')
+    // handleApiError(axiosError);
     throw error;
   }
 };

@@ -52,8 +52,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, di
   useEffect(() => {
     setInputVal(val ? val : '')
   }, [val])
-  console.log(errorMsg, 'errorMsg', errorTitle)
-
+ 
   return (
     <>
       <View style={styles.inputContainer(height)}>
@@ -126,14 +125,14 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, di
         errorTitle == 'all' ?
         <Text style={[{
           color: 'red',
-          marginBottom: 5,
+          marginBottom: RFValue(10,windowHeight),
           marginLeft: 5
         },]}>{errorMsg}</Text>
         :
         errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() &&
         <Text style={[{
           color: 'red',
-          marginBottom: 5,
+          marginBottom: RFValue(10,windowHeight),
           marginLeft: 5,
         },]}>{errorMsg}</Text>
       }

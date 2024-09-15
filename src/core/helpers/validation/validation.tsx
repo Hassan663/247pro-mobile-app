@@ -1,11 +1,12 @@
-import PhoneNumber, { CountryCode } from 'libphonenumber-js';
+import PhoneNumber, { CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js';
 import { VALIDATIONMESSAGE } from "./validation-message";
 import { t } from 'i18next';
 
 const zipCodePattern = /^\d{5}$/;
 const phonePattern: RegExp = /^\d{7,15}$/;
 const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-const passwordRegex: RegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+// const passwordRegex: RegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+const passwordRegex: RegExp = /^.{6,}$/;
 
 type ValidationResult = { success: boolean; message: string, type?: string };
 
@@ -64,15 +65,15 @@ export function phoneValidation(phone: string, countryCode: CountryCode): Valida
     const parsedPhoneNumber = PhoneNumber(phone, countryCode); // Replace 'US' with the appropriate country code.
 
     if (!phone) {
-        return createErrorResponse(VALIDATIONMESSAGE[5]);
+        return { ...createErrorResponse(VALIDATIONMESSAGE[5]), type: t('MobilePhone') };
     }
 
     if (!parsedPhoneNumber?.isValid()) {
-        return createErrorResponse(VALIDATIONMESSAGE[12]);
+        return { ...createErrorResponse(VALIDATIONMESSAGE[12]), type: t('MobilePhone') };
     }
 
     if (!phonePattern.test(phone)) {
-        return createErrorResponse(VALIDATIONMESSAGE[6]);
+        return { ...createErrorResponse(VALIDATIONMESSAGE[6]), type: t('MobilePhone') };
     }
 
     return createSuccessResponse();
@@ -142,18 +143,45 @@ export function buisnessQuestionsValidation(
     selectedIndustry: string,
     primarySpecialty: string,
     jobType: string,
+    zipCode: string,
+    phoneNumber: string,
+    countryCode: any
 ): ValidationResult {
     //   const isValidZipCode = zipCodePattern.test(zipCode);
-    if (selectedIndustry && primarySpecialty) {
+    console.log(selectedIndustry, 'selectedIndustry && primarySpecialty', primarySpecialty)
+    if (!selectedIndustry) {
+        return { ...createErrorResponse(VALIDATIONMESSAGE[16]), type: t('Industry') };
+    } else if (!primarySpecialty) {
+        return { ...createErrorResponse(VALIDATIONMESSAGE[15]), type: t('primarySpecialty') };
+    }
+    else if (!primarySpecialty && !selectedIndustry) {
+        return { ...createErrorResponse(VALIDATIONMESSAGE[9]), type: 'all' };
+    } else if (selectedIndustry && primarySpecialty) {
         if (selectedIndustry === 'Construction') {
             if (!jobType) {
-                return { ...createErrorResponse(VALIDATIONMESSAGE[9]), type: 'all' };
+                return { ...createErrorResponse(VALIDATIONMESSAGE[17]), type: t('JobType') };
             }
         }
-        return createSuccessResponse();
+        if (!zipCode) {
+            return { ...createErrorResponse(VALIDATIONMESSAGE[14]), type: t('ZipCode') };
+        } else {
+            if (!phoneNumber) {
+                return { ...createErrorResponse(VALIDATIONMESSAGE[12]), type: t('MobilePhone') };
+            } else {
+                const phoneNumberObject = parsePhoneNumberFromString(phoneNumber, countryCode);
+                if (phoneNumberObject && phoneNumberObject.isValid()) {
+                    return createSuccessResponse();
+                } else {
+                    return { ...createErrorResponse(VALIDATIONMESSAGE[12]), type: t('MobilePhone') };
+                }
+            }
+        }
+
     } else {
-        return {...createErrorResponse(VALIDATIONMESSAGE[9]),type:'all'};
+        return createSuccessResponse();
     }
+
+
 }
 
 export function zipAndPhoneValidation(
@@ -166,7 +194,7 @@ export function zipAndPhoneValidation(
     if (isValidZipCode && isPhoneNumberValid) {
         return createSuccessResponse();
     } else {
-        return {...createErrorResponse(VALIDATIONMESSAGE[14]),type:''};
+        return { ...createErrorResponse(VALIDATIONMESSAGE[14]), type: t('ZipCode') };
     }
 }
 

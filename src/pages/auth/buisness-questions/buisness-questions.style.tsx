@@ -13,14 +13,17 @@ export const styles = StyleSheet.create({
     },
     titleWrapper: {
         flex: 1.5,
+        // backgroundColor: 'pink',
     },
     inputWrapper: {
         flex: 7.5,
+        // gap: 10,
+        // backgroundColor:"green"
     },
     footer: {
         flex: 1,
         justifyContent: centralPosition.flexEnd,
-        backgroundColor: Colors.white,
+        // backgroundColor: 'orange',
         // marginVertical: RFPercentage(2)
         paddingHorizontal: RFPercentage(2)
     },
@@ -45,7 +48,7 @@ export const styles = StyleSheet.create({
     },
     inputWrapper2: {
         // alignItems: centralPosition.center,
-        marginVertical: RFPercentage(1),
+        // marginVertical: RFPercentage(1),
         ...centralStyle.row,
     },
     flagContainer: {
