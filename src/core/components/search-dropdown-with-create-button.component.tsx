@@ -51,15 +51,29 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
     const [dropdownVal, setdropdownVal] = useState('');
 
     // Add 'Create New' option dynamically
-    const enhancedData = [...DATA, 'Create New'];
+    // const enhancedData = [...DATA, 'Create New'];
     const errorMsg = useSelector((state: any) => state.root.errorMsg);
     const errorTitle = useSelector((state: any) => state.root.errorTitle);
+    const [filteredData, setFilteredData] = useState(DATA);
 
     useEffect(() => {
         if (!disableCreateButton) {
             setdropdownVal(DATA[defaultValueByIndex]);
         }
     }, [defaultValueByIndex]);
+
+    const handleSearchChange = (searchText: string) => {
+        const filtered = DATA.filter(item =>
+            item.toLowerCase().includes(searchText.toLowerCase())
+        );
+        console.log(filtered, 'filtered')
+        if (filtered.length === 0) {
+            setFilteredData(['Create New']); // Show only 'Create New' if no match found
+        } else {
+            setFilteredData(filtered);
+        }
+    };
+
     return (
         <>
             <View style={styles.inputContainer(height)}>
@@ -76,12 +90,14 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         renderSearchInputLeftIcon={() => {
                             return <FontAwesome name={'search'} color={Colors.black} size={18} />;
                         }}
-                        data={enhancedData} // Use enhancedData with 'Create New'
+                        // data={enhancedData} // Use enhancedData with 'Create New'
+                        data={filteredData} // Use enhancedData with 'Create New'
                         defaultValueByIndex={defaultValueByIndex ? defaultValueByIndex : null}
                         defaultButtonText={title}
+                        onChangeSearchInputText={handleSearchChange}
                         onSelect={(selectedItem: string, index: number) => {
+                            setFilteredData(DATA)
                             if (selectedItem === 'Create New') {
-                                // Show alert when "Create New" is selected
                                 Alert.alert('Create New', 'You have clicked on Create New');
                             } else {
                                 setdropdownVal(selectedItem);
@@ -90,7 +106,10 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => selectedItem}
                         rowTextForSelection={(item, index) => item}
-                        onBlur={() => setIsActive(false)}
+                        onBlur={() => {
+                            setFilteredData(DATA)
+                            setIsActive(false)
+                        }}
                         onFocus={() => setIsActive(true)}
                         renderDropdownIcon={() => (
                             <AntDesign

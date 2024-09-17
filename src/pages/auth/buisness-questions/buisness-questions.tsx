@@ -149,6 +149,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
             accessToken,
             industryId,
           );
+          console.log(specialityResponse,'specialityResponsespecialityResponsespecialityResponse')
           if (specialityResponse.resultData) {
             setprimarySpecialty(specialityResponse.data.resultData);
             //console.log('/n/n Primary Array', specialityResponse.data.resultData);
@@ -163,7 +164,6 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
     }
   }, [selectedIndustry]);
   const specialityLabels = primarySpecialty.map(speciality => speciality.name);
-
   useEffect(() => {
     if ((industries.length > 0 && selectedIndustry != null)) {
       const industryId: any = industries && industries.find(
@@ -311,7 +311,6 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       // setloading(true);
       dispatch({ type: LOADER, payload: true });
       let accessToken: any = await AsyncStorage.getItem('accessToken');
-      console.log(zipCode, phoneNumber, countryCode);
       await submitZipAndPhone(accessToken, zipCode, phoneNumber, countryCallineCode)
         .then(response => {
           dispatch({ type: CURRENTUSERPROFILE, payload: response.data.resultData });
@@ -452,7 +451,8 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                             title={t('Industry')}
                             disableCreateButton={true}
                             onselect={(value: string) => { setselectedIndustry(value) }}
-                            DATA={INDUSTRIES}
+                            DATA={industryLabels}
+                            // DATA={INDUSTRIES}
                             isPrimaryBorderOnFocus={true}
                             drop_down_button_style={styles.drop_down_button_style}
                           />

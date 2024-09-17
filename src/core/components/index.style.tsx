@@ -166,8 +166,25 @@ export const styles: any = StyleSheet.create<any>({
     },
     dropDownStyle: {
         borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+
+
         marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
-        borderBottomRightRadius: 10
+        borderRadius: 10,
+        backgroundColor: Colors.white,
+        overflow: 'visible',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+
+        elevation: 9,
+        paddingVertical: 20,
+        minHeight: RFValue(150,windowHeight),
+
     },
     headerContainer: {
         marginTop: platform !== 'ios' ? RFPercentage(3.5) : 0,
@@ -316,22 +333,6 @@ export const styles: any = StyleSheet.create<any>({
         flex: 1,
         justifyContent: 'center',
         alignItems: "center"
-    },
-    dropDownStyle: {
-        marginTop: platform !== 'ios' ? RFPercentage(-3.5) : 0,
-        borderRadius: 10,
-        backgroundColor: Colors.white,
-        overflow: 'visible',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.32,
-        shadowRadius: 5.46,
-
-        elevation: 9,
-        paddingVertical: 20,
     },
     headerContainer: {
         marginTop: platform !== 'ios' ? RFPercentage(3.5) : 0,

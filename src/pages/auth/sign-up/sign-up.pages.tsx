@@ -10,6 +10,7 @@ import {
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
     Keyboard,
+    ActivityIndicator,
 } from 'react-native';
 
 import Fontisto from 'react-native-vector-icons/Fontisto'
@@ -308,7 +309,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         {name.length && email.length && password.length ?
                                             <Button
                                                 callBack={handleSubmit}
-                                                title={t(`Next`)}
+                                                title={loader ? <ActivityIndicator color={'white'} /> : t(`Next`)}
+                                                // title={t(`Next`)}
                                                 primary /> :
                                             <Button
                                                 disable
