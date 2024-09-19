@@ -38,7 +38,11 @@ export const UPLOAD_IMAGE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'
 
 // OnBoarding Endpoints
 export const INDUSTORY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/membership-api/v1/industries/account`, false);
+export const CREATE_INDUSTORY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/membership-api/v1/industries/account`, false);
+
 export const PRIMARY_SPECIALITY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/membership-api/v1/specialities/account/industry`, false);
+export const CREATE_PRIMARY_SPECIALITY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/membership-api/v1/specialities/account`, false);
+
 export const JOB_TYPE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/membership-api/v1/job-types/industry`, false);
 
 export const ZIP_PHONE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/membership-api/v1/accounts/zip-and-phone`, false);

@@ -50,7 +50,7 @@ const OutlinedDropDown: React.FC<OutlinedDropDownProps> = ({ title, height, defa
         <View style={styles.textInputContainer(isActive)}>
           <SelectDropdown
               search
-            searchPlaceHolder={'Search here'}
+            searchPlaceHolder={'Search or create new'}
             searchPlaceHolderColor={Colors.black}
             renderSearchInputLeftIcon={() => {
               return <FontAwesome name={'search'} color={Colors.black} size={18} />;

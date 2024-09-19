@@ -11,6 +11,8 @@ import {
   PRIMARY_SPECIALITY_ENDPOINT,
   JOB_TYPE_ENDPOINT,
   SUBMIT_JOB_LEAD_ENDPOINT,
+  CREATE_INDUSTORY_ENDPOINT,
+  CREATE_PRIMARY_SPECIALITY_ENDPOINT,
 } from '../../apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -47,6 +49,39 @@ export const fetchIndustries = async (
   }
 };
 
+export const createIndustries = async (
+  accessToken: string,
+  name: string,
+): Promise<IResponse<Industry[]>> => {
+  try {
+    const data: any = {
+      name,
+    };
+    //let accessToken = await AsyncStorage.getItem('accessToken');
+    //const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4';
+  
+  
+    const CREATE_INDUSTORY_ENDPOINT_CLONE: Endpoint = {...CREATE_INDUSTORY_ENDPOINT};
+    CREATE_INDUSTORY_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+    // Call the API and get the response
+    console.log("Api Call: ",CREATE_INDUSTORY_ENDPOINT_CLONE);
+    const response = await postApi(CREATE_INDUSTORY_ENDPOINT_CLONE, data);
+    // Extract resultData from the response
+    console.log("Industory Created: ",response.data.resultData);
+    if (response.data && response.data.resultData) {
+      return {
+        ...response,
+        resultData: response.data.resultData as Industry[], // Cast resultData to Industry[]
+      };
+    } else {
+      throw new Error('Invalid response structure');
+    }
+  } catch (error) {
+    console.error('Error fetching industries:', error.message);
+    throw error;
+  }
+};
+
 export const fetchSpecialityByIndustry = async (
     accessToken: string,
     industryId: number,
@@ -59,6 +94,37 @@ export const fetchSpecialityByIndustry = async (
       // Call the API and get the response
       console.log(PRIMARY_SPECIALITY_ENDPOINT_CLONE);
       const response = await getApi(PRIMARY_SPECIALITY_ENDPOINT_CLONE, data);
+      // Extract resultData from the response
+      if (response.data && response.data.resultData) {
+        return {
+          ...response,
+          resultData: response.data.resultData as PrimarySpecialty[], // Cast resultData to Industry[]
+        };
+      } else {
+        throw new Error('Invalid response structure');
+      }
+    } catch (error) {
+      console.error('Error fetching industries:', error);
+      throw error;
+    }
+  };
+
+  export const createSpecialityByIndustry = async (
+    accessToken: string,
+    industryId: number,
+    name: string,
+  ): Promise<IResponse<PrimarySpecialty[]>> => {
+    try {
+      const data: any = {
+        industryId,
+        name,
+      };
+      const CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE: Endpoint = {...CREATE_PRIMARY_SPECIALITY_ENDPOINT};
+      CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE.url= CREATE_PRIMARY_SPECIALITY_ENDPOINT.url;
+      CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+      // Call the API and get the response
+      console.log(CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE);
+      const response = await postApi(CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE, data);
       // Extract resultData from the response
       if (response.data && response.data.resultData) {
         return {
@@ -104,8 +170,8 @@ export const fetchSpecialityByIndustry = async (
 
   export const submitJobLeads = async (
     accessToken: string,
-    industryId: string,
-    jobTypeId: string,
+    industryId: number,
+    jobTypeId: number,
     specialtyIds: number[],
   ): Promise<any> => {
   
