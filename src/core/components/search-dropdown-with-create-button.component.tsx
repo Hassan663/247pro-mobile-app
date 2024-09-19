@@ -61,7 +61,6 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
 
     const errorMsgFromRedux = useSelector((state: any) => state.root.errorMsg);
     const errorTitleFromRedux = useSelector((state: any) => state.root.errorTitle);
-
     // useEffect(() => {
     //     setFilteredData(DATA);
     //     if (defaultValueByIndex != null) {
@@ -74,9 +73,14 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
             item.name?.toLowerCase().includes(searchText.toLowerCase())
         );
         if (filtered.length === 0) {
-            setNewItem(searchText);
-            setIsShowCreateNew(true);
-           setFilteredData([{ name: 'Create New'}]); // Show only 'Create New' if no match found
+
+            if (disableCreateButton) {
+                setFilteredData([]); // Show only 'Create New' if no match found
+            } else {
+                setNewItem(searchText);
+                setIsShowCreateNew(true);
+                setFilteredData([{ name: searchText }]); // Show only 'Create New' if no match found
+            }
         } else {
             setFilteredData(filtered);
         }
@@ -85,35 +89,36 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
     const handleCreateNewItem = (newItem: string) => {
         // Ensure onCreateNew is defined
         if (onCreateNew) {
-          onCreateNew(newItem, (result) => {
-            setIsShowCreateNew(false)
-            // Update the dropdown with the newly created item
-            console.log("setDropDown: ", result?.name);
-      
-            // Add the new item to the DATA array
-            const updatedData = [...DATA, result];
-            
-            
-            console.log("newData===: ", updatedData); // Should include the new item
-            // Update the state to reflect the new data
-            setNewdata(updatedData); // This adds the new item to the full data set
-            setFilteredData([]);
-            // Set the filtered data to include all items (including the new one)
-            setFilteredData(updatedData);
-            console.log("filteredData: ", filteredData); // Should match newData
-            
-            console.log("filteredData after adding new item: ", updatedData);
-            
-            // Set the dropdown value to the newly created item
-            setDropdownVal(result);
-            console.log("dropdownVal====", dropdownVal); // Should be the newly created item
-      
-            // Notify parent about the new selection
-            onselect?.(result, updatedData.length); // The new item is at the end of the array
-          });
+            onCreateNew(newItem, (result) => {
+                setIsShowCreateNew(false)
+                // Update the dropdown with the newly created item
+                console.log("setDropDown: ", result?.name);
+
+                // Add the new item to the DATA array
+                const updatedData = [...DATA, result];
+
+
+                console.log("newData===: ", updatedData); // Should include the new item
+                // Update the state to reflect the new data
+                setNewdata(updatedData); // This adds the new item to the full data set
+                // setFilteredData([]);
+                // Set the filtered data to include all items (including the new one)
+                setFilteredData(updatedData);
+                console.log("filteredData: ", filteredData); // Should match newData
+
+                console.log("filteredData after adding new item: ", updatedData);
+
+                // Set the dropdown value to the newly created item
+                setDropdownVal(result);
+                console.log("dropdownVal====", dropdownVal); // Should be the newly created item
+
+                // Notify parent about the new selection
+                onselect?.(result, updatedData.length); // The new item is at the end of the array
+                setNewItem('')
+            });
         }
-      };
-      
+    };
+
 
     return (
         <>
@@ -137,11 +142,14 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         onChangeSearchInputText={handleSearchChange}
                         onSelect={(selectedItem, index) => {
                             setFilteredData(DATA);
-                            if(isShowCreateNew){
+                            console.log(selectedItem, 'selectedItem')
+                            if (isShowCreateNew) {
                                 handleCreateNewItem(newItem);
+                                console.log(selectedItem, 'newItem')
                             }
-                            else{
+                            else {
                                 setDropdownVal(selectedItem);
+                                console.log(selectedItem, 'selectedItem222')
                                 onselect?.(selectedItem, index);
                             }
                             // if (selectedItem.name === 'Create New') {
@@ -184,20 +192,21 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         searchInputStyle={styles.searchInputStyle}
                         renderCustomizedRowChild={(item, index) => {
                             const isSelected = dropdownVal === item;
+                            console.log(item.name, ' item.name === newItem', newItem,)
                             return (
                                 <View style={[styles.customRow, styles.rowChildContainer]}>
                                     <View style={[styles.rowWrapper, {
-                                        backgroundColor: item.name === 'Create New' ? Colors.primary : '#ededed',
-                                        justifyContent: item.name === 'Create New' ? "center" : 'space-between',
+                                        backgroundColor: item.name === newItem ? Colors.primary : '#ededed',
+                                        justifyContent: item.name === newItem ? "center" : 'space-between',
                                     }]}>
                                         <Text style={{
-                                            color: item.name === 'Create New' ? Colors.white : Colors.black,
+                                            color: item.name === newItem ? Colors.white : Colors.black,
                                             fontSize: RFValue(18, windowHeight),
                                             textAlign: "center",
                                         }}>
                                             {item.name}
                                         </Text>
-                                        {item.name === 'Create New' && (
+                                        {item.name === newItem && (
                                             <MaterialIcons
                                                 name="add-circle"
                                                 size={RFValue(25, windowHeight)}
@@ -205,7 +214,7 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                                                 style={{ marginLeft: 10 }}
                                             />
                                         )}
-                                        {item.name !== 'Create New' && isSelected ?
+                                        {item.name !== newItem && isSelected ?
                                             <FontAwesome
                                                 name="check-circle"
                                                 size={RFValue(20, windowHeight)}
@@ -213,7 +222,7 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                                                 style={{ marginLeft: 10 }}
                                             />
                                             :
-                                            item.name !== 'Create New' && <FontAwesome
+                                            item.name !== newItem && <FontAwesome
                                                 name="circle-thin"
                                                 size={RFValue(20, windowHeight)}
                                                 color={Colors.black}
