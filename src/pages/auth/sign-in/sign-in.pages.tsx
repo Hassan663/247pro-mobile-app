@@ -198,8 +198,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                         title={t('Continue_with_google')}
                         callBack={async () => {
                             const googleUserData = await handleGoogle()
-                            console.log(googleUserData, 'googleUserData')
-                            dispatch(socialLoginAction(googleUserData.idToken))
+                             dispatch(socialLoginAction(googleUserData))
 
 
 

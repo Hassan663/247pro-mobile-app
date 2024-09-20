@@ -20,6 +20,8 @@ export const LOGIN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https:/
 export const SIGNUP_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/api/auth/register`, false);
 export const MEMBERSHIP_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/membership-api/v1/accounts`, false);
 export const LOGIN_IDENTITY_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/api/account/identity`, false);
+// https://api.247pro.com/api/auth/google-external-login
+export const ENTERNAL_LOGIN: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/api/auth/google-external-login`, false);
 export const FORGET_PASSWORD_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/api/auth/forgot-password`, false);
 export const LOGOUT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${'https://api.247pro.com'}/api/auth/logout`, false);
 export const USER_ENDPOINT: Endpoint = createEndpoint('/api/user', true);
