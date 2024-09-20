@@ -620,6 +620,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                             <>
                               <OutlinedTextInput
                                 val={zipCode}
+                                maxLength={10}
                                 onChange={val => {
                                   setZipCode(val);
                                 }}

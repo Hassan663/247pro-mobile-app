@@ -32,10 +32,11 @@ interface OutlinedTextInputProps {
   errorLine?: boolean;
   autoFocus?: boolean;
   disableValidation?: boolean;
+  maxLength?: number;
   onChange?: (val: string) => void;
 }
 
-const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, disableValidation,errorLine, editable, val, autoFocus, keyboardType, placeHolder, lines, multiLine, Password, onChange }) => {
+const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, maxLength, height, disableValidation, errorLine, editable, val, autoFocus, keyboardType, placeHolder, lines, multiLine, Password, onChange }) => {
   const [open, setOpen] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [inputVal, setInputVal] = useState(val ? val : '')
@@ -52,7 +53,7 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, di
   useEffect(() => {
     setInputVal(val ? val : '')
   }, [val])
- 
+
   return (
     <>
       <View style={styles.inputContainer(height)}>
@@ -76,24 +77,26 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, di
               multiline={multiLine || false}
               numberOfLines={lines}
               keyboardType={keyboardType ? keyboardType : 'default'}
+              maxLength={maxLength ? maxLength : undefined}
               onBlur={handleBlur}
               onChangeText={(text) => {
                 setInputVal(text)
                 if (onChange) { onChange(text) }
               }}
               style={[
-                styles.input(false, isActive, inputVal, errorLine, errorTitle, title,disableValidation),
+                styles.input(false, isActive, inputVal, errorLine, errorTitle, title, disableValidation),
               ]} />
             :
             <>
 
-              <View style={styles.passwordContainer(isActive, inputVal, errorLine, errorTitle, title,disableValidation)}>
+              <View style={styles.passwordContainer(isActive, inputVal, errorLine, errorTitle, title, disableValidation)}>
                 <View style={{ flex: 9 }}>
                   <TextInput
                     placeholder={isActive ? '' : placeHolder}
                     placeholderTextColor={Colors.fontColor}
                     autoFocus={autoFocus ? true : false}
                     value={inputVal}
+                    maxLength={maxLength ? maxLength : undefined}
                     editable={editable == false ? editable : true}
                     keyboardType={keyboardType ? keyboardType : 'default'}
                     onFocus={handleFocus}
@@ -125,14 +128,14 @@ const OutlinedTextInput: React.FC<OutlinedTextInputProps> = ({ title, height, di
         errorTitle == 'all' ?
         <Text style={[{
           color: 'red',
-          marginBottom: RFValue(10,windowHeight),
+          marginBottom: RFValue(10, windowHeight),
           marginLeft: 5
         },]}>{errorMsg}</Text>
         :
         errorTitle?.toLocaleLowerCase() == title?.toLocaleLowerCase() &&
         <Text style={[{
           color: 'red',
-          marginBottom: RFValue(10,windowHeight),
+          marginBottom: RFValue(10, windowHeight),
           marginLeft: 5,
         },]}>{errorMsg}</Text>
       }

@@ -3,6 +3,7 @@
 // export default BASE_URL;
 
 // base-url.ts
-const BASE_URL = 'https://appdevenv1.247pro.com';
+// const BASE_URL = 'https://appdevenv1.247pro.com';
+const BASE_URL = 'https://apidevenv1.247pro.com';
 
 export default BASE_URL;
