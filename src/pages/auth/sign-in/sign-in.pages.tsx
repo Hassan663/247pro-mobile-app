@@ -25,7 +25,7 @@ import Loader from '../../../core/components/loader.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-in.style';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
-import { loginAction } from '../../../store/action/action';
+import { loginAction, socialLoginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { loginValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
@@ -196,9 +196,13 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                     <Button
                         icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={[styles.googleIcon, centralStyle.mr1]} />}
                         title={t('Continue_with_google')}
-                        callBack={async() => {
+                        callBack={async () => {
                             const googleUserData = await handleGoogle()
-                            console.log(googleUserData,'googleUserData')
+                            console.log(googleUserData, 'googleUserData')
+                            dispatch(socialLoginAction(googleUserData.idToken))
+
+
+
                             // alert('googel auth')
 
                         }}

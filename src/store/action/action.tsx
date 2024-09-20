@@ -66,6 +66,27 @@ export const loginAction = (inputValue: string, password: string, directLoginTok
         }
     }
 }
+export const socialLoginAction = (directLoginToken?: string) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            // console.log(directLoginToken.idToken,'directLoginToken')
+            dispatch({ type: LOADER, payload: true });
+
+            let userData: any;
+
+            if (directLoginToken) userData = await userIdentity(directLoginToken)
+            // else userData = await login(loginData)
+            if (Object.keys(userData).length > 0) {
+                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            }
+            dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+        }
+    }
+}
 
 export const forgetAction = (email: any) => {
     return async (dispatch: Dispatch) => {
