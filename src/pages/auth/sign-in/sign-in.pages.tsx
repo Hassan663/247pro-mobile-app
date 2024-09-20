@@ -18,7 +18,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { t } from 'i18next';
 import { Dispatch } from 'redux';
 import { useToast } from "react-native-toast-notifications";
-import { RFPercentage } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector, } from 'react-redux';
 
@@ -155,12 +155,17 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                             titleStyle={styles.socialText}
                         />
 
-                        <View style={styles.orContainer}>
-                            <Title
-                                type={'Poppin-14'}
-                                color={Colors.fontColor}
-                                textTransform='capitalize'
-                                title={t('or')} />
+                        <View style={[styles.orContainer, { paddingVertical: 10 }]}>
+                            <Text
+                                style={{
+                                    fontFamily: "Poppins-Regular",
+                                    fontSize: RFValue(14, windowHeight),
+                                    fontWeight: "400",
+                                    color: Colors.fontColor,
+                                    textTransform: 'capitalize',
+                                }}>
+                                or
+                            </Text>
                         </View>
                         <View style={styles.inputContainer}>
                             <OutlinedTextInput

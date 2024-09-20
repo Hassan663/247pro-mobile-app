@@ -130,6 +130,29 @@ export function enterNameAndEmailValidation(name: string, email: string, passwor
 
 }
 
+
+export function signUpValidation(name: string, email: string, password: string): ValidationResult {
+    
+    if (!name) {
+        return createErrorResponse(VALIDATIONMESSAGE[13]); // 'Name is required' message
+    }
+
+    
+    const emailValidationResult = emailValidation(email);
+    if (!emailValidationResult.success) {
+        return emailValidationResult;
+    }
+
+    
+    const passwordValidationResult = passwordValidation(password);
+    if (!passwordValidationResult.success) {
+        return passwordValidationResult;
+    }
+
+   
+    return createSuccessResponse();
+}
+
 export function verifyCodeValidation(code: string,): ValidationResult {
 
     if (!code) return createErrorResponse(VALIDATIONMESSAGE[11]);

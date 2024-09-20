@@ -8,10 +8,13 @@ const DUMMY_JWT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW
 const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
   try {
     // Determine whether to include the header based on ENDPOINT.JWTToken
+    console.log("postData and endpoints:", ENDPOINT, postData);
     const headers: any = {}
     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
     // const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
     const response: any = await axios.post(ENDPOINT.url, postData, { headers });
+    console.log("response from service file:", response);
+    
     return response;
   } catch (error) {
     console.log('response:', error);

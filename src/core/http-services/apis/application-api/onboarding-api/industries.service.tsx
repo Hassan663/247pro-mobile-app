@@ -16,8 +16,6 @@ import {
 } from '../../apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Replace this with your actual API URL
-const API_URL = 'https://your-api-url.com';
 
 export const fetchIndustries = async (
   accessToken: string,

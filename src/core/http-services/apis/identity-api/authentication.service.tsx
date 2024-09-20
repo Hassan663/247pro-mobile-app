@@ -50,6 +50,8 @@ const encryptData = async (
       LoginModal,
       ILoginResponseData
     >(LOGIN_ENCRIPTION_ENDPOINT, loginData);
+    console.log("api response:", encryptedLoginResponse);
+    
     return encryptedLoginResponse;
   } catch (error) {
     console.error('Encrypt Login service error:', error);
