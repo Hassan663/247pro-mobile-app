@@ -14,10 +14,10 @@ export const styles = StyleSheet.create({
         tintColor: Colors.primary
     },
     titleWrapper: {
-        flex: 3,
+        flex: 2.5,
      },
     inputWrapper: {
-        flex: 4,
+        flex: 4.5,
     },
     footer: {
         flex: 3,

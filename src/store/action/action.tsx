@@ -25,7 +25,8 @@ import {
     login,
     logout,
     userIdentity,
-    signUp
+    signUp,
+    externalLogin
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import {
     typeContact,
@@ -64,6 +65,27 @@ export const loginAction = (inputValue: string, password: string, directLoginTok
 
             if (directLoginToken) userData = await userIdentity(directLoginToken)
             else userData = await login(loginData, dispatch)
+            if (Object.keys(userData).length > 0) {
+                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            }
+            dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+        }
+    }
+}
+export const socialLoginAction = (googleResponse?: any) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            console.log(googleResponse, 'directLoginToken')
+            dispatch({ type: LOADER, payload: true });
+            let userData: any;
+            userData = await externalLogin({
+                provider: 'Google',
+                idToken: googleResponse.idToken,
+            })
             if (Object.keys(userData).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
                 dispatch({ type: CURRENTUSERPROFILE, payload: userData });

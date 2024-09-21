@@ -1822,6 +1822,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-google-signin/google-signin@npm:^11.0.1":
+  version: 11.0.1
+  resolution: "@react-native-google-signin/google-signin@npm:11.0.1"
+  peerDependencies:
+    expo: ">=47.0.0"
+    react: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 2b9c90c8b7e198484f30ae1be0d5d77d7ba31648962e777cff043c1fc634a720f00552da1e4bced7a049d407f444efedc49cfc0a776268f57e536e92c7beb02d
+  languageName: node
+  linkType: hard
+
 "@react-native/assets@npm:1.0.0":
   version: 1.0.0
   resolution: "@react-native/assets@npm:1.0.0"
@@ -2494,6 +2508,7 @@ __metadata:
     "@react-native-async-storage/async-storage": ^1.19.0
     "@react-native-community/eslint-config": ^2.0.0
     "@react-native-community/slider": ^4.4.3
+    "@react-native-google-signin/google-signin": ^11.0.1
     "@react-navigation/bottom-tabs": ^6.5.8
     "@react-navigation/native": ^6.1.7
     "@react-navigation/stack": ^6.3.17

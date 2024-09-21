@@ -14,6 +14,7 @@ import {
   UserIdentity,
 } from '../../../modals/login.modal';
 import {
+  ENTERNAL_LOGIN,
   FORGET_PASSWORD_ENDPOINT,
   LOGIN_ENCRIPTION_ENDPOINT,
   LOGIN_ENDPOINT,
@@ -172,6 +173,29 @@ const userIdentity = async (
     throw error;
   }
 };
+const externalLogin = async (body: any): Promise<IResponse<ILoginResponseData>> => {
+  try {
+    // ENTERNAL_LOGIN.JWTToken = accessToken
+    // ENTERNAL_LOGIN.Cookie = true
+    // const emptyBody: any = {};
+    // const url = 'https://api.247pro.com/api/auth/google-external-login';
+    // const response = await axios.post(
+    //   url,
+    //   body,
+    //   {
+    //     headers: {
+    //       'accept': '*/*',
+    //       'Content-Type': 'application/json-patch+json',
+    //     },
+    //   }
+    // );
+    let externalGoogleResponse: any = await postApi<UserIdentity, ILoginResponseData>(ENTERNAL_LOGIN, body);
+    return externalGoogleResponse.data;
+  } catch (error) {
+    console.error('External google response:', error);
+    throw error;
+  }
+};
 
 const forget_password = async (
   forgetdata: ForgetModal,
@@ -214,4 +238,4 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   }
 };
 
-export { login, forget_password, userIdentity, logout, encryptData, signUp };
+export { login, forget_password, userIdentity, logout, encryptData, signUp, externalLogin };

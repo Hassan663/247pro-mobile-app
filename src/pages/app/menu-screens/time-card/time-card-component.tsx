@@ -53,7 +53,7 @@ export const List = ({ item, navigation }: any) => {
         </TouchableOpacity>
     )
 }
-export const Item = ({ title, index }: any) => (
+export const Item = ({ title, index, callBack }: any) => (
     <View key={index.toString()} style={{ flexDirection: 'row' }}>
         {index !== DATA.length - 1 &&
             <View style={styles.verticalLine}></View>
@@ -61,7 +61,7 @@ export const Item = ({ title, index }: any) => (
         <View style={styles.itemContainer}>
             <View style={[centralStyle.circle(RFValue(15, windowHeight)), styles.circle]}></View>
         </View>
-        <View style={{ flex: 9, }}>
+        <TouchableOpacity activeOpacity={.8} onPress={() => { if (callBack) callBack() }} style={{ flex: 9, }}>
             <View style={[{ flexDirection: "row" }]}>
                 <Title
                     type='Poppin-14'
@@ -81,7 +81,7 @@ export const Item = ({ title, index }: any) => (
                     color={Colors.black}
                     title={t('533 airport, blvd, Burligame, CA 94010, USA')} />
             </View>
-        </View>
+        </TouchableOpacity>
     </View>
 );
 
