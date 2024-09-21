@@ -4,12 +4,23 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import AuthNavigation from './auth/index';
 import AppNavigation from './tab/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RootStack = createStackNavigator();
 
+const handleBusiness = async () => {
+  const business = await AsyncStorage.getItem('isBusiness');
+  return business
+}
 const MainNavigator = () => {
+  const isBusiness = handleBusiness
+  console.log("isBusiness main navigator", isBusiness);
+  
   const {currentUserProfile} = useSelector((state: any) => state.root);
+  const [businessState, setBusinessState] = useState(isBusiness)
+  //const {isBusinessUser} = useSelector((state: any) => state.root.isBusinessUser);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  
 
     useEffect(() => {
         if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
@@ -21,7 +32,6 @@ const MainNavigator = () => {
         }
     }, [currentUserProfile]);
   return (
-
     <NavigationContainer>
       <RootStack.Navigator>
         {isUserLoggedIn ? (

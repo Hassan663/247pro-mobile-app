@@ -13,6 +13,7 @@ import {
     PAGINATIONLOADER,
     GET_INDUSTRIES_SUCCESS,
     GET_JOB_TYPES_SUCCESS,
+    IS_BUSINESS_USER,
 } from '../constant/constant'
 
 export type Action = {
@@ -67,6 +68,10 @@ export default (states = INITIAL_STATE, action: Action) => {
         //         ...states,
         //         isUserLogin: action.payload
         //     })
+        case IS_BUSINESS_USER: return ({
+            ...states,
+            isBusinessUser: action.payload
+        })
         case OTPSUPPORTED:
             return ({
                 ...states,

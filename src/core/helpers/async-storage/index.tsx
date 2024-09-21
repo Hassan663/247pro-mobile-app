@@ -30,28 +30,27 @@ export const changeRoute = async (navigation: any, value: string, params?: any) 
     try {
       if (value === 'pop') {
         navigation.goBack();
-      }
-    //    else if (value === 'AppNavigation') {
-    //     // Reset the navigation stack and navigate to the initial route of 'AppTabs'
-    //     navigation.reset({
-    //     index: 0,
-    //     routes: [{ name: value, params }], // Here, value is 'AppTabs'
-    //     });
-    //   }
-    //   else if (value === 'AuthNavigation') {
-    //     // Reset the navigation stack and navigate to the initial route of 'AppTabs'
-    //     navigation.reset({
-    //     index: 0,
-    //       routes: [{ name: value, params }], // Here, value is 'AuthNavigation'
-    //     });
-    //   }
-       else {
+      } else if (value === 'AppNavigation') {
+        // Reset the navigation stack and navigate to the initial route of AppNavigation
+        console.log("move to appNav");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: value }],
+        });
+      } else if (value === 'AuthNavigation') {
+        // Reset the navigation stack and navigate to AuthNavigation
+        navigation.reset({
+          index: 0,
+          routes: [{ name: value, params }],
+        });
+      } else {
         navigation.navigate(value, params);
       }
     } catch (error) {
       console.error('Navigation error:', error);
     }
   };
+  
 
 export const formatPhoneNumber = (phoneNumber?: string) => {
     var cleaned = ('' + phoneNumber)

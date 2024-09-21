@@ -99,6 +99,7 @@ export const logoutAction = () => {
             // console.log("logout");
             await logout()
             await AsyncStorage.removeItem('accessToken');
+            await AsyncStorage.removeItem('isBusiness');
             console.log("logout");
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
             dispatch({ type: INITIALROUTE, payload: 'AuthNavigation' });
@@ -132,8 +133,9 @@ export const signUpAction = (name: string, email: string, password: string,) => 
             console.log(SignupResponse, ' SignUp:')
             if (Object.keys(SignupResponse).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
+                
                 dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
-                // return true;  // Return true if sign-up is successful
+               
             }
             return false; // Return false if sign-up failed
         } catch (error: any) {

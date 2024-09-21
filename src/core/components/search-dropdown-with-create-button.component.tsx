@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,10 +16,9 @@ interface SearchDropDownProps {
     color?: string;
     height?: number;
     iconsSize?: number;
-    // value:{};
-    DATA: any[]; // Assuming DATA is an array of objects with `name` and `id`
+    DATA: any[];
     drop_down_button_style?: any;
-    onselect?: (item: any, index: number) => void; // Specify the types for better clarity
+    onselect?: (item: any, index: number) => void;
     fontSize?: any;
     dropDownStyle?: any;
     defaultValueByIndex?: number;
@@ -35,16 +34,16 @@ interface SearchDropDownProps {
 const SearchDropDown: React.FC<SearchDropDownProps> = ({
     title,
     height,
-    defaultValueByIndex,
+   defaultValueByIndex,
     dropDownStyle,
     isPrimaryBorderOnFocus,
     color,
-    value,
     DATA,
     onselect,
     onCreateNew,
     disableCreateButton,
     fontSize,
+    value,
     iconsSize,
     drop_down_button_style,
     search,
@@ -53,111 +52,81 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
     errorTitle
 }) => {
     const [isActive, setIsActive] = useState(false);
-    const [dropdownVal, setDropdownVal] = useState<any>(DATA[defaultValueByIndex] || []);
+    const [dropdownVal, setDropdownVal] = useState<any>(value || null);
     const [newItem, setNewItem] = useState<string>('');
     const [filteredData, setFilteredData] = useState<any[]>(DATA);
-    const [newData, setNewdata] = useState<any[]>(DATA);
     const [isShowCreateNew, setIsShowCreateNew] = useState<boolean>(false);
 
+    console.log("drop down value is",value)
+    console.log("default value by index is",defaultValueByIndex)
+    useEffect(() => {
+        setFilteredData(DATA); // Update filtered data whenever DATA changes
+    }, [DATA]);
+//     useEffect(() => {
+//     console.log("drop down value from use effect",value)
+
+// },[value])
     const errorMsgFromRedux = useSelector((state: any) => state.root.errorMsg);
     const errorTitleFromRedux = useSelector((state: any) => state.root.errorTitle);
-    // useEffect(() => {
-    //     setFilteredData(DATA);
-    //     if (defaultValueByIndex != null) {
-    //         setDropdownVal(DATA[defaultValueByIndex]);
-    //     }
-    // }, [DATA, defaultValueByIndex, dropdownVal]);
 
     const handleSearchChange = (searchText: string) => {
-        const filtered = DATA.filter(item =>
-            item.name?.toLowerCase().includes(searchText.toLowerCase())
-        );
-        if (filtered.length === 0) {
-
-            if (disableCreateButton) {
-                setFilteredData([]); // Show only 'Create New' if no match found
-            } else {
-                setNewItem(searchText);
-                setIsShowCreateNew(true);
-                setFilteredData([{ name: searchText }]); // Show only 'Create New' if no match found
-            }
-        } else {
-            setFilteredData(filtered);
-        }
+        const filtered = DATA.filter(item => item.name?.toLowerCase().includes(searchText.toLowerCase()));
+        setFilteredData(filtered.length ? filtered : disableCreateButton ? [] : [{ name: searchText }]);
+        setNewItem(filtered.length ? '' : searchText);
+        setIsShowCreateNew(filtered.length === 0 && !disableCreateButton);
     };
 
     const handleCreateNewItem = (newItem: string) => {
-        // Ensure onCreateNew is defined
         if (onCreateNew) {
             onCreateNew(newItem, (result) => {
-                setIsShowCreateNew(false)
-                // Update the dropdown with the newly created item
-                console.log("setDropDown: ", result?.name);
-
-                // Add the new item to the DATA array
                 const updatedData = [...DATA, result];
-
-
-                console.log("newData===: ", updatedData); // Should include the new item
-                // Update the state to reflect the new data
-                setNewdata(updatedData); // This adds the new item to the full data set
-                // setFilteredData([]);
-                // Set the filtered data to include all items (including the new one)
                 setFilteredData(updatedData);
-                console.log("filteredData: ", filteredData); // Should match newData
-
-                console.log("filteredData after adding new item: ", updatedData);
-
-                // Set the dropdown value to the newly created item
                 setDropdownVal(result);
-                console.log("dropdownVal====", dropdownVal); // Should be the newly created item
-
-                // Notify parent about the new selection
-                onselect?.(result, updatedData.length); // The new item is at the end of the array
-                setNewItem('')
+                onselect?.(result, updatedData.length);
+                setNewItem('');
+                setIsShowCreateNew(false);
             });
         }
     };
 
+    const getButtonStyle = () => ({
+        ...drop_down_button_style,
+        borderColor: errorTitleFromRedux === 'all' 
+            ? Colors.red 
+            : errorTitleFromRedux?.toLowerCase() === title?.toLowerCase() 
+            ? Colors.red 
+            : isActive 
+            ? Colors.primary 
+            : dropdownVal?.length > 0 
+            ? Colors.fontColor 
+            : Colors.lightGrey,
+    });
 
     return (
         <>
             <View style={styles.inputContainer(height)}>
-                {dropdownVal?.length && dropdownVal?.length > 0 ? (
+                {(dropdownVal?.length > 0 || isActive) && (
                     <Text style={[styles.inputtitle(false, dropdownVal), { color: Colors.black }]}>{title}</Text>
-                ) : (
-                    isActive && <Text style={[styles.inputtitle(false, dropdownVal), { color: Colors.black }]}>{title}</Text>
                 )}
                 <View style={styles.textInputContainer(isActive)}>
                     <SelectDropdown
                         search
-                        searchPlaceHolder={'Search or create new'}
+                        searchPlaceHolder='Search or create new'
                         searchPlaceHolderColor={Colors.black}
-                        renderSearchInputLeftIcon={() => (
-                            <FontAwesome name={'search'} color={Colors.black} size={18} />
-                        )}
+                        renderSearchInputLeftIcon={() => <FontAwesome name='search' color={Colors.black} size={18} />}
                         data={filteredData}
-                        defaultValueByIndex={defaultValueByIndex}
+                       defaultValueByIndex={defaultValueByIndex}
                         defaultButtonText={title}
                         onChangeSearchInputText={handleSearchChange}
-                        onSelect={(selectedItem, index) => {
+                        defaultValue={value !== undefined ? value : ""}
+                        onSelect={(selectedItem) => {
                             setFilteredData(DATA);
-                            console.log(selectedItem, 'selectedItem')
                             if (isShowCreateNew) {
                                 handleCreateNewItem(newItem);
-                                console.log(selectedItem, 'newItem')
-                            }
-                            else {
+                            } else {
                                 setDropdownVal(selectedItem);
-                                console.log(selectedItem, 'selectedItem222')
-                                onselect?.(selectedItem, index);
+                                onselect?.(selectedItem, selectedItem.index);
                             }
-                            // if (selectedItem.name === 'Create New') {
-                            //     handleCreateNewItem(newItem);
-                            // } else {
-                            //     setDropdownVal(selectedItem);
-                            //     onselect?.(selectedItem, index);
-                            // }
                         }}
                         buttonTextAfterSelection={(selectedItem) => selectedItem.name}
                         rowTextForSelection={(item) => item.name}
@@ -168,31 +137,23 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         onFocus={() => setIsActive(true)}
                         renderDropdownIcon={() => (
                             <AntDesign
-                                name={'down'}
+                                name='down'
                                 color={Colors.fontColor}
-                                size={iconsSize ? iconsSize : platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2)}
+                                size={iconsSize || (platform === 'ios' ? RFPercentage(1.5) : RFPercentage(2))}
                             />
                         )}
-                        buttonStyle={{
-                            ...drop_down_button_style,
-                            borderColor: errorTitleFromRedux === 'all' ? Colors.red : errorTitleFromRedux?.toLocaleLowerCase() === title?.toLocaleLowerCase() ? Colors.red : isActive ? Colors.primary : dropdownVal?.length > 0 ? Colors.fontColor : Colors.lightGrey,
-                        }}
+                        buttonStyle={getButtonStyle()}
                         buttonTextStyle={{
                             textAlign: 'left',
-                            color: defaultValueByIndex === true
-                                ? Colors.black
-                                : dropdownVal?.length && dropdownVal?.length > 0
-                                    ? Colors.black
-                                    : color || Colors.black,
-                            fontSize: fontSize || (platform == 'ios' ? RFPercentage(1.3) : RFPercentage(1.6)),
+                            color: dropdownVal?.length ? Colors.black : color || Colors.black,
+                            fontSize: fontSize || (platform === 'ios' ? RFPercentage(1.3) : RFPercentage(1.6)),
                         }}
                         dropdownStyle={dropDownStyle || styles.dropDownStyle}
-                        dropdownOverlayColor={'transparent'}
+                        dropdownOverlayColor='transparent'
                         rowStyle={styles.rowStyle}
                         searchInputStyle={styles.searchInputStyle}
-                        renderCustomizedRowChild={(item, index) => {
+                        renderCustomizedRowChild={(item) => {
                             const isSelected = dropdownVal === item;
-                            console.log(item.name, ' item.name === newItem', newItem,)
                             return (
                                 <View style={[styles.customRow, styles.rowChildContainer]}>
                                     <View style={[styles.rowWrapper, {
@@ -214,21 +175,11 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                                                 style={{ marginLeft: 10 }}
                                             />
                                         )}
-                                        {item.name !== newItem && isSelected ?
-                                            <FontAwesome
-                                                name="check-circle"
-                                                size={RFValue(20, windowHeight)}
-                                                color={Colors.black}
-                                                style={{ marginLeft: 10 }}
-                                            />
-                                            :
-                                            item.name !== newItem && <FontAwesome
-                                                name="circle-thin"
-                                                size={RFValue(20, windowHeight)}
-                                                color={Colors.black}
-                                                style={{ marginLeft: 10 }}
-                                            />
-                                        }
+                                        {item.name !== newItem && (
+                                            isSelected ? 
+                                            <FontAwesome name="check-circle" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} /> :
+                                            <FontAwesome name="circle-thin" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} />
+                                        )}
                                     </View>
                                 </View>
                             );
@@ -237,21 +188,15 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                 </View>
             </View>
 
-            {!disableValidation && errorMsg &&
-                errorTitleFromRedux === 'all' ?
-                <Text style={{
-                    color: 'red',
-                    marginBottom: RFValue(10, windowHeight),
-                    marginLeft: 5
-                }}>{errorMsg}</Text>
-                :
-                errorTitleFromRedux?.toLocaleLowerCase() === title?.toLocaleLowerCase() &&
-                <Text style={{
-                    color: 'red',
-                    marginBottom: RFValue(10, windowHeight),
-                    marginLeft: 5,
-                }}>{errorMsg}</Text>
-            }
+            {(!disableValidation && errorMsg && (
+                <Text style={{ color: 'red', marginBottom: RFValue(10, windowHeight), marginLeft: 5 }}>
+                    {errorMsg}
+                </Text>
+            )) || (errorTitleFromRedux?.toLowerCase() === title?.toLowerCase() && (
+                <Text style={{ color: 'red', marginBottom: RFValue(10, windowHeight), marginLeft: 5 }}>
+                    {errorMsg}
+                </Text>
+            ))}
         </>
     );
 };

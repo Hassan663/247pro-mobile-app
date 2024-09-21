@@ -59,8 +59,11 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   navigation,
   route,
 }) => {
+  // const isBuisness = false
   const isBuisness = route?.params?.yesABuisness;
 
+  console.log("yesABuisness", isBuisness);
+  
   const [country, setCountry] = useState<{ callingCode: string, countryCode: any }>({ callingCode: '92', countryCode: 'PK' });
   //const [countryCode, setCountryCode] = useState<any>('PK');
   const [step, setStep] = useState(1);
@@ -78,21 +81,77 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   const [countryCallineCode, setCountryCallingCode] = useState<any>(1);
   const [industries, setIndustries] = useState<Industry[]>([]);
   const [defaultValueByIndex, setDefaultValueByIndex] = useState<number | null>(null);
+  const [businessState, setBusinessState] = useState(isBuisness)
+  useEffect(() => {
+    // Skip step 1 and move to step 2 if isBuisness is true
+    if (isBuisness) {
+      console.log("is business hai");
+      
+      setStep(2);
+    }
+  }, [isBuisness]);
   //const industriess = useSelector(state => state.root.industries); for Redux
   //   const industries: Industry[] = useSelector(
   //     (state: RootState) => state.root.industries,
   //   );
 
   // Function to handle Next button press
-  const handleNext = () => {
-    if (step === 1 && isCheck) {
-      console.log("step 2");
-      setStep(2); // Move to the second step
-    }
-    else {
-      console.log(step, isCheck);
+  // const handleNext = () => {
+  //   if (step === 1 && isCheck) {
+  //     console.log("step 2");
+  //     setStep(2); // Move to the second step
+  //   }
+  //   else {
+  //     console.log(step, isCheck);
+  //   }
+  // };
+
+  // const handleNext = async () => {
+  //   try {
+  //     // Store the value in AsyncStorage
+  //     await AsyncStorage.setItem('isBusiness', isCheck ? 'yes' : 'no');
+  
+  //     // Print the value
+  //     const storedValue = await AsyncStorage.getItem('isBusiness');
+  //     console.log('Selected value:', storedValue);
+  
+  //     // If the value is 'yes', navigate to step 2
+  //     if (storedValue === 'yes') {
+  //       setStep(2);
+  //     } 
+  //     // If the value is 'no', navigate to the menu screen and clear previous routes
+  //     else {
+  //     //  changeRoute()
+  //     }
+  //   } catch (error) {
+  //     console.error('Error handling next step:', error);
+  //   }
+  // };
+
+  const handleNext = async () => {
+    try {
+      // Store the value in AsyncStorage
+      await AsyncStorage.setItem('isBusiness', isCheck ? 'yes' : 'no');
+  
+      // Print the value
+      const storedValue = await AsyncStorage.getItem('isBusiness');
+      console.log('Selected value:', storedValue);
+  
+      // If the value is 'yes', navigate to step 2
+      if (storedValue === 'yes') {
+        setBusinessState(true)
+        setStep(2);
+      } 
+      // If the value is 'no', navigate to the menu screen and clear previous routes
+      else {
+        // Handle navigation when 'no' is selected
+        changeRoute(navigation, 'MenuScreen');
+      }
+    } catch (error) {
+      console.error('Error handling next step:', error);
     }
   };
+  
 
   const handleCreateNew = async (newItem: string, callback: any, createfor?: string) => {
     try {
@@ -216,6 +275,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   const [primarySpecialty, setprimarySpecialty] = useState<PrimarySpecialty[]>(
     [],
   );
+  // console.log("primarySpeciality is",primarySpecialty)
   const [primarySpecialtyIndex, setprimarySpecialtyIndex] = useState<number | null>(
     null
   );
@@ -226,17 +286,17 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   //let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
   const toast = useToast();
 
-  // Fetch industries on component mount
   const loadIndustries = async () => {
     setloading(true);
     try {
       let accessToken = await AsyncStorage.getItem('accessToken');
       const industryResponse = await fetchIndustries(accessToken);
-
       if (industryResponse.resultData) {
         setIndustries(industryResponse.data.resultData); // Set the industries array
-        // setDefaultValueByIndex(3);
-        setselectedIndustry(industryResponse.data.resultData[3]) // Set the first industry as default (or any other logic you prefer)
+        const defaultIndustry = industryResponse.data.resultData.find(industry => industry.isDefault);
+        // const index = industryResponse.data.resultData.findIndex(defaultIndustry);
+        setselectedIndustry(defaultIndustry); // Set the first industry as default (or any other logic you prefer)
+        // setDefaultValueByIndex(index);
       }
     } catch (error) {
       console.error('Error fetching industries:', error);
@@ -249,8 +309,6 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   useEffect(() => {
     loadIndustries();
   }, []);
-
-  console.log('industry after set===', selectedIndustry);
 
   const loadSpecialities = async () => {
     if (industries !== null && selectedIndustry !== null) {
@@ -266,8 +324,11 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         console.log(specialityResponse, 'specialityResponsespecialityResponsespecialityResponse')
         if (specialityResponse.resultData) {
           setprimarySpecialty(specialityResponse.data.resultData);
-          setSelectedPrimarySpeciality(specialityResponse.data.resultData[0]);
-          console.log('/n/n Primary Array', specialityResponse.data.resultData[0]);
+          // console.log("THE DATA OF PRIMARY AFTER SET IS",specialityResponse.data.resultData);
+          const defaultSpeciality = specialityResponse.data.resultData.find(speciality => speciality.isDefault)
+          // console.log('/n/n Primary Array', specialityResponse.data.resultData[0]);
+          console.log('/n/n defaultSpeciality', defaultSpeciality);
+            setSelectedPrimarySpeciality(defaultSpeciality);
         }
       } catch (error) {
         console.error('Error fetching speciality:', error);
@@ -280,13 +341,19 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 
     loadSpecialities();
   }, [selectedIndustry]);
-  // const specialityLabels = primarySpecialty.map(speciality => speciality.name);
+  useEffect(() => {
+
+    // loadSpecialities();
+  }, [selectedPrimarySpeciality]);
+
   useEffect(() => {
     if ((industries.length > 0 && selectedIndustry != null)) {
       const industryId = selectedIndustry?.id;
 
       const loadJobType = async () => {
         setloading(true);
+
+        
         try {
           let accessToken: any = await AsyncStorage.getItem('accessToken');
           // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
@@ -298,8 +365,10 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
             setjobType(jobTypeResponse.data.resultData);
             // console.log('/n/n Array', jobType[0]);
           }
-        } catch (error) {
-          console.error('Error fetching industries:', error);
+        } 
+        
+        catch (error) {
+          console.error('Error fetching job type:', error);
         } finally {
           setloading(false);
         }
@@ -450,7 +519,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   };
 
   return (
-    <>
+    
       <SafeAreaView style={[centralStyle.flex1, { backgroundColor: Colors.white }]}>
         {loading ? <ScreenLoader /> : <></>}
         <View style={[centralStyle.container, centralStyle.flex1,]}>
@@ -487,7 +556,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 
                   <TouchableOpacity
                     activeOpacity={0.9}
-                    onPress={() => setIsCheck(true)}
+                    onPress={() => {setIsCheck(true) }}
                     style={[styles.row, styles.radioWrapper]}>
                     <Fontisto
                       name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
@@ -558,52 +627,45 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                   />
                 </View> */}
                     <View style={[styles.inputWrapper]}>
-                      {isBuisness ? (
+                      {businessState ? (
                         <>
+                        
+
                           <SearchDropDown
                             title={t('Industry')}
-                            defaultValueByIndex={0} // This sets the default value by index
-                            // disableCreateButton={true}
+                            // defaultValueByIndex={defaultValueByIndex} // This sets the default value by index
+                            value={selectedIndustry}
                             onselect={(value: Industry) => {
                               console.log('Selected value:', value);
                               setselectedIndustry(value); // Update the selected industry when a new one is selected
                             }}
+                            // errorMsg={"Industry required!"}
+                            // disableValidation={industries.length === 0 ? false: true}
                             DATA={industries} // Pass the array of industries
                             onCreateNew={(newItem, callback) => handleCreateNew(newItem, callback, 'Industry')} // Handle new item creation
                             isPrimaryBorderOnFocus={true}
                             drop_down_button_style={styles.drop_down_button_style}
                           />
-                          {/* <OutlinedDropDown
-                            title={t('Industry')}
-                            search={true}
-                            onselect={(value: string) => {
-                              setselectedIndustry(value);
-                            }}
-                            DATA={industryLabels}
-                            drop_down_button_style={styles.drop_down_button_style}
-                          /> */}
+                         
+                          
+
                           <SearchDropDown
                             title={t('primarySpecialty')}
-                            defaultValueByIndex={0}
+                            // defaultValueByIndex={0}
+                            // defaultValue={}
+                            value={selectedPrimarySpeciality}
                             // disableCreateButton={true}
                             onselect={(value: any) => {
                               setSelectedPrimarySpeciality(value);
                             }}
+                            errorMsg={"Primary specialty required!"}
+                            disableValidation={primarySpecialty.length === 0 ? false: true}
                             DATA={primarySpecialty}
                             onCreateNew={handleCreateNew}
                             isPrimaryBorderOnFocus={true}
                             drop_down_button_style={styles.drop_down_button_style}
                           />
-                          {/* <OutlinedDropDown
-                            title={t('primarySpecialty')}
-                            search={true}
-                            onselect={(value: string) => {
-                              setSelectedPrimarySpeciality(value);
-                            }}
-                            DATA={specialityLabels}
-                            drop_down_button_style={styles.drop_down_button_style}
-
-                          /> */}
+                          
                           {selectedIndustry && selectedIndustry.name === 'Construction' && (
                             <SearchDropDown
                               title={t('JobType')}
@@ -611,6 +673,8 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                               onselect={(value: any) => {
                                 setselectedJobType(value);
                               }}
+                              errorMsg={"job type required!"}
+                              disableValidation={jobType.length === 0 ? false: true}
                               DATA={jobType}
                               drop_down_button_style={styles.drop_down_button_style}
                             />
@@ -729,7 +793,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 
         </View>
       </SafeAreaView>
-    </>
+    
   );
 };
 

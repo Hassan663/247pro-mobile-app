@@ -37,6 +37,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { platform } from '../../../utilities';
 import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
 import { Text } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
@@ -65,13 +66,71 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
 
     const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
 
+    // useEffect(() => {
+    //     if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
+    //         if (!currentUserProfile.isOnboarded && getBooleanValue('IsBusiness')) {
+    //             changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
+    //         }
+    //     }
+    // }, [currentUserProfile]);
+    // const getBooleanValue = async (key) => {
+    //     try {
+    //       const value = await AsyncStorage.getItem(key);
+    //       // Convert string back to boolean
+    //       return value != null ? JSON.parse(value) : null;
+    //     } catch (error) {
+    //       console.error('Error retrieving boolean value', error);
+    //     }
+    //   };
+    console.log("currentUserProfile", currentUserProfile);
+
     useEffect(() => {
-        if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
-            if (!currentUserProfile.isOnboarded) {
-                changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
+        const checkBusinessStatus = async () => {
+            try {
+                // Retrieve 'isBusiness' from AsyncStorage
+                // const isBusiness = null
+                const isBusiness = await AsyncStorage.getItem('isBusiness');
+                const accessToken = await AsyncStorage.getItem('accessToken')
+
+                console.log("isBusiness", isBusiness);
+
+                // Check if currentUserProfile exists and has the onboarding status
+                if (currentUserProfile && Object.keys(currentUserProfile).length > 0 ) {
+                    const isUserOnboarded = currentUserProfile.isOnboarded;
+
+                    // Navigate based on the value of 'isBusiness' and 'isUserOnboarded'
+                    if (isBusiness === 'yes') {
+                        if (isUserOnboarded) {
+                            // Navigate to Menu if user is onboarded
+                            console.log("else if  is here");
+                            changeRoute(navigation, 'MenuScreen');
+                        } 
+                       
+                       else{
+                        console.log(" if bussiness is here");
+                        changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true });
+                       } 
+                    } else if (isBusiness === 'no') {
+                        
+                        console.log("else if bussiness is ");
+                        // changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
+                         changeRoute(navigation, 'AppNavigation', );
+                       } 
+                    
+                    else   {
+                        console.log("else if bussiness is here");
+                        
+                        changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
+                    }
+                   
+                }
+            } catch (error) {
+                console.error('Error checking business status', error);
             }
-        }
-    }, [currentUserProfile]);
+        };
+
+        checkBusinessStatus();
+    }, [currentUserProfile, navigation]);
 
 
     const validateForm = (email: string, pass: string) => {
