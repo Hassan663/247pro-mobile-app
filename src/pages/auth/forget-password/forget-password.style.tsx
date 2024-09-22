@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
         tintColor: Colors.primary
     },
     inputContainer: {
-        flex: 3,
+        flex: 3.5,
         paddingVertical: RFPercentage(1),
     },
     logInBtnContainer: {
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     },
     footerContainer: {
         flex: 1,
-        ...centralStyle.XAndYCenter
+         ...centralStyle.XAndYCenter
     },
     inputWrapper: {
         ...centralStyle.row,

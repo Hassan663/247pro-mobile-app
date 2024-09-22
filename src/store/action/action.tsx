@@ -26,6 +26,7 @@ import {
     logout,
     userIdentity,
     signUp,
+    externalLogin
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import {
     typeContact,
@@ -84,8 +85,7 @@ export const loginAction = (
             dispatch({ type: LOADER, payload: false });
         }
     }
-}
-
+} 
 export const forgetAction = (email: any) => {
     return async (dispatch: Dispatch) => {
         try {

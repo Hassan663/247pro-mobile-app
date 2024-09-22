@@ -11,6 +11,7 @@ import {
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
     Keyboard,
+    Text,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -27,6 +28,7 @@ import Button from '../../../core/components/button.component';
 import Loader from '../../../core/components/loader.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-in.style';
+import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import { loginAction, socialLoginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { emailValidation, loginValidation, passwordValidation } from '../../../core/helpers/validation/validation';
@@ -36,7 +38,6 @@ import { centralStyle, windowHeight, } from '../../../styles/constant.style';
 import { useFocusEffect } from '@react-navigation/native';
 import { platform } from '../../../utilities';
 import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
-import { Text } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { handleGoogle } from '../../../core/helpers/social-auths';
 
@@ -288,11 +289,8 @@ useFocusEffect(
                             title={t('Continue_with_google')}
                             callBack={async () => {
                                 const googleUserData = await handleGoogle()
-                                 dispatch(socialLoginAction(googleUserData))
-    
-    
-                                // alert('googel auth')
-    
+                                console.log(googleUserData, 'googleUserData')
+                                dispatch(socialLoginAction(googleUserData))
                             }}
                             customStyle={[centralStyle.socialButtonContainer,]}
                             titleStyle={styles.socialText}
@@ -390,6 +388,48 @@ useFocusEffect(
             </TouchableWithoutFeedback>
         </SafeAreaView>
 
+        // <<<<<<< HEAD
+        // =======
+        //                     <View style={styles.orContainer}>
+        //                         <View style={styles.line} />
+        //                         <Title
+        //                             type={'Poppin-14'}
+        //                             color={Colors.lightGray}
+        //                             title={t('or')} />
+        //                         <View style={styles.line} />
+        //                     </View>
+        //                     <Button
+        //                         icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={[styles.googleIcon, centralStyle.mr1]} />}
+        //                         title={t('Continue_with_google')}
+        //                         callBack={async () => {
+        //                             const googleUserData = await handleGoogle()
+        //                              dispatch(socialLoginAction(googleUserData))
+
+
+
+        //                             // alert('googel auth')
+
+        //                         }}
+        //                         customStyle={[centralStyle.socialButtonContainer,]}
+        //                         titleStyle={styles.socialText}
+        //                     />
+        //                     <Button
+        //                         icon={<AntDesign name={`apple1`} size={RFPercentage(2.5)} style={centralStyle.mr1} />}
+        //                         title={" " + t('Continue_with_Apple')}
+        //                         customStyle={centralStyle.socialButtonContainer}
+        //                         titleStyle={styles.socialText}
+        //                     />
+        //                 </View>
+
+        //                 <View style={styles.footerContainer}>
+        //                     <FooterText title={t('New_here') + " "} />
+        //                     <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
+        //                         <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
+        //                     </TouchableOpacity>
+        //                 </View>
+        //             </View>
+        //         </KeyboardAwareScrollView>
+        // >>>>>>> muz_2
     );
 });
 

@@ -245,8 +245,6 @@ export const styles: any = StyleSheet.create<any>({
         height: RFPercentage(10),
         borderRadius: RFPercentage(1),
         justifyContent: 'center',
-        // flex: 1,
-        // backgroundColor:Colors.lightGrey
     },
     contactModalHeader: {
         alignItems: "center",

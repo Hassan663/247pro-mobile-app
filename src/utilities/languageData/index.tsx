@@ -428,6 +428,18 @@ export const languageData = [
             privacypolicy: "privacy policy.",
             terms: "terms",
             Thisemailisalreadytakenpleaselogin: "This email is already taken. please login."
+            // timecard:"Timecard",
+            // MyReport:"My Report",
+            // ClockIn:"Clock In",
+            // ClockOut:"Clock Out",
+            // BreakIn:"Break In",
+            // BreakOut:"Break Out",
+            // Totalworkhours:"Total work hours",
+            // Team:"Team",
+            // ReportDetail:"Report Detail",
+            // username:"user name",
+            // BreakHours:"Break Hours",
+            // Workhours:"Work hours",
         }
     },
     {
@@ -860,6 +872,12 @@ export const languageData = [
             Thisemailisalreadytakenpleaselogin: "该邮箱已被使用。请登录。",
             successfully_login: "用户登录成功",
 
+            // Totalworkhours:"总工作时间",
+            // Team:"团队",
+            // ReportDetail:"报告详细信息",
+            // username:"用户名",
+            // BreakHours:"休息时间",
+            // Workhours:"工作时间",
 
         }
     },
@@ -1286,6 +1304,20 @@ export const languageData = [
             Thisemailisalreadytakenpleaselogin: "Este correo electrónico ya está tomado. Por favor, inicie sesión.",
             successfully_login: "El usuario ha iniciado sesión correctamente",
             usersuccessfullyregister: "El usuario se registró exitosamente",
+            // Thisemailisalreadytakenpleaselogin: "Este correo electrónico ya está tomado. Por favor, inicie sesión."
+            // timecard:"tarjeta de tiempo",
+            // MyReport:"Mi informe",
+            // ClockIn:"Marcar entrada",
+            // ClockOut:"Reloj de salida",
+            // BreakIn:"Interrumpir",
+            // BreakOut:"Fugarse",
+            // Totalworkhours:"Horas totales de trabajo",
+            // Team:"Equipo",
+            // ReportDetail:"Detalle del informe",
+            // username:"nombre de usuario",
+            // BreakHours:"Horas de descanso",
+            // Workhours:"Horas de trabajo",
+
         }
     }
 ];
