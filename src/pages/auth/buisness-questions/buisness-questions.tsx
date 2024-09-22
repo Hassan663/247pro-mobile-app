@@ -22,7 +22,7 @@ import OutlinedDropDown from '../../../core/components/outlined-dropdown.compone
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { Title } from '../../../core/components/screen-title.component';
 import { styles } from './buisness-questions.style';
-import { useToast } from 'react-native-toast-notifications';
+import { Toast, useToast } from 'react-native-toast-notifications';
 import { INDUSTRIES } from './data';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { buisnessQuestionsValidation } from '../../../core/helpers/validation/validation';
@@ -152,6 +152,10 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         console.log(currentUserProfile, 'currentUserProfile')
         dispatch({ type: CURRENTUSERPROFILE, payload: {} });
         dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+        Toast.hideAll()
+        Toast.show(t('usersuccessfullyregister'), {
+          type: 'custom_success_toast',
+        });
         changeRoute(navigation, 'MenuScreen');
       }
     } catch (error) {
@@ -503,6 +507,10 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         .then(response => {
           dispatch({ type: CURRENTUSERPROFILE, payload: response.data.resultData });
           dispatch({ type: LOADER, payload: false });
+          Toast.hideAll()
+          Toast.show(t('usersuccessfullyregister'), {
+            type: 'custom_success_toast',
+          });
           //setloading(false);
           console.log('API Response ZipCode:', response.data);
           if (response.data.isSuccess) {

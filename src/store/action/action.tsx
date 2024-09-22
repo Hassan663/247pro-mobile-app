@@ -1,77 +1,82 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
 
-import {loginRequestKey} from '../../utilities/constants';
+import { loginRequestKey } from '../../utilities/constants';
 import {
-  ForgetModal,
-  LoginModal,
-  SignUpModal,
+    ForgetModal,
+    LoginModal,
+    SignUpModal,
 } from '../../core/modals/login.modal';
 import {
-  CONTACTS,
-  CONTACTTYPESCOUNT,
-  CURRENTUSERPROFILE,
-  INITIALROUTE,
-  LOADER,
-  PAGINATIONLOADER,
-  SCREENLOADER,
-  SEARCHEDDATA,
-  TOTALCONTACTS,
-  GET_INDUSTRIES_SUCCESS,
-  GET_JOB_TYPES_SUCCESS,
+    CONTACTS,
+    CONTACTTYPESCOUNT,
+    CURRENTUSERPROFILE,
+    INITIALROUTE,
+    LOADER,
+    PAGINATIONLOADER,
+    SCREENLOADER,
+    SEARCHEDDATA,
+    TOTALCONTACTS,
+    GET_INDUSTRIES_SUCCESS,
+    GET_JOB_TYPES_SUCCESS,
 } from '../constant/constant';
 import {
-  forget_password,
-  login,
-  logout,
-  userIdentity,
-  signUp,
+    forget_password,
+    login,
+    logout,
+    userIdentity,
+    signUp,
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import {
-  typeContact,
-  createContact,
-  deleteContact,
-  editContact,
-  getContact,
-  searchContact,
-  getTypeContacts,
-  contactTypeCount,
-  addSpecialities,
+    typeContact,
+    createContact,
+    deleteContact,
+    editContact,
+    getContact,
+    searchContact,
+    getTypeContacts,
+    contactTypeCount,
+    addSpecialities,
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
-  IContactCreateModel,
-  SpecialityModal,
+    IContactCreateModel,
+    SpecialityModal,
 } from '../../core/modals/contact.modal';
 import {
-  fetchIndustries,
-  fetchSpecialityByIndustry,
-  fetchJobTypeByIndustry,
+    fetchIndustries,
+    fetchSpecialityByIndustry,
+    fetchJobTypeByIndustry,
 } from '../../core/http-services/apis/application-api/onboarding-api/industries.service';
-import {Industry, PrimarySpecialty} from '../../core/modals/industry.modal';
+import { Industry, PrimarySpecialty } from '../../core/modals/industry.modal';
+import { Toast } from 'react-native-toast-notifications';
+import { t } from 'i18next';
 
 //  LOGIN ACTION
 
 export const loginAction = (
-  inputValue: string,
-  password: string,
-  directLoginToken?: string,
+    inputValue: string,
+    password: string,
+    directLoginToken?: string,
 ) => {
-  return async (dispatch: Dispatch) => {
-    try {
-      dispatch({type: LOADER, payload: true});
-      const loginData: LoginModal = {
-        //"key": loginRequestKey,
-        //object: {
-            Email: inputValue, Password: password,
-        //},
-      };
-      let userData: any;
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            const loginData: LoginModal = {
+                //"key": loginRequestKey,
+                //object: {
+                Email: inputValue, Password: password,
+                //},
+            };
+            let userData: any;
 
-      if (directLoginToken) userData = await userIdentity(directLoginToken)
-      else userData = await login(loginData, dispatch)
-      if (Object.keys(userData).length > 0) {
-        await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
-        dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            if (directLoginToken) userData = await userIdentity(directLoginToken)
+            else userData = await login(loginData, dispatch)
+            if (Object.keys(userData).length > 0) {
+                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+                Toast.show(t    ('successfully_login'), {
+                    type: 'custom_success_toast',
+                });
             }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
@@ -88,7 +93,7 @@ export const forgetAction = (email: any) => {
             const forgetData: ForgetModal = {
                 "email": email,
             };
-            await forget_password(forgetData,dispatch)
+            await forget_password(forgetData, dispatch)
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
@@ -122,17 +127,17 @@ export const logoutAction = () => {
 
 
 export const signUpAction = (name: string, email: string, password: string,) => {
-  return async (dispatch: Dispatch) => {
-    try {
-      dispatch({type: LOADER, payload: true});
-      const signupData: SignUpModal = {
-        // key: loginRequestKey,
-       // object: {
-          Email: email, // User email
-          Name: name, // User name
-          Password: password, // User password
-          TimeZone: "Asia/Karachi",
-         //       },
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+            const signupData: SignUpModal = {
+                // key: loginRequestKey,
+                // object: {
+                Email: email, // User email
+                Name: name, // User name
+                Password: password, // User password
+                TimeZone: "Asia/Karachi",
+                //       },
             }
             console.log(signupData, 'SignUp:')
             let SignupResponse: any;

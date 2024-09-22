@@ -5,6 +5,8 @@ export const languageData = [
     {
         locale: 'en',
         translation: {
+            successfully_login: "user successfully login",
+            usersuccessfullyregister: "user successfully register",
             Create_Your_Free_Account: `Create Your Free Account`,
             Welcome_to_247PRO: "Welcome to 247PRO",
             Welcome_To: "Welcome to",
@@ -431,6 +433,8 @@ export const languageData = [
     {
         locale: 'ch',
         translation: {
+
+            usersuccessfullyregister: "用户注册成功",
             Create_Your_Free_Account: `创建您的免费帐户`,
             Please_provide_your_login_information: "请提供您的登录信息",
             Full_name: "全名",
@@ -853,7 +857,8 @@ export const languageData = [
             Mustbeatleast6characters: "必须至少包含 6 个字符",
             privacypolicy: "隐私政策。",
             terms: "条款",
-            Thisemailisalreadytakenpleaselogin: "该邮箱已被使用。请登录。"
+            Thisemailisalreadytakenpleaselogin: "该邮箱已被使用。请登录。",
+            successfully_login: "用户登录成功",
 
 
         }
@@ -1278,7 +1283,9 @@ export const languageData = [
             Mustbeatleast6characters: "Debe tener al menos 6 caracteres",
             privacypolicy: "política de privacidad.",
             terms: "términos",
-            Thisemailisalreadytakenpleaselogin: "Este correo electrónico ya está tomado. Por favor, inicie sesión."
+            Thisemailisalreadytakenpleaselogin: "Este correo electrónico ya está tomado. Por favor, inicie sesión.",
+            successfully_login: "El usuario ha iniciado sesión correctamente",
+            usersuccessfullyregister: "El usuario se registró exitosamente",
         }
     }
 ];

@@ -56,11 +56,14 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
     const [newItem, setNewItem] = useState<string>('');
     const [filteredData, setFilteredData] = useState<any[]>(DATA);
     const [isShowCreateNew, setIsShowCreateNew] = useState<boolean>(false);
-
     console.log("drop down value is", value)
     console.log("default value by index is", defaultValueByIndex)
     useEffect(() => {
-        setFilteredData(DATA); // Update filtered data whenever DATA changes
+        // if (DATA.length > 0) {
+            setFilteredData(DATA); // Update filtered data whenever DATA changes
+        // } else {
+        //     setFilteredData([{ name: 'No data' }]); // Update filtered data whenever DATA changes
+        // }
     }, [DATA]);
     //     useEffect(() => {
     //     console.log("drop down value from use effect",value)
@@ -120,7 +123,11 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         onChangeSearchInputText={handleSearchChange}
                         defaultValue={value !== undefined ? value : ""}
                         onSelect={(selectedItem) => {
-                            setFilteredData(DATA);
+                            // if (DATA.length > 0) {
+                                setFilteredData(DATA); // Update filtered data whenever DATA changes
+                            // } else {
+                            //     setFilteredData([{ name: 'No data' }]); // Update filtered data whenever DATA changes
+                            // }
                             if (isShowCreateNew) {
                                 handleCreateNewItem(newItem);
                             } else {
@@ -131,7 +138,11 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         buttonTextAfterSelection={(selectedItem) => selectedItem.name}
                         rowTextForSelection={(item) => item.name}
                         onBlur={() => {
-                            setFilteredData(DATA);
+                            // if (DATA.length > 0) {
+                                setFilteredData(DATA); // Update filtered data whenever DATA changes
+                            // } else {
+                            //     setFilteredData([{ name: 'No data' }]); // Update filtered data whenever DATA changes
+                            // }
                             setIsActive(false);
                         }}
                         onFocus={() => setIsActive(true)}
@@ -160,38 +171,53 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                                 isSelected = dropdownVal?.name === item?.name;
                             }
                             return (
-                                <View style={[styles.customRow, styles.rowChildContainer]}>
-                                    <View style={[styles.rowWrapper, {
-                                        backgroundColor: item.name === newItem ? Colors.primary : '#ededed',
-                                        justifyContent: item.name === newItem ? "center" : 'space-between',
-                                    }]}>
-                                        <Text style={{
-                                            color: item.name === newItem ? Colors.white : Colors.black,
-                                            fontSize: RFValue(18, windowHeight),
-                                            textAlign: "center",
-                                        }}>
-                                            {item.name}
-                                        </Text>
-                                        {item.name === newItem && (
-                                            <MaterialIcons
-                                                name="add-circle"
-                                                size={RFValue(25, windowHeight)}
-                                                color={Colors.white}
-                                                style={{ marginLeft: 10 }}
-                                            />
-                                        )}
-                                        {item.name !== newItem && (
-                                            isSelected ?
-                                                <FontAwesome name="check-circle" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} /> :
-                                                <FontAwesome name="circle-thin" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} />
-                                        )}
+                                item.name == 'No data'
+                                    ? <View style={[styles.customRow, styles.rowChildContainer]} >
+                                        <View style={[styles.rowWrapper, {
+                                            // backgroundColor: item.name === newItem ? Colors.primary : '#ededed',
+                                            justifyContent:   "center"  
+                                        }]}>
+                                            <Text style={{
+                                                color: item.name === newItem ? Colors.white : Colors.black,
+                                                fontSize: RFValue(18, windowHeight),
+                                                textAlign: "center",
+                                            }}>
+                                                {item.name}
+                                            </Text>
+                                        </View>
+                                    </View> :
+                                    <View style={[styles.customRow, styles.rowChildContainer]} >
+                                        <View style={[styles.rowWrapper, {
+                                            backgroundColor: item.name === newItem ? Colors.primary : '#ededed',
+                                            justifyContent: item.name === newItem ? "center" : 'space-between',
+                                        }]}>
+                                            <Text style={{
+                                                color: item.name === newItem ? Colors.white : Colors.black,
+                                                fontSize: RFValue(18, windowHeight),
+                                                textAlign: "center",
+                                            }}>
+                                                {item.name}
+                                            </Text>
+                                            {item.name === newItem && (
+                                                <MaterialIcons
+                                                    name="add-circle"
+                                                    size={RFValue(25, windowHeight)}
+                                                    color={Colors.white}
+                                                    style={{ marginLeft: 10 }}
+                                                />
+                                            )}
+                                            {item.name !== newItem && (
+                                                isSelected ?
+                                                    <FontAwesome name="check-circle" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} /> :
+                                                    <FontAwesome name="circle-thin" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} />
+                                            )}
+                                        </View>
                                     </View>
-                                </View>
                             );
                         }}
                     />
                 </View>
-            </View>
+            </View >
 
             {(!disableValidation && errorMsg && (
                 <Text style={{ color: 'red', marginBottom: RFValue(10, windowHeight), marginLeft: 5 }}>
@@ -201,7 +227,8 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                 <Text style={{ color: 'red', marginBottom: RFValue(10, windowHeight), marginLeft: 5 }}>
                     {errorMsg}
                 </Text>
-            ))}
+            ))
+            }
         </>
     );
 };

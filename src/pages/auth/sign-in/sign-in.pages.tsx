@@ -178,7 +178,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                 await dispatch(loginAction(inputValue, password));
     
                 // Check if rememberME is stored as 'yes'
-                const rememberMeValue = await AsyncStorage.getItem('rememberM');
+                const rememberMeValue = await AsyncStorage.getItem('rememberMe');
                 if (rememberMeValue === 'yes') {
                     // Handle navigation logic here based on business logic
                     console.log("RememberMe is set to yes, handle navigation.");
