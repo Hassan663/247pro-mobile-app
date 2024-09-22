@@ -34,7 +34,7 @@ interface SearchDropDownProps {
 const SearchDropDown: React.FC<SearchDropDownProps> = ({
     title,
     height,
-   defaultValueByIndex,
+    defaultValueByIndex,
     dropDownStyle,
     isPrimaryBorderOnFocus,
     color,
@@ -57,15 +57,15 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
     const [filteredData, setFilteredData] = useState<any[]>(DATA);
     const [isShowCreateNew, setIsShowCreateNew] = useState<boolean>(false);
 
-    console.log("drop down value is",value)
-    console.log("default value by index is",defaultValueByIndex)
+    console.log("drop down value is", value)
+    console.log("default value by index is", defaultValueByIndex)
     useEffect(() => {
         setFilteredData(DATA); // Update filtered data whenever DATA changes
     }, [DATA]);
-//     useEffect(() => {
-//     console.log("drop down value from use effect",value)
+    //     useEffect(() => {
+    //     console.log("drop down value from use effect",value)
 
-// },[value])
+    // },[value])
     const errorMsgFromRedux = useSelector((state: any) => state.root.errorMsg);
     const errorTitleFromRedux = useSelector((state: any) => state.root.errorTitle);
 
@@ -91,15 +91,15 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
 
     const getButtonStyle = () => ({
         ...drop_down_button_style,
-        borderColor: errorTitleFromRedux === 'all' 
-            ? Colors.red 
-            : errorTitleFromRedux?.toLowerCase() === title?.toLowerCase() 
-            ? Colors.red 
-            : isActive 
-            ? Colors.primary 
-            : dropdownVal?.length > 0 
-            ? Colors.fontColor 
-            : Colors.lightGrey,
+        borderColor: errorTitleFromRedux === 'all'
+            ? Colors.red
+            : errorTitleFromRedux?.toLowerCase() === title?.toLowerCase()
+                ? Colors.red
+                : isActive
+                    ? Colors.primary
+                    : dropdownVal?.length > 0
+                        ? Colors.fontColor
+                        : Colors.lightGrey,
     });
 
     return (
@@ -115,7 +115,7 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         searchPlaceHolderColor={Colors.black}
                         renderSearchInputLeftIcon={() => <FontAwesome name='search' color={Colors.black} size={18} />}
                         data={filteredData}
-                       defaultValueByIndex={defaultValueByIndex}
+                        defaultValueByIndex={defaultValueByIndex}
                         defaultButtonText={title}
                         onChangeSearchInputText={handleSearchChange}
                         defaultValue={value !== undefined ? value : ""}
@@ -153,7 +153,12 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                         rowStyle={styles.rowStyle}
                         searchInputStyle={styles.searchInputStyle}
                         renderCustomizedRowChild={(item) => {
-                            const isSelected = dropdownVal === item;
+                            let isSelected: any = value?.name === item?.name;
+                            if (value) {
+                                isSelected = value?.name === item?.name;
+                            } else if (dropdownVal) {
+                                isSelected = dropdownVal?.name === item?.name;
+                            }
                             return (
                                 <View style={[styles.customRow, styles.rowChildContainer]}>
                                     <View style={[styles.rowWrapper, {
@@ -176,9 +181,9 @@ const SearchDropDown: React.FC<SearchDropDownProps> = ({
                                             />
                                         )}
                                         {item.name !== newItem && (
-                                            isSelected ? 
-                                            <FontAwesome name="check-circle" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} /> :
-                                            <FontAwesome name="circle-thin" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} />
+                                            isSelected ?
+                                                <FontAwesome name="check-circle" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} /> :
+                                                <FontAwesome name="circle-thin" size={RFValue(20, windowHeight)} color={Colors.black} style={{ marginLeft: 10 }} />
                                         )}
                                     </View>
                                 </View>

@@ -63,7 +63,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   const isBuisness = route?.params?.yesABuisness;
 
   console.log("yesABuisness", isBuisness);
-  
+
   const [country, setCountry] = useState<{ callingCode: string, countryCode: any }>({ callingCode: '92', countryCode: 'PK' });
   //const [countryCode, setCountryCode] = useState<any>('PK');
   const [step, setStep] = useState(1);
@@ -82,11 +82,13 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   const [industries, setIndustries] = useState<Industry[]>([]);
   const [defaultValueByIndex, setDefaultValueByIndex] = useState<number | null>(null);
   const [businessState, setBusinessState] = useState(isBuisness)
+  const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
+
   useEffect(() => {
     // Skip step 1 and move to step 2 if isBuisness is true
     if (isBuisness) {
       console.log("is business hai");
-      
+
       setStep(2);
     }
   }, [isBuisness]);
@@ -110,11 +112,11 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   //   try {
   //     // Store the value in AsyncStorage
   //     await AsyncStorage.setItem('isBusiness', isCheck ? 'yes' : 'no');
-  
+
   //     // Print the value
   //     const storedValue = await AsyncStorage.getItem('isBusiness');
   //     console.log('Selected value:', storedValue);
-  
+
   //     // If the value is 'yes', navigate to step 2
   //     if (storedValue === 'yes') {
   //       setStep(2);
@@ -132,26 +134,31 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
     try {
       // Store the value in AsyncStorage
       await AsyncStorage.setItem('isBusiness', isCheck ? 'yes' : 'no');
-  
+
       // Print the value
       const storedValue = await AsyncStorage.getItem('isBusiness');
       console.log('Selected value:', storedValue);
-  
+
       // If the value is 'yes', navigate to step 2
       if (storedValue === 'yes') {
         setBusinessState(true)
         setStep(2);
-      } 
+      }
       // If the value is 'no', navigate to the menu screen and clear previous routes
       else {
         // Handle navigation when 'no' is selected
+        currentUserProfile.isOnboarded = true;
+        // await AsyncStorage.setItem('accessToken', JSON.stringify(currentUserProfile.accessToken));
+        console.log(currentUserProfile, 'currentUserProfile')
+        dispatch({ type: CURRENTUSERPROFILE, payload: {} });
+        dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
         changeRoute(navigation, 'MenuScreen');
       }
     } catch (error) {
       console.error('Error handling next step:', error);
     }
   };
-  
+
 
   const handleCreateNew = async (newItem: string, callback: any, createfor?: string) => {
     try {
@@ -328,7 +335,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
           const defaultSpeciality = specialityResponse.data.resultData.find(speciality => speciality.isDefault)
           // console.log('/n/n Primary Array', specialityResponse.data.resultData[0]);
           console.log('/n/n defaultSpeciality', defaultSpeciality);
-            setSelectedPrimarySpeciality(defaultSpeciality);
+          setSelectedPrimarySpeciality(defaultSpeciality);
         }
       } catch (error) {
         console.error('Error fetching speciality:', error);
@@ -353,7 +360,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       const loadJobType = async () => {
         setloading(true);
 
-        
+
         try {
           let accessToken: any = await AsyncStorage.getItem('accessToken');
           // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
@@ -365,8 +372,8 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
             setjobType(jobTypeResponse.data.resultData);
             // console.log('/n/n Array', jobType[0]);
           }
-        } 
-        
+        }
+
         catch (error) {
           console.error('Error fetching job type:', error);
         } finally {
@@ -381,7 +388,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
     : [];
 
   const handleSubmit = async () => {
-    if (!isToastVisible) { 
+    if (!isToastVisible) {
       let isValid = buisnessQuestionsValidation(
         selectedIndustry?.name,
         selectedPrimarySpeciality?.name,
@@ -519,92 +526,92 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   };
 
   return (
-    
-      <SafeAreaView style={[centralStyle.flex1, { backgroundColor: Colors.white }]}>
-        {loading ? <ScreenLoader /> : <></>}
-        <View style={[centralStyle.container, centralStyle.flex1,]}>
-          <View style={[styles.titleWrapper]}>
 
-            {/* <TouchableOpacity
+    <SafeAreaView style={[centralStyle.flex1, { backgroundColor: Colors.white }]}>
+      {loading ? <ScreenLoader /> : <></>}
+      <View style={[centralStyle.container, centralStyle.flex1,]}>
+        <View style={[styles.titleWrapper]}>
+
+          {/* <TouchableOpacity
               activeOpacity={.8}
               onPress={() => changeRoute(navigation, 'pop')}>
               <AntDesign color={Colors.gray} name={`left`} size={RFPercentage(2.5)} />
             </TouchableOpacity> */}
 
-            <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
-            <View style={styles.progressContainer}>
-              <View style={[styles.bar, step >= 1 && styles.activeBar]} />
-              <View style={[styles.bar, step >= 2 && styles.activeBar]} />
-            </View>
-            <Title
-              color={Colors.fontColor}
-              weight='400'
-              title={t(`verifyBuisnessHeader`)}
-              type={`Poppin-16`} />
+          <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
+          <View style={styles.progressContainer}>
+            <View style={[styles.bar, step >= 1 && styles.activeBar]} />
+            <View style={[styles.bar, step >= 2 && styles.activeBar]} />
           </View>
+          <Title
+            color={Colors.fontColor}
+            weight='400'
+            title={t(`verifyBuisnessHeader`)}
+            type={`Poppin-16`} />
+        </View>
 
-          {step === 1 && (
+        {step === 1 && (
+          <SafeAreaView style={centralStyle.flex1}>
+
+            <View style={styles.inputWrapper}>
+              <Title
+                color={Colors.black}
+                weight='600'
+                title={t(`Are_you_a_business`)}
+                type={`Poppin-18`} />
+              <View style={{ flex: 1 }}>
+
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={() => { setIsCheck(true) }}
+                  style={[styles.row, styles.radioWrapper]}>
+                  <Fontisto
+                    name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
+                    style={styles.mx}
+                    color={isCheck ? Colors.primary : Colors.fontColor}
+                    size={RFPercentage(2.5)}
+                  />
+                  <Title
+                    color={Colors.fontColor}
+                    weight='500'
+                    title={t(`yes`)}
+                    type={`Poppin-14`} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={() => setIsCheck(false)}
+                  style={[styles.row, styles.radioWrapper]}>
+                  <Fontisto
+                    name={isCheck ? `radio-btn-passive` : `radio-btn-active`}
+                    color={!isCheck ? Colors.primary : Colors.fontColor}
+                    style={styles.mx}
+                    size={RFPercentage(2.5)}
+                  />
+                  <Title
+                    color={Colors.fontColor}
+                    weight='500'
+                    title={t(`no`)}
+                    type={`Poppin-14`} />
+                </TouchableOpacity>
+
+              </View>
+            </View>
+
+
+
+          </SafeAreaView>
+        )}
+      </View>
+      {step === 2 &&
+        (
+          <View style={[centralStyle.container, { flex: 1.4 }]}>
             <SafeAreaView style={centralStyle.flex1}>
 
-              <View style={styles.inputWrapper}>
-                <Title
-                  color={Colors.black}
-                  weight='600'
-                  title={t(`Are_you_a_business`)}
-                  type={`Poppin-18`} />
-                <View style={{ flex: 1 }}>
-
-                  <TouchableOpacity
-                    activeOpacity={0.9}
-                    onPress={() => {setIsCheck(true) }}
-                    style={[styles.row, styles.radioWrapper]}>
-                    <Fontisto
-                      name={!isCheck ? `radio-btn-passive` : `radio-btn-active`}
-                      style={styles.mx}
-                      color={isCheck ? Colors.primary : Colors.fontColor}
-                      size={RFPercentage(2.5)}
-                    />
-                    <Title
-                      color={Colors.fontColor}
-                      weight='500'
-                      title={t(`yes`)}
-                      type={`Poppin-14`} />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    activeOpacity={0.9}
-                    onPress={() => setIsCheck(false)}
-                    style={[styles.row, styles.radioWrapper]}>
-                    <Fontisto
-                      name={isCheck ? `radio-btn-passive` : `radio-btn-active`}
-                      color={!isCheck ? Colors.primary : Colors.fontColor}
-                      style={styles.mx}
-                      size={RFPercentage(2.5)}
-                    />
-                    <Title
-                      color={Colors.fontColor}
-                      weight='500'
-                      title={t(`no`)}
-                      type={`Poppin-14`} />
-                  </TouchableOpacity>
-
-                </View>
-              </View>
-
-
-
-            </SafeAreaView>
-          )}
-        </View>
-        {step === 2 &&
-          (
-            <View style={[centralStyle.container, { flex: 1.4 }]}>
-              <SafeAreaView style={centralStyle.flex1}>
-
-                <ScrollView
-                  contentContainerStyle={{ flexGrow: 1 }}
-                  showsVerticalScrollIndicator={false}>
-                  <View style={centralStyle.flex1}>
-                    {/* <View style={[styles.titleWrapper]}>
+              <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                showsVerticalScrollIndicator={false}>
+                <View style={centralStyle.flex1}>
+                  {/* <View style={[styles.titleWrapper]}>
                   <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => changeRoute(navigation, 'pop')}>
@@ -626,78 +633,78 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                     type={'Poppin-18'}
                   />
                 </View> */}
-                    <View style={[styles.inputWrapper]}>
-                      {businessState ? (
-                        <>
-                        
+                  <View style={[styles.inputWrapper]}>
+                    {businessState ? (
+                      <>
 
-                          <SearchDropDown
-                            title={t('Industry')}
-                            // defaultValueByIndex={defaultValueByIndex} // This sets the default value by index
-                            value={selectedIndustry}
-                            onselect={(value: Industry) => {
-                              console.log('Selected value:', value);
-                              setselectedIndustry(value); // Update the selected industry when a new one is selected
-                            }}
-                            // errorMsg={"Industry required!"}
-                            // disableValidation={industries.length === 0 ? false: true}
-                            DATA={industries} // Pass the array of industries
-                            onCreateNew={(newItem, callback) => handleCreateNew(newItem, callback, 'Industry')} // Handle new item creation
-                            isPrimaryBorderOnFocus={true}
-                            drop_down_button_style={styles.drop_down_button_style}
-                          />
-                         
-                          
 
+                        <SearchDropDown
+                          title={t('Industry')}
+                          // defaultValueByIndex={defaultValueByIndex} // This sets the default value by index
+                          value={selectedIndustry}
+                          onselect={(value: Industry) => {
+                            console.log('Selected value:', value);
+                            setselectedIndustry(value); // Update the selected industry when a new one is selected
+                          }}
+                          // errorMsg={"Industry required!"}
+                          // disableValidation={industries.length === 0 ? false: true}
+                          DATA={industries} // Pass the array of industries
+                          onCreateNew={(newItem, callback) => handleCreateNew(newItem, callback, 'Industry')} // Handle new item creation
+                          isPrimaryBorderOnFocus={true}
+                          drop_down_button_style={styles.drop_down_button_style}
+                        />
+
+
+
+                        <SearchDropDown
+                          title={t('primarySpecialty')}
+                          // defaultValueByIndex={0}
+                          // defaultValue={}
+                          value={selectedPrimarySpeciality}
+                          // disableCreateButton={true}
+                          onselect={(value: any) => {
+                            setSelectedPrimarySpeciality(value);
+                          }}
+                          errorMsg={"Primary specialty required!"}
+                          disableValidation={primarySpecialty.length === 0 ? false : true}
+                          DATA={primarySpecialty}
+                          onCreateNew={handleCreateNew}
+                          isPrimaryBorderOnFocus={true}
+                          drop_down_button_style={styles.drop_down_button_style}
+                        />
+
+                        {selectedIndustry && selectedIndustry.name === 'Construction' && (
                           <SearchDropDown
-                            title={t('primarySpecialty')}
-                            // defaultValueByIndex={0}
-                            // defaultValue={}
-                            value={selectedPrimarySpeciality}
-                            // disableCreateButton={true}
+                            title={t('JobType')}
+                            disableCreateButton={true}
                             onselect={(value: any) => {
-                              setSelectedPrimarySpeciality(value);
+                              setselectedJobType(value);
                             }}
-                            errorMsg={"Primary specialty required!"}
-                            disableValidation={primarySpecialty.length === 0 ? false: true}
-                            DATA={primarySpecialty}
-                            onCreateNew={handleCreateNew}
-                            isPrimaryBorderOnFocus={true}
+                            errorMsg={"job type required!"}
+                            disableValidation={jobType.length === 0 ? false : true}
+                            DATA={jobType}
                             drop_down_button_style={styles.drop_down_button_style}
                           />
-                          
-                          {selectedIndustry && selectedIndustry.name === 'Construction' && (
-                            <SearchDropDown
-                              title={t('JobType')}
-                              disableCreateButton={true}
-                              onselect={(value: any) => {
-                                setselectedJobType(value);
+                        )}
+
+                        <View style={[styles.inputWrapper]}>
+                          <>
+                            <OutlinedTextInput
+                              val={zipCode}
+                              maxLength={10}
+                              onChange={val => {
+                                setZipCode(val);
                               }}
-                              errorMsg={"job type required!"}
-                              disableValidation={jobType.length === 0 ? false: true}
-                              DATA={jobType}
-                              drop_down_button_style={styles.drop_down_button_style}
+                              title={t('ZipCode')}
+                              placeHolder={t('ZipCode')}
                             />
-                          )}
 
-                          <View style={[styles.inputWrapper]}>
-                            <>
-                              <OutlinedTextInput
-                                val={zipCode}
-                                maxLength={10}
-                                onChange={val => {
-                                  setZipCode(val);
-                                }}
-                                title={t('ZipCode')}
-                                placeHolder={t('ZipCode')}
-                              />
-
-                              <View style={[styles.inputWrapper2, {}]}>
-                                <TouchableOpacity
-                                  onPress={() => setIsCountryPickerVisible(true)}
-                                  style={[styles.flagContainer, { marginTop: RFValue(13, windowHeight) }]}>
-                                  <View style={styles.flagWrapper}>
-                                    {/* <CountryPicker
+                            <View style={[styles.inputWrapper2, {}]}>
+                              <TouchableOpacity
+                                onPress={() => setIsCountryPickerVisible(true)}
+                                style={[styles.flagContainer, { marginTop: RFValue(13, windowHeight) }]}>
+                                <View style={styles.flagWrapper}>
+                                  {/* <CountryPicker
                                       countryCode={countryCode}
                                       withCallingCode
                                       withFlagButton={true}
@@ -705,95 +712,95 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                                       onSelect={country => handleOnSelect(country)}
                                       visible={isCountryPickerVisible}
                                     /> */}
-                                    <CountryPicker
-                                      countryCode={country.countryCode}
-                                      withCallingCode
-                                      withFilter
-                                      // withCallingCodeButton
-                                      // renderFlagButton={() =>
-                                      //   <Text style={{ fontSize: RFValue(16, windowHeight) }}>
-                                      //     +{country.callingCode}</Text>}
-                                      // withFlagButton={false}
-                                      onClose={() => setIsCountryPickerVisible(false)}
-                                      onSelect={handleOnSelect}
-                                      visible={isCountryPickerVisible}
-                                    />
-                                  </View>
-                                  <AntDesign
-                                    name={'down'}
-                                    style={styles.downIcon}
-                                    size={RFPercentage(2)}
-                                  />
-                                </TouchableOpacity>
-                                <View style={styles.phoneNumberInput}>
-                                  <OutlinedTextInput
-                                    val={formatPhoneNumber(phoneNumber) && formatPhoneNumber(phoneNumber)}
-                                    // val={phoneNumber}
-                                    onChange={val => {
-                                      setphoneNumber(val);
-                                    }}
-                                    title={t('MobilePhone')}
-                                    placeHolder={t('MobilePhone')}
+                                  <CountryPicker
+                                    countryCode={country.countryCode}
+                                    withCallingCode
+                                    withFilter
+                                    // withCallingCodeButton
+                                    // renderFlagButton={() =>
+                                    //   <Text style={{ fontSize: RFValue(16, windowHeight) }}>
+                                    //     +{country.callingCode}</Text>}
+                                    // withFlagButton={false}
+                                    onClose={() => setIsCountryPickerVisible(false)}
+                                    onSelect={handleOnSelect}
+                                    visible={isCountryPickerVisible}
                                   />
                                 </View>
+                                <AntDesign
+                                  name={'down'}
+                                  style={styles.downIcon}
+                                  size={RFPercentage(2)}
+                                />
+                              </TouchableOpacity>
+                              <View style={styles.phoneNumberInput}>
+                                <OutlinedTextInput
+                                  val={formatPhoneNumber(phoneNumber) && formatPhoneNumber(phoneNumber)}
+                                  // val={phoneNumber}
+                                  onChange={val => {
+                                    setphoneNumber(val);
+                                  }}
+                                  title={t('MobilePhone')}
+                                  placeHolder={t('MobilePhone')}
+                                />
                               </View>
-                            </>
-                          </View>
-                        </>
-                      ) : (
-                        <OutlinedTextInput
-                          val={zipCode}
-                          onChange={val => {
-                            setZipCode(val);
-                          }}
-                          title={t('ZipCode')}
-                          placeHolder={t('ZipCode')}
-                        />
-                      )}
-                    </View>
+                            </View>
+                          </>
+                        </View>
+                      </>
+                    ) : (
+                      <OutlinedTextInput
+                        val={zipCode}
+                        onChange={val => {
+                          setZipCode(val);
+                        }}
+                        title={t('ZipCode')}
+                        placeHolder={t('ZipCode')}
+                      />
+                    )}
+                  </View>
 
-                    {/* <View style={[styles.footer]}>
+                  {/* <View style={[styles.footer]}>
                   <Button
                     callBack={handleSubmit}
                     title={t('CompleteRegisration')}
                     primary
                   />
                 </View> */}
-                  </View>
-                </ScrollView>
-              </SafeAreaView>
-            </View>
-          )}
-        <View style={[styles.footer]}>
-          {!loader ?
-            <View>
-              {step === 2 &&
-                <Button
-                  title={t('CompleteRegisration')}
-                  callBack={handleSubmit}
-                  primary
-                />
-              }
-              {step === 1 &&
-                <Button
-                  // onPress={handleNext}
-                  callBack={() => {
-                    console.log("pressd")
-                    handleNext();
-                  }}
-                  title={t('Next')} primary />
-              }
-            </View>
-            :
-            <View style={[styles.primaryBtnClone, centralStyle.XAndYCenter]}>
-              <Loader size={'small'} color={Colors.white} />
-            </View>
-          }
+                </View>
+              </ScrollView>
+            </SafeAreaView>
+          </View>
+        )}
+      <View style={[styles.footer]}>
+        {!loader ?
+          <View>
+            {step === 2 &&
+              <Button
+                title={t('CompleteRegisration')}
+                callBack={handleSubmit}
+                primary
+              />
+            }
+            {step === 1 &&
+              <Button
+                // onPress={handleNext}
+                callBack={() => {
+                  console.log("pressd")
+                  handleNext();
+                }}
+                title={t('Next')} primary />
+            }
+          </View>
+          :
+          <View style={[styles.primaryBtnClone, centralStyle.XAndYCenter]}>
+            <Loader size={'small'} color={Colors.white} />
+          </View>
+        }
 
 
-        </View>
-      </SafeAreaView>
-    
+      </View>
+    </SafeAreaView>
+
   );
 };
 
