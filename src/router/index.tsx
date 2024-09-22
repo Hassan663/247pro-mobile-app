@@ -13,11 +13,11 @@ const handleBusiness = async () => {
   return business
 }
 const MainNavigator = () => {
-  const isBusiness = handleBusiness
-  console.log("isBusiness main navigator", isBusiness);
+  // const isBusiness = handleBusiness
+  // console.log("isBusiness main navigator", isBusiness);
   
   const {currentUserProfile} = useSelector((state: any) => state.root);
-  const [businessState, setBusinessState] = useState(isBusiness)
+  // const [businessState, setBusinessState] = useState(isBusiness)
   //const {isBusinessUser} = useSelector((state: any) => state.root.isBusinessUser);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   

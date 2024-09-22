@@ -1,72 +1,77 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Dispatch, } from 'redux';
+import {Dispatch} from 'redux';
 
-import { loginRequestKey } from '../../utilities/constants';
+import {loginRequestKey} from '../../utilities/constants';
 import {
-    ForgetModal,
-    LoginModal,
-    SignUpModal,
+  ForgetModal,
+  LoginModal,
+  SignUpModal,
 } from '../../core/modals/login.modal';
 import {
-    CONTACTS,
-    CONTACTTYPESCOUNT,
-    CURRENTUSERPROFILE,
-    INITIALROUTE,
-    LOADER,
-    PAGINATIONLOADER,
-    SCREENLOADER,
-    SEARCHEDDATA,
-    TOTALCONTACTS,
-    GET_INDUSTRIES_SUCCESS,
-    GET_JOB_TYPES_SUCCESS
+  CONTACTS,
+  CONTACTTYPESCOUNT,
+  CURRENTUSERPROFILE,
+  INITIALROUTE,
+  LOADER,
+  PAGINATIONLOADER,
+  SCREENLOADER,
+  SEARCHEDDATA,
+  TOTALCONTACTS,
+  GET_INDUSTRIES_SUCCESS,
+  GET_JOB_TYPES_SUCCESS,
 } from '../constant/constant';
 import {
-    forget_password,
-    login,
-    logout,
-    userIdentity,
-    signUp
+  forget_password,
+  login,
+  logout,
+  userIdentity,
+  signUp,
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import {
-    typeContact,
-    createContact,
-    deleteContact,
-    editContact,
-    getContact,
-    searchContact,
-    getTypeContacts,
-    contactTypeCount,
-    addSpecialities
+  typeContact,
+  createContact,
+  deleteContact,
+  editContact,
+  getContact,
+  searchContact,
+  getTypeContacts,
+  contactTypeCount,
+  addSpecialities,
 } from '../../core/http-services/apis/application-api/contact/contact.service';
 import {
-    IContactCreateModel,
-    SpecialityModal
+  IContactCreateModel,
+  SpecialityModal,
 } from '../../core/modals/contact.modal';
 import {
-    fetchIndustries,
-    fetchSpecialityByIndustry,
-    fetchJobTypeByIndustry,
+  fetchIndustries,
+  fetchSpecialityByIndustry,
+  fetchJobTypeByIndustry,
 } from '../../core/http-services/apis/application-api/onboarding-api/industries.service';
-import { Industry, PrimarySpecialty } from '../../core/modals/industry.modal';
-
+import {Industry, PrimarySpecialty} from '../../core/modals/industry.modal';
 
 //  LOGIN ACTION
 
-export const loginAction = (inputValue: string, password: string, directLoginToken?: string) => {
-    return async (dispatch: Dispatch) => {
-        try {
-            dispatch({ type: LOADER, payload: true });
-            const loginData: LoginModal = {
-                "key": loginRequestKey,
-                "object": { "email": inputValue, "password": password }
-            };
-            let userData: any;
+export const loginAction = (
+  inputValue: string,
+  password: string,
+  directLoginToken?: string,
+) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch({type: LOADER, payload: true});
+      const loginData: LoginModal = {
+        //"key": loginRequestKey,
+        //object: {
+            Email: inputValue, Password: password,
+        //},
+      };
+      let userData: any;
 
-            if (directLoginToken) userData = await userIdentity(directLoginToken)
-            else userData = await login(loginData, dispatch)
-            if (Object.keys(userData).length > 0) {
-                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
-                dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+      if (directLoginToken) userData = await userIdentity(directLoginToken)
+      else userData = await login(loginData, dispatch)
+      if (Object.keys(userData).length > 0) {
+        await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+        dispatch({ type: CURRENTUSERPROFILE, payload: userData });
             }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
@@ -100,6 +105,8 @@ export const logoutAction = () => {
             await logout()
             await AsyncStorage.removeItem('accessToken');
             await AsyncStorage.removeItem('isBusiness');
+            await AsyncStorage.removeItem('rememberMe');
+
             console.log("logout");
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
             dispatch({ type: INITIALROUTE, payload: 'AuthNavigation' });
@@ -115,27 +122,27 @@ export const logoutAction = () => {
 
 
 export const signUpAction = (name: string, email: string, password: string,) => {
-    return async (dispatch: Dispatch) => {
-        try {
-            dispatch({ type: LOADER, payload: true });
-            const loginData: SignUpModal = {
-                key: loginRequestKey,
-                object: {
-                    name: name, // User name
-                    email: email, // User email
-                    password: password, // User password
-                },
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch({type: LOADER, payload: true});
+      const signupData: SignUpModal = {
+        // key: loginRequestKey,
+       // object: {
+          Email: email, // User email
+          Name: name, // User name
+          Password: password, // User password
+          TimeZone: "Asia/Karachi",
+         //       },
             }
-            console.log(loginData, ' SignUp:')
+            console.log(signupData, 'SignUp:')
             let SignupResponse: any;
-            SignupResponse = await signUp(loginData, dispatch);
+            SignupResponse = await signUp(signupData, dispatch);
             dispatch({ type: LOADER, payload: false });
-            console.log(SignupResponse, ' SignUp:')
+            console.log(SignupResponse, 'SignUp')
             if (Object.keys(SignupResponse).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
-                
                 dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
-               
+                // return true;  // Return true if sign-up is successful
             }
             return false; // Return false if sign-up failed
         } catch (error: any) {
@@ -168,7 +175,27 @@ export const hideError = (): any => async (dispatch: Dispatch) => {
     dispatch({ type: 'SET_ERROR_TITLE', payload: '' });
 };
 
-
+export const socialLoginAction = (googleResponse?: any) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            console.log(googleResponse, 'directLoginToken')
+            dispatch({ type: LOADER, payload: true });
+            let userData: any;
+            userData = await externalLogin({
+                provider: 'Google',
+                idToken: googleResponse.idToken,
+            })
+            if (Object.keys(userData).length > 0) {
+                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            }
+            dispatch({ type: LOADER, payload: false });
+        } catch (error: any) {
+            console.log(error.message, 'error')
+            dispatch({ type: LOADER, payload: false });
+        }
+    }
+}
 
 
 

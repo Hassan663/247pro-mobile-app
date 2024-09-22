@@ -1,6 +1,6 @@
-import { Toast } from 'react-native-toast-notifications';
-import { getApi, postApi } from '../../services/services';
-import { Endpoint, IResponse } from '../../../modals/index';
+import {Toast} from 'react-native-toast-notifications';
+import {getApi, postApi} from '../../services/services';
+import {Endpoint, IResponse} from '../../../modals/index';
 import {
   ILoginResponseData,
   ISignupResponseData,
@@ -17,16 +17,18 @@ import {
   FORGET_PASSWORD_ENDPOINT,
   LOGIN_ENCRIPTION_ENDPOINT,
   LOGIN_ENDPOINT,
+  LOGIN_ENDPOINT_NEW,
   LOGIN_IDENTITY_ENDPOINT,
   LOGOUT_ENDPOINT,
   MEMBERSHIP_ENDPOINT,
   SIGNUP_ENDPOINT,
+  SIGNUP_ENDPOINT_NEW,
 } from '../apis';
-import { t } from 'i18next';
+import {t} from 'i18next';
 
-import { showError } from '../../../../store/action/action';
-import { Dispatch } from 'redux';
-import { VALIDATIONMESSAGE } from '../../../helpers/validation/validation-message';
+import {showError} from '../../../../store/action/action';
+import {Dispatch} from 'redux';
+import {VALIDATIONMESSAGE} from '../../../helpers/validation/validation-message';
 
 /**
  * Performs user login by sending login data to the server.
@@ -50,8 +52,7 @@ const encryptData = async (
       LoginModal,
       ILoginResponseData
     >(LOGIN_ENCRIPTION_ENDPOINT, loginData);
-    console.log("api response:", encryptedLoginResponse);
-    
+    console.log('api response:', encryptedLoginResponse);
     return encryptedLoginResponse;
   } catch (error) {
     console.error('Encrypt Login service error:', error);
@@ -76,20 +77,23 @@ const memberShipApi = async (
   }
 };
 const signUp = async (
-  loginData: SignUpModal,
-  dispatch: Dispatch
+  signupData: SignUpModal,
+  dispatch: Dispatch,
 ): Promise<IResponse<ISignupResponseData>> => {
   try {
     // Step 1: Encrypt the login data
-    const encryptedLoginResponse: any = await encryptData(loginData);
+    //const encryptedLoginResponse: any = await encryptData(loginData);
 
     // Step 2: Prepare the login request with the token received from step 1
-    const signUpDataWithToken: any = {
-      token: encryptedLoginResponse.data.response,
-    };
+    // const signUpDataWithToken: any = {
+    //   token: encryptedLoginResponse.data.response,
+    // };
+    console.log("SignUp signupData=====:",signupData, SIGNUP_ENDPOINT)
+
     const SignupResponse: any = await postApi<SignUpModal, ISignupResponseData>(
       SIGNUP_ENDPOINT,
-      signUpDataWithToken,
+      signupData,
+      // signUpDataWithToken,
     );
 
     let memberShipApiData: MemberShipApiModal = {
@@ -97,6 +101,7 @@ const signUp = async (
       identityUserId: SignupResponse.data.identityUserId,
       userEmail: SignupResponse.data.email,
     };
+    console.log("memberShipApiData.identityUserId=====:",memberShipApiData.identityUserId)
 
     if (SignupResponse.data.userName) {
       memberShipApiData.userName = SignupResponse.data.userName;
@@ -116,10 +121,10 @@ const signUp = async (
     );
     return identityResponse;
   } catch (error: any) {
-    if (error.response.data.fields[0].message == 'User already exists!') {
-      dispatch(showError(t('Thisemailisalreadytakenpleaselogin'), t('Email')))
+    if (error.response.data.fields[0].message === 'User already exists!') {
+      dispatch(showError(t('Thisemailisalreadytakenpleaselogin'), t('Email')));
     } else {
-      dispatch(showError('invalid crendentials', 'all'))
+      dispatch(showError('invalid crendentials', 'all'));
     }
     console.error('Login service error:', error);
     throw error;
@@ -127,19 +132,20 @@ const signUp = async (
 };
 const login = async (
   loginData: LoginModal,
-  dispatch: Dispatch
+  dispatch: Dispatch,
 ): Promise<IResponse<ILoginResponseData>> => {
   try {
-    // Step 1: Encrypt the login data
-    const encryptedLoginResponse: any = await encryptData(loginData);
+    // Step 1: Encrypt the login data ==>> Encrytion not needed for LOGIN_ENDPOINT_NEW
+    //const encryptedLoginResponse: any = await encryptData(loginData);
 
     // Step 2: Prepare the login request with the token received from step 1
-    const loginDataWithToken: any = {
-      token: encryptedLoginResponse.data.response,
-    };
+    // const loginDataWithToken: any = {
+    //   token: encryptedLoginResponse.data.response,
+    // };
     const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(
       LOGIN_ENDPOINT,
-      loginDataWithToken,
+      loginData,
+      //loginDataWithToken, ==>> encryoted loginData not Needed
     );
 
     // Step 3: get user identity
@@ -147,7 +153,7 @@ const login = async (
     return identityResponse;
   } catch (error) {
     // else {
-    dispatch(showError('invalid crendentials', 'all'))
+    dispatch(showError('invalid crendentials', 'all'));
     // }
     console.error('Login service error:', error);
     throw error;
@@ -175,7 +181,7 @@ const userIdentity = async (
 
 const forget_password = async (
   forgetdata: ForgetModal,
-  dispatch: Dispatch
+  dispatch: Dispatch,
 ): Promise<IResponse<ILoginResponseData>> => {
   try {
     const FORGET_PASSWORD_ENDPOINT_CLONE: Endpoint = {
@@ -189,13 +195,13 @@ const forget_password = async (
       forgetPasswordData,
     );
     if (response.status === 204) {
-      Toast.show(t(`Newpasswordlinksenttoyouremail`) + ` ${forgetdata.email}`, {
+      Toast.show(t('Newpasswordlinksenttoyouremail') + ` ${forgetdata.email}`, {
         type: 'custom_success_toast',
       });
     }
     return response;
   } catch (error: any) {
-    dispatch(showError(VALIDATIONMESSAGE[10], t('Email_or_phone')))
+    dispatch(showError(VALIDATIONMESSAGE[10], t('Email_or_phone')));
     console.error('Login service error:', error);
     throw error;
   }
@@ -214,4 +220,4 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   }
 };
 
-export { login, forget_password, userIdentity, logout, encryptData, signUp };
+export {login, forget_password, userIdentity, logout, encryptData, signUp};

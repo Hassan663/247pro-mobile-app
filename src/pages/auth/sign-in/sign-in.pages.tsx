@@ -27,7 +27,7 @@ import Button from '../../../core/components/button.component';
 import Loader from '../../../core/components/loader.component';
 import OutlinedTextInput from '../../../core/components/outlined-textInput.component';
 import { styles } from './sign-in.style';
-import { loginAction } from '../../../store/action/action';
+import { loginAction, socialLoginAction } from '../../../store/action/action';
 import { changeRoute } from '../../../core/helpers/async-storage';
 import { emailValidation, loginValidation, passwordValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
@@ -38,6 +38,7 @@ import { platform } from '../../../utilities';
 import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
 import { Text } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { handleGoogle } from '../../../core/helpers/social-auths';
 
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
@@ -83,22 +84,24 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     //     }
     //   };
     console.log("currentUserProfile", currentUserProfile);
+    
+    
 
     useEffect(() => {
         const checkBusinessStatus = async () => {
             try {
-                // Retrieve 'isBusiness' from AsyncStorage
-                // const isBusiness = null
+               
                 const isBusiness = await AsyncStorage.getItem('isBusiness');
                 const accessToken = await AsyncStorage.getItem('accessToken')
 
                 console.log("isBusiness", isBusiness);
 
                 // Check if currentUserProfile exists and has the onboarding status
+               
                 if (currentUserProfile && Object.keys(currentUserProfile).length > 0 ) {
                     const isUserOnboarded = currentUserProfile.isOnboarded;
 
-                    // Navigate based on the value of 'isBusiness' and 'isUserOnboarded'
+                   
                     if (isBusiness === 'yes') {
                         if (isUserOnboarded) {
                             // Navigate to Menu if user is onboarded
@@ -113,8 +116,8 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                     } else if (isBusiness === 'no') {
                         
                         console.log("else if bussiness is ");
-                        // changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
-                         changeRoute(navigation, 'AppNavigation', );
+                        //  changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
+                          changeRoute(navigation, 'MenuScreen', );
                        } 
                     
                     else   {
@@ -124,6 +127,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                     }
                    
                 }
+               
             } catch (error) {
                 console.error('Error checking business status', error);
             }
@@ -143,17 +147,57 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         return isValidated;
     };
 
+    // const handleSubmit = useCallback(async () => {
+    //     if (!isToastVisible) {
+    //         setIsToastVisible(true);
+    //         let isValidated = await loginValidation(inputValue, password);
+    //         if (isValidated.success) { await dispatch(loginAction(inputValue, password)); }
+    //         else await toast.show(isValid.message, { type: "custom_toast" });
+    //         setTimeout(() => {
+    //             setIsToastVisible(false);
+    //         }, 5000);
+    //     }
+    // }, [dispatch, inputValue, isToastVisible, password, toast]);
+
     const handleSubmit = useCallback(async () => {
         if (!isToastVisible) {
             setIsToastVisible(true);
+    
+            // Validate login input and password
             let isValidated = await loginValidation(inputValue, password);
-            if (isValidated.success) { await dispatch(loginAction(inputValue, password)); }
-            else await toast.show(isValid.message, { type: "custom_toast" });
+            if (isValidated.success) {
+    
+                // Check if rememberMe checkbox is checked and store the value in AsyncStorage
+                if (isSelected) {
+                    await AsyncStorage.setItem('rememberMe', 'yes');
+                } else {
+                    await AsyncStorage.setItem('rememberMe', 'no');
+                }
+    
+                // Proceed with login action
+                await dispatch(loginAction(inputValue, password));
+    
+                // Check if rememberME is stored as 'yes'
+                const rememberMeValue = await AsyncStorage.getItem('rememberM');
+                if (rememberMeValue === 'yes') {
+                    // Handle navigation logic here based on business logic
+                    console.log("RememberMe is set to yes, handle navigation.");
+                } else {
+                    console.log("RememberMe is set to no or doesn't exist.");
+                }
+    
+            } else {
+                // Show validation error
+                await toast.show(isValidated.message, { type: "custom_toast" });
+            }
+    
+            // Hide toast after 5 seconds
             setTimeout(() => {
                 setIsToastVisible(false);
             }, 5000);
         }
-    }, [dispatch, inputValue, isToastVisible, password, toast]);
+    }, [dispatch, inputValue, isToastVisible, password, toast, isSelected]);
+    
 
     // Callback to update the inputValue state based on phone or email input
     const phoneOrEmailCallback = useCallback((val: string) => {
@@ -183,14 +227,46 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     }, [password]);
 
     // Callback to toggle the isSelected state for a checkbox
-    const checkBoxCallback = useCallback(() => {
-        setisSelected((prevIsSelected) => !prevIsSelected);
-    }, [isSelected]);
-    useFocusEffect(
-        React.useCallback(() => {
-            if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
-        }, [])
-    );
+    // const checkBoxCallback = useCallback(() => {
+    //     setisSelected((prevIsSelected) => !prevIsSelected);
+    // }, [isSelected]);
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
+    //     }, [])
+    // );
+
+    // Define the checkbox callback
+const checkBoxCallback = useCallback(async () => {
+    try {
+        // Retrieve current value from AsyncStorage
+        const rememberMeValue = await AsyncStorage.getItem('rememberMe');
+
+        // Toggle checkbox selection
+        setisSelected((prevIsSelected) => {
+            const newIsSelected = !prevIsSelected;
+
+            // If checkbox is selected, save 'yes' in storage
+            if (newIsSelected) {
+                AsyncStorage.setItem('rememberMe', 'yes');
+            } else {
+                // If checkbox is unselected, set it to 'no'
+                AsyncStorage.setItem('rememberMe', 'no');
+            }
+
+            return newIsSelected;
+        });
+    } catch (error) {
+        console.error('Error handling rememberME:', error);
+    }
+}, [isSelected]);
+
+// Use focus effect for additional actions if needed
+useFocusEffect(
+    React.useCallback(() => {
+        if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
+    }, [])
+);
     return (
         <SafeAreaView style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -210,6 +286,14 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                             icon={<Image source={require('../../../assets/auth-images/googleIcon.png')}
                                 style={[styles.googleIcon, centralStyle.mr1]} />}
                             title={t('Continue_with_google')}
+                            callBack={async () => {
+                                const googleUserData = await handleGoogle()
+                                 dispatch(socialLoginAction(googleUserData))
+    
+    
+                                // alert('googel auth')
+    
+                            }}
                             customStyle={[centralStyle.socialButtonContainer,]}
                             titleStyle={styles.socialText}
                         />
