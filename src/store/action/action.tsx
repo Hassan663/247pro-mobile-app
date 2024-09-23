@@ -110,7 +110,7 @@ export const logoutAction = () => {
             await logout()
             await AsyncStorage.removeItem('accessToken');
             await AsyncStorage.removeItem('isBusiness');
-            await AsyncStorage.removeItem('rememberMe');
+            // await AsyncStorage.removeItem('rememberMe');
 
             console.log("logout");
             dispatch({ type: CURRENTUSERPROFILE, payload: {} });

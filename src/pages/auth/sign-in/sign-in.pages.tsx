@@ -30,7 +30,7 @@ import OutlinedTextInput from '../../../core/components/outlined-textInput.compo
 import { styles } from './sign-in.style';
 import { FaceIdLogo } from '../../../assets/svg-icons/CustomSvgIcon';
 import { loginAction, socialLoginAction } from '../../../store/action/action';
-import { changeRoute } from '../../../core/helpers/async-storage';
+import { changeRoute, getItem, setItem } from '../../../core/helpers/async-storage';
 import { emailValidation, loginValidation, passwordValidation } from '../../../core/helpers/validation/validation';
 import { RootStackParamList } from '../../../router/auth';
 import { FooterText, Title, } from '../../../core/components/screen-title.component';
@@ -85,50 +85,50 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     //     }
     //   };
     console.log("currentUserProfile", currentUserProfile);
-    
-    
+
+
 
     useEffect(() => {
         const checkBusinessStatus = async () => {
             try {
-               
+
                 const isBusiness = await AsyncStorage.getItem('isBusiness');
                 const accessToken = await AsyncStorage.getItem('accessToken')
 
                 console.log("isBusiness", isBusiness);
 
                 // Check if currentUserProfile exists and has the onboarding status
-               
-                if (currentUserProfile && Object.keys(currentUserProfile).length > 0 ) {
+
+                if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
                     const isUserOnboarded = currentUserProfile.isOnboarded;
 
-                   
+
                     if (isBusiness === 'yes') {
                         if (isUserOnboarded) {
                             // Navigate to Menu if user is onboarded
                             console.log("else if  is here");
                             changeRoute(navigation, 'MenuScreen');
-                        } 
-                       
-                       else{
-                        console.log(" if bussiness is here");
-                        changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true });
-                       } 
+                        }
+
+                        else {
+                            console.log(" if bussiness is here");
+                            changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true });
+                        }
                     } else if (isBusiness === 'no') {
-                        
+
                         console.log("else if bussiness is ");
                         //  changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
-                          changeRoute(navigation, 'MenuScreen', );
-                       } 
-                    
-                    else   {
+                        changeRoute(navigation, 'MenuScreen',);
+                    }
+
+                    else {
                         console.log("else if bussiness is here");
-                        
+
                         changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
                     }
-                   
+
                 }
-               
+
             } catch (error) {
                 console.error('Error checking business status', error);
             }
@@ -159,25 +159,49 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     //         }, 5000);
     //     }
     // }, [dispatch, inputValue, isToastVisible, password, toast]);
+    const rememberedFunc = async () => {
+        try {
+            const rememberedUser = await getItem('rememberMe');
+            console.log(rememberedUser, 'rememberedUserrememberedUserrememberedUser')
+            if (rememberedUser) {
+                setisSelected(true)
+                setInputValue(rememberedUser.email)
+                setPassword(rememberedUser.password)
+            };
+        } catch (error) {
+            console.log("Error --->", error)
+        }
+    };
+
+
+    useEffect(() => { rememberedFunc() }, []);
+
 
     const handleSubmit = useCallback(async () => {
         if (!isToastVisible) {
             setIsToastVisible(true);
-    
+
             // Validate login input and password
             let isValidated = await loginValidation(inputValue, password);
             if (isValidated.success) {
-    
+
                 // Check if rememberMe checkbox is checked and store the value in AsyncStorage
-                if (isSelected) {
-                    await AsyncStorage.setItem('rememberMe', 'yes');
-                } else {
-                    await AsyncStorage.setItem('rememberMe', 'no');
-                }
-    
+                // if (isSelected) {
+                //     await AsyncStorage.setItem('rememberMe', 'yes');
+                // } else {
+                //     await AsyncStorage.setItem('rememberMe', 'no');
+                // }
+
                 // Proceed with login action
+                if (isSelected == true) {
+                    await setItem('rememberMe', {
+                        email: inputValue,
+                        password: password
+                    })
+                } else {
+                    await AsyncStorage.removeItem('rememberMe');
+                }
                 await dispatch(loginAction(inputValue, password));
-    
                 // Check if rememberME is stored as 'yes'
                 const rememberMeValue = await AsyncStorage.getItem('rememberMe');
                 if (rememberMeValue === 'yes') {
@@ -186,19 +210,19 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                 } else {
                     console.log("RememberMe is set to no or doesn't exist.");
                 }
-    
+
             } else {
                 // Show validation error
                 await toast.show(isValidated.message, { type: "custom_toast" });
             }
-    
+
             // Hide toast after 5 seconds
             setTimeout(() => {
                 setIsToastVisible(false);
             }, 5000);
         }
     }, [dispatch, inputValue, isToastVisible, password, toast, isSelected]);
-    
+
 
     // Callback to update the inputValue state based on phone or email input
     const phoneOrEmailCallback = useCallback((val: string) => {
@@ -238,36 +262,36 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     // );
 
     // Define the checkbox callback
-const checkBoxCallback = useCallback(async () => {
-    try {
-        // Retrieve current value from AsyncStorage
-        const rememberMeValue = await AsyncStorage.getItem('rememberMe');
+    const checkBoxCallback = useCallback(async () => {
+        try {
+            // Retrieve current value from AsyncStorage
+            const rememberMeValue = await AsyncStorage.getItem('rememberMe');
 
-        // Toggle checkbox selection
-        setisSelected((prevIsSelected) => {
-            const newIsSelected = !prevIsSelected;
+            // Toggle checkbox selection
+            setisSelected((prevIsSelected) => {
+                const newIsSelected = !prevIsSelected;
 
-            // If checkbox is selected, save 'yes' in storage
-            if (newIsSelected) {
-                AsyncStorage.setItem('rememberMe', 'yes');
-            } else {
-                // If checkbox is unselected, set it to 'no'
-                AsyncStorage.setItem('rememberMe', 'no');
-            }
+                // If checkbox is selected, save 'yes' in storage
+                if (newIsSelected) {
+                    AsyncStorage.setItem('rememberMe', 'yes');
+                } else {
+                    // If checkbox is unselected, set it to 'no'
+                    AsyncStorage.setItem('rememberMe', 'no');
+                }
 
-            return newIsSelected;
-        });
-    } catch (error) {
-        console.error('Error handling rememberME:', error);
-    }
-}, [isSelected]);
+                return newIsSelected;
+            });
+        } catch (error) {
+            console.error('Error handling rememberME:', error);
+        }
+    }, [isSelected]);
 
-// Use focus effect for additional actions if needed
-useFocusEffect(
-    React.useCallback(() => {
-        if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
-    }, [])
-);
+    // Use focus effect for additional actions if needed
+    useFocusEffect(
+        React.useCallback(() => {
+            if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
+        }, [])
+    );
     return (
         <SafeAreaView style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
