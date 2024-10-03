@@ -14,6 +14,9 @@ import {
     GET_INDUSTRIES_SUCCESS,
     GET_JOB_TYPES_SUCCESS,
     IS_BUSINESS_USER,
+    GET_MEMBERS_BY_TIMESHEET_REQUEST,
+    GET_MEMBERS_BY_TIMESHEET_SUCCESS,
+    GET_MEMBERS_BY_TIMESHEET_FAILURE,
 } from '../constant/constant'
 
 export type Action = {
@@ -43,6 +46,7 @@ const INITIAL_STATE = {
     contactTypesCount: [],
     specialities: [],
     industries: [],
+    timesheetMembers:[],
     // contactResponse.data.resultData.list
 }
 
@@ -142,6 +146,25 @@ export default (states = INITIAL_STATE, action: Action) => {
                 ...states,
                 errorTitle: action.payload,
             };
+
+            case GET_MEMBERS_BY_TIMESHEET_REQUEST:
+                return {
+                  ...states,
+                  loading: true,
+                  error: null,
+                };
+              case GET_MEMBERS_BY_TIMESHEET_SUCCESS:
+                return {
+                  ...states,
+                  loading: false,
+                  timesheetMembers: action.payload, // Set fetched members data here
+                };
+              case GET_MEMBERS_BY_TIMESHEET_FAILURE:
+                return {
+                  ...states,
+                  loading: false,
+                  error: action.payload, // Set error message if fetching fails
+                };
         default:
             return states;
     }

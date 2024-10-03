@@ -10,6 +10,7 @@ import {
     Keyboard,
     ActivityIndicator,
     TouchableOpacity,
+    Linking,
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -26,9 +27,11 @@ import { changeRoute } from '../../../core/helpers/async-storage';
 import { Title, FooterText } from '../../../core/components/screen-title.component';
 import ModalComp from '../../../core/components/modal-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUpAction, showError } from '../../../store/action/action';
+import { signUpAction, showError, socialLoginAction } from '../../../store/action/action';
 import Loader from '../../../core/components/loader.component';
 import AsyncStorage from '@react-native-async-storage/async-storage/lib/typescript/AsyncStorage';
+import { handleGoogle } from '../../../core/helpers/social-auths';
+//import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -71,6 +74,21 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     //         console.error(‘Error retrieving boolean value’, error);
     //     }
     // };
+
+    const openLink = async (url: string) => {
+        // if (await InAppBrowser.isAvailable()) {
+        //     await InAppBrowser.open(url, {
+        //         // Additional options can be set here
+        //         dismissButtonStyle: 'cancel',
+                
+        //         preferredBarTintColor: Colors.primary,
+        //         preferredControlTintColor: 'white',
+        //     });
+        // } else {
+        //     // Fallback to linking if InAppBrowser is not available
+        //     Linking.openURL(url);
+        // }
+    };
 
     // Real-time validation for name
     const handleNameChange = useCallback((val: string) => {
@@ -148,6 +166,11 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     title={' ' + `Continue with Google`}
                                     customStyle={[centralStyle.socialButtonContainer]}
                                     titleStyle={styles.socialText}
+                                    callBack={async () => {
+                                        const googleUserData = await handleGoogle()
+                                        console.log(googleUserData, 'googleUserData')
+                                        dispatch(socialLoginAction(googleUserData))
+                                    }}
                                 />
                                 <View style={[styles.orContainer, { paddingVertical: 10 }]}>
                                     <Text
@@ -227,8 +250,10 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             fontWeight: "400",
                                             fontSize: RFValue(14, windowHeight),
                                             lineHeight: RFValue(20, windowHeight),
+                                            
                                             color: Colors.primary, // Apply primary color to the "terms" and "privacy policy"
-                                        }}>
+                                        }}onPress={() => openLink("https://247pro.com/terms")}
+>
                                             terms
                                         </Text> and {' '}
                                         <Text style={{
@@ -237,7 +262,8 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             fontSize: RFValue(14, windowHeight),
                                             lineHeight: RFValue(20, windowHeight),
                                             color: Colors.primary,
-                                        }}>
+                                        }}onPress={() => openLink("https://247pro.com/terms")}
+>
                                             privacy policy
                                         </Text>
                                     </Text>

@@ -5,6 +5,7 @@ import { loginRequestKey } from '../../utilities/constants';
 import {
     ForgetModal,
     LoginModal,
+    MemberShipApiModal,
     SignUpModal,
 } from '../../core/modals/login.modal';
 import {
@@ -19,6 +20,24 @@ import {
     TOTALCONTACTS,
     GET_INDUSTRIES_SUCCESS,
     GET_JOB_TYPES_SUCCESS,
+    CLOCKIN_SUCCESS,
+    CLOCKIN_FAILURE,
+    CURRENT_PROJECTS,
+    GET_TIMESHEET_BY_USER_REQUEST,
+    GET_TIMESHEET_BY_USER_SUCCESS,
+    GET_TIMESHEET_BY_USER_FAILURE,
+    GET_MEMBERS_BY_TIMESHEET_REQUEST,
+    GET_MEMBERS_BY_TIMESHEET_SUCCESS,
+    GET_MEMBERS_BY_TIMESHEET_FAILURE,
+    GET_CURRENT_TIMESHEET_REQUEST,
+    GET_CURRENT_TIMESHEET_SUCCESS,
+    GET_CURRENT_TIMESHEET_FAILURE,
+    GET_USER_TIMESHEETS_REQUEST,
+    GET_USER_TIMESHEETS_SUCCESS,
+    GET_USER_TIMESHEETS_FAILURE,
+    UPDATE_TIMESHEET_REQUEST,
+    UPDATE_TIMESHEET_SUCCESS,
+    UPDATE_TIMESHEET_FAILURE,
 } from '../constant/constant';
 import {
     forget_password,
@@ -26,7 +45,8 @@ import {
     logout,
     userIdentity,
     signUp,
-    externalLogin
+    externalLogin,
+    memberShipApi
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import {
     typeContact,
@@ -51,6 +71,13 @@ import {
 import { Industry, PrimarySpecialty } from '../../core/modals/industry.modal';
 import { Toast } from 'react-native-toast-notifications';
 import { t } from 'i18next';
+import { changeRoute } from '../../core/helpers/async-storage';
+import { breakIn, breakOut, clockIn, clockOut } from '../../core/http-services/apis/application-api/timecard-api/timecard.service';
+import { TimesheetTransactionViewModel } from '../../core/modals/timecard.modal';
+import { getProjectsByRadius } from '../../core/http-services/apis/application-api/projects/projects.service';
+import { getCurrentTimesheetApi, getMembersByTimesheet, getTimesheetByUserApi, getTimesheetsForCurrentUserApi, updateTimesheetApi } from '../../core/http-services/apis/application-api/timecard-api/member.service';
+import { TeamTimesheetListView, TimesheetViewModel } from '../../core/modals/timeSheetMember.modal';
+import { IResponse } from '../../core/modals';
 
 //  LOGIN ACTION
 
@@ -69,15 +96,15 @@ export const loginAction = (
                 //},
             };
             let userData: any;
-
+            console.log("directLogin: ",directLoginToken);
             if (directLoginToken) userData = await userIdentity(directLoginToken)
             else userData = await login(loginData, dispatch)
             if (Object.keys(userData).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
                 dispatch({ type: CURRENTUSERPROFILE, payload: userData });
-                Toast.show(t    ('successfully_login'), {
-                    type: 'custom_success_toast',
-                });
+                // Toast.show(t('successfully_login'), {
+                //     type: 'custom_success_toast',
+                // });
             }
             dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
@@ -85,7 +112,7 @@ export const loginAction = (
             dispatch({ type: LOADER, payload: false });
         }
     }
-} 
+}
 export const forgetAction = (email: any) => {
     return async (dispatch: Dispatch) => {
         try {
@@ -190,11 +217,46 @@ export const socialLoginAction = (googleResponse?: any) => {
                 provider: 'Google',
                 idToken: googleResponse.idToken,
             })
-            if (Object.keys(userData).length > 0) {
-                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
-                dispatch({ type: CURRENTUSERPROFILE, payload: userData });
+            console.log('userData===', userData);
+            console.log('userData===', userData.isRegister);
+
+            if (userData.isRegister==true) {
+                console.log("In isRegister true")
+                let memberShipApiData: MemberShipApiModal = {
+                    accountId: userData.accountId,
+                    identityUserId: userData.identityUserId,
+                    userEmail: userData.email,
+                };
+
+                const memberShipApiResponeData: any = await memberShipApi(
+                    memberShipApiData,
+                    userData.accessToken,
+                );
+                console.log('memberShipApiResponeData here====', memberShipApiResponeData);
+                if (Object.keys(userData).length > 0) {
+                    await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                    const userProfile =await userIdentity(userData.accessToken)
+                    console.log('userProfile', userProfile);
+                    
+                    dispatch({ type: CURRENTUSERPROFILE, payload: userProfile });
+                  
+                }
+                
+            } else {
+                console.log('esle here====');
+                // await AsyncStorage.setItem('isBusiness', 'no')
+
+                if (Object.keys(userData).length > 0) {
+                    console.log("Hello here")
+                    await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                    const userProfile = await userIdentity(userData.accessToken)
+                    console.log('userProfilefuck',userProfile );
+                    
+                    dispatch({ type: CURRENTUSERPROFILE, payload: userProfile });
+                  
+                }
+                dispatch({ type: LOADER, payload: false });
             }
-            dispatch({ type: LOADER, payload: false });
         } catch (error: any) {
             console.log(error.message, 'error')
             dispatch({ type: LOADER, payload: false });
@@ -726,3 +788,317 @@ export const handleSearch = (
 //         }
 //     }
 // }
+
+//TimeCard Actions
+
+export const clockInAction = (
+    timesheetData: TimesheetTransactionViewModel, // Body data (using the updated model)
+    timeZone: string,                            // Query param
+    projectId: number                            // Query param
+  ) => {
+    return async (dispatch: Dispatch) => {
+      try {
+        dispatch({ type: LOADER, payload: true });  // Start loader
+        console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId)
+        // Call the clockIn API
+        const response = await clockIn(timesheetData, timeZone, projectId);
+  
+        // Handle successful response
+        if (response) {
+          await AsyncStorage.setItem('clockInData', JSON.stringify(response));  // Optional storage
+          dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+        }
+  
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+  
+      } catch (error: any) {
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+        console.error('Clock-in error:', error.message);
+        dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+      }
+    };
+  };
+
+
+  export const breakInAction = (
+    timesheetData: TimesheetTransactionViewModel // Body data (using the updated model)
+  ) => {
+    return async (dispatch: Dispatch) => {
+      try {
+        dispatch({ type: LOADER, payload: true });  // Start loader
+  
+        // Call the breakIn API
+        const response = await breakIn(timesheetData);
+  
+        // Handle successful response
+        if (response) {
+          await AsyncStorage.setItem('breakInData', JSON.stringify(response));  // Optional storage
+          dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+        }
+  
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+  
+      } catch (error: any) {
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+        console.error('Break-in error:', error.message);
+        dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+      }
+    };
+  };
+
+
+  export const breakOutAction = (
+    timesheetData: TimesheetTransactionViewModel // Data to be sent to the break-out API
+  ) => {
+    return async (dispatch: Dispatch) => {
+      try {
+        dispatch({ type: LOADER, payload: true });  // Start loader
+  
+        // Call the breakOut service
+        const response = await breakOut(timesheetData);
+  
+        // Handle successful response
+        if (response) {
+          await AsyncStorage.setItem('breakOutData', JSON.stringify(response));  // Optional storage
+          dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+        }
+  
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+  
+      } catch (error: any) {
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+        console.error('Break-out error:', error.message);
+        dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+      }
+    };
+  };
+
+  export const clockOutAction = (
+    timesheetData: TimesheetTransactionViewModel // Data to be sent to the clock-out API
+  ) => {
+    return async (dispatch: Dispatch) => {
+      try {
+        dispatch({ type: LOADER, payload: true });  // Start loader
+  
+        // Call the clockOut service
+        const response = await clockOut(timesheetData);
+  
+        // Handle successful response
+        if (response) {
+          await AsyncStorage.setItem('clockOutData', JSON.stringify(response));  // Optional storage
+          dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+        }
+  
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+  
+      } catch (error: any) {
+        dispatch({ type: LOADER, payload: false });  // Stop loader
+        console.error('Clock-out error:', error.message);
+        dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+      }
+    };
+  };
+
+  // call like this >>>> dispatch(clockOutAction(timesheetData));
+
+//   //Projects actions
+//   export const getProjectsByRadiusAction = (
+//     latitude: number,
+//     longitude: number,
+//     status?: number // Optional status parameter
+//   ) => {
+//     return async (dispatch: Dispatch) => {
+//       try {
+//         dispatch({ type: LOADER, payload: true }); // Start loading
+        
+//         // Call the API to get projects by radius
+//         const response = await getProjectsByRadius(latitude, longitude, status);
+        
+//         // Dispatch success action with the fetched projects
+//         dispatch({ type: CURRENT_PROJECTS, payload: response });
+  
+//       } catch (error) {
+//         console.error('Error fetching projects by radius:', error);
+//         // Optionally handle errors by dispatching a failure action
+//         // dispatch({ type: FETCH_PROJECTS_ERROR, payload: error.message });
+//       } finally {
+//         dispatch({ type: LOADER, payload: false }); // Stop loading
+//       }
+//     };
+//   };
+
+  export const getProjectsByRadiusAction = (
+    latitude: number,
+    longitude: number,
+    status?: number
+  ) => {
+    return async (dispatch: Dispatch) => {
+      try {
+        dispatch({ type: LOADER, payload: true }); // Start loading
+        
+        const response = await getProjectsByRadius(latitude, longitude, status);
+        
+        dispatch({ type: CURRENT_PROJECTS, payload: response });
+  
+        return response; // <-- Explicitly return the response here
+  
+      } catch (error) {
+        console.error('Error fetching projects by radius:', error);
+      } finally {
+        dispatch({ type: LOADER, payload: false }); // Stop loading
+      }
+    };
+  };
+  
+
+  export const getMembersByTimesheetAction = (
+    startDate: string, 
+    endDate: string, 
+    projectId?: number
+  ) => async (dispatch: Dispatch) => {
+    try {
+      console.log("The start and end dates:", startDate, endDate);
+  
+      // Dispatch request action
+      dispatch({ type: GET_MEMBERS_BY_TIMESHEET_REQUEST });
+  
+      // Fetch data from the API
+      const response: IResponse<TeamTimesheetListView[]> = await getMembersByTimesheet(startDate, endDate, projectId);
+  
+      console.log("Redux Dispatch Response: ", response);
+  
+      // Dispatch success action with data
+      dispatch({
+        type: GET_MEMBERS_BY_TIMESHEET_SUCCESS,
+        payload: response,
+      });
+  
+      // Return the response for further use
+      return response;
+    } catch (error) {
+      // Dispatch failure action with error message
+      dispatch({
+        type: GET_MEMBERS_BY_TIMESHEET_FAILURE,
+        payload: error.message || 'Error fetching members by timesheet'
+      });
+  
+      // Return the error to handle it outside the action
+      return { error: error.message || 'Error fetching members by timesheet' };
+    }
+  };
+// Component Call: dispatch(getMembersByTimesheetAction('2024-09-01', '2024-09-30', projectId));
+
+
+
+  
+
+  // Action to fetch timesheet by user
+export const getTimesheetByUserAction = (
+    userId: string, 
+    startDate?: string, 
+    endDate?: string, 
+    projectId?: number
+  ) => async (dispatch: Dispatch) => {
+    try {
+      // Dispatch request action
+      dispatch({ type: GET_TIMESHEET_BY_USER_REQUEST });
+  
+      // Fetch data from API
+      const response: IResponse<TimesheetViewModel[]> = await getTimesheetByUserApi(userId, startDate, endDate, projectId);
+  
+      // Dispatch success action with data
+      dispatch({
+        type: GET_TIMESHEET_BY_USER_SUCCESS,
+        payload: response
+      });
+    } catch (error) {
+      // Dispatch failure action with error
+      dispatch({
+        type: GET_TIMESHEET_BY_USER_FAILURE,
+        payload: error.message || 'Error fetching timesheet data'
+      });
+    }
+  };
+  //call: dispatch(getTimesheetByUserAction('user-id-here', '2024-09-01', '2024-09-30', 1));
+  
+  // action to get the current timesheet
+export const getCurrentTimesheetAction = () => async (dispatch: Dispatch) => {
+    try {
+      // Dispatch request action
+      dispatch({ type: GET_CURRENT_TIMESHEET_REQUEST });
+  
+      // Fetch the current timesheet from the API
+      const response: IResponse<TimesheetViewModel> = await getCurrentTimesheetApi();
+  
+      // Dispatch success action with the response data
+      dispatch({
+        type: GET_CURRENT_TIMESHEET_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      // Dispatch failure action with error message
+      dispatch({
+        type: GET_CURRENT_TIMESHEET_FAILURE,
+        payload: error.message || 'Error fetching current timesheet',
+      });
+    }
+  };
+  
+
+  // get timesheets for the current user
+export const getTimesheetsForCurrentUserAction = (
+    startDate?: string,
+    endDate?: string
+  ) => async (dispatch: Dispatch) => {
+    try {
+      // Dispatch request action
+      dispatch({ type: GET_USER_TIMESHEETS_REQUEST });
+  
+      // Fetch the timesheets from the API
+      const response: IResponse<TimesheetViewModel[]> = await getTimesheetsForCurrentUserApi(
+        startDate,
+        endDate
+      );
+  
+      // Dispatch success action with the response data
+      dispatch({
+        type: GET_USER_TIMESHEETS_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      // Dispatch failure action with error message
+      dispatch({
+        type: GET_USER_TIMESHEETS_FAILURE,
+        payload: error.message || 'Error fetching user timesheets',
+      });
+    }
+  };
+// call: dispatch(getTimesheetsForCurrentUserAction(startDate, endDate));
+
+
+  export const updateTimesheetAction = (
+    timesheetId: string,
+    timesheetData: TimesheetViewModel
+  ) => async (dispatch: Dispatch) => {
+    try {
+      // Dispatch request action
+      dispatch({ type: UPDATE_TIMESHEET_REQUEST });
+  
+      // Call the API to update the timesheet
+      const response = await updateTimesheetApi(timesheetId, timesheetData);
+  
+      // Dispatch success action if the update is successful
+      dispatch({
+        type: UPDATE_TIMESHEET_SUCCESS,
+        payload: response,
+      });
+    } catch (error) {
+      // Dispatch failure action with the error message
+      dispatch({
+        type: UPDATE_TIMESHEET_FAILURE,
+        payload: error.message || 'Error updating the timesheet',
+      });
+    }
+  };
+
+  //call: dispatch(updateTimesheetAction(timesheetId, timesheetData));

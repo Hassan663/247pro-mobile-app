@@ -147,13 +147,14 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       // If the value is 'no', navigate to the menu screen and clear previous routes
       else {
         // Handle navigation when 'no' is selected
-        currentUserProfile.isOnboarded = true;
+        // currentUserProfile.isOnboarded = true;
         // await AsyncStorage.setItem('accessToken', JSON.stringify(currentUserProfile.accessToken));
-        console.log(currentUserProfile, 'currentUserProfile')
-        dispatch({ type: CURRENTUSERPROFILE, payload: {} });
-        dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+        
+        // dispatch({ type: CURRENTUSERPROFILE, payload: {} });
+        // dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+        console.log(currentUserProfile, 'currentUserProfile123')
         Toast.hideAll()
-        Toast.show(t('usersuccessfullyregister'), {
+        Toast.show(t('User Register SuccessFully'), {
           type: 'custom_success_toast',
         });
         changeRoute(navigation, 'MenuScreen');

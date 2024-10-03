@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    FlatList
+    FlatList,
+    Text
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -142,32 +143,58 @@ export const RightIcon = (dispatch?: any, inputValues?: any, isToastVisible?: bo
             title={t('Done')} />
     </TouchableOpacity>
 )
-export const CompanyList = ({ item, getCompany, disableSheet, callBack }: any) => {
+const formatTime = (time) => {
+    return time ? new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '----';
+};
+export const CompanyList = ({ item, callBack }: any) => {
+    const clockInTime = formatTime(item.clockInTime);
+    const clockOutTime = formatTime(item.clockOutTime);
+
+    const hasTimes = item.clockInTime || item.clockOutTime;
+
     return (
-        <TouchableOpacity onPress={() => {
-            if (getCompany) { getCompany(item) }
-            if (disableSheet) { disableSheet() }
-            if (callBack) { callBack() }
-        }} activeOpacity={.9} style={[centralStyle.row, { height: ALPHABET_SIZE.ITEM_HEIGHT }]}>
-            <View style={[styles.companyListContainer, { height: ALPHABET_SIZE.ITEM_HEIGHT }]}>
-                <View style={[centralStyle.row, styles.listWrapper]}>
-                    <View style={[styles.flex1p2, centralStyle.justifyContentCenter]}>
-                        <Img
-                            source={{ uri: item.profilePicture }}
-                            customStyle={styles.userImgStyle} />
-                    </View>
-                    <View style={[styles.flex8p8, centralStyle.justifyContentCenter]}>
-                        <Title
-                            color={Colors.black}
-                            type='Poppin-14'
-                            weight='600'
-                            title={item.value} />
-                    </View>
+        <TouchableOpacity 
+            onPress={() => callBack && callBack()} 
+            activeOpacity={.9} 
+            style={styles.listContainer}
+        >
+            <View style={styles.rowContainer}>
+                {/* User Image */}
+                <View style={styles.imageContainer}>
+                    {item.profile ? (
+                        <Img source={{ uri: item.profile }} customStyle={styles.userImgStyle} />
+                    ) : (
+                        <Img source={{ uri: ' https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'}} customStyle={styles.placeholderAvatar} />
+                       
+                    )}
+                </View>
+
+                {/* User Info */}
+                <View style={styles.infoContainer}>
+                    <Text style={styles.userName}>{item.value}</Text>
+                </View>
+
+                {/* Clock In/Out Times (Trailing Side) */}
+                <View>
+                    {hasTimes ? (
+                        <View>
+                            <Text style={styles.clockInText}>In: {clockInTime}</Text>
+                            <Text style={styles.clockOutText}>Out: {clockOutTime}</Text>
+                        </View>
+                    ) : (
+                        <View>
+                            <Text style={styles.noTimes}>--:--</Text>
+                            <Text style={styles.noTimes}>--:--</Text>
+                        </View>
+                    )}
                 </View>
             </View>
+
+            {/* Divider */}
+            <View style={styles.divider} />
         </TouchableOpacity>
-    )
-}
+    );
+};
 
 export const ContactModal = ({ anim, setanim, setcontactModal, getCompany, invitePeopleModal }: any) => {
     const [searchData, setSearchData] = useState<{}>();

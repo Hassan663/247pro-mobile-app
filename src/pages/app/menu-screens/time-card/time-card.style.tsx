@@ -81,6 +81,33 @@ export const styles: any = StyleSheet.create<any>({
         padding: RFValue(10, windowHeight),
         width: "100%",
     },
+
+    topRowContainer: {
+        paddingTop: 40,  // Padding of 40 from the top
+        paddingBottom: 16,
+        paddingLeft: 16,
+        paddingRight: 16,
+        flexDirection: 'row',  // Horizontal alignment
+        justifyContent: 'space-between',  // Space between Today and Teams
+        alignItems: 'center',  // Center the content vertically
+    },
+    leadingText: {
+        fontSize: 24,
+        fontWeight: '400',
+        color: Colors.black,  // Customize the color as needed
+    },
+    trailingText: {
+        fontSize: 16,
+        fontWeight: '400',
+        
+        color: Colors.gray,  // Customize the color as needed
+    },
+    divider: {
+        height: 1,
+        backgroundColor: '#ddd',
+        marginTop: 8,
+        marginBottom: 8,
+    },
     reportHeader: {
         flexDirection: "row",
         justifyContent: "space-between"
@@ -110,4 +137,7 @@ export const styles: any = StyleSheet.create<any>({
         flex: 1,
         alignItems: "center",
     },
+
+    
+    
 });

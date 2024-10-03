@@ -10,6 +10,8 @@ import { t } from 'i18next';
 
 export const styles: any = StyleSheet.create<any>({
 
+    
+
     container: {
         flex: 1,
         backgroundColor: Colors.white
@@ -42,6 +44,8 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2.1),
 
     },
+
+    
     spaceBetweenRow: {
         justifyContent: "space-between"
     },
@@ -66,6 +70,66 @@ export const styles: any = StyleSheet.create<any>({
 
         // height:'100%'
     }),
+
+    listContainer: {
+         paddingTop: 8,
+        // paddingBottom: 8,
+        paddingLeft: 8,
+        paddingRight: 16,
+    },
+    rowContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',  // Ensure times are at the trailing side
+    },
+    imageContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    userImgStyle: {
+        height: 50,
+        width: 50,
+        borderRadius: 25,  // Circular image
+    },
+    placeholderAvatar: {
+        height: 50,
+        width: 50,
+        borderRadius: 25,
+        backgroundColor: '#e5e5e5',  // Grey background for placeholder
+    },
+    infoContainer: {
+        flex: 1,
+        justifyContent: 'center',  // Vertically center the content
+        paddingHorizontal: 8,  // Add space between image and name
+    },
+    userName: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#666',
+        textAlign: 'left',
+    },
+    clockInText: {
+        color: 'green',
+        fontWeight: '600',
+        fontSize: 14,
+    },
+    clockOutText: {
+        color: 'red',
+        fontWeight: '600',
+        fontSize: 14,
+        marginTop: 4,
+    },
+    noTimes: {
+        color: '#CBCACE',  // Light gray for empty slots
+        fontSize: 14,
+        fontWeight: '600',
+        textAlign: 'right',
+    },
+    divider: {
+        height: 1,
+        backgroundColor: '#ddd',
+         marginTop: 8,
+    },
     inputtitle: (isActive: boolean) => ({
         position: "absolute",
         paddingHorizontal: RFPercentage(1),
@@ -297,11 +361,11 @@ export const styles: any = StyleSheet.create<any>({
     flex1p2: {
         flex: 1,
     },
-    userImgStyle: {
-        height: RFPercentage(3),
-        width: RFPercentage(3),
-        borderRadius: RFPercentage(2)
-    },
+    // userImgStyle: {
+    //      height: RFPercentage(3),
+    //     width: RFPercentage(3),
+    //     borderRadius: RFPercentage(2)
+    // },
     flex8p8: {
         flex: 9,
     },
@@ -415,3 +479,5 @@ export const styles: any = StyleSheet.create<any>({
         borderColor: selectedTab == t('Company') ? Colors.primary : Colors.lightGrey,
     }),
 });
+
+

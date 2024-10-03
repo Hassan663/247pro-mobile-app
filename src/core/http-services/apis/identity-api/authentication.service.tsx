@@ -165,13 +165,15 @@ const userIdentity = async (
   accessToken: string,
 ): Promise<IResponse<ILoginResponseData>> => {
   try {
+    console.log('accessToken here:', accessToken);
     LOGIN_IDENTITY_ENDPOINT.JWTToken = accessToken;
     // LOGIN_IDENTITY_ENDPOINT.Cookie = true
-    const emptyBody: any = {};
+   // const emptyBody: any = {};
     let identityResponse: any = await getApi<UserIdentity, ILoginResponseData>(
       LOGIN_IDENTITY_ENDPOINT,
-      emptyBody,
+     // emptyBody,
     );
+    console.log('Identity:', identityResponse);
     identityResponse.data.accessToken = accessToken;
     return identityResponse.data;
   } catch (error) {
@@ -244,4 +246,4 @@ const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   }
 };
 
-export { login, forget_password, userIdentity, logout, encryptData, signUp, externalLogin };
+export { login, forget_password, userIdentity, logout, encryptData, signUp, externalLogin, memberShipApi };

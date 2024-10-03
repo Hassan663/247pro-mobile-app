@@ -37,9 +37,10 @@ import { FooterText, Title, } from '../../../core/components/screen-title.compon
 import { centralStyle, windowHeight, } from '../../../styles/constant.style';
 import { useFocusEffect } from '@react-navigation/native';
 import { platform } from '../../../utilities';
-import { SPLASHSTATUSBAR } from '../../../store/constant/constant';
+import { CURRENTUSERPROFILE, SPLASHSTATUSBAR } from '../../../store/constant/constant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { handleGoogle } from '../../../core/helpers/social-auths';
+import { userIdentity } from '../../../core/http-services/apis/identity-api/authentication.service';
 
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
@@ -65,78 +66,128 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         return unsubscribe;
     }, [navigation]);
 
+// let currentUserProfile: any
+    // useEffect(()=>{
+       const  currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
+    // },[currentUserProfile]);
 
-    const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
-
-    // useEffect(() => {
-    //     if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
-    //         if (!currentUserProfile.isOnboarded && getBooleanValue('IsBusiness')) {
-    //             changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
-    //         }
-    //     }
-    // }, [currentUserProfile]);
-    // const getBooleanValue = async (key) => {
-    //     try {
-    //       const value = await AsyncStorage.getItem(key);
-    //       // Convert string back to boolean
-    //       return value != null ? JSON.parse(value) : null;
-    //     } catch (error) {
-    //       console.error('Error retrieving boolean value', error);
-    //     }
-    //   };
+    
     console.log("currentUserProfile", currentUserProfile);
+    // useEffect(() => {
+    //     const checkBusinessStatus = async () => {
+    //         try {
+    //             const isBusiness = await AsyncStorage.getItem('isBusiness');
+    //             const accessToken = await AsyncStorage.getItem('accessToken');
+    
+    //             console.log("Start: isBusiness", isBusiness);
+    //             console.log("Start: accessToken", accessToken);
+    //             console.log("Start: currentUserProfile", currentUserProfile);
+    //             console.log("Start: currentUserProfile====", currentUserProfile.isRegister, isBusiness, currentUserProfile.isOnboarded);
+               
+
+    //             if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
+                    
+    //                 if (currentUserProfile.isRegister == false && isBusiness == null && currentUserProfile.isOnboarded == true) {
+    //                     console.log("Condition 1 met: I am in new");
+    //                     console.log(currentUserProfile, 'currentUserProfile in new');
+    //                     currentUserProfile.isOnboarded = true;
+    //                     dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+    //                     return; // This should exit the function here
+    //                 }
+    
+    //                 console.log("Condition 1 not met, checking further...");
+    
+    //                 const isUserOnboarded = currentUserProfile.isOnboarded;
+    //                 if (isBusiness === 'yes') {
+    //                     if (isUserOnboarded) {
+    //                         console.log("Navigating to MenuScreen");
+    //                         changeRoute(navigation, 'MenuScreen');
+    //                     } else {
+    //                         console.log("Navigating to BusinessQuestions as a Business");
+    //                         changeRoute(navigation, 'BuisnessQuestions', { yesABusiness: true });
+    //                     }
+    //                 } else if (isBusiness === 'no') {
+    //                     console.log("Navigating to MenuScreen as not a business");
+    //                     changeRoute(navigation, 'MenuScreen');
+    //                 } else {
+    //                     if (isUserOnboarded === true && currentUserProfile.isRegister === true) {
+    //                         console.log("Condition last met");
+    //                         console.log(currentUserProfile, 'final currentUserProfile');
+    //                         dispatch({ type: currentUserProfile, payload: currentUserProfile });
+    //                     } else {
+    //                         console.log("Navigating to BusinessQuestions as not onboarded/not registered");
+    //                         changeRoute(navigation, 'BuisnessQuestions', { yesABusiness: false });
+    //                     }
+    //                 }
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking business status', error);
+    //         }
+    //     };
+    
+    //     checkBusinessStatus();
+    // }, [currentUserProfile, navigation]);
+    
 
 
 
     useEffect(() => {
         const checkBusinessStatus = async () => {
             try {
-
                 const isBusiness = await AsyncStorage.getItem('isBusiness');
-                const accessToken = await AsyncStorage.getItem('accessToken')
-
+                const accessToken = await AsyncStorage.getItem('accessToken');
+    
                 console.log("isBusiness", isBusiness);
-
-                // Check if currentUserProfile exists and has the onboarding status
-
+                console.log("accessToken", accessToken);
+                console.log(currentUserProfile, 'currentUserProfile123');
+    
+                if (currentUserProfile && Object.keys(currentUserProfile).length > 0 && currentUserProfile.isRegister === false && isBusiness === null && currentUserProfile.isOnboarded === true) {
+                    console.log("I am in new ");
+                    console.log(currentUserProfile, 'currentUserProfile');
+                    currentUserProfile.isOnboarded = true;
+                    console.log(currentUserProfile, 'currentUserProfile');
+                    dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+                    return; 
+                }
+    
+                // If the first condition is not met, execute this block
                 if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
+                    console.log("I am here ");
                     const isUserOnboarded = currentUserProfile.isOnboarded;
-
-
+    
                     if (isBusiness === 'yes') {
                         if (isUserOnboarded) {
-                            // Navigate to Menu if user is onboarded
-                            console.log("else if  is here");
+                            console.log("else if is here");
                             changeRoute(navigation, 'MenuScreen');
-                        }
-
-                        else {
-                            console.log(" if bussiness is here");
+                        } else {
+                            console.log("if business is here");
                             changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true });
                         }
                     } else if (isBusiness === 'no') {
-
-                        console.log("else if bussiness is ");
-                        //  changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
-                        changeRoute(navigation, 'MenuScreen',);
+                        console.log("else if business is ");
+                        changeRoute(navigation, 'MenuScreen');
+                    } else {
+                        if (isUserOnboarded === true && currentUserProfile.isRegister === true) {
+                            console.log("I am in new ");
+                            console.log(currentUserProfile, 'currentUserProfile');
+                            currentUserProfile.isOnboarded = true;
+                            console.log(currentUserProfile, 'currentUserProfile');
+                            dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+                            console.log("else if business is here");
+                        } else {
+                            changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
+                        }
                     }
-
-                    else {
-                        console.log("else if bussiness is here");
-
-                        changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: false });
-                    }
-
                 }
-
+    
             } catch (error) {
                 console.error('Error checking business status', error);
             }
         };
-
+    
         checkBusinessStatus();
     }, [currentUserProfile, navigation]);
-
+    
 
     const validateForm = (email: string, pass: string) => {
         let isValidated = loginValidation(email, pass);
@@ -148,17 +199,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         return isValidated;
     };
 
-    // const handleSubmit = useCallback(async () => {
-    //     if (!isToastVisible) {
-    //         setIsToastVisible(true);
-    //         let isValidated = await loginValidation(inputValue, password);
-    //         if (isValidated.success) { await dispatch(loginAction(inputValue, password)); }
-    //         else await toast.show(isValid.message, { type: "custom_toast" });
-    //         setTimeout(() => {
-    //             setIsToastVisible(false);
-    //         }, 5000);
-    //     }
-    // }, [dispatch, inputValue, isToastVisible, password, toast]);
+    
     const rememberedFunc = async () => {
         try {
             const rememberedUser = await getItem('rememberMe');
@@ -185,12 +226,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
             let isValidated = await loginValidation(inputValue, password);
             if (isValidated.success) {
 
-                // Check if rememberMe checkbox is checked and store the value in AsyncStorage
-                // if (isSelected) {
-                //     await AsyncStorage.setItem('rememberMe', 'yes');
-                // } else {
-                //     await AsyncStorage.setItem('rememberMe', 'no');
-                // }
+                
 
                 // Proceed with login action
                 if (isSelected == true) {
@@ -251,15 +287,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         }
     }, [password]);
 
-    // Callback to toggle the isSelected state for a checkbox
-    // const checkBoxCallback = useCallback(() => {
-    //     setisSelected((prevIsSelected) => !prevIsSelected);
-    // }, [isSelected]);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         if (platform == 'android') dispatch({ type: SPLASHSTATUSBAR, payload: false });
-    //     }, [])
-    // );
+   
 
     // Define the checkbox callback
     const checkBoxCallback = useCallback(async () => {
@@ -412,48 +440,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
             </TouchableWithoutFeedback>
         </SafeAreaView>
 
-        // <<<<<<< HEAD
-        // =======
-        //                     <View style={styles.orContainer}>
-        //                         <View style={styles.line} />
-        //                         <Title
-        //                             type={'Poppin-14'}
-        //                             color={Colors.lightGray}
-        //                             title={t('or')} />
-        //                         <View style={styles.line} />
-        //                     </View>
-        //                     <Button
-        //                         icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={[styles.googleIcon, centralStyle.mr1]} />}
-        //                         title={t('Continue_with_google')}
-        //                         callBack={async () => {
-        //                             const googleUserData = await handleGoogle()
-        //                              dispatch(socialLoginAction(googleUserData))
-
-
-
-        //                             // alert('googel auth')
-
-        //                         }}
-        //                         customStyle={[centralStyle.socialButtonContainer,]}
-        //                         titleStyle={styles.socialText}
-        //                     />
-        //                     <Button
-        //                         icon={<AntDesign name={`apple1`} size={RFPercentage(2.5)} style={centralStyle.mr1} />}
-        //                         title={" " + t('Continue_with_Apple')}
-        //                         customStyle={centralStyle.socialButtonContainer}
-        //                         titleStyle={styles.socialText}
-        //                     />
-        //                 </View>
-
-        //                 <View style={styles.footerContainer}>
-        //                     <FooterText title={t('New_here') + " "} />
-        //                     <TouchableOpacity onPress={() => changeRoute(navigation, 'SignUp')} activeOpacity={0.8}>
-        //                         <FooterText color={Colors.primary} title={t('Create_an_free_account') + ' '} />
-        //                     </TouchableOpacity>
-        //                 </View>
-        //             </View>
-        //         </KeyboardAwareScrollView>
-        // >>>>>>> muz_2
+       
     );
 });
 

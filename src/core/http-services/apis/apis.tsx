@@ -51,3 +51,19 @@ export const JOB_TYPE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_
 
 export const ZIP_PHONE_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/accounts/zip-and-phone`, false);
 export const SUBMIT_JOB_LEAD_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/accounts/job-leads`, false);
+
+// Projects Endpoints
+export const PROJECTS_RADIUS_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/projects/radius`, false);
+
+export const TIMESHEET_MEMBERS_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/members`, false);
+export const TIMESHEET_MEMBERS_BY_ID_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/members`, false);
+export const TIMESHEET_CURRENT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/current`, false);
+export const TIMESHEET_ME_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/me`, false);
+export const TIMESHEET_BY_ID_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/`, false);
+
+
+//Timecard Endpoints
+export const CLOCK_IN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/clock-in`, false);
+export const CLOCK_OUT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/clock-out`, false);
+export const BREAK_IN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/break-in`, false);
+export const BREAK_OUT_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/timesheets/break-out`, false);

@@ -39,8 +39,10 @@ import PostAJobMatchPro from '../../pages/app/menu-screens/post-a-job-match-pro/
 import SuccessfullyPosted from '../../pages/app/menu-screens/successfully-posted/successfully-posted';
 import EditContact from '../../pages/app/contact-screens/edit-contact/edit-contact';
 import TimeCard from '../../pages/app/menu-screens/time-card/time-card';
+import ReportCard from '../../pages/app/menu-screens/time-card/reports-card';
 import Team from '../../pages/app/menu-screens/team/team';
 import ReportDetail from '../../pages/app/menu-screens/report-detail/report-detail';
+import Menu from '../../pages/app/menu-screens/menu/menu';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
@@ -52,6 +54,7 @@ export default function AppNavigation() {
         initialRouteName='AppTabs'
       >
         <Stack.Screen name="QRCode" component={QRCode} />
+        {/* <Stack.Screen name="MenuScreen" component={Menu} /> */}
         <Stack.Screen name="ViewJob" component={ViewJob} />
         <Stack.Screen name="EditJob" component={EditJob} />
         <Stack.Screen name="AppTabs" component={AppTabs} />
@@ -88,6 +91,7 @@ export default function AppNavigation() {
         <Stack.Screen name="SubscriptionBuisnessCard" component={SubscriptionBuisnessCard} />
         <Stack.Screen name="AccountInformtaionRequest" component={AccountInformtaionRequest} />
         <Stack.Screen name="TimeCard" component={TimeCard} />
+        <Stack.Screen name="ReportCard" component={ReportCard} />
         <Stack.Screen name="Team" component={Team} />
         <Stack.Screen name="ReportDetail" component={ReportDetail} />
       </Stack.Navigator>
