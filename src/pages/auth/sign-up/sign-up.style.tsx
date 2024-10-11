@@ -98,6 +98,7 @@ export const styles = StyleSheet.create<any>({
         marginHorizontal: RFPercentage(1),
         backgroundColor: Colors.lightGray
     },
+    
     googleIcon: {
         height: RFPercentage(3.5),
         width: RFPercentage(3.5)

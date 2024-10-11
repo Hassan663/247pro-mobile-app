@@ -28,8 +28,8 @@ export const styles = StyleSheet.create({
         fontSize: platform == 'ios' ? RFPercentage(1.9) : RFPercentage(2.4),
         fontWeight: '500'
     },
-    timeCardIcon: {
-        marginTop: RFValue(15, windowHeight),
-        fontWeight: "400"
-    },
+    // timeCardIcon: {
+    //     marginTop: RFValue(15, windowHeight),
+    //     // fontWeight: "400"
+    // },
 });

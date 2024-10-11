@@ -2,6 +2,7 @@ import React, {
     useEffect,
     useState,
     useCallback,
+    useRef,
 } from 'react';
 import {
     TouchableOpacity,
@@ -12,6 +13,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     Text,
+    TextInput,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -65,7 +67,12 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
         return unsubscribe;
     }, [navigation]);
+    const emailInput = useRef<TextInput>(null); // Create a reference for the first name field
 
+    // Focus the first name input field when the screen loads
+    useEffect(() => {
+        emailInput.current?.focus();
+    }, []);
 // let currentUserProfile: any
     // useEffect(()=>{
        const  currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
@@ -157,15 +164,23 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     
                     if (isBusiness === 'yes') {
                         if (isUserOnboarded) {
-                            console.log("else if is here");
-                            changeRoute(navigation, 'MenuScreen');
+                            console.log("else if is here YES");
+                            // changeRoute(navigation, 'MenuScreen');
+                            currentUserProfile.isOnboarded=true
+                            dispatch({ type: CURRENTUSERPROFILE, payload: {} });
+                            console.log(currentUserProfile, 'currentUserProfile123')
+                            dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
                         } else {
                             console.log("if business is here");
                             changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true });
                         }
                     } else if (isBusiness === 'no') {
-                        console.log("else if business is ");
-                        changeRoute(navigation, 'MenuScreen');
+                        console.log("else if business is NO");
+                        // changeRoute(navigation, 'MenuScreen');
+                        currentUserProfile.isOnboarded=true
+                        dispatch({ type: CURRENTUSERPROFILE, payload: {} });
+                        console.log(currentUserProfile, 'currentUserProfile123')
+                        dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
                     } else {
                         if (isUserOnboarded === true && currentUserProfile.isRegister === true) {
                             console.log("I am in new ");
@@ -203,14 +218,17 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     const rememberedFunc = async () => {
         try {
             const rememberedUser = await getItem('rememberMe');
-            console.log(rememberedUser, 'rememberedUserrememberedUserrememberedUser')
+            console.log(rememberedUser, 'rememberedUserrememberedUserrememberedUser');
             if (rememberedUser) {
-                setisSelected(true)
-                setInputValue(rememberedUser.email)
-                setPassword(rememberedUser.password)
-            };
+                setisSelected(true);
+                setInputValue(rememberedUser.email);
+                setPassword(rememberedUser.password);
+                
+                // Trigger validation immediately after setting values
+                validateForm(rememberedUser.email, rememberedUser.password);
+            }
         } catch (error) {
-            console.log("Error --->", error)
+            console.log("Error --->", error);
         }
     };
 
@@ -362,6 +380,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                         </View>
                         <View style={styles.inputContainer}>
                             <OutlinedTextInput
+                              ref={emailInput} 
                                 val={inputValue}
                                 errorLine={errors.emailError ? true : false}
                                 onChange={phoneOrEmailCallback}

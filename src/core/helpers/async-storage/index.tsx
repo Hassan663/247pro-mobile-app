@@ -73,6 +73,7 @@
 //     return arr[idx];
 // }
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppTabs from '../../../router/BottomTab/bottom-tabs';
 
 export const getItem = async (key, defaultValue = null) => {
     try {
@@ -99,14 +100,26 @@ export const changeRoute = async (navigation, value, params = {}) => {
       if (value === 'pop') {
         navigation.goBack();
       } else if (value === 'AppNavigation' || value === 'AuthNavigation') {
+        console.log("IN  if ELSe")
         navigation.reset({
           index: 0,
           routes: [{ name: value, params }],
         });
-      } else {
+      } 
+      // else if(value=='AppTabs'){
+      //   navigation.navigate('AppTabs', {
+      //     screen: 'Menu',
+      //     params: params,
+      //   });
+      //   // navigation.navigate(AppTabs,{screen:value},params)
+
+      // }
+      else {
+        console.log("IN ELSe")
         navigation.navigate(value, params);
       }
     } catch (error) {
+      console.log("IN Catch")
       console.error('Navigation error:', error);
     }
 };

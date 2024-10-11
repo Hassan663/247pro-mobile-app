@@ -8,15 +8,14 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-
-import Colors from '../../../../styles/colors';
-import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './time-card.style';
-import { platform } from '../../../../utilities';
-import { centralStyle, windowHeight } from '../../../../styles/constant.style';
-import { changeRoute } from '../../../../core/helpers/async-storage';
+
 import { t } from 'i18next';
-import { DATA } from './data';
+import { Title } from 'react-native-paper';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { changeRoute } from '../../../../../core/helpers/async-storage';
+import { centralStyle, windowHeight } from '../../../../../styles/constant.style';
+import { platform } from '../../../../../utilities';
 
 export const List = ({ item, navigation }: any) => {
 

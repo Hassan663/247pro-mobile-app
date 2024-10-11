@@ -12,13 +12,13 @@ export const styles = StyleSheet.create({
         tintColor: Colors.primary
     },
     titleWrapper: {
-        flex: 1.5,
-        // backgroundColor: 'pink',
+        flex: 2.0,
+         backgroundColor: 'pink',
     },
     inputWrapper: {
         flex: 7.5,
         // gap: 10,
-        // backgroundColor:"green"
+        //  backgroundColor:"green"
     },
     footer: {
         flex: 1,

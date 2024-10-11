@@ -332,6 +332,8 @@ PODS:
     - React-perflogger (= 0.70.10)
   - RNCAsyncStorage (1.24.0):
     - React-Core
+  - RNCPicker (2.8.1):
+    - React-Core
   - RNDeviceInfo (10.14.0):
     - React-Core
   - RNFastImage (8.6.3):
@@ -342,6 +344,8 @@ PODS:
     - React-Core
   - RNGoogleSignin (11.0.1):
     - GoogleSignIn (~> 7.0.0)
+    - React-Core
+  - RNInAppBrowser (3.7.0):
     - React-Core
   - RNReanimated (2.17.0):
     - DoubleConversion
@@ -425,10 +429,12 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -523,6 +529,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFastImage:
@@ -531,6 +539,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNInAppBrowser:
+    :path: "../node_modules/react-native-inappbrowser-reborn"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -587,10 +597,12 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 77aa3714a353cfb1a5f5e315e8af5154cd3d9402
   ReactCommon: a29dac86d7219579db079cef8f380ebffe1ba545
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
+  RNCPicker: 0b6860a6b208d4046227d2f626ad0722f99a969c
   RNDeviceInfo: 59344c19152c4b2b32283005f9737c5c64b42fba
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: 4f4986408310a43f1606c391f38f76e0d6e790d5
   RNGoogleSignin: 24d3b3261f78b0fae0aa013f8ab6f8d25e369b0c
+  RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
   RNReanimated: bec7736122a268883bdede07f1bf9cf4b40158db
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda

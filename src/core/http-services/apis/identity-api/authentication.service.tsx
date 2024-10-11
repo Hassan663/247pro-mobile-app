@@ -30,6 +30,7 @@ import {t} from 'i18next';
 import {showError} from '../../../../store/action/action';
 import {Dispatch} from 'redux';
 import {VALIDATIONMESSAGE} from '../../../helpers/validation/validation-message';
+import axios from 'axios';
 
 /**
  * Performs user login by sending login data to the server.
@@ -122,42 +123,86 @@ const signUp = async (
     );
     return identityResponse;
   } catch (error: any) {
-    if (error.response.data.fields[0].message === 'User already exists!') {
-      dispatch(showError(t('Thisemailisalreadytakenpleaselogin'), t('Email')));
+    console.log(error.response.data.fields[0].message,"Hello")
+    if (error.response.data.fields[0].message === 'The user already exists') {
+      dispatch(showError(t(error.response.data.fields[0].message), t('Email')));
     } else {
-      dispatch(showError('invalid crendentials', 'all'));
+      dispatch(showError(error.response.data.fields[0].message, 'all'));
     }
     console.error('Login service error:', error);
     throw error;
   }
 };
+// const login = async (
+//   loginData: LoginModal,
+//   dispatch: Dispatch,
+// ): Promise<IResponse<ILoginResponseData>> => {
+//   try {
+//     // Step 1: Encrypt the login data ==>> Encrytion not needed for LOGIN_ENDPOINT_NEW
+//     //const encryptedLoginResponse: any = await encryptData(loginData);
+
+//     // Step 2: Prepare the login request with the token received from step 1
+//     // const loginDataWithToken: any = {
+//     //   token: encryptedLoginResponse.data.response,
+//     // };
+//     const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(
+//       LOGIN_ENDPOINT,
+//       loginData,
+//       //loginDataWithToken, ==>> encryoted loginData not Needed
+//     );
+
+//     // Step 3: get user identity
+//     const identityResponse: any = userIdentity(loginResponse.data.accessToken);
+//     return identityResponse;
+//   } catch (error) {
+   
+//     dispatch(showError('Invalid Crendentials', 'all'));
+   
+//     console.error('Login service ssss error:', error);
+//     throw error;
+//   }
+// };
+
 const login = async (
   loginData: LoginModal,
   dispatch: Dispatch,
+  setError: (field: string, message: string) => void  // This will be used to set field-specific errors
 ): Promise<IResponse<ILoginResponseData>> => {
   try {
-    // Step 1: Encrypt the login data ==>> Encrytion not needed for LOGIN_ENDPOINT_NEW
-    //const encryptedLoginResponse: any = await encryptData(loginData);
-
-    // Step 2: Prepare the login request with the token received from step 1
-    // const loginDataWithToken: any = {
-    //   token: encryptedLoginResponse.data.response,
-    // };
+    // Call the login API
     const loginResponse: any = await postApi<LoginModal, ILoginResponseData>(
       LOGIN_ENDPOINT,
-      loginData,
-      //loginDataWithToken, ==>> encryoted loginData not Needed
+      loginData
     );
 
-    // Step 3: get user identity
-    const identityResponse: any = userIdentity(loginResponse.data.accessToken);
+    // Get user identity after successful login
+    const identityResponse: any = await userIdentity(loginResponse.data.accessToken);
     return identityResponse;
-  } catch (error) {
-    // else {
-    dispatch(showError('invalid crendentials', 'all'));
-    // }
+  } catch (error: any) {
+    // Check if the error contains a response with fields
+    if (axios.isAxiosError(error) && error.response?.data) {
+      const apiError = error.response.data;
+      
+      // Show error messages from the "fields" array, if available
+      if (apiError.fields && apiError.fields.length > 0) {
+        apiError.fields.forEach((fieldError: { name: string; message: string }) => {
+          if (fieldError.name) {
+            // Set the error on the specific text field (e.g., email, password)
+            setError(fieldError.name, fieldError.message);
+          }
+        });
+      } else {
+        // If no specific field errors, show a general error message
+        dispatch(showError(apiError.message || 'Invalid Credentials', 'all'));
+      }
+    } else {
+      // If it's a non-Axios error or no response data, show a generic error
+      dispatch(showError('Invalid Credentials', 'all'));
+    }
+
+    // Log the error for debugging
     console.error('Login service error:', error);
-    throw error;
+    throw error;  // Rethrow the error to handle it elsewhere if necessary
   }
 };
 
@@ -221,7 +266,7 @@ const forget_password = async (
       forgetPasswordData,
     );
     if (response.status === 204) {
-      Toast.show(t('Newpasswordlinksenttoyouremail') + ` ${forgetdata.email}`, {
+      Toast.show(t('New password link sent to your email') + ` ${forgetdata.email}`, {
         type: 'custom_success_toast',
       });
     }

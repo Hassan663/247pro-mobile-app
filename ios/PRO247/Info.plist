@@ -14,6 +14,12 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App needs access to your location when the app is in use.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>App needs access to your location even in the background.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App needs access to your location at all times.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

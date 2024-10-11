@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
     View,
     Image,
@@ -10,11 +10,7 @@ import {
     Keyboard,
     ActivityIndicator,
     TouchableOpacity,
-    Linking,
 } from 'react-native';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { useToast } from 'react-native-toast-notifications';
 import Colors from '../../../styles/colors';
@@ -29,10 +25,10 @@ import ModalComp from '../../../core/components/modal-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpAction, showError, socialLoginAction } from '../../../store/action/action';
 import Loader from '../../../core/components/loader.component';
-import AsyncStorage from '@react-native-async-storage/async-storage/lib/typescript/AsyncStorage';
-import { handleGoogle } from '../../../core/helpers/social-auths';
-//import InAppBrowser from 'react-native-inappbrowser-reborn';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { LanguageDropDown } from './sign-up.components';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState<string>('');
@@ -43,13 +39,13 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         passwordError: '',
     });
     const [isValid, setIsValid] = useState<boolean>(false);
-    const [termsModal, setTermsModal] = useState<boolean>(false);
-    const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
+    const [showLanguageModal, setShowLanguageModal] = useState<boolean>(false); // Control language modal
+    const [selectedLanguage, setSelectedLanguage] = useState<string>('English'); // Store selected language
     const toast = useToast();
     const loader = useSelector((state: any) => state.root.loader);
     const dispatch = useDispatch();
 
-    // Real-time validation logic for name, email, and password
+    // Validation logic
     useEffect(() => {
         const validateForm = () => {
             const result = enterNameAndEmailValidation(name, email, password, false);
@@ -58,36 +54,35 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         validateForm();
     }, [name, email, password]);
 
-    // useEffect(() => {
-    //     if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
-    //         if (!currentUserProfile.isOnboarded && getBooleanValue(‘IsBusiness’)) {
-    //             changeRoute(navigation, ‘BuisnessQuestions’, { yesABuisness: true })
-    //         }
-    //     }
-    // }, [currentUserProfile]);
-    // const getBooleanValue = async (key) => {
-    //     try {
-    //         const value = await AsyncStorage.getItem(key);
-    //         // Convert string back to boolean
-    //         return value != null ? JSON.parse(value) : null;
-    //     } catch (error) {
-    //         console.error(‘Error retrieving boolean value’, error);
-    //     }
-    // };
+    const firstNameInputRef = useRef<TextInput>(null);
 
+    // Focus the first name input field when the screen loads
+    useEffect(() => {
+        firstNameInputRef.current?.focus();
+    }, []);
+
+    // Language modal handling
+    const toggleLanguageModal = () => {
+        setShowLanguageModal(!showLanguageModal);
+    };
+
+    const handleLanguageChange = (newLanguage: string) => {
+        setSelectedLanguage(newLanguage);
+        toggleLanguageModal(); // Close modal after selection
+    };
     const openLink = async (url: string) => {
-        // if (await InAppBrowser.isAvailable()) {
-        //     await InAppBrowser.open(url, {
-        //         // Additional options can be set here
-        //         dismissButtonStyle: 'cancel',
+        if (await InAppBrowser.isAvailable()) {
+            await InAppBrowser.open(url, {
+                // Additional options can be set here
+                dismissButtonStyle: 'cancel',
                 
-        //         preferredBarTintColor: Colors.primary,
-        //         preferredControlTintColor: 'white',
-        //     });
-        // } else {
-        //     // Fallback to linking if InAppBrowser is not available
-        //     Linking.openURL(url);
-        // }
+                preferredBarTintColor: Colors.primary,
+                preferredControlTintColor: 'white',
+            });
+        } else {
+            // Fallback to linking if InAppBrowser is not available
+            Linking.openURL(url);
+        }
     };
 
     // Real-time validation for name
@@ -136,107 +131,122 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
         }
     };
 
+
     return (
-        <>
-            <SafeAreaView style={styles.container}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <KeyboardAvoidingView style={styles.innerContainer}>
-                        <View style={[centralStyle.container, { height: windowHeight }]}>
-                            <View>
-                                <View style={[centralStyle.width70, centralStyle.mb3]}>
-                                    <Image
-                                        style={styles.logoStyle}
-                                        resizeMode='contain'
-                                        source={require('../../../assets/auth-images/splashLogo.png')} />
-                                    <Title
-                                        type='Poppin-24'
-                                        color={Colors.black}
-                                        textTransform='capitalize'
-                                        title={`Join us today`}
-                                        weight='600' />
-                                    <Title
-                                        type='Roboto-16'
-                                        color={Colors.fontColor}
-                                        weight='400'
-                                        title={`Enjoy lifetime access at no cost`}
-                                    />
-                                </View>
-                                <Button
-                                    icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
-                                    title={' ' + `Continue with Google`}
-                                    customStyle={[centralStyle.socialButtonContainer]}
-                                    titleStyle={styles.socialText}
-                                    callBack={async () => {
-                                        const googleUserData = await handleGoogle()
-                                        console.log(googleUserData, 'googleUserData')
-                                        dispatch(socialLoginAction(googleUserData))
-                                    }}
-                                />
-                                <View style={[styles.orContainer, { paddingVertical: 10 }]}>
-                                    <Text
-                                        style={{
-                                            fontFamily: "Poppins-Regular",
-                                            fontSize: RFValue(14, windowHeight),
-                                            fontWeight: "400",
-                                            color: Colors.fontColor,
-                                            textTransform: 'capitalize',
-                                        }}>
-                                        or
-                                    </Text>
-                                </View>
+        <SafeAreaView style={styles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <KeyboardAvoidingView style={styles.innerContainer}>
+                    {/* Language selection button at the top right */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 10 }}>
+                        <TouchableOpacity
+                            onPress={toggleLanguageModal}
+                            style={{ flexDirection: 'row', alignItems: 'center' }}
+                        >
+                            <Ionicons name="earth-outline" size={20} color={Colors.gray} />
+                            <Text style={{ marginLeft: 5, color: Colors.gray, fontSize: RFValue(16) }}>
+                                {selectedLanguage}
+                            </Text>
+                            <AntDesign name="down" size={15} color={Colors.gray} style={{ marginLeft: 5 }} />
+                        </TouchableOpacity>
+                    </View>
 
+                    {/* Rest of your signup form */}
+                    <View style={[centralStyle.container, { height: windowHeight }]}>
+                        <View>
+                            <View style={[centralStyle.width70, centralStyle.mb3]}>
+                                <Image
+                                    style={styles.logoStyle}
+                                    resizeMode='contain'
+                                    source={require('../../../assets/auth-images/splashLogo.png')}
+                                />
+                                <Title
+                                    type='Poppin-24'
+                                    color={Colors.black}
+                                    textTransform='capitalize'
+                                    title={`Join us today`}
+                                    weight='600'
+                                />
+                                <Title
+                                    type='Roboto-16'
+                                    color={Colors.fontColor}
+                                    weight='400'
+                                    title={`Enjoy lifetime access at no cost`}
+                                />
                             </View>
-                            <View style={styles.bottomSection}>
-                                <OutlinedTextInput
-                                    val={name}
-                                    onChange={handleNameChange}
-                                    title={'Full Name'}
-                                    placeHolder={'Full Name'}
-                                    errorLine={errors.nameError ? true : false}
-                                />
-                                {errors.nameError && (
-                                    <Text style={[styles.errorText, { color: 'red' }]}>{errors.nameError}</Text>
-                                )}
 
-                                <OutlinedTextInput
-                                    val={email}
-                                    onChange={handleEmailChange}
-                                    title={'Email'}
-                                    placeHolder={'Email'}
-                                    errorLine={errors.emailError ? true : false}
-                                />
-                                {errors.emailError && (
-                                    <Text style={[styles.errorText, { color: 'red' }]}>{errors.emailError}</Text>
-                                )}
+                            <Button
+                                icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
+                                title={' ' + `Continue with Google`}
+                                customStyle={[centralStyle.socialButtonContainer]}
+                                titleStyle={styles.socialText}
+                            />
 
-                                <OutlinedTextInput
-                                    val={password}
-                                    onChange={handlePasswordChange}
-                                    title={'Set a Password'}
-                                    Password
-                                    placeHolder={'Set a Password'}
-                                    errorLine={errors.passwordError ? true : false}
-                                />
-                                {errors.passwordError && (
-                                    <Text style={[styles.errorText, { color: 'red' }]}>{errors.passwordError}</Text>
-                                )}
+                            <View style={[styles.orContainer, { paddingVertical: 10 }]}>
+                                <Text
+                                    style={{
+                                        fontFamily: "Poppins-Regular",
+                                        fontSize: RFValue(14, windowHeight),
+                                        fontWeight: "400",
+                                        color: Colors.fontColor,
+                                        textTransform: 'capitalize',
+                                    }}
+                                >
+                                    or
+                                </Text>
+                            </View>
+                        </View>
 
-                                <View style={{ paddingTop: 10, paddingBottom: 30, paddingLeft: 5 }}>
-                                    <Text
-                                        style={{
-                                            fontFamily: "Roboto",            // Font set to Roboto
-                                            fontSize: RFValue(12, windowHeight),  // Size set to 12px
-                                            fontWeight: "400",               // Weight set to 400
-                                            lineHeight: RFValue(16, windowHeight), // Line height set to 16px
-                                            letterSpacing: 0.4,              // Letter spacing set to 0.4px
-                                            color: 'rgba(0, 0, 0, 0.38)',    // Black color with 38% opacity
-                                        }}>
-                                        Must be at least 6 characters
-                                    </Text>
-                                </View>
+                        <View style={styles.bottomSection}>
+                            <OutlinedTextInput
+                                ref={firstNameInputRef}
+                                val={name}
+                                onChange={(val) => setName(val)}
+                                title={'Full Name'}
+                                placeHolder={'Full Name'}
+                                errorLine={errors.nameError ? true : false}
+                            />
+                            {errors.nameError && (
+                                <Text style={[styles.errorText, { color: 'red' }]}>{errors.nameError}</Text>
+                            )}
 
+                            <OutlinedTextInput
+                                val={email}
+                                onChange={(val) => setEmail(val)}
+                                title={'Email'}
+                                placeHolder={'Email'}
+                                errorLine={errors.emailError ? true : false}
+                            />
+                            {errors.emailError && (
+                                <Text style={[styles.errorText, { color: 'red' }]}>{errors.emailError}</Text>
+                            )}
 
-                                <View style={[centralStyle.row, centralStyle.mt1, centralStyle.XAndYCenter]}>
+                            <OutlinedTextInput
+                                val={password}
+                                onChange={(val) => setPassword(val)}
+                                title={'Set a Password'}
+                                Password
+                                placeHolder={'Set a Password'}
+                                errorLine={errors.passwordError ? true : false}
+                            />
+                            {errors.passwordError && (
+                                <Text style={[styles.errorText, { color: 'red' }]}>{errors.passwordError}</Text>
+                            )}
+
+                            <View style={{ paddingTop: 10, paddingBottom: 30, paddingLeft: 5 }}>
+                                <Text
+                                    style={{
+                                        fontFamily: "Roboto",
+                                        fontSize: RFValue(12, windowHeight),
+                                        fontWeight: "400",
+                                        lineHeight: RFValue(16, windowHeight),
+                                        letterSpacing: 0.4,
+                                        color: 'rgba(0, 0, 0, 0.38)',
+                                    }}
+                                >
+                                    Must be at least 6 characters
+                                </Text>
+                            </View>
+                            <View style={[centralStyle.row, centralStyle.mt1, centralStyle.XAndYCenter]}>
                                     <Text style={{
                                         fontFamily: "Poppins-Regular",   // Font: Poppins
                                         fontWeight: "400",               // Weight: 400
@@ -254,7 +264,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             color: Colors.primary, // Apply primary color to the "terms" and "privacy policy"
                                         }}onPress={() => openLink("https://247pro.com/terms")}
 >
-                                            terms
+                                            Terms
                                         </Text> and {' '}
                                         <Text style={{
                                             fontFamily: "Poppins-Regular",
@@ -264,47 +274,49 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             color: Colors.primary,
                                         }}onPress={() => openLink("https://247pro.com/terms")}
 >
-                                            privacy policy
+                                            Privacy Policy
                                         </Text>
                                     </Text>
                                 </View>
-                                <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                                    <View style={[centralStyle.mt3, centralStyle.my1]}>
-                                        {isValid ? (
-                                            <Button
-                                                callBack={handleSubmit}
-                                                title={loader ? <ActivityIndicator color={'white'} /> : 'Next'}
-                                                primary
-                                            />
-                                        ) : (
-                                            <Button
-                                                disable
-                                                title={'Next'}
-                                                primary
-                                            />
-                                        )}
-                                    </View>
-                                    <View style={styles.footerTextWrapper}>
-                                        <FooterText color={Colors.fontColor} title={`Already have an account?`} />
-                                        <TouchableOpacity onPress={() => changeRoute(navigation, 'SignIn')} activeOpacity={0.8}>
-                                            <FooterText color={Colors.primary} title={`Log in`} />
-                                        </TouchableOpacity>
-                                    </View>
+
+                            <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                                <View style={[centralStyle.mt3, centralStyle.my1]}>
+                                    {isValid ? (
+                                        <Button
+                                            callBack={() => handleSubmit()}
+                                            title={loader ? <ActivityIndicator color={'white'} /> : 'Next'}
+                                            primary
+                                        />
+                                    ) : (
+                                        <Button
+                                            disable
+                                            title={'Next'}
+                                            primary
+                                        />
+                                    )}
+                                </View>
+                                <View style={styles.footerTextWrapper}>
+                                    <FooterText color={Colors.fontColor} title={`Already have an account?`} />
+                                    <TouchableOpacity onPress={() => changeRoute(navigation, 'SignIn')} activeOpacity={0.8}>
+                                        <FooterText color={Colors.primary} title={`Log in`} />
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
-                    </KeyboardAvoidingView>
-                </TouchableWithoutFeedback>
-            </SafeAreaView>
-            {termsModal && (
-                <ModalComp
-                    cancel={setTermsModal}
-                    state={termsModal}
-                    navigation={undefined}
-                    callBack={() => setIsCheck(true)}
-                />
-            )}
-        </>
+                    </View>
+
+                    {/* Modal for language selection */}
+                    {showLanguageModal && (
+                        <LanguageDropDown
+                            disableModal={toggleLanguageModal}
+                            setSelectedTab={handleLanguageChange}
+                            selectedTab={selectedLanguage}
+                        />
+                    )}
+
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
+        </SafeAreaView>
     );
 };
 

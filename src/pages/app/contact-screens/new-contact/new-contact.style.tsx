@@ -112,15 +112,17 @@ export const styles: any = StyleSheet.create<any>({
         color: 'green',
         fontWeight: '600',
         fontSize: 14,
+        textAlign: 'right',
     },
     clockOutText: {
         color: 'red',
         fontWeight: '600',
         fontSize: 14,
         marginTop: 4,
+        textAlign: 'right',
     },
     noTimes: {
-        color: '#CBCACE',  // Light gray for empty slots
+        color: '#CBCACE',  
         fontSize: 14,
         fontWeight: '600',
         textAlign: 'right',
@@ -259,11 +261,11 @@ export const styles: any = StyleSheet.create<any>({
     },
     leftSide: {
         flex: 1,
-        marginRight: RFPercentage(1)
+        marginLeft: RFPercentage(1)
     },
     rightSide: {
         flex: 1,
-        marginLeft: RFPercentage(1)
+        marginRight: RFPercentage(1)
     },
     selectCompany: {
         backgroundColor: Colors.primary,

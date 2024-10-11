@@ -164,7 +164,7 @@ export const CompanyList = ({ item, callBack }: any) => {
                     {item.profile ? (
                         <Img source={{ uri: item.profile }} customStyle={styles.userImgStyle} />
                     ) : (
-                        <Img source={{ uri: ' https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'}} customStyle={styles.placeholderAvatar} />
+                        <Img source={{ uri: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'}} customStyle={styles.placeholderAvatar} />
                        
                     )}
                 </View>

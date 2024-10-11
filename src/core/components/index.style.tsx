@@ -183,7 +183,7 @@ export const styles: any = StyleSheet.create<any>({
 
         elevation: 9,
         paddingVertical: 20,
-        minHeight: RFValue(150,windowHeight),
+        minHeight: RFValue(200,windowHeight),
 
     },
     headerContainer: {
@@ -391,6 +391,7 @@ export const styles: any = StyleSheet.create<any>({
         marginLeft: 20,
         overflow: 'hidden',
         borderRadius: 10
+        
     },
     rowStyle: {
         borderBottomWidth: 0,

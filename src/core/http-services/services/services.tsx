@@ -14,7 +14,7 @@ const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<
     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
     // const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
     const response: any = await axios.post(ENDPOINT.url, postData, { headers });
-    // console.log("response from service file:", response);
+     console.log("response from service file:", response);
     return response;
   } catch (error) {
     console.log('response:', error);
@@ -23,6 +23,48 @@ const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<
     throw error;
   }
 };
+
+// const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
+//   try {
+//     console.log("postData and endpoints:", ENDPOINT, postData);
+
+//     const headers: any = {};
+//     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
+
+//     // Make the POST request
+//     const response: any = await axios.post(ENDPOINT.url, postData, { headers });
+
+//     console.log("response from service file:", response);
+//     return response; // Return the response in case of success
+
+//   } catch (error) {
+//     if (axios.isAxiosError(error)) {
+//       // Extract status, message, and fields from the API error response
+//       const statusCode = error.response?.status;
+//       const errorMessage = error.response?.data?.message || 'Unknown error occurred';
+//       const fields = error.response?.data?.fields || [];
+      
+//       // Default display message
+//       let detailedMessage = errorMessage;
+
+//       // Check if the `fields` array contains detailed error messages
+//       if (fields.length > 0) {
+//         const fieldMessages = fields.map((field: any) => field.message).filter((msg: string) => msg).join(', ');
+//         detailedMessage = `${errorMessage}: ${fieldMessages}`;
+//       }
+
+//       // Log the detailed error message
+//       console.error(`API Error: ${detailedMessage} (Status: ${statusCode})`);
+
+//       // Throw the error with the detailed message
+//       throw new Error(detailedMessage);
+//     } else {
+//       // Handle non-Axios errors
+//       console.error('Non-Axios error occurred:', error);
+//       throw new Error('An unexpected error occurred');
+//     }
+//   }
+// };
 
 // axios.interceptors.request.use(request => {
 //   console.log('Starting Request', JSON.stringify(request, null, 2))

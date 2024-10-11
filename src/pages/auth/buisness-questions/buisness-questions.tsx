@@ -54,7 +54,12 @@ import { CURRENTUSERPROFILE, LOADER } from '../../../store/constant/constant';
 import { Text } from 'react-native-paper';
 import { hideError, showError } from '../../../store/action/action';
 import SearchDropDown from '../../../core/components/search-dropdown-with-create-button.component';
+import AppNavigation from '../../../router/tab';
+import AppTabs from '../../../router/BottomTab/bottom-tabs';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../router/auth';
 
+interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   navigation,
   route,
@@ -64,7 +69,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 
   console.log("yesABuisness", isBuisness);
 
-  const [country, setCountry] = useState<{ callingCode: string, countryCode: any }>({ callingCode: '92', countryCode: 'PK' });
+  const [country, setCountry] = useState<{ callingCode: string, countryCode: any }>({ callingCode: '1', countryCode: 'US' });
   //const [countryCode, setCountryCode] = useState<any>('PK');
   const [step, setStep] = useState(1);
   const [isCheck, setIsCheck] = useState(true);
@@ -92,43 +97,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       setStep(2);
     }
   }, [isBuisness]);
-  //const industriess = useSelector(state => state.root.industries); for Redux
-  //   const industries: Industry[] = useSelector(
-  //     (state: RootState) => state.root.industries,
-  //   );
-
-  // Function to handle Next button press
-  // const handleNext = () => {
-  //   if (step === 1 && isCheck) {
-  //     console.log("step 2");
-  //     setStep(2); // Move to the second step
-  //   }
-  //   else {
-  //     console.log(step, isCheck);
-  //   }
-  // };
-
-  // const handleNext = async () => {
-  //   try {
-  //     // Store the value in AsyncStorage
-  //     await AsyncStorage.setItem('isBusiness', isCheck ? 'yes' : 'no');
-
-  //     // Print the value
-  //     const storedValue = await AsyncStorage.getItem('isBusiness');
-  //     console.log('Selected value:', storedValue);
-
-  //     // If the value is 'yes', navigate to step 2
-  //     if (storedValue === 'yes') {
-  //       setStep(2);
-  //     } 
-  //     // If the value is 'no', navigate to the menu screen and clear previous routes
-  //     else {
-  //     //  changeRoute()
-  //     }
-  //   } catch (error) {
-  //     console.error('Error handling next step:', error);
-  //   }
-  // };
+ 
 
   const handleNext = async () => {
     try {
@@ -144,20 +113,22 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         setBusinessState(true)
         setStep(2);
       }
-      // If the value is 'no', navigate to the menu screen and clear previous routes
+      
       else {
-        // Handle navigation when 'no' is selected
-        // currentUserProfile.isOnboarded = true;
-        // await AsyncStorage.setItem('accessToken', JSON.stringify(currentUserProfile.accessToken));
         
-        // dispatch({ type: CURRENTUSERPROFILE, payload: {} });
-        // dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+        currentUserProfile.isOnboarded = true
+        dispatch({ type: CURRENTUSERPROFILE, payload: {} });
         console.log(currentUserProfile, 'currentUserProfile123')
-        Toast.hideAll()
-        Toast.show(t('User Register SuccessFully'), {
-          type: 'custom_success_toast',
-        });
-        changeRoute(navigation, 'MenuScreen');
+        dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
+
+        // Toast.hideAll()
+        setBusinessState(false)
+        Alert.alert(
+          t('Congratulations!'),
+          t('Your account has been created.\n Enjoy using 247PRO! '),
+
+        );
+      
       }
     } catch (error) {
       console.error('Error handling next step:', error);
@@ -211,64 +182,13 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
     }
   };
 
-  // const createIndustry = async (newItem) => {
-  //   //await getIndustries(dispatch);
-  //   console.log('Create on this item: ', newItem);
-  //   setloading(true);
-  //   try {
-  //     let accessToken: any = await AsyncStorage.getItem('accessToken');
-  //     // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
-  //     await createIndustries(accessToken,newItem).then(response => {
-
-  //      // if (response.data.isSuccess) {
-  //         const addItem = response.data.resultData;
-  //         console.log('Show on dropdown: ', addItem);
-  //     // Call the callback with the newly created item (no need to update state here)
-  //          return addItem;
-  //         //
-  //         //setselectedIndustry(industryResponse.data.resultData);
-  //       //  setIndustries(prev => [...prev, industryResponse.data.resultData]); // Add new item to the data
-
-  //     });
-
-  //   } catch (error) {
-  //     console.error('Error fetching industries:', error);
-  //   } finally {
-  //     setloading(false);
-  //   };
-  // };
-
-  //   const createSpeciality = async newItem => {
-  //   //await getIndustries(dispatch);
-  //   console.log('Create on this item: ', newItem);
-  //     setloading(true);
-  //   try {
-  //     let accessToken: any = await AsyncStorage.getItem('accessToken');
-  //     // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
-  //     await createSpecialityByIndustry(accessToken,selectedIndustry.id,newItem).then(response => {
-
-  //       // if (response.data.isSuccess) {
-  //          const addItem = response.data.resultData;
-  //          console.log('Show on dropdown: ', addItem);
-  //      // Call the callback with the newly created item (no need to update state here)
-  //           return addItem;
-  //          //
-  //          //setselectedIndustry(industryResponse.data.resultData);
-  //        //  setIndustries(prev => [...prev, industryResponse.data.resultData]); // Add new item to the data
-
-  //      });
-  //   } catch (error) {
-  //     console.error('Error fetching industries:', error);
-  //   } finally {
-  //     setloading(false);
-  //   };
-  // };
+ 
 
   const createSpeciality = async (newItem: string) => {
-    console.log('Creating speciality for:', newItem);
+    console.log('Creating speciality for:', newItem , selectedIndustry.id);
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
-      const response = await createSpecialityByIndustry(accessToken, selectedIndustry.id, newItem);
+       const response = await createSpecialityByIndustry(accessToken, selectedIndustry.id, newItem);
       if (response.data.isSuccess) {
         const addItem = response.data.resultData;
         console.log('New speciality created:', addItem);
@@ -323,39 +243,60 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
   }, []);
 
   const loadSpecialities = async () => {
-    if (industries !== null && selectedIndustry !== null) {
+    if (selectedIndustry) {
       const industryId = selectedIndustry?.id;
       setloading(true);
+  
       try {
-        let accessToken: any = await AsyncStorage.getItem('accessToken');
-        // let accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QwMEBnbWFpbC5jb20iLCJ1c2VySWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJhY2NvdW50SWQiOiIzNjE4MjhhYi0yYWNlLTRlNGYtODk3MC0wMjU3ODM5MDdiYTciLCJpZGVudGl0eVVzZXJJZCI6ImFiNjMxZjRhLTRjY2ItNGVlNC1iNzA2LTE5YmMzYTUxZTg1OCIsImp0aSI6IjdmZTE1Yzk2LTBjOWMtNDk3My1iM2FkLTY5ZjU0ZThmZjRiYyIsImV4cCI6MTcyNTQ5MjgwNCwiaXNzIjoiaHR0cHM6Ly9hcGkuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwLjI0N3Byby5jb20ifQ._2CiZjC0CLArpsjHtdIgzDb5K-X2B4J5uhKGk0wWdz4";
-        const specialityResponse = await fetchSpecialityByIndustry(
-          accessToken,
-          industryId,
-        );
-        console.log(specialityResponse, 'specialityResponsespecialityResponsespecialityResponse')
-        if (specialityResponse.resultData) {
-          setprimarySpecialty(specialityResponse.data.resultData);
-          // console.log("THE DATA OF PRIMARY AFTER SET IS",specialityResponse.data.resultData);
-          const defaultSpeciality = specialityResponse.data.resultData.find(speciality => speciality.isDefault)
-          // console.log('/n/n Primary Array', specialityResponse.data.resultData[0]);
-          console.log('/n/n defaultSpeciality', defaultSpeciality);
-          setSelectedPrimarySpeciality(defaultSpeciality);
+        let accessToken = await AsyncStorage.getItem('accessToken');
+        const specialityResponse = await fetchSpecialityByIndustry(accessToken, industryId);
+  
+        if (specialityResponse.data.resultData) {
+          // Filter specialties to match the selected industry's ID
+          const specialties = specialityResponse.data.resultData;
+          // .filter(
+          //   (specialty) => specialty.industryId === industryId
+          // );
+  
+          setprimarySpecialty(specialties); // Set the filtered specialties list
+  
+          // Find the default specialty for this industry if it exists
+          const defaultSpeciality = specialties.find(
+            (specialty) => specialty.isDefault
+          );
+  
+          if (defaultSpeciality) {
+            setSelectedPrimarySpeciality(defaultSpeciality); // Set the default specialty
+          }
+           else {
+            
+            setSelectedPrimarySpeciality(specialties[0]);
+          }
+        } else {
+          // If no specialties are found, clear the selection and dropdown
+          setprimarySpecialty([]);
+          setSelectedPrimarySpeciality(null); // Clear selection and show placeholder
         }
       } catch (error) {
-        console.error('Error fetching speciality:', error);
+        console.error('Error fetching specialties:', error);
       } finally {
         setloading(false);
       }
     }
   };
+
+  
   useEffect(() => {
 
-    loadSpecialities();
+    if (selectedIndustry) {
+      setSelectedPrimarySpeciality(null); // Clear the selected specialty
+      loadSpecialities(); 
+    }
   }, [selectedIndustry]);
+  
   useEffect(() => {
 
-    // loadSpecialities();
+    //  loadSpecialities();
   }, [selectedPrimarySpeciality]);
 
   useEffect(() => {
@@ -388,9 +329,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       loadJobType();
     }
   }, [selectedIndustry]);
-  const jobTypeLabels = jobType?.length
-    ? jobType.map(jobType => jobType.name)
-    : [];
+  
 
   const handleSubmit = async () => {
     if (!isToastVisible) {
@@ -432,19 +371,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
           });
       } else {
         dispatch(showError(isValid.message, isValid.type))
-        // if (isZipA÷ndPhoneValid.success == false) {
-        //   dispatch(showError(isValid.message, isValid.type))
-        //   console.log(isZipAndPhoneValid, 'isZipAndPhoneValid11111')
-        // }
-        // else if (isValid.success == false) {
-        //   console.log(isZipAndPhoneValid, 'isZipAndPhoneValid2222')
-        //   dispatch(showError(isValid.message, isValid.type))
-        // }
-        // setIsToastVisible(true);
-        // await toast.show(isValid.message, { type: 'custom_toast' });
-        // setTimeout(() => {
-        //   setIsToastVisible(false);
-        // }, 5000);
+        
       }
     }
   };
@@ -498,10 +425,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
     if (!isToastVisible) {
       console.log('Selected Country Numeric Code:', getCountryCallingCode(countryCode));
       setCountryCallingCode(getCountryCallingCode(countryCode)); // Set the country code as an integer
-      // let isValid = zipAndPhoneValidation(zipCode, phoneNumber, countryCode);
-      // console.log(isValid,'isValidisValidisValidisValid')
-      // if (isValid.success) {
-      // setloading(true);
+      
       dispatch({ type: LOADER, payload: true });
       let accessToken: any = await AsyncStorage.getItem('accessToken');
       await submitZipAndPhone(accessToken, zipCode, phoneNumber, countryCallineCode)
@@ -509,13 +433,16 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
           dispatch({ type: CURRENTUSERPROFILE, payload: response.data.resultData });
           dispatch({ type: LOADER, payload: false });
           Toast.hideAll()
-          Toast.show(t('usersuccessfullyregister'), {
-            type: 'custom_success_toast',
-          });
+
           //setloading(false);
           console.log('API Response ZipCode:', response.data);
           if (response.data.isSuccess) {
-            // changeRoute(navigation, 'AppNavigation');
+            //  changeRoute(navigation, 'App');
+            Alert.alert(
+              t('Congratulations!'),
+              t('Your account has been created.\n Enjoy using 247PRO! '),
+
+            );
           }
         })
         .catch(error => {
@@ -524,45 +451,41 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
           toast.show(error, { type: 'custom_toast' });
           // dispatch({ type: ISUSERLOGIN, payload: true });
         });
-      // } else {
-      //   setIsToastVisible(true);
-      //   await toast.show(isValid.message, { type: 'custom_toast' });
-      //   setTimeout(() => {
-      //     setIsToastVisible(false);
-      //   }, 5000);
-      // }
+     
     }
   };
 
   return (
 
     <SafeAreaView style={[centralStyle.flex1, { backgroundColor: Colors.white }]}>
+
       {loading ? <ScreenLoader /> : <></>}
       <View style={[centralStyle.container, centralStyle.flex1,]}>
-        <View style={[styles.titleWrapper]}>
+        <View >
 
-          {/* <TouchableOpacity
-              activeOpacity={.8}
-              onPress={() => changeRoute(navigation, 'pop')}>
-              <AntDesign color={Colors.gray} name={`left`} size={RFPercentage(2.5)} />
-            </TouchableOpacity> */}
+          {}
 
           <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
           <View style={styles.progressContainer}>
             <View style={[styles.bar, step >= 1 && styles.activeBar]} />
             <View style={[styles.bar, step >= 2 && styles.activeBar]} />
           </View>
-          <Title
-            color={Colors.fontColor}
-            weight='400'
-            title={t(`verifyBuisnessHeader`)}
-            type={`Poppin-16`} />
+          {
+            
+          }
         </View>
 
         {step === 1 && (
+
           <SafeAreaView style={centralStyle.flex1}>
 
             <View style={styles.inputWrapper}>
+              <Title
+                color={Colors.fontColor}
+                weight='400'
+                title={t(`verifyBuisnessHeader`)}
+                type={`Poppin-16`} />
+              <View style={{ paddingBottom: 20, paddingTop: 10 }}></View>
               <Title
                 color={Colors.black}
                 weight='600'
@@ -613,40 +536,26 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       </View>
       {step === 2 &&
         (
-          <View style={[centralStyle.container, { flex: 1.4 }]}>
+          <View style={[centralStyle.container, { flex: 4.5 }]}>
             <SafeAreaView style={centralStyle.flex1}>
 
               <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}>
                 <View style={centralStyle.flex1}>
-                  {/* <View style={[styles.titleWrapper]}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => changeRoute(navigation, 'pop')}>
-                    <AntDesign
-                      color={Colors.gray}
-                      name={'left'}
-                      size={RFPercentage(2.5)}
-                    />
-                  </TouchableOpacity>
-
-                  <Image
-                    style={styles.logoStyle}
-                    source={require('../../../assets/auth-images/splashLogo.png')}
-                  />
-                  <Title
-                    color={Colors.black}
-                    weight="600"
-                    title={t('completeQuestions')}
-                    type={'Poppin-18'}
-                  />
-                </View> */}
+                  {}
                   <View style={[styles.inputWrapper]}>
                     {businessState ? (
                       <>
 
-
+                        <View style={{ paddingBottom: 20 }}>
+                          <Title
+                            color={Colors.black}
+                            weight='600'
+                            title={t(`Complete these questions to receive job leads.`)}
+                            type={`Poppin-18`}
+                          />
+                        </View>
                         <SearchDropDown
                           title={t('Industry')}
                           // defaultValueByIndex={defaultValueByIndex} // This sets the default value by index
@@ -665,10 +574,11 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
 
 
 
+                        
                         <SearchDropDown
                           title={t('primarySpecialty')}
                           // defaultValueByIndex={0}
-                          // defaultValue={}
+                          //  defaultValue={}
                           value={selectedPrimarySpeciality}
                           // disableCreateButton={true}
                           onselect={(value: any) => {
@@ -689,7 +599,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                             onselect={(value: any) => {
                               setselectedJobType(value);
                             }}
-                            errorMsg={"job type required!"}
+                            errorMsg={"Job type required!"}
                             disableValidation={jobType.length === 0 ? false : true}
                             DATA={jobType}
                             drop_down_button_style={styles.drop_down_button_style}
@@ -713,23 +623,12 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                                 onPress={() => setIsCountryPickerVisible(true)}
                                 style={[styles.flagContainer, { marginTop: RFValue(13, windowHeight) }]}>
                                 <View style={styles.flagWrapper}>
-                                  {/* <CountryPicker
-                                      countryCode={countryCode}
-                                      withCallingCode
-                                      withFlagButton={true}
-                                      onClose={() => setIsCountryPickerVisible(false)}
-                                      onSelect={country => handleOnSelect(country)}
-                                      visible={isCountryPickerVisible}
-                                    /> */}
+                                  {}
                                   <CountryPicker
                                     countryCode={country.countryCode}
                                     withCallingCode
                                     withFilter
-                                    // withCallingCodeButton
-                                    // renderFlagButton={() =>
-                                    //   <Text style={{ fontSize: RFValue(16, windowHeight) }}>
-                                    //     +{country.callingCode}</Text>}
-                                    // withFlagButton={false}
+                                    
                                     onClose={() => setIsCountryPickerVisible(false)}
                                     onSelect={handleOnSelect}
                                     visible={isCountryPickerVisible}
@@ -768,13 +667,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
                     )}
                   </View>
 
-                  {/* <View style={[styles.footer]}>
-                  <Button
-                    callBack={handleSubmit}
-                    title={t('CompleteRegisration')}
-                    primary
-                  />
-                </View> */}
+                  {}
                 </View>
               </ScrollView>
             </SafeAreaView>

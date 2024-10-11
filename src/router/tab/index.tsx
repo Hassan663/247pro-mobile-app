@@ -38,11 +38,11 @@ import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job-descr
 import PostAJobMatchPro from '../../pages/app/menu-screens/post-a-job-match-pro/post-a-job-match-pro';
 import SuccessfullyPosted from '../../pages/app/menu-screens/successfully-posted/successfully-posted';
 import EditContact from '../../pages/app/contact-screens/edit-contact/edit-contact';
-import TimeCard from '../../pages/app/menu-screens/time-card/time-card';
-import ReportCard from '../../pages/app/menu-screens/time-card/reports-card';
-import Team from '../../pages/app/menu-screens/team/team';
 import ReportDetail from '../../pages/app/menu-screens/report-detail/report-detail';
 import Menu from '../../pages/app/menu-screens/menu/menu';
+import TimeCard from '../../pages/app/menu-screens/time-card/home_team_card/time-card';
+import ReportCard from '../../pages/app/menu-screens/time-card/reports_card/reports-card';
+import Team from '../../pages/app/menu-screens/time-card/team_reports_card/team';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();

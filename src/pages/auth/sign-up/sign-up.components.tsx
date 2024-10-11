@@ -1,53 +1,75 @@
-import { TouchableOpacity } from "react-native"
-import { setItem } from "../../../core/helpers/async-storage"
-import { styles } from "./sign-up.style"
-import { Title } from "../../../core/components/screen-title.component"
-import Colors from "../../../styles/colors"
-import { appLanguages } from "../../../utilities/languageData"
-import i18n from "../../../i18n"
-import { t } from "i18next"
+import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { setItem } from "../../../core/helpers/async-storage";
+import { Title } from "../../../core/components/screen-title.component";
+import Colors from "../../../styles/colors";
+import { appLanguages } from "../../../utilities/languageData";
+import i18n from "../../../i18n";
+import { t } from "i18next";
 
-
-// CHANGE LANGUAGE 
-const setLanguageAsync = async (lang: string) => {
+const setLanguageAsync = async (lang) => {
     await setItem('languagecode', lang);
 };
-const onLanguageSelect = async (langId: string, disableModal: any, setSelectedTab: any, selectedTab: string) => {
+
+const onLanguageSelect = async (langId, disableModal, setSelectedTab, selectedTab) => {
     let lang = appLanguages.find((item) => item.id === langId);
     if (lang) {
         await i18n.changeLanguage(lang.code);
         await setLanguageAsync(lang.code);
-        disableModal()
-        console.log(lang.code,'selectedTabselectedTab')
-        setSelectedTab(t('Phone'));
+        disableModal();
+        setSelectedTab(t('English'));
     }
 };
 
-
-
-export const LanguageDropDown: React.FC<{ disableModal?: any, setSelectedTab: any, selectedTab: string }> = ({ disableModal, setSelectedTab, selectedTab }) => {
+export const LanguageDropDown = ({ disableModal, setSelectedTab, selectedTab }) => {
     return (
-        <TouchableOpacity
-            activeOpacity={.9}
-            onPress={disableModal}
-            style={styles.modalContainerAbs}>
-            <TouchableOpacity
-                activeOpacity={.9}
-                onPress={() => {
-                }}
-                style={styles.modalContainer}>
+        <View style={styles.dropdownContainer}>
+            <View style={styles.languageContainer}>
                 {appLanguages.map((item) => (
                     <TouchableOpacity
+                        key={item.id}
                         activeOpacity={.8}
-                        onPress={() => onLanguageSelect(item.id, disableModal, setSelectedTab, selectedTab)}>
+                        style={styles.languageOption}
+                        onPress={() => onLanguageSelect(item.id, disableModal, setSelectedTab, selectedTab)}
+                    >
                         <Title
                             title={item.code == 'en' ? 'English' : item.code == 'ch' ? '中国人' : 'Española'}
                             weight='400'
-                            color={Colors.fontColor}
-                            type='Poppin-12' />
+                            color={Colors.black}
+                            type='Poppin-14'
+                            customStyle={styles.languageText}
+                        />
                     </TouchableOpacity>
                 ))}
-            </TouchableOpacity>
-        </TouchableOpacity >
-    )
-}
+            </View>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    dropdownContainer: {
+        position: 'absolute',
+        top: 50,  // Adjust this to position it right under your language icon
+        right: 10,  // Align it with the right side
+        width: 150,  // Adjust the width to make it smaller
+        backgroundColor: 'white',
+        borderRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 8,
+    },
+    languageContainer: {
+        paddingVertical: 10,
+    },
+    languageOption: {
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f1f1f1',
+    },
+    languageText: {
+        fontSize: 16,
+        color: Colors.black,
+    },
+});

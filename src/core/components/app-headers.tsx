@@ -30,7 +30,7 @@ const AppHeader: React.FC<{
                 {iconL1}
             </View>
             <View style={[centralStyle.alignitemCenter, { flexGrow: platform == 'ios' ? 0 : 0 }]}>
-                <Title title={title} color={color ? color : Colors.black} weight={weight ? weight : '700'} type={type ? type : 'Poppin-20'} />
+                <Title title={title} color={color ? color : Colors.black} weight={weight ? weight : '400'} type={type ? type : 'Poppin-20'} />
             </View>
             <View style={[centralStyle.flex1, centralStyle.row, { justifyContent: centralPosition.flexEnd, alignItems: centralPosition.center }]}>
                 {iconR1}

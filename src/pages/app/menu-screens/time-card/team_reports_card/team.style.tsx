@@ -1,9 +1,8 @@
 import { StyleSheet } from 'react-native';
-import Colors from '../../../../styles/colors';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-import { platform } from '../../../../utilities';
 import { t } from 'i18next';
-import { windowHeight } from '../../../../styles/constant.style';
+import { windowHeight } from '../../../../../styles/constant.style';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export const styles: any = StyleSheet.create<any>({
     myReportProfileContainer: {
@@ -15,6 +14,12 @@ export const styles: any = StyleSheet.create<any>({
         borderBottomWidth: 1,
         borderBottomColor: Colors.gray,
         flexDirection: "row",
+    },
+
+    clockOutButton: {
+        borderWidth: 1,        // Add the border
+        borderColor: '#B0B0B0', // Grey color for the border
+        borderRadius: 8,       // Optional: round corners for the button
     },
     wrapper: {
         flex: 1,

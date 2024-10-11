@@ -174,7 +174,7 @@ export const signUpAction = (name: string, email: string, password: string,) => 
             if (Object.keys(SignupResponse).length > 0) {
                 await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
                 dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
-                // return true;  // Return true if sign-up is successful
+                return true;  
             }
             return false; // Return false if sign-up failed
         } catch (error: any) {
@@ -210,59 +210,96 @@ export const hideError = (): any => async (dispatch: Dispatch) => {
 export const socialLoginAction = (googleResponse?: any) => {
     return async (dispatch: Dispatch) => {
         try {
-            console.log(googleResponse, 'directLoginToken')
+            console.log(googleResponse, 'Google login response received');
             dispatch({ type: LOADER, payload: true });
+
             let userData: any;
+
+            // Call externalLogin API with Google token to get user data
             userData = await externalLogin({
                 provider: 'Google',
                 idToken: googleResponse.idToken,
-            })
-            console.log('userData===', userData);
-            console.log('userData===', userData.isRegister);
+            });
 
-            if (userData.isRegister==true) {
-                console.log("In isRegister true")
+            // Log userData for debugging
+            console.log('userData received from externalLogin:', userData);
+
+            // Check if userData is empty or null
+            if (!userData || Object.keys(userData).length === 0) {
+                throw new Error('User data is empty or invalid.');
+            }
+
+            console.log('isRegister status:', userData.isRegister);
+
+            if (userData.isRegister === true) {
+                console.log("User is already registered.");
+
+                // Prepare data for membership API call
                 let memberShipApiData: MemberShipApiModal = {
                     accountId: userData.accountId,
                     identityUserId: userData.identityUserId,
                     userEmail: userData.email,
                 };
 
-                const memberShipApiResponeData: any = await memberShipApi(
+                // Call memberShipApi with data and accessToken
+                const memberShipApiResponse: any = await memberShipApi(
                     memberShipApiData,
-                    userData.accessToken,
+                    userData.accessToken
                 );
-                console.log('memberShipApiResponeData here====', memberShipApiResponeData);
-                if (Object.keys(userData).length > 0) {
-                    await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
-                    const userProfile =await userIdentity(userData.accessToken)
-                    console.log('userProfile', userProfile);
-                    
-                    dispatch({ type: CURRENTUSERPROFILE, payload: userProfile });
-                  
+
+                console.log('Membership API Response:', memberShipApiResponse);
+
+                // Store access token in AsyncStorage
+                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+
+                // Fetch user profile using userIdentity API
+                const userProfile = await userIdentity(userData.accessToken);
+
+                console.log('User Profile fetched after membership API:', userProfile);
+
+                // Check if userProfile is empty
+                if (!userProfile || Object.keys(userProfile).length === 0) {
+                    throw new Error('User profile is empty or invalid.');
                 }
-                
+
+                // Dispatch the fetched profile to Redux
+                dispatch({ type: CURRENTUSERPROFILE, payload: userProfile });
+
             } else {
-                console.log('esle here====');
-                // await AsyncStorage.setItem('isBusiness', 'no')
+                console.log('User is not registered yet.');
 
                 if (Object.keys(userData).length > 0) {
-                    console.log("Hello here")
+                    console.log("Proceeding with non-registered user flow.");
+
+                    // Store access token in AsyncStorage
                     await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
-                    const userProfile = await userIdentity(userData.accessToken)
-                    console.log('userProfilefuck',userProfile );
-                    
+
+                    // Fetch user profile using userIdentity API
+                    const userProfile = await userIdentity(userData.accessToken);
+
+                    console.log('User Profile fetched for non-registered user:', userProfile);
+
+                    // Check if userProfile is empty
+                    if (!userProfile || Object.keys(userProfile).length === 0) {
+                        throw new Error('User profile is empty or invalid.');
+                    }
+
+                    // Dispatch the fetched profile to Redux
                     dispatch({ type: CURRENTUSERPROFILE, payload: userProfile });
-                  
                 }
-                dispatch({ type: LOADER, payload: false });
             }
+
+            // End loading state
+            dispatch({ type: LOADER, payload: false });
+
         } catch (error: any) {
-            console.log(error.message, 'error')
+            console.error('Error in socialLoginAction:', error.message);
+            Toast.show("Something Went Wrong",)
+            Toast.hideAll()
             dispatch({ type: LOADER, payload: false });
         }
-    }
-}
+    };
+};
 
 
 

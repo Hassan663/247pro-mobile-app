@@ -112,6 +112,7 @@ export const fetchSpecialityByIndustry = async (
     name: string,
   ): Promise<IResponse<PrimarySpecialty[]>> => {
     try {
+      console.log("Hllllllll", industryId,name)
       const data: any = {
         industryId,
         name,

@@ -247,6 +247,30 @@ export const Contact = ({ width, height, color }) => {
   );
 };
 
+
+
+export const Time = ({ width, height, color }) => {
+  return (
+    <View style={centralStyle.my1}>
+      <Svg
+        width={width}
+        height={height}
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <Path
+          d="M20 3.333C11.716 3.333 5 10.05 5 18.333 5 26.617 11.716 33.333 20 33.333c8.284 0 15-6.716 15-15S28.284 3.333 20 3.333zm1.667 16.667h-5v-10h3.333v6.667H25v3.333z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+    </View>
+  );
+};
+
 export const Help = ({ width, height, color }) => {
   return (
     <View style={centralStyle.my1}>
