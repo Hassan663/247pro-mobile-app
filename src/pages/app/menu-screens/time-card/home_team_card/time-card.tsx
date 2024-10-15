@@ -81,39 +81,39 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const [showDropdown, setShowDropdown] = useState(false);
 
 
-    
+
     useEffect(() => {
         if (location) {
-          console.log('Location:', location.latitude);
-          
+            console.log('Location:', location.latitude);
+
         }
         if (areaDetails) {
-          console.log('Area Details:', areaDetails);
+            console.log('Area Details:', areaDetails);
         }
-      }, [location, areaDetails]);
-   
-      useEffect(() => {
+    }, [location, areaDetails]);
+
+    useEffect(() => {
         // Whenever location is updated, fetch projects if location is available
         if (location && location.latitude && location.longitude) {
             fetchProjectsByRadius(location.latitude, location.longitude);
         }
-    }, [location]); 
+    }, [location]);
     useEffect(() => {
         setLoading(true);
         // Start of today (0 hour) with Microsoft format and timezone
         const startDate = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-        
+
         // End of today (23:59:59) with Microsoft format and timezone
         const endDate = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-    
+
         // Log the start and end dates for debugging
         console.log("Start Date (0 hour):", startDate);
         console.log("End Date (24 hour):", endDate);
-    
+
         // Update state with formatted start and end date
         setStartDate(startDate);
         setEndDate(endDate);
-    
+
         // Execute your functions after setting the start and end dates
         getLocation();
         fetchData(startDate, endDate);
@@ -177,21 +177,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             }
 
 
-            // try {
-                
-            //     console.log("The fuck is ",location.latitude, location.longitude )
-            //     const projectsResponse = await dispatch(getProjectsByRadiusAction(location.latitude, location.longitude,5));
-            //     console.log("Fetched Projects: ", projectsResponse);
-
-            //     // Update the state with the fetched projects
-            //     if (projectsResponse) {
-            //         setCurrentProjects(projectsResponse); // Save the response into the state
-            //     } else {
-            //         console.log("No projects found.");
-            //     }
-            // } catch (projectsError) {
-            //     console.error('Error fetching projects:', projectsError);
-            // }
+            
 
         } catch (error) {
             console.error('Error in fetchData: ', error);
@@ -231,7 +217,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
             if (diffInMinutes > 840) {
                 console.log("Opening Clock Out BottomSheet");
-                setThirdBottomSheetOpen(true); 
+                setThirdBottomSheetOpen(true);
             }
         }
 
@@ -267,10 +253,10 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
 
-    
+
     const renderButtons = () => {
         if (!currentTimesheet) {
-           
+
             return (
                 <View style={styles.buttonRowContainer}>
                     <View style={styles.buttonFullWidth}>
@@ -324,10 +310,10 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 return (
                     <View style={styles.buttonRowContainer}>
                         <View style={styles.buttonFullWidth}>
-                            <Button disable={false} title={t('BreakOut')}  callBack={() => handleBreakOut()} primary customBackgroundColor="#4CAF50" />
+                            <Button disable={false} title={t('BreakOut')} callBack={() => handleBreakOut()} primary customBackgroundColor="#4CAF50" />
                         </View>
                         <View style={styles.buttonFullWidth}>
-                        <Button
+                            <Button
                                 disable={false}
                                 title={t('ClockOut')}
                                 callBack={() => handleClockOut()}
@@ -390,16 +376,16 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         console.log("Selected DateTime:", selectedDateTime);
         const extractedDateTime = selectedDateTime.date;
         if (currentTimesheet.status === 10) {
-          // If status is 10, call handleBreakOut
-          handleBreakOut(extractedDateTime);
-          setThirdBottomSheetOpen(true);
-          
+            // If status is 10, call handleBreakOut
+            handleBreakOut(extractedDateTime);
+            setThirdBottomSheetOpen(true);
+
         } else {
-          // Otherwise, call handleClockOut
-          handleClockOut(extractedDateTime);
+            // Otherwise, call handleClockOut
+            handleClockOut(extractedDateTime);
         }
-        
-      };
+
+    };
 
 
     const handleBreakIn = async () => {
@@ -421,13 +407,13 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
             // Prepare the timesheet data
             const timesheetDataBreakIn: TimesheetTransactionViewModel = {
-                 id: '00000000-0000-0000-0000-000000000000',
+                id: '00000000-0000-0000-0000-000000000000',
                 timesheetId: timesheetId,
                 transactionType: 3, // Break In
                 transactionDateTime: currentDate,
-                latitude: location.latitude, // Hardcoded
-                longitude: location.longitude, // Hardcoded
-                address: areaDetails// Hardcoded
+                latitude: location.latitude,  
+                longitude: location.longitude,  
+                address: areaDetails 
             };
 
             // Ensure the timesheet data is complete
@@ -471,8 +457,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             // const timesheetTransactionId = currentTimesheet.timesheetTransactions[0].id;
             const timesheetId = currentTimesheet.id;
             let timeSheetDataBreakOut = null;
-            if (!selectedDateTime){
-                const currentDate =getCurrentDateInMicrosoftFormat();
+            if (!selectedDateTime) {
+                const currentDate = getCurrentDateInMicrosoftFormat();
                 timeSheetDataBreakOut = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
@@ -482,9 +468,9 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                     longitude: location.longitude,
                     address: areaDetails
                 };
-    
+
             }
-            else{
+            else {
                 timeSheetDataBreakOut = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
@@ -494,10 +480,10 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                     longitude: location.longitude,
                     address: areaDetails
                 };
-    
+
             }
-           
-            
+
+
 
 
 
@@ -533,32 +519,32 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             // const timesheetTransactionId = currentTimesheet.timesheetTransactions[0].id;
             const timesheetId = currentTimesheet.id;
             let timesheetDataClockOut = null;
-            if (!selectedDateTime){
-                const currentDate =getCurrentDateInMicrosoftFormat();
+            if (!selectedDateTime) {
+                const currentDate = getCurrentDateInMicrosoftFormat();
                 timesheetDataClockOut = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
                     transactionType: 2, // BreakOut transaction type
                     transactionDateTime: currentDate,
-                    latitude: location.latitude, // Hardcoded
-                    longitude: location.longitude, // Hardcoded
-                    address: areaDetails// Hardcoded
+                    latitude: location.latitude,  
+                    longitude: location.longitude,  
+                    address: areaDetails 
                 };
             }
-            else{
+            else {
                 timesheetDataClockOut = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
                     transactionType: 2, // BreakOut transaction type
                     transactionDateTime: selectedDateTime,
-                    latitude: location.latitude, // Hardcoded
-                    longitude: location.longitude, // Hardcoded
-                    address: areaDetails// Hardcoded
+                    latitude: location.latitude,  
+                    longitude: location.longitude,  
+                    address: areaDetails 
                 };
             }
-            
 
-             
+
+
 
             // Ensure the timesheet data is complete
             if (!timesheetDataClockOut.transactionDateTime || !timesheetDataClockOut.timesheetId) {
@@ -608,19 +594,19 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             const currentDate = getCurrentDateInMicrosoftFormat();
             let newTimesheetData = null;
 
-            // Prepare the timesheet data based on the current timesheet
+           
             if (currentTimesheet && currentTimesheet.timesheetTransactions && currentTimesheet.timesheetTransactions[0]) {
-                const timesheetTransactionId = currentTimesheet.timesheetTransactions[0].id;
+                
                 const timesheetId = currentTimesheet.id;
 
                 // Construct the timesheet data
                 newTimesheetData = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
-                    transactionType: 1, // Assuming ClockIn
+                    transactionType: 1, 
                     transactionDateTime: currentDate,
-                    latitude: location.latitude, // Hardcoded
-                    longitude: location.longitude, // Hardcoded
+                    latitude: location.latitude,  
+                    longitude: location.longitude,  
                     address: areaDetails
                 };
             } else if (!currentTimesheet || (currentTimesheet.statusCode === 203 || currentTimesheet.statusCode === 204)) {
@@ -628,11 +614,12 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
                 // Handle case where timesheet is empty or status code is 203 or 204
                 newTimesheetData = {
-                    transactionType: 1, // Assuming ClockIn
+                    id: '00000000-0000-0000-0000-000000000000',
+                    transactionType: 1, 
                     transactionDateTime: currentDate,
-                    latitude: location.latitude, // Hardcoded
-                    longitude: location.longitude, // Hardcoded
-                    address: areaDetails// Hardcoded
+                    latitude: location.latitude,  
+                    longitude: location.longitude,  
+                    address: areaDetails 
                 };
             } else {
                 console.error("Current timesheet is invalid or missing required data.");
@@ -659,9 +646,11 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 console.log("gghhhhhhhgggggg")
                 // Open bottom sheet if more than one project is available
                 setBottomSheetOpen(true);
-            } else {
-                console.log("No projects available.");
-                Alert.alert("No Project Available")
+            } 
+            else {
+                handleProjectSelect(null);
+                // console.log("No projects available.");
+                // Alert.alert("No Project Available")
             }
 
         } catch (error) {
@@ -672,35 +661,40 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         }
     };
 
-    // Function to handle project selection from bottom sheet
+   
+
     const handleProjectSelect = async (projectId) => {
         try {
             setLoading(true); // Start the loading state
             console.log("Project selection started with: ", timesheetData, projectId);
-
+    
             const currentDate = getCurrentDateInMicrosoftFormat();
-
+    
             // Ensure the timesheetData is up-to-date and available globally
             if (!timesheetData) {
                 console.error('Timesheet data is missing.');
                 setLoading(false);
                 return;
             }
-
-            // Dispatch clockInAction with the selected project ID
-            await dispatch(clockInAction(timesheetData, currentDate, projectId)); // Wait for clockInAction to complete
-
+    
+            // Set projectId to null if it is not provided
+            const selectedProjectId = projectId || null;
+    
+            // Dispatch clockInAction with the selected project ID (or null)
+            await dispatch(clockInAction(timesheetData, currentDate, selectedProjectId));
+    
             // Fetch the updated timesheet after clock-in
             const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-            if (timesheetResponse && timesheetResponse.statusCode === 200) {
-                setCurrentTimesheet(timesheetResponse.data); // Update the currentTimesheet state
+            if (timesheetResponse.data && timesheetResponse.statusCode === 200) {
+                setCurrentTimesheet(timesheetResponse.data); 
+                setTime(0); 
+                setIsRunning(true); 
+                setBottomSheetOpen(false); 
             } else {
                 setCurrentTimesheet(null); // Handle case where no timesheet is returned
             }
-            setTime(0); // Reset timer to 0
-            setIsRunning(true); // Start the timer
-
-            setBottomSheetOpen(false); // Close the bottom sheet after selecting
+    
+           
         } catch (error) {
             console.error('Error in handleProjectSelect:', error); // Handle any errors
         } finally {
@@ -708,6 +702,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             console.log("Project selection completed.");
         }
     };
+    
+    
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
             {
@@ -736,16 +732,16 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                 {
                                     loading ? <Loader size={'strong'} /> :
                                         <>
-                                            {}
+                                            { }
                                             <View style={styles.dateContainer}>
                                                 <Text style={styles.date}>{formatDate()}</Text>
                                             </View>
-                                            {}
+                                            { }
                                             <View style={styles.timerContainer}>
                                                 <Text style={styles.timer}>{formatTime(time)}</Text>
                                             </View>
                                             <View style={[centralStyle.my1, styles.timerButtonContainer]}>
-                                                {}
+                                                { }
                                                 <View style={[centralStyle.my1, styles.fullWidthButtonContainer]}>
                                                     {renderButtons()}
                                                 </View>
@@ -816,7 +812,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                 />
                             }
 
-{
+                            {
                                 <BottomSheetDateTimePicker
                                     isOpen={thirdBottomSheetOpen}
                                     onClose={() => setThirdBottomSheetOpen(false)}

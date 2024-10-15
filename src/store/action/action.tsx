@@ -826,36 +826,74 @@ export const handleSearch = (
 //     }
 // }
 
-//TimeCard Actions
+// //TimeCard Actions
+
+// export const clockInAction = (
+//     timesheetData: TimesheetTransactionViewModel, // Body data (using the updated model)
+//     timeZone: string,                            // Query param
+//     projectId: number                            // Query param
+//   ) => {
+//     return async (dispatch: Dispatch) => {
+//       try {
+//         dispatch({ type: LOADER, payload: true });  // Start loader
+//         console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId)
+//         // Call the clockIn API
+//         const response = await clockIn(timesheetData, timeZone, projectId);
+  
+//         // Handle successful response
+//         if (response) {
+//           await AsyncStorage.setItem('clockInData', JSON.stringify(response));  // Optional storage
+//           dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+//         }
+  
+//         dispatch({ type: LOADER, payload: false });  // Stop loader
+  
+//       } catch (error: any) {
+//         dispatch({ type: LOADER, payload: false });  // Stop loader
+//         console.error('Clock-in error:', error.message);
+//         dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+//       }
+//     };
+//   };
 
 export const clockInAction = (
-    timesheetData: TimesheetTransactionViewModel, // Body data (using the updated model)
+    timesheetData: TimesheetTransactionViewModel, // Body data
     timeZone: string,                            // Query param
-    projectId: number                            // Query param
-  ) => {
+    projectId?: number | undefined                    // Optional Query param
+) => {
     return async (dispatch: Dispatch) => {
-      try {
-        dispatch({ type: LOADER, payload: true });  // Start loader
-        console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId)
-        // Call the clockIn API
-        const response = await clockIn(timesheetData, timeZone, projectId);
-  
-        // Handle successful response
-        if (response) {
-          await AsyncStorage.setItem('clockInData', JSON.stringify(response));  // Optional storage
-          dispatch({ type: CLOCKIN_SUCCESS, payload: response });
-        }
-  
-        dispatch({ type: LOADER, payload: false });  // Stop loader
-  
-      } catch (error: any) {
-        dispatch({ type: LOADER, payload: false });  // Stop loader
-        console.error('Clock-in error:', error.message);
-        dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
-      }
-    };
-  };
+        try {
+            dispatch({ type: LOADER, payload: true }); // Start loader
+            console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId);
 
+            // Build the query parameters dynamically using URLSearchParams
+            const queryParams = new URLSearchParams();
+            queryParams.append('timeZone', timeZone); // Always include timeZone
+
+            // Add projectId only if it's not null or undefined
+            if (projectId != undefined) {
+                queryParams.append('projectId', projectId.toString());
+            }
+
+            console.log("Constructed Query Params:", queryParams.toString());
+
+            // Make the API call with the constructed query parameters
+            const response = await clockIn(timesheetData, queryParams.toString());
+
+            // Handle the successful response
+            if (response) {
+                await AsyncStorage.setItem('clockInData', JSON.stringify(response)); // Optional storage
+                dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+            }
+
+            dispatch({ type: LOADER, payload: false }); // Stop loader
+        } catch (error: any) {
+            dispatch({ type: LOADER, payload: false }); // Stop loader
+            console.error('Clock-in error:', error.message);
+            dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+        }
+    };
+};
 
   export const breakInAction = (
     timesheetData: TimesheetTransactionViewModel // Body data (using the updated model)

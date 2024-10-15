@@ -43,7 +43,8 @@ import { CURRENTUSERPROFILE, SPLASHSTATUSBAR } from '../../../store/constant/con
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { handleGoogle } from '../../../core/helpers/social-auths';
 import { userIdentity } from '../../../core/http-services/apis/identity-api/authentication.service';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { LanguageDropDown } from '../sign-up/sign-up.components';
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
 const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
@@ -56,7 +57,8 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         emailError: '',
         passwordError: '',
     });
-
+    const [showLanguageModal, setShowLanguageModal] = useState<boolean>(false); 
+    const [selectedLanguage, setSelectedLanguage] = useState<string>('English');
 
     const dispatch: Dispatch<any> = useDispatch();
     const loader = useSelector((state: any) => state.root.loader);
@@ -67,7 +69,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         const unsubscribe = navigation.addListener('blur', () => { toast.hideAll() });
         return unsubscribe;
     }, [navigation]);
-    const emailInput = useRef<TextInput>(null); // Create a reference for the first name field
+    const emailInput = useRef<TextInput>(null); 
 
     // Focus the first name input field when the screen loads
     useEffect(() => {
@@ -136,6 +138,14 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     // }, [currentUserProfile, navigation]);
     
 
+    const toggleLanguageModal = () => {
+        setShowLanguageModal(!showLanguageModal);
+    };
+
+    const handleLanguageChange = (newLanguage: string) => {
+        setSelectedLanguage(newLanguage);
+        toggleLanguageModal(); // Close modal after selection
+    };
 
 
     useEffect(() => {
@@ -339,11 +349,25 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
         }, [])
     );
     return (
+        <>
         <SafeAreaView style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView
                     style={styles.innerContainer}
+
                 >
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 10 }}>
+                            <TouchableOpacity
+                                onPress={toggleLanguageModal}
+                                style={{ flexDirection: 'row', alignItems: 'center' }}
+                            >
+                                <Ionicons name="earth-outline" size={20} color={Colors.gray} />
+                                <Text style={{ marginLeft: 5, color: Colors.gray, fontSize: RFValue(16) }}>
+                                    {selectedLanguage}
+                                </Text>
+                                <AntDesign name="down" size={15} color={Colors.gray} style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
                     <View style={[centralStyle.container, { height: windowHeight, }]}>
                         <View style={styles.titleWrapper}>
                             <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
@@ -457,10 +481,23 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                     </View>
                 </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
+            
         </SafeAreaView>
 
+        {showLanguageModal && (
+                <LanguageDropDown
+                    disableModal={toggleLanguageModal}
+                    setSelectedTab={handleLanguageChange}
+                    selectedTab={selectedLanguage}
+                />
+            )}
+           
+        </>
        
     );
-});
+    
+}
+
+);
 
 export default SignIn;

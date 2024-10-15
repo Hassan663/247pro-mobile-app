@@ -9,10 +9,38 @@ import {
   CLOCK_OUT_ENDPOINT,
 } from '../../apis';
 
+// export const clockIn = async (
+//   data: TimesheetTransactionViewModel, // Body (using the updated model)
+//   timeZone: string, // Query parameter
+//   projectId: number, // Query parameter
+// ): Promise<IResponse<any>> => {
+//   try {
+//     // Fetch the access token from AsyncStorage
+//     const accessToken = await AsyncStorage.getItem('accessToken');
+//     if (accessToken !== null) {
+//       CLOCK_IN_ENDPOINT.JWTToken = JSON.parse(accessToken);
+//     }
+// console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId)
+//     // Append the query parameters to the URL
+//     const urlWithParams = `${
+//       CLOCK_IN_ENDPOINT.url
+//     }?timeZone=${encodeURIComponent(timeZone)}&projectId=${projectId}`;
+
+//     // Call the reusable POST API utility
+//     return await postApi<TimesheetTransactionViewModel, any>(
+//       {...CLOCK_IN_ENDPOINT, url: urlWithParams},
+//       data,
+//     );
+//   } catch (error) {
+//     console.error('Clock-in error:', error);
+//     throw error;
+//   }
+// };
+
 export const clockIn = async (
   data: TimesheetTransactionViewModel, // Body (using the updated model)
   timeZone: string, // Query parameter
-  projectId: number, // Query parameter
+  projectId?: number | null, // Optional Query parameter
 ): Promise<IResponse<any>> => {
   try {
     // Fetch the access token from AsyncStorage
@@ -20,15 +48,24 @@ export const clockIn = async (
     if (accessToken !== null) {
       CLOCK_IN_ENDPOINT.JWTToken = JSON.parse(accessToken);
     }
-console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId)
-    // Append the query parameters to the URL
-    const urlWithParams = `${
-      CLOCK_IN_ENDPOINT.url
-    }?timeZone=${encodeURIComponent(timeZone)}&projectId=${projectId}`;
+
+    console.log("THE TIMEZONE AND PROJECTID", timeZone, projectId);
+
+    // Build the URL with query parameters dynamically
+    const queryParams = new URLSearchParams();
+    queryParams.append('timeZone', encodeURIComponent(timeZone)); // Always include timeZone
+
+    if (projectId != null) {
+      queryParams.append('projectId', projectId.toString()); // Only add projectId if it exists
+    }
+
+    const urlWithParams = `${CLOCK_IN_ENDPOINT.url}?${queryParams.toString()}`;
+
+    console.log("Constructed URL:", urlWithParams);
 
     // Call the reusable POST API utility
     return await postApi<TimesheetTransactionViewModel, any>(
-      {...CLOCK_IN_ENDPOINT, url: urlWithParams},
+      { ...CLOCK_IN_ENDPOINT, url: urlWithParams },
       data,
     );
   } catch (error) {
