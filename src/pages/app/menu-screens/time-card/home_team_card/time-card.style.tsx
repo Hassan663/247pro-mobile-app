@@ -53,7 +53,7 @@ export const styles: any = StyleSheet.create<any>({
         paddingHorizontal: 20,
     },
     timer: {
-        fontSize: RFValue(48, windowHeight),
+        fontSize: RFValue(40, windowHeight),
         color: Colors.black,
     },
     // buttonRowContainer: {
@@ -121,23 +121,23 @@ export const styles: any = StyleSheet.create<any>({
     },
 
     topRowContainer: {
-        paddingTop: 40,  
+        paddingTop: 35,  
         paddingBottom: 16,
-        paddingLeft: 16,
-        paddingRight: 16,
+        paddingLeft: 2,
+        paddingRight: 18,
         flexDirection: 'row',  
         justifyContent: 'space-between',  
         alignItems: 'center',  
     },
     leadingText: {
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: '400',
         color: Colors.black,  
     },
     trailingText: {
         fontSize: 16,
         fontWeight: '400',
-        color: Colors.gray,  
+        color: '#9e9e9e',  
     },
     divider: {
         height: 1,

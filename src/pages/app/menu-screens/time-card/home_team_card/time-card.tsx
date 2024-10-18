@@ -21,25 +21,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { t } from 'i18next';
 import { AlphabetList } from 'react-native-section-alphabet-list';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-
-
-
 import { Item } from './time-card-component';
 // import { Title } from '../../../../core/components/screen-title.component';
 import { styles } from './time-card.style';
-
 // import { DATA, data } from './data';
 import { useDispatch, useSelector } from 'react-redux';
-
-
-
-
-
-
-
-
 import { Modalize } from 'react-native-modalize';
-
 import { ALPHABET_SIZE, platform, } from '../../../../../utilities/constants';
 import ProjectBottomSheet from '../../../../../core/components/projects-bottomsheet';
 import BottomSheetDateTimePicker from '../../../../../core/components/bottomSheet';
@@ -74,7 +61,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const [currentTimesheet, setCurrentTimesheet] = useState<any>(null);
     const [bottomSheetOpen, setBottomSheetOpen] = useState(false); // State to control bottom sheet visibility
     const [currentProjects, setCurrentProjects] = useState<ProjectListViewModel[]>([]);
-    const [timesheetData, settimeSheetData] = useState<any>(null);
+    const [timesheetData, settimeSheetData] = useState(null);
     const [secondBottomSheetOpen, setSecondBottomSheetOpen] = useState(false);
     const [thirdBottomSheetOpen, setThirdBottomSheetOpen] = useState(false);
     const modalizeRef = useRef<Modalize>(null);
@@ -83,104 +70,120 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
     useEffect(() => {
-        if (location) {
-            console.log('Location:', location.latitude);
-
-        }
-        if (areaDetails) {
-            console.log('Area Details:', areaDetails);
+        try {
+            if (location?.latitude && location?.longitude) {
+                console.log('Location:', location.latitude, location.longitude);
+            } else {
+                console.warn('Location details are missing or incomplete.');
+            }
+    
+            if (areaDetails) {
+                console.log('Area Details:', areaDetails);
+            } else {
+                console.warn('Area details are missing.');
+            }
+        } catch (error) {
+            console.error('Error in logging location or area details:', error);
         }
     }, [location, areaDetails]);
-
+    
     useEffect(() => {
         // Whenever location is updated, fetch projects if location is available
-        if (location && location.latitude && location.longitude) {
+        if (location?.latitude && location?.longitude) {
             fetchProjectsByRadius(location.latitude, location.longitude);
+        } else {
+            console.warn('Location is not available or incomplete. Projects not fetched.');
         }
     }, [location]);
+    
     useEffect(() => {
         setLoading(true);
-        // Start of today (0 hour) with Microsoft format and timezone
-        const startDate = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-
-        // End of today (23:59:59) with Microsoft format and timezone
-        const endDate = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-
-        // Log the start and end dates for debugging
-        console.log("Start Date (0 hour):", startDate);
-        console.log("End Date (24 hour):", endDate);
-
-        // Update state with formatted start and end date
-        setStartDate(startDate);
-        setEndDate(endDate);
-
-        // Execute your functions after setting the start and end dates
-        getLocation();
-        fetchData(startDate, endDate);
+        try {
+            const startDate = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
+            const endDate = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
+    
+            console.log("Start Date (0 hour):", startDate);
+            console.log("End Date (24 hour):", endDate);
+    
+            setStartDate(startDate);
+            setEndDate(endDate);
+    
+            getLocation();
+            fetchData(startDate, endDate);
+        } catch (error) {
+            console.error('Error in setting dates or fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
     }, []);
-
+    
     const getLocation = async () => {
         try {
             const loc = await useLocation();  // Await the resolved location
-            console.log('Location fetched in get Location:', loc);  // Now you can use lat and long here
-        } catch (err) {
-            console.error('Error fetching location:', err);
+            if (loc && loc.latitude && loc.longitude) {
+                console.log('Location fetched:', loc);
+            } else {
+                throw new Error('Location not found or incomplete.');
+            }
+        } catch (error) {
+            console.error('Error fetching location:', error);
         }
     };
-    const fetchProjectsByRadius = async (latitude: number, longitude: number) => {
+    
+    const fetchProjectsByRadius = async (latitude, longitude) => {
         try {
-            setLoading(true); // Start loading indicator
-
+            if (!latitude || !longitude) {
+                throw new Error('Latitude or longitude is missing.');
+            }
+    
+            setLoading(true);
             console.log("Fetching projects with location:", latitude, longitude);
-
-            const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5)); // Assuming a radius of 5 km
+    
+            const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5)); 
             if (projectsResponse) {
-                setCurrentProjects(projectsResponse); // Save the response into the state
+                setCurrentProjects(projectsResponse); 
             } else {
-                console.log("No projects found.");
+                console.warn("No projects found.");
             }
         } catch (error) {
             console.error('Error fetching projects:', error);
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     };
-    const fetchData = async (startDate: string, endDate: string) => {
+    
+    const fetchData = async (startDate, endDate) => {
         try {
-            setLoading(true); // Start loading indicator
-
-            // Fetch members by timesheet and handle errors independently
+            setLoading(true);
+    
             try {
                 const membersResponse = await dispatch(getMembersByTimesheetAction(startDate, endDate));
-                console.log("Members Response: ", membersResponse);
+                if (membersResponse) {
+                    console.log("Members Response: ", membersResponse);
+                } else {
+                    console.warn("No members found for the given timesheet.");
+                }
             } catch (membersError) {
                 console.error('Error fetching members by timesheet:', membersError);
             }
-
-
-
+    
             try {
-                setLoading(true);
                 const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-                if (timesheetResponse && timesheetResponse.statusCode === 200) {
+                if (timesheetResponse?.statusCode === 200) {
                     setCurrentTimesheet(timesheetResponse.data);
                     calculateTimeDifference(timesheetResponse.data);
-                }
-                else if (timesheetResponse.statusCode === 203) {
+                } else if (timesheetResponse?.statusCode === 203) {
                     setCurrentTimesheet(null);
                     setTime(0);
+                } else {
+                    console.warn('Unexpected response while fetching timesheet:', timesheetResponse);
                 }
             } catch (error) {
                 console.error('Error fetching timesheet:', error);
-            } finally {
-                setLoading(false);
             }
-
-
-            
-
+    
         } catch (error) {
-            console.error('Error in fetchData: ', error);
+            console.error('Error in fetchData:', error);
         } finally {
             setLoading(false);
         }
@@ -358,16 +361,16 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     };
 
 
-    // Format the data to the structure required by AlphabetList
+    
     const formattedData = timesheetMembers ? timesheetMembers.map((member) => ({
         key: member.userId,
-        value: member.userName || 'Unknown', // In case userName is missing
+        value: member.userName || 'Unknown', 
         profile: member.userProfile,
         clockInTime: member.clockInTime,
         clockOutTime: member.clockOutTime,
     })) : [];
 
-    // Function to get the current date in Microsoft DateTime format
+    
     const getCurrentDateInMicrosoftFormat = () => {
         return moment().format('YYYY-MM-DDTHH:mm:ssZ');
     };
@@ -392,42 +395,44 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         try {
             setLoading(true); // Start loading
             console.log("setting loading in break in at start", loading);
-
-            // Check if the current timesheet and its transactions are valid
+    
+            // Validate current timesheet and transaction availability
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
                 setLoading(false); // Stop loading if there's an error
                 return;
             }
-
-            // Get the necessary data from the timesheet
-            const timesheetTransactionId = currentTimesheet.timesheetTransactions[0].id;
-            const timesheetId = currentTimesheet.id;
-            const currentDate = getCurrentDateInMicrosoftFormat();
-
-            // Prepare the timesheet data
-            const timesheetDataBreakIn: TimesheetTransactionViewModel = {
-                id: '00000000-0000-0000-0000-000000000000',
-                timesheetId: timesheetId,
-                transactionType: 3, // Break In
-                transactionDateTime: currentDate,
-                latitude: location.latitude,  
-                longitude: location.longitude,  
-                address: areaDetails 
-            };
-
-            // Ensure the timesheet data is complete
-            if (!timesheetDataBreakIn.transactionDateTime || !timesheetDataBreakIn.timesheetId || !timesheetDataBreakIn.id) {
-                console.error("Required timesheet data is missing.");
-                setLoading(false); // Stop loading if there's an error
+    
+            // Validate location and areaDetails
+            if (!location?.latitude || !location?.longitude || !areaDetails) {
+                console.error("Location or area details are missing.");
+                setLoading(false); // Stop loading if validation fails
                 return;
             }
-
-
+    
+            // Prepare timesheet data for break in
+            const timesheetDataBreakIn: TimesheetTransactionViewModel = {
+                id: '00000000-0000-0000-0000-000000000000',
+                timesheetId: currentTimesheet.id,
+                transactionType: 3, // Break In
+                transactionDateTime: getCurrentDateInMicrosoftFormat(),
+                latitude: location.latitude,
+                longitude: location.longitude,
+                address: areaDetails
+            };
+    
+            // Ensure timesheet data is complete
+            if (!timesheetDataBreakIn.transactionDateTime || !timesheetDataBreakIn.timesheetId) {
+                console.error("Required timesheet data is missing.");
+                setLoading(false); // Stop loading in case of error
+                return;
+            }
+    
             await dispatch(breakInAction(timesheetDataBreakIn));
-
-
+    
+            // Fetch the updated timesheet
             const timesheetResponse = await dispatch(getCurrentTimesheetApi());
+            await fetchData(startDate,endDate)
             if (timesheetResponse && timesheetResponse.statusCode === 200) {
                 setCurrentTimesheet(timesheetResponse.data);
             } else {
@@ -436,61 +441,50 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         } catch (error) {
             console.error('Error in handleBreakIn:', error);
         } finally {
-            setLoading(false);
+            setLoading(false); // Stop loading
             console.log("setting loading in break in at end", loading);
         }
     };
 
 
 
-
     const handleBreakOut = async (selectedDateTime) => {
         try {
             setLoading(true);
-
+    
+            // Validate current timesheet and transaction availability
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
                 setLoading(false); // Stop loading on error
                 return;
             }
-
-            // const timesheetTransactionId = currentTimesheet.timesheetTransactions[0].id;
+    
+            // Validate location and areaDetails
+            if (!location?.latitude || !location?.longitude || !areaDetails) {
+                console.error("Location or area details are missing.");
+                setLoading(false); // Stop loading in case of error
+                return;
+            }
+    
             const timesheetId = currentTimesheet.id;
-            let timeSheetDataBreakOut = null;
-            if (!selectedDateTime) {
-                const currentDate = getCurrentDateInMicrosoftFormat();
-                timeSheetDataBreakOut = {
-                    id: '00000000-0000-0000-0000-000000000000',
-                    timesheetId: timesheetId,
-                    transactionType: 4,
-                    transactionDateTime: currentDate,
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    address: areaDetails
-                };
-
-            }
-            else {
-                timeSheetDataBreakOut = {
-                    id: '00000000-0000-0000-0000-000000000000',
-                    timesheetId: timesheetId,
-                    transactionType: 4,
-                    transactionDateTime: selectedDateTime,
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    address: areaDetails
-                };
-
-            }
-
-
-
-
-
+            const currentDate = getCurrentDateInMicrosoftFormat();
+    
+            // Prepare timesheet data for break out
+            const timeSheetDataBreakOut = {
+                id: '00000000-0000-0000-0000-000000000000',
+                timesheetId: timesheetId,
+                transactionType: 4, // Break Out
+                transactionDateTime: selectedDateTime || currentDate,
+                latitude: location.latitude,
+                longitude: location.longitude,
+                address: areaDetails
+            };
+    
             await dispatch(breakOutAction(timeSheetDataBreakOut));
-
-
+    
+            // Fetch the updated timesheet
             const timesheetResponse = await dispatch(getCurrentTimesheetApi());
+            await fetchData(startDate,endDate)
             if (timesheetResponse && timesheetResponse.statusCode === 200) {
                 setCurrentTimesheet(timesheetResponse.data);
             } else {
@@ -514,7 +508,12 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 setLoading(false); // Stop loading in case of error
                 return;
             }
-
+            if (!location?.latitude || !location?.longitude || !areaDetails) {
+                console.error("Location or area details are missing.");
+                setLoading(false); // Stop loading in case of error
+                return;
+            }
+    
             // Extract necessary data from the current timesheet
             // const timesheetTransactionId = currentTimesheet.timesheetTransactions[0].id;
             const timesheetId = currentTimesheet.id;
@@ -524,7 +523,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 timesheetDataClockOut = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
-                    transactionType: 2, // BreakOut transaction type
+                    transactionType: 2, 
                     transactionDateTime: currentDate,
                     latitude: location.latitude,  
                     longitude: location.longitude,  
@@ -535,7 +534,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 timesheetDataClockOut = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
-                    transactionType: 2, // BreakOut transaction type
+                    transactionType: 2, 
                     transactionDateTime: selectedDateTime,
                     latitude: location.latitude,  
                     longitude: location.longitude,  
@@ -565,10 +564,10 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             }
             setTime(0);
             setIsRunning(false);
-        } catch (error) {
+         } catch (error) {
             console.error('Error in handleClockOut:', error);
         } finally {
-            setLoading(false);  // Stop loading in the finally block to ensure it always runs
+            setLoading(false);  // Stop loading
             console.log("setting loading in clock out at end", loading);
         }
     };
@@ -589,92 +588,84 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const handleClockIn = async () => {
         try {
             setLoading(true);  // Start loading
-            console.log("setting loading in handleClock at start", loading);
-
+            console.log("Clock In started");
+    
             const currentDate = getCurrentDateInMicrosoftFormat();
             let newTimesheetData = null;
-
-           
+    
+            // Check if currentTimesheet exists and has valid transactions
             if (currentTimesheet && currentTimesheet.timesheetTransactions && currentTimesheet.timesheetTransactions[0]) {
-                
                 const timesheetId = currentTimesheet.id;
-
+    
+                // Validate location and areaDetails before constructing timesheet data
+                if (!location?.latitude || !location?.longitude || !areaDetails) {
+                    throw new Error("Location or area details are missing.");
+                }
+    
                 // Construct the timesheet data
                 newTimesheetData = {
                     id: '00000000-0000-0000-0000-000000000000',
                     timesheetId: timesheetId,
-                    transactionType: 1, 
+                    transactionType: 1, // Clock In
                     transactionDateTime: currentDate,
                     latitude: location.latitude,  
                     longitude: location.longitude,  
                     address: areaDetails
                 };
-            } else if (!currentTimesheet || (currentTimesheet.statusCode === 203 || currentTimesheet.statusCode === 204)) {
-                console.log("Status code 204");
-
+            } 
+            // Handle case where currentTimesheet is missing or invalid
+            else if (!currentTimesheet || (currentTimesheet.statusCode === 203 || currentTimesheet.statusCode === 204)) {
+                console.log("Timesheet is either missing or has a status code of 203 or 204");
+    
+                if (!location?.latitude || !location?.longitude || !areaDetails) {
+                    throw new Error("Location or area details are missing.");
+                }
+    
                 // Handle case where timesheet is empty or status code is 203 or 204
                 newTimesheetData = {
                     id: '00000000-0000-0000-0000-000000000000',
-                    transactionType: 1, 
+                    transactionType: 1, // Clock In
                     transactionDateTime: currentDate,
                     latitude: location.latitude,  
                     longitude: location.longitude,  
                     address: areaDetails 
                 };
             } else {
-                console.error("Current timesheet is invalid or missing required data.");
-                setLoading(false);  // Stop loading in case of error
-                return;
+                throw new Error("Current timesheet is invalid or missing required data.");
             }
-
-            // Ensure required fields are present in the timesheet data
-            if (!newTimesheetData.transactionDateTime) {
-                console.error("Required timesheet data is missing.");
-                setLoading(false);  // Stop loading in case of error
-                return;
+    
+            // Ensure timesheet data is fully populated before proceeding
+            if (!newTimesheetData?.transactionDateTime || !newTimesheetData?.latitude || !newTimesheetData?.longitude || !newTimesheetData?.address) {
+                throw new Error("Required timesheet data is missing.");
             }
-
+    
             // Update the timesheetData in the global state
-            settimeSheetData(newTimesheetData);  // Update the state with the timesheet data
-
-            // Check if currentProjects is defined and has valid length
-            if (currentProjects.length === 1) {
-                console.log("gggggggg")
-                // Automatically select the first project if there's only one
-                handleProjectSelect(currentProjects[0].id); // Pass the selected project ID directly
-            } else if (currentProjects.length > 1) {
-                console.log("gghhhhhhhgggggg")
-                // Open bottom sheet if more than one project is available
-                setBottomSheetOpen(true);
-            } 
-            else {
-                handleProjectSelect(null);
-                // console.log("No projects available.");
-                // Alert.alert("No Project Available")
-            }
-
+            settimeSheetData(newTimesheetData);
+    
         } catch (error) {
-            console.error('Error in handleClock:', error);
-        } finally {
-            setLoading(false);  // Stop loading in the finally block to ensure it always runs
-            console.log("setting loading in handleClock at end", loading);
+            console.error('Error in handleClockIn:', error.message || error);
+            setLoading(false);  // Stop loading in case of error
         }
     };
-
+    
    
-
+    useEffect(() => {
+        if (timesheetData) {
+            console.log("Timesheet data is set, handling project selection");
+            handleProjectSelect(null); // or pass a projectId if needed
+        }
+    }, [timesheetData]);
+    
     const handleProjectSelect = async (projectId) => {
         try {
-            setLoading(true); // Start the loading state
-            console.log("Project selection started with: ", timesheetData, projectId);
+            setLoading(true); // Start loading state
+            console.log("Project selection started with:", timesheetData, projectId);
     
             const currentDate = getCurrentDateInMicrosoftFormat();
     
-            // Ensure the timesheetData is up-to-date and available globally
+            // Ensure timesheetData is available before proceeding
             if (!timesheetData) {
-                console.error('Timesheet data is missing.');
-                setLoading(false);
-                return;
+                throw new Error('Timesheet data is missing.');
             }
     
             // Set projectId to null if it is not provided
@@ -685,8 +676,9 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     
             // Fetch the updated timesheet after clock-in
             const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-            if (timesheetResponse.data && timesheetResponse.statusCode === 200) {
-                setCurrentTimesheet(timesheetResponse.data); 
+            fetchData(startDate, endDate);
+            if (timesheetResponse?.data && timesheetResponse?.statusCode === 200) {
+                setCurrentTimesheet(timesheetResponse.data);
                 setTime(0); 
                 setIsRunning(true); 
                 setBottomSheetOpen(false); 
@@ -694,12 +686,11 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 setCurrentTimesheet(null); // Handle case where no timesheet is returned
             }
     
-           
         } catch (error) {
-            console.error('Error in handleProjectSelect:', error); // Handle any errors
+            console.error('Error in handleProjectSelect:', error.message || error);
         } finally {
-            setLoading(false); // Stop the loading state
-            console.log("Project selection completed.");
+            setLoading(false); // Stop loading state
+            console.log("Project selection process completed.");
         }
     };
     

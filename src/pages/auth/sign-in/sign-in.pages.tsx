@@ -44,7 +44,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { handleGoogle } from '../../../core/helpers/social-auths';
 import { userIdentity } from '../../../core/http-services/apis/identity-api/authentication.service';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { LanguageDropDown } from '../sign-up/sign-up.components';
 interface Props { navigation: StackNavigationProp<RootStackParamList>; }
 
 const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {

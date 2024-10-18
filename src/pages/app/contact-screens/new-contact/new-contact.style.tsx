@@ -74,7 +74,7 @@ export const styles: any = StyleSheet.create<any>({
     listContainer: {
          paddingTop: 8,
         // paddingBottom: 8,
-        paddingLeft: 8,
+        paddingLeft: 2,
         paddingRight: 16,
     },
     rowContainer: {
@@ -87,20 +87,20 @@ export const styles: any = StyleSheet.create<any>({
         alignItems: 'center',
     },
     userImgStyle: {
-        height: 50,
-        width: 50,
-        borderRadius: 25,  // Circular image
+        height: 40,
+        width: 40,
+        borderRadius: 25,  
     },
     placeholderAvatar: {
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
         borderRadius: 25,
-        backgroundColor: '#e5e5e5',  // Grey background for placeholder
+        backgroundColor: '#e5e5e5',  
     },
     infoContainer: {
         flex: 1,
-        justifyContent: 'center',  // Vertically center the content
-        paddingHorizontal: 8,  // Add space between image and name
+        justifyContent: 'center', 
+        paddingHorizontal: 12, 
     },
     userName: {
         fontSize: 14,
@@ -129,7 +129,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     divider: {
         height: 1,
-        backgroundColor: '#ddd',
+        backgroundColor: '#D8D8D8',
          marginTop: 8,
     },
     inputtitle: (isActive: boolean) => ({
