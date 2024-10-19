@@ -142,11 +142,12 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
+          
 
-          {/* Close Button */}
+          {/* Close Button
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Text style={styles.closeButtonText}>Cancel</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {/* Calendar Modal */}
@@ -243,6 +244,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color:'#000',
     marginBottom: 16,
+
+    marginTop: 20,
     fontWeight: '400',
   },
   inputContainer: {

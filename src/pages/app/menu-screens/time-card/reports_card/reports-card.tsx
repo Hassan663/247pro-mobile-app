@@ -1,13 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
-
-import { Modalize } from 'react-native-modalize';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { styles } from './report-card.style';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 import { centralStyle } from '../../../../../styles/constant.style';
@@ -15,14 +11,13 @@ import { changeRoute } from '../../../../../core/helpers/async-storage';
 import { platform } from '../../../../../utilities';
 import { getTimesheetsForCurrentUserApi } from '../../../../../core/http-services/apis/application-api/timecard-api/member.service';
 import Colors from '../../../../../styles/colors';
-import Loader from '../../../../../core/components/loader.component';
 import AppHeader from '../../../../../core/components/app-headers';
 import { formatTotalWorkingTime, formatReportTransactionTime } from '../call-back';
-import { RadioButton } from 'react-native-paper';
-import { Calendar } from 'react-native-calendars';
-import Button from '../../../../../core/components/button.component';
 import FilterBottomSheet from '../../../../../core/components/filter_bottomsheet..component';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CURRENTUSERPROFILE } from '../../../../../store/constant/constant';
+import { userIdentity } from '../../../../../core/http-services/apis/identity-api/authentication.service';
 
 
 const ReportCard = ({ navigation }) => {
@@ -33,26 +28,59 @@ const ReportCard = ({ navigation }) => {
     const [userName, setUserName] = useState('No Name Available');
     const [userProfile, setUserProfile] = useState('https://via.placeholder.com/150');
     const [isFilterBottomSheetVisible, setIsFilterBottomSheetVisible] = useState(false);
+    const currentUserProfile = useSelector((state: any) => state.root.currentUserProfile);
 
-
-    // Date range state for custom date selection
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [dateRangeSelected, setDateRangeSelected] = useState('monthly'); // Default to 'monthly'
-
-    useEffect(() => {
-        // Set default dates for monthly option
-        const startOfPreviousMonth = moment().subtract(1, 'month').startOf('day').format('YYYY-MM-DDT00:00:00');
-        const endOfToday = moment().endOf('day').format('YYYY-MM-DDT23:59:59');
-
-        setStartDate(startOfPreviousMonth);
-        setEndDate(endOfToday);
-
-        // Fetch timesheets with default monthly date range
-        fetchTimesheets(startOfPreviousMonth, endOfToday);
-    }, []);
+    const [dateRangeSelected, setDateRangeSelected] = useState('monthly');
 
     
+
+    useEffect(() => {
+        // Set default dates for current month
+        const startOfCurrentMonth = moment().startOf('month').format('YYYY-MM-DDT00:00:00');
+        const endOfCurrentMonth = moment().endOf('month').format('YYYY-MM-DDT23:59:59');
+        
+        setStartDate(startOfCurrentMonth);
+        setEndDate(endOfCurrentMonth);
+
+        // Fetch timesheets for the current month
+        fetchTimesheets(startOfCurrentMonth, endOfCurrentMonth);
+    }, []);
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                // Get access token from storage
+                const accessToken = await AsyncStorage.getItem('accessToken');
+
+                if (!accessToken) {
+                    console.error('Error: No access token found.');
+                    // Handle the error (e.g., show an alert or navigate to the login screen)
+                    return;
+                }
+
+                // Parse the access token
+                const parsedToken = JSON.parse(accessToken);
+
+                // Fetch user profile from API
+                const userProfile = await userIdentity(parsedToken);
+                
+                // Dispatch the user profile to the store
+                dispatch({ type: CURRENTUSERPROFILE, payload: userProfile });
+                setUserName(userProfile.name || 'No Name Available');
+                setUserProfile(userProfile.profile || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');
+                
+                // Log profile and permissions for debugging
+                console.log("My profile is ", userProfile);
+                console.log("User Permissions:", userProfile?.permissions);
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            }
+        };
+
+        fetchUserProfile();
+    }, [dispatch]); 
 
     const fetchTimesheets = async (startDate, endDate) => {
         setLoading(true); 
@@ -63,8 +91,8 @@ const ReportCard = ({ navigation }) => {
             if (Array.isArray(response) && response.length > 0) {
                 setTimesheetData(response);
                 const firstTimesheet = response[0];
-                setUserName(firstTimesheet.userName || 'No Name Available');
-                setUserProfile(firstTimesheet.userProfile || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');
+                // setUserName(firstTimesheet.userName || 'No Name Available');
+                // setUserProfile(firstTimesheet.userProfile || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');
     
                 let totalMinutes = 0;
                 response.forEach((timesheet) => {
@@ -74,8 +102,8 @@ const ReportCard = ({ navigation }) => {
             } else {
                 setTimesheetData([]);  // Clear the previous data
                 setTotalWorkingHours(0);  // Reset total working hours
-                setUserName('No Name Available');  // Reset the username
-                setUserProfile('https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');  // Reset the profile image
+                // setUserName('No Name Available');  // Reset the username
+                // setUserProfile('https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');  // Reset the profile image
             }
         } catch (error) {
             console.error("Error fetching timesheets:", error);
@@ -90,7 +118,7 @@ const ReportCard = ({ navigation }) => {
         setIsFilterBottomSheetVisible(true);
     };
     const handleFilterApply = (newStartDate, newEndDate) => {
-        // Validate that the start date is earlier than or equal to the end date
+       
         if (moment(newStartDate).isAfter(newEndDate)) {
             Alert.alert('Invalid Date Range', 'Start date must be earlier than or equal to the end date.');
             return;
@@ -116,11 +144,11 @@ const ReportCard = ({ navigation }) => {
                 if (singleTransaction.transactionType === 1) {
                     // Calculate the difference between the clock-in time and the current time
                     clockInTime = moment(singleTransaction.transactionDateTime);
-                    const currentTime = moment(); // Get the current time
+                    const currentTime = moment(); 
                     const duration = moment.duration(currentTime.diff(clockInTime));
     
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); // Calculate time difference in minutes
+                        totalTime = duration.asMinutes(); 
                     }
                 }
             } else {
@@ -134,7 +162,7 @@ const ReportCard = ({ navigation }) => {
                     const duration = moment.duration(currentTime.diff(earliestTransaction));
     
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); // Calculate time difference in minutes
+                        totalTime = duration.asMinutes(); 
                     }
                 } else {
                     // If there is a Break Out transaction, calculate the difference between the earliest and the latest
@@ -144,7 +172,7 @@ const ReportCard = ({ navigation }) => {
                     const duration = moment.duration(latestTransaction.diff(earliestTransaction));
     
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); // Calculate total time in minutes
+                        totalTime = duration.asMinutes(); 
                     }
                 }
             }
@@ -173,7 +201,7 @@ const ReportCard = ({ navigation }) => {
             
            {loading ? (
                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.white }}>
-                    <Loader size={'large'} />
+                   <ActivityIndicator color={Colors.primary} size={ "large"} />
                  </View>
             ) : (
                 <>
@@ -201,7 +229,7 @@ const ReportCard = ({ navigation }) => {
                         <View>
                             
                             
-                            {/* Grey container with padding and row for avatar and name */}
+                          
                             <View style={styles.greyContainer}>
                                 <View style={styles.profileRow}>
                                     <Image source={{ uri: userProfile }} style={styles.profileImage} />
@@ -209,10 +237,10 @@ const ReportCard = ({ navigation }) => {
                                 </View>
                             </View>
 
-                            {/* Total working hours hardcoded with padding */}
+                            
                             <Text style={styles.totalHoursTextHardCoded}>Total working hours</Text>
 
-                            {/* Row for total working hours and date range */}
+                            
                             <View style={styles.rowContainer}>
                                 <Text style={styles.totalHoursText}>{formatTotalWorkingTime(totalWorkingHours)}</Text>
                                 <Text style={styles.dateRange}>
@@ -220,7 +248,7 @@ const ReportCard = ({ navigation }) => {
                                 </Text>
                             </View>
 
-                            {/* Divider after the third row */}
+                            
                             <View style={styles.divider} />
                         </View>
 
@@ -241,7 +269,7 @@ const ReportCard = ({ navigation }) => {
                                                 <View key={idx} style={styles.transactionRow}>
                                                     <View style={styles.verticalLineContainer}>
                                                         <View style={[styles.circle, { backgroundColor: color }]} />
-                                                        {/* Always render vertical line, even for the last transaction */}
+                                                        
                                                         <View style={styles.verticalLine} />
                                                     </View>
                                                     <View style={styles.transactionDetails}>
@@ -250,7 +278,7 @@ const ReportCard = ({ navigation }) => {
                                                             <Text style={styles.timeText}>{moment(transaction.transactionDateTime).format('hh:mm A')}</Text>
                                                         </View>
                                                         <Text style={styles.addressText}>{transaction.address}</Text>
-                                                        {/* <Text >{}</Text> */}
+                                                       
 
 
                                                         <Text >{ }</Text>

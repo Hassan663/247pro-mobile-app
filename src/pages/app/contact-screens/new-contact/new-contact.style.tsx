@@ -72,8 +72,8 @@ export const styles: any = StyleSheet.create<any>({
     }),
 
     listContainer: {
-         paddingTop: 8,
-        // paddingBottom: 8,
+         paddingTop: 10,
+        //  paddingBottom: 8,
         paddingLeft: 2,
         paddingRight: 16,
     },

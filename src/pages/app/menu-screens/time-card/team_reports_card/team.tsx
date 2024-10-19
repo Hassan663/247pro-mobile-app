@@ -1,11 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
-
-import { Modalize } from 'react-native-modalize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { t } from 'i18next';
 import { centralStyle } from '../../../../../styles/constant.style';
@@ -13,15 +10,10 @@ import { changeRoute } from '../../../../../core/helpers/async-storage';
 import { platform } from '../../../../../utilities';
 import { getTimesheetByUserApi, getTimesheetsForCurrentUserApi } from '../../../../../core/http-services/apis/application-api/timecard-api/member.service';
 import Colors from '../../../../../styles/colors';
-import Loader from '../../../../../core/components/loader.component';
 import AppHeader from '../../../../../core/components/app-headers';
 import { formatTotalWorkingTime, formatReportTransactionTime } from '../call-back';
-import { RadioButton } from 'react-native-paper';
-import { Calendar } from 'react-native-calendars';
-import Button from '../../../../../core/components/button.component';
-import FilterBottomSheet from '../../../../../core/components/filter_bottomsheet..component';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { styles } from '../reports_card/report-card.style';
+
 
 
 const Team = ({ navigation, route }) => {
@@ -32,22 +24,16 @@ const Team = ({ navigation, route }) => {
     const [totalWorkingHours, setTotalWorkingHours] = useState(0);
     const [userName, setUserName] = useState('No Name Available');
     const [userProfile, setUserProfile] = useState('https://via.placeholder.com/150');
-    const [isFilterBottomSheetVisible, setIsFilterBottomSheetVisible] = useState(false);
-
-
-    // Date range state for custom date selection
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [dateRangeSelected, setDateRangeSelected] = useState('monthly'); // Default to 'monthly'
+    const [location, setLocation] = useState(null);
 
     useEffect(() => {
         setLoading(true)
         console.log("User details from previous screen:", user); 
-        // Set default dates for monthly option
+        
         const startDate = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
         const endDate = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
 
-        // Log the start and end dates for debugging
+        
         console.log("Start Date (0 hour):", startDate);
         console.log("End Date (24 hour):", endDate);
         setUserName(user.value || 'No Name Available');
@@ -56,20 +42,28 @@ const Team = ({ navigation, route }) => {
         fetchTimesheets(user.key, startDate, endDate);
     }, []);
 
-    const fetchTimesheets = async (startDate, endDate,userId) => {
+    const fetchTimesheets = async (startDate: string, endDate: string | undefined,userId: string | undefined) => {
         setLoading(true); 
         try {
             const response = await getTimesheetByUserApi(startDate, endDate,userId);
             if (Array.isArray(response) && response.length > 0) {
                 setTimesheetData(response);
                 const firstTimesheet = response[0];
+                const firstTransaction = firstTimesheet.timesheetTransactions[0];
+                if (firstTransaction?.latitude && firstTransaction?.longitude) {
+                    setLocation({
+                        latitude: firstTransaction.latitude,
+                        longitude: firstTransaction.longitude,
+                    });
+                    console.log("The lat and long in team is ", location)
+                }
                
 
                 let totalMinutes = 0;
                 response.forEach((timesheet) => {
                     totalMinutes += calculateTotalTime(timesheet.timesheetTransactions);
                 });
-                setTotalWorkingHours((totalMinutes / 60).toFixed(2)); // Convert minutes to hours
+                setTotalWorkingHours((totalMinutes / 60).toFixed(2)); 
             }
         } catch (error) {
             console.error("Error fetching timesheets:", error);
@@ -79,21 +73,7 @@ const Team = ({ navigation, route }) => {
     };
 
 
-    const openFilterBottomSheet = () => {
-        setIsFilterBottomSheetVisible(true);
-    };
-    const handleFilterApply = (newStartDate, newEndDate) => {
-        // Validate that the start date is earlier than or equal to the end date
-        if (moment(newStartDate).isAfter(newEndDate)) {
-            Alert.alert('Invalid Date Range', 'Start date must be earlier than or equal to the end date.');
-            return;
-        }
-        
-        setStartDate(newStartDate);
-        setEndDate(newEndDate);
-        setIsFilterBottomSheetVisible(false);
-        fetchTimesheets(newStartDate, newEndDate);
-    };
+    
     
 
     const calculateTotalTime = (transactions) => {
@@ -109,11 +89,11 @@ const Team = ({ navigation, route }) => {
                 if (singleTransaction.transactionType === 1) {
                     // Calculate the difference between the clock-in time and the current time
                     clockInTime = moment(singleTransaction.transactionDateTime);
-                    const currentTime = moment(); // Get the current time
+                    const currentTime = moment(); 
                     const duration = moment.duration(currentTime.diff(clockInTime));
     
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); // Calculate time difference in minutes
+                        totalTime = duration.asMinutes(); 
                     }
                 }
             } else {
@@ -122,12 +102,12 @@ const Team = ({ navigation, route }) => {
     
                 // If there is no Break Out transaction, calculate time till the current time
                 if (!hasBreakOut) {
-                    const earliestTransaction = moment(transactions[0].transactionDateTime); // Get the earliest transaction
-                    const currentTime = moment(); // Get the current time
+                    const earliestTransaction = moment(transactions[0].transactionDateTime); 
+                    const currentTime = moment(); 
                     const duration = moment.duration(currentTime.diff(earliestTransaction));
     
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); // Calculate time difference in minutes
+                        totalTime = duration.asMinutes(); 
                     }
                 } else {
                     // If there is a Break Out transaction, calculate the difference between the earliest and the latest
@@ -165,9 +145,9 @@ const Team = ({ navigation, route }) => {
            
             
             {loading ? (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Loader size={'large'} />
-                </View>
+               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.white }}>
+               <ActivityIndicator color={Colors.primary} size={ "large"} />
+             </View>
             ) : (
                 <>
                     <AppHeader
@@ -186,7 +166,7 @@ const Team = ({ navigation, route }) => {
 
                     <ScrollView contentContainerStyle={styles.container}>
                         <View>
-                            {/* Grey container with padding and row for avatar and name */}
+                          
                             <View style={styles.greyContainer}>
                                 <View style={styles.profileRow}>
                                     <Image source={{ uri: userProfile }} style={styles.profileImage} />
@@ -196,6 +176,21 @@ const Team = ({ navigation, route }) => {
 
                           
                         </View>
+
+                        {/* Google Map
+                        {location && (
+                                <MapView
+                                    style={{ height: 200, marginVertical: 20 }}
+                                    initialRegion={{
+                                        latitude: 31.4581,
+                                        longitude: 74.3744,
+                                        latitudeDelta: 0.01,
+                                        longitudeDelta: 0.01,
+                                    }}
+                                >
+                                    <Marker coordinate={location} />
+                                </MapView>
+                            )} */}
 
                         {timesheetData && timesheetData.length > 0 ? (
                             timesheetData.map((timesheet, index) => {
@@ -214,7 +209,7 @@ const Team = ({ navigation, route }) => {
                                                 <View key={idx} style={styles.transactionRow}>
                                                     <View style={styles.verticalLineContainer}>
                                                         <View style={[styles.circle, { backgroundColor: color }]} />
-                                                        {/* Always render vertical line, even for the last transaction */}
+                                                        
                                                         <View style={styles.verticalLine} />
                                                     </View>
                                                     <View style={styles.transactionDetails}>
@@ -223,7 +218,7 @@ const Team = ({ navigation, route }) => {
                                                             <Text style={styles.timeText}>{moment(transaction.transactionDateTime).format('hh:mm A')}</Text>
                                                         </View>
                                                         <Text style={styles.addressText}>{transaction.address}</Text>
-                                                        {/* <Text >{}</Text> */}
+                                                        
 
 
                                                         <Text >{ }</Text>
@@ -237,7 +232,7 @@ const Team = ({ navigation, route }) => {
                             })
                         ) : (
                             <View style={styles.noDataContainer}>
-                                <Text style={styles.noDataText}>No timesheet data available for the selected date range.</Text>
+                                <Text style={styles.noDataText}>No timesheet data available .</Text>
                             </View>
                         )}
 

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Modalize } from 'react-native-modalize';
+import Button from './button.component';
 
 const ProjectBottomSheet = ({ projects, isOpen, onClose, onSelectProject }) => {
   const modalizeRef = useRef(null);
@@ -26,6 +27,13 @@ const ProjectBottomSheet = ({ projects, isOpen, onClose, onSelectProject }) => {
           </View>
         </TouchableOpacity>
       ))}
+       <View style={{ paddingVertical: 20 }}>
+    <Button
+        title={'None of the above'}
+        callBack={() => onSelectProject(null)}
+        primary
+    />
+</View>
     </View>
   );
 
@@ -48,7 +56,8 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 20,
-    marginBottom: 20,
+    marginVertical: 30,
+    
   },
   projectContainer: {
     paddingVertical: 15,
@@ -61,12 +70,13 @@ const styles = StyleSheet.create({
   projectName: {
     fontWeight: '400',
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 8,
   },
   projectAddress: {
     fontSize: 14,
+    fontWeight: '400',
     color: '#666',
-    marginBottom: 5,
+    marginBottom: 8,
   },
   projectContact: {
     fontSize: 14,

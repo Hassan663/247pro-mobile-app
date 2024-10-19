@@ -38,7 +38,8 @@ export const styles: any = StyleSheet.create<any>({
         textAlign: "left",
         marginVertical: RFValue(16, windowHeight),
         fontSize: RFValue(18, windowHeight),
-        color: '#9E9E9E'
+        color: '#9E9E9E',
+        
     },
     
     dateContainer: {
@@ -56,13 +57,7 @@ export const styles: any = StyleSheet.create<any>({
         fontSize: RFValue(40, windowHeight),
         color: Colors.black,
     },
-    // buttonRowContainer: {
-    //     flexDirection: 'row', // Align buttons horizontally
-    //     justifyContent: 'space-between', // Space buttons evenly across the container
-    //     width: '100%', // Ensure it spans the full width of the screen
-    //     paddingHorizontal: 20, // Optional padding for the buttons
-    //     marginTop: 10, // Optional margin to give space above the button row
-    // },
+    
     timerButtonContainer: {
         width: '100%',
         flexDirection: "row",
@@ -74,7 +69,7 @@ export const styles: any = StyleSheet.create<any>({
         justifyContent: 'flex-end', // Align buttons to the right
         width: '100%', // Ensure it spans the full width of the screen
         paddingHorizontal: 20, // Optional padding for the buttons
-        marginTop: 10, // Optional margin to give space above the button row
+        // marginTop: 10, // Optional margin to give space above the button row
     },
 
     buttonFullWidth: {
@@ -85,11 +80,11 @@ export const styles: any = StyleSheet.create<any>({
     listContainerStyle: {
         justifyContent: 'space-between',
         height: '90%',
-        top: '5%'
+        // top: '5%'
     },
     letterStyle: {
         textAlign: 'right',
-        color: Colors.fontColor,
+        color: '#666',
         fontSize: platform == 'ios' ? RFPercentage(1.8) : RFPercentage(1.5),
         width: 20,
         height: platform == 'ios' ? 20 : 'auto',

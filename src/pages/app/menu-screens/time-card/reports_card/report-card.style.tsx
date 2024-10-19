@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
 // },
   
   timesheetCard: {
-    marginBottom: 16,
+    marginBottom: 35,
   },
 
   noDataContainer: {
@@ -32,10 +32,10 @@ export const styles = StyleSheet.create({
   timesheetHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 27,
+    marginBottom: 24,
   },
   dateText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '400',
     color: Colors.gray,
   },
@@ -83,7 +83,7 @@ export const styles = StyleSheet.create({
   addressText: {
     fontSize: 16,
     color: Colors.gray,
-    marginTop: 8,
+    marginTop: 10,
     fontWeight:'400'
   },
   greyContainer: {
@@ -111,6 +111,7 @@ export const styles = StyleSheet.create({
   totalHoursTextHardCoded: {
     fontSize: 16,
     color: Colors.gray,
+    fontWeight: '400',
     paddingBottom: 16,
   },
   rowContainer: {
@@ -119,7 +120,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   totalHoursText: {
-    fontSize: 32, 
+    fontSize: 20, 
     fontWeight: '400', 
     color: Colors.black,
   },
@@ -130,6 +131,6 @@ export const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: '#DCDBDB', 
-    marginVertical: 16, 
+    marginVertical: 24, 
   },
 });

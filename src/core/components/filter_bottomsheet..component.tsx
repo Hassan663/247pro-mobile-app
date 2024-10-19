@@ -114,11 +114,13 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
     // One month ago from today, with start and end times
     const oneMonthAgo = moment().subtract(1, 'month').startOf('day').toISOString(); // 00:00:00
     const today = moment().endOf('day').toISOString(); // 23:59:59
+    const startOfCurrentMonth = moment().startOf('month').format('YYYY-MM-DDT00:00:00');
+        const endOfCurrentMonth = moment().endOf('month').format('YYYY-MM-DDT23:59:59');
 
-    setStartDate(oneMonthAgo);
-    setEndDate(today);
+    setStartDate(startOfCurrentMonth);
+    setEndDate(endOfCurrentMonth);
 
-    console.log("Monthly date range:", oneMonthAgo, today);
+    console.log("Monthly date range:", startOfCurrentMonth, endOfCurrentMonth);
   };
 
   return (
@@ -197,7 +199,8 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
                   <Calendar
                     onDayPress={(day) => setTempStartDate(day.dateString)} // Store temp start date
                     markedDates={{
-                      [tempStartDate]: { selected: true, selectedColor: '#FFA500' },
+                      [moment(tempStartDate).format('YYYY-MM-DD')]: { selected: true, selectedColor: '#FFA500' },
+                     
                     }}
                     theme={calendarTheme}
                     style={styles.calendarStyle}
@@ -230,7 +233,8 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
                     onDayPress={(day) => setTempEndDate(day.dateString)} // Store temp end date
                     minDate={startDate}
                     markedDates={{
-                      [tempEndDate]: { selected: true, selectedColor: '#FFA500' },
+                      [moment(tempEndDate).format('YYYY-MM-DD')]: { selected: true, selectedColor: '#FFA500' },
+                      
                     }}
                     theme={calendarTheme}
                     style={styles.calendarStyle}
@@ -274,6 +278,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
+
+  
   title: {
     fontSize: 20,
     fontWeight: '400',
