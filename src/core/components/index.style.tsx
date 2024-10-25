@@ -51,14 +51,19 @@ export const styles: any = StyleSheet.create<any>({
     secondaryText: {
         // color: Colors.white,
         fontWeight: '600',
+        // fontFamily:'Roboto-20',
+        fontSize:14,
         fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2),
-        textTransform: 'uppercase',
+        // textTransform: 'uppercase',
     },
     primaryText: {
         color: Colors.white,
         fontWeight: '600',
-        fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2),
-        textTransform: 'uppercase',
+       
+        // fontFamily:'Roboto-20',
+        fontSize:14,
+        // fontSize: platform == 'ios' ? RFPercentage(1.5) : RFPercentage(2),
+        // textTransform: 'uppercase',
     },
 
     footerText: (color?: string) => ({
@@ -183,7 +188,7 @@ export const styles: any = StyleSheet.create<any>({
 
         elevation: 9,
         paddingVertical: 20,
-        minHeight: RFValue(200,windowHeight),
+        minHeight: RFValue(150,windowHeight),
 
     },
     headerContainer: {
@@ -268,7 +273,7 @@ export const styles: any = StyleSheet.create<any>({
     },
     disableText: {
         color: Colors.gray,
-        textTransform: 'uppercase'
+        // textTransform: 'uppercase'
     },
 
 

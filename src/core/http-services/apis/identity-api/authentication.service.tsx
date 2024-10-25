@@ -192,15 +192,18 @@ const login = async (
           }
         });
       } else {
+        console.log("FuCK ME")
         // If no specific field errors, show a general error message
         dispatch(showError(apiError.message || 'Invalid Credentials', 'all'));
       }
     } else {
       // If it's a non-Axios error or no response data, show a generic error
       dispatch(showError('Invalid Credentials', 'all'));
+      console.log("FuCK You")
     }
 
     // Log the error for debugging
+    dispatch(showError('Invalid Credentials', 'all'));
     console.error('Login service error:', error);
     throw error;  // Rethrow the error to handle it elsewhere if necessary
   }

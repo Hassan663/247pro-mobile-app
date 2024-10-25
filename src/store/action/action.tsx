@@ -197,7 +197,7 @@ export const showError = (errMsg?: string, errorTitle?: string, disbleHideError?
             dispatch({ type: 'IS_ERROR', payload: false });
             dispatch({ type: 'SET_ERROR_MSG', payload: '' });
             dispatch({ type: 'SET_ERROR_TITLE', payload: '' });
-        }, 5000);
+        }, 1500);
     }
 };
 

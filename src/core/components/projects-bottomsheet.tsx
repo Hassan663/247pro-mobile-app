@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 20,
-    marginVertical: 30,
+    marginVertical: 20,
     
   },
   projectContainer: {

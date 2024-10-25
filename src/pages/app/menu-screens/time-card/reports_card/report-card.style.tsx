@@ -15,10 +15,10 @@ export const styles = StyleSheet.create({
     marginBottom: 24, 
   },
 
-//   noDataText: {
-//     // fontSize: 14,
-//     color: 'gray',
-// },
+  noDataText: {
+     fontSize: 14,
+    color: 'gray',
+},
   
   timesheetCard: {
     marginBottom: 35,

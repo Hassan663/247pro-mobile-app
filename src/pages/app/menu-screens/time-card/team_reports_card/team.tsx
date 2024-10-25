@@ -13,11 +13,13 @@ import Colors from '../../../../../styles/colors';
 import AppHeader from '../../../../../core/components/app-headers';
 import { formatTotalWorkingTime, formatReportTransactionTime } from '../call-back';
 import { styles } from '../reports_card/report-card.style';
+// import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 
 
 const Team = ({ navigation, route }) => {
-    const { user } = route.params; 
+    const { user } = route.params;
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [timesheetData, setTimesheetData] = useState([]);
@@ -28,12 +30,12 @@ const Team = ({ navigation, route }) => {
 
     useEffect(() => {
         setLoading(true)
-        console.log("User details from previous screen:", user); 
-        
+        console.log("User details from previous screen:", user);
+
         const startDate = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
         const endDate = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
 
-        
+
         console.log("Start Date (0 hour):", startDate);
         console.log("End Date (24 hour):", endDate);
         setUserName(user.value || 'No Name Available');
@@ -42,28 +44,37 @@ const Team = ({ navigation, route }) => {
         fetchTimesheets(user.key, startDate, endDate);
     }, []);
 
-    const fetchTimesheets = async (startDate: string, endDate: string | undefined,userId: string | undefined) => {
-        setLoading(true); 
+    const fetchTimesheets = async (startDate: string, endDate: string | undefined, userId: string | undefined) => {
+        setLoading(true);
         try {
-            const response = await getTimesheetByUserApi(startDate, endDate,userId);
+            const response = await getTimesheetByUserApi(startDate, endDate, userId);
             if (Array.isArray(response) && response.length > 0) {
                 setTimesheetData(response);
-                const firstTimesheet = response[0];
-                const firstTransaction = firstTimesheet.timesheetTransactions[0];
-                if (firstTransaction?.latitude && firstTransaction?.longitude) {
-                    setLocation({
-                        latitude: firstTransaction.latitude,
-                        longitude: firstTransaction.longitude,
-                    });
-                    console.log("The lat and long in team is ", location)
+                // Get the first timesheet with a Clock In (transactionType === 1)
+                const firstTimesheet = response.find(timesheet =>
+                    timesheet.timesheetTransactions.some(transaction => transaction.transactionType === 1)
+                );
+
+                if (firstTimesheet) {
+                    const clockInTransaction = firstTimesheet.timesheetTransactions.find(
+                        transaction => transaction.transactionType === 1
+                    );
+
+                    if (clockInTransaction?.latitude && clockInTransaction?.longitude) {
+                        setLocation({
+                            latitude: parseFloat(clockInTransaction.latitude),
+                            longitude: parseFloat(clockInTransaction.longitude),
+                        });
+                    }
                 }
-               
+                console.log("The lat and long in TEAM is ", location.latitude, location.longitude)
+
 
                 let totalMinutes = 0;
                 response.forEach((timesheet) => {
                     totalMinutes += calculateTotalTime(timesheet.timesheetTransactions);
                 });
-                setTotalWorkingHours((totalMinutes / 60).toFixed(2)); 
+                setTotalWorkingHours((totalMinutes / 60).toFixed(2));
             }
         } catch (error) {
             console.error("Error fetching timesheets:", error);
@@ -73,56 +84,56 @@ const Team = ({ navigation, route }) => {
     };
 
 
-    
-    
+
+
 
     const calculateTotalTime = (transactions) => {
         let totalTime = 0;
         let clockInTime = null;
-    
+
         if (transactions && transactions.length > 0) {
             transactions = sortTransactionsByDate(transactions);
-    
+
             if (transactions.length === 1) {
                 // If only one transaction exists, check if it's a Clock In (transactionType === 1)
                 const singleTransaction = transactions[0];
                 if (singleTransaction.transactionType === 1) {
                     // Calculate the difference between the clock-in time and the current time
                     clockInTime = moment(singleTransaction.transactionDateTime);
-                    const currentTime = moment(); 
+                    const currentTime = moment();
                     const duration = moment.duration(currentTime.diff(clockInTime));
-    
+
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); 
+                        totalTime = duration.asMinutes();
                     }
                 }
             } else {
                 // Check if there is any Break Out transaction (transactionType === 4)
                 const hasBreakOut = transactions.some(transaction => transaction.transactionType === 2);
-    
+
                 // If there is no Break Out transaction, calculate time till the current time
                 if (!hasBreakOut) {
-                    const earliestTransaction = moment(transactions[0].transactionDateTime); 
-                    const currentTime = moment(); 
+                    const earliestTransaction = moment(transactions[0].transactionDateTime);
+                    const currentTime = moment();
                     const duration = moment.duration(currentTime.diff(earliestTransaction));
-    
+
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); 
+                        totalTime = duration.asMinutes();
                     }
                 } else {
                     // If there is a Break Out transaction, calculate the difference between the earliest and the latest
                     const earliestTransaction = moment(transactions[0].transactionDateTime);
                     const latestTransaction = moment(transactions[transactions.length - 1].transactionDateTime);
-    
+
                     const duration = moment.duration(latestTransaction.diff(earliestTransaction));
-    
+
                     if (duration.asSeconds() > 0) {
                         totalTime = duration.asMinutes(); // Calculate total time in minutes
                     }
                 }
             }
         }
-    
+
         return totalTime;
     };
 
@@ -142,12 +153,12 @@ const Team = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
-           
-            
+
+
             {loading ? (
-               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.white }}>
-               <ActivityIndicator color={Colors.primary} size={ "large"} />
-             </View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.white }}>
+                    <ActivityIndicator color={Colors.primary} size={"large"} />
+                </View>
             ) : (
                 <>
                     <AppHeader
@@ -155,18 +166,18 @@ const Team = ({ navigation, route }) => {
                             <AntDesign
                                 style={centralStyle.mx2}
                                 name={'left'}
-                                
+
                                 onPress={() => { changeRoute(navigation, 'pop') }}
                                 size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
                             />
                         }
-                       
+
                         title={t('Team')}
                     />
 
                     <ScrollView contentContainerStyle={styles.container}>
                         <View>
-                          
+
                             <View style={styles.greyContainer}>
                                 <View style={styles.profileRow}>
                                     <Image source={{ uri: userProfile }} style={styles.profileImage} />
@@ -174,23 +185,25 @@ const Team = ({ navigation, route }) => {
                                 </View>
                             </View>
 
-                          
+
                         </View>
 
-                        {/* Google Map
+                        {/* Google Map */}
                         {location && (
+                            <View style={{ borderRadius: 8, overflow: 'hidden', marginBottom: 20 }}>
                                 <MapView
-                                    style={{ height: 200, marginVertical: 20 }}
+                                    style={{ height: 200 }}
                                     initialRegion={{
-                                        latitude: 31.4581,
-                                        longitude: 74.3744,
-                                        latitudeDelta: 0.01,
-                                        longitudeDelta: 0.01,
+                                        latitude: location.latitude,
+                                        longitude: location.longitude,
+                                        latitudeDelta: 0.09,
+                                        longitudeDelta: 0.09,
                                     }}
                                 >
                                     <Marker coordinate={location} />
                                 </MapView>
-                            )} */}
+                            </View>
+                        )}
 
                         {timesheetData && timesheetData.length > 0 ? (
                             timesheetData.map((timesheet, index) => {
@@ -209,7 +222,7 @@ const Team = ({ navigation, route }) => {
                                                 <View key={idx} style={styles.transactionRow}>
                                                     <View style={styles.verticalLineContainer}>
                                                         <View style={[styles.circle, { backgroundColor: color }]} />
-                                                        
+
                                                         <View style={styles.verticalLine} />
                                                     </View>
                                                     <View style={styles.transactionDetails}>
@@ -218,11 +231,11 @@ const Team = ({ navigation, route }) => {
                                                             <Text style={styles.timeText}>{moment(transaction.transactionDateTime).format('hh:mm A')}</Text>
                                                         </View>
                                                         <Text style={styles.addressText}>{transaction.address}</Text>
-                                                        
+
 
 
                                                         <Text >{ }</Text>
-                                                        
+
                                                     </View>
                                                 </View>
                                             );
@@ -236,7 +249,7 @@ const Team = ({ navigation, route }) => {
                             </View>
                         )}
 
-                        
+
 
                     </ScrollView>
                 </>

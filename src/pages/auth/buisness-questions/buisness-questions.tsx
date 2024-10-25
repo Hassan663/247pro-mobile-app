@@ -126,6 +126,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
         Alert.alert(
           t('Congratulations!'),
           t('Your account has been created.\n Enjoy using 247PRO! '),
+          
 
         );
       

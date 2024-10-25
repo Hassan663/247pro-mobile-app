@@ -226,17 +226,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                         title={`Enjoy lifetime access at no cost`}
                                     />
                                 </View>
-                                {/* <Button
-                                    icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
-                                    title={' ' + `Continue with Google`}
-                                    customStyle={[centralStyle.socialButtonContainer]}
-                                    titleStyle={styles.socialText}
-                                    callBack={async () => {
-                                        const googleUserData = await handleGoogle()
-                                        console.log(googleUserData, 'googleUserData')
-                                        dispatch(socialLoginAction(googleUserData))
-                                    }}
-                                /> */}
+                               
 
                                 <Button
                                     icon={<Image source={require('../../../assets/auth-images/googleIcon.png')} style={styles.googleIcon} />}
@@ -372,7 +362,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
                                             customStyle={{
                                                 backgroundColor: loading ? 'orange' : Colors.primary,
                                             }}
-                                            disable={!isValid || loading}
+                                            disable={!isValid }
                                         />
                                     </View>
                                     <View style={styles.footerTextWrapper}>
