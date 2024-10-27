@@ -44,32 +44,78 @@ const Team = ({ navigation, route }) => {
         fetchTimesheets(user.key, startDate, endDate);
     }, []);
 
+    // const fetchTimesheets = async (startDate: string, endDate: string | undefined, userId: string | undefined) => {
+    //     setLoading(true);
+    //     try {
+    //         const response = await getTimesheetByUserApi(startDate, endDate, userId);
+    //         if (Array.isArray(response) && response.length > 0) {
+    //             setTimesheetData(response);
+    //             // Get the first timesheet with a Clock In (transactionType === 1)
+    //             const firstTimesheet = response.find(timesheet =>
+    //                 timesheet.timesheetTransactions.some(transaction => transaction.transactionType === 1)
+    //             );
+    //             console.log("The lat and long in TEAM is ", location.latitude, location.longitude)
+
+    //             if (firstTimesheet) {
+    //                 const clockInTransaction = firstTimesheet.timesheetTransactions.find(
+    //                     transaction => transaction.transactionType === 1
+    //                 );
+    //                 console.log("The lat and long in TEAM is ", location.latitude, location.longitude)
+    //                 if (clockInTransaction?.latitude && clockInTransaction?.longitude) {
+    //                     setLocation({
+    //                         latitude: parseFloat(clockInTransaction.latitude),
+    //                         longitude: parseFloat(clockInTransaction.longitude),
+    //                     });
+    //                 }
+    //                 console.log("The lat and long in TEAM is ", location.latitude, location.longitude)
+    //             }
+    //             console.log("The lat and long in TEAM is ", location.latitude, location.longitude)
+
+
+    //             let totalMinutes = 0;
+    //             response.forEach((timesheet) => {
+    //                 totalMinutes += calculateTotalTime(timesheet.timesheetTransactions);
+    //             });
+    //             setTotalWorkingHours((totalMinutes / 60).toFixed(2));
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching timesheets:", error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+
     const fetchTimesheets = async (startDate: string, endDate: string | undefined, userId: string | undefined) => {
         setLoading(true);
         try {
             const response = await getTimesheetByUserApi(startDate, endDate, userId);
             if (Array.isArray(response) && response.length > 0) {
                 setTimesheetData(response);
+    
                 // Get the first timesheet with a Clock In (transactionType === 1)
                 const firstTimesheet = response.find(timesheet =>
                     timesheet.timesheetTransactions.some(transaction => transaction.transactionType === 1)
                 );
-
+    
                 if (firstTimesheet) {
                     const clockInTransaction = firstTimesheet.timesheetTransactions.find(
                         transaction => transaction.transactionType === 1
                     );
-
+    
                     if (clockInTransaction?.latitude && clockInTransaction?.longitude) {
+                        // Set location if latitude and longitude are available
                         setLocation({
                             latitude: parseFloat(clockInTransaction.latitude),
                             longitude: parseFloat(clockInTransaction.longitude),
                         });
+    
+                        // Log the location after setting it
+                        console.log("The lat and long in TEAM are:", clockInTransaction.latitude, clockInTransaction.longitude);
                     }
                 }
-                console.log("The lat and long in TEAM is ", location.latitude, location.longitude)
-
-
+    
+                // Calculate the total working hours
                 let totalMinutes = 0;
                 response.forEach((timesheet) => {
                     totalMinutes += calculateTotalTime(timesheet.timesheetTransactions);

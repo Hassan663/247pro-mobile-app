@@ -4,10 +4,10 @@ import Geolocation from 'react-native-geolocation-service';
 
 export const useLocation = () => {
   const [location, setLocation] = useState(null);
-  const [areaDetails, setAreaDetails] = useState(null); // To store the formatted address
+  const [areaDetails, setAreaDetails] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Request location permission for Android
   const requestAndroidPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -18,7 +18,7 @@ export const useLocation = () => {
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',
-        },
+        }
       );
       return granted === PermissionsAndroid.RESULTS.GRANTED;
     } catch (err) {
@@ -27,7 +27,6 @@ export const useLocation = () => {
     }
   };
 
-  // Request location permission for iOS
   const requestIOSPermission = async () => {
     const authorization = await Geolocation.requestAuthorization('whenInUse');
     if (authorization === 'denied') {
@@ -35,67 +34,79 @@ export const useLocation = () => {
         'Location Permission Denied',
         'Please enable location services in your device settings to allow location access.',
         [
-          { 
-            text: 'Go to Settings', 
-            onPress: () => Linking.openURL('app-settings:') 
-          },
-          // { text: 'Cancel', style: 'cancel' }
-        ],
+          {
+            text: 'Go to Settings',
+            onPress: () => Linking.openURL('app-settings:')
+          }
+        ]
       );
       return false;
     }
     return authorization === 'granted' || authorization === 'whenInUse';
   };
 
-  // Function to reverse geocode the location using Nominatim
-  const getAreaDetails = (latitude, longitude) => {
-    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`)
-      .then(response => response.json())
-      .then(data => {
+  const getAreaDetails = async (latitude, longitude) => {
+    try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`);
+        const data = await response.json();
         const address = data.address;
 
-        // Create a formatted address string
-        const formattedAddress = `${address.road || ''}, ${address.neighbourhood || ''}, ${address.suburb || ''}, ${address.city || ''}, ${address.state || ''}, ${address.postcode || ''}, ${address.country || ''}`;
-        
-        // Remove extra commas and spaces
-        const cleanedAddress = formattedAddress.replace(/,+/g, ',').replace(/, $/, '').trim();
-        
-        console.log("Formatted Address:", cleanedAddress); // You will get the complete address here
-        
-        // Set the formatted address in areaDetails
-        setAreaDetails(cleanedAddress);
-      })
-      .catch(error => {
+        // Filter out any empty values and join the non-empty parts with a comma
+        const formattedAddress = [
+            address.road,
+            address.neighbourhood,
+            address.suburb,
+            address.city,
+            address.state,
+            address.postcode,
+            address.country
+        ].filter(part => part && part.trim()).join(', ');
+
+        console.log("Cleaned Address:", formattedAddress);
+        setAreaDetails(formattedAddress);
+
+        return formattedAddress;
+    } catch (error) {
         console.error('Error fetching address:', error);
         setError('Error fetching address details.');
+        throw error;
+    }
+};
+
+  const fetchLocation = async () => {
+    setLoading(true);
+    try {
+      return new Promise((resolve, reject) => {
+        Geolocation.getCurrentPosition(
+          async position => {
+            const { latitude, longitude } = position.coords;
+            const fetchedLocation = { latitude, longitude };
+
+            try {
+              const area = await getAreaDetails(latitude, longitude);
+              setLocation(fetchedLocation);
+              resolve({ location: fetchedLocation, areaDetails: area });
+            } catch (areaError) {
+              setError('Error fetching area details.');
+              reject(areaError);
+            }
+          },
+          err => {
+            setError(err.message);
+            Alert.alert('Location Error', 'Unable to fetch location. Please enable location services.');
+            reject(err);
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
       });
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Function to get the current location (returns a Promise)
-  const fetchLocation = () => {
-    return new Promise((resolve, reject) => {
-      Geolocation.getCurrentPosition(
-        position => {
-          const { latitude, longitude } = position.coords;
-          console.log("Latitude:", latitude, "Longitude:", longitude); // Log the lat and long
-          setLocation({ latitude, longitude });
-
-          // Get the area details after fetching the location
-          getAreaDetails(latitude, longitude);
-
-          resolve({ latitude, longitude });  // Resolve the promise with lat and long
-        },
-        err => {
-          setError(err.message);
-          Alert.alert('Location Error', 'Unable to fetch location. Please enable location services.');
-          reject(err);
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-      );
-    });
-  };
-
-  // Function to handle permission loop
   const handlePermissionLoop = async () => {
     let hasPermission = false;
 
@@ -105,37 +116,16 @@ export const useLocation = () => {
       hasPermission = await requestIOSPermission();
     }
 
-    if (!hasPermission) {
-      // Alert.alert(
-      //   'Location Permission Required',
-      //   'This app needs access to your location to function properly. Please allow access.',
-      //   [
-      //     {
-      //       text: 'OK',
-      //       onPress: async () => {
-      //         const granted = Platform.OS === 'android'
-      //           ? await requestAndroidPermission() // Re-request on Android
-      //           : await requestIOSPermission();     // Re-request on iOS
-              
-      //         if (granted) {
-      //           fetchLocation(); // Fetch location if permission is granted
-      //         } else {
-      //           handlePermissionLoop(); // If permission is denied again, keep prompting
-      //         }
-      //       },
-      //     },
-      //   ],
-      //   { cancelable: false }
-      // );
+    if (hasPermission) {
+      await fetchLocation();
     } else {
-      fetchLocation(); // If permission is granted initially, fetch the location
+      setLoading(false);
     }
   };
 
-  // Hook to request permission and fetch location on mount
   useEffect(() => {
-    handlePermissionLoop(); // Initiate the permission loop
+    handlePermissionLoop();
   }, []);
 
-  return { location, areaDetails, error, fetchLocation };
+  return { location, areaDetails, error, loading, fetchLocation };
 };
