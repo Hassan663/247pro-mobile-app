@@ -235,7 +235,7 @@ const Team = ({ navigation, route }) => {
                         </View>
 
                         {/* Google Map */}
-                        {location && (
+                        {/* {location && (
                             <View style={{ borderRadius: 8, overflow: 'hidden', marginBottom: 20 }}>
                                 <MapView
                                     style={{ height: 200 }}
@@ -249,7 +249,7 @@ const Team = ({ navigation, route }) => {
                                     <Marker coordinate={location} />
                                 </MapView>
                             </View>
-                        )}
+                        )} */}
 
                         {timesheetData && timesheetData.length > 0 ? (
                             timesheetData.map((timesheet, index) => {
