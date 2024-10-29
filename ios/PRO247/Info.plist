@@ -6,6 +6,8 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>PRO247</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App needs access to your location while using the app to show the map.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
