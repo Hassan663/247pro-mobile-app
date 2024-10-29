@@ -11,10 +11,9 @@ import { platform } from '../../../../../utilities';
 import { getTimesheetByUserApi, getTimesheetsForCurrentUserApi } from '../../../../../core/http-services/apis/application-api/timecard-api/member.service';
 import Colors from '../../../../../styles/colors';
 import AppHeader from '../../../../../core/components/app-headers';
-import { formatTotalWorkingTime, formatReportTransactionTime } from '../call-back';
 import { styles } from '../reports_card/report-card.style';
 // import MapView from 'react-native-maps';
-import MapView, { Marker } from 'react-native-maps';
+// import MapView, { Marker } from 'react-native-maps';
 
 
 
@@ -251,7 +250,7 @@ const Team = ({ navigation, route }) => {
                             </View>
                         )} */}
 
-                        {timesheetData && timesheetData.length > 0 ? (
+                        {/* {timesheetData && timesheetData.length > 0 ? (
                             timesheetData.map((timesheet, index) => {
                                 const totalTimeInMinutes = calculateTotalTime(timesheet.timesheetTransactions);
                                 const sortedTransactions = sortTransactionsByDate(timesheet.timesheetTransactions);
@@ -293,7 +292,7 @@ const Team = ({ navigation, route }) => {
                             <View style={styles.noDataContainer}>
                                 <Text style={styles.noDataText}>No timesheet data available .</Text>
                             </View>
-                        )}
+                        )} */}
 
 
 
