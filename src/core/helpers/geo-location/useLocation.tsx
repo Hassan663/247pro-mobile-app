@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Platform, PermissionsAndroid, Alert, Linking } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import { LOADER } from '../../../store/constant/constant';
+import { Dispatch } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const useLocation = () => {
   const [location, setLocation] = useState(null);
   const [areaDetails, setAreaDetails] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const dispatch: Dispatch<any> = useDispatch();
+  const loader = useSelector((state: any) => state.root.loader);
   const requestAndroidPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -47,34 +51,35 @@ export const useLocation = () => {
 
   const getAreaDetails = async (latitude, longitude) => {
     try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`);
-        const data = await response.json();
-        const address = data.address;
+      dispatch({ type: LOADER, payload: true });
+      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`);
+      const data = await response.json();
+      const address = data.address;
 
-        // Filter out any empty values and join the non-empty parts with a comma
-        const formattedAddress = [
-            address.road,
-            address.neighbourhood,
-            address.suburb,
-            address.city,
-            address.state,
-            address.postcode,
-            address.country
-        ].filter(part => part && part.trim()).join(', ');
+      const formattedAddress = [
+        address.road,
+        address.neighbourhood,
+        address.suburb,
+        address.city,
+        address.state,
+        address.postcode,
+        address.country
+      ].filter(part => part && part.trim()).join(', ');
 
-        console.log("Cleaned Address:", formattedAddress);
-        setAreaDetails(formattedAddress);
-
-        return formattedAddress;
+      console.log("Cleaned Address:", formattedAddress);
+      setAreaDetails(formattedAddress);
+      dispatch({ type: LOADER, payload: false });
+      return formattedAddress;
     } catch (error) {
-        console.error('Error fetching address:', error);
-        setError('Error fetching address details.');
-        throw error;
+      dispatch({ type: LOADER, payload: false });
+      console.error('Error fetching address:', error);
+      setError('Error fetching address details.');
+      throw error;
     }
-};
+  };
 
   const fetchLocation = async () => {
-    setLoading(true);
+    dispatch({ type: LOADER, payload: true }); 
     try {
       return new Promise((resolve, reject) => {
         Geolocation.getCurrentPosition(
@@ -103,7 +108,7 @@ export const useLocation = () => {
       setError(error.message);
       throw error;
     } finally {
-      setLoading(false);
+      dispatch({ type: LOADER, payload: false }); 
     }
   };
 
@@ -119,7 +124,7 @@ export const useLocation = () => {
     if (hasPermission) {
       await fetchLocation();
     } else {
-      setLoading(false);
+      dispatch({ type: LOADER, payload: false }); 
     }
   };
 
@@ -127,5 +132,9 @@ export const useLocation = () => {
     handlePermissionLoop();
   }, []);
 
-  return { location, areaDetails, error, loading, fetchLocation };
+  return { location, areaDetails, error, loader, fetchLocation };
 };
+
+function dispatch(arg0: { type: string; payload: boolean; }) {
+  throw new Error('Function not implemented.');
+}

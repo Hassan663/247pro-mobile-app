@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator, Modal } from 'react-native';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { styles } from './report-card.style';
@@ -195,6 +195,8 @@ const ReportCard = ({ navigation }) => {
         return transactions.sort((a, b) => moment(a.transactionDateTime) - moment(b.transactionDateTime));
     };
 
+    
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
            
@@ -225,7 +227,7 @@ const ReportCard = ({ navigation }) => {
                     
 
                     <ScrollView contentContainerStyle={styles.container}>
-                        
+                    
                         <View>
                             
                             
@@ -291,8 +293,24 @@ const ReportCard = ({ navigation }) => {
                             })
                         ) : (
                             <Text>No timesheet data available for the selected date range.</Text>
-                        )}
+                        )
+                        }
+                        
 
+                        {/* <FilterBottomSheet
+                            isVisible={isFilterBottomSheetVisible}
+                            onClose={() => setIsFilterBottomSheetVisible(false)}
+                            onApply={handleFilterApply}
+                            defaultStartDate={startDate}
+                            defaultEndDate={endDate}
+                        /> */}
+
+<Modal visible={isFilterBottomSheetVisible} transparent animationType="fade">
+                        <TouchableOpacity
+                            style={styles.overlay}
+                            activeOpacity={1}
+                            onPress={() => setIsFilterBottomSheetVisible(false)}
+                        />
                         <FilterBottomSheet
                             isVisible={isFilterBottomSheetVisible}
                             onClose={() => setIsFilterBottomSheetVisible(false)}
@@ -300,6 +318,7 @@ const ReportCard = ({ navigation }) => {
                             defaultStartDate={startDate}
                             defaultEndDate={endDate}
                         />
+                    </Modal>
 
                     </ScrollView>
                 </>

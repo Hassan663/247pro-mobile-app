@@ -36,15 +36,17 @@ import { changeRoute } from '../../../../../core/helpers/async-storage';
 import AppHeader from '../../../../../core/components/app-headers';
 import Colors from '../../../../../styles/colors';
 import Button from '../../../../../core/components/button.component';
+import { LOADER } from '../../../../../store/constant/constant';
+import { Dispatch } from 'redux';
 
 const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
-    const dispatch = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [intervalId, setIntervalId] = useState<any>(null);
     const { location, areaDetails, error, fetchLocation } = useLocation();
-    const [loading, setLoading] = useState(true);
+     const [loading, setLoading] = useState(true);
 
     const [startDate, setStartDate] = useState('');
 
@@ -59,14 +61,16 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
     const [showDropdown, setShowDropdown] = useState(false);
 
-
+    const loader = useSelector((state: any) => state.root.loader);
 
 
 
     useEffect(() => {
+        dispatch({ type: LOADER, payload: true });
         const initializeData = async () => {
+            
             try {
-                setLoading(true);
+                dispatch({ type: LOADER, payload: true });
 
                 if (location?.latitude && location?.longitude && areaDetails) {
                     console.log('Location:', location.latitude, location.longitude);
@@ -90,7 +94,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             } catch (error) {
                 console.error('Error initializing data:', error);
             } finally {
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
             }
         };
 
@@ -102,23 +106,26 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
     const fetchDataAndProjects = async (latitude, longitude, startDate, endDate) => {
+        dispatch({ type: LOADER, payload: true }); 
         try {
-
-            await fetchProjectsByRadius(latitude, longitude);
-
-
-            await fetchData(startDate, endDate);
+            await Promise.all([
+                fetchProjectsByRadius(latitude, longitude),
+                fetchData(startDate, endDate)
+            ]);
+            dispatch({ type: LOADER, payload: false }); 
         } catch (error) {
+            dispatch({ type: LOADER, payload: false }); 
             console.error('Error fetching data and projects:', error);
         }
     };
 
     const fetchProjectsByRadius = async (latitude: number, longitude: number) => {
+        dispatch({ type: LOADER, payload: true }); 
         try {
-            //  const projectsResponse = await dispatch(getProjectsByRadiusAction(31.4581, 74.3744, 5));
+             const projectsResponse = await dispatch(getProjectsByRadiusAction(31.4581, 74.3744, 5));
 
 
-            const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5));
+            // const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5));
             console.log("Fetching projects with location:", areaDetails, latitude, longitude);
 
             if (projectsResponse && projectsResponse.length > 0) {
@@ -137,99 +144,117 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 longitude,
                 address: areaDetails,
             });
+            dispatch({ type: LOADER, payload: false }); 
         } catch (error) {
+            dispatch({ type: LOADER, payload: false }); 
             console.error('Error fetching projects:', error);
         }
     };
 
     const fetchData = async (startDate, endDate) => {
+        
         try {
-            setLoading(true);
+            dispatch({ type: LOADER, payload: true }); 
+            
 
             try {
+                // dispatch({ type: LOADER, payload: true }); 
                 const membersResponse = await dispatch(getMembersByTimesheetAction(startDate, endDate));
                 if (membersResponse) {
                     console.log("Members Response: ", membersResponse);
                 } else {
                     console.warn("No members found for the given timesheet.");
                 }
+                // dispatch({ type: LOADER, payload: false }); 
             } catch (membersError) {
+                // dispatch({ type: LOADER, payload: false }); 
                 console.error('Error fetching members by timesheet:', membersError);
             }
 
             try {
+                // dispatch({ type: LOADER, payload: true }); 
                 const timesheetResponse = await dispatch(getCurrentTimesheetApi());
                 if (timesheetResponse?.statusCode === 200) {
                     setCurrentTimesheet(timesheetResponse.data);
                     calculateTimeDifference(timesheetResponse.data);
+                    // dispatch({ type: LOADER, payload: false }); 
                 } else if (timesheetResponse?.statusCode === 203) {
                     setCurrentTimesheet(null);
                     setTime(0);
+                    // dispatch({ type: LOADER, payload: false }); 
                 } else {
+                    // dispatch({ type: LOADER, payload: false }); 
                     console.warn('Unexpected response while fetching timesheet:', timesheetResponse);
                 }
             } catch (error) {
+                // dispatch({ type: LOADER, payload: false }); 
                 console.error('Error fetching timesheet:', error);
             }
 
         } catch (error) {
             console.error('Error in fetchData:', error);
         } finally {
-            setLoading(false);
+            dispatch({ type: LOADER, payload: false }); ;
         }
     };
 
 
 
     const calculateTimeDifference = (timesheetResponse: any) => {
-        const timesheetTransactions = timesheetResponse.timesheetTransactions;
-        const currentTime = moment();  // Get the current time
-
-        if (!timesheetTransactions || timesheetTransactions.length === 0) {
-            console.error('No timesheet transactions found.');
-            return;
-        }
-
-        // Handle Break In (TransactionType: 3) & status 10 logic for BottomSheet
-        const breakInTransaction = timesheetTransactions.find(t => t.transactionType === 3);
-        if (breakInTransaction && timesheetResponse.status === 10) {
-            const breakInTime = moment(breakInTransaction.transactionDateTime);
-            const diffInMinutes = currentTime.diff(breakInTime, 'minutes');
-
-            if (diffInMinutes > 120) {
-                console.log("Opening Break Out BottomSheet");
-                setSecondBottomSheetOpen(true);
+        dispatch({ type: LOADER, payload: true }); ; // Start loading at the beginning
+        try {
+            const timesheetTransactions = timesheetResponse.timesheetTransactions;
+            const currentTime = moment();  // Get the current time
+    
+            if (!timesheetTransactions || timesheetTransactions.length === 0) {
+                console.error('No timesheet transactions found.');
+                return;
             }
-        }
-
-        // Handle Clock Out (TransactionType: 2) & status 20 logic for BottomSheet
-        const clockOutTransaction = timesheetTransactions.find(t => t.transactionType === 1);
-        if (clockOutTransaction && timesheetResponse.status === 20) {
-            const clockOutTime = moment(clockOutTransaction.transactionDateTime);
-            const diffInMinutes = currentTime.diff(clockOutTime, 'minutes');
-
-            if (diffInMinutes > 840) {
-                console.log("Opening Clock Out BottomSheet");
-                setThirdBottomSheetOpen(true);
+    
+            // Handle Break In (TransactionType: 3) & status 10 logic for BottomSheet
+            const breakInTransaction = timesheetTransactions.find(t => t.transactionType === 3);
+            if (breakInTransaction && timesheetResponse.status === 10) {
+                const breakInTime = moment(breakInTransaction.transactionDateTime);
+                const diffInMinutes = currentTime.diff(breakInTime, 'minutes');
+    
+                if (diffInMinutes > 120) {
+                    console.log("Opening Break Out BottomSheet");
+                    setSecondBottomSheetOpen(true);
+                }
             }
-        }
-
-        // Timer Logic: Calculate the time difference between clock in and current time
-        const clockInTransaction = timesheetTransactions.find(t => t.transactionType === 1);
-        if (clockInTransaction) {
-            const clockInTime = moment(clockInTransaction.transactionDateTime);
-            const diffInSeconds = currentTime.diff(clockInTime, 'seconds'); // Time difference in seconds
-
-            console.log("Clock In Time Difference (Seconds):", diffInSeconds);
-
-            // Set the time in seconds and ensure the timer is running
-            setTime(diffInSeconds);
-            setIsRunning(true);
-        } else {
-            console.error("No clock-in transaction found.");
+    
+            // Handle Clock Out (TransactionType: 2) & status 20 logic for BottomSheet
+            const clockOutTransaction = timesheetTransactions.find(t => t.transactionType === 1);
+            if (clockOutTransaction && timesheetResponse.status === 20) {
+                const clockOutTime = moment(clockOutTransaction.transactionDateTime);
+                const diffInMinutes = currentTime.diff(clockOutTime, 'minutes');
+    
+                if (diffInMinutes > 840) {
+                    console.log("Opening Clock Out BottomSheet");
+                    setThirdBottomSheetOpen(true);
+                }
+            }
+    
+            // Timer Logic: Calculate the time difference between clock in and current time
+            const clockInTransaction = timesheetTransactions.find(t => t.transactionType === 1);
+            if (clockInTransaction) {
+                const clockInTime = moment(clockInTransaction.transactionDateTime);
+                const diffInSeconds = currentTime.diff(clockInTime, 'seconds'); // Time difference in seconds
+    
+                console.log("Clock In Time Difference (Seconds):", diffInSeconds);
+    
+                // Set the time in seconds and ensure the timer is running
+                setTime(diffInSeconds);
+                setIsRunning(true);
+            } else {
+                console.error("No clock-in transaction found.");
+            }
+        } catch (error) {
+            console.error('Error calculating time difference:', error);
+        } finally {
+            dispatch({ type: LOADER, payload: false }); ; // Stop loading after calculations
         }
     };
-
 
 
     useEffect(() => {
@@ -248,6 +273,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
     const renderButtons = () => {
+        
         if (!currentTimesheet) {
 
             return (
@@ -274,7 +300,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 </View>
             );
         }
-
+        
+        
         switch (currentTimesheet.status) {
             case 5:
                 return (
@@ -344,10 +371,15 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                             />
                         </View>
                     </View>
+                    
                 );
+                
             default:
                 return null;
+
+               
         }
+        
     };
 
 
@@ -383,20 +415,20 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
     const handleBreakIn = async () => {
         try {
-            setLoading(true);
+            dispatch({ type: LOADER, payload: true }); ;
             console.log("setting loading in break in at start", loading);
 
 
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
                 return;
             }
 
 
             if (!location?.latitude || !location?.longitude || !areaDetails) {
                 console.error("Location or area details are missing.");
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
                 return;
             }
 
@@ -414,7 +446,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             // Ensure timesheet data is complete
             if (!timesheetDataBreakIn.transactionDateTime || !timesheetDataBreakIn.timesheetId) {
                 console.error("Required timesheet data is missing.");
-                setLoading(false); // Stop loading in case of error
+                dispatch({ type: LOADER, payload: false }); ; // Stop loading in case of error
                 return;
             }
 
@@ -431,7 +463,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         } catch (error) {
             console.error('Error in handleBreakIn:', error);
         } finally {
-            setLoading(false); // Stop loading
+            dispatch({ type: LOADER, payload: false }); ; // Stop loading
             console.log("setting loading in break in at end", loading);
         }
     };
@@ -440,19 +472,19 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
     const handleBreakOut = async (selectedDateTime) => {
         try {
-            setLoading(true);
+            dispatch({ type: LOADER, payload: true }); ;
 
 
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
                 return;
             }
 
 
             if (!location?.latitude || !location?.longitude || !areaDetails) {
                 console.error("Location or area details are missing.");
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
                 return;
             }
 
@@ -483,24 +515,24 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         } catch (error) {
             console.error('Error during breakOut:', error);
         } finally {
-            setLoading(false);
+            dispatch({ type: LOADER, payload: false }); ;
         }
     };
 
     const handleClockOut = async (selectedDateTime) => {
         try {
-            setLoading(true);
+            dispatch({ type: LOADER, payload: true }); ;
             console.log("setting loading in clock out at start", loading);
 
 
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
                 return;
             }
             if (!location?.latitude || !location?.longitude || !areaDetails) {
                 console.error("Location or area details are missing.");
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
                 return;
             }
 
@@ -537,7 +569,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
             if (!timesheetDataClockOut.transactionDateTime || !timesheetDataClockOut.timesheetId) {
                 console.error("Required timesheet data is missing.");
-                setLoading(false);
+                dispatch({ type: LOADER, payload: false }); ;
                 return;
             }
 
@@ -546,7 +578,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
             const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-            await fetchData(startDate, endDate);
+             fetchData(startDate, endDate);
+             fetchProjectsByRadius(location.latitude,location.longitude)
             if (timesheetResponse && timesheetResponse.statusCode === 200) {
                 setCurrentTimesheet(timesheetResponse.data);
             } else {
@@ -557,7 +590,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         } catch (error) {
             console.error('Error in handleClockOut:', error);
         } finally {
-            setLoading(false);
+            dispatch({ type: LOADER, payload: false }); ;
             console.log("setting loading in clock out at end", loading);
         }
     };
@@ -572,44 +605,34 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         changeRoute(navigation, "ReportCard")
     };
 
-
-
     const handleClockIn = async () => {
+        dispatch({ type: LOADER, payload: true }); ;  // Start loading immediately at the beginning
         try {
-            setLoading(true);  // Start loading
             console.log("setting loading in handleClock at start", loading);
-
+    
             const currentDate = getCurrentDateInMicrosoftFormat();
             let newTimesheetData = null;
-
+    
+            // Validate location and areaDetails before constructing timesheet data
+            if (!location?.latitude || !location?.longitude || !areaDetails) {
+                throw new Error("Location or area details are missing.");
+            }
+    
+            // Check if currentTimesheet is valid and contains transactions
             if (currentTimesheet && currentTimesheet.timesheetTransactions && currentTimesheet.timesheetTransactions[0]) {
-                //  const timesheetId = currentTimesheet.id;
-
-                // Validate location and areaDetails before constructing timesheet data
-                if (!location?.latitude || !location?.longitude || !areaDetails) {
-                    throw new Error("Location or area details are missing.");
-                }
-
-                // Construct the timesheet data
                 newTimesheetData = {
                     id: '00000000-0000-0000-0000-000000000000',
-                    // timesheetId: timesheetId,
                     transactionType: 1, // Clock In
                     transactionDateTime: currentDate,
                     latitude: location.latitude,
                     longitude: location.longitude,
                     address: areaDetails
                 };
-            }
+            } 
             // Handle case where currentTimesheet is missing or invalid
             else if (!currentTimesheet || (currentTimesheet.statusCode === 203 || currentTimesheet.statusCode === 204)) {
                 console.log("Timesheet is either missing or has a status code of 203 or 204");
-
-                if (!location?.latitude || !location?.longitude || !areaDetails) {
-                    throw new Error("Location or area details are missing.");
-                }
-
-                // Handle case where timesheet is empty or status code is 203 or 204
+    
                 newTimesheetData = {
                     id: '00000000-0000-0000-0000-000000000000',
                     transactionType: 1, // Clock In
@@ -618,22 +641,21 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                     longitude: location.longitude,
                     address: areaDetails
                 };
-
+    
+                // This is a backup setting to ensure timesheet data is available for later use
                 settimeSheetData(newTimesheetData);
             } else {
                 throw new Error("Current timesheet is invalid or missing required data.");
             }
-
+    
             // Ensure required fields are present in the timesheet data
             if (!newTimesheetData.transactionDateTime) {
                 console.error("Required timesheet data is missing.");
-                setLoading(false);  // Stop loading in case of error
-                return;
+                return; // Return here; loading will be stopped in `finally` below
             }
-
-
-            settimeSheetData(newTimesheetData);
-
+    
+            settimeSheetData(newTimesheetData); // Update the state with the newly constructed data
+    
             // Check if currentProjects is defined and has valid length
             if (currentProjects.length === 1) {
                 // Automatically select the first project if there's only one
@@ -641,61 +663,74 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             } else if (currentProjects.length > 1) {
                 // Open bottom sheet if more than one project is available
                 setBottomSheetOpen(true);
-            } else {
-                await handleProjectSelect(null); // Handle case when project ID is null
-            }
 
+            } else {
+                // Handle case when no project is available (pass null)
+                await handleProjectSelect(null);
+            }
         } catch (error) {
-            console.error('Error in handleClock:', error);
+            console.error('Error in handleClockIn:', error);
         } finally {
-            setLoading(false);  // Ensure loading is stopped in all cases
+            // Stop loading in all cases after the logic completes
+            dispatch({ type: LOADER, payload: false }); ;
             console.log("setting loading in handleClock at end", loading);
         }
     };
 
+    
+
     const handleProjectSelect = async (projectId) => {
+        dispatch({ type: LOADER, payload: true }); ; // Start loading at the beginning
         try {
-            setLoading(true); // Ensure the loader is always turned on
+            setBottomSheetOpen(false);
             console.log("Project selection started with:", timesheetData, projectId);
-
+    
             const currentDate = getCurrentDateInMicrosoftFormat();
-
+    
             // Ensure timesheetData is available before proceeding
             if (!timesheetData) {
                 throw new Error('Timesheet data is missing.');
             }
-
+    
             // Set projectId to null if it is not provided
             const selectedProjectId = projectId || null;
-
+    
             // Dispatch clockInAction with the selected project ID (or null)
-            await dispatch(clockInAction(timesheetData, currentDate, selectedProjectId));
-
+          await dispatch(clockInAction(timesheetData, currentDate, selectedProjectId));
+          const timesheetResponse = await dispatch(getCurrentTimesheetApi());
+            
+          // Ensure fetchData completes before making further updates
+           fetchData(startDate, endDate);
             // Fetch the updated timesheet after clock-in
-            const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-            fetchData(startDate, endDate);
+           
+            
+            // Check the response and update the state accordingly
             if (timesheetResponse?.data && timesheetResponse?.statusCode === 200) {
+               
                 setCurrentTimesheet(timesheetResponse.data);
                 setTime(0);
                 setIsRunning(true);
-                setBottomSheetOpen(false);
+                // Close the bottom sheet
             } else {
+                console.warn("No valid timesheet found or unexpected response status.");
                 setCurrentTimesheet(null); // Handle case where no timesheet is returned
             }
-
+    
         } catch (error) {
             console.error('Error in handleProjectSelect:', error.message || error);
         } finally {
-            setLoading(false); // Stop loading state
+            dispatch({ type: LOADER, payload: false }); ; // Stop loading in all cases
             console.log("Project selection process completed.");
         }
     };
-
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
             {
-                loading ?
-                    <View style={styles.loaderContainer}><Loader size={'large'} /></View> :
+                
+                 loader ?
+                    <View style={styles.loaderContainer}><Loader size={'large'} /></View> 
+                    
+                    :
                     <>
                         <AppHeader
                             iconL1={
@@ -717,9 +752,9 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                         <View style={styles.container}>
                             <>
                                 {
-                                    loading ? <Loader size={'strong'} /> :
-                                        <>
-                                            { }
+                                    // loader ? <Loader size={'strong'} /> :
+                                         <>
+                                             { }
                                             <View style={styles.dateContainer}>
                                                 <Text style={styles.date}>{formatDate()}</Text>
                                             </View>

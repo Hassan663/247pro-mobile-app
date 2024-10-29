@@ -12,6 +12,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
 import OutlinedTextInput from '/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/core/components/outlined-textInput.component';
 import moment from 'moment';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export type FilterBottomSheetProps = {
   isVisible: boolean;
@@ -60,6 +61,14 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
   const handleBlur = () => {
     setActiveField(null); // Remove focus when field is blurred
   };
+
+  
+
+  React.useEffect(() => {
+    const handleOutsidePress = () => {
+      if (isVisible) onClose();
+    };
+  }, [isVisible]);
 
   const renderOutlinedTextInput = (title: string, value: string | null, onPress: () => void, fieldKey: string) => (
     <View style={{ position: 'relative' }}>
@@ -126,10 +135,12 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
   return (
     <Modal
       visible={isVisible}
-      animationType="slide"
-      transparent={true}
+       animationType="slide"
+     transparent={true}
       onRequestClose={onClose}
     >
+      {/* <TouchableWithoutFeedback onPress={handleOutsidePress}></TouchableWithoutFeedback> */}
+      
       <View style={styles.modalBackground}>
         <View style={styles.bottomSheet}>
           <Text style={styles.title}>Filter date range</Text>
@@ -178,7 +189,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
 
           {/* Apply Filter Button */}
           <TouchableOpacity style={styles.applyButton} onPress={handleApply}>
-            <Text style={styles.applyButtonText}>APPLY FILTERS</Text>
+            <Text style={styles.applyButtonText}> Apply</Text>
           </TouchableOpacity>
 
           {/* <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
