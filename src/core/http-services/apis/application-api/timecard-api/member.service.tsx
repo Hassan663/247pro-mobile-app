@@ -75,6 +75,7 @@ export const getTimesheetByUserApi = async (
 export const getCurrentTimesheetApi = () => {
   return async (dispatch: Dispatch) => {
     try {
+      dispatch({ type: 'SET_LOADER', payload: true });
       console.log("Calling API: ", TIMESHEET_CURRENT_ENDPOINT.url);
 
       const response = await getApiWithParams<null, TimesheetViewModel>(
@@ -101,12 +102,15 @@ export const getCurrentTimesheetApi = () => {
       }
 
       console.log("No timesheet found.");
+     
       return {
         statusCode: 203,
         data: {} as TimesheetViewModel,  // Return an empty object for no content
       };
+      dispatch({ type: 'SET_LOADER', payload: false });
 
     } catch (error) {
+      dispatch({ type: 'SET_LOADER', payload: false });
       console.error('Error fetching current timesheet:', error);
       throw error;
     }

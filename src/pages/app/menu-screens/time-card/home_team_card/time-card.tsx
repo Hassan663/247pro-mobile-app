@@ -108,10 +108,10 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const fetchDataAndProjects = async (latitude, longitude, startDate, endDate) => {
         dispatch({ type: LOADER, payload: true }); 
         try {
-            await Promise.all([
-                fetchProjectsByRadius(latitude, longitude),
-                fetchData(startDate, endDate)
-            ]);
+            // await Promise.all([
+               await fetchProjectsByRadius(latitude, longitude),
+                await fetchData(startDate, endDate)
+            // ]);
             dispatch({ type: LOADER, payload: false }); 
         } catch (error) {
             dispatch({ type: LOADER, payload: false }); 
@@ -122,10 +122,10 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const fetchProjectsByRadius = async (latitude: number, longitude: number) => {
         dispatch({ type: LOADER, payload: true }); 
         try {
-             const projectsResponse = await dispatch(getProjectsByRadiusAction(31.4581, 74.3744, 5));
+            //  const projectsResponse = await dispatch(getProjectsByRadiusAction(31.4581, 74.3744, 5));
 
 
-            // const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5));
+             const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5));
             console.log("Fetching projects with location:", areaDetails, latitude, longitude);
 
             if (projectsResponse && projectsResponse.length > 0) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -37,8 +37,31 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
   const [tempStartDate, setTempStartDate] = useState(defaultStartDate); // Temp storage for date picker
   const [tempEndDate, setTempEndDate] = useState(defaultEndDate); // Temp storage for date picker
   const [activeField, setActiveField] = useState<string | null>(null); // Track active field for focus
-
+  const isFirstOpen = useRef(true);
+  const startOfCurrentMonth = moment().startOf('month').format('YYYY-MM-DDT00:00:00');
+  const endOfCurrentMonth = moment().endOf('month').format('YYYY-MM-DDT23:59:59');
   // Function to apply filters and send dates in Microsoft format
+
+
+  useEffect(() => {
+    if (isVisible) {
+      if (isFirstOpen.current) {
+        setFilterOption('monthly');  // First time opening, set to monthly
+        isFirstOpen.current = false;
+      } else if (filterOption === 'custom') {
+        setStartDate(defaultStartDate);
+        setEndDate(defaultEndDate);
+      } else if (filterOption === 'monthly') {
+        setStartDate(startOfCurrentMonth);
+        setEndDate(endOfCurrentMonth);
+      }
+    }
+  }, [isVisible, filterOption, startOfCurrentMonth, endOfCurrentMonth]);
+
+
+
+
+
   const handleApply = () => {
     console.log("Applying dates:", startDate, endDate);
     
@@ -64,11 +87,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
 
   
 
-  React.useEffect(() => {
-    const handleOutsidePress = () => {
-      if (isVisible) onClose();
-    };
-  }, [isVisible]);
+  
 
   const renderOutlinedTextInput = (title: string, value: string | null, onPress: () => void, fieldKey: string) => (
     <View style={{ position: 'relative' }}>
@@ -120,9 +139,6 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
   const handleMonthlySelection = () => {
     setFilterOption('monthly');
     
-    // One month ago from today, with start and end times
-    const oneMonthAgo = moment().subtract(1, 'month').startOf('day').toISOString(); // 00:00:00
-    const today = moment().endOf('day').toISOString(); // 23:59:59
     const startOfCurrentMonth = moment().startOf('month').format('YYYY-MM-DDT00:00:00');
         const endOfCurrentMonth = moment().endOf('month').format('YYYY-MM-DDT23:59:59');
 
@@ -132,17 +148,99 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
     console.log("Monthly date range:", startOfCurrentMonth, endOfCurrentMonth);
   };
 
+  // <Modal visible={isVisible} transparent={true} onRequestClose={onClose}>
+  // <Pressable style={styles.modalBackground} onPress={onClose}>
+  //   <Pressable style={styles.bottomSheet} onPress={() => {}}>
+  //       <Text style={styles.title}>Filter date range</Text>
+
+  //       {/* Radio Buttons */}
+  //       <View style={styles.radioButtonColumn}>
+  //         <TouchableOpacity
+  //           activeOpacity={0.9}
+  //           onPress={handleMonthlySelection}
+  //           style={styles.radioWrapper}
+  //         >
+  //           <Fontisto
+  //             name={filterOption !== 'monthly' ? 'radio-btn-passive' : 'radio-btn-active'}
+  //             style={styles.radioIcon}
+  //             color={filterOption === 'monthly' ? '#FFA500' : '#666'}
+  //             size={22}
+  //           />
+  //           <Text style={styles.radioText}>By monthly</Text>
+  //         </TouchableOpacity>
+
+  //         <TouchableOpacity
+  //           activeOpacity={0.9}
+  //           onPress={() => handleCustomSelection()}
+  //           style={styles.radioWrapper}
+  //         >
+  //           <Fontisto
+  //             name={filterOption !== 'custom' ? 'radio-btn-passive' : 'radio-btn-active'}
+  //             style={styles.radioIcon}
+  //             color={filterOption === 'custom' ? '#FFA500' : '#666'}
+  //             size={22}
+  //           />
+  //           <Text style={styles.radioText}>Custom date range</Text>
+  //         </TouchableOpacity>
+  //       </View>
+
+  //       {/* Custom Date Range Input Fields */}
+  //       {filterOption === 'custom' && (
+  //         <>
+  //           {renderOutlinedTextInput('Date from', startDate, () => setShowStartDatePicker(true), 'startDate')}
+
+  //           {renderOutlinedTextInput('Date to', endDate, () => {
+  //             if (startDate) setShowEndDatePicker(true);
+  //           }, 'endDate')}
+  //         </>
+  //       )}
+
+  //       {/* Apply Filter Button */}
+  //       <TouchableOpacity style={styles.applyButton} onPress={handleApply}>
+  //         <Text style={styles.applyButtonText}> Apply</Text>
+  //       </TouchableOpacity>
+
+  //       {/* <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+  //         <Text style={styles.cancelButtonText}>Cancel</Text>
+  //       </TouchableOpacity> */}
+
+  //       {/* Start Date Picker */}
+  //       {showStartDatePicker && (
+  //         <Modal
+  //           visible={showStartDatePicker}
+  //           animationType="fade"
+  //           transparent={true}
+  //           onRequestClose={() => setShowStartDatePicker(false)}
+  //         >
+  //           <View style={styles.calendarModal}>
+  //             <View style={styles.calendarContainer}>
+  //               <Text style={styles.calendarTitle}>Select Start Date</Text>
+  //               <Calendar
+  //                 onDayPress={(day) => setTempStartDate(day.dateString)} // Store temp start date
+  //                 markedDates={{
+  //                   [moment(tempStartDate).format('YYYY-MM-DD')]: { selected: true, selectedColor: '#FFA500' },
+                   
+  //                 }}
+  //                 theme={calendarTheme}
+  //                 style={styles.calendarStyle}
+  //               />
+  //               <View style={styles.calendarButtons}>
+  //                 <Pressable onPress={() => setShowStartDatePicker(false)}>
+  //                   <Text style={styles.cancelButtonText}>CANCEL</Text>
+  //                 </Pressable>
+  //                 <Pressable onPress={handleStartDateConfirm}>
+  //                   <Text style={styles.okButtonText}>OK</Text>
+  //                 </Pressable>
+  //               </View>
+  //             </View>
+  //           </View>
+  //         </Modal>
+  //       )}
+
   return (
-    <Modal
-      visible={isVisible}
-       animationType="slide"
-     transparent={true}
-      onRequestClose={onClose}
-    >
-      {/* <TouchableWithoutFeedback onPress={handleOutsidePress}></TouchableWithoutFeedback> */}
-      
-      <View style={styles.modalBackground}>
-        <View style={styles.bottomSheet}>
+    <Modal visible={isVisible} transparent={true} onRequestClose={onClose}>
+    <Pressable style={styles.modalBackground} onPress={onClose}>
+      <Pressable style={styles.bottomSheet} onPress={() => {}}>
           <Text style={styles.title}>Filter date range</Text>
 
           {/* Radio Buttons */}
@@ -189,7 +287,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
 
           {/* Apply Filter Button */}
           <TouchableOpacity style={styles.applyButton} onPress={handleApply}>
-            <Text style={styles.applyButtonText}> Apply</Text>
+            <Text style={styles.applyButtonText}> Filter</Text>
           </TouchableOpacity>
 
           {/* <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
@@ -262,8 +360,8 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
               </View>
             </Modal>
           )}
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 };

@@ -34,18 +34,25 @@ const ReportCard = ({ navigation }) => {
     const [endDate, setEndDate] = useState('');
     const [dateRangeSelected, setDateRangeSelected] = useState('monthly');
 
-    
+
 
     useEffect(() => {
         // Set default dates for current month
         const startOfCurrentMonth = moment().startOf('month').format('YYYY-MM-DDT00:00:00');
         const endOfCurrentMonth = moment().endOf('month').format('YYYY-MM-DDT23:59:59');
-        
+
+    //     const startOfCurrentMonth = moment.utc().startOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+    // const endOfCurrentMonth = moment.utc().endOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        // const startOfCurrentMonth = moment().startOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        // const endOfCurrentMonth = moment().endOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+       console.log("The date ,", startDate, endDate)
+       
+       
         setStartDate(startOfCurrentMonth);
         setEndDate(endOfCurrentMonth);
 
         // Fetch timesheets for the current month
-        fetchTimesheets(startOfCurrentMonth, endOfCurrentMonth);
+        fetchTimesheets(startDate, endDate);
     }, []);
 
     useEffect(() => {
@@ -65,12 +72,12 @@ const ReportCard = ({ navigation }) => {
 
                 // Fetch user profile from API
                 const userProfile = await userIdentity(parsedToken);
-                
+
                 // Dispatch the user profile to the store
                 dispatch({ type: CURRENTUSERPROFILE, payload: userProfile });
                 setUserName(userProfile.name || 'No Name Available');
                 setUserProfile(userProfile.profile || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');
-                
+
                 // Log profile and permissions for debugging
                 console.log("My profile is ", userProfile);
                 console.log("User Permissions:", userProfile?.permissions);
@@ -80,20 +87,23 @@ const ReportCard = ({ navigation }) => {
         };
 
         fetchUserProfile();
-    }, [dispatch]); 
+    }, [dispatch]);
 
     const fetchTimesheets = async (startDate, endDate) => {
-        setLoading(true); 
+        
+        setLoading(true);
         try {
+            
+            
             const response = await getTimesheetsForCurrentUserApi(startDate, endDate);
-    
+
             // Reset the data if the response is empty
             if (Array.isArray(response) && response.length > 0) {
                 setTimesheetData(response);
                 const firstTimesheet = response[0];
                 // setUserName(firstTimesheet.userName || 'No Name Available');
                 // setUserProfile(firstTimesheet.userProfile || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');
-    
+
                 let totalMinutes = 0;
                 response.forEach((timesheet) => {
                     totalMinutes += calculateTotalTime(timesheet.timesheetTransactions);
@@ -118,66 +128,66 @@ const ReportCard = ({ navigation }) => {
         setIsFilterBottomSheetVisible(true);
     };
     const handleFilterApply = (newStartDate, newEndDate) => {
-       
+
         if (moment(newStartDate).isAfter(newEndDate)) {
             Alert.alert('Invalid Date Range', 'Start date must be earlier than or equal to the end date.');
             return;
         }
-        
+
         setStartDate(newStartDate);
         setEndDate(newEndDate);
         setIsFilterBottomSheetVisible(false);
         fetchTimesheets(newStartDate, newEndDate);
     };
-    
+
 
     const calculateTotalTime = (transactions) => {
         let totalTime = 0;
         let clockInTime = null;
-    
+
         if (transactions && transactions.length > 0) {
             transactions = sortTransactionsByDate(transactions);
-    
+
             if (transactions.length === 1) {
                 // If only one transaction exists, check if it's a Clock In (transactionType === 1)
                 const singleTransaction = transactions[0];
                 if (singleTransaction.transactionType === 1) {
                     // Calculate the difference between the clock-in time and the current time
                     clockInTime = moment(singleTransaction.transactionDateTime);
-                    const currentTime = moment(); 
+                    const currentTime = moment();
                     const duration = moment.duration(currentTime.diff(clockInTime));
-    
+
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); 
+                        totalTime = duration.asMinutes();
                     }
                 }
             } else {
                 // Check if there is any Break Out transaction (transactionType === 4)
                 const hasBreakOut = transactions.some(transaction => transaction.transactionType === 2);
-    
+
                 // If there is no Break Out transaction, calculate time till the current time
                 if (!hasBreakOut) {
                     const earliestTransaction = moment(transactions[0].transactionDateTime); // Get the earliest transaction
                     const currentTime = moment(); // Get the current time
                     const duration = moment.duration(currentTime.diff(earliestTransaction));
-    
+
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); 
+                        totalTime = duration.asMinutes();
                     }
                 } else {
                     // If there is a Break Out transaction, calculate the difference between the earliest and the latest
                     const earliestTransaction = moment(transactions[0].transactionDateTime);
                     const latestTransaction = moment(transactions[transactions.length - 1].transactionDateTime);
-    
+
                     const duration = moment.duration(latestTransaction.diff(earliestTransaction));
-    
+
                     if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes(); 
+                        totalTime = duration.asMinutes();
                     }
                 }
             }
         }
-    
+
         return totalTime;
     };
 
@@ -195,16 +205,16 @@ const ReportCard = ({ navigation }) => {
         return transactions.sort((a, b) => moment(a.transactionDateTime) - moment(b.transactionDateTime));
     };
 
-    
+
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
-           
-            
-           {loading ? (
-                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.white }}>
-                   <ActivityIndicator color={Colors.primary} size={ "large"} />
-                 </View>
+
+
+            {loading ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.white }}>
+                    <ActivityIndicator color={Colors.primary} size={"large"} />
+                </View>
             ) : (
                 <>
                     <AppHeader
@@ -212,26 +222,26 @@ const ReportCard = ({ navigation }) => {
                             <AntDesign
                                 style={centralStyle.mx2}
                                 name={'left'}
-                                
+
                                 onPress={() => { changeRoute(navigation, 'pop') }}
                                 size={platform == 'ios' ? RFPercentage(2.5) : RFPercentage(3)}
                             />
                         }
                         iconR1={
                             <TouchableOpacity onPress={openFilterBottomSheet} style={{ paddingRight: 12 }}>
-                               <MaterialIcons name="filter-list" size={30} color={Colors.black} />
+                                <MaterialIcons name="filter-list" size={30} color={Colors.black} />
                             </TouchableOpacity>
                         }
                         title={t('My Report')}
                     />
-                    
+
 
                     <ScrollView contentContainerStyle={styles.container}>
-                    
+
                         <View>
-                            
-                            
-                          
+
+
+
                             <View style={styles.greyContainer}>
                                 <View style={styles.profileRow}>
                                     <Image source={{ uri: userProfile }} style={styles.profileImage} />
@@ -239,10 +249,10 @@ const ReportCard = ({ navigation }) => {
                                 </View>
                             </View>
 
-                            
+
                             <Text style={styles.totalHoursTextHardCoded}>Total working hours</Text>
 
-                            
+
                             <View style={styles.rowContainer}>
                                 <Text style={styles.totalHoursText}>{formatTotalWorkingTime(totalWorkingHours)}</Text>
                                 <Text style={styles.dateRange}>
@@ -250,7 +260,7 @@ const ReportCard = ({ navigation }) => {
                                 </Text>
                             </View>
 
-                            
+
                             <View style={styles.divider} />
                         </View>
 
@@ -271,7 +281,7 @@ const ReportCard = ({ navigation }) => {
                                                 <View key={idx} style={styles.transactionRow}>
                                                     <View style={styles.verticalLineContainer}>
                                                         <View style={[styles.circle, { backgroundColor: color }]} />
-                                                        
+
                                                         <View style={styles.verticalLine} />
                                                     </View>
                                                     <View style={styles.transactionDetails}>
@@ -280,7 +290,7 @@ const ReportCard = ({ navigation }) => {
                                                             <Text style={styles.timeText}>{moment(transaction.transactionDateTime).format('hh:mm A')}</Text>
                                                         </View>
                                                         <Text style={styles.addressText}>{transaction.address}</Text>
-                                                       
+
 
 
                                                         <Text >{ }</Text>
@@ -295,7 +305,7 @@ const ReportCard = ({ navigation }) => {
                             <Text>No timesheet data available for the selected date range.</Text>
                         )
                         }
-                        
+
 
                         {/* <FilterBottomSheet
                             isVisible={isFilterBottomSheetVisible}
@@ -305,12 +315,6 @@ const ReportCard = ({ navigation }) => {
                             defaultEndDate={endDate}
                         /> */}
 
-<Modal visible={isFilterBottomSheetVisible} transparent animationType="fade">
-                        <TouchableOpacity
-                            style={styles.overlay}
-                            activeOpacity={1}
-                            onPress={() => setIsFilterBottomSheetVisible(false)}
-                        />
                         <FilterBottomSheet
                             isVisible={isFilterBottomSheetVisible}
                             onClose={() => setIsFilterBottomSheetVisible(false)}
@@ -318,7 +322,6 @@ const ReportCard = ({ navigation }) => {
                             defaultStartDate={startDate}
                             defaultEndDate={endDate}
                         />
-                    </Modal>
 
                     </ScrollView>
                 </>
