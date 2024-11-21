@@ -109,6 +109,78 @@ export const MarketPlaceIcon = ({ width, height, color }) => {
   );
 };
 
+export const HomeIcon = ({ width, height, color }) => {
+  return (
+    <Svg width={width} height={height} viewBox="0 0 30 30" fill="none">
+      <G id="Icon/Home">
+        {/* House outline */}
+        <Path
+          d="M5 14L15 5L25 14V23C25 23.5523 24.5523 24 24 24H6C5.44772 24 5 23.5523 5 23V14Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        
+        {/* Door outline */}
+        <Path
+          d="M12 24V17H18V24"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        
+        {/* Three dots inside the house */}
+        <Path
+          d="M15 20.5C14.7239 20.5 14.5 20.2761 14.5 20C14.5 19.7239 14.7239 19.5 15 19.5C15.2761 19.5 15.5 19.7239 15.5 20C15.5 20.2761 15.2761 20.5 15 20.5Z"
+          fill={color}
+        />
+        <Path
+          d="M11 20.5C10.7239 20.5 10.5 20.2761 10.5 20C10.5 19.7239 10.7239 19.5 11 19.5C11.2761 19.5 11.5 19.7239 11.5 20C11.5 20.2761 11.2761 20.5 11 20.5Z"
+          fill={color}
+        />
+        <Path
+          d="M19 20.5C18.7239 20.5 18.5 20.2761 18.5 20C18.5 19.7239 18.7239 19.5 19 19.5C19.2761 19.5 19.5 19.7239 19.5 20C19.5 20.2761 19.2761 20.5 19 20.5Z"
+          fill={color}
+        />
+      </G>
+    </Svg>
+  );
+};
+
+export const ProfileIcon = ({ width, height, color }) => {
+  return (
+    <Svg width={width} height={height} viewBox="0 0 30 30" fill="none">
+      <G id="Icon/Profile">
+        {/* Outer Circle */}
+        <Path
+          d="M15 1C7.82 1 2 6.82 2 14C2 21.18 7.82 27 15 27C22.18 27 28 21.18 28 14C28 6.82 22.18 1 15 1Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        
+        {/* Head */}
+        <Path
+          d="M15 10C13.34 10 12 11.34 12 13C12 14.66 13.34 16 15 16C16.66 16 18 14.66 18 13C18 11.34 16.66 10 15 10Z"
+          fill={color}
+        />
+        
+        {/* Body Outline */}
+        <Path
+          d="M20 21C20 18.24 17.76 16 15 16C12.24 16 10 18.24 10 21"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </G>
+    </Svg>
+  );
+};
+
 export const Task = ({ width, height, color }) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 40 40" fill="none">

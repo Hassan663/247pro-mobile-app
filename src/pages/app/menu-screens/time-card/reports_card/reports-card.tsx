@@ -40,7 +40,8 @@ const ReportCard = ({ navigation }) => {
         // Set default dates for current month
         const startOfCurrentMonth = moment().startOf('month').format('YYYY-MM-DDT00:00:00');
         const endOfCurrentMonth = moment().endOf('month').format('YYYY-MM-DDT23:59:59');
-
+        setStartDate(startOfCurrentMonth);
+        setEndDate(endOfCurrentMonth);
     //     const startOfCurrentMonth = moment.utc().startOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
     // const endOfCurrentMonth = moment.utc().endOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         // const startOfCurrentMonth = moment().startOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
@@ -52,7 +53,7 @@ const ReportCard = ({ navigation }) => {
         setEndDate(endOfCurrentMonth);
 
         // Fetch timesheets for the current month
-        fetchTimesheets(startDate, endDate);
+        fetchTimesheets(startOfCurrentMonth, endOfCurrentMonth);
     }, []);
 
     useEffect(() => {

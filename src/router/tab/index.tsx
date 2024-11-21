@@ -43,6 +43,8 @@ import Menu from '../../pages/app/menu-screens/menu/menu';
 import TimeCard from '../../pages/app/menu-screens/time-card/home_team_card/time-card';
 import ReportCard from '../../pages/app/menu-screens/time-card/reports_card/reports-card';
 import Team from '../../pages/app/menu-screens/time-card/team_reports_card/team';
+import ProfilePage from '../../pages/app/menu-screens/profile/profile-page';
+import Contact from '../../pages/app/contact-screens/contact/contact';
 // import PostAJobDescribeScope from '../../pages/app/menu-screens/post-a-job/post-a-job';
 
 const Stack = createStackNavigator();
@@ -94,6 +96,9 @@ export default function AppNavigation() {
         <Stack.Screen name="ReportCard" component={ReportCard} />
         <Stack.Screen name="Team" component={Team} />
         <Stack.Screen name="ReportDetail" component={ReportDetail} />
+        <Stack.Screen name="ProfilePage" component={ProfilePage} />
+        <Stack.Screen name="Contact" component={Contact} />
+        
       </Stack.Navigator>
   );
 }

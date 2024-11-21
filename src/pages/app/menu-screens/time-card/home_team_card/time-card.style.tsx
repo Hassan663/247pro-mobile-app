@@ -32,7 +32,7 @@ export const styles: any = StyleSheet.create<any>({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
-        paddingHorizontal: 20,
+        // paddingHorizontal: 20,
     },
     date: {
         textAlign: "left",
@@ -44,14 +44,14 @@ export const styles: any = StyleSheet.create<any>({
     
     dateContainer: {
         width: '100%',
-        paddingHorizontal: 20, 
+        paddingHorizontal: 15, 
         alignItems: 'flex-start', 
     },
     
     timerContainer: {
         width: '100%',
         alignItems: 'flex-start',
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
     },
     timer: {
         fontSize: RFValue(40, windowHeight),
@@ -68,7 +68,7 @@ export const styles: any = StyleSheet.create<any>({
         flexDirection: 'row', // Align buttons horizontally
         justifyContent: 'flex-end', // Align buttons to the right
         width: '100%', // Ensure it spans the full width of the screen
-        paddingHorizontal: 20, // Optional padding for the buttons
+        paddingHorizontal: 12, // Optional padding for the buttons
         // marginTop: 10, // Optional margin to give space above the button row
     },
 
@@ -118,7 +118,7 @@ export const styles: any = StyleSheet.create<any>({
     topRowContainer: {
         paddingTop: 35,  
         paddingBottom: 16,
-        paddingLeft: 2,
+        // paddingLeft: 2,
         paddingRight: 18,
         flexDirection: 'row',  
         justifyContent: 'space-between',  

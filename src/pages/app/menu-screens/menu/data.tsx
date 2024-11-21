@@ -46,13 +46,42 @@ export const APPDATA = [
    
 ]
 
-export const ACCOUNTSETTINGDATA = [
-    { icon: <CompanyProfile width={30} height={30} color="#FF9800" />, name: t('CompanyProfile') },
-    { icon: <AccountSetting width={30} height={30} color="#FF9800" />, name: t('AccountSettings') },
-    { icon: <ApplicationSetting width={25} height={44} color="#FF9800" />, name: t('ApplicaionSettings') },
-    // { icon: <MaterialCommunityIcons style={centralStyle.my1} name={`tablet-mobile-combo`} color={Colors.primary} size={RFPercentage(3)} />, name: t('ApplicaionSettings') },
-    // { icon: <Help width={30} height={30} color="#FF9800" />, name: 'Help' }
-    { icon: <View style={centralStyle.my1}><RoleAndPermissions width={platform == 'ios' ? 40 : RFPercentage(4.5)} height={platform == 'ios' ? 40 : RFPercentage(4.5)} color="#FF9800" /></View>, name: t('RolesAndPermissions') },
-    { icon: <View style={centralStyle.my1}><UserGrpIcon width={platform == 'ios' ? 40 : RFPercentage(4.5)} height={platform == 'ios' ? 40 : RFPercentage(4.5)} color="#FF9800" /></View>, name: t('UserAdmin') },
+// export const ACCOUNTSETTINGDATA = [
+//     { icon: <CompanyProfile width={30} height={30} color="#FF9800" />, name: t('CompanyProfile') },
+//     { icon: <AccountSetting width={30} height={30} color="#FF9800" />, name: t('AccountSettings') },
+//     { icon: <ApplicationSetting width={25} height={44} color="#FF9800" />, name: t('ApplicaionSettings') },
+//     // { icon: <MaterialCommunityIcons style={centralStyle.my1} name={`tablet-mobile-combo`} color={Colors.primary} size={RFPercentage(3)} />, name: t('ApplicaionSettings') },
+//     // { icon: <Help width={30} height={30} color="#FF9800" />, name: 'Help' }
+//     { icon: <View style={centralStyle.my1}><RoleAndPermissions width={platform == 'ios' ? 40 : RFPercentage(4.5)} height={platform == 'ios' ? 40 : RFPercentage(4.5)} color="#FF9800" /></View>, name: t('RolesAndPermissions') },
+//     { icon: <View style={centralStyle.my1}><UserGrpIcon width={platform == 'ios' ? 40 : RFPercentage(4.5)} height={platform == 'ios' ? 40 : RFPercentage(4.5)} color="#FF9800" /></View>, name: t('UserAdmin') },
    
-]
+// ]
+
+
+export const ACCOUNTSETTINGDATA = [
+    {
+        icon: <CompanyProfile width={30} height={30} color="#999999" />,
+        name: 'Company Profile',
+        subtitle: 'Update & publish your company profile.',
+    },
+    {
+        icon: <AccountSetting width={30} height={30} color="#999999" />,
+        name: 'Account Setting',
+        subtitle: 'Manage personal & contact information.',
+    },
+    {
+        icon: <ApplicationSetting width={30} height={30} color="#999999" />,
+        name: 'Application Settings',
+        subtitle: 'Manage all of the app settings',
+    },
+    {
+        icon: <RoleAndPermissions width={30} height={30} color="#999999" />,
+        name: 'Roles And Permissions',
+        subtitle: 'Manage all of the app settings',
+    },
+    {
+        icon: <UserGrpIcon width={30} height={30} color="#999999" />,
+        name: 'User Admin',
+        subtitle: 'Manage user admins in your company.',
+    },
+];

@@ -754,11 +754,11 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                 {
                                     // loader ? <Loader size={'strong'} /> :
                                          <>
-                                             { }
+                                            
                                             <View style={styles.dateContainer}>
                                                 <Text style={styles.date}>{formatDate()}</Text>
                                             </View>
-                                            { }
+                                            
                                             <View style={styles.timerContainer}>
                                                 <Text style={styles.timer}>{formatTime(time)}</Text>
                                             </View>
