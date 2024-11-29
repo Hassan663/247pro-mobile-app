@@ -18,7 +18,7 @@ import {
 //     // Fetch the access token from AsyncStorage
 //     const accessToken = await AsyncStorage.getItem('accessToken');
 //     if (accessToken !== null) {
-//       CLOCK_IN_ENDPOINT.JWTToken = JSON.parse(accessToken);
+//       CLOCK_IN_ENDPOINT.JWTToken = accessToken;
 //     }
 // console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId)
 //     // Append the query parameters to the URL
@@ -46,7 +46,7 @@ export const clockIn = async (
     // Fetch the access token from AsyncStorage
     const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
-      CLOCK_IN_ENDPOINT.JWTToken = JSON.parse(accessToken);
+      CLOCK_IN_ENDPOINT.JWTToken = accessToken;
     }
 
     console.log("THE TIMEZONE AND PROJECTID", timeZone, projectId);
@@ -81,7 +81,7 @@ export const breakIn = async (
     // Fetch the access token from AsyncStorage
     const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
-      BREAK_IN_ENDPOINT.JWTToken = JSON.parse(accessToken);
+      BREAK_IN_ENDPOINT.JWTToken = accessToken;
     }
 
     // Call the reusable POST API utility
@@ -102,7 +102,7 @@ export const breakOut = async (
     // Fetch the access token from AsyncStorage
     const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
-      BREAK_OUT_ENDPOINT.JWTToken = JSON.parse(accessToken);
+      BREAK_OUT_ENDPOINT.JWTToken = accessToken;
     }
 
     // Call the reusable POST API utility
@@ -123,7 +123,7 @@ export const clockOut = async (
     // Fetch the access token from AsyncStorage
     const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
-      CLOCK_OUT_ENDPOINT.JWTToken = JSON.parse(accessToken);
+      CLOCK_OUT_ENDPOINT.JWTToken = accessToken;
     }
 
     // Call the reusable POST API utility

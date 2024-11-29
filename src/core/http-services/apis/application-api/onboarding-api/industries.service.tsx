@@ -27,7 +27,7 @@ export const fetchIndustries = async (
   
   
     const INDUSTORY_ENDPOINT_CLONE: Endpoint = {...INDUSTORY_ENDPOINT};
-    INDUSTORY_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+    INDUSTORY_ENDPOINT_CLONE.JWTToken = accessToken;
     // Call the API and get the response
     console.log("Api Call: ",INDUSTORY_ENDPOINT_CLONE);
     const response = await getApi(INDUSTORY_ENDPOINT_CLONE, data);
@@ -59,7 +59,7 @@ export const createIndustries = async (
   
   
     const CREATE_INDUSTORY_ENDPOINT_CLONE: Endpoint = {...CREATE_INDUSTORY_ENDPOINT};
-    CREATE_INDUSTORY_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+    CREATE_INDUSTORY_ENDPOINT_CLONE.JWTToken = accessToken;
     // Call the API and get the response
     console.log("Api Call: ",CREATE_INDUSTORY_ENDPOINT_CLONE);
     const response = await postApi(CREATE_INDUSTORY_ENDPOINT_CLONE, data);
@@ -87,7 +87,7 @@ export const fetchSpecialityByIndustry = async (
       const data: any = {};
       const PRIMARY_SPECIALITY_ENDPOINT_CLONE: Endpoint = {...PRIMARY_SPECIALITY_ENDPOINT};
       PRIMARY_SPECIALITY_ENDPOINT_CLONE.url= PRIMARY_SPECIALITY_ENDPOINT.url + `/${industryId}`;
-      PRIMARY_SPECIALITY_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+      PRIMARY_SPECIALITY_ENDPOINT_CLONE.JWTToken = accessToken;
       // Call the API and get the response
       console.log(PRIMARY_SPECIALITY_ENDPOINT_CLONE);
       const response = await getApi(PRIMARY_SPECIALITY_ENDPOINT_CLONE, data);
@@ -119,7 +119,7 @@ export const fetchSpecialityByIndustry = async (
       };
       const CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE: Endpoint = {...CREATE_PRIMARY_SPECIALITY_ENDPOINT};
       CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE.url= CREATE_PRIMARY_SPECIALITY_ENDPOINT.url;
-      CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+      CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE.JWTToken = accessToken;
       // Call the API and get the response
       console.log(CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE);
       const response = await postApi(CREATE_PRIMARY_SPECIALITY_ENDPOINT_CLONE, data);
@@ -146,7 +146,7 @@ export const fetchSpecialityByIndustry = async (
       const data: any = {};
       const JOB_TYPE_ENDPOINT_CLONE: Endpoint = {...JOB_TYPE_ENDPOINT};
       JOB_TYPE_ENDPOINT_CLONE.url= JOB_TYPE_ENDPOINT.url + `/${industryId}`;
-      JOB_TYPE_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+      JOB_TYPE_ENDPOINT_CLONE.JWTToken = accessToken;
       // Call the API and get the response
       console.log(JOB_TYPE_ENDPOINT_CLONE);
       const response = await getApi(JOB_TYPE_ENDPOINT_CLONE, data);
@@ -183,7 +183,7 @@ export const fetchSpecialityByIndustry = async (
       //const data: any = {};
       const SUBMIT_JOB_LEAD_ENDPOINT_CLONE: Endpoint = {...SUBMIT_JOB_LEAD_ENDPOINT};
       SUBMIT_JOB_LEAD_ENDPOINT_CLONE.url= SUBMIT_JOB_LEAD_ENDPOINT.url;
-      SUBMIT_JOB_LEAD_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+      SUBMIT_JOB_LEAD_ENDPOINT_CLONE.JWTToken = accessToken;
       // Call the API and get the response
       console.log(SUBMIT_JOB_LEAD_ENDPOINT_CLONE);
       console.log(data);

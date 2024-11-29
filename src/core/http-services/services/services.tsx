@@ -71,18 +71,85 @@ const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<
 //   return request;
 // })
 
+// const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
+//   try {
+//     const headers: any = {};
+//     let accessToken = await AsyncStorage.getItem('accessToken');
+//     console.log("The  access token in storage ", accessToken)
+//     // headers.Authorization = `Bearer ${JSON.parse(accessToken!)}`;
+//     headers.Authorization = `Bearer ${accessToken}`;
+//     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
+//     if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D'
+//     const response: any = await axios.get(ENDPOINT.url, {headers});
+//     console.log("THE RESPONSE IS ,",response)
+//     return response;
+//   } catch (error) {
+//     console.log(error, 'error123');
+//     const axiosError = error as AxiosError;
+//     handleApiError(axiosError);
+//     throw error;
+//   }
+// };
+
 const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
   try {
-    const headers: any = {};
+    console.log('Starting API request to:', ENDPOINT.url);
+
+    const headers: Record<string, string> = {};
+
+    // Retrieve access token from AsyncStorage
     let accessToken = await AsyncStorage.getItem('accessToken');
-    headers.Authorization = `Bearer ${JSON.parse(accessToken)}`;
-    if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
-    if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D'
-    const response: any = await axios.get(ENDPOINT.url, {headers});
+    console.log('Raw access token retrieved from storage:', accessToken);
+
+    if (accessToken) {
+      // Remove any wrapping quotes or unnecessary characters from the token
+      accessToken = accessToken.replace(/^"(.*)"$/, '$1').trim();
+      console.log('Sanitized access token:', accessToken);
+
+      // Check if the token has a valid structure
+      if (accessToken.startsWith('eyJ')) {
+        headers.Authorization = `Bearer ${accessToken}`;
+        console.log('Authorization header set:', headers.Authorization);
+      } else {
+        console.warn('Access token does not appear valid:', accessToken);
+      }
+    } else {
+      console.warn('Access token is missing; Authorization header will not be set.');
+    }
+
+    // Override Authorization header if JWTToken is provided in the ENDPOINT
+    if (ENDPOINT.JWTToken) {
+      headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
+      console.log('JWTToken provided in ENDPOINT. Overriding Authorization header:', headers.Authorization);
+    }
+
+    // Add Cookie header if specified in the ENDPOINT
+    if (ENDPOINT.Cookie) {
+      headers.Cookie = ENDPOINT.Cookie;
+      console.log('Cookie header set:', headers.Cookie);
+    }
+
+    // Log final headers before sending the request
+    console.log('Final headers being sent:', headers);
+
+    // Make the API request
+    const response = await axios.get(ENDPOINT.url, { headers });
+    console.log('API response received:', response.status, response.statusText);
+    console.log('Response data:', response.data);
+
     return response;
   } catch (error) {
-    console.log(error, 'error123');
+    console.error('Error occurred during API request:', error);
+
     const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      console.error('Error response status:', axiosError.response.status);
+      console.error('Error response headers:', axiosError.response.headers);
+      console.error('Error response data:', axiosError.response.data);
+    } else {
+      console.error('No response received from API. Error details:', axiosError.message);
+    }
+
     handleApiError(axiosError);
     throw error;
   }
@@ -92,7 +159,8 @@ const getApiWithParams = async <TReq, TRes>(ENDPOINT: Endpoint, queryParams?: an
   try {
     const headers: any = {};
     let accessToken = await AsyncStorage.getItem('accessToken');
-    headers.Authorization = `Bearer ${JSON.parse(accessToken)}`;
+    // headers.Authorization = `Bearer ${accessToken}`;
+    headers.Authorization = `Bearer ${accessToken}`;
     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
     if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D';
       

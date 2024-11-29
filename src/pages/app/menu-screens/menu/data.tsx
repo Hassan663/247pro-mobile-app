@@ -61,27 +61,27 @@ export const APPDATA = [
 export const ACCOUNTSETTINGDATA = [
     {
         icon: <CompanyProfile width={30} height={30} color="#999999" />,
-        name: 'Company Profile',
+        name: 'Company profile',
         subtitle: 'Update & publish your company profile.',
     },
     {
         icon: <AccountSetting width={30} height={30} color="#999999" />,
-        name: 'Account Setting',
+        name: 'Account settings',
         subtitle: 'Manage personal & contact information.',
     },
     {
         icon: <ApplicationSetting width={30} height={30} color="#999999" />,
-        name: 'Application Settings',
+        name: 'Application settings',
         subtitle: 'Manage all of the app settings',
     },
     {
         icon: <RoleAndPermissions width={30} height={30} color="#999999" />,
-        name: 'Roles And Permissions',
+        name: 'Roles & permissions',
         subtitle: 'Manage all of the app settings',
     },
     {
         icon: <UserGrpIcon width={30} height={30} color="#999999" />,
-        name: 'User Admin',
+        name: 'User admin',
         subtitle: 'Manage user admins in your company.',
     },
 ];

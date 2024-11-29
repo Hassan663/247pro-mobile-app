@@ -9,7 +9,7 @@ export const fetchingDetails = async (id: number, dispatch: any) => {
         dispatch({ type: SCREENLOADER, payload: true })
         let accessToken = await AsyncStorage.getItem('accessToken');
         if (accessToken) {
-            return await getContactDetails(JSON.parse(accessToken), id);
+            return await getContactDetails(accessToken, id);
         }
     } catch (error) {
         console.log(error)

@@ -57,7 +57,7 @@ export const pickImage = async (setContactDetails: any, inputLabel: string) => {
             } else {
                 const fileName = res.fileName || 'image.jpg';
                 if (accessToken) {
-                    const img = await uploadImage(res.assets[0].uri, fileName, JSON.parse(accessToken))
+                    const img = await uploadImage(res.assets[0].uri, fileName, accessToken)
                     setContactDetails((prevValues: any) => ({
                         ...prevValues,
                         [inputLabel]: img?.data,

@@ -6744,6 +6744,11 @@ react-native-animatable@^1.3.3:
   dependencies:
     prop-types "^15.8.1"
 
+react-native-background-fetch@^4.2.5:
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/react-native-background-fetch/-/react-native-background-fetch-4.2.5.tgz#d4fc59fb633e1e0143c0cefb6682582cdd330232"
+  integrity sha512-llOU+UWPd1fjOFGNGB4v4YrYaA0sMLn5hMk0aNx0Ok9+wQ2nQillVwj7G/XZEpIiD2vTVkntTNNXWycF5Ju0kQ==
+
 react-native-calendars@^1.1307.0:
   version "1.1307.0"
   resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1307.0.tgz#2cb8c5abd322037e9b3ef5605afa86f25347068f"

@@ -46,7 +46,8 @@ import {
     userIdentity,
     signUp,
     externalLogin,
-    memberShipApi
+    memberShipApi,
+    refreshTokenApi
 } from '../../core/http-services/apis/identity-api/authentication.service';
 import {
     typeContact,
@@ -78,6 +79,8 @@ import { getProjectsByRadius } from '../../core/http-services/apis/application-a
 import { getCurrentTimesheetApi, getMembersByTimesheet, getTimesheetByUserApi, getTimesheetsForCurrentUserApi, updateTimesheetApi } from '../../core/http-services/apis/application-api/timecard-api/member.service';
 import { TeamTimesheetListView, TimesheetViewModel } from '../../core/modals/timeSheetMember.modal';
 import { IResponse } from '../../core/modals';
+import { SILENTREFRESH_ENDPOINT } from '../../core/http-services/apis/apis';
+import { postApi } from '../../core/http-services/services/services';
 
 //  LOGIN ACTION
 
@@ -100,7 +103,9 @@ export const loginAction = (
             if (directLoginToken) userData = await userIdentity(directLoginToken)
             else userData = await login(loginData, dispatch)
             if (Object.keys(userData).length > 0) {
-                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                // console.log("The token is ",userData.refreshToken)
+                await AsyncStorage.setItem('accessToken', userData.accessToken);
+               
                 dispatch({ type: CURRENTUSERPROFILE, payload: userData });
                 // Toast.show(t('successfully_login'), {
                 //     type: 'custom_success_toast',
@@ -129,6 +134,26 @@ export const forgetAction = (email: any) => {
     }
 }
 
+
+export const refreshTokenAction = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: LOADER, payload: true });
+
+            const response = await refreshTokenApi();
+            if (response) {
+                console.log('Token refreshed and stored successfully.');
+            } else {
+                console.error('Failed to refresh token.');
+            }
+
+            dispatch({ type: LOADER, payload: false });
+        } catch (error) {
+            console.error('Error in refreshTokenAction:', error.message);
+            dispatch({ type: LOADER, payload: false });
+        }
+    };
+};
 export const logoutAction = () => {
     return async (dispatch: Dispatch) => {
         try {
@@ -136,6 +161,8 @@ export const logoutAction = () => {
             // console.log("logout");
             await logout()
             await AsyncStorage.removeItem('accessToken');
+            await AsyncStorage.removeItem('refreshToken');
+            await AsyncStorage.removeItem('accessTokenExpiration');
             await AsyncStorage.removeItem('isBusiness');
             // await AsyncStorage.removeItem('rememberMe');
 
@@ -172,7 +199,8 @@ export const signUpAction = (name: string, email: string, password: string,) => 
             dispatch({ type: LOADER, payload: false });
             console.log(SignupResponse, 'SignUp')
             if (Object.keys(SignupResponse).length > 0) {
-                await AsyncStorage.setItem('accessToken', JSON.stringify(SignupResponse.accessToken));
+                await AsyncStorage.setItem('accessToken',SignupResponse.accessToken);
+                
                 dispatch({ type: CURRENTUSERPROFILE, payload: SignupResponse });
                 return true;  
             }
@@ -250,7 +278,7 @@ export const socialLoginAction = (googleResponse?: any) => {
                 console.log('Membership API Response:', memberShipApiResponse);
 
                 // Store access token in AsyncStorage
-                await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                await AsyncStorage.setItem('accessToken', userData.accessToken);
 
                 // Fetch user profile using userIdentity API
                 const userProfile = await userIdentity(userData.accessToken);
@@ -272,7 +300,7 @@ export const socialLoginAction = (googleResponse?: any) => {
                     console.log("Proceeding with non-registered user flow.");
 
                     // Store access token in AsyncStorage
-                    await AsyncStorage.setItem('accessToken', JSON.stringify(userData.accessToken));
+                    await AsyncStorage.setItem('accessToken', userData.accessToken);
 
                     // Fetch user profile using userIdentity API
                     const userProfile = await userIdentity(userData.accessToken);
@@ -389,7 +417,7 @@ export const ContactAction = (setpageIndex: any, pageIndex: number) => {
             // dispatch({ type: SCREENLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                let contactResponse: any = await getContact(JSON.parse(accessToken), pageIndex, 15);
+                let contactResponse: any = await getContact(accessToken, pageIndex, 15);
                 if (contactResponse.data.resultData.list.length > 0) {
                     await setpageIndex(pageIndex + 1)
                     const currentState = getState();
@@ -631,7 +659,7 @@ export const SearchContactAction = (keyword: string, type: number, specialityID?
             // dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const searchContactResponse: any = await searchContact(JSON.parse(accessToken), keyword, type, specialityID);
+                const searchContactResponse: any = await searchContact(accessToken, keyword, type, specialityID);
 
                 if (searchContactResponse.data.resultData.list?.length > 0) {
                     searchContactResponse.data.resultData.list.forEach(function (obj: any) {
@@ -671,7 +699,7 @@ export const TypeContactAction = (id: number, setpageIndex?: any, pageIndex?: nu
             // dispatch({ type: PAGINATIONLOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const typeContactResponse: any = await typeContact(JSON.parse(accessToken), id, pageIndex ? pageIndex : 1, 15);
+                const typeContactResponse: any = await typeContact(accessToken, id, pageIndex ? pageIndex : 1, 15);
                 if (setpageIndex && pageIndex) { await setpageIndex(pageIndex + 1) };
                 const currentState = getState();
                 let contactClone = JSON.parse(JSON.stringify(currentState.root.contacts));
@@ -722,7 +750,7 @@ export const GetTypeContactsSpecialityAction = (type: number, specialityID: numb
             dispatch({ type: LOADER, payload: true });
             let accessToken = await AsyncStorage.getItem('accessToken');
             if (accessToken !== null) {
-                const typeContactResponse: any = await getTypeContacts(JSON.parse(accessToken), type, specialityID);
+                const typeContactResponse: any = await getTypeContacts(accessToken, type, specialityID);
                 if (typeContactResponse.data.resultData.list?.length > 0) {
                     typeContactResponse.data.resultData.list.forEach(function (obj: any) {
                         obj.value = obj.fullName;
@@ -759,7 +787,7 @@ export const CreateSpeciality = (apiData: { industryId: number, name: string }) 
             if (accessToken !== null) {
                 const currentState = getState();
                 let specialitiesClone = currentState.root.specialities;
-                const responseAddSpeciality: any = await addSpecialities(JSON.parse(accessToken), apiData);
+                const responseAddSpeciality: any = await addSpecialities(accessToken, apiData);
                 specialitiesClone.push(responseAddSpeciality.data.resultData);
             };
             dispatch({ type: SCREENLOADER, payload: false });
@@ -925,6 +953,7 @@ export const clockInAction = (
         dispatch({ type: CURRENT_PROJECTS, payload: response });
   
         return response; // <-- Explicitly return the response here
+        
   
       } catch (error) {
         console.error('Error fetching projects by radius:', error);

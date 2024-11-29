@@ -61,7 +61,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 //                 }
 
 //                 // Parse the access token
-//                 const parsedToken = JSON.parse(accessToken);
+//                 const parsedToken = accessToken;
 
 //                 // Fetch user profile from API
 //                 const userProfile = await userIdentity(parsedToken);

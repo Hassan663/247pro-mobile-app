@@ -17,6 +17,7 @@ console.log(BASE_URL, 'BASE_URL22222')
 // AUTHENTICATION ENDPOINTS
 export const LOGIN_ENCRIPTION_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/system/encryption/encode`, false);
 export const LOGIN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/auth/login`, false);
+export const SILENTREFRESH_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/auth/silent-refresh`, false);
 // export const LOGIN_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/auth/login`, false);
 export const SIGNUP_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/api/auth/register`, false);
 export const MEMBERSHIP_ENDPOINT: Endpoint = createEndpointWithoutBaseUrl(`${BASE_URL}/membership-api/v1/accounts`, false);

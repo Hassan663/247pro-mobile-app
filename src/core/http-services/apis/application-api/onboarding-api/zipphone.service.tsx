@@ -20,7 +20,7 @@ export const submitZipAndPhone = async (
       phoneCountryId: phoneCountryId,
     };
     const ZIP_PHONE_ENDPOINT_CLONE: Endpoint = {...ZIP_PHONE_ENDPOINT};
-    ZIP_PHONE_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken);
+    ZIP_PHONE_ENDPOINT_CLONE.JWTToken = accessToken;
     // Call the API and get the response
     console.log("api payload: ",data);
     const response = await putApi(ZIP_PHONE_ENDPOINT_CLONE, data);

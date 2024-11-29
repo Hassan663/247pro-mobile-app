@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const createContact = async (data: IContactCreateModel): Promise<IResponse<ContactModel>> => {
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
-    if (accessToken !== null) { CREATE_CONTACT_ENDPOINT.JWTToken = JSON.parse(accessToken) }
+    if (accessToken !== null) { CREATE_CONTACT_ENDPOINT.JWTToken = accessToken }
     return await postApi<IContactCreateModel, ContactModel>(CREATE_CONTACT_ENDPOINT, data);
   } catch (error) {
     console.error('Login error service:', error);
@@ -25,7 +25,7 @@ const editContact = async (data: IContactCreateModel): Promise<IResponse<Contact
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
     const uri = { ...CREATE_CONTACT_ENDPOINT }
-    if (accessToken !== null) { uri.JWTToken = JSON.parse(accessToken) }
+    if (accessToken !== null) { uri.JWTToken = accessToken }
     return await putApi<IContactCreateModel, ContactModel>(uri, data);
   } catch (error) {
     console.error('Login error service:', error);
@@ -39,7 +39,7 @@ const deleteContact = async (id: number): Promise<IResponse<ContactModel>> => {
     const CONTACT_ENDPOINT_CLONE: Endpoint = { ...CONTACT_ENDPOINT };
     let accessToken = await AsyncStorage.getItem('accessToken');
     CONTACT_ENDPOINT_CLONE.url = CONTACT_ENDPOINT.url + `/${id}`
-    if (accessToken !== null) { CONTACT_ENDPOINT_CLONE.JWTToken = JSON.parse(accessToken) }
+    if (accessToken !== null) { CONTACT_ENDPOINT_CLONE.JWTToken = accessToken }
     return await deleteApi<IContactUpdateModel, ContactModel>(CONTACT_ENDPOINT_CLONE);
   } catch (error) {
     console.error('Login error service:', error);

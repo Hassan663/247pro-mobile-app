@@ -2,10 +2,14 @@
 import React, {
     useEffect,
 
+    useRef,
+
     useState,
 } from 'react';
 import {
 
+    AppState,
+    AppStateStatus,
     SafeAreaView,
     Text,
     TouchableOpacity,
@@ -46,7 +50,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const [isRunning, setIsRunning] = useState(false);
     const [intervalId, setIntervalId] = useState<any>(null);
     const { location, areaDetails, error, fetchLocation } = useLocation();
-     const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     const [startDate, setStartDate] = useState('');
 
@@ -62,70 +66,134 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const [showDropdown, setShowDropdown] = useState(false);
 
     const loader = useSelector((state: any) => state.root.loader);
+    const appState = useRef(AppState.currentState);
 
 
+
+    // useEffect(() => {
+    //     dispatch({ type: LOADER, payload: true });
+    //     const initializeData = async () => {
+
+    //         try {
+    //             dispatch({ type: LOADER, payload: true });
+
+    //             if (location?.latitude && location?.longitude && areaDetails) {
+    //                 console.log('Location:', location.latitude, location.longitude);
+    //                 console.log('Location:', location);
+    //                 console.log('Area Details in timecaed:', areaDetails);
+    //             } else {
+    //                 console.warn('Location details are missing or incomplete.');
+    //                 return;
+    //             }
+
+    //             const startDateFormatted = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
+    //             const endDateFormatted = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
+
+    //             console.log("Start Date (0 hour):", startDateFormatted);
+    //             console.log("End Date (24 hour):", endDateFormatted);
+
+    //             setStartDate(startDateFormatted);
+    //             setEndDate(endDateFormatted);
+
+    //             await fetchDataAndProjects(location.latitude, location.longitude, startDateFormatted, endDateFormatted);
+    //         } catch (error) {
+    //             console.error('Error initializing data:', error);
+    //         } finally {
+    //             dispatch({ type: LOADER, payload: false }); ;
+    //         }
+    //     };
+
+    //     // Only call initializeData if location is available
+    //     if (location) {
+    //         initializeData();
+    //     }
+    // }, [location]);
 
     useEffect(() => {
-        dispatch({ type: LOADER, payload: true });
-        const initializeData = async () => {
-            
-            try {
-                dispatch({ type: LOADER, payload: true });
-
-                if (location?.latitude && location?.longitude && areaDetails) {
-                    console.log('Location:', location.latitude, location.longitude);
-                    console.log('Location:', location);
-                    console.log('Area Details in timecaed:', areaDetails);
-                } else {
-                    console.warn('Location details are missing or incomplete.');
-                    return;
-                }
-
-                const startDateFormatted = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-                const endDateFormatted = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-
-                console.log("Start Date (0 hour):", startDateFormatted);
-                console.log("End Date (24 hour):", endDateFormatted);
-
-                setStartDate(startDateFormatted);
-                setEndDate(endDateFormatted);
-
-                await fetchDataAndProjects(location.latitude, location.longitude, startDateFormatted, endDateFormatted);
-            } catch (error) {
-                console.error('Error initializing data:', error);
-            } finally {
-                dispatch({ type: LOADER, payload: false }); ;
-            }
-        };
-
-        // Only call initializeData if location is available
+        const subscription = AppState.addEventListener('change', handleAppStateChange);
+    
+        // Trigger data initialization on component mount if location is available
         if (location) {
-            initializeData();
+            initializeData(location);
         }
+    
+        return () => {
+            subscription.remove();
+        };
     }, [location]);
+    
+    const handleAppStateChange = async (nextAppState: AppStateStatus) => {
+        if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+            console.log('App has come to the foreground, refreshing data...');
+            dispatch({ type: LOADER, payload: true });
+    
+            // Refresh location
+            await fetchLocation();
+    
+            // Use updated location to initialize data
+            if (location?.latitude && location?.longitude) {
+                await initializeData(location);
+            } else {
+                console.warn('Location not available after app state change.');
+            }
+    
+            dispatch({ type: LOADER, payload: false });
+        }
+        appState.current = nextAppState;
+    };
+    
+    const initializeData = async (currentLocation) => {
+        try {
+            dispatch({ type: LOADER, payload: true }); // Start loading
+    
+            // Ensure location is valid
+            if (!currentLocation?.latitude || !currentLocation?.longitude) {
+                console.warn('Invalid location provided.');
+                throw new Error('Invalid location.');
+            }
+    
+            console.log('Using Location:', currentLocation);
+    
+            const startDateFormatted = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
+            const endDateFormatted = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
+    
+            console.log('Start Date:', startDateFormatted);
+            console.log('End Date:', endDateFormatted);
+    
+            setStartDate(startDateFormatted);
+            setEndDate(endDateFormatted);
+    
+            // Fetch data and projects using the current location
+            await fetchDataAndProjects(currentLocation.latitude, currentLocation.longitude, startDateFormatted, endDateFormatted);
+        } catch (error) {
+            console.error('Error initializing data:', error);
+        } finally {
+            dispatch({ type: LOADER, payload: false }); // Stop loading
+        }
+    };
 
 
     const fetchDataAndProjects = async (latitude, longitude, startDate, endDate) => {
-        dispatch({ type: LOADER, payload: true }); 
+         dispatch({ type: LOADER, payload: true });
         try {
-            // await Promise.all([
-               await fetchProjectsByRadius(latitude, longitude),
+            await Promise.all([
+            await fetchProjectsByRadius(latitude, longitude),
                 await fetchData(startDate, endDate)
-            // ]);
-            dispatch({ type: LOADER, payload: false }); 
+            ]);
+            //dispatch({ type: LOADER, payload: false });
         } catch (error) {
-            dispatch({ type: LOADER, payload: false }); 
+            dispatch({ type: LOADER, payload: false });
             console.error('Error fetching data and projects:', error);
         }
     };
 
     const fetchProjectsByRadius = async (latitude: number, longitude: number) => {
-        dispatch({ type: LOADER, payload: true }); 
+        //  dispatch({ type: LOADER, payload: true });
         try {
             //  const projectsResponse = await dispatch(getProjectsByRadiusAction(31.4581, 74.3744, 5));
 
 
-             const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5));
+            const projectsResponse = await dispatch(getProjectsByRadiusAction(latitude, longitude, 5));
             console.log("Fetching projects with location:", areaDetails, latitude, longitude);
 
             if (projectsResponse && projectsResponse.length > 0) {
@@ -144,18 +212,18 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 longitude,
                 address: areaDetails,
             });
-            dispatch({ type: LOADER, payload: false }); 
+            // dispatch({ type: LOADER, payload: false });
         } catch (error) {
-            dispatch({ type: LOADER, payload: false }); 
+            dispatch({ type: LOADER, payload: false });
             console.error('Error fetching projects:', error);
         }
     };
 
     const fetchData = async (startDate, endDate) => {
-        
+        dispatch({ type: LOADER, payload: true });
         try {
-            dispatch({ type: LOADER, payload: true }); 
-            
+
+
 
             try {
                 // dispatch({ type: LOADER, payload: true }); 
@@ -193,56 +261,78 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
         } catch (error) {
             console.error('Error in fetchData:', error);
-        } finally {
-            dispatch({ type: LOADER, payload: false }); ;
-        }
+        } 
     };
 
 
 
     const calculateTimeDifference = (timesheetResponse: any) => {
-        dispatch({ type: LOADER, payload: true }); ; // Start loading at the beginning
+        dispatch({ type: LOADER, payload: true });; // Start loading at the beginning
         try {
             const timesheetTransactions = timesheetResponse.timesheetTransactions;
             const currentTime = moment();  // Get the current time
-    
+
             if (!timesheetTransactions || timesheetTransactions.length === 0) {
                 console.error('No timesheet transactions found.');
                 return;
             }
-    
+
             // Handle Break In (TransactionType: 3) & status 10 logic for BottomSheet
-            const breakInTransaction = timesheetTransactions.find(t => t.transactionType === 3);
-            if (breakInTransaction && timesheetResponse.status === 10) {
-                const breakInTime = moment(breakInTransaction.transactionDateTime);
-                const diffInMinutes = currentTime.diff(breakInTime, 'minutes');
-    
+            // const breakInTransaction = timesheetTransactions.find(t => t.transactionType === 3);
+            // if (breakInTransaction && timesheetResponse.status === 10) {
+            //     const breakInTime = moment(breakInTransaction.transactionDateTime);
+            //     const diffInMinutes = currentTime.diff(breakInTime, 'minutes');
+
+            //     if (diffInMinutes > 120) {
+            //         console.log("Opening Break Out BottomSheet");
+            //         setSecondBottomSheetOpen(true);
+            //     }
+            // }
+
+            // Get the latest break-in transaction (TransactionType: 3)
+            const latestBreakInTransaction = timesheetTransactions
+                .filter(transaction => transaction.transactionType === 3) // Filter only break-in transactions
+                .reduce((latest, current) => {
+                    const latestTime = moment(latest?.transactionDateTime || 0);
+                    const currentTime = moment(current.transactionDateTime);
+                    return currentTime.isAfter(latestTime) ? current : latest;
+                }, null); // Start with null
+
+            // Perform logic based on the latest break-in transaction
+            if (latestBreakInTransaction && timesheetResponse.status === 10) {
+                const breakInTime = moment(latestBreakInTransaction.transactionDateTime);
+                const diffInMinutes = moment().diff(breakInTime, 'minutes'); // Difference in minutes from now
+
+                console.log("Latest Break-In Transaction:", latestBreakInTransaction);
+
                 if (diffInMinutes > 120) {
                     console.log("Opening Break Out BottomSheet");
                     setSecondBottomSheetOpen(true);
                 }
+            } else {
+                console.log("No valid break-in transaction found.");
             }
-    
+
             // Handle Clock Out (TransactionType: 2) & status 20 logic for BottomSheet
             const clockOutTransaction = timesheetTransactions.find(t => t.transactionType === 1);
             if (clockOutTransaction && timesheetResponse.status === 20) {
                 const clockOutTime = moment(clockOutTransaction.transactionDateTime);
                 const diffInMinutes = currentTime.diff(clockOutTime, 'minutes');
-    
+
                 if (diffInMinutes > 840) {
                     console.log("Opening Clock Out BottomSheet");
                     setThirdBottomSheetOpen(true);
                 }
             }
-    
+
             // Timer Logic: Calculate the time difference between clock in and current time
             const clockInTransaction = timesheetTransactions.find(t => t.transactionType === 1);
             if (clockInTransaction) {
                 const clockInTime = moment(clockInTransaction.transactionDateTime);
                 const diffInSeconds = currentTime.diff(clockInTime, 'seconds'); // Time difference in seconds
-    
+
                 console.log("Clock In Time Difference (Seconds):", diffInSeconds);
-    
+
                 // Set the time in seconds and ensure the timer is running
                 setTime(diffInSeconds);
                 setIsRunning(true);
@@ -251,9 +341,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             }
         } catch (error) {
             console.error('Error calculating time difference:', error);
-        } finally {
-            dispatch({ type: LOADER, payload: false }); ; // Stop loading after calculations
-        }
+        } 
     };
 
 
@@ -273,7 +361,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
     const renderButtons = () => {
-        
+
         if (!currentTimesheet) {
 
             return (
@@ -300,8 +388,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 </View>
             );
         }
-        
-        
+
+
         switch (currentTimesheet.status) {
             case 5:
                 return (
@@ -371,15 +459,15 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                             />
                         </View>
                     </View>
-                    
+
                 );
-                
+
             default:
                 return null;
 
-               
+
         }
-        
+
     };
 
 
@@ -415,20 +503,20 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
     const handleBreakIn = async () => {
         try {
-            dispatch({ type: LOADER, payload: true }); ;
+            dispatch({ type: LOADER, payload: true });;
             console.log("setting loading in break in at start", loading);
 
 
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
-                dispatch({ type: LOADER, payload: false }); ;
+                dispatch({ type: LOADER, payload: false });;
                 return;
             }
 
 
             if (!location?.latitude || !location?.longitude || !areaDetails) {
                 console.error("Location or area details are missing.");
-                dispatch({ type: LOADER, payload: false }); ;
+                dispatch({ type: LOADER, payload: false });;
                 return;
             }
 
@@ -446,7 +534,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             // Ensure timesheet data is complete
             if (!timesheetDataBreakIn.transactionDateTime || !timesheetDataBreakIn.timesheetId) {
                 console.error("Required timesheet data is missing.");
-                dispatch({ type: LOADER, payload: false }); ; // Stop loading in case of error
+                dispatch({ type: LOADER, payload: false });; // Stop loading in case of error
                 return;
             }
 
@@ -463,7 +551,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         } catch (error) {
             console.error('Error in handleBreakIn:', error);
         } finally {
-            dispatch({ type: LOADER, payload: false }); ; // Stop loading
+            dispatch({ type: LOADER, payload: false });; // Stop loading
             console.log("setting loading in break in at end", loading);
         }
     };
@@ -472,19 +560,19 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
     const handleBreakOut = async (selectedDateTime) => {
         try {
-            dispatch({ type: LOADER, payload: true }); ;
+            dispatch({ type: LOADER, payload: true });;
 
 
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
-                dispatch({ type: LOADER, payload: false }); ;
+                dispatch({ type: LOADER, payload: false });;
                 return;
             }
 
 
             if (!location?.latitude || !location?.longitude || !areaDetails) {
                 console.error("Location or area details are missing.");
-                dispatch({ type: LOADER, payload: false }); ;
+                dispatch({ type: LOADER, payload: false });;
                 return;
             }
 
@@ -515,24 +603,24 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         } catch (error) {
             console.error('Error during breakOut:', error);
         } finally {
-            dispatch({ type: LOADER, payload: false }); ;
+            dispatch({ type: LOADER, payload: false });;
         }
     };
 
     const handleClockOut = async (selectedDateTime) => {
         try {
-            dispatch({ type: LOADER, payload: true }); ;
+            dispatch({ type: LOADER, payload: true });;
             console.log("setting loading in clock out at start", loading);
 
 
             if (!currentTimesheet || !currentTimesheet.timesheetTransactions || !currentTimesheet.timesheetTransactions[0]) {
                 console.error("No valid timesheet transaction found.");
-                dispatch({ type: LOADER, payload: false }); ;
+                dispatch({ type: LOADER, payload: false });;
                 return;
             }
             if (!location?.latitude || !location?.longitude || !areaDetails) {
                 console.error("Location or area details are missing.");
-                dispatch({ type: LOADER, payload: false }); ;
+                dispatch({ type: LOADER, payload: false });;
                 return;
             }
 
@@ -569,7 +657,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
             if (!timesheetDataClockOut.transactionDateTime || !timesheetDataClockOut.timesheetId) {
                 console.error("Required timesheet data is missing.");
-                dispatch({ type: LOADER, payload: false }); ;
+                dispatch({ type: LOADER, payload: false });;
                 return;
             }
 
@@ -578,8 +666,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
             const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-             fetchData(startDate, endDate);
-             fetchProjectsByRadius(location.latitude,location.longitude)
+            fetchData(startDate, endDate);
+            fetchProjectsByRadius(location.latitude, location.longitude)
             if (timesheetResponse && timesheetResponse.statusCode === 200) {
                 setCurrentTimesheet(timesheetResponse.data);
             } else {
@@ -590,7 +678,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         } catch (error) {
             console.error('Error in handleClockOut:', error);
         } finally {
-            dispatch({ type: LOADER, payload: false }); ;
+            dispatch({ type: LOADER, payload: false });;
             console.log("setting loading in clock out at end", loading);
         }
     };
@@ -606,18 +694,18 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     };
 
     const handleClockIn = async () => {
-        dispatch({ type: LOADER, payload: true }); ;  // Start loading immediately at the beginning
+        dispatch({ type: LOADER, payload: true });;  // Start loading immediately at the beginning
         try {
             console.log("setting loading in handleClock at start", loading);
-    
+
             const currentDate = getCurrentDateInMicrosoftFormat();
             let newTimesheetData = null;
-    
+
             // Validate location and areaDetails before constructing timesheet data
             if (!location?.latitude || !location?.longitude || !areaDetails) {
                 throw new Error("Location or area details are missing.");
             }
-    
+
             // Check if currentTimesheet is valid and contains transactions
             if (currentTimesheet && currentTimesheet.timesheetTransactions && currentTimesheet.timesheetTransactions[0]) {
                 newTimesheetData = {
@@ -628,11 +716,11 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                     longitude: location.longitude,
                     address: areaDetails
                 };
-            } 
+            }
             // Handle case where currentTimesheet is missing or invalid
             else if (!currentTimesheet || (currentTimesheet.statusCode === 203 || currentTimesheet.statusCode === 204)) {
                 console.log("Timesheet is either missing or has a status code of 203 or 204");
-    
+
                 newTimesheetData = {
                     id: '00000000-0000-0000-0000-000000000000',
                     transactionType: 1, // Clock In
@@ -641,21 +729,21 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                     longitude: location.longitude,
                     address: areaDetails
                 };
-    
+
                 // This is a backup setting to ensure timesheet data is available for later use
                 settimeSheetData(newTimesheetData);
             } else {
                 throw new Error("Current timesheet is invalid or missing required data.");
             }
-    
+
             // Ensure required fields are present in the timesheet data
             if (!newTimesheetData.transactionDateTime) {
                 console.error("Required timesheet data is missing.");
                 return; // Return here; loading will be stopped in `finally` below
             }
-    
+
             settimeSheetData(newTimesheetData); // Update the state with the newly constructed data
-    
+
             // Check if currentProjects is defined and has valid length
             if (currentProjects.length === 1) {
                 // Automatically select the first project if there's only one
@@ -672,41 +760,41 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             console.error('Error in handleClockIn:', error);
         } finally {
             // Stop loading in all cases after the logic completes
-            dispatch({ type: LOADER, payload: false }); ;
+            dispatch({ type: LOADER, payload: false });;
             console.log("setting loading in handleClock at end", loading);
         }
     };
 
-    
+
 
     const handleProjectSelect = async (projectId) => {
-        dispatch({ type: LOADER, payload: true }); ; // Start loading at the beginning
+        dispatch({ type: LOADER, payload: true });; // Start loading at the beginning
         try {
             setBottomSheetOpen(false);
             console.log("Project selection started with:", timesheetData, projectId);
-    
+
             const currentDate = getCurrentDateInMicrosoftFormat();
-    
+
             // Ensure timesheetData is available before proceeding
             if (!timesheetData) {
                 throw new Error('Timesheet data is missing.');
             }
-    
+
             // Set projectId to null if it is not provided
             const selectedProjectId = projectId || null;
-    
+
             // Dispatch clockInAction with the selected project ID (or null)
-          await dispatch(clockInAction(timesheetData, currentDate, selectedProjectId));
-          const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-            
-          // Ensure fetchData completes before making further updates
-           fetchData(startDate, endDate);
+            await dispatch(clockInAction(timesheetData, currentDate, selectedProjectId));
+            const timesheetResponse = await dispatch(getCurrentTimesheetApi());
+
+            // Ensure fetchData completes before making further updates
+            fetchData(startDate, endDate);
             // Fetch the updated timesheet after clock-in
-           
-            
+
+
             // Check the response and update the state accordingly
             if (timesheetResponse?.data && timesheetResponse?.statusCode === 200) {
-               
+
                 setCurrentTimesheet(timesheetResponse.data);
                 setTime(0);
                 setIsRunning(true);
@@ -715,21 +803,21 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 console.warn("No valid timesheet found or unexpected response status.");
                 setCurrentTimesheet(null); // Handle case where no timesheet is returned
             }
-    
+
         } catch (error) {
             console.error('Error in handleProjectSelect:', error.message || error);
         } finally {
-            dispatch({ type: LOADER, payload: false }); ; // Stop loading in all cases
+            dispatch({ type: LOADER, payload: false });; // Stop loading in all cases
             console.log("Project selection process completed.");
         }
     };
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
             {
-                
-                 loader ?
-                    <View style={styles.loaderContainer}><Loader size={'large'} /></View> 
-                    
+
+                loader ?
+                    <View style={styles.loaderContainer}><Loader size={'large'} /></View>
+
                     :
                     <>
                         <AppHeader
@@ -753,54 +841,54 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                             <>
                                 {
                                     // loader ? <Loader size={'strong'} /> :
-                                         <>
-                                            
-                                            <View style={styles.dateContainer}>
-                                                <Text style={styles.date}>{formatDate()}</Text>
-                                            </View>
-                                            
-                                            <View style={styles.timerContainer}>
-                                                <Text style={styles.timer}>{formatTime(time)}</Text>
-                                            </View>
-                                            <View style={[centralStyle.my1, styles.timerButtonContainer]}>
+                                    <>
 
-                                                <View style={[centralStyle.my1, styles.fullWidthButtonContainer]}>
-                                                    {renderButtons()}
+                                        <View style={styles.dateContainer}>
+                                            <Text style={styles.date}>{formatDate()}</Text>
+                                        </View>
+
+                                        <View style={styles.timerContainer}>
+                                            <Text style={styles.timer}>{formatTime(time)}</Text>
+                                        </View>
+                                        <View style={[centralStyle.my1, styles.timerButtonContainer]}>
+
+                                            <View style={[centralStyle.my1, styles.fullWidthButtonContainer]}>
+                                                {renderButtons()}
+                                            </View>
+                                        </View>
+                                        <View style={[centralStyle.flex1, centralStyle.width100]}>
+                                            <View style={centralStyle.px2}>
+
+                                                <View style={styles.topRowContainer}>
+                                                    <Text style={styles.leadingText}>Team</Text>
+                                                    <Text style={styles.trailingText}>Today</Text>
                                                 </View>
+
+                                                <View style={styles.divider} />
+
+                                                {formattedData.length > 0 ? (
+                                                    <AlphabetList
+                                                        data={formattedData} //data
+                                                        letterListContainerStyle={styles.listContainerStyle}
+                                                        showsVerticalScrollIndicator={false}
+                                                        sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
+                                                        getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
+                                                        indexContainerStyle={{ width: 0 }}
+                                                        indexLetterStyle={styles.letterStyle}
+                                                        renderCustomItem={(item) => {
+                                                            // console.log(item)
+                                                            return (
+                                                                <CompanyList callBack={() => changeRoute(navigation, 'Team', { user: item })} item={item} />
+                                                            )
+                                                        }}
+                                                        renderCustomSectionHeader={CustomSectionHeader}
+                                                        onEndReachedThreshold={0.1}
+                                                    />) : (
+                                                    <Text style={styles.noDataText}>No members available</Text>
+                                                )}
                                             </View>
-                                            <View style={[centralStyle.flex1, centralStyle.width100]}>
-                                                <View style={centralStyle.px2}>
-
-                                                    <View style={styles.topRowContainer}>
-                                                        <Text style={styles.leadingText}>Team</Text>
-                                                        <Text style={styles.trailingText}>Today</Text>
-                                                    </View>
-
-                                                    <View style={styles.divider} />
-
-                                                    {formattedData.length > 0 ? (
-                                                        <AlphabetList
-                                                            data={formattedData} //data
-                                                            letterListContainerStyle={styles.listContainerStyle}
-                                                            showsVerticalScrollIndicator={false}
-                                                            sectionHeaderHeight={ALPHABET_SIZE.HEADER_HEIGHT}
-                                                            getItemHeight={() => ALPHABET_SIZE.ITEM_HEIGHT}
-                                                            indexContainerStyle={{ width: 0 }}
-                                                            indexLetterStyle={styles.letterStyle}
-                                                            renderCustomItem={(item) => {
-                                                                // console.log(item)
-                                                                return (
-                                                                    <CompanyList callBack={() => changeRoute(navigation, 'Team', { user: item })} item={item} />
-                                                                )
-                                                            }}
-                                                            renderCustomSectionHeader={CustomSectionHeader}
-                                                            onEndReachedThreshold={0.1}
-                                                        />) : (
-                                                        <Text style={styles.noDataText}>No members available</Text>
-                                                    )}
-                                                </View>
-                                            </View>
-                                        </>
+                                        </View>
+                                    </>
                                 }
 
                             </>

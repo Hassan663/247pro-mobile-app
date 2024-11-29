@@ -24,6 +24,7 @@ import {
   MEMBERSHIP_ENDPOINT,
   SIGNUP_ENDPOINT,
   SIGNUP_ENDPOINT_NEW,
+  SILENTREFRESH_ENDPOINT,
 } from '../apis';
 import {t} from 'i18next';
 
@@ -31,6 +32,7 @@ import {showError} from '../../../../store/action/action';
 import {Dispatch} from 'redux';
 import {VALIDATIONMESSAGE} from '../../../helpers/validation/validation-message';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Performs user login by sending login data to the server.
@@ -91,12 +93,15 @@ const signUp = async (
     //   token: encryptedLoginResponse.data.response,
     // };
     console.log("SignUp signupData=====:",signupData, SIGNUP_ENDPOINT)
+   
 
     const SignupResponse: any = await postApi<SignUpModal, ISignupResponseData>(
       SIGNUP_ENDPOINT,
       signupData,
       // signUpDataWithToken,
     );
+    await AsyncStorage.setItem('accessTokenExpiration',SignupResponse.data.accessTokenExpiration);
+    await AsyncStorage.setItem('refreshToken',SignupResponse.data.refreshToken);
 
     let memberShipApiData: MemberShipApiModal = {
       accountId: SignupResponse.data.accountId,
@@ -174,7 +179,9 @@ const login = async (
       LOGIN_ENDPOINT,
       loginData
     );
-
+    console.log("The refresh and expiration date ",loginResponse.data.refreshToken,loginResponse.data.accessTokenExpiration )
+    await AsyncStorage.setItem('refreshToken', JSON.stringify(loginResponse.data.refreshToken));
+    await AsyncStorage.setItem('accessTokenExpiration', JSON.stringify(loginResponse.data.accessTokenExpiration));
     // Get user identity after successful login
     const identityResponse: any = await userIdentity(loginResponse.data.accessToken);
     return identityResponse;
@@ -192,14 +199,14 @@ const login = async (
           }
         });
       } else {
-        console.log("FuCK ME")
+        
         // If no specific field errors, show a general error message
         dispatch(showError(apiError.message || 'Invalid Credentials', 'all'));
       }
     } else {
       // If it's a non-Axios error or no response data, show a generic error
       dispatch(showError('Invalid Credentials', 'all'));
-      console.log("FuCK You")
+      
     }
 
     // Log the error for debugging
@@ -280,6 +287,61 @@ const forget_password = async (
     throw error;
   }
 };
+
+export const refreshTokenApi = async () => {
+  try {
+      // Retrieve the refresh token from AsyncStorage
+      let storedRefreshToken = await AsyncStorage.getItem('refreshToken');
+      if (!storedRefreshToken) {
+          console.error('No refresh token found in storage.');
+          return null;
+      }
+
+      // Clean the refresh token by removing extra quotes and trimming whitespace
+      storedRefreshToken = storedRefreshToken.replace(/"/g, '').trim();
+
+      // Log the cleaned refresh token for debugging
+      console.log('Cleaned refresh token:', storedRefreshToken);
+
+      // Prepare request data
+      const requestData = {
+          token: storedRefreshToken,
+      };
+
+      // Log the request data for debugging
+      console.log('Request data being sent to API:', requestData);
+
+      // Make the API call
+      const response = await postApi(SILENTREFRESH_ENDPOINT, requestData);
+
+      // Handle successful response
+      if (response && response.status === 200 && response.data) {
+          const { accessToken, refreshToken, accessTokenExpiration } = response.data;
+
+          console.log('Request data being sent to API:', response.data.refreshToken);
+
+          // Update AsyncStorage with the new tokens and expiration date
+          await AsyncStorage.setItem('accessToken', accessToken);
+          await AsyncStorage.setItem('refreshToken', refreshToken);
+          await AsyncStorage.setItem('accessTokenExpiration', accessTokenExpiration);
+
+          console.log('Tokens and expiration date updated successfully.');
+          return response.data;
+      } else {
+          console.error(
+              'Failed to refresh token:',
+              response?.statusText || 'Unknown error',
+              'Status Code:',
+              response?.status
+          );
+          return null;
+      }
+  } catch (error) {
+      console.error('Error in refreshTokenApi:', error);
+      throw error;
+  }
+};
+
 const logout = async (): Promise<IResponse<ILoginResponseData>> => {
   try {
     const logOutData: any = {};

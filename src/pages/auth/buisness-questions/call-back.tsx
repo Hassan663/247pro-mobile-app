@@ -22,7 +22,7 @@ export const getIndustries = async (dispatch: any) => {
 //   try {
 //     let accessToken = await AsyncStorage.getItem('accessToken');
 //     if (accessToken !== null) {
-//       return await fetchIndustries(JSON.parse(accessToken));
+//       return await fetchIndustries(accessToken);
 //     }
 //   } catch (error) {
 //     console.log('error--->', error);
@@ -34,7 +34,8 @@ export const getSpecialitiesByIndustry = async industoryId => {
     let accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
       return await fetchSpecialityByIndustry(
-        JSON.parse(accessToken),
+        // accessToken,
+        accessToken,
         industoryId,
       );
     }
@@ -47,7 +48,7 @@ export const getJobTypeByIndustry = async industoryId => {
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
-      return await fetchJobTypeByIndustry(JSON.parse(accessToken), industoryId);
+      return await fetchJobTypeByIndustry(accessToken, industoryId);
     }
   } catch (error) {
     console.log('error--->', error);

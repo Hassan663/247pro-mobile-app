@@ -34,7 +34,7 @@ export const specialityCount = async (dispatch: any) => {
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
-      await dispatch(TotalCounts(JSON.parse(accessToken)));
+      await dispatch(TotalCounts(accessToken));
     }
   } catch (error) {
     console.log('error--->', error);
@@ -59,7 +59,7 @@ export const specialities = async () => {
   try {
     let accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken !== null) {
-      return await getSpecialities(JSON.parse(accessToken));
+      return await getSpecialities(accessToken);
     }
   } catch (error) {
     console.log('error--->', error);
