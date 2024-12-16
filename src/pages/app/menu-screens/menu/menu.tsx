@@ -258,15 +258,17 @@ const Menu = ({ navigation }) => {
         >
             {/* Header */}
             <View style={styles.header}>
-                <Text style={styles.welcomeText}>Hello {currentUserProfile?.name || 'User'}</Text>
-                <Text style={styles.subText}>Welcome back</Text>
-            </View>
+    <Text style={styles.welcomeText}>
+        Hello {currentUserProfile?.name?.split(' ')[0] || 'User'}
+    </Text>
+    <Text style={styles.subText}>Welcome back</Text>
+</View>
 
             {/* Feature Box */}
             <View style={styles.featureBox}>
                 <Text style={styles.featureTitle}>247PRO Estimator</Text>
-                <Text style={styles.featureSubtitle}>Professional</Text>
-                <Text style={styles.featureSubtitle2}>estimate in 10 mins.</Text>
+                <Text style={styles.featureSubtitle}>Create estimate & </Text>
+                <Text style={styles.featureSubtitle2}>proposal in minutes</Text>
                 <TouchableOpacity
                     style={styles.readMoreButton}
                     onPress={() => openLink('https://www.247pro.com/estimator')}
@@ -336,23 +338,35 @@ const Menu = ({ navigation }) => {
                     <AntDesign name="arrowright" size={16} color={Colors.primary} />
                 </TouchableOpacity>
     
-    {/* Replace Image with Component Icons */}
+    
     <View style={styles.iconContainer}>
         <View style={styles.iconBox}>
             <View style={styles.iconCircle}>
-                <AntDesign name="filetext1" size={16} color={Colors.white} />
+            <Image 
+                source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/change_order.png')} 
+                style={styles.iconImage} 
+                resizeMode="contain" 
+            />
             </View>
             <Text style={styles.iconText}>Invoice</Text>
         </View>
         <View style={[styles.iconBox, styles.iconBoxRightPadding]}>
             <View style={styles.iconCircle}>
-                <AntDesign name="briefcase" size={16} color={Colors.white} />
+            <Image 
+                source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/invoice.png')} 
+                style={styles.iconImage} 
+                resizeMode="contain" 
+            />
             </View>
             <Text style={styles.iconText}>Change Order</Text>
         </View>
         <View style={styles.iconBox}>
             <View style={styles.iconCircle}>
-                <AntDesign name="shoppingcart" size={16} color={Colors.white} />
+            <Image 
+                source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/purchase_order.png')} 
+                style={styles.iconImage} 
+                resizeMode="contain" 
+            />
             </View>
             <Text style={styles.iconText}>Purchase Order</Text>
         </View>

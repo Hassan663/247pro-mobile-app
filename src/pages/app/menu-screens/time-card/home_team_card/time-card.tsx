@@ -267,7 +267,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
     const calculateTimeDifference = (timesheetResponse: any) => {
-        dispatch({ type: LOADER, payload: true });; // Start loading at the beginning
+        // dispatch({ type: LOADER, payload: true });; // Start loading at the beginning
         try {
             const timesheetTransactions = timesheetResponse.timesheetTransactions;
             const currentTime = moment();  // Get the current time
@@ -906,7 +906,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                             {showDropdown && (
                                 <View style={styles.dropdownMenu}>
                                     <TouchableOpacity onPress={handleMyReport} style={styles.dropdownItem}>
-                                        <Text style={styles.dropdownText}>My Report</Text>
+                                        <Text style={styles.dropdownText}>My report</Text>
                                     </TouchableOpacity>
                                 </View>
                             )}
@@ -917,8 +917,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     isOpen={secondBottomSheetOpen}
                                     onClose={() => setSecondBottomSheetOpen(false)}
                                     onSave={handleDateAndTime}
-                                    title="Edit Breakout Time"
-                                    description="You need to confirm the breakout or clock out time. If there's an error, you can adjust the time."
+                                    title="Adjust Break Out Time"
+                                    description="Forgot to break out? Please adjust the date and time if needed"
                                 />
                             }
 
@@ -927,8 +927,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     isOpen={thirdBottomSheetOpen}
                                     onClose={() => setThirdBottomSheetOpen(false)}
                                     onSave={handleDateAndTime}
-                                    title="Edit Clock Out Time"
-                                    description="You need to confirm the breakout or clock out time. If there's an error, you can adjust the time."
+                                    title="Adjust Clock Out Time"
+                                    description="Forgot to clock out? Please adjust the date and time if needed"
                                 />
                             }
 

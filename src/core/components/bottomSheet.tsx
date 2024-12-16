@@ -1,3 +1,4 @@
+
 import moment from 'moment';
 import { min } from 'moment-timezone';
 import React, { useState, useEffect } from 'react';
@@ -53,10 +54,11 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   };
   // Format time for display
   const getFormattedTime = () => {
-    const hours = tempSelectedHour < 10 ? `0${tempSelectedHour}` : tempSelectedHour;
+    const hours = tempSelectedHour % 12 || 12; // Convert 24-hour format to 12-hour format
     const minutes = tempSelectedMinute < 10 ? `0${tempSelectedMinute}` : tempSelectedMinute;
-    return `${hours}:${minutes}`;
-  };
+    const ampm = tempSelectedHour >= 12 ? 'PM' : 'AM'; // Determine AM/PM
+    return `${hours}:${minutes} ${ampm}`;
+};
 
   const handleDateConfirm = () => {
     setSelectedDate(tempSelectedDate);
@@ -68,6 +70,13 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
     setSelectedMinute(tempSelectedMinute);
     setShowTimePicker(false);
   };
+  const [ampm, setAmpm] = useState('am'); 
+  useEffect(() => {
+  if (showTimePicker) {
+    setTempSelectedHour(selectedHour || 12); // Default to 12 if no value is set
+    setTempSelectedMinute(selectedMinute || 0); // Default to 0 if no value is set
+  }
+}, [showTimePicker]);
 
   const handleFocus = (field: string) => {
     setActiveField(field);
@@ -103,13 +112,21 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
               <View style={styles.labelContainer}>
                 <Text style={styles.inputLabel}>Date</Text>
               </View>
-              <TextInput
+              {/* <TextInput
                 style={styles.input}
                 placeholder="Select Date"
                 value={selectedDate.toISOString().split('T')[0]}
                 editable={false}
                 pointerEvents="none"
-              />
+              /> */}
+
+<TextInput
+    style={styles.input}
+    placeholder="Select Date"
+    value={moment(selectedDate).format('MM/DD/YYYY')} // Format date as MM/DD/YYYY
+    editable={false}
+    pointerEvents="none"
+/>
               {/* <Feather name="calendar" size={20} color="grey" style={styles.icon} /> */}
             </TouchableOpacity>
 
@@ -187,7 +204,7 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
         )}
 
         {/* Time Picker Modal */}
-        {showTimePicker && (
+        {/* {showTimePicker && (
           <Modal
             transparent={true}
             visible={showTimePicker}
@@ -217,6 +234,51 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
             </View>
           </Modal>
         )}
+        
+        */}
+{showTimePicker && (
+  <Modal
+    transparent={true}
+    visible={showTimePicker}
+    animationType="fade"
+    onRequestClose={() => setShowTimePicker(false)}
+  >
+    <View style={styles.centeredView}>
+      <View style={styles.timePickerContainer}>
+        <Text style={styles.timePickerTitle}>Select Time</Text>
+        <TimePicker
+  value={{
+    hours: tempSelectedHour % 12 || 12, // Convert 24-hour to 12-hour format for display
+    minutes: tempSelectedMinute,
+    seconds: 0,
+  }}
+  isAmpm={true} // Enable AM/PM toggle
+  onChange={({ hours, minutes, ampm }) => {
+    let updatedHours = hours;
+
+    if (ampm === 'pm' && hours < 12) {
+      updatedHours = hours + 12; // Convert PM to 24-hour format
+    } else if (ampm === 'am' && hours === 12) {
+      updatedHours = 0; // Convert 12 AM to midnight
+    }
+
+    setAmpm(ampm); // Update AM/PM state
+    setTempSelectedHour(updatedHours); // Save 24-hour format internally
+    setTempSelectedMinute(minutes);
+  }}
+/>
+        <View style={styles.buttonRow}>
+          <Pressable onPress={() => setShowTimePicker(false)}>
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </Pressable>
+          <Pressable onPress={handleTimeConfirm}>
+            <Text style={styles.okButtonText}>Ok</Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  </Modal>
+)}
       </View>
     </Modal>
   );

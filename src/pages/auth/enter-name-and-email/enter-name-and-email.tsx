@@ -42,7 +42,7 @@ const EnterNameAndEmail: React.FC<{ navigation: any }> = ({ navigation, route }:
   useEffect(() => {
     console.log('currentUserProfile:', currentUserProfile);
     if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
-        if (!currentUserProfile.isOnboarded) {
+        if (!currentUserProfile.hasAccountOnboarded) {
             changeRoute(navigation, 'BuisnessQuestions', { yesABuisness: true })
             //changeRoute(navigation, 'VerifyBuisness');
         }

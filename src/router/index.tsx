@@ -24,7 +24,7 @@ const MainNavigator = () => {
 
     useEffect(() => {
         if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
-            if(currentUserProfile.isOnboarded){
+            if(currentUserProfile.hasAccountOnboarded){
             setIsUserLoggedIn(true);
         }
         } else {

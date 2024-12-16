@@ -71,7 +71,7 @@ const SignUp: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     // useEffect(() => {
     //     if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
-    //         if (!currentUserProfile.isOnboarded && getBooleanValue(‘IsBusiness’)) {
+    //         if (!currentUserProfile.hasAccountOnboarded && getBooleanValue(‘IsBusiness’)) {
     //             changeRoute(navigation, ‘BuisnessQuestions’, { yesABuisness: true })
     //         }
     //     }

@@ -102,6 +102,7 @@ export const loginAction = (
             console.log("directLogin: ",directLoginToken);
             if (directLoginToken) userData = await userIdentity(directLoginToken)
             else userData = await login(loginData, dispatch)
+        console.log("The login data is ", userData)
             if (Object.keys(userData).length > 0) {
                 // console.log("The token is ",userData.refreshToken)
                 await AsyncStorage.setItem('accessToken', userData.accessToken);

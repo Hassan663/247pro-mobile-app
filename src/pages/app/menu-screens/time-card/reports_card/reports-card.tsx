@@ -42,13 +42,13 @@ const ReportCard = ({ navigation }) => {
         const endOfCurrentMonth = moment().endOf('month').format('YYYY-MM-DDT23:59:59');
         setStartDate(startOfCurrentMonth);
         setEndDate(endOfCurrentMonth);
-    //     const startOfCurrentMonth = moment.utc().startOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-    // const endOfCurrentMonth = moment.utc().endOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        //     const startOfCurrentMonth = moment.utc().startOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        // const endOfCurrentMonth = moment.utc().endOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         // const startOfCurrentMonth = moment().startOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         // const endOfCurrentMonth = moment().endOf('month').subtract(5, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-       console.log("The date ,", startDate, endDate)
-       
-       
+        console.log("The date ,", startDate, endDate)
+
+
         setStartDate(startOfCurrentMonth);
         setEndDate(endOfCurrentMonth);
 
@@ -90,40 +90,167 @@ const ReportCard = ({ navigation }) => {
         fetchUserProfile();
     }, [dispatch]);
 
+    // const fetchTimesheets = async (startDate, endDate) => {
+
+    //     setLoading(true);
+    //     try {
+
+
+    //         const response = await getTimesheetsForCurrentUserApi(startDate, endDate);
+
+    //         // Reset the data if the response is empty
+    //         if (Array.isArray(response) && response.length > 0) {
+    //             setTimesheetData(response);
+    //             const firstTimesheet = response[0];
+    //             // setUserName(firstTimesheet.userName || 'No Name Available');
+    //             // setUserProfile(firstTimesheet.userProfile || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');
+
+    //             let totalMinutes = 0;
+    //             response.forEach((timesheet) => {
+    //                 totalMinutes += calculateTotalTime(timesheet.timesheetTransactions);
+    //             });
+    //             setTotalWorkingHours((totalMinutes / 60).toFixed(2)); // Convert minutes to hours
+    //         } else {
+    //             setTimesheetData([]);  // Clear the previous data
+    //             setTotalWorkingHours(0);  // Reset total working hours
+    //             // setUserName('No Name Available');  // Reset the username
+    //             // setUserProfile('https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');  // Reset the profile image
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching timesheets:", error);
+    //         setTimesheetData([]);  // Clear the data in case of error
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+
     const fetchTimesheets = async (startDate, endDate) => {
-        
         setLoading(true);
         try {
-            
-            
             const response = await getTimesheetsForCurrentUserApi(startDate, endDate);
 
-            // Reset the data if the response is empty
             if (Array.isArray(response) && response.length > 0) {
                 setTimesheetData(response);
-                const firstTimesheet = response[0];
-                // setUserName(firstTimesheet.userName || 'No Name Available');
-                // setUserProfile(firstTimesheet.userProfile || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');
 
-                let totalMinutes = 0;
+                let totalSeconds = 0; // Use seconds to avoid rounding issues
+
                 response.forEach((timesheet) => {
-                    totalMinutes += calculateTotalTime(timesheet.timesheetTransactions);
+                    totalSeconds += calculateTotalTime(timesheet.timesheetTransactions) * 60; // Calculate in seconds
                 });
-                setTotalWorkingHours((totalMinutes / 60).toFixed(2)); // Convert minutes to hours
+
+                // Convert total seconds to hours and round up
+                const totalHours = Math.ceil(totalSeconds / 3600 * 100) / 100; // Round up to two decimal places
+                setTotalWorkingHours(totalHours);
             } else {
-                setTimesheetData([]);  // Clear the previous data
-                setTotalWorkingHours(0);  // Reset total working hours
-                // setUserName('No Name Available');  // Reset the username
-                // setUserProfile('https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y');  // Reset the profile image
+                setTimesheetData([]);
+                setTotalWorkingHours(0);
             }
         } catch (error) {
             console.error("Error fetching timesheets:", error);
-            setTimesheetData([]);  // Clear the data in case of error
+            setTimesheetData([]);
         } finally {
             setLoading(false);
         }
     };
 
+
+    const calculateTotalTime = (transactions) => {
+        let totalTimeInSeconds = 0;
+
+        if (transactions && transactions.length > 0) {
+            transactions = sortTransactionsByDate(transactions);
+
+            if (transactions.length === 1) {
+                const singleTransaction = transactions[0];
+                if (singleTransaction.transactionType === 1) {
+                    const clockInTime = moment(singleTransaction.transactionDateTime);
+                    const currentTime = moment();
+                    const duration = moment.duration(currentTime.diff(clockInTime));
+
+                    if (duration.asSeconds() > 0) {
+                        totalTimeInSeconds = duration.asSeconds(); // Use seconds for precision
+                    }
+                }
+            } else {
+                const hasBreakOut = transactions.some(transaction => transaction.transactionType === 2);
+
+                if (!hasBreakOut) {
+                    const earliestTransaction = moment(transactions[0].transactionDateTime);
+                    const currentTime = moment();
+                    const duration = moment.duration(currentTime.diff(earliestTransaction));
+
+                    if (duration.asSeconds() > 0) {
+                        totalTimeInSeconds = duration.asSeconds();
+                    }
+                } else {
+                    const earliestTransaction = moment(transactions[0].transactionDateTime);
+                    const latestTransaction = moment(transactions[transactions.length - 1].transactionDateTime);
+                    const duration = moment.duration(latestTransaction.diff(earliestTransaction));
+
+                    if (duration.asSeconds() > 0) {
+                        totalTimeInSeconds = duration.asSeconds();
+                    }
+                }
+            }
+        }
+
+        return totalTimeInSeconds / 60; // Return minutes as a float
+    };
+
+
+
+
+
+    // const calculateTotalTime = (transactions) => {
+    //     let totalTime = 0;
+    //     let clockInTime = null;
+
+    //     if (transactions && transactions.length > 0) {
+    //         transactions = sortTransactionsByDate(transactions);
+
+    //         if (transactions.length === 1) {
+    //             // If only one transaction exists, check if it's a Clock In (transactionType === 1)
+    //             const singleTransaction = transactions[0];
+    //             if (singleTransaction.transactionType === 1) {
+    //                 // Calculate the difference between the clock-in time and the current time
+    //                 clockInTime = moment(singleTransaction.transactionDateTime);
+    //                 const currentTime = moment();
+    //                 const duration = moment.duration(currentTime.diff(clockInTime));
+
+    //                 if (duration.asSeconds() > 0) {
+    //                     totalTime = duration.asMinutes();
+    //                 }
+    //             }
+    //         } else {
+    //             // Check if there is any Break Out transaction (transactionType === 4)
+    //             const hasBreakOut = transactions.some(transaction => transaction.transactionType === 2);
+
+    //             // If there is no Break Out transaction, calculate time till the current time
+    //             if (!hasBreakOut) {
+    //                 const earliestTransaction = moment(transactions[0].transactionDateTime); // Get the earliest transaction
+    //                 const currentTime = moment(); // Get the current time
+    //                 const duration = moment.duration(currentTime.diff(earliestTransaction));
+
+    //                 if (duration.asSeconds() > 0) {
+    //                     totalTime = duration.asMinutes();
+    //                 }
+    //             } else {
+    //                 // If there is a Break Out transaction, calculate the difference between the earliest and the latest
+    //                 const earliestTransaction = moment(transactions[0].transactionDateTime);
+    //                 const latestTransaction = moment(transactions[transactions.length - 1].transactionDateTime);
+
+    //                 const duration = moment.duration(latestTransaction.diff(earliestTransaction));
+
+    //                 if (duration.asSeconds() > 0) {
+    //                     totalTime = duration.asMinutes();
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return totalTime;
+    // };
 
     const openFilterBottomSheet = () => {
         setIsFilterBottomSheetVisible(true);
@@ -141,63 +268,12 @@ const ReportCard = ({ navigation }) => {
         fetchTimesheets(newStartDate, newEndDate);
     };
 
-
-    const calculateTotalTime = (transactions) => {
-        let totalTime = 0;
-        let clockInTime = null;
-
-        if (transactions && transactions.length > 0) {
-            transactions = sortTransactionsByDate(transactions);
-
-            if (transactions.length === 1) {
-                // If only one transaction exists, check if it's a Clock In (transactionType === 1)
-                const singleTransaction = transactions[0];
-                if (singleTransaction.transactionType === 1) {
-                    // Calculate the difference between the clock-in time and the current time
-                    clockInTime = moment(singleTransaction.transactionDateTime);
-                    const currentTime = moment();
-                    const duration = moment.duration(currentTime.diff(clockInTime));
-
-                    if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes();
-                    }
-                }
-            } else {
-                // Check if there is any Break Out transaction (transactionType === 4)
-                const hasBreakOut = transactions.some(transaction => transaction.transactionType === 2);
-
-                // If there is no Break Out transaction, calculate time till the current time
-                if (!hasBreakOut) {
-                    const earliestTransaction = moment(transactions[0].transactionDateTime); // Get the earliest transaction
-                    const currentTime = moment(); // Get the current time
-                    const duration = moment.duration(currentTime.diff(earliestTransaction));
-
-                    if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes();
-                    }
-                } else {
-                    // If there is a Break Out transaction, calculate the difference between the earliest and the latest
-                    const earliestTransaction = moment(transactions[0].transactionDateTime);
-                    const latestTransaction = moment(transactions[transactions.length - 1].transactionDateTime);
-
-                    const duration = moment.duration(latestTransaction.diff(earliestTransaction));
-
-                    if (duration.asSeconds() > 0) {
-                        totalTime = duration.asMinutes();
-                    }
-                }
-            }
-        }
-
-        return totalTime;
-    };
-
     const getTransactionDetails = (transactionType) => {
         switch (transactionType) {
-            case 1: return { action: 'Clock In', color: '#FB9411' };
-            case 2: return { action: 'Clock Out', color: '#B00020' };
-            case 3: return { action: 'Break In', color: '#2196F3' };
-            case 4: return { action: 'Break Out', color: '#4CAF50' };
+            case 1: return { action: 'Clock in', color: '#FB9411' };
+            case 2: return { action: 'Clock out', color: '#B00020' };
+            case 3: return { action: 'Break in', color: '#2196F3' };
+            case 4: return { action: 'Break out', color: '#4CAF50' };
             default: return { action: 'Unknown', color: 'gray' };
         }
     };
@@ -230,10 +306,10 @@ const ReportCard = ({ navigation }) => {
                         }
                         iconR1={
                             <TouchableOpacity onPress={openFilterBottomSheet} style={{ paddingRight: 12 }}>
-                                <MaterialIcons name="filter-list" size={30} color={Colors.black} />
+                                <MaterialIcons name="filter-list" size={20} color={Colors.black} />
                             </TouchableOpacity>
                         }
-                        title={t('My Report')}
+                        title={userName}
                     />
 
 
@@ -278,12 +354,14 @@ const ReportCard = ({ navigation }) => {
 
                                         {sortedTransactions.map((transaction, idx) => {
                                             const { action, color } = getTransactionDetails(transaction.transactionType);
+                                            const isLastTransaction = idx === sortedTransactions.length - 1; // Check if this is the last transaction
+                                            const hideLine = isLastTransaction && transaction.transactionType === 2;
                                             return (
                                                 <View key={idx} style={styles.transactionRow}>
                                                     <View style={styles.verticalLineContainer}>
                                                         <View style={[styles.circle, { backgroundColor: color }]} />
-
-                                                        <View style={styles.verticalLine} />
+                                                        {/* Conditional rendering for the vertical line */}
+                                                        {!hideLine && <View style={styles.verticalLine} />}
                                                     </View>
                                                     <View style={styles.transactionDetails}>
                                                         <View style={styles.transactionDetailsRow}>

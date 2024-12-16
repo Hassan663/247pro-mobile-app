@@ -91,22 +91,22 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
     //             console.log("Start: isBusiness", isBusiness);
     //             console.log("Start: accessToken", accessToken);
     //             console.log("Start: currentUserProfile", currentUserProfile);
-    //             console.log("Start: currentUserProfile====", currentUserProfile.isRegister, isBusiness, currentUserProfile.isOnboarded);
+    //             console.log("Start: currentUserProfile====", currentUserProfile.isRegister, isBusiness, currentUserProfile.hasAccountOnboarded);
                
 
     //             if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
                     
-    //                 if (currentUserProfile.isRegister == false && isBusiness == null && currentUserProfile.isOnboarded == true) {
+    //                 if (currentUserProfile.isRegister == false && isBusiness == null && currentUserProfile.hasAccountOnboarded == true) {
     //                     console.log("Condition 1 met: I am in new");
     //                     console.log(currentUserProfile, 'currentUserProfile in new');
-    //                     currentUserProfile.isOnboarded = true;
+    //                     currentUserProfile.hasAccountOnboarded = true;
     //                     dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
     //                     return; // This should exit the function here
     //                 }
     
     //                 console.log("Condition 1 not met, checking further...");
     
-    //                 const isUserOnboarded = currentUserProfile.isOnboarded;
+    //                 const isUserOnboarded = currentUserProfile.hasAccountOnboarded;
     //                 if (isBusiness === 'yes') {
     //                     if (isUserOnboarded) {
     //                         console.log("Navigating to MenuScreen");
@@ -158,10 +158,10 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                 console.log("accessToken", accessToken);
                 console.log(currentUserProfile, 'currentUserProfile123');
     
-                if (currentUserProfile && Object.keys(currentUserProfile).length > 0 && currentUserProfile.isRegister === false && isBusiness === null && currentUserProfile.isOnboarded === true) {
+                if (currentUserProfile && Object.keys(currentUserProfile).length > 0 && currentUserProfile.isRegister === false && isBusiness === null && currentUserProfile.hasAccountOnboarded === true) {
                     console.log("I am in new ");
                     console.log(currentUserProfile, 'currentUserProfile');
-                    currentUserProfile.isOnboarded = true;
+                    currentUserProfile.hasAccountOnboarded = true;
                     console.log(currentUserProfile, 'currentUserProfile');
                     dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
                     return; 
@@ -170,13 +170,13 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                 // If the first condition is not met, execute this block
                 if (currentUserProfile && Object.keys(currentUserProfile).length > 0) {
                     console.log("I am here ");
-                    const isUserOnboarded = currentUserProfile.isOnboarded;
+                    const isUserOnboarded = currentUserProfile.hasAccountOnboarded;
     
                     if (isBusiness === 'yes') {
                         if (isUserOnboarded) {
                             console.log("else if is here YES");
                             // changeRoute(navigation, 'MenuScreen');
-                            currentUserProfile.isOnboarded=true
+                            currentUserProfile.hasAccountOnboarded=true
                             dispatch({ type: CURRENTUSERPROFILE, payload: {} });
                             console.log(currentUserProfile, 'currentUserProfile123')
                             dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
@@ -187,7 +187,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                     } else if (isBusiness === 'no') {
                         console.log("else if business is NO");
                         // changeRoute(navigation, 'MenuScreen');
-                        currentUserProfile.isOnboarded=true
+                        currentUserProfile.hasAccountOnboarded=true
                         dispatch({ type: CURRENTUSERPROFILE, payload: {} });
                         console.log(currentUserProfile, 'currentUserProfile123')
                         dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
@@ -195,7 +195,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                         if (isUserOnboarded === true && currentUserProfile.isRegister === true) {
                             console.log("I am in new ");
                             console.log(currentUserProfile, 'currentUserProfile');
-                            currentUserProfile.isOnboarded = true;
+                            currentUserProfile.hasAccountOnboarded = true;
                             console.log(currentUserProfile, 'currentUserProfile');
                             dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
                             console.log("else if business is here");
@@ -373,7 +373,7 @@ const SignIn: React.FC<Props> = React.memo(({ navigation }: Props) => {
                             <Image style={styles.logoStyle} source={require('../../../assets/auth-images/splashLogo.png')} />
                             <Title
                                 color={`#212121`}
-                                title={t(`Welcome_Back`) + "!"}
+                                title={t(`Welcome back`) + "!"}
                                 type={`Poppin-24`}
                                 weight={`600`} />
                         </View>

@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderRadius: 15,
-        backgroundColor: Colors.primary, // Orange background
+        backgroundColor: '#FDE8D2', // Orange background
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,
@@ -195,7 +195,7 @@ export const styles = StyleSheet.create({
         bottom: 10,
         right: 10,
         width: 150,
-        height: 120,
+        height: 170,
     },
     sectionTitle1: {
         marginTop: 20,
@@ -238,18 +238,24 @@ export const styles = StyleSheet.create({
     soonBadge: {
         position: 'absolute',
         top: -5,
-        right: -5,
-        backgroundColor: Colors.lightGreen,
-        borderRadius: 5,
+        right: 20,
+        backgroundColor: '#E1EFDE',
+        borderRadius: 10,
         paddingHorizontal: 5,
         paddingVertical: 2,
     },
     soonTag: {
-        backgroundColor: '#32CD32', // Green color
-        borderRadius: 12,
+        backgroundColor: '#E1EFDE', // Green color
+        borderRadius: 10,
         paddingHorizontal: 8,
         paddingVertical: 2,
         marginLeft: 8,
+    },
+
+    iconImage: {
+        width: 15, // Adjust to match your design
+        height: 20, // Adjust to match your design
+        tintColor: Colors.primary, // Optional: apply a color overlay if needed
     },
     soonText: {
         fontSize: 12,

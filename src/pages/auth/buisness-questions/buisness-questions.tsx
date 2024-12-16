@@ -116,7 +116,7 @@ const BuisnessQuestions: React.FC<{ navigation: any; route: any }> = ({
       
       else {
         
-        currentUserProfile.isOnboarded = true
+        currentUserProfile.hasAccountOnboarded = true
         dispatch({ type: CURRENTUSERPROFILE, payload: {} });
         console.log(currentUserProfile, 'currentUserProfile123')
         dispatch({ type: CURRENTUSERPROFILE, payload: currentUserProfile });
