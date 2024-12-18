@@ -227,29 +227,66 @@ const Menu = ({ navigation }) => {
         }
     };
 
-    const renderAppIcon = ({ item }) => (
-        <View style={styles.appContainer}>
-            <TouchableOpacity 
-                disabled={item.soon && item.name !== 'Contact'} // Only disable if 'soon' and not 'Contact'
-                onPress={() => {
-                    console.log("Navigating to:", item.name); // Log the item name on press
-                    if (item.name === 'Timecard') {
-                        navigation.navigate('Timecard');
-                    } else if (item.name === 'Contact') {
-                        navigation.navigate('Contact');
-                    } else {
-                        console.log("No navigation set for:", item.name);
-                    }
-                }}
-            >
-                <View style={styles.appIconContainer}>
-                    {item.icon}
-                </View>
-            </TouchableOpacity>
-            <Text style={styles.appName}>{item.name}</Text>
-            {item.soon && <View style={styles.soonBadge}><Text style={styles.soonText}>soon</Text></View>}
-        </View>
-    );
+    // const renderAppIcon = ({ item }) => (
+    //     <View style={styles.appContainer}>
+    //         <TouchableOpacity 
+    //             disabled={item.soon && item.name !== 'Contact'} // Only disable if 'soon' and not 'Contact'
+    //             onPress={() => {
+    //                 console.log("Navigating to:", item.name); // Log the item name on press
+    //                 if (item.name === 'Timecard') {
+    //                     navigation.navigate('Timecard');
+    //                 } else if (item.name === 'Contact') {
+    //                     navigation.navigate('Contact');
+    //                 } else {
+    //                     console.log("No navigation set for:", item.name);
+    //                 }
+    //             }}
+    //         >
+    //             <View style={styles.appIconContainer}>
+    //                 {item.icon}
+    //             </View>
+    //         </TouchableOpacity>
+    //         <Text style={styles.appName}>{item.name}</Text>
+    //         {item.soon && <View style={styles.soonBadge}><Text style={styles.soonText}>soon</Text></View>}
+    //     </View>
+    // );
+
+    const renderAppIcon = ({ item }) => {
+        const isTimecard = item.name === 'Timecard';
+    
+        return (
+            <View style={styles.appContainer}>
+                <TouchableOpacity
+                    disabled={item.soon && item.name !== 'Contact'}
+                    onPress={() => {
+                        console.log("Navigating to:", item.name);
+                        if (item.name === 'Timecard') {
+                            navigation.navigate('Timecard');
+                        } else if (item.name === 'Contact') {
+                            navigation.navigate('Contact');
+                        } else {
+                            console.log("No navigation set for:", item.name);
+                        }
+                    }}
+                >
+                    <View
+                        style={[
+                            styles.appIconContainer,
+                            { borderColor: isTimecard ? Colors.primary : '#E0E0E0' }, // Dynamic border color
+                        ]}
+                    >
+                        {item.icon}
+                    </View>
+                </TouchableOpacity>
+                <Text style={styles.appName}>{item.name}</Text>
+                {item.soon && (
+                    <View style={styles.soonBadge}>
+                        <Text style={styles.soonText}>soon</Text>
+                    </View>
+                )}
+            </View>
+        );
+    };
     return (
         <ScrollView
             style={styles.container}
@@ -258,9 +295,9 @@ const Menu = ({ navigation }) => {
         >
             {/* Header */}
             <View style={styles.header}>
-    <Text style={styles.welcomeText}>
-        Hello {currentUserProfile?.name?.split(' ')[0] || 'User'}
-    </Text>
+            <Text style={styles.welcomeText}>
+    Hello {currentUserProfile?.name?.split(' ')[0] || 'User'}!
+</Text>
     <Text style={styles.subText}>Welcome back</Text>
 </View>
 
@@ -274,9 +311,9 @@ const Menu = ({ navigation }) => {
                     onPress={() => openLink('https://www.247pro.com/estimator')}
                 >
                     <Text style={styles.readMoreText}>Read more</Text>
-                    <AntDesign name="arrowright" size={16} color={Colors.primary} />
+                    <AntDesign name="arrowright" size={16} color={Colors.black} />
                 </TouchableOpacity>
-                <Image source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/estimator.png')} style={styles.featureImage} />
+                <Image source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/estimator.png')} style={styles.featureImage1} />
             </View>
 
             {/* Applications Section */}
@@ -307,26 +344,16 @@ const Menu = ({ navigation }) => {
                     onPress={() => openLink('https://www.247pro.com/profinder')}
                 >
                     <Text style={styles.readMoreText}>Read more</Text>
-                    <AntDesign name="arrowright" size={16} color={Colors.primary} />
+                    <AntDesign name="arrowright" size={16} color={Colors.black} />
                 </TouchableOpacity>
                 <Image source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/pro_finder.png')} style={styles.featureImage} />
             </View>
 
-            {/* Additional Feature Boxes with Spacing */}
-            {/* <View style={[styles.featureBox2, styles.featureSpacing]}>
-                <Text style={styles.featureTitle}>Project Management</Text>
-                <Text style={styles.featureSubtitle}>Manage projects from</Text>
-                <Text style={styles.featureSubtitle2}>start to finish.</Text>
-                <TouchableOpacity style={styles.readMoreButton}>
-                    <Text style={styles.readMoreText}>Read more</Text>
-                    <AntDesign name="arrowright" size={16} color={Colors.primary} />
-                </TouchableOpacity>
-                <Image source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/task_managment.png')} style={styles.featureImage} />
-            </View> */}
+            
 
             {/* Additional Feature Boxes with Spacing */}
 <View style={[styles.featureBox2, styles.featureSpacing]}>
-    <Text style={styles.featureTitle}>Project Management</Text>
+    <Text style={styles.featureTitle}>Project management</Text>
     <Text style={styles.featureSubtitle}>Manage projects from</Text>
     <Text style={styles.featureSubtitle2}>start to finish.</Text>
     
@@ -335,7 +362,7 @@ const Menu = ({ navigation }) => {
                     onPress={() => openLink('https://www.247pro.com/project-management')}
                 >
                     <Text style={styles.readMoreText}>Read more</Text>
-                    <AntDesign name="arrowright" size={16} color={Colors.primary} />
+                    <AntDesign name="arrowright" size={16} color={Colors.black} />
                 </TouchableOpacity>
     
     
@@ -374,7 +401,7 @@ const Menu = ({ navigation }) => {
 </View>
 
             <View style={[styles.featureBox1, styles.featureSpacing, { marginBottom: 130 }]}>
-                <Text style={styles.featureTitle}>Task Management</Text>
+                <Text style={styles.featureTitle}>Task management</Text>
                 <Text style={styles.featureSubtitle}>To-dos at your</Text>
                 <Text style={styles.featureSubtitle2}>fingertips.</Text>
                 <TouchableOpacity
@@ -382,9 +409,9 @@ const Menu = ({ navigation }) => {
                     onPress={() => openLink('https://www.247pro.com/tasks')}
                 >
                     <Text style={styles.readMoreText}>Read more</Text>
-                    <AntDesign name="arrowright" size={16} color={Colors.primary} />
+                    <AntDesign name="arrowright" size={16} color={Colors.black} />
                 </TouchableOpacity>
-                <Image source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/task_managment.png')} style={styles.featureImage} />
+                <Image source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/task_managment.png')} style={styles.featureImage1} />
             </View>
         </ScrollView>
     );

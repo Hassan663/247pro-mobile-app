@@ -104,7 +104,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
           autoFocus={false}
           style={[
             styles.textInputContainer,
-            activeField === fieldKey ? styles.inputActive : {}, // Apply orange border when focused
+            // activeField === fieldKey ? styles.inputActive : {}, // Apply orange border when focused
           ]}
         />
       </TouchableOpacity>
@@ -112,7 +112,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
         onPress={onPress} // Open calendar modal
         style={[
           styles.iconContainer,
-          activeField === fieldKey && styles.iconActive, // Apply focus styling to icon
+          // activeField === fieldKey && styles.iconActive, // Apply focus styling to icon
         ]}
       >
         <Feather

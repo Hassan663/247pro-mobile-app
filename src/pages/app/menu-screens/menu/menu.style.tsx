@@ -124,14 +124,14 @@ export const styles = StyleSheet.create({
     },
     featureSubtitle: {
         fontSize: 14,
-        color: '#999999',
-        fontWeight: '500',
+        color: '#666666',
+        fontWeight: '400',
         marginVertical: 10,
     },
     featureSubtitle2: {
         fontSize: 14,
-        color: '#999999',
-        fontWeight: '500',
+        color: '#666666',
+        fontWeight: '400',
         marginBottom: 20,
     },
 
@@ -182,12 +182,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 15,
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: Colors.gray,
+        borderColor: '#BDBDBD',
     },
     readMoreText: {
-        color: '#999999',
+        color: '#000000',
         
-        fontWeight: '500',
+        fontWeight: '400',
         marginRight: 5,
     },
     featureImage: {
@@ -196,6 +196,13 @@ export const styles = StyleSheet.create({
         right: 10,
         width: 150,
         height: 170,
+    },
+    featureImage1: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        width: 170,
+        height: 140,
     },
     sectionTitle1: {
         marginTop: 20,
@@ -226,11 +233,15 @@ export const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        backgroundColor: '#F5F5F5',
+        borderWidth: 2, // Add border width
+        borderColor: '#E0E0E0', // Set border color
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 5,
+        backgroundColor: 'transparent', // Remove background color
     },
+
+   
     appName: {
         fontSize: 12,
         color: Colors.gray,
