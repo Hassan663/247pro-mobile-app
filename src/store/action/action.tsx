@@ -139,6 +139,7 @@ export const forgetAction = (email: any) => {
 export const refreshTokenAction = () => {
     return async (dispatch) => {
         try {
+            console.log("in refresh action token ")
             dispatch({ type: LOADER, payload: true });
 
             const response = await refreshTokenApi();

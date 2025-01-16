@@ -275,10 +275,10 @@ const Menu = ({ navigation }) => {
                             { borderColor: isTimecard ? Colors.primary : '#E0E0E0' }, // Dynamic border color
                         ]}
                     >
-                        {item.icon}
+                       {React.cloneElement(item.icon, { color: isTimecard ? Colors.primary : '#E0E0E0' })}
                     </View>
                 </TouchableOpacity>
-                <Text style={styles.appName}>{item.name}</Text>
+                <Text style={isTimecard ? styles.appName1:styles.appName}>{item.name}</Text>
                 {item.soon && (
                     <View style={styles.soonBadge}>
                         <Text style={styles.soonText}>soon</Text>
@@ -296,9 +296,9 @@ const Menu = ({ navigation }) => {
             {/* Header */}
             <View style={styles.header}>
             <Text style={styles.welcomeText}>
-    Hello {currentUserProfile?.name?.split(' ')[0] || 'User'}!
+    Hello {currentUserProfile?.name?.split(' ')[0] || 'User'}
 </Text>
-    <Text style={styles.subText}>Welcome back</Text>
+    <Text style={styles.subText}>Welcome back!</Text>
 </View>
 
             {/* Feature Box */}
@@ -330,7 +330,7 @@ const Menu = ({ navigation }) => {
             <Text style={styles.sectionTitle1}>Top features</Text>
 
             {/* Pro Finder Feature Box */}
-            <View style={[styles.featureBox1, styles.topFeatureBox]}>
+            <View style={[styles.featureBox1, ]}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.featureTitle}>Pro Finder</Text>
                     <View style={styles.soonTag}>
@@ -365,39 +365,8 @@ const Menu = ({ navigation }) => {
                     <AntDesign name="arrowright" size={16} color={Colors.black} />
                 </TouchableOpacity>
     
-    
-    <View style={styles.iconContainer}>
-        <View style={styles.iconBox}>
-            <View style={styles.iconCircle}>
-            <Image 
-                source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/change_order.png')} 
-                style={styles.iconImage} 
-                resizeMode="contain" 
-            />
-            </View>
-            <Text style={styles.iconText}>Invoice</Text>
-        </View>
-        <View style={[styles.iconBox, styles.iconBoxRightPadding]}>
-            <View style={styles.iconCircle}>
-            <Image 
-                source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/invoice.png')} 
-                style={styles.iconImage} 
-                resizeMode="contain" 
-            />
-            </View>
-            <Text style={styles.iconText}>Change Order</Text>
-        </View>
-        <View style={styles.iconBox}>
-            <View style={styles.iconCircle}>
-            <Image 
-                source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/purchase_order.png')} 
-                style={styles.iconImage} 
-                resizeMode="contain" 
-            />
-            </View>
-            <Text style={styles.iconText}>Purchase Order</Text>
-        </View>
-    </View>
+                <Image source={require('/Users/mac/Desktop/Muzammil/247pro-mobile-app/src/assets/app-images/project.png')} style={[styles.featureImage1, { marginBottom: 20 }]} />
+   
 </View>
 
             <View style={[styles.featureBox1, styles.featureSpacing, { marginBottom: 130 }]}>

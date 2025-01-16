@@ -124,7 +124,7 @@ export const styles: any = StyleSheet.create<any>({
     noTimes: {
         color: '#CBCACE',  
         fontSize: 14,
-        fontWeight: '600',
+        fontWeight: '400',
         textAlign: 'right',
     },
     divider: {

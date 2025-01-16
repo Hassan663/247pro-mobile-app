@@ -130,10 +130,7 @@ const Team = ({ navigation, route }) => {
     };
 
 
-
-
-
-    const calculateTotalTime = (transactions) => {
+ const calculateTotalTime = (transactions) => {
         let totalTime = 0;
         let clockInTime = null;
 
@@ -185,10 +182,10 @@ const Team = ({ navigation, route }) => {
 
     const getTransactionDetails = (transactionType) => {
         switch (transactionType) {
-            case 1: return { action: 'Clock In', color: '#FB9411' };
-            case 2: return { action: 'Clock Out', color: '#B00020' };
-            case 3: return { action: 'Break In', color: '#2196F3' };
-            case 4: return { action: 'Break Out', color: '#4CAF50' };
+            case 1: return { action: 'Clock in', color: '#FB9411' };
+            case 2: return { action: 'Clock out', color: '#B00020' };
+            case 3: return { action: 'Break in', color: '#2196F3' };
+            case 4: return { action: 'Break out', color: '#4CAF50' };
             default: return { action: 'Unknown', color: 'gray' };
         }
     };
@@ -258,18 +255,20 @@ const Team = ({ navigation, route }) => {
                                 return (
                                     <View key={index} style={styles.timesheetCard}>
                                         <View style={styles.timesheetHeader}>
-                                            <Text style={styles.dateText}>{moment(timesheet.timesheetDate).format('DD/MM/YYYY')}</Text>
+                                            <Text style={styles.dateText}>{moment(timesheet.timesheetDate).format('MM/DD/YYYY')}</Text>
                                             <Text style={styles.dateText}>{formatReportTransactionTime(totalTimeInMinutes)}</Text>
                                         </View>
 
                                         {sortedTransactions.map((transaction, idx) => {
+                                            const isLastTransaction = idx === sortedTransactions.length - 1; // Check if this is the last transaction
+                                            const hideLine = isLastTransaction && transaction.transactionType === 2;
                                             const { action, color } = getTransactionDetails(transaction.transactionType);
                                             return (
                                                 <View key={idx} style={styles.transactionRow}>
                                                     <View style={styles.verticalLineContainer}>
                                                         <View style={[styles.circle, { backgroundColor: color }]} />
 
-                                                        <View style={styles.verticalLine} />
+                                                        {!hideLine && <View style={styles.verticalLine} />}
                                                     </View>
                                                     <View style={styles.transactionDetails}>
                                                         <View style={styles.transactionDetailsRow}>

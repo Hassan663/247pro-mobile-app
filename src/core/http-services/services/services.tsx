@@ -2,24 +2,145 @@ import { Endpoint, GetApi, IResponse } from '../../modals';
 import { handleApiError } from '../apis/handle-api-error/api.error.service';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { refreshTokenAction } from '../../../store/action/action';
+import { refreshTokenApi } from '../apis/identity-api/authentication.service';
 
 // Dummy JWT Token (replace this with an actual JWT token if needed)
 //const DUMMY_JWT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibXV6YW1taWwiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJteW5hbWVpc211emFtbWlsaHVzc2FpbnNoYWhAZ21haWwuY29tIiwidXNlcklkIjoiNDkyOGEyNWEtNTE0ZC00NjczLWJiYWMtMmIzZWI2NmIzYzA1IiwiYWNjb3VudElkIjoiNDkyOGEyNWEtNTE0ZC00NjczLWJiYWMtMmIzZWI2NmIzYzA1IiwiaWRlbnRpdHlVc2VySWQiOiI4YTVkM2NhOS0zZWM1LTQ4MDMtYmUyZC0wYTNlMWQ1Yzk4ODIiLCJqdGkiOiIwY2NiNTA1NS1mMDhkLTRmY2EtYmYxMy1lMGNkOGE3ZDBmMWYiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTcwMTc5Mzg5MywiaXNzIjoiaHR0cHM6Ly9hcGlkZXZwcm9maW5kZXIuMjQ3cHJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXBwZGV2cHJvZmluZGVyLjI0N3Byby5jb20ifQ.IHvZLG90aqrK-0OjIUOll5m_6-sfZSyrjca4313O4i4';
 
-const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
+// const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
+//   try {
+//     // Determine whether to include the header based on ENDPOINT.JWTToken
+//     console.log("postData and endpoints:", ENDPOINT, postData);
+//     const headers: any = {}
+//     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
+//     // const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
+//     const response: any = await axios.post(ENDPOINT.url, postData, { headers });
+//      console.log("response from service file:", response);
+//     return response;
+//   } catch (error) {
+//     console.log('response:', error);
+//     // const axiosError = error as AxiosError;
+//     // handleApiError(axiosError);
+//     throw error;
+//   }
+// };
+
+const refreshTokenIfNeeded = async () => {
   try {
-    // Determine whether to include the header based on ENDPOINT.JWTToken
-    console.log("postData and endpoints:", ENDPOINT, postData);
-    const headers: any = {}
-    if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
-    // const headers = ENDPOINT.JWTToken ? { Authorization: `Bearer ${DUMMY_JWT_TOKEN}` } : {};
-    const response: any = await axios.post(ENDPOINT.url, postData, { headers });
-     console.log("response from service file:", response);
-    return response;
+    console.log("Refreshing token if needed...");
+
+    // Retrieve tokens from AsyncStorage
+    const refreshToken = await AsyncStorage.getItem("refreshToken");
+
+    if (!refreshToken) {
+      console.error("No refresh token available.");
+      throw new Error("Missing refresh token.");
+    }
+
+    console.log("Refresh token available:", refreshToken);
+
+    const response = await refreshTokenApi();
+    
+
+    if (response && response.status === 200 && response.data) {
+      const { accessToken, refreshToken, accessTokenExpiration } = response.data;
+
+      console.log('Request data being sent to API:', response.data.refreshToken);
+
+      // Update AsyncStorage with the new tokens and expiration date
+      await AsyncStorage.setItem('accessToken', accessToken);
+      await AsyncStorage.setItem('refreshToken', refreshToken);
+      await AsyncStorage.setItem('accessTokenExpiration', accessTokenExpiration);
+
+      console.log('Tokens and expiration date updated successfully.');
+      return response.data;
+  } else {
+      console.error("Failed to refresh token. Status code:", response.status);
+      throw new Error("Token refresh failed.");
+    }
   } catch (error) {
-    console.log('response:', error);
-    // const axiosError = error as AxiosError;
-    // handleApiError(axiosError);
+    console.error("Error during token refresh:", error);
+    throw error;
+  }
+};
+// const postApi = async <TReq, TRes>(
+//   ENDPOINT: Endpoint,
+//   postData: TReq
+// ): Promise<IResponse<TRes>> => {
+//   try {
+//     console.log("postData and endpoints:", ENDPOINT, postData);
+
+//     // Construct headers with JWT token if available
+//     const headers: any = {};
+//     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
+
+//     // Perform the API request
+//     const response: any = await axios.post(ENDPOINT.url, postData, { headers });
+//     console.log("response from service file:", response);
+
+//     // Check if the status code is 200 and call refreshTokenIfNeeded
+//     if (response.status === 200) {
+//       console.log("Status code is 200. Triggering token refresh if needed.");
+//       await refreshTokenIfNeeded();
+//     }
+
+//     return response;
+//   } catch (error: any) {
+//     console.log("API error:", error);
+
+//     // Handle errors
+//     if (error.response) {
+//       console.error("Error response status:", error.response.status);
+//     }
+//     throw error;
+//   }
+// };
+
+
+const postApi = async <TReq, TRes>(
+  ENDPOINT: Endpoint,
+  postData: TReq
+): Promise<IResponse<TRes>> => {
+  try {
+    console.log("postData and endpoints:", ENDPOINT, postData);
+
+    // Construct headers with JWT token if available
+    const headers: any = {};
+    if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
+
+    // Perform the API request
+    const response: any = await axios.post(ENDPOINT.url, postData, { headers });
+    console.log("response from service file:", response);
+    return response;
+  } catch (error: any) {
+    console.log("API error:", error);
+
+    // Handle 401 Unauthorized
+    if (error.response && error.response.status === 401) {
+      console.log("401 Unauthorized - refreshing token...");
+
+      // Attempt to refresh the token
+      try {
+        await refreshTokenIfNeeded();
+
+        // Retry the request with the new token
+        const refreshedToken = await AsyncStorage.getItem("accessToken");
+        if (refreshedToken) {
+          headers.Authorization = `Bearer ${refreshedToken}`;
+          const retryResponse: any = await axios.post(ENDPOINT.url, postData, { headers });
+          console.log("response after token refresh:", retryResponse);
+          return retryResponse;
+        } else {
+          throw new Error("Failed to retrieve new token after refresh.");
+        }
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        throw refreshError; // Propagate the error if token refresh fails
+      }
+    }
+
+    // Propagate the error if it's not a 401 or if token refresh fails
     throw error;
   }
 };
@@ -66,153 +187,282 @@ const postApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<
 //   }
 // };
 
-// axios.interceptors.request.use(request => {
-//   console.log('Starting Request', JSON.stringify(request, null, 2))
-//   return request;
-// })
+axios.interceptors.request.use(request => {
+  console.log('Starting Request', JSON.stringify(request, null, 2))
+  return request;
+})
+
+const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
+  try {
+    const headers: any = {};
+    let accessToken = await AsyncStorage.getItem('accessToken');
+    console.log("The  access token in storage ", accessToken)
+    // headers.Authorization = `Bearer ${JSON.parse(accessToken!)}`;
+    headers.Authorization = `Bearer ${accessToken}`;
+    if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
+    // if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D'
+    const response: any = await axios.get(ENDPOINT.url, {headers});
+    console.log("THE RESPONSE IS ,",response)
+    return response;
+  } catch (error: any) {
+    console.log("API error:", error);
+
+    // Handle 401 Unauthorized
+    if (error.response && error.response.status === 401) {
+      console.log("401 Unauthorized - refreshing token...");
+
+      // Attempt to refresh the token
+      try {
+        await refreshTokenIfNeeded();
+
+        // Retry the request with the new token
+        const refreshedToken = await AsyncStorage.getItem("accessToken");
+        if (refreshedToken) {
+          headers.Authorization = `Bearer ${refreshedToken}`;
+          const retryResponse: any = await axios.post(ENDPOINT.url, postData, { headers });
+          console.log("response after token refresh:", retryResponse);
+          return retryResponse;
+        } else {
+          throw new Error("Failed to retrieve new token after refresh.");
+        }
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        throw refreshError; // Propagate the error if token refresh fails
+      }
+    }
+
+    // Propagate the error if it's not a 401 or if token refresh fails
+    throw error;
+  }
+};
 
 // const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
 //   try {
-//     const headers: any = {};
+//     console.log('Starting API request to:', ENDPOINT.url);
+
+//     const headers: Record<string, string> = {};
+
+//     // Retrieve access token from AsyncStorage
 //     let accessToken = await AsyncStorage.getItem('accessToken');
-//     console.log("The  access token in storage ", accessToken)
-//     // headers.Authorization = `Bearer ${JSON.parse(accessToken!)}`;
-//     headers.Authorization = `Bearer ${accessToken}`;
-//     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`
-//     if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D'
-//     const response: any = await axios.get(ENDPOINT.url, {headers});
-//     console.log("THE RESPONSE IS ,",response)
+//     console.log('Raw access token retrieved from storage:', accessToken);
+
+//     if (accessToken) {
+//       // Remove any wrapping quotes or unnecessary characters from the token
+//       accessToken = accessToken.replace(/^"(.*)"$/, '$1').trim();
+//       console.log('Sanitized access token:', accessToken);
+
+//       // Check if the token has a valid structure
+//       if (accessToken.startsWith('eyJ')) {
+//         headers.Authorization = `Bearer ${accessToken}`;
+//         console.log('Authorization header set:', headers.Authorization);
+//       } else {
+//         console.warn('Access token does not appear valid:', accessToken);
+//       }
+//     } else {
+//       console.warn('Access token is missing; Authorization header will not be set.');
+//     }
+
+//     // Override Authorization header if JWTToken is provided in the ENDPOINT
+//     if (ENDPOINT.JWTToken) {
+//       headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
+//       console.log('JWTToken provided in ENDPOINT. Overriding Authorization header:', headers.Authorization);
+//     }
+
+//     // Add Cookie header if specified in the ENDPOINT
+//     if (ENDPOINT.Cookie) {
+//       headers.Cookie = ENDPOINT.Cookie;
+//       console.log('Cookie header set:', headers.Cookie);
+//     }
+
+//     // Log final headers before sending the request
+//     console.log('Final headers being sent:', headers);
+
+//     // Make the API request
+//     const response = await axios.get(ENDPOINT.url, { headers });
+//     console.log('API response received:', response.status, response.statusText);
+//     console.log('Response data:', response.data);
+
 //     return response;
 //   } catch (error) {
-//     console.log(error, 'error123');
+//     console.error('Error occurred during API request:', error);
+
+//     const axiosError = error as AxiosError;
+//     if (axiosError.response) {
+//       console.error('Error response status:', axiosError.response.status);
+//       console.error('Error response headers:', axiosError.response.headers);
+//       console.error('Error response data:', axiosError.response.data);
+//     } else {
+//       console.error('No response received from API. Error details:', axiosError.message);
+//     }
+
+//     handleApiError(axiosError);
+//     throw error;
+//   }
+// };
+
+// const getApiWithParams = async <TReq, TRes>(ENDPOINT: Endpoint, queryParams?: any): Promise<IResponse<TRes>> => {
+//   try {
+//     const headers: any = {};
+//     let accessToken = await AsyncStorage.getItem('accessToken');
+//     // headers.Authorization = `Bearer ${accessToken}`;
+//     headers.Authorization = `Bearer ${accessToken}`;
+//     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
+//     if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D';
+      
+//     // If queryParams is provided, append it to the URL
+//     const urlWithParams = queryParams ? `${ENDPOINT.url}?${queryParams}` : ENDPOINT.url;
+
+//     // Make the GET request using axios
+//     const response: any = await axios.get(urlWithParams, { headers });
+
+//     // Logging the URL, status code, and response body
+//     console.log("THE URL: ", urlWithParams);
+//     console.log("THE STATUS CODE: ", response.status); // Correct way to log the status code
+//     console.log("THE RESPONSE BODY at get method: ", response.data); // Correct way to log the response body
+
+//     return response.data; 
+//   } catch (error) {
+//     console.error("Error occurred:", error);
+
+//     const axiosError = error as AxiosError;
+//     handleApiError(axiosError); // Handle the API error
+//     throw error; // Rethrow the error for further handling
+//   }
+// };
+
+// const deleteApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint): Promise<IResponse<TRes>> => {
+//   try {
+//     console.log(LOGIN_ENDPOINT, "LOGIN_ENDPOINT")
+//     // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
+//     const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${LOGIN_ENDPOINT.JWTToken}` } : {};
+//     const response: any = await axios.delete(LOGIN_ENDPOINT.url, { headers });
+//     console.log(response, "response Of delete")
+//     return response
+//   } catch (error) {
 //     const axiosError = error as AxiosError;
 //     handleApiError(axiosError);
 //     throw error;
 //   }
 // };
 
-const getApi = async <TReq, TRes>(ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
-  try {
-    console.log('Starting API request to:', ENDPOINT.url);
+// const putApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
+//   try {
+//     // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
+//     const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${LOGIN_ENDPOINT.JWTToken}` } : {};
+//     const response: any = await axios.put(LOGIN_ENDPOINT.url, postData, { headers });
+//     return response
+//   } catch (error) {
+//     const axiosError = error as AxiosError;
+//     console.log(error, 'error')
+//     // handleApiError(axiosError);
+//     throw error;
+//   }
+// };
 
-    const headers: Record<string, string> = {};
-
-    // Retrieve access token from AsyncStorage
-    let accessToken = await AsyncStorage.getItem('accessToken');
-    console.log('Raw access token retrieved from storage:', accessToken);
-
-    if (accessToken) {
-      // Remove any wrapping quotes or unnecessary characters from the token
-      accessToken = accessToken.replace(/^"(.*)"$/, '$1').trim();
-      console.log('Sanitized access token:', accessToken);
-
-      // Check if the token has a valid structure
-      if (accessToken.startsWith('eyJ')) {
-        headers.Authorization = `Bearer ${accessToken}`;
-        console.log('Authorization header set:', headers.Authorization);
-      } else {
-        console.warn('Access token does not appear valid:', accessToken);
-      }
-    } else {
-      console.warn('Access token is missing; Authorization header will not be set.');
-    }
-
-    // Override Authorization header if JWTToken is provided in the ENDPOINT
-    if (ENDPOINT.JWTToken) {
-      headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
-      console.log('JWTToken provided in ENDPOINT. Overriding Authorization header:', headers.Authorization);
-    }
-
-    // Add Cookie header if specified in the ENDPOINT
-    if (ENDPOINT.Cookie) {
-      headers.Cookie = ENDPOINT.Cookie;
-      console.log('Cookie header set:', headers.Cookie);
-    }
-
-    // Log final headers before sending the request
-    console.log('Final headers being sent:', headers);
-
-    // Make the API request
-    const response = await axios.get(ENDPOINT.url, { headers });
-    console.log('API response received:', response.status, response.statusText);
-    console.log('Response data:', response.data);
-
-    return response;
-  } catch (error) {
-    console.error('Error occurred during API request:', error);
-
-    const axiosError = error as AxiosError;
-    if (axiosError.response) {
-      console.error('Error response status:', axiosError.response.status);
-      console.error('Error response headers:', axiosError.response.headers);
-      console.error('Error response data:', axiosError.response.data);
-    } else {
-      console.error('No response received from API. Error details:', axiosError.message);
-    }
-
-    handleApiError(axiosError);
-    throw error;
-  }
-};
 
 const getApiWithParams = async <TReq, TRes>(ENDPOINT: Endpoint, queryParams?: any): Promise<IResponse<TRes>> => {
   try {
     const headers: any = {};
-    let accessToken = await AsyncStorage.getItem('accessToken');
-    // headers.Authorization = `Bearer ${accessToken}`;
+    let accessToken = await AsyncStorage.getItem("accessToken");
+    accessToken = accessToken?.replace(/^"(.*)"$/, "$1").trim();
     headers.Authorization = `Bearer ${accessToken}`;
     if (ENDPOINT.JWTToken) headers.Authorization = `Bearer ${ENDPOINT.JWTToken}`;
-    if (ENDPOINT.Cookie) headers.Cookie = '_247PRO_Refresh_Token=JXZYg8umdK7Ghlr%2BdjYn9d6CKIODHjeJvlPhPtk9p8zxfrsYBgbG4iJuAJDwxdF%2FhEAvS7STb9GTqqkNwHFpYM60NKcsnG3HyXdg4yExg3GZoJms%2BAvzFFkonfNty4NlQ5EKEeoldW6wsFiucqzPSWV5bjvXhoLlgeZ4I9tkwY2BViGCGYVaRqPKhU%2BR6drb3m4k%2BOiXkThN4wb4uO7MEr%2ByT40bURi%2BVZazUQOL2386LBZmBcSkVlVUePzhjYVIP2ZaOlMtUfaoz8Hr6FiizqIATST5bm695CX2lsRgJSzVPjiqkD1OoZ1XSsdoN7B3LwyWfYG86RqkSaLqiuzrVQ%3D%3D';
-      
-    // If queryParams is provided, append it to the URL
+    if (ENDPOINT.Cookie) headers.Cookie = ENDPOINT.Cookie;
+
     const urlWithParams = queryParams ? `${ENDPOINT.url}?${queryParams}` : ENDPOINT.url;
 
-    // Make the GET request using axios
     const response: any = await axios.get(urlWithParams, { headers });
 
-    // Logging the URL, status code, and response body
     console.log("THE URL: ", urlWithParams);
-    console.log("THE STATUS CODE: ", response.status); // Correct way to log the status code
-    console.log("THE RESPONSE BODY at get method: ", response.data); // Correct way to log the response body
+    console.log("THE STATUS CODE: ", response.status);
+    console.log("THE RESPONSE BODY at get method: ", response.data);
 
-    return response.data; 
+    return response.data;
   } catch (error) {
-    console.error("Error occurred:", error);
-
     const axiosError = error as AxiosError;
-    handleApiError(axiosError); // Handle the API error
-    throw error; // Rethrow the error for further handling
+    if (axiosError.response && axiosError.response.status === 401) {
+      console.log("401 Unauthorized detected. Attempting to refresh token...");
+      try {
+        const newToken = await refreshTokenIfNeeded();
+        axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+        const urlWithParams = queryParams ? `${ENDPOINT.url}?${queryParams}` : ENDPOINT.url;
+        return await axios.get(urlWithParams, {
+          headers: { ...headers, Authorization: `Bearer ${newToken}` },
+        });
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        throw refreshError;
+      }
+    }
+
+    console.error("Error occurred during API request:", error);
+    handleApiError(axiosError);
+    throw error;
   }
 };
 
 const deleteApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint): Promise<IResponse<TRes>> => {
   try {
-    console.log(LOGIN_ENDPOINT, "LOGIN_ENDPOINT")
-    // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
-    const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${LOGIN_ENDPOINT.JWTToken}` } : {};
+    const headers = LOGIN_ENDPOINT.JWTToken
+      ? { Authorization: `Bearer ${LOGIN_ENDPOINT.JWTToken}` }
+      : {};
     const response: any = await axios.delete(LOGIN_ENDPOINT.url, { headers });
-    console.log(response, "response Of delete")
-    return response
+
+    console.log(response, "response Of delete");
+    return response;
   } catch (error) {
     const axiosError = error as AxiosError;
+    if (axiosError.response && axiosError.response.status === 401) {
+      console.log("401 Unauthorized detected. Attempting to refresh token...");
+      try {
+        const newToken = await refreshTokenIfNeeded();
+        axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+        return await axios.delete(LOGIN_ENDPOINT.url, {
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        throw refreshError;
+      }
+    }
+
     handleApiError(axiosError);
     throw error;
   }
 };
 
-const putApi = async <TReq, TRes>(LOGIN_ENDPOINT: Endpoint, postData: TReq): Promise<IResponse<TRes>> => {
+const putApi = async <TReq, TRes>(
+  LOGIN_ENDPOINT: Endpoint,
+  postData: TReq
+): Promise<IResponse<TRes>> => {
   try {
-    // Determine whether to include the header based on LOGIN_ENDPOINT.JWTToken
-    const headers = LOGIN_ENDPOINT.JWTToken ? { Authorization: `Bearer ${LOGIN_ENDPOINT.JWTToken}` } : {};
+    const headers = LOGIN_ENDPOINT.JWTToken
+      ? { Authorization: `Bearer ${LOGIN_ENDPOINT.JWTToken}` }
+      : {};
     const response: any = await axios.put(LOGIN_ENDPOINT.url, postData, { headers });
-    return response
+    return response;
   } catch (error) {
     const axiosError = error as AxiosError;
-    console.log(error, 'error')
-    // handleApiError(axiosError);
+    if (axiosError.response && axiosError.response.status === 401) {
+      console.log("401 Unauthorized detected. Attempting to refresh token...");
+      try {
+        const newToken = await refreshTokenIfNeeded();
+        axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+        return await axios.put(LOGIN_ENDPOINT.url, postData, {
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        throw refreshError;
+      }
+    }
+
+    console.log("Error:", error);
     throw error;
   }
 };
 
 export { postApi, getApi, deleteApi, putApi, getApiWithParams };
+
+  
 

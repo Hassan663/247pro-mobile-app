@@ -201,65 +201,65 @@ const MainComponent: React.FC = () => {
     const [authState, setAuthState] = useState<any>(true);
     const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
 
-    const refreshTokenIfNeeded = async () => {
-        try {
-            console.log('Checking tokens and expiration...');
+    // const refreshTokenIfNeeded = async () => {
+    //     try {
+    //         console.log('Checking tokens and expiration...');
     
-            // Retrieve values from AsyncStorage
-            let expirationDate = await AsyncStorage.getItem('accessTokenExpiration'); // Expiration date
-            const accessToken = await AsyncStorage.getItem('accessToken'); // Access token
-            const refreshToken = await AsyncStorage.getItem('refreshToken'); // Refresh token
+    //         // Retrieve values from AsyncStorage
+    //         let expirationDate = await AsyncStorage.getItem('accessTokenExpiration'); // Expiration date
+    //         const accessToken = await AsyncStorage.getItem('accessToken'); // Access token
+    //         const refreshToken = await AsyncStorage.getItem('refreshToken'); // Refresh token
     
-            // Logging fetched values
-            console.log('Fetched expirationDate from storage:', expirationDate);
-            console.log('Fetched accessToken from storage:', accessToken ? '[Token Available]' : '[No Token]');
-            console.log('Fetched refreshToken from storage:', refreshToken ? refreshToken : '[No Token]');
+    //         // Logging fetched values
+    //         console.log('Fetched expirationDate from storage:', expirationDate);
+    //         console.log('Fetched accessToken from storage:', accessToken ? '[Token Available]' : '[No Token]');
+    //         console.log('Fetched refreshToken from storage:', refreshToken ? refreshToken : '[No Token]');
     
-            if (expirationDate && accessToken && refreshToken) {
-                // Remove extra quotes or whitespace
-                expirationDate = expirationDate.replace(/"/g, '').trim();
+    //         if (expirationDate && accessToken && refreshToken) {
+    //             // Remove extra quotes or whitespace
+    //             expirationDate = expirationDate.replace(/"/g, '').trim();
     
-                // Parse the expiration date
-                const expirationTime = new Date(expirationDate).getTime();
+    //             // Parse the expiration date
+    //             const expirationTime = new Date(expirationDate).getTime();
     
-                if (isNaN(expirationTime)) {
-                    console.error('Invalid expirationDate format after parsing:', expirationDate);
-                    return;
-                }
+    //             if (isNaN(expirationTime)) {
+    //                 console.error('Invalid expirationDate format after parsing:', expirationDate);
+    //                 return;
+    //             }
     
-                const currentTime = new Date().getTime(); // Current time in milliseconds
+    //             const currentTime = new Date().getTime(); // Current time in milliseconds
     
-                // Time remaining in milliseconds
-                const timeRemaining = expirationTime - currentTime;
+    //             // Time remaining in milliseconds
+    //             const timeRemaining = expirationTime - currentTime;
     
-                // Logging detailed time information
-                console.log('Current time (ms):', currentTime);
-                console.log('Expiration time (ms):', expirationTime);
-                console.log('Time remaining until expiration (ms):', timeRemaining);
-                console.log('Time remaining until expiration (minutes):', Math.floor(timeRemaining / (60 * 1000)));
+    //             // Logging detailed time information
+    //             console.log('Current time (ms):', currentTime);
+    //             console.log('Expiration time (ms):', expirationTime);
+    //             console.log('Time remaining until expiration (ms):', timeRemaining);
+    //             console.log('Time remaining until expiration (minutes):', Math.floor(timeRemaining / (60 * 1000)));
     
-                // Check if the token is expired or about to expire
-                if (currentTime >= expirationTime) {
-                    console.log('Token has already expired. Refreshing token...');
-                    await dispatch(refreshTokenAction());
-                    console.log('Token refreshed successfully.');
-                } else if (timeRemaining <= 10 * 60 * 1000) {
-                    console.log('Token is about to expire in less than 10 minutes. Refreshing token...');
-                    await dispatch(refreshTokenAction());
-                    console.log('Token refreshed successfully.');
-                } else {
-                    console.log('Token is valid. No need to refresh.');
-                }
-            } else {
-                console.error('Missing required token data. Check the following:');
-                console.error('Access Token:', accessToken ? '[Available]' : '[Missing]');
-                console.error('Refresh Token:', refreshToken ? '[Available]' : '[Missing]');
-                console.error('Expiration Date:', expirationDate ? '[Available]' : '[Missing]');
-            }
-        } catch (error) {
-            console.error('Error occurred during token expiration check or refresh:', error);
-        }
-    };
+    //             // Check if the token is expired or about to expire
+    //             if (currentTime >= expirationTime) {
+    //                 console.log('Token has already expired. Refreshing token...');
+    //                 await dispatch(refreshTokenAction());
+    //                 console.log('Token refreshed successfully.');
+    //             } else if (timeRemaining <= 10 * 60 * 1000) {
+    //                 console.log('Token is about to expire in less than 10 minutes. Refreshing token...');
+    //                 await dispatch(refreshTokenAction());
+    //                 console.log('Token refreshed successfully.');
+    //             } else {
+    //                 console.log('Token is valid. No need to refresh.');
+    //             }
+    //         } else {
+    //             console.error('Missing required token data. Check the following:');
+    //             console.error('Access Token:', accessToken ? '[Available]' : '[Missing]');
+    //             console.error('Refresh Token:', refreshToken ? '[Available]' : '[Missing]');
+    //             console.error('Expiration Date:', expirationDate ? '[Available]' : '[Missing]');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error occurred during token expiration check or refresh:', error);
+    //     }
+    // };
 
     // AppState Listener
     useEffect(() => {
@@ -268,7 +268,7 @@ const MainComponent: React.FC = () => {
 
             if (appState.match(/inactive|background/) && nextAppState === 'active') {
                 console.log('App has come to the foreground!');
-                refreshTokenIfNeeded(); // Refresh token when app comes to the foreground
+                // refreshTokenIfNeeded(); // Refresh token when app comes to the foreground
             }
 
             setAppState(nextAppState);

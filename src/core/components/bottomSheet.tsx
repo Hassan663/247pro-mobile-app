@@ -14,6 +14,7 @@ import {
 import { Calendar } from 'react-native-calendars';
 import { TimePicker } from 'react-native-simple-time-picker';
 import Feather from 'react-native-vector-icons/Feather';
+import Colors from '../../styles/colors';
 
 
 
@@ -23,6 +24,7 @@ export type Props = {
   onSave: (dateTime: { date: string;  }) => void;
   description: string;
   title: string;
+  clockInDate: string;
 };
 
 const BottomSheetDateTimePicker: React.FC<Props> = ({
@@ -30,7 +32,8 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   onClose,
   onSave,
   description,
-  title
+  title,
+  clockInDate
 }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [tempSelectedDate, setTempSelectedDate] = useState(new Date());
@@ -168,7 +171,7 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
         </View>
 
         {/* Calendar Modal */}
-        {showDatePicker && (
+        {/* {showDatePicker && (
           <Modal
             transparent={true}
             visible={showDatePicker}
@@ -181,8 +184,9 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
                 <Calendar
                   onDayPress={(day) => setTempSelectedDate(new Date(day.dateString))}
                   markedDates={{
-                    [tempSelectedDate.toISOString().split('T')[0]]: { selected: true, selectedColor: '#FFA500' },
+                    [tempSelectedDate.toISOString().split('T')[0]]: { selected: true, selectedColor: Colors.primary },
                   }}
+                  minDate={new Date().toISOString().split('T')[0]}
                   theme={{
                     textSectionTitleColor: '#000',
                     dayTextColor: '#000',
@@ -202,6 +206,46 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
             </View>
           </Modal>
         )}
+         */}
+
+
+{showDatePicker && (
+  <Modal
+    transparent={true}
+    visible={showDatePicker}
+    animationType="fade"
+    onRequestClose={() => setShowDatePicker(false)}
+  >
+    <View style={styles.centeredView}>
+      <View style={styles.calendarContainer}>
+        <Text style={styles.calendarTitle}>Select Date</Text>
+        <Calendar
+          onDayPress={(day) => setTempSelectedDate(new Date(day.dateString))}
+          markedDates={{
+            [tempSelectedDate.toISOString().split('T')[0]]: { selected: true, selectedColor: Colors.primary },
+          }}
+          minDate={clockInDate.split('T')[0]} // Disable previous dates
+          theme={{
+            textSectionTitleColor: '#000',
+            dayTextColor: '#000',
+            selectedDayBackgroundColor: Colors.primary,
+            selectedDayTextColor: '#fff',
+            arrowColor: Colors.primary, // Change arrow color
+            todayTextColor: Colors.primary, // Change current date color
+          }}
+        />
+        <View style={styles.buttonRow}>
+          <Pressable onPress={() => setShowDatePicker(false)}>
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </Pressable>
+          <Pressable onPress={handleDateConfirm}>
+            <Text style={styles.okButtonText}>OK</Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  </Modal>
+)}
 
         {/* Time Picker Modal */}
         {/* {showTimePicker && (
@@ -255,16 +299,18 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   isAmpm={true} // Enable AM/PM toggle
   onChange={({ hours, minutes, ampm }) => {
     let updatedHours = hours;
-
+  
     if (ampm === 'pm' && hours < 12) {
       updatedHours = hours + 12; // Convert PM to 24-hour format
     } else if (ampm === 'am' && hours === 12) {
       updatedHours = 0; // Convert 12 AM to midnight
     }
-
-    setAmpm(ampm); // Update AM/PM state
-    setTempSelectedHour(updatedHours); // Save 24-hour format internally
+  
+    setTempSelectedHour(updatedHours); 
     setTempSelectedMinute(minutes);
+  
+    // Ensure ampm is a string before updating state
+    setAmpm(ampm as string); // Fallback to 'am' if undefined
   }}
 />
         <View style={styles.buttonRow}>

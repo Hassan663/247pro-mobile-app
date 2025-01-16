@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
     },
 
     featureSpacing: {
-        marginTop: 10,
+        marginTop: 20,
     },
     featureBox1: {
         backgroundColor: Colors.white,
@@ -199,8 +199,8 @@ export const styles = StyleSheet.create({
     },
     featureImage1: {
         position: 'absolute',
-        bottom: 10,
-        right: 10,
+        bottom: 0,
+        right: 0,
         width: 170,
         height: 140,
     },
@@ -209,8 +209,8 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 20,
         fontSize: 18,
-        fontWeight: '600',
-        color: Colors.black,
+        fontWeight: '500',
+        color: '#000000',
     },
 
     sectionTitle: {
@@ -218,8 +218,8 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 20,
         fontSize: 18,
-        fontWeight: '600',
-        color: Colors.black,
+        fontWeight: '500',
+        color: '#000000',
     },
     appListContainer: {
         paddingHorizontal: 20,
@@ -233,8 +233,8 @@ export const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        borderWidth: 2, // Add border width
-        borderColor: '#E0E0E0', // Set border color
+        borderWidth: 1, // Add border width
+        //  borderColor: '#E0E0E0', // Set border color
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 5,
@@ -244,7 +244,13 @@ export const styles = StyleSheet.create({
    
     appName: {
         fontSize: 12,
-        color: Colors.gray,
+        color: '#E0E0E0',
+        fontWeight: '400',
+    },
+    appName1: {
+        fontSize: 12,
+        color: '#666666',
+        fontWeight: '400',
     },
     soonBadge: {
         position: 'absolute',
@@ -270,7 +276,7 @@ export const styles = StyleSheet.create({
     },
     soonText: {
         fontSize: 12,
-        color: Colors.white,
+        color: '#666666',
         fontWeight: '600',
     },
     titleContainer: {

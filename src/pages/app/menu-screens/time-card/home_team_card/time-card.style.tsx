@@ -62,13 +62,13 @@ export const styles: any = StyleSheet.create<any>({
         width: '100%',
         flexDirection: "row",
         justifyContent: "flex-end", // Align buttons to the right
-        paddingRight: 20, // Add padding to the right for spacing from the edge
+        // paddingRight: 20, // Add padding to the right for spacing from the edge
     },
     buttonRowContainer: {
         flexDirection: 'row', // Align buttons horizontally
         justifyContent: 'flex-end', // Align buttons to the right
         width: '100%', // Ensure it spans the full width of the screen
-        paddingHorizontal: 12, // Optional padding for the buttons
+        paddingHorizontal: 10, // Optional padding for the buttons
         // marginTop: 10, // Optional margin to give space above the button row
     },
 
@@ -116,7 +116,7 @@ export const styles: any = StyleSheet.create<any>({
     },
 
     topRowContainer: {
-        paddingTop: 35,  
+        paddingTop: 20,  
         paddingBottom: 16,
         // paddingLeft: 2,
         paddingRight: 18,

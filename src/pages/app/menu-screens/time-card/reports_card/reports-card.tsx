@@ -125,30 +125,70 @@ const ReportCard = ({ navigation }) => {
     // };
 
 
+    // const fetchTimesheets = async (startDate, endDate) => {
+    //     setLoading(true);
+    //     try {
+    //         const response = await getTimesheetsForCurrentUserApi(startDate, endDate);
+
+    //         if (Array.isArray(response) && response.length > 0) {
+    //             setTimesheetData(response);
+
+    //             let totalSeconds = 0; // Use seconds to avoid rounding issues
+
+    //             response.forEach((timesheet) => {
+    //                 totalSeconds += calculateTotalTime(timesheet.timesheetTransactions) * 60; // Calculate in seconds
+    //             });
+
+    //             // Convert total seconds to hours and round up
+    //             const totalHours = Math.ceil(totalSeconds / 3600 * 100) / 100; // Round up to two decimal places
+    //             setTotalWorkingHours(totalHours);
+    //         } else {
+    //             setTimesheetData([]);
+    //             setTotalWorkingHours(0);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching timesheets:", error);
+    //         setTimesheetData([]);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+
     const fetchTimesheets = async (startDate, endDate) => {
         setLoading(true);
         try {
+            console.log("Fetching timesheets between:", startDate, "and", endDate);
             const response = await getTimesheetsForCurrentUserApi(startDate, endDate);
-
+    
             if (Array.isArray(response) && response.length > 0) {
+                console.log("Timesheet Response Length:", response.length);
                 setTimesheetData(response);
-
-                let totalSeconds = 0; // Use seconds to avoid rounding issues
-
-                response.forEach((timesheet) => {
-                    totalSeconds += calculateTotalTime(timesheet.timesheetTransactions) * 60; // Calculate in seconds
+    
+                let totalSeconds = 0;
+    
+                response.forEach((timesheet, index) => {
+                    const timeInMinutes = calculateTotalTime(timesheet.timesheetTransactions);
+                    console.log(`Timesheet ${index + 1} -> Calculated Time (Minutes):`, timeInMinutes);
+                    totalSeconds += timeInMinutes * 60; // Convert minutes to seconds
                 });
-
-                // Convert total seconds to hours and round up
-                const totalHours = Math.ceil(totalSeconds / 3600 * 100) / 100; // Round up to two decimal places
-                setTotalWorkingHours(totalHours);
+    
+                console.log("Total Time in Seconds (Before Conversion):", totalSeconds);
+    
+                // Convert total seconds to hours
+                const totalHours = totalSeconds / 3600; // Keep precise hours
+                console.log("Total Time in Hours (Unrounded):", totalHours);
+    
+                setTotalWorkingHours(totalHours.toFixed(2)); // Display with two decimal places
             } else {
+                console.warn("No timesheet data found for the given range.");
                 setTimesheetData([]);
                 setTotalWorkingHours(0);
             }
         } catch (error) {
             console.error("Error fetching timesheets:", error);
             setTimesheetData([]);
+            setTotalWorkingHours(0);
         } finally {
             setLoading(false);
         }
@@ -168,9 +208,12 @@ const ReportCard = ({ navigation }) => {
                     const currentTime = moment();
                     const duration = moment.duration(currentTime.diff(clockInTime));
 
+                    // if (duration.asSeconds() > 0) {
+                    //     totalTimeInSeconds = duration.asSeconds(); // Use seconds for precision
+                    // }
                     if (duration.asSeconds() > 0) {
-                        totalTimeInSeconds = duration.asSeconds(); // Use seconds for precision
-                    }
+                                            totalTimeInSeconds += duration.asSeconds(); // Add total seconds
+                                        }
                 }
             } else {
                 const hasBreakOut = transactions.some(transaction => transaction.transactionType === 2);
@@ -180,17 +223,24 @@ const ReportCard = ({ navigation }) => {
                     const currentTime = moment();
                     const duration = moment.duration(currentTime.diff(earliestTransaction));
 
+                    // if (duration.asSeconds() > 0) {
+                    //     totalTimeInSeconds = duration.asSeconds();
+                    // }
+
                     if (duration.asSeconds() > 0) {
-                        totalTimeInSeconds = duration.asSeconds();
-                    }
+                                            totalTimeInSeconds += duration.asSeconds(); // Add total seconds
+                                        }
                 } else {
                     const earliestTransaction = moment(transactions[0].transactionDateTime);
                     const latestTransaction = moment(transactions[transactions.length - 1].transactionDateTime);
                     const duration = moment.duration(latestTransaction.diff(earliestTransaction));
 
+                    // if (duration.asSeconds() > 0) {
+                    //     totalTimeInSeconds = duration.asSeconds();
+                    // }
                     if (duration.asSeconds() > 0) {
-                        totalTimeInSeconds = duration.asSeconds();
-                    }
+                                            totalTimeInSeconds += duration.asSeconds(); // Add total seconds
+                                        }
                 }
             }
         }
@@ -198,9 +248,53 @@ const ReportCard = ({ navigation }) => {
         return totalTimeInSeconds / 60; // Return minutes as a float
     };
 
+    // const calculateTotalTime = (transactions) => {
+    //     let totalTimeInSeconds = 0;
+    
+    //     if (transactions && transactions.length > 0) {
+    //         transactions = sortTransactionsByDate(transactions);
+    
+    //         if (transactions.length === 1) {
+    //             const singleTransaction = transactions[0];
+    //             if (singleTransaction.transactionType === 1 && singleTransaction.transactionDateTime) {
+    //                 const clockInTime = moment(singleTransaction.transactionDateTime);
+    //                 const currentTime = moment();
+    //                 const duration = moment.duration(currentTime.diff(clockInTime));
+    
+    //                 if (duration.asSeconds() > 0) {
+    //                     totalTimeInSeconds += duration.asSeconds();
+    //                 }
+    //             }
+    //         } else {
+    //             const hasBreakOut = transactions.some((tx) => tx.transactionType === 2);
+    
+    //             if (!hasBreakOut) {
+    //                 const earliestTransaction = moment(transactions[0].transactionDateTime);
+    //                 const currentTime = moment();
+    //                 const duration = moment.duration(currentTime.diff(earliestTransaction));
+    
+    //                 if (duration.asSeconds() > 0) {
+    //                     totalTimeInSeconds += duration.asSeconds();
+    //                 }
+    //             } else {
+    //                 const earliestTransaction = moment(transactions[0].transactionDateTime);
+    //                 const latestTransaction = moment(
+    //                     transactions[transactions.length - 1].transactionDateTime
+    //                 );
+    //                 const duration = moment.duration(latestTransaction.diff(earliestTransaction));
+    
+    //                 if (duration.asSeconds() > 0) {
+    //                     totalTimeInSeconds += duration.asSeconds();
+    //                 }
+    //             }
+    //         }
+    //     }
+    
+    //     return totalTimeInSeconds/60; // Return total seconds
+    // };
+   
 
-
-
+   
 
     // const calculateTotalTime = (transactions) => {
     //     let totalTime = 0;
@@ -319,10 +413,10 @@ const ReportCard = ({ navigation }) => {
 
 
 
-                            <View style={styles.greyContainer}>
-                                <View style={styles.profileRow}>
-                                    <Image source={{ uri: userProfile }} style={styles.profileImage} />
-                                    <Text style={styles.userName}>{userName}</Text>
+                            <View >
+                                <View >
+                                    {/* <Image source={{ uri: userProfile }} style={styles.profileImage} /> */}
+                                    {/* <Text style={styles.userName}>{userName}</Text> */}
                                 </View>
                             </View>
 
@@ -333,7 +427,7 @@ const ReportCard = ({ navigation }) => {
                             <View style={styles.rowContainer}>
                                 <Text style={styles.totalHoursText}>{formatTotalWorkingTime(totalWorkingHours)}</Text>
                                 <Text style={styles.dateRange}>
-                                    {moment(startDate).format('DD/MM/YYYY')} - {moment(endDate).format('DD/MM/YYYY')}
+                                    {moment(startDate).format('MM/DD/YYYY')} - {moment(endDate).format('MM/DD/YYYY')}
                                 </Text>
                             </View>
 
@@ -348,7 +442,7 @@ const ReportCard = ({ navigation }) => {
                                 return (
                                     <View key={index} style={styles.timesheetCard}>
                                         <View style={styles.timesheetHeader}>
-                                            <Text style={styles.dateText}>{moment(timesheet.timesheetDate).format('DD/MM/YYYY')}</Text>
+                                            <Text style={styles.dateText}>{moment(timesheet.timesheetDate).format('MM/DD/YYYY')}</Text>
                                             <Text style={styles.dateText}>{formatReportTransactionTime(totalTimeInMinutes)}</Text>
                                         </View>
 

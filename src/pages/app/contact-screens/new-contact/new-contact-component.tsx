@@ -176,7 +176,7 @@ export const CompanyList = ({ item, callBack }: any) => {
 
                 {/* Clock In/Out Times (Trailing Side) */}
                 <View>
-                    {hasTimes ? (
+                    {/* {hasTimes ? (
                         <View>
                             <Text style={styles.clockInText}>In: {clockInTime}</Text>
                             <Text style={styles.clockOutText}>Out: {clockOutTime}</Text>
@@ -186,7 +186,23 @@ export const CompanyList = ({ item, callBack }: any) => {
                             <Text style={styles.noTimes}>--:--</Text>
                             <Text style={styles.noTimes}>--:--</Text>
                         </View>
-                    )}
+                    )} */}
+                   <View>
+    <View>
+        {item.clockInTime ? (
+            <Text style={styles.clockInText}>In: {clockInTime}</Text>
+        ) : (
+            <Text style={styles.noTimes}>In: --:--</Text>
+        )}
+    </View>
+    <View>
+        {item.clockOutTime ? (
+            <Text style={styles.clockOutText}>Out: {clockOutTime}</Text>
+        ) : (
+            <Text style={styles.noTimes}>Out: --:--</Text>
+        )}
+    </View>
+</View>
                 </View>
             </View>
 

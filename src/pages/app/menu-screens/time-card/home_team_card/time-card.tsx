@@ -123,7 +123,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     }, [location]);
     
     const handleAppStateChange = async (nextAppState: AppStateStatus) => {
-        if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        if (appState.current.match(/background/) && nextAppState === 'active') {
             console.log('App has come to the foreground, refreshing data...');
             dispatch({ type: LOADER, payload: true });
     
@@ -367,12 +367,12 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             return (
                 <View style={styles.buttonRowContainer}>
                     <View style={styles.buttonFullWidth}>
-                        <Button disable={false} title='Clock In' callBack={handleClockIn} customBackgroundColor="#FB9411" primary={true} customTextColor='white' />
+                        <Button disable={false} title='Clock in' callBack={handleClockIn} customBackgroundColor="#FB9411" primary={true} customTextColor='white' />
                     </View>
                     <View style={styles.buttonFullWidth}>
                         <Button
                             disable={true}
-                            title={t('Clock Out')}
+                            title={'Clock out'}
                             // callBack={() => handleClockOut()}
                             secondary
                             customBackgroundColor="#FFFFFF"
@@ -395,12 +395,12 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 return (
                     <View style={styles.buttonRowContainer}>
                         <View style={styles.buttonFullWidth}>
-                            <Button disable={false} title={t('ClockIn')} callBack={handleClockIn} primary customBackgroundColor="#2196F3" />
+                            <Button disable={false} title={'Clock in'} callBack={handleClockIn} primary customBackgroundColor="#2196F3" />
                         </View>
                         <View style={styles.buttonFullWidth}>
                             <Button
                                 disable={true}
-                                title={t('Clock Out')}
+                                title={'Clock out'}
                                 // callBack={() => handleClockOut()}
                                 secondary
                                 customBackgroundColor="#FFFFFF"
@@ -418,12 +418,12 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 return (
                     <View style={styles.buttonRowContainer}>
                         <View style={styles.buttonFullWidth}>
-                            <Button disable={false} title={t('BreakOut')} callBack={() => handleBreakOut()} primary customBackgroundColor="#4CAF50" />
+                            <Button disable={false} title={'Break out'} callBack={() => handleBreakOut()} primary customBackgroundColor="#4CAF50" />
                         </View>
                         <View style={styles.buttonFullWidth}>
                             <Button
                                 disable={false}
-                                title={t('ClockOut')}
+                                title={'Clock out'}
                                 // callBack={() => handleClockOut()}
                                 secondary
                                 customBackgroundColor="#FFFFFF"
@@ -441,12 +441,12 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 return (
                     <View style={styles.buttonRowContainer}>
                         <View style={styles.buttonFullWidth}>
-                            <Button disable={false} title={t('BreakIn')} callBack={handleBreakIn} primary customBackgroundColor="#2196F3" />
+                            <Button disable={false} title={'Break in'} callBack={handleBreakIn} primary customBackgroundColor="#2196F3" />
                         </View>
                         <View style={styles.buttonFullWidth}>
                             <Button
                                 disable={false}
-                                title={t('ClockOut')}
+                                title={'Clock out'}
                                 callBack={() => handleClockOut()}
                                 secondary
                                 customBackgroundColor="#FFFFFF"
@@ -477,7 +477,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         value: member.userName || 'Unknown',
         profile: member.userProfile,
         clockInTime: member.clockInTime,
-        clockOutTime: member.clockOutTime,
+        clockOutTime: member.clockOutTime,   
     })) : [];
 
 
@@ -844,7 +844,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     <>
 
                                         <View style={styles.dateContainer}>
-                                            <Text style={styles.date}>{formatDate()}</Text>
+                                            <Text style={styles.date}>{formatDate(currentTimesheet)}</Text>
                                         </View>
 
                                         <View style={styles.timerContainer}>
@@ -918,6 +918,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     onClose={() => setSecondBottomSheetOpen(false)}
                                     onSave={handleDateAndTime}
                                     title="Adjust Break Out Time"
+                                    clockInDate={formatDate(currentTimesheet)}
                                     description="Forgot to break out? Please adjust the date and time if needed"
                                 />
                             }
@@ -927,6 +928,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     isOpen={thirdBottomSheetOpen}
                                     onClose={() => setThirdBottomSheetOpen(false)}
                                     onSave={handleDateAndTime}
+                                    clockInDate={formatDate(currentTimesheet)}
                                     title="Adjust Clock Out Time"
                                     description="Forgot to clock out? Please adjust the date and time if needed"
                                 />

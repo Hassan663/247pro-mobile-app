@@ -182,12 +182,12 @@ const ProfilePage = ({ navigation }) => {
         <View style={styles.rowContainer}>
             <View style={styles.welcomeContainer}>
                 <Text style={styles.welcomeText}>
-                    Hello {currentUserProfile?.name || 'User'}
+                    Hello {currentUserProfile?.name?.split(' ')[0] || 'User'}
                 </Text>
-                <Text style={styles.subText}>Welcome back</Text>
+                <Text style={styles.subText}>Welcome back!</Text>
             </View>
             <TouchableOpacity onPress={handleLogout} style={styles.signOutContainer}>
-                <Text style={styles.signOutText}>Sign Out</Text>
+                <Text style={styles.signOutText}>Sign out</Text>
             </TouchableOpacity>
         </View>
     </View>

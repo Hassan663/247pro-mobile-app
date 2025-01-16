@@ -89,41 +89,77 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
 
   
 
-  const renderOutlinedTextInput = (title: string, value: string | null, onPress: () => void, fieldKey: string) => (
-    <View style={{ position: 'relative' }}>
-      <TouchableOpacity onPress={() => handleFieldFocus(fieldKey)}>
-        <OutlinedTextInput
-          title={title}
-          placeHolder={title}
-          val={value ? new Date(value).toLocaleDateString() : ''}
-          editable={false} // make it non-editable
-          onChange={() => {}} // No onChange needed
-          height={60}
-          onFocus={() => handleFieldFocus(fieldKey)} // Set focus when the input is clicked
-          onBlur={handleBlur} // Handle when the input loses focus
-          autoFocus={false}
-          style={[
-            styles.textInputContainer,
-            // activeField === fieldKey ? styles.inputActive : {}, // Apply orange border when focused
-          ]}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={onPress} // Open calendar modal
+  // const renderOutlinedTextInput = (title: string, value: string | null, onPress: () => void, fieldKey: string) => (
+  //   <View style={{ position: 'relative' }}>
+  //     <TouchableOpacity onPress={() => handleFieldFocus(fieldKey)}>
+  //       <OutlinedTextInput
+  //         title={title}
+  //         placeHolder={title}
+  //         val={value ? new Date(value).toLocaleDateString() : ''}
+  //         editable={false} // make it non-editable
+  //         onChange={() => {}} // No onChange needed
+  //         height={60}
+  //         onFocus={() => handleFieldFocus(fieldKey)} // Set focus when the input is clicked
+  //         onBlur={handleBlur} // Handle when the input loses focus
+  //         autoFocus={false}
+  //         style={[
+  //           styles.textInputContainer,
+  //           // activeField === fieldKey ? styles.inputActive : {}, // Apply orange border when focused
+  //         ]}
+  //       />
+  //     </TouchableOpacity>
+  //     <TouchableOpacity
+  //       onPress={onPress} // Open calendar modal
+  //       style={[
+  //         styles.iconContainer,
+  //         // activeField === fieldKey && styles.iconActive, // Apply focus styling to icon
+  //       ]}
+  //     >
+  //       <Feather
+  //         name="calendar"
+  //         size={20}
+  //         color={activeField === fieldKey ? '#FFA500' : 'grey'} // Change icon color on focus
+  //       />
+  //     </TouchableOpacity>
+  //   </View>
+  // );
+
+
+  const renderOutlinedTextInput = (
+    title: string,
+    value: string | null,
+    onPress: () => void,
+    fieldKey: string
+  ) => (
+    <TouchableOpacity
+      onPress={onPress} // Open the calendar modal
+      activeOpacity={0.8}
+      style={{ marginBottom: 0 }}
+    >
+      <OutlinedTextInput
+        title={title}
+        placeHolder={title}
+        val={value ? new Date(value).toLocaleDateString() : ''}
+        editable={false} // Non-editable
+        onChange={() => {}} // No onChange needed
+        height={60}
+        onFocus={onPress} // Trigger onPress when focused
+        onBlur={handleBlur} // Handle when the input loses focus
+        autoFocus={false}
         style={[
-          styles.iconContainer,
-          // activeField === fieldKey && styles.iconActive, // Apply focus styling to icon
+          styles.textInputContainer,
+          // Apply additional styling if necessary
         ]}
-      >
+      />
+      <View style={styles.iconContainer}>
         <Feather
           name="calendar"
           size={20}
-          color={activeField === fieldKey ? '#FFA500' : 'grey'} // Change icon color on focus
+          color={'grey'} // Calendar icon color
         />
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
-
   const handleStartDateConfirm = () => {
     console.log("Selected Start Date:", tempStartDate);
     setStartDate(tempStartDate); // Set the start date when pressing OK
@@ -316,7 +352,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
                   />
                   <View style={styles.calendarButtons}>
                     <Pressable onPress={() => setShowStartDatePicker(false)}>
-                      <Text style={styles.cancelButtonText}>CANCEL</Text>
+                      <Text style={styles.cancelButtonText}>Cancel</Text>
                     </Pressable>
                     <Pressable onPress={handleStartDateConfirm}>
                       <Text style={styles.okButtonText}>OK</Text>
@@ -350,7 +386,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
                   />
                   <View style={styles.calendarButtons}>
                     <Pressable onPress={() => setShowEndDatePicker(false)}>
-                      <Text style={styles.cancelButtonText}>CANCEL</Text>
+                      <Text style={styles.cancelButtonText}>Cancel</Text>
                     </Pressable>
                     <Pressable onPress={handleEndDateConfirm}>
                       <Text style={styles.okButtonText}>OK</Text>
