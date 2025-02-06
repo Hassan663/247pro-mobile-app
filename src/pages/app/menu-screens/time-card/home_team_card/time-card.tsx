@@ -34,7 +34,7 @@ import { getCurrentTimesheetApi } from '../../../../../core/http-services/apis/a
 import { useLocation } from '../../../../../core/helpers/geo-location/useLocation';
 import { breakInAction, breakOutAction, clockInAction, clockOutAction, getMembersByTimesheetAction, getProjectsByRadiusAction } from '../../../../../store/action/action';
 import { CompanyList, CustomSectionHeader } from '../../../contact-screens/new-contact/new-contact-component';
-import { formatDate, formatTime } from '../call-back';
+import { formatClockInTime, formatDate, formatTime } from '../call-back';
 import { centralStyle } from '../../../../../styles/constant.style';
 import { changeRoute } from '../../../../../core/helpers/async-storage';
 import AppHeader from '../../../../../core/components/app-headers';
@@ -45,15 +45,12 @@ import { Dispatch } from 'redux';
 
 const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route }) => {
     const dispatch: Dispatch<any> = useDispatch();
-
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [intervalId, setIntervalId] = useState<any>(null);
     const { location, areaDetails, error, fetchLocation } = useLocation();
     const [loading, setLoading] = useState(true);
-
     const [startDate, setStartDate] = useState('');
-
     const [endDate, setEndDate] = useState('');
     const { timesheetMembers, } = useSelector((state) => state.root);
     const [currentTimesheet, setCurrentTimesheet] = useState<any>(null);
@@ -62,9 +59,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     const [timesheetData, settimeSheetData] = useState(null);
     const [secondBottomSheetOpen, setSecondBottomSheetOpen] = useState(false);
     const [thirdBottomSheetOpen, setThirdBottomSheetOpen] = useState(false);
-
     const [showDropdown, setShowDropdown] = useState(false);
-
     const loader = useSelector((state: any) => state.root.loader);
     const appState = useRef(AppState.currentState);
 
@@ -178,7 +173,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         try {
             await Promise.all([
             await fetchProjectsByRadius(latitude, longitude),
-                await fetchData(startDate, endDate)
+            await fetchData(startDate, endDate)
             ]);
             //dispatch({ type: LOADER, payload: false });
         } catch (error) {
@@ -277,17 +272,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 return;
             }
 
-            // Handle Break In (TransactionType: 3) & status 10 logic for BottomSheet
-            // const breakInTransaction = timesheetTransactions.find(t => t.transactionType === 3);
-            // if (breakInTransaction && timesheetResponse.status === 10) {
-            //     const breakInTime = moment(breakInTransaction.transactionDateTime);
-            //     const diffInMinutes = currentTime.diff(breakInTime, 'minutes');
-
-            //     if (diffInMinutes > 120) {
-            //         console.log("Opening Break Out BottomSheet");
-            //         setSecondBottomSheetOpen(true);
-            //     }
-            // }
+            
 
             // Get the latest break-in transaction (TransactionType: 3)
             const latestBreakInTransaction = timesheetTransactions
@@ -327,6 +312,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
             // Timer Logic: Calculate the time difference between clock in and current time
             const clockInTransaction = timesheetTransactions.find(t => t.transactionType === 1);
+            
             if (clockInTransaction) {
                 const clockInTime = moment(clockInTransaction.transactionDateTime);
                 const diffInSeconds = currentTime.diff(clockInTime, 'seconds'); // Time difference in seconds
@@ -661,7 +647,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 return;
             }
 
-
+            setTime(0);
+            setIsRunning(false);
             await dispatch(clockOutAction(timesheetDataClockOut));
 
 
@@ -673,8 +660,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
             } else {
                 setCurrentTimesheet(null);
             }
-            setTime(0);
-            setIsRunning(false);
+            
         } catch (error) {
             console.error('Error in handleClockOut:', error);
         } finally {
@@ -765,6 +751,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         }
     };
 
+
+   
 
 
     const handleProjectSelect = async (projectId) => {
@@ -919,6 +907,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     onSave={handleDateAndTime}
                                     title="Adjust Break Out Time"
                                     clockInDate={formatDate(currentTimesheet)}
+                                    clockInTime={formatClockInTime(currentTimesheet)}
                                     description="Forgot to break out? Please adjust the date and time if needed"
                                 />
                             }
@@ -929,6 +918,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     onClose={() => setThirdBottomSheetOpen(false)}
                                     onSave={handleDateAndTime}
                                     clockInDate={formatDate(currentTimesheet)}
+                                    clockInTime={formatClockInTime(currentTimesheet)}
                                     title="Adjust Clock Out Time"
                                     description="Forgot to clock out? Please adjust the date and time if needed"
                                 />

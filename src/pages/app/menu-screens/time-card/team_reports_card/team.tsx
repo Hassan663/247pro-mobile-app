@@ -215,18 +215,18 @@ const Team = ({ navigation, route }) => {
                             />
                         }
 
-                        title={t('Team')}
+                        title={userName}
                     />
 
                     <ScrollView contentContainerStyle={styles.container}>
                         <View>
 
-                            <View style={styles.greyContainer}>
+                            {/* <View style={styles.greyContainer}>
                                 <View style={styles.profileRow}>
                                     <Image source={{ uri: userProfile }} style={styles.profileImage} />
                                     <Text style={styles.userName}>{userName}</Text>
                                 </View>
-                            </View>
+                            </View> */}
 
 
                         </View>
@@ -289,9 +289,14 @@ const Team = ({ navigation, route }) => {
                                 );
                             })
                         ) : (
-                            <View style={styles.noDataContainer}>
-                                <Text style={styles.noDataText}>No timesheet data available .</Text>
-                            </View>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }}>
+                            <Text style={{ alignSelf: 'flex-start', fontSize: 16,  color: Colors.gray }}>
+                                {moment().format('MM/DD/YYYY')}
+                            </Text>
+                            <Text style={{ marginTop: 40, fontSize: 16, textAlign: 'center' }}>
+                                No timesheet available today.
+                            </Text>
+                        </View>
                         )}
 
 

@@ -1,7 +1,7 @@
 
 import moment from 'moment';
 import { min } from 'moment-timezone';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     Text,
     TouchableOpacity,
@@ -15,6 +15,7 @@ import { Calendar } from 'react-native-calendars';
 import { TimePicker } from 'react-native-simple-time-picker';
 import Feather from 'react-native-vector-icons/Feather';
 import Colors from '../../styles/colors';
+import { Toast, useToast } from 'react-native-toast-notifications';
 
 
 
@@ -25,6 +26,7 @@ export type Props = {
   description: string;
   title: string;
   clockInDate: string;
+  clockInTime: string;
 };
 
 const BottomSheetDateTimePicker: React.FC<Props> = ({
@@ -33,7 +35,8 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   onSave,
   description,
   title,
-  clockInDate
+  clockInDate,
+  clockInTime
 }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [tempSelectedDate, setTempSelectedDate] = useState(new Date());
@@ -44,10 +47,49 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   const [tempSelectedHour, setTempSelectedHour] = useState(new Date().getHours());
   const [tempSelectedMinute, setTempSelectedMinute] = useState(new Date().getMinutes());
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);  // To store the error message
   const [activeField, setActiveField] = useState<string | null>(null);
+console.log("the time is ",clockInTime,clockInDate)
+let formattedClockInTime = null;
 
- 
-  const handleSave = () => {
+  // Check if both clockInDate and clockInTime are valid and format them
+  if (clockInDate && clockInTime) {
+    formattedClockInTime = `${clockInDate} ${clockInTime}`;
+    console.log("Formatted Clock In Time:", formattedClockInTime);
+  } else {
+    console.log("Clock In Date or Time is missing!");
+  }
+
+  // Handle invalid or missing DateTime
+  let clockInDateTime = null;
+  if (formattedClockInTime) {
+    clockInDateTime = moment(formattedClockInTime, );
+    if (clockInDateTime.isValid()) {
+      console.log("Clock In DateTime is valid:", clockInDateTime.format());
+    } else {
+      console.log("Clock In DateTime is invalid.",formattedClockInTime,clockInDateTime);
+    }
+  }
+
+  // If clockInDateTime is still invalid, log the issue
+  if (!clockInDateTime || !clockInDateTime.isValid()) {
+    console.log("Invalid or missing Clock In DateTime.");
+  }
+  const calendarRef = useRef(null);
+  const [isPrevMonthDisabled, setPrevMonthDisabled] = useState(false);
+  
+  useEffect(() => {
+    const currentMonth = moment().month();
+    const clockInMonth = moment(clockInDate).month();
+    
+    // Disable the previous month button if we're in the clockInDate month
+    if (currentMonth === clockInMonth) {
+      setPrevMonthDisabled(true);
+    } else {
+      setPrevMonthDisabled(false);
+    }
+  }, [clockInDate]);
+const handleSave = () => {
     const combinedDateTime = moment(selectedDate)
       .hours(selectedHour)
       .minutes(selectedMinute)
@@ -57,23 +99,71 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   };
   // Format time for display
   const getFormattedTime = () => {
-    const hours = tempSelectedHour % 12 || 12; // Convert 24-hour format to 12-hour format
-    const minutes = tempSelectedMinute < 10 ? `0${tempSelectedMinute}` : tempSelectedMinute;
-    const ampm = tempSelectedHour >= 12 ? 'PM' : 'AM'; // Determine AM/PM
-    return `${hours}:${minutes} ${ampm}`;
-};
+    // Use moment to format time correctly
+    const time = moment()
+      .hours(tempSelectedHour)
+      .minutes(tempSelectedMinute);
+    return time.format('hh:mm A'); // Converts to 12-hour format with AM/PM
+  };
+const toast = useToast();
+const formatDateToLocal = (date) => {
+  // Format the date to YYYY-MM-DD in the local timezone
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
+  const parts = formatter.formatToParts(date);
+  const formattedDate = `${parts.find(p => p.type === 'year').value}-${
+    parts.find(p => p.type === 'month').value}-${
+    parts.find(p => p.type === 'day').value}`;
+
+  return formattedDate;
+};
   const handleDateConfirm = () => {
     setSelectedDate(tempSelectedDate);
     setShowDatePicker(false);
   };
 
+  // const handleTimeConfirm = () => {
+  //   setSelectedHour(tempSelectedHour);
+  //   setSelectedMinute(tempSelectedMinute);
+  //   setShowTimePicker(false);
+  // };
+
+  
+
   const handleTimeConfirm = () => {
+    const selectedDateTime = moment(tempSelectedDate)
+      .hours(tempSelectedHour)
+      .minutes(tempSelectedMinute);
+  
+    const normalizedClockInDateTime = moment(clockInDateTime);
+  
+    if (selectedDateTime.isBefore(normalizedClockInDateTime)) {
+      // Set error message when time is invalid
+     
+      setErrorMessage(`Invalid time selected! Please select a time after ${normalizedClockInDateTime.format('YYYY-MM-DD hh:mm A')}`);
+      console.error('Selected time is before the clock-in date and time.');
+      
+      // Reset the selected time to the current time if it's invalid
+      const currentTime = moment();
+      setTempSelectedHour(currentTime.hours());
+      setTempSelectedMinute(currentTime.minutes());
+      
+      return;  // Prevent further logic
+    }
+  
+    // Clear the error message if the time is valid
+    setErrorMessage(null);
+  
+    // Proceed to set the time as normal if valid
     setSelectedHour(tempSelectedHour);
     setSelectedMinute(tempSelectedMinute);
     setShowTimePicker(false);
   };
-  const [ampm, setAmpm] = useState('am'); 
   useEffect(() => {
   if (showTimePicker) {
     setTempSelectedHour(selectedHour || 12); // Default to 12 if no value is set
@@ -84,9 +174,7 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   const handleFocus = (field: string) => {
     setActiveField(field);
   };
-  const handleBlur = () => {
-    setActiveField(null);
-  };
+  
 
   return (
     <Modal
@@ -170,45 +258,7 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
           </TouchableOpacity> */}
         </View>
 
-        {/* Calendar Modal */}
-        {/* {showDatePicker && (
-          <Modal
-            transparent={true}
-            visible={showDatePicker}
-            animationType="fade"
-            onRequestClose={() => setShowDatePicker(false)}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.calendarContainer}>
-                <Text style={styles.calendarTitle}>Select Date</Text>
-                <Calendar
-                  onDayPress={(day) => setTempSelectedDate(new Date(day.dateString))}
-                  markedDates={{
-                    [tempSelectedDate.toISOString().split('T')[0]]: { selected: true, selectedColor: Colors.primary },
-                  }}
-                  minDate={new Date().toISOString().split('T')[0]}
-                  theme={{
-                    textSectionTitleColor: '#000',
-                    dayTextColor: '#000',
-                    selectedDayBackgroundColor: '#FFA500',
-                    selectedDayTextColor: '#fff',
-                  }}
-                />
-                <View style={styles.buttonRow}>
-                  <Pressable onPress={() => setShowDatePicker(false)}>
-                    <Text style={styles.cancelButtonText}>CANCEL</Text>
-                  </Pressable>
-                  <Pressable onPress={handleDateConfirm}>
-                    <Text style={styles.okButtonText}>OK</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </Modal>
-        )}
-         */}
-
-
+        
 {showDatePicker && (
   <Modal
     transparent={true}
@@ -220,25 +270,44 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
       <View style={styles.calendarContainer}>
         <Text style={styles.calendarTitle}>Select Date</Text>
         <Calendar
-          onDayPress={(day) => setTempSelectedDate(new Date(day.dateString))}
+          // Handle date selection
+          onDayPress={(day) => {
+            console.log("Selected Date:", day.dateString); // Debugging
+            setTempSelectedDate(new Date(day.dateString)); // Update tempSelectedDate
+          }}
+          // Mark the selected date dynamically
           markedDates={{
-            [tempSelectedDate.toISOString().split('T')[0]]: { selected: true, selectedColor: Colors.primary },
+            [moment(tempSelectedDate).format('YYYY-MM-DD')]: {
+              selected: true,
+              selectedColor: Colors.primary,
+              selectedTextColor: '#fff', // Text color for the selected date
+            },
           }}
-          minDate={clockInDate.split('T')[0]} // Disable previous dates
+          minDate={moment(clockInDate).format('YYYY-MM-DD')} // Disable dates before the clock-in date
+          initialDate={formatDateToLocal(tempSelectedDate)} // Focus on the selected date initially
           theme={{
-            textSectionTitleColor: '#000',
-            dayTextColor: '#000',
-            selectedDayBackgroundColor: Colors.primary,
-            selectedDayTextColor: '#fff',
-            arrowColor: Colors.primary, // Change arrow color
-            todayTextColor: Colors.primary, // Change current date color
+            textSectionTitleColor: '#000', // Section title color
+            dayTextColor: '#000', // Regular days
+            selectedDayBackgroundColor: Colors.primary, // Selected day background
+            selectedDayTextColor: '#fff', // Selected day text
+            arrowColor: Colors.primary, // Arrow color for navigation
+            todayTextColor: Colors.primary, // Highlight today's date
+            textDisabledColor: '#d9e1e8', // Disabled dates color
           }}
+          
+          // disableMonthChange={true}
         />
         <View style={styles.buttonRow}>
           <Pressable onPress={() => setShowDatePicker(false)}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </Pressable>
-          <Pressable onPress={handleDateConfirm}>
+          <Pressable
+            onPress={() => {
+              console.log("Confirmed Date:", tempSelectedDate.toISOString()); // Debugging
+              handleDateConfirm(tempSelectedDate); // Pass selected date
+              setShowDatePicker(false);
+            }}
+          >
             <Text style={styles.okButtonText}>OK</Text>
           </Pressable>
         </View>
@@ -246,41 +315,8 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
     </View>
   </Modal>
 )}
-
-        {/* Time Picker Modal */}
-        {/* {showTimePicker && (
-          <Modal
-            transparent={true}
-            visible={showTimePicker}
-            animationType="fade"
-            onRequestClose={() => setShowTimePicker(false)}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.timePickerContainer}>
-                <Text style={styles.timePickerTitle}>Select Time</Text>
-                <TimePicker
-                  selectedHours={tempSelectedHour}
-                  selectedMinutes={tempSelectedMinute}
-                  onChange={({ hours, minutes }) => {
-                    setTempSelectedHour(hours);
-                    setTempSelectedMinute(minutes);
-                  }}
-                />
-                <View style={styles.buttonRow}>
-                  <Pressable onPress={() => setShowTimePicker(false)}>
-                    <Text style={styles.cancelButtonText}>CANCEL</Text>
-                  </Pressable>
-                  <Pressable onPress={handleTimeConfirm}>
-                    <Text style={styles.okButtonText}>OK</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </Modal>
-        )}
         
-        */}
-{showTimePicker && (
+        {showTimePicker && (
   <Modal
     transparent={true}
     visible={showTimePicker}
@@ -290,29 +326,35 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
     <View style={styles.centeredView}>
       <View style={styles.timePickerContainer}>
         <Text style={styles.timePickerTitle}>Select Time</Text>
+        
+        {/* Display error message if there's any */}
+        {errorMessage && (
+          <Text style={styles.errorText}>{errorMessage}</Text>  // Error text style
+        )}
+
         <TimePicker
-  value={{
-    hours: tempSelectedHour % 12 || 12, // Convert 24-hour to 12-hour format for display
-    minutes: tempSelectedMinute,
-    seconds: 0,
-  }}
-  isAmpm={true} // Enable AM/PM toggle
-  onChange={({ hours, minutes, ampm }) => {
-    let updatedHours = hours;
-  
-    if (ampm === 'pm' && hours < 12) {
-      updatedHours = hours + 12; // Convert PM to 24-hour format
-    } else if (ampm === 'am' && hours === 12) {
-      updatedHours = 0; // Convert 12 AM to midnight
-    }
-  
-    setTempSelectedHour(updatedHours); 
-    setTempSelectedMinute(minutes);
-  
-    // Ensure ampm is a string before updating state
-    setAmpm(ampm as string); // Fallback to 'am' if undefined
-  }}
-/>
+          value={{
+            hours: (tempSelectedHour % 12) || 12, // Convert 24-hour to 12-hour format
+            minutes: tempSelectedMinute,
+            seconds: 0,
+            ampm: tempSelectedHour >= 12 ? 'pm' : 'am',
+          }}
+          isAmpm={true} // Enable AM/PM toggle
+          onChange={({ hours, minutes, ampm }) => {
+            let updatedHours = Number(hours); // Ensure hours is treated as a number
+
+            // Convert to 24-hour format
+            if (ampm === 'pm' && updatedHours < 12) {
+              updatedHours += 12; // Add 12 for PM
+            } else if (ampm === 'am' && updatedHours === 12) {
+              updatedHours = 0; // Set to 0 for midnight
+            }
+
+            // Update state
+            setTempSelectedHour(updatedHours); // Keep in 24-hour format
+            setTempSelectedMinute(minutes);
+          }}
+        />
         <View style={styles.buttonRow}>
           <Pressable onPress={() => setShowTimePicker(false)}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
@@ -353,7 +395,7 @@ const styles = StyleSheet.create({
     color:'#000',
     marginBottom: 16,
 
-    marginTop: 20,
+    // marginTop: 20,
     fontWeight: '400',
   },
   inputContainer: {
@@ -380,7 +422,7 @@ const styles = StyleSheet.create({
   okButtonText: {
     color: '#FFA500',
     fontSize: 16,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     marginLeft: 30,
   },
   labelContainer: {
@@ -444,6 +486,13 @@ const styles = StyleSheet.create({
         padding: 20,
         width: '80%',
         alignSelf: 'center',
+    },
+    errorText: {
+      color: 'red',
+      fontSize: 14,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      textAlign: 'center',
     },
     calendarTitle: {
         fontSize: 16,

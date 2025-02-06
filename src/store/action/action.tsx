@@ -847,7 +847,7 @@ export const clockInAction = (
 
             // Handle the successful response
             if (response) {
-                await AsyncStorage.setItem('clockInData', JSON.stringify(response)); // Optional storage
+                //await AsyncStorage.setItem('clockInData', JSON.stringify(response)); // Optional storage
                 dispatch({ type: CLOCKIN_SUCCESS, payload: response });
             }
 

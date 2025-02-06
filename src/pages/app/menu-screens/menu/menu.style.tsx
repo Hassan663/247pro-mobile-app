@@ -192,10 +192,10 @@ export const styles = StyleSheet.create({
     },
     featureImage: {
         position: 'absolute',
-        bottom: 10,
+        // bottom: 10,
         right: 10,
         width: 150,
-        height: 170,
+        height: 180,
     },
     featureImage1: {
         position: 'absolute',

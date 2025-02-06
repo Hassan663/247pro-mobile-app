@@ -184,94 +184,7 @@ const FilterBottomSheet: React.FC<FilterBottomSheetProps> = ({
     console.log("Monthly date range:", startOfCurrentMonth, endOfCurrentMonth);
   };
 
-  // <Modal visible={isVisible} transparent={true} onRequestClose={onClose}>
-  // <Pressable style={styles.modalBackground} onPress={onClose}>
-  //   <Pressable style={styles.bottomSheet} onPress={() => {}}>
-  //       <Text style={styles.title}>Filter date range</Text>
-
-  //       {/* Radio Buttons */}
-  //       <View style={styles.radioButtonColumn}>
-  //         <TouchableOpacity
-  //           activeOpacity={0.9}
-  //           onPress={handleMonthlySelection}
-  //           style={styles.radioWrapper}
-  //         >
-  //           <Fontisto
-  //             name={filterOption !== 'monthly' ? 'radio-btn-passive' : 'radio-btn-active'}
-  //             style={styles.radioIcon}
-  //             color={filterOption === 'monthly' ? '#FFA500' : '#666'}
-  //             size={22}
-  //           />
-  //           <Text style={styles.radioText}>By monthly</Text>
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity
-  //           activeOpacity={0.9}
-  //           onPress={() => handleCustomSelection()}
-  //           style={styles.radioWrapper}
-  //         >
-  //           <Fontisto
-  //             name={filterOption !== 'custom' ? 'radio-btn-passive' : 'radio-btn-active'}
-  //             style={styles.radioIcon}
-  //             color={filterOption === 'custom' ? '#FFA500' : '#666'}
-  //             size={22}
-  //           />
-  //           <Text style={styles.radioText}>Custom date range</Text>
-  //         </TouchableOpacity>
-  //       </View>
-
-  //       {/* Custom Date Range Input Fields */}
-  //       {filterOption === 'custom' && (
-  //         <>
-  //           {renderOutlinedTextInput('Date from', startDate, () => setShowStartDatePicker(true), 'startDate')}
-
-  //           {renderOutlinedTextInput('Date to', endDate, () => {
-  //             if (startDate) setShowEndDatePicker(true);
-  //           }, 'endDate')}
-  //         </>
-  //       )}
-
-  //       {/* Apply Filter Button */}
-  //       <TouchableOpacity style={styles.applyButton} onPress={handleApply}>
-  //         <Text style={styles.applyButtonText}> Apply</Text>
-  //       </TouchableOpacity>
-
-  //       {/* <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-  //         <Text style={styles.cancelButtonText}>Cancel</Text>
-  //       </TouchableOpacity> */}
-
-  //       {/* Start Date Picker */}
-  //       {showStartDatePicker && (
-  //         <Modal
-  //           visible={showStartDatePicker}
-  //           animationType="fade"
-  //           transparent={true}
-  //           onRequestClose={() => setShowStartDatePicker(false)}
-  //         >
-  //           <View style={styles.calendarModal}>
-  //             <View style={styles.calendarContainer}>
-  //               <Text style={styles.calendarTitle}>Select Start Date</Text>
-  //               <Calendar
-  //                 onDayPress={(day) => setTempStartDate(day.dateString)} // Store temp start date
-  //                 markedDates={{
-  //                   [moment(tempStartDate).format('YYYY-MM-DD')]: { selected: true, selectedColor: '#FFA500' },
-                   
-  //                 }}
-  //                 theme={calendarTheme}
-  //                 style={styles.calendarStyle}
-  //               />
-  //               <View style={styles.calendarButtons}>
-  //                 <Pressable onPress={() => setShowStartDatePicker(false)}>
-  //                   <Text style={styles.cancelButtonText}>CANCEL</Text>
-  //                 </Pressable>
-  //                 <Pressable onPress={handleStartDateConfirm}>
-  //                   <Text style={styles.okButtonText}>OK</Text>
-  //                 </Pressable>
-  //               </View>
-  //             </View>
-  //           </View>
-  //         </Modal>
-  //       )}
+  
 
   return (
     <Modal visible={isVisible} transparent={true} onRequestClose={onClose}>
@@ -511,7 +424,7 @@ const styles = StyleSheet.create({
   okButtonText: {
     color: '#FFA500',
     fontSize: 16,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     marginLeft: 30,
   },
 });

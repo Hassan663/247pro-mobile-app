@@ -179,7 +179,7 @@ const ReportCard = ({ navigation }) => {
                 const totalHours = totalSeconds / 3600; // Keep precise hours
                 console.log("Total Time in Hours (Unrounded):", totalHours);
     
-                setTotalWorkingHours(totalHours.toFixed(2)); // Display with two decimal places
+                setTotalWorkingHours(totalHours); // Display with two decimal places
             } else {
                 console.warn("No timesheet data found for the given range.");
                 setTimesheetData([]);
@@ -436,48 +436,72 @@ const ReportCard = ({ navigation }) => {
                         </View>
 
                         {timesheetData && timesheetData.length > 0 ? (
-                            timesheetData.map((timesheet, index) => {
-                                const totalTimeInMinutes = calculateTotalTime(timesheet.timesheetTransactions);
-                                const sortedTransactions = sortTransactionsByDate(timesheet.timesheetTransactions);
-                                return (
-                                    <View key={index} style={styles.timesheetCard}>
-                                        <View style={styles.timesheetHeader}>
-                                            <Text style={styles.dateText}>{moment(timesheet.timesheetDate).format('MM/DD/YYYY')}</Text>
-                                            <Text style={styles.dateText}>{formatReportTransactionTime(totalTimeInMinutes)}</Text>
-                                        </View>
+    timesheetData.map((timesheet, index) => {
+        const totalTimeInMinutes = calculateTotalTime(timesheet.timesheetTransactions);
+        const sortedTransactions = sortTransactionsByDate(timesheet.timesheetTransactions);
 
-                                        {sortedTransactions.map((transaction, idx) => {
-                                            const { action, color } = getTransactionDetails(transaction.transactionType);
-                                            const isLastTransaction = idx === sortedTransactions.length - 1; // Check if this is the last transaction
-                                            const hideLine = isLastTransaction && transaction.transactionType === 2;
-                                            return (
-                                                <View key={idx} style={styles.transactionRow}>
-                                                    <View style={styles.verticalLineContainer}>
-                                                        <View style={[styles.circle, { backgroundColor: color }]} />
-                                                        {/* Conditional rendering for the vertical line */}
-                                                        {!hideLine && <View style={styles.verticalLine} />}
-                                                    </View>
-                                                    <View style={styles.transactionDetails}>
-                                                        <View style={styles.transactionDetailsRow}>
-                                                            <Text style={styles.actionText}>{action}</Text>
-                                                            <Text style={styles.timeText}>{moment(transaction.transactionDateTime).format('hh:mm A')}</Text>
-                                                        </View>
-                                                        <Text style={styles.addressText}>{transaction.address}</Text>
+        return (
+            <View key={index} style={styles.timesheetCard}>
+                <View style={styles.timesheetHeader}>
+                    <Text style={styles.dateText}>{moment(timesheet.timesheetDate).format('MM/DD/YYYY')}</Text>
+                    <Text style={styles.dateText}>{formatReportTransactionTime(totalTimeInMinutes)}</Text>
+                </View>
 
+                {sortedTransactions.map((transaction, idx) => {
+                    const { action, color } = getTransactionDetails(transaction.transactionType);
+                    const isLastTransaction = idx === sortedTransactions.length - 1;
+                    const hideLine = isLastTransaction && transaction.transactionType === 2;
 
-
-                                                        <Text >{ }</Text>
-                                                    </View>
-                                                </View>
-                                            );
-                                        })}
-                                    </View>
-                                );
-                            })
-                        ) : (
-                            <Text>No timesheet data available for the selected date range.</Text>
-                        )
+                    // Determine if clock-in (transactionType === 1) and clock-out (transactionType === 2) dates are different
+                    let formattedDateTime = moment(transaction.transactionDateTime).format('hh:mm A');
+                    if (transaction.transactionType === 1) { // Clock-in logic
+                        // Find the corresponding clock-out transaction
+                        const nextTransaction = sortedTransactions[idx + 1];
+                        if (
+                            nextTransaction &&
+                            nextTransaction.transactionType === 2 &&
+                            moment(transaction.transactionDateTime).format('MM/DD/YYYY') !==
+                                moment(nextTransaction.transactionDateTime).format('MM/DD/YYYY')
+                        ) {
+                            // Add date if clock-in and clock-out are on different days
+                            formattedDateTime = `${moment(transaction.transactionDateTime).format('MM/DD/YYYY hh:mm A')}`;
                         }
+                    }
+                    if (transaction.transactionType === 2) { // Clock-Out Logic
+                        const prevTransaction = sortedTransactions[idx - 1];
+                
+                        if (
+                            prevTransaction &&
+                            prevTransaction.transactionType === 1 && // Checking for Clock-In
+                            moment(transaction.transactionDateTime).format('MM/DD/YYYY') !== moment(prevTransaction.transactionDateTime).format('MM/DD/YYYY')
+                        ) {
+                            // Add date to Clock-Out if Clock-In was on a different day
+                            formattedDateTime = `${moment(transaction.transactionDateTime).format('MM/DD/YYYY hh:mm A')}`;
+                        }
+                    }
+
+                    return (
+                        <View key={idx} style={styles.transactionRow}>
+                            <View style={styles.verticalLineContainer}>
+                                <View style={[styles.circle, { backgroundColor: color }]} />
+                                {!hideLine && <View style={styles.verticalLine} />}
+                            </View>
+                            <View style={styles.transactionDetails}>
+                                <View style={styles.transactionDetailsRow}>
+                                    <Text style={styles.actionText}>{action}</Text>
+                                    <Text style={styles.timeText}>{formattedDateTime}</Text>
+                                </View>
+                                <Text style={styles.addressText}>{transaction.address}</Text>
+                            </View>
+                        </View>
+                    );
+                })}
+            </View>
+        );
+    })
+) : (
+    <Text>No timesheet data available for the selected date range.</Text>
+)}
 
 
                         {/* <FilterBottomSheet

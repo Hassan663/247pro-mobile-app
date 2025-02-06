@@ -72,6 +72,7 @@ export const styles = StyleSheet.create({
   actionText: {
     fontSize: 18,
     fontWeight: '400',
+    
     color: Colors.black,
   },
   timeText: {
@@ -84,6 +85,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.gray,
     marginTop: 10,
+    marginBottom: 15,
     fontWeight:'400'
   },
   greyContainer: {

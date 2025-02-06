@@ -44,11 +44,9 @@
 //   const errorMsg = useSelector((state: any) => state.root.errorMsg);
 //   const errorTitle = useSelector((state: any) => state.root.errorTitle);
 
-
 //   const handleFocus = () => { setIsActive(true) }
 
 //   const handleBlur = () => { setIsActive(false) }
-
 
 //   useEffect(() => {
 //     setInputVal(val ? val : '')
@@ -69,7 +67,7 @@
 //           {!Password ?
 //             <TextInput
 //             selectionColor={'orange'}
-            
+
 //               placeholder={isActive ? '' : placeHolder}
 //               value={inputVal}
 //               autoFocus={autoFocus ? true : false}
@@ -147,12 +145,7 @@
 // };
 
 // export default memo(OutlinedTextInput);
-import React, {
-  memo,
-  useState,
-  useEffect,
-  forwardRef,
-} from 'react';
+import React, {memo, useState, useEffect, forwardRef} from 'react';
 import {
   View,
   TextInput,
@@ -161,13 +154,13 @@ import {
   KeyboardTypeOptions,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
 
-import { styles } from './index.style';
+import {styles} from './index.style';
 import Colors from '../../styles/colors';
-import { platform } from '../../utilities';
-import { windowHeight } from '../../styles/constant.style';
-import { useSelector } from 'react-redux';
+import {platform} from '../../utilities';
+import {windowHeight} from '../../styles/constant.style';
+import {useSelector} from 'react-redux';
 
 interface OutlinedTextInputProps {
   title?: string;
@@ -187,7 +180,25 @@ interface OutlinedTextInputProps {
 }
 
 const OutlinedTextInput = forwardRef<TextInput, OutlinedTextInputProps>(
-  ({ title, maxLength, height, disableValidation, errorLine, editable, val, autoFocus, keyboardType, placeHolder, lines, multiLine, Password, onChange }, ref) => {
+  (
+    {
+      title,
+      maxLength,
+      height,
+      disableValidation,
+      errorLine,
+      editable,
+      val,
+      autoFocus,
+      keyboardType,
+      placeHolder,
+      lines,
+      multiLine,
+      Password,
+      onChange,
+    },
+    ref,
+  ) => {
     const [open, setOpen] = useState(true);
     const [isActive, setIsActive] = useState(false);
     const [inputVal, setInputVal] = useState(val ? val : '');
@@ -211,9 +222,15 @@ const OutlinedTextInput = forwardRef<TextInput, OutlinedTextInputProps>(
       <>
         <View style={styles.inputContainer(height)}>
           {inputVal?.length && inputVal?.length > 0 ? (
-            <Text style={styles.inputtitle(isActive, inputVal, errorLine)}>{title}</Text>
+            <Text style={styles.inputtitle(isActive, inputVal, errorLine)}>
+              {title}
+            </Text>
           ) : (
-            isActive && <Text style={styles.inputtitle(isActive, inputVal, errorLine)}>{title}</Text>
+            isActive && (
+              <Text style={styles.inputtitle(isActive, inputVal, errorLine)}>
+                {title}
+              </Text>
+            )
           )}
           <View style={styles.textInputContainer(isActive)}>
             {!Password ? (
@@ -231,19 +248,35 @@ const OutlinedTextInput = forwardRef<TextInput, OutlinedTextInputProps>(
                 keyboardType={keyboardType ? keyboardType : 'default'}
                 maxLength={maxLength ? maxLength : undefined}
                 onBlur={handleBlur}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   setInputVal(text);
                   if (onChange) {
                     onChange(text);
                   }
                 }}
                 style={[
-                  styles.input(false, isActive, inputVal, errorLine, errorTitle, title, disableValidation),
+                  styles.input(
+                    false,
+                    isActive,
+                    inputVal,
+                    errorLine,
+                    errorTitle,
+                    title,
+                    disableValidation,
+                  ),
                 ]}
               />
             ) : (
-              <View style={styles.passwordContainer(isActive, inputVal, errorLine, errorTitle, title, disableValidation)}>
-                <View style={{ flex: 9 }}>
+              <View
+                style={styles.passwordContainer(
+                  isActive,
+                  inputVal,
+                  errorLine,
+                  errorTitle,
+                  title,
+                  disableValidation,
+                )}>
+                <View style={{flex: 9}}>
                   <TextInput
                     ref={ref} // Add ref here
                     selectionColor={'orange'}
@@ -256,7 +289,7 @@ const OutlinedTextInput = forwardRef<TextInput, OutlinedTextInputProps>(
                     keyboardType={keyboardType ? keyboardType : 'default'}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    onChangeText={(text) => {
+                    onChangeText={text => {
                       setInputVal(text);
                       if (onChange) {
                         onChange(text);
@@ -271,8 +304,18 @@ const OutlinedTextInput = forwardRef<TextInput, OutlinedTextInputProps>(
                   onPress={() => setOpen(!open)}
                   style={styles.eyeContainer}>
                   <Feather
-                    color={isActive ? Colors.black : inputVal.length > 0 ? Colors.black : Colors.lightGrey}
-                    size={platform === 'ios' ? RFPercentage(2.2) : RFValue(20, windowHeight)}
+                    color={
+                      isActive
+                        ? Colors.black
+                        : inputVal.length > 0
+                        ? Colors.black
+                        : Colors.lightGrey
+                    }
+                    size={
+                      platform === 'ios'
+                        ? RFPercentage(2.2)
+                        : RFValue(20, windowHeight)
+                    }
                     name={open ? 'eye-off' : 'eye'}
                   />
                 </TouchableOpacity>
@@ -307,7 +350,7 @@ const OutlinedTextInput = forwardRef<TextInput, OutlinedTextInputProps>(
         )}
       </>
     );
-  }
+  },
 );
 
 export default memo(OutlinedTextInput);

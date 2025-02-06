@@ -263,7 +263,7 @@ const Menu = ({ navigation }) => {
                         if (item.name === 'Timecard') {
                             navigation.navigate('Timecard');
                         } else if (item.name === 'Contact') {
-                            navigation.navigate('Contact');
+                            // navigation.navigate('Contact');
                         } else {
                             console.log("No navigation set for:", item.name);
                         }

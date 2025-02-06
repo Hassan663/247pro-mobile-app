@@ -194,9 +194,9 @@ export const useLocation = () => {
 const formattedAddress = [
   streetNumber,
   route,
-  neighborhood,
+  neighborhood? `${neighborhood},` : "",,
   locality,
-  adminAreaLevel2,
+  // adminAreaLevel2,
   adminAreaLevel1? `${adminAreaLevel1},` : "",
   postalCode ? `${postalCode},` : "", // Add a comma after postalCode if it exists
   country ? `${country}` : "",      // Add a comma after country if it exists

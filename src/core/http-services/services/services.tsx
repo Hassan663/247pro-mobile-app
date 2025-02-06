@@ -114,7 +114,7 @@ const postApi = async <TReq, TRes>(
     console.log("response from service file:", response);
     return response;
   } catch (error: any) {
-    console.log("API error:", error);
+    console.log("API error:", error.response);
 
     // Handle 401 Unauthorized
     if (error.response && error.response.status === 401) {
