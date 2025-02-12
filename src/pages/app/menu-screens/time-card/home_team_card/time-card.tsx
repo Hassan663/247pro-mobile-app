@@ -34,7 +34,7 @@ import { getCurrentTimesheetApi } from '../../../../../core/http-services/apis/a
 import { useLocation } from '../../../../../core/helpers/geo-location/useLocation';
 import { breakInAction, breakOutAction, clockInAction, clockOutAction, getMembersByTimesheetAction, getProjectsByRadiusAction } from '../../../../../store/action/action';
 import { CompanyList, CustomSectionHeader } from '../../../contact-screens/new-contact/new-contact-component';
-import { formatClockInTime, formatDate, formatTime } from '../call-back';
+import { formatBreakInDate, formatBreakInTime, formatClockInTime, formatDate, formatTime } from '../call-back';
 import { centralStyle } from '../../../../../styles/constant.style';
 import { changeRoute } from '../../../../../core/helpers/async-storage';
 import AppHeader from '../../../../../core/components/app-headers';
@@ -65,44 +65,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
 
 
-    // useEffect(() => {
-    //     dispatch({ type: LOADER, payload: true });
-    //     const initializeData = async () => {
-
-    //         try {
-    //             dispatch({ type: LOADER, payload: true });
-
-    //             if (location?.latitude && location?.longitude && areaDetails) {
-    //                 console.log('Location:', location.latitude, location.longitude);
-    //                 console.log('Location:', location);
-    //                 console.log('Area Details in timecaed:', areaDetails);
-    //             } else {
-    //                 console.warn('Location details are missing or incomplete.');
-    //                 return;
-    //             }
-
-    //             const startDateFormatted = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-    //             const endDateFormatted = moment().endOf('day').format('YYYY-MM-DDTHH:mm:ssZ');
-
-    //             console.log("Start Date (0 hour):", startDateFormatted);
-    //             console.log("End Date (24 hour):", endDateFormatted);
-
-    //             setStartDate(startDateFormatted);
-    //             setEndDate(endDateFormatted);
-
-    //             await fetchDataAndProjects(location.latitude, location.longitude, startDateFormatted, endDateFormatted);
-    //         } catch (error) {
-    //             console.error('Error initializing data:', error);
-    //         } finally {
-    //             dispatch({ type: LOADER, payload: false }); ;
-    //         }
-    //     };
-
-    //     // Only call initializeData if location is available
-    //     if (location) {
-    //         initializeData();
-    //     }
-    // }, [location]);
+   
 
     useEffect(() => {
         const subscription = AppState.addEventListener('change', handleAppStateChange);
@@ -467,9 +430,14 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
     })) : [];
 
 
+    // const getCurrentDateInMicrosoftFormat = () => {
+    //     return moment().format('YYYY-MM-DDTHH:mm:ssZ');
+    // };
+
     const getCurrentDateInMicrosoftFormat = () => {
-        return moment().format('YYYY-MM-DDTHH:mm:ssZ');
+        return moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
     };
+    
 
     const handleDateAndTime = (selectedDateTime) => {
         console.log("Selected DateTime:", selectedDateTime);
@@ -649,6 +617,7 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
 
             setTime(0);
             setIsRunning(false);
+            clearInterval(intervalId); 
             await dispatch(clockOutAction(timesheetDataClockOut));
 
 
@@ -659,6 +628,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                 setCurrentTimesheet(timesheetResponse.data);
             } else {
                 setCurrentTimesheet(null);
+                setTime(0);
+                setIsRunning(false);
             }
             
         } catch (error) {
@@ -679,126 +650,213 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
         changeRoute(navigation, "ReportCard")
     };
 
+    // const handleClockIn = async () => {
+    //     dispatch({ type: LOADER, payload: true });;  // Start loading immediately at the beginning
+    //     try {
+    //         console.log("setting loading in handleClock at start", loading);
+
+    //         const currentDate = getCurrentDateInMicrosoftFormat();
+    //         let newTimesheetData = null;
+
+    //         // Validate location and areaDetails before constructing timesheet data
+    //         if (!location?.latitude || !location?.longitude || !areaDetails) {
+    //             throw new Error("Location or area details are missing.");
+    //         }
+
+    //         // Check if currentTimesheet is valid and contains transactions
+    //         if (currentTimesheet && currentTimesheet.timesheetTransactions && currentTimesheet.timesheetTransactions[0]) {
+    //             newTimesheetData = {
+    //                 id: '00000000-0000-0000-0000-000000000000',
+    //                 transactionType: 1, // Clock In
+    //                 transactionDateTime: currentDate,
+    //                 latitude: location.latitude,
+    //                 longitude: location.longitude,
+    //                 address: areaDetails
+    //             };
+    //         }
+    //         // Handle case where currentTimesheet is missing or invalid
+    //         else if (!currentTimesheet || (currentTimesheet.statusCode === 203 || currentTimesheet.statusCode === 204)) {
+    //             console.log("Timesheet is either missing or has a status code of 203 or 204");
+
+    //             newTimesheetData = {
+    //                 id: '00000000-0000-0000-0000-000000000000',
+    //                 transactionType: 1, // Clock In
+    //                 transactionDateTime: moment().format('YYYY-MM-DDTHH:mm:ssZ'),
+    //                 latitude: location.latitude,
+    //                 longitude: location.longitude,
+    //                 address: areaDetails
+    //             };
+
+    //             // This is a backup setting to ensure timesheet data is available for later use
+    //             settimeSheetData(newTimesheetData);
+    //         } else {
+    //             throw new Error("Current timesheet is invalid or missing required data.");
+    //         }
+
+    //         // Ensure required fields are present in the timesheet data
+    //         if (!newTimesheetData.transactionDateTime) {
+    //             console.error("Required timesheet data is missing.");
+    //             return; // Return here; loading will be stopped in `finally` below
+    //         }
+
+    //         settimeSheetData(newTimesheetData); // Update the state with the newly constructed data
+
+    //         // Check if currentProjects is defined and has valid length
+    //         if (currentProjects.length === 1) {
+    //             // Automatically select the first project if there's only one
+    //             await handleProjectSelect(currentProjects[0].id); // Pass the selected project ID directly
+    //         } else if (currentProjects.length > 1) {
+    //             // Open bottom sheet if more than one project is available
+    //             setBottomSheetOpen(true);
+
+    //         } else {
+    //             // Handle case when no project is available (pass null)
+    //             await handleProjectSelect(null);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error in handleClockIn:', error);
+    //     } finally {
+    //         // Stop loading in all cases after the logic completes
+    //         dispatch({ type: LOADER, payload: false });;
+    //         console.log("setting loading in handleClock at end", loading);
+    //     }
+    // };
+
+
     const handleClockIn = async () => {
-        dispatch({ type: LOADER, payload: true });;  // Start loading immediately at the beginning
+        dispatch({ type: LOADER, payload: true }); // Start loading
         try {
-            console.log("setting loading in handleClock at start", loading);
-
-            const currentDate = getCurrentDateInMicrosoftFormat();
-            let newTimesheetData = null;
-
-            // Validate location and areaDetails before constructing timesheet data
-            if (!location?.latitude || !location?.longitude || !areaDetails) {
-                throw new Error("Location or area details are missing.");
-            }
-
-            // Check if currentTimesheet is valid and contains transactions
-            if (currentTimesheet && currentTimesheet.timesheetTransactions && currentTimesheet.timesheetTransactions[0]) {
-                newTimesheetData = {
-                    id: '00000000-0000-0000-0000-000000000000',
-                    transactionType: 1, // Clock In
-                    transactionDateTime: currentDate,
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    address: areaDetails
-                };
-            }
-            // Handle case where currentTimesheet is missing or invalid
-            else if (!currentTimesheet || (currentTimesheet.statusCode === 203 || currentTimesheet.statusCode === 204)) {
-                console.log("Timesheet is either missing or has a status code of 203 or 204");
-
-                newTimesheetData = {
-                    id: '00000000-0000-0000-0000-000000000000',
-                    transactionType: 1, // Clock In
-                    transactionDateTime: currentDate,
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    address: areaDetails
-                };
-
-                // This is a backup setting to ensure timesheet data is available for later use
-                settimeSheetData(newTimesheetData);
-            } else {
-                throw new Error("Current timesheet is invalid or missing required data.");
-            }
-
-            // Ensure required fields are present in the timesheet data
-            if (!newTimesheetData.transactionDateTime) {
-                console.error("Required timesheet data is missing.");
-                return; // Return here; loading will be stopped in `finally` below
-            }
-
-            settimeSheetData(newTimesheetData); // Update the state with the newly constructed data
-
-            // Check if currentProjects is defined and has valid length
-            if (currentProjects.length === 1) {
-                // Automatically select the first project if there's only one
-                await handleProjectSelect(currentProjects[0].id); // Pass the selected project ID directly
-            } else if (currentProjects.length > 1) {
-                // Open bottom sheet if more than one project is available
-                setBottomSheetOpen(true);
-
-            } else {
-                // Handle case when no project is available (pass null)
-                await handleProjectSelect(null);
-            }
+          console.log("Starting Clock In process...");
+      
+          // Dynamically calculate the current date and time
+          const currentDate = getCurrentDateInMicrosoftFormat();
+      
+          console.log("Current Date for Clock In:", currentDate);
+      
+          // Validate location and areaDetails
+          if (!location?.latitude || !location?.longitude || !areaDetails) {
+            throw new Error("Location or area details are missing.");
+          }
+      
+          // Construct new timesheet data dynamically
+          const newTimesheetData = {
+            id: "00000000-0000-0000-0000-000000000000",
+            transactionType: 1, // Clock In
+            transactionDateTime: currentDate, // Current timestamp
+            latitude: location.latitude,
+            longitude: location.longitude,
+            address: areaDetails,
+          };
+      
+          console.log("Constructed Timesheet Data:", newTimesheetData);
+      
+          // Handle project selection logic
+          if (currentProjects.length === 1) {
+            // Automatically select the first project and call clockInAction
+            await handleProjectSelect(currentProjects[0].id, newTimesheetData);
+          } else if (currentProjects.length > 1) {
+            // Show the bottom sheet if multiple projects exist
+            setBottomSheetOpen(true);
+          } else {
+            // Proceed with clock-in without a project
+            await handleProjectSelect(null, newTimesheetData);
+          }
         } catch (error) {
-            console.error('Error in handleClockIn:', error);
+          console.error("Error in handleClockIn:", error.message || error);
         } finally {
-            // Stop loading in all cases after the logic completes
-            dispatch({ type: LOADER, payload: false });;
-            console.log("setting loading in handleClock at end", loading);
+          dispatch({ type: LOADER, payload: false }); // Stop loading
+          console.log("Clock In process completed.");
         }
-    };
+      };
 
-
-   
-
-
-    const handleProjectSelect = async (projectId) => {
-        dispatch({ type: LOADER, payload: true });; // Start loading at the beginning
+      const handleProjectSelect = async (projectId: number | null, timesheetData: TimesheetTransactionViewModel) => {
+        dispatch({ type: LOADER, payload: true }); // Start loading
         try {
-            setBottomSheetOpen(false);
-            console.log("Project selection started with:", timesheetData, projectId);
-
-            const currentDate = getCurrentDateInMicrosoftFormat();
-
-            // Ensure timesheetData is available before proceeding
-            if (!timesheetData) {
-                throw new Error('Timesheet data is missing.');
-            }
-
-            // Set projectId to null if it is not provided
-            const selectedProjectId = projectId || null;
-
-            // Dispatch clockInAction with the selected project ID (or null)
-            await dispatch(clockInAction(timesheetData, currentDate, selectedProjectId));
-            const timesheetResponse = await dispatch(getCurrentTimesheetApi());
-
-            // Ensure fetchData completes before making further updates
-            fetchData(startDate, endDate);
-            // Fetch the updated timesheet after clock-in
-
-
-            // Check the response and update the state accordingly
-            if (timesheetResponse?.data && timesheetResponse?.statusCode === 200) {
-
-                setCurrentTimesheet(timesheetResponse.data);
-                setTime(0);
-                setIsRunning(true);
-                // Close the bottom sheet
-            } else {
-                console.warn("No valid timesheet found or unexpected response status.");
-                setCurrentTimesheet(null); // Handle case where no timesheet is returned
-            }
-
+          setBottomSheetOpen(false); // Close the bottom sheet if open
+      
+          console.log("Project selection started with projectId:", projectId);
+      
+          // Dynamically calculate the current date and time
+          const currentDate = getCurrentDateInMicrosoftFormat();
+      
+          console.log("Current Date for Project Selection:", currentDate);
+      
+          // Ensure timesheetData includes the latest `transactionDateTime`
+          const updatedTimesheetData = {
+            ...timesheetData,
+            transactionDateTime: currentDate, // Ensure the timestamp is updated dynamically
+          };
+      
+          console.log("Updated Timesheet Data for Clock In:", updatedTimesheetData);
+      
+          // Call the clockInAction with updated timesheet data and projectId
+          await dispatch(clockInAction(updatedTimesheetData, currentDate, projectId));
+      
+          // Fetch the updated timesheet after clock-in
+          const timesheetResponse = await dispatch(getCurrentTimesheetApi());
+      
+          if (timesheetResponse?.data && timesheetResponse?.statusCode === 200) {
+            setCurrentTimesheet(timesheetResponse.data);
+            setIsRunning(true); // Start the timer
+          } else {
+            console.warn("No valid timesheet found or unexpected response status.");
+            setCurrentTimesheet(null);
+          }
         } catch (error) {
-            console.error('Error in handleProjectSelect:', error.message || error);
+          console.error("Error in handleProjectSelect:", error.message || error);
         } finally {
-            dispatch({ type: LOADER, payload: false });; // Stop loading in all cases
-            console.log("Project selection process completed.");
+          dispatch({ type: LOADER, payload: false }); // Stop loading
+          console.log("Project selection process completed.");
         }
-    };
+      };
+
+
+    // const handleProjectSelect = async (projectId) => {
+    //     dispatch({ type: LOADER, payload: true });; // Start loading at the beginning
+    //     try {
+    //         setBottomSheetOpen(false);
+    //         console.log("Project selection started with:", timesheetData, projectId);
+
+    //         const currentDate = getCurrentDateInMicrosoftFormat();
+
+    //         // Ensure timesheetData is available before proceeding
+    //         if (!timesheetData) {
+    //             throw new Error('Timesheet data is missing.');
+    //         }
+
+    //         // Set projectId to null if it is not provided
+    //         const selectedProjectId = projectId || null;
+
+    //         // Dispatch clockInAction with the selected project ID (or null)
+    //         await dispatch(clockInAction(timesheetData, currentDate, selectedProjectId));
+    //         const timesheetResponse = await dispatch(getCurrentTimesheetApi());
+
+    //         // Ensure fetchData completes before making further updates
+    //         fetchData(startDate, endDate);
+    //         // Fetch the updated timesheet after clock-in
+
+
+    //         // Check the response and update the state accordingly
+    //         if (timesheetResponse?.data && timesheetResponse?.statusCode === 200) {
+
+    //             setCurrentTimesheet(timesheetResponse.data);
+    //            // setTime(0);
+    //             setIsRunning(true);
+    //             // Close the bottom sheet
+    //         } else {
+    //             console.warn("No valid timesheet found or unexpected response status.");
+    //             setCurrentTimesheet(null);
+    //             //setTime(0);
+    //             // Handle case where no timesheet is returned
+    //         }
+
+    //     } catch (error) {
+    //         console.error('Error in handleProjectSelect:', error.message || error);
+    //     } finally {
+    //         dispatch({ type: LOADER, payload: false });; // Stop loading in all cases
+    //         console.log("Project selection process completed.");
+    //     }
+    // };
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
             {
@@ -906,8 +964,8 @@ const TimeCard: React.FC<{ navigation: any, route: any }> = ({ navigation, route
                                     onClose={() => setSecondBottomSheetOpen(false)}
                                     onSave={handleDateAndTime}
                                     title="Adjust Break Out Time"
-                                    clockInDate={formatDate(currentTimesheet)}
-                                    clockInTime={formatClockInTime(currentTimesheet)}
+                                    clockInDate={formatBreakInDate(currentTimesheet)}
+                                    clockInTime={formatBreakInTime(currentTimesheet)}
                                     description="Forgot to break out? Please adjust the date and time if needed"
                                 />
                             }

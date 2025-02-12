@@ -47,7 +47,8 @@ const BottomSheetDateTimePicker: React.FC<Props> = ({
   const [tempSelectedHour, setTempSelectedHour] = useState(new Date().getHours());
   const [tempSelectedMinute, setTempSelectedMinute] = useState(new Date().getMinutes());
   const [showTimePicker, setShowTimePicker] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);  // To store the error message
+  const [errorMessage, setErrorMessage] = useState(null); 
+  const [errorMessage1, setErrorMessage1] = useState(null);  // To store the error message
   const [activeField, setActiveField] = useState<string | null>(null);
 console.log("the time is ",clockInTime,clockInDate)
 let formattedClockInTime = null;
@@ -89,15 +90,47 @@ let formattedClockInTime = null;
       setPrevMonthDisabled(false);
     }
   }, [clockInDate]);
-const handleSave = () => {
-    const combinedDateTime = moment(selectedDate)
+// -------------- HAndle save 
+
+  // const handleSave = () => {
+  //   const combinedDateTime = moment(selectedDate)
+  //     .hours(selectedHour)
+  //     .minutes(selectedMinute)
+  //     .format(); // Microsoft ISO format
+  //   onSave({ date: combinedDateTime });
+  //   onClose();
+  // };
+
+  const handleSave = () => {
+    const selectedDateTime = moment(selectedDate)
       .hours(selectedHour)
-      .minutes(selectedMinute)
-      .format(); // Microsoft ISO format
+      .minutes(selectedMinute);
+  
+    const normalizedClockInDateTime = moment(clockInDateTime);
+  
+    if (selectedDateTime.isBefore(normalizedClockInDateTime)) {
+      // Set error message when time is invalid
+      setErrorMessage1(
+        `Please select a time after ${normalizedClockInDateTime.format(
+          'MM/DD/YYYY hh:mm A'
+        )}`
+      );
+      console.error('Selected time is before the clock-in date and time.');
+  
+      return; // Prevent saving
+    }
+  
+    // Clear the error message if the time is valid
+    setErrorMessage(null);
+  
+    // Proceed to save the data
+    const combinedDateTime = selectedDateTime.format(); // Microsoft ISO format
     onSave({ date: combinedDateTime });
     onClose();
   };
-  // Format time for display
+  
+  
+  // -------------- Format time for display
   const getFormattedTime = () => {
     // Use moment to format time correctly
     const time = moment()
@@ -105,23 +138,25 @@ const handleSave = () => {
       .minutes(tempSelectedMinute);
     return time.format('hh:mm A'); // Converts to 12-hour format with AM/PM
   };
-const toast = useToast();
-const formatDateToLocal = (date) => {
-  // Format the date to YYYY-MM-DD in the local timezone
-  const formatter = new Intl.DateTimeFormat('en-CA', {
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
 
-  const parts = formatter.formatToParts(date);
-  const formattedDate = `${parts.find(p => p.type === 'year').value}-${
-    parts.find(p => p.type === 'month').value}-${
-    parts.find(p => p.type === 'day').value}`;
 
-  return formattedDate;
-};
+  // const toast = useToast();
+// const formatDateToLocal = (date) => {
+//   // Format the date to YYYY-MM-DD in the local timezone
+//   const formatter = new Intl.DateTimeFormat('en-CA', {
+//     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+//     year: 'numeric',
+//     month: '2-digit',
+//     day: '2-digit',
+//   });
+
+//   const parts = formatter.formatToParts(date);
+//   const formattedDate = `${parts.find(p => p.type === 'year').value}-${
+//     parts.find(p => p.type === 'month').value}-${
+//     parts.find(p => p.type === 'day').value}`;
+
+//   return formattedDate;
+// };
   const handleDateConfirm = () => {
     setSelectedDate(tempSelectedDate);
     setShowDatePicker(false);
@@ -145,7 +180,7 @@ const formatDateToLocal = (date) => {
     if (selectedDateTime.isBefore(normalizedClockInDateTime)) {
       // Set error message when time is invalid
      
-      setErrorMessage(`Invalid time selected! Please select a time after ${normalizedClockInDateTime.format('YYYY-MM-DD hh:mm A')}`);
+      setErrorMessage(`Please select a time after ${normalizedClockInDateTime.format('MM/DD/YYYY hh:mm A')}`);
       console.error('Selected time is before the clock-in date and time.');
       
       // Reset the selected time to the current time if it's invalid
@@ -187,7 +222,9 @@ const formatDateToLocal = (date) => {
         <View style={styles.bottomSheet}>
         <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
-
+          {errorMessage1 && (
+          <Text style={styles.errorText}>{errorMessage}</Text>  // Error text style
+        )}
           <View style={styles.inputContainer}>
             {/* Date Picker Input */}
             <TouchableOpacity
@@ -284,7 +321,7 @@ const formatDateToLocal = (date) => {
             },
           }}
           minDate={moment(clockInDate).format('YYYY-MM-DD')} // Disable dates before the clock-in date
-          initialDate={formatDateToLocal(tempSelectedDate)} // Focus on the selected date initially
+          initialDate={tempSelectedDate} // Focus on the selected date initially
           theme={{
             textSectionTitleColor: '#000', // Section title color
             dayTextColor: '#000', // Regular days
@@ -489,9 +526,9 @@ const styles = StyleSheet.create({
     },
     errorText: {
       color: 'red',
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: 'bold',
-      marginBottom: 10,
+      marginBottom: 20,
       textAlign: 'center',
     },
     calendarTitle: {

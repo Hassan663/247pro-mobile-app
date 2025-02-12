@@ -81,6 +81,7 @@ import { TeamTimesheetListView, TimesheetViewModel } from '../../core/modals/tim
 import { IResponse } from '../../core/modals';
 import { SILENTREFRESH_ENDPOINT } from '../../core/http-services/apis/apis';
 import { postApi } from '../../core/http-services/services/services';
+import moment from 'moment';
 
 //  LOGIN ACTION
 
@@ -821,45 +822,78 @@ export const handleSearch = (
 };
 
 
+// export const clockInAction = (
+//     timesheetData: TimesheetTransactionViewModel, // Body data
+//     timeZone: string,                            // Query param
+//     projectId?: number | undefined                    // Optional Query param
+// ) => {
+//     return async (dispatch: Dispatch) => {
+//         try {
+//             dispatch({ type: LOADER, payload: true }); // Start loader
+//             console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId,timesheetData);
+
+//             // Build the query parameters dynamically using URLSearchParams
+//             const queryParams = new URLSearchParams();
+//             queryParams.append('timeZone', moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')); // Always include timeZone
+
+//             // Add projectId only if it's not null or undefined
+//             if (projectId != undefined) {
+//                 queryParams.append('projectId', projectId.toString());
+//             }
+
+//             console.log("Constructed Query Params:", queryParams.toString());
+
+//             // Make the API call with the constructed query parameters
+//             const response = await clockIn(timesheetData, queryParams.toString());
+
+//             // Handle the successful response
+//             if (response) {
+//                 //await AsyncStorage.setItem('clockInData', JSON.stringify(response)); // Optional storage
+//                 dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+//             }
+
+//             dispatch({ type: LOADER, payload: false }); 
+//         } catch (error: any) {
+//             dispatch({ type: LOADER, payload: false }); // Stop loader
+//             console.error('Clock-in error:', error.message);
+//             dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+//         }
+//     };
+// };
 export const clockInAction = (
-    timesheetData: TimesheetTransactionViewModel, // Body data
-    timeZone: string,                            // Query param
-    projectId?: number | undefined                    // Optional Query param
-) => {
+    timesheetData: TimesheetTransactionViewModel,
+    timeZone: string,
+    projectId?: number | null
+  ) => {
     return async (dispatch: Dispatch) => {
-        try {
-            dispatch({ type: LOADER, payload: true }); // Start loader
-            console.log("THE TIMEZONE AND PROJECTID ", timeZone, projectId);
-
-            // Build the query parameters dynamically using URLSearchParams
-            const queryParams = new URLSearchParams();
-            queryParams.append('timeZone', timeZone); // Always include timeZone
-
-            // Add projectId only if it's not null or undefined
-            if (projectId != undefined) {
-                queryParams.append('projectId', projectId.toString());
-            }
-
-            console.log("Constructed Query Params:", queryParams.toString());
-
-            // Make the API call with the constructed query parameters
-            const response = await clockIn(timesheetData, queryParams.toString());
-
-            // Handle the successful response
-            if (response) {
-                //await AsyncStorage.setItem('clockInData', JSON.stringify(response)); // Optional storage
-                dispatch({ type: CLOCKIN_SUCCESS, payload: response });
-            }
-
-            dispatch({ type: LOADER, payload: false }); 
-        } catch (error: any) {
-            dispatch({ type: LOADER, payload: false }); // Stop loader
-            console.error('Clock-in error:', error.message);
-            dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+      try {
+        dispatch({ type: LOADER, payload: true });
+  
+        // Build the query parameters
+        const queryParams = new URLSearchParams();
+        queryParams.append('timeZone', timeZone);
+  
+        if (projectId != null) {
+          queryParams.append('projectId', projectId.toString());
         }
+  
+        console.log("Constructed Query Params:", queryParams.toString());
+        console.log("Timesheet Data in Clock-In Action:", timesheetData);
+  
+        // Perform the clock-in API call
+        const response = await clockIn(timesheetData, timeZone, projectId);
+  
+        if (response) {
+          dispatch({ type: CLOCKIN_SUCCESS, payload: response });
+        }
+      } catch (error: any) {
+        console.error("Clock-in error:", error.message);
+        dispatch({ type: CLOCKIN_FAILURE, payload: error.message });
+      } finally {
+        dispatch({ type: LOADER, payload: false });
+      }
     };
-};
-
+  };
   export const breakInAction = (
     timesheetData: TimesheetTransactionViewModel // Body data (using the updated model)
   ) => {
